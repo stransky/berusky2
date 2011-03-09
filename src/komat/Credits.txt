@@ -1,0 +1,11 @@
+Shakul & 3dslib - 3DS reader
+Jochen Wilhelmy a.k.a. digisnap - Splines & Quaternions
+Redox - ray-tracer
+NeHe - opengl
+Nvidia - stripator/dds loader
+Voda -> gamedevnet -> vodni tutorialy
+/*
+ * Compute inverse of 4x4 transformation matrix.
+ * Code contributed by Jacques Leroy jle@star.be
+ * Return GL_TRUE for success, GL_FALSE for failure (singular matrix)
+ */
