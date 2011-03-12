@@ -1,17 +1,15 @@
 #ifndef __CONTROLS_
 #define __CONTROLS_
 
-#include <windows.h>
-
 #define BUTTON_LARGE 0
 #define BUTTON_SMALL 1
 typedef struct _HDC_INFO
 {
 	int x;
 	int y;
-	HDC hdc;
-	HBITMAP	hbitmap;
-	HBITMAP	hbitmapold;
+	//HDC hdc;
+	//HBITMAP	hbitmap;
+	//HBITMAP	hbitmapold;
 } HDC_INFO;
 
 typedef struct _HDC_EDIT_CONTROL
@@ -291,9 +289,9 @@ typedef struct _CONTROL_LIST_ITEM
 	void co_Handle_Controls(CONTROL_LIST_ITEM *p_list, int lsize, int x, int y, int hdc, int xcor, int ycor);
 	void co_Handle_Release(CONTROL_LIST_ITEM *p_list, int lsize);
 
-	void co_Frame_Draw(HDC hdc, int x, int y, int xr, int yr);
+	//void co_Frame_Draw(HDC hdc, int x, int y, int xr, int yr);
 
-	HDC co_CreateDC(HDC hdc, int x, int y, HDC_INFO *pdcinfo);
+	//HDC co_CreateDC(HDC hdc, int x, int y, HDC_INFO *pdcinfo);
 	int	co_Rect_Hit(RECT rect, int x, int y);
 
 	int co_Combo_Get_Sel_Not_Opend(CONTROL_LIST_ITEM *p_list, int lsize, int id);

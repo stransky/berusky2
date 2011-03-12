@@ -1,8 +1,8 @@
 #ifndef __APAK_TYPES___
 #define __APAK_TYPES___
 
+#include <time.h>
 #include <stdio.h>
-#include <io.h>
 #include "zlib.h"
 
 typedef unsigned char	apBite;

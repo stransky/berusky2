@@ -8,17 +8,17 @@
 #define  DELTA      0.0001f
 #define  ZERO_QUAT {0.0f,0.0f,0.0f,1.0f}
 
-__inline float quat_dot_product(QUAT *p_q1, QUAT *p_q2)
+inline float quat_dot_product(QUAT *p_q1, QUAT *p_q2)
 {
  return(p_q1->x*p_q2->x + p_q1->y*p_q2->y + p_q1->z*p_q2->z + p_q1->w*p_q2->w);
 }
 
-__inline float quat_delka(QUAT *p_v)
+inline float quat_delka(QUAT *p_v)
 {
  return((float)sqrt(p_v->x*p_v->x + p_v->y*p_v->y + p_v->z*p_v->z + p_v->w*p_v->w));
 }
 
-__inline QUAT * quat_norm(QUAT *p_v)
+inline QUAT * quat_norm(QUAT *p_v)
 {
   float delka;
   delka = 1.0f/quat_delka(p_v);
@@ -31,7 +31,7 @@ __inline QUAT * quat_norm(QUAT *p_v)
   return(p_v);
 }
 
-__inline QUAT * quat_set_zero(QUAT *p_v)
+inline QUAT * quat_set_zero(QUAT *p_v)
 {
   p_v->x = 0;
   p_v->y = 0;
@@ -40,7 +40,7 @@ __inline QUAT * quat_set_zero(QUAT *p_v)
   return(p_v);
 }
 
-__inline QUAT * quat_inverse(QUAT *p_v)
+inline QUAT * quat_inverse(QUAT *p_v)
 {
  p_v->x = -p_v->x;
  p_v->y = -p_v->y;
@@ -48,7 +48,7 @@ __inline QUAT * quat_inverse(QUAT *p_v)
  return(p_v);
 }
 
-__inline QUAT * quat_add(QUAT *p_q1, QUAT *p_q2, QUAT *p_qv)
+inline QUAT * quat_add(QUAT *p_q1, QUAT *p_q2, QUAT *p_qv)
 {
  p_qv->x = p_q1->x+p_q2->x;
  p_qv->y = p_q1->y+p_q2->y;
@@ -57,7 +57,7 @@ __inline QUAT * quat_add(QUAT *p_q1, QUAT *p_q2, QUAT *p_qv)
  return(p_qv);
 }
 
-__inline QUAT * quat_sub(QUAT *p_q1, QUAT *p_q2, QUAT *p_qv)
+inline QUAT * quat_sub(QUAT *p_q1, QUAT *p_q2, QUAT *p_qv)
 {
  p_qv->x = p_q1->x-p_q2->x;
  p_qv->y = p_q1->y-p_q2->y;
@@ -66,7 +66,7 @@ __inline QUAT * quat_sub(QUAT *p_q1, QUAT *p_q2, QUAT *p_qv)
  return(p_qv);
 }
 
-__inline QUAT * quat_negative(QUAT *p_q)
+inline QUAT * quat_negative(QUAT *p_q)
 {
  p_q->x = -p_q->x;
  p_q->y = -p_q->y;
@@ -75,7 +75,7 @@ __inline QUAT * quat_negative(QUAT *p_q)
  return(p_q);
 }
 
-__inline QUAT * angle_to_quat(QUAT *p_q, BOD *p_o, float uhel)
+inline QUAT * angle_to_quat(QUAT *p_q, BOD *p_o, float uhel)
 {
  float vel = sqrtf(p_o->x*p_o->x + p_o->y*p_o->y + p_o->z*p_o->z);
 
@@ -98,7 +98,7 @@ __inline QUAT * angle_to_quat(QUAT *p_q, BOD *p_o, float uhel)
 M =  (  2xy-2wz        1-2xx-2zz         2yz+2wx  )
      (  2xz+2wy         2yz-2wx         1-2xx-2yy )
 */
-__inline GLMATRIX * quat_to_matrix(GLMATRIX *p_mat, QUAT *p_q)
+inline GLMATRIX * quat_to_matrix(GLMATRIX *p_mat, QUAT *p_q)
 {
   float xx2 = 2*p_q->x*p_q->x;
   float yy2 = 2*p_q->y*p_q->y;
@@ -122,29 +122,29 @@ __inline GLMATRIX * quat_to_matrix(GLMATRIX *p_mat, QUAT *p_q)
   return(p_mat);
 }
 
-__inline void quat_to_euler(QUAT *p_q, float *p_r, float *p_fi)
+inline void quat_to_euler(QUAT *p_q, float *p_r, float *p_fi)
 {
   float p1 = 2*p_q->y*p_q->z - 2*p_q->w*p_q->x,
         p2 = 2*p_q->x*p_q->z - 2*p_q->w*p_q->y,
         p3;
 
-  p3 = -asinf((fabsf(p1) > 1.0f) ? ftoif(p1) : p1);
+  p3 = -asinf((fabsf(p1) > 1.0f) ? (int)(p1) : p1);
   *p_fi = (fabs(p_q->w) < fabs(p_q->x)) ? 
-          fcopysign(DEG2RAD(180.0f)-fabs(p3),p3) : p3;
-  p3 = asinf((fabsf(p2) > 1.0f) ? ftoif(p2) : p2);
+          copysign(DEG2RAD(180.0f)-fabs(p3),p3) : p3;
+  p3 = asinf((fabsf(p2) > 1.0f) ? (int)(p2) : p2);
   *p_r = (fabs(p_q->w) < fabs(p_q->y)) ? 
-          fcopysign(DEG2RAD(180.0f)-fabs(p3),p3) : p3;
+          copysign(DEG2RAD(180.0f)-fabs(p3),p3) : p3;
 }
 
 /* y rotace
-  //*p_r = acosf(1.0f-(2*p_q->x*p_q->x)-(2*p_q->y*p_q->y));
+  // *p_r = acosf(1.0f-(2*p_q->x*p_q->x)-(2*p_q->y*p_q->y));
   temp._11 = cosinus;
   temp._13 = sinus;
   temp._33 = cosinus;
   temp._31 = -sinus;
 */
 
-__inline QUAT * matrix_to_quat(GLMATRIX *p_m, QUAT *p_q)
+inline QUAT * matrix_to_quat(GLMATRIX *p_m, QUAT *p_q)
 {
   // Algorithm in Ken Shoemake's article in 1987 SIGGRAPH course notes
   // article "Quaternion Calculus and Fast Animation".
@@ -222,7 +222,7 @@ __inline QUAT * matrix_to_quat(GLMATRIX *p_m, QUAT *p_q)
 /*
   q1 x q2 = [s1,v1] x [s2,v2] = [(s1*s2 - v1*v2),(s1*v2 + s2*v1 + v1xv2)].
 */
-__inline QUAT * quat_mult(QUAT *p_q1, QUAT *p_q2, QUAT *p_qv)
+inline QUAT * quat_mult(QUAT *p_q1, QUAT *p_q2, QUAT *p_qv)
 {
  QUAT q1,q2;
   
@@ -242,7 +242,7 @@ __inline QUAT * quat_mult(QUAT *p_q1, QUAT *p_q2, QUAT *p_qv)
 /*
   Nasobeni quaternionu skalarem
 */
-__inline QUAT * quat_mult_skalar(QUAT *p_q1, float skalar, QUAT *p_qv)
+inline QUAT * quat_mult_skalar(QUAT *p_q1, float skalar, QUAT *p_qv)
 {
  p_qv->x = p_q1->x*skalar;
  p_qv->y = p_q1->y*skalar;
@@ -255,7 +255,7 @@ __inline QUAT * quat_mult_skalar(QUAT *p_q1, float skalar, QUAT *p_qv)
   Spherical Linear intERPolation
   by Carmack & spol.
 */
-__inline QUAT * slerp(QUAT *p_q1, QUAT *p_q2, float t, QUAT *p_qv)
+inline QUAT * slerp(QUAT *p_q1, QUAT *p_q2, float t, QUAT *p_qv)
 {
   float cosin;
   float a;
@@ -306,7 +306,7 @@ __inline QUAT * slerp(QUAT *p_q1, QUAT *p_q2, float t, QUAT *p_qv)
 }
 
 // quat -> uhel
-__inline QUAT * quat_to_angle(QUAT *p_q, BOD *p_o, float *p_uhel)
+inline QUAT * quat_to_angle(QUAT *p_q, BOD *p_o, float *p_uhel)
 {
  *p_uhel = (float)(2.0f*acos(p_q->w));
  if(*p_uhel < DELTA) {
@@ -318,7 +318,7 @@ __inline QUAT * quat_to_angle(QUAT *p_q, BOD *p_o, float *p_uhel)
 }
 
 // quat -> angle
-__inline QUAT * quat_to_quat_angle(QUAT *p_q, QUAT *p_v)
+inline QUAT * quat_to_quat_angle(QUAT *p_q, QUAT *p_v)
 {
  float c;
  p_v->w = (float)(2.0f*acos(p_q->w));
@@ -329,7 +329,7 @@ __inline QUAT * quat_to_quat_angle(QUAT *p_q, QUAT *p_v)
 
 /* Slepi 2 uhly do jednoho kvaternionu
 */
-__inline QUAT * kam_angle_to_quat(float r, float fi, QUAT *p_q)
+inline QUAT * kam_angle_to_quat(float r, float fi, QUAT *p_q)
 {
   QUAT q1,q2;
   BOD  o1,o2;
@@ -356,7 +356,7 @@ __inline QUAT * kam_angle_to_quat(float r, float fi, QUAT *p_q)
   return(p_q);
 }
 
-__inline QUAT * key_rotkey_to_quat(ROTKEY *p_rot, QUAT *p_q)
+inline QUAT * key_rotkey_to_quat(ROTKEY *p_rot, QUAT *p_q)
 {
   return(angle_to_quat(p_q,(BOD *)&p_rot->x,p_rot->angle));
 }

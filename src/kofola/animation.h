@@ -1,9 +1,7 @@
 #ifndef __ANIMATION_INCLUDE_
 #define __ANIMATION_INCLUDE_
 
-#include <windows.h>
-#include "audio_plug-in.h"
-#include "2d_graphic.h"
+#include "2D_graphic.h"
 
 typedef struct
 {
@@ -32,8 +30,8 @@ typedef struct
 	int				sim_anim[110];
 	SIM_ANIMATION	*p_animation;
 	int				Size_of_Anim;
-	HWND			hWnd;
-	AUDIO_DATA		*p_ad;
+	//HWND			hWnd;
+	//AUDIO_DATA		*p_ad;
 	float			frame_per_quater;
 } ANIMATION_MODULE;
 

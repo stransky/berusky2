@@ -23,14 +23,16 @@ typedef struct _HW_KONFIG {
   int    bump_mapping_typ;
   int    vertex_arrays;
 
-  HDC    hDC;
-  HGLRC  hRC;
+  // TODO
+  //HDC    hDC;
+  //HGLRC  hRC;
   byte **p_ext;
   int    extnum;
   int    perspective;
   GLuint font_baze;
 
-  PIXELFORMATDESCRIPTOR pfd;
+  // TODO
+  //PIXELFORMATDESCRIPTOR pfd;
 
 } HW_KONFIG;
 
@@ -92,13 +94,13 @@ extern   TXT_KONFIG         txconf;
 #define  TXT_SEKCE        "textury"
 
 
-int gl_init(HWND hwnd, HW_KONFIG *p_conf);
-int gl_stop(HWND hwnd, HW_KONFIG *p_conf);
+int gl_init(HW_KONFIG *p_conf);
+int gl_stop(HW_KONFIG *p_conf);
 int grf_prehod_mod_hra(HW_KONFIG *p_conf);
 int grf_prehod_mod_zpet(HW_KONFIG *p_conf);
 int grf_prehod_mod_menu(void);
-int grf_start(HINSTANCE hinst, HWND hwnd, byte *p_file, byte *p_sekce, int extension);
-int grf_stop(HWND hwnd);
+int grf_start(byte *p_file, byte *p_sekce, int extension);
+int grf_stop();
 
 
 void nastav_konfig(HW_KONFIG  *p_hwconf, TXT_KONFIG *p_txt);
@@ -107,14 +109,12 @@ int  nahraj_universal_device_config(byte *p_file, byte *p_sekce, HW_KONFIG *p_co
 int  nahraj_texture_config(byte *p_file, TXT_KONFIG *p_txt);
 void ddw_surf(int x, int y, byte *fmt,...);
 void ddw_surf_xy(int x, int y, byte *fmt,...);
-int  input_surf(HDC hdc, int x, int y, byte *p_text, int max);
-int  input_surf_ddw(HDC hdc, int x, int y, byte *p_text, void *p_1, void *p_2, void *p_3, void *p_4, void *p_5, void *p_6, void *p_7, void *p_8, void *p_9);
-int  ddwqueto(HWND hwnd, byte *p_text,...);
-int  ddwquetot(HWND hwnd, byte *p_title, byte *p_text,...);
-BOOL MungeFPCW( WORD *pwOldCW );
-void RestoreFPCW(WORD wSave);
-void tiskni_chybu(int line, char *p_file, HWND hwnd,byte *p_text,...);
-void tiskni_chybu_bez_exit(int line, char *p_file, HWND hwnd,byte *p_text,...);
+int  input_surf(int x, int y, byte *p_text, int max);
+int  input_surf_ddw(int x, int y, byte *p_text, void *p_1, void *p_2, void *p_3, void *p_4, void *p_5, void *p_6, void *p_7, void *p_8, void *p_9);
+int  ddwqueto(byte *p_text,...);
+int  ddwquetot(byte *p_title, byte *p_text,...);
+void tiskni_chybu(int line, char *p_file, char *p_text,...);
+void tiskni_chybu_bez_exit(int line, char *p_file, char *p_text,...);
 void rozeber_chybu(void);
 int  cti_texture_format(int format, byte *p_string);
 int  preloz_texture_format(int *p_format, byte *p_string);
@@ -123,37 +123,6 @@ GLvoid BuildFont(GLvoid);
 GLvoid KillFont(GLvoid);
 GLvoid glPrint(const char *fmt, ...);
 void   glChyba(void);
-
-#ifndef __FTOI
-#define __FTOI
-
-__inline int ftoi(float flt)
-{
-	volatile int n; 
-	__asm 
-	{
-		fld flt
-		fistp n
-	}
-	return n;
-}
-#endif
-
-#ifndef __FTOIF
-#define __FTOIF
-
-__inline float ftoif(float cislo)
-{
-	volatile int n;   
-	__asm 
-	{
-		fld   cislo
-		fistp n
-	}
-	return (float)n;
-}
-
-#endif
 
 #define printfs   ddw_surf
 #define printfsx  ddw_surf_xy
@@ -168,12 +137,13 @@ void mfree(void **p_mem);
 
 void gl_texture_scan(void);
 
-__inline void flip(void)
+inline void flip(void)
 {
-  SwapBuffers(hwconf.hDC);
+  // TODO
+  //SwapBuffers(hwconf.hDC);
 }
 
-__inline int fgets_korekce(byte *p_kor)
+inline int fgets_korekce(byte *p_kor)
 {
   int delka = strlen((const char *)p_kor);
   if(p_kor[delka-1] == '\n') {
@@ -188,4 +158,3 @@ __inline int fgets_korekce(byte *p_kor)
 #define SAFE_FREKVENCE 60
 
 #endif
-

@@ -708,56 +708,6 @@ int ddwquetot(HWND hwnd, byte *p_title, byte *p_text,...)
  return(MessageBox(hwnd,text,p_title,MB_ICONASTERISK|MB_YESNO|MB_SYSTEMMODAL) == IDYES);
 }
 
-/*
-  Nastaveni FPU
-*/ 
-// This function evaluates whether the floating-point
-// control Word is set to single precision/round to nearest/
-// exceptions disabled. If not, the
-// function changes the control Word to set them and returns
-// TRUE, putting the old control Word value in the passback
-// location pointed to by pwOldCW.
-BOOL MungeFPCW( WORD *pwOldCW )
-{
-    BOOL ret = FALSE;
-    WORD wTemp, wSave;
- 
-    __asm fstcw wSave
-    if (wSave & 0x300 ||            // Not single mode
-        0x3f != (wSave & 0x3f) ||   // Exceptions enabled
-        wSave & 0xC00)              // Not round to nearest mode
-    {
-        __asm
-        {
-            mov ax, wSave
-            and ax, not 300h    ;; single mode
-            or  ax, 3fh         ;; disable all exceptions
-            and ax, not 0xC00   ;; round to nearest mode
-            mov wTemp, ax
-            fldcw   wTemp
-        }
-        ret = TRUE;
-    }
-    *pwOldCW = wSave;
-    return ret;
-}
- 
-void RestoreFPCW(WORD wSave)
-{
-    __asm fldcw wSave
-}
-
-/* 
-void __cdecl main()
-{
-    WORD wOldCW;
-    BOOL bChangedFPCW = MungeFPCW( &wOldCW );
-    // Do something with control Word, as set by MungeFPCW.
-    if ( bChangedFPCW )
-        RestoreFPCW( wOldCW );
-}
-*/
-
 void gl_texture_scan(void)
 {
   dword i,num,max = 0;
@@ -774,7 +724,7 @@ void gl_texture_scan(void)
 /*
   tiskni chybu
 */
-void tiskni_chybu(int line, char *p_file, HWND hwnd,byte *p_text,...)
+void tiskni_chybu(int line, char *p_file, char *p_text,...)
 {
   byte    text[2000];
   byte    text1[2000];
@@ -787,15 +737,13 @@ void tiskni_chybu(int line, char *p_file, HWND hwnd,byte *p_text,...)
   va_end(argumenty);
   
   strcat(text1,text);
-  MessageBox(hwnd,text1,"Tiskni chybu:",MB_ICONASTERISK|MB_OK|MB_SYSTEMMODAL);  
+  fprintf(stderr,text1);
 
   assert(0);
-  
-  DestroyWindow(hwnd);
   exit(0);
 }
 
-void tiskni_chybu_bez_exit(int line, char *p_file, HWND hwnd,byte *p_text,...)
+void tiskni_chybu_bez_exit(int line, char *p_file, char *p_text,...)
 {
   byte    text[2000];
   byte    text1[2000];
@@ -807,8 +755,8 @@ void tiskni_chybu_bez_exit(int line, char *p_file, HWND hwnd,byte *p_text,...)
   vsprintf(text,p_text,argumenty);
   va_end(argumenty);
   
-  strcat(text1,text);
-  MessageBox(hwnd,text1,"Tiskni chybu:",MB_ICONASTERISK|MB_OK|MB_SYSTEMMODAL);
+  strcat(text1,text);  
+  fprintf(stderr,text1);
 }
 
 void mfree(void **p_mem)
@@ -887,6 +835,3 @@ void glChyba(void)
       break;
   }
 }
-
-
-

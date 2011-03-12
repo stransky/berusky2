@@ -33,8 +33,8 @@ __inline int transf_3d_2d_matrix(float p_x, float p_y, float p_z, int *p_tx, int
  if(w == 0.0f)
    return(FALSE);
  if(-w <= z && z <= w && -w <= x && x <= w && -w < y && y <= w) {
-   *p_tx = ftoi(x_c*(x/w+1))+xs;
-   *p_ty = ftoi(y_c*(1-y/w))+ys;
+   *p_tx = (int)(x_c*(x/w+1))+xs;
+   *p_ty = (int)(y_c*(1-y/w))+ys;
    *p_tz = z_near+((z/w+1)*0.5f)*(z_far-z_near);
    return(TRUE); 
  } else {

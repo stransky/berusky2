@@ -13,29 +13,24 @@
 #ifndef __BERUSKY3D_KOFOLA_INTERFACE_H__
 #define __BERUSKY3D_KOFOLA_INTERFACE_H__
 
-#include "mss_on.h"
-#include <windows.h>
-#include <commctrl.h>
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
-#include "..\resource.h"
-#include "wzakl_typ.h"
-#include "ddx.h"
-#include "di.h"
-#include "matrix.h"
-#include "..\\kofola\\Object.h"
-#include "mat3d.h"
-#include "kdtree.h"
-#include "berusky_universal.h"
-#include "berusky3d_castice.h"
-#include "berusky3d.h"
-#include "berusky3d_ini.h"
-#include "berusky3d_load.h"
-#include "berusky3d_animace.h"
+#include "Ddx.h"
+#include "Di.h"
+#include "Matrix.h"
+#include "Object.h"
+#include "Mat3d.h"
+#include "Kdtree.h"
+#include "Berusky_universal.h"
+#include "Berusky3d_castice.h"
+#include "Berusky3d.h"
+#include "Berusky3d_ini.h"
+#include "Berusky3d_load.h"
+#include "Berusky3d_animace.h"
 
 extern G_KONFIG ber, *p_ber;
-extern byte     ini_file[300];
+extern char     ini_file[300];
 
 /* Load indicie pro slider - 0-100%
 */
@@ -49,8 +44,6 @@ extern float kom_load_progres;
 */
 extern dword      system_timer;    // systemovy casovac
 extern dword      karmin_aktivni;  // TRUE pokud sou ber aktivni (na popredi)
-extern HWND       hwnd_hry;        // hwnd okna berusek
-extern HINSTANCE  hinst;           // hinst berusek
 
 
 /********************************************************************** 
@@ -149,7 +142,7 @@ int kom_mesh_get_save_num(MeshHandle prvek_handle);
 
 /* Sladi logicke umisteni prvku s jeho fyzickym umistenim
 */
-__inline int kom_mesh_reset(MeshHandle prvek_handle)
+inline int kom_mesh_reset(MeshHandle prvek_handle)
 {
   int x,y,z,rotace; 
   kom_mesh_get_int(prvek_handle,&x,&y,&z,&rotace);
@@ -289,8 +282,6 @@ AnimHandle sim_zrus_animaci(AnimHandle handle);
 #define  MESH_PIVOT             0x20 // interni
 #define  MESH_TRANSFORMUJ_PIVOT 0x10 // interni
 #define  MESH_KAMERA            0x40 // je to kamera
-
-typedef void (* END_FUNKCE)(int param, int param2, void *p_param);
 
 RunHandle    rani_aktivuj(AnimHandle shandle, int *p_flag, int flag, int start, int stop);
 
@@ -734,8 +725,8 @@ float kom_get_framerate(void);
 
 /* Debug-soubor
 */
-void kprintf(byte log, byte *p_text,...);
-void kprintfe(byte log, byte *p_text,...);
+void kprintf(char log, char *p_text,...);
+void kprintfe(char log, char *p_text,...);
 
 /* Nacte level environment levelu
 */
@@ -798,6 +789,6 @@ int kom_get_mesh_mys_all(void);
 
 /* Dela okno
 */
-HWND otevri_okno(HINSTANCE handle_aplikace, int full_screen, int dx, int dy, HW_KONFIG *p_conf);
+//HWND otevri_okno(HINSTANCE handle_aplikace, int full_screen, int dx, int dy, HW_KONFIG *p_conf);
 
 #endif

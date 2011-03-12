@@ -101,7 +101,7 @@ extern "C" {
 
 extern   byte    _a_klavesa;
 extern   byte    key[POCET_KLAVES];
-extern	 TCHAR	 key_pressed;
+extern	 byte 	 key_pressed;
 
 typedef struct _MYSI_INFO {
 
@@ -133,4 +133,3 @@ int  vypni_kurzor(void);
 #endif
 
 #endif
-

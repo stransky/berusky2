@@ -4,7 +4,8 @@
 ## If you don't want it to overwrite it,
 ## 	Please disable it in the Anjuta project configuration
 
-INCLUDES =
+INCLUDES =\
+	 -Ikomat -Ikofola
 
 AM_CFLAGS =\
 	 -Wall\
@@ -17,10 +18,6 @@ AM_CXXFLAGS =\
 bin_PROGRAMS = berusky2
 
 berusky2_SOURCES = \
-	kofola/2D_graphic.c\
-	kofola/2D_graphic.h\
-	kofola/2ddx.cpp\
-	kofola/2ddx.h\
 	kofola/3D_graphic.c\
 	kofola/3D_graphic.h\
 	kofola/3D_menus.c\
@@ -30,8 +27,6 @@ berusky2_SOURCES = \
 	kofola/Apak.c\
 	kofola/Apak.h\
 	kofola/Apakio.c\
-	kofola/ArmAccess.c\
-	kofola/ArmAccess.h\
 	kofola/Bind.c\
 	kofola/Bind.h\
 	kofola/Camera.c\
@@ -52,18 +47,6 @@ berusky2_SOURCES = \
 	kofola/Setup.h\
 	kofola/Tools.c\
 	kofola/Tools.h\
-	kofola/ac3_stream.cpp\
-	kofola/ac3_stream.h\
-	kofola/adas.h\
-	kofola/adas_types.h\
-	kofola/al.h\
-	kofola/alc.h\
-	kofola/alctypes.h\
-	kofola/altypes.h\
-	kofola/alu.h\
-	kofola/alut.h\
-	kofola/ambient_sounds.c\
-	kofola/ambient_sounds.h\
 	kofola/animation.c\
 	kofola/animation.h\
 	kofola/animend_functions.c\
@@ -72,8 +55,6 @@ berusky2_SOURCES = \
 	kofola/apakdir.c\
 	kofola/apakfind.c\
 	kofola/apakstream.c\
-	kofola/audio_plug-in.c\
-	kofola/audio_plug-in.h\
 	kofola/camera.h\
 	kofola/codec.h\
 	kofola/config_types.h\
@@ -86,8 +67,6 @@ berusky2_SOURCES = \
 	kofola/ddutil.cpp\
 	kofola/ddutil.h\
 	kofola/dxutil.h\
-	kofola/eax.h\
-	kofola/eaxac3.h\
 	kofola/font.c\
 	kofola/font.h\
 	kofola/font3d.c\
@@ -107,11 +86,6 @@ berusky2_SOURCES = \
 	kofola/menu_def.h\
 	kofola/menu_script.c\
 	kofola/menu_script.h\
-	kofola/mss.h\
-	kofola/ogg.h\
-	kofola/ogg_io.h\
-	kofola/ogg_stream.h\
-	kofola/os_types.h\
 	kofola/profiles.c\
 	kofola/profiles.h\
 	kofola/secure.h\
@@ -122,8 +96,6 @@ berusky2_SOURCES = \
 	kofola/trigers.h\
 	kofola/volume.c\
 	kofola/volume.h\
-	kofola/vorbisenc.h\
-	kofola/vorbisfile.h\
 	kofola/water.c\
 	kofola/water.h\
 	kofola/zconf.h\
@@ -180,33 +152,7 @@ berusky2_SOURCES = \
 	komat/Mat3d.h\
 	komat/Matrix.c\
 	komat/Matrix.h\
-	komat/Mss_on.h\
 	komat/NvTriStrip.h\
-	komat/Objekt_editor.c\
-	komat/Objekt_editor_all.h\
-	komat/Objekt_editor_animace.c\
-	komat/Objekt_editor_animace.h\
-	komat/Objekt_editor_edit.c\
-	komat/Objekt_editor_edit.h\
-	komat/Objekt_editor_interface.c\
-	komat/Objekt_editor_interface.h\
-	komat/Objekt_editor_light_fog.c\
-	komat/Objekt_editor_light_fog.h\
-	komat/Objekt_editor_load.c\
-	komat/Objekt_editor_load.h\
-	komat/Objekt_editor_raytracing.c\
-	komat/Objekt_editor_render.c\
-	komat/Oe_berusky_editor.c\
-	komat/Oe_berusky_editor.h\
-	komat/Oe_berusky_editor_load.c\
-	komat/Oe_berusky_editor_load.h\
-	komat/Oe_import_3ds.c\
-	komat/Oe_import_ase.c\
-	komat/Oe_import_ase.h\
-	komat/Oe_import_ms3d.c\
-	komat/Oe_import_ms3d.h\
-	komat/Oe_winini.c\
-	komat/Oe_winini.h\
 	komat/Quat.h\
 	komat/Texture.c\
 	komat/Texture.h\
@@ -229,11 +175,6 @@ berusky2_SOURCES = \
 	komat/mss.h\
 	komat/obb.c\
 	komat/obb.h\
-	komat/objekt_editor.h\
-	komat/objekt_editor_raytracing.h\
-	komat/objekt_editor_render.h\
-	komat/oe_import_3ds.h\
-	komat/resource.h\
 	komat/strip.cpp\
 	komat/strip.h\
 	komat/zlib_io.h

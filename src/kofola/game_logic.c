@@ -1,29 +1,25 @@
 //------------------------------------------------------------------------------------------------
 // version 1.0.0
 //------------------------------------------------------------------------------------------------
-#include "..\\komat\\mss_on.h"
 #include <stdio.h>
 #include <math.h>
-//#include <d3d.h>
-#include <windows.h>
 #include <assert.h>
-#include "..\komat\3d_all.h"
+#include "3d_all.h"
 
-#include "object.h"
+#include "Object.h"
 #include "init.h"
 #include "load_level.h"
-#include "..\Komat\berusky3d_kofola_interface.h"
-#include "..\komat\berusky3d_light.h"
-#include "..\Komat\Berusky3d_kamery.h"
+#include "Berusky3d_kofola_interface.h"
+#include "Berusky3d_light.h"
+#include "Berusky3d_kamery.h"
 #include "adas.h"
-#include "audio_plug-in.h"
 #include "animation.h"
 #include "tools.h"
 #include "ambient_sounds.h"
 #include "3D_menus.h"
-#include "demo.h"
-#include "dda.h"
-#include "bind.h"
+#include "Demo.h"
+#include "Dda.h"
+#include "Bind.h"
 #include "animend_functions.h"
 #include "3D_graphic.h"
 #include "2D_graphic.h"
@@ -3043,7 +3039,7 @@ void gl_Destroy_Item(long Item, int Type, LEVELINFO *p_Level)
 
 			kom_mesh_get_float(p_Item->Index_Of_Game_Mesh, &pos[0], &pos[1], &pos[2], &rot);
 			rot = rand()%5;
-			ap_Play_Sound(0,0,0, pos, rot + 14, NULL, &ad);
+//			ap_Play_Sound(0,0,0, pos, rot + 14, NULL, &ad);
 			p_Item->bDestroed = 1;
 			p_Level->Level[Item] = 0;
 			return;
@@ -3057,7 +3053,7 @@ void gl_Destroy_Item(long Item, int Type, LEVELINFO *p_Level)
 
 			kom_mesh_get_float(p_Item->Index_Of_Game_Mesh, &pos[0], &pos[1], &pos[2], &rot);
 			rot = rand()%5;
-			ap_Play_Sound(0,0,0, pos, rot + 14, NULL, &ad);
+//			ap_Play_Sound(0,0,0, pos, rot + 14, NULL, &ad);
 			rot = p_Item->Index_Of_Game_Mesh;
 
 			if(p_Item->Square.Flek.pFlek)
@@ -3555,8 +3551,8 @@ int	gl_Take_Item(long Item, long Beatle, LEVELINFO *p_Level, char bSound, char b
 		if(bRemove)
 			am_Remove_Animate_item(Item, p_Level);
 				
-		if(bSound)
-			ap_Play_Sound(0,0,0, pos, 52, NULL, &ad);	
+		//if(bSound)
+//			ap_Play_Sound(0,0,0, pos, 52, NULL, &ad);	
 
 		return 1;
 	}
@@ -3572,8 +3568,8 @@ int	gl_Take_Item(long Item, long Beatle, LEVELINFO *p_Level, char bSound, char b
 				if(bRemove)
 					am_Remove_Animate_item(Item, p_Level);
 				
-				if(bSound)
-					ap_Play_Sound(0,0,0, pos, 52, NULL, &ad);
+			//	if(bSound)
+				//	ap_Play_Sound(0,0,0, pos, 52, NULL, &ad);
 				
 				return 1;
 		}
@@ -3594,8 +3590,8 @@ int	gl_Take_Item(long Item, long Beatle, LEVELINFO *p_Level, char bSound, char b
 			if(bRemove)
 				am_Remove_Animate_item(Item, p_Level);
 
-			if(bSound)
-				ap_Play_Sound(0,0,0, pos, 52, NULL, &ad);
+			//if(bSound)
+				//ap_Play_Sound(0,0,0, pos, 52, NULL, &ad);
 
 			return 1;
 	}
@@ -3613,8 +3609,8 @@ int	gl_Take_Item(long Item, long Beatle, LEVELINFO *p_Level, char bSound, char b
 		if(bRemove)
 			am_Remove_Animate_item(Item, p_Level);
 
-		if(bSound)
-			ap_Play_Sound(0,0,0, pos, 52, NULL, &ad);
+		//if(bSound)
+			//ap_Play_Sound(0,0,0, pos, 52, NULL, &ad);
 
 		return 1;
 	}
@@ -3634,8 +3630,8 @@ int	gl_Take_Item(long Item, long Beatle, LEVELINFO *p_Level, char bSound, char b
 			if(bRemove)
 				am_Remove_Animate_item(Item, p_Level);
 
-			if(bSound)
-				ap_Play_Sound(0,0,0, pos, 52, NULL, &ad);
+			//if(bSound)
+				//ap_Play_Sound(0,0,0, pos, 52, NULL, &ad);
 
 			return 1;
 		}
@@ -3653,8 +3649,8 @@ int	gl_Take_Item(long Item, long Beatle, LEVELINFO *p_Level, char bSound, char b
 			 if(bRemove)
 				am_Remove_Animate_item(Item, p_Level);
 
-			 if(bSound)
-				ap_Play_Sound(0,0,0, pos, 52, NULL, &ad);
+			 //if(bSound)
+				//ap_Play_Sound(0,0,0, pos, 52, NULL, &ad);
 
 			 return 1;
 		}
@@ -3673,8 +3669,8 @@ int	gl_Take_Item(long Item, long Beatle, LEVELINFO *p_Level, char bSound, char b
 			 if(bRemove)
 				am_Remove_Animate_item(Item, p_Level);
 			 
-			 if(bSound)
-				ap_Play_Sound(0,0,0, pos, 52, NULL, &ad);
+			 //if(bSound)
+				//ap_Play_Sound(0,0,0, pos, 52, NULL, &ad);
 
 			 return 1;
 		}
@@ -3693,8 +3689,8 @@ int	gl_Take_Item(long Item, long Beatle, LEVELINFO *p_Level, char bSound, char b
 				if(bRemove)
 					am_Remove_Animate_item(Item, p_Level);
 
-				if(bSound)
-					ap_Play_Sound(0,0,0, pos, 52, NULL, &ad);
+				//if(bSound)
+					//ap_Play_Sound(0,0,0, pos, 52, NULL, &ad);
 
 				return 1;
 		}
@@ -3749,8 +3745,8 @@ int	gl_Take_Item(long Item, long Beatle, LEVELINFO *p_Level, char bSound, char b
 			 if(bRemove)
 				am_Remove_Animate_item(Item, p_Level);
 
-			 if(bSound)
-				ap_Play_Sound(0,0,0, pos, 52, NULL, &ad);
+			 //if(bSound)
+				//ap_Play_Sound(0,0,0, pos, 52, NULL, &ad);
 
 			 p_Level->Throw_off = 1;
 			 return 1;
@@ -3830,12 +3826,13 @@ void gl_Hrebik(ITEMDESC	*pItem)
 	kom_mesh_get_float(pItem->Index_Of_Game_Mesh, &pos[0], &pos[1], &pos[2], &rot);
 
 	rot = rand()%3;
-
+/*
 	if(pItemO->Specific[rot].Index != -1)
 		ap_Play_Sound(0, 0, 0, pos, pItemO->Specific[rot].Index, NULL, &ad);
 	else
 		if(pItemO->Specific[0].Index != -1)
 			ap_Play_Sound(0, 0, 0, pos,pItemO->Specific[0].Index, NULL, &ad);
+*/
 }
 
 
@@ -6439,7 +6436,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 				p_Level->Level[Item]->p_Back_Pack->item[8]--;
 				p_Level->Level[Item]->p_Back_Pack->Count_of_Items--;
 				
-				ap_Play_Sound(0,0,0, fpos, 162 + (rand()%2), NULL, &ad);
+	//			ap_Play_Sound(0,0,0, fpos, 162 + (rand()%2), NULL, &ad);
 
 				//gl_Destroy_Item(real_pos,0,p_Level);
 				//gl_Do_Kameni(fpos, p_Level, mat);
@@ -7768,20 +7765,21 @@ void gl_Open_Door(ITEMDESC *p_DoorI, LEVELINFO *p_Level)
 	p_DoorI->p_Back_Pack->item[0]++;
 
 	kom_mesh_get_float(p_DoorI->Index_Of_Game_Mesh, &pos[0],&pos[1], &pos[2], &i);
-
+/*
 	if(p_DoorI->p_Object->Specific[r].Index != -1)
 		ap_Play_Sound(0,0,0, pos, p_DoorI->p_Object->Specific[r].Index, NULL, &ad);
 	else
 		if(p_DoorI->p_Object->Specific[0].Index != -1)
 			ap_Play_Sound(0,0,0, pos, p_DoorI->p_Object->Specific[0].Index, NULL, &ad);
-
+*/
 	r = rand()%3;
-
+/*
 	if(p_DoorI->p_Object->Reserved[r].Index != -1)
 		ap_Play_Sound(0,0,0, pos, p_DoorI->p_Object->Reserved[r].Index, NULL, &ad);
 	else
 		if(p_DoorI->p_Object->Reserved[0].Index != -1)
 			ap_Play_Sound(0,0,0, pos, p_DoorI->p_Object->Reserved[0].Index, NULL, &ad);
+*/      
 }
 
 //------------------------------------------------------------------------------------------------
@@ -8217,9 +8215,10 @@ gl_Close_Door(ITEMDESC *pDoor, LEVELINFO *p_Level)
 			 0, 10, 21);
 
 	kom_mesh_get_float(pDoor->Index_Of_Game_Mesh, &pos[0], &pos[1], &pos[2], &r);
-
+/*
 	if(pDoor->p_Object->Specific[2].Index != -1)
 		ap_Play_Sound(0,0,0, pos, pDoor->p_Object->Specific[2].Index, NULL, &ad);
+*/
 }
 
 //------------------------------------------------------------------------------------------------
@@ -8377,10 +8376,10 @@ int gl_Check_Logic_Dependences(LEVELINFO *p_Level)
 
 									if(p_Action_ItemI->p_Object->Specific[rot].Index == -1)
 											rot = 0;
-
+/*
 									if(p_Action_ItemI->p_Object->Specific[rot].Index != -1)
 										ap_Play_Sound(0,0,0, fpos, p_Action_ItemI->p_Object->Specific[rot].Index, NULL, &ad);								
-
+*/
 									gl_Destroy_Item(p_Level->Action_Item[m],0,p_Level);
 									
 									gl_Do_Propadlo(fpos, p_Level, mat);
@@ -8620,7 +8619,7 @@ void gl_Throw_Detonation_Pack(long item, LEVELINFO *p_Level)
 	
 	rot = rand()%5;
 
-	ap_Play_Sound(0,0,0, fpos, rot + 14, NULL, &ad);
+	//ap_Play_Sound(0,0,0, fpos, rot + 14, NULL, &ad);
 }
 
 
@@ -10241,10 +10240,10 @@ void gl_Mesh_Click(LEVELINFO *p_Level, char demo, AUDIO_DATA *p_ad)
 
 			kom_mesh_get_float(p_Level->Item[p_Level->BublSystem[i].iItem].Index_Of_Game_Mesh,
 							   &pos[0], &pos[1], &pos[2], &rot);
-
+/*
 			if(gl_Moveto_Beatle(btl, p_Level))
 				ap_Play_Sound(0,1,0, pos, gl_Choose_Wave_Index(23), NULL, p_ad);
-
+*/
 			kprintf(1, "prepnito na berusku mesh = %d", bmesh);
 			c++;
 		}
@@ -10915,7 +10914,7 @@ PLAY_LEVEL_START:
 			fn_Load_Textures_From_RAM();
 			Level.bMenuRunning = 1;
 			_3d_Start_Animation(14, NULL, &iMenuAnimation);
-			ap_Play_Sound(0,1,0, fpos, gl_Choose_Wave_Index(23), NULL, p_ad);
+	//		ap_Play_Sound(0,1,0, fpos, gl_Choose_Wave_Index(23), NULL, p_ad);
 			
 			/*Level.Level_Exit = 2;
 			Level.lLevel_Exitc = 0;*/
@@ -12395,7 +12394,7 @@ PLAY_LEVEL_START:
 		fn_Load_Textures_From_RAM();
 		Level.bMenuRunning = 1;
 		_3d_Start_Animation(14, NULL, &iMenuAnimation);
-		ap_Play_Sound(0,1,0, fpos, gl_Choose_Wave_Index(23), NULL, p_ad);
+		//ap_Play_Sound(0,1,0, fpos, gl_Choose_Wave_Index(23), NULL, p_ad);
 	}
 
 	if(mi.t1 && !demo)
@@ -12414,10 +12413,10 @@ PLAY_LEVEL_START:
 			
 				kom_zpruhlednovat_prvky_zmena_berusky();
 
-			
+/*			
 				if(gl_Moveto_Beatle(btl, &Level))
 					ap_Play_Sound(0,1,0, fpos, gl_Choose_Wave_Index(23), NULL, p_ad);
-
+*/
 				btlchange = 1;
 			}
 

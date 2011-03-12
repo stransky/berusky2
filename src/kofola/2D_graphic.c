@@ -1,22 +1,17 @@
 //------------------------------------------------------------------------------------------------
 // version 0.0.2
 //------------------------------------------------------------------------------------------------
-#include "..\\komat\\mss_on.h"
 #include <stdio.h>
-#include <direct.h>
-
 #include <assert.h>
-//#include <d3d.h>
-#include <windows.h>
 #include <math.h>
 
-#include "..\komat\3d_all.h"
-#include "..\komat\Berusky_universal.h"
+#include "3d_all.h"
+#include "Berusky_universal.h"
 #include "2D_graphic.h"
-#include "apak.h"
-#include "..\\komat\\Berusky3d_ini.h"
+#include "Apak.h"
+#include "Berusky3d_ini.h"
 
-const NUM_OF_BITMAPS = 700;
+const int NUM_OF_BITMAPS = 700;
 
 _2D_DATA		_2dd;
 
@@ -35,22 +30,22 @@ extern char			CurrentWorkingDirectory[256];
 //------------------------------------------------------------------------------------------------
 // init 2d
 //------------------------------------------------------------------------------------------------
-int _2d_Init(HWND hWnd)
+int _2d_Init(void)
 {
 	int i;
 
 	kprintf(1,"Kofola - init bitmap -");
 
 	_2dd.bm_count = NUM_OF_BITMAPS;
-	_2dd.hDC = GetDC(hwnd_hry);
+	//_2dd.hDC = GetDC(hwnd_hry);
 
 	//kprintf(1,"GetDC() returned %d", GetLastError());
 
-	_2dd.hWnd = hwnd_hry;
-
+	//_2dd.hWnd = hwnd_hry;
+/*
 	if(!_2dd.hDC)
 		kprintf(1,"Nepodarilo se nacist DC");
-
+*/
 	_2dd.bitmap = (BITMAPSTRUCT *) malloc((_2dd.bm_count) * sizeof(BITMAPSTRUCT));		
 	if (!_2dd.bitmap)
 	{
@@ -61,11 +56,11 @@ int _2d_Init(HWND hWnd)
 	
 	for(i=0;i<_2dd.bm_count;i++)
 	{
-		_2dd.bitmap[i].bitmapDC = NULL;
+		//_2dd.bitmap[i].bitmapDC = NULL;
 		_2dd.bitmap[i].bLoad = 0;
 	}
 
-	GetPrivateProfileString("game","bitmap_dir","c:\\",_2dd.bm_dir,256,ini_file);
+	//GetPrivateProfileString("game","bitmap_dir","c:\\",_2dd.bm_dir,256,ini_file);
 	return 1;
 }
 
@@ -74,6 +69,7 @@ int _2d_Init(HWND hWnd)
 //------------------------------------------------------------------------------------------------
 void _2d_Release(void)
 {
+/*
 	int i;
 
 	kprintf(1,"Kofola: - Release Bitmap...");
@@ -102,6 +98,7 @@ void _2d_Release(void)
 		//kprintf(1, " ReleaseDC() returned %d", GetLastError());
 		_2dd.hDC = NULL;
 	}
+*/
 }
 
 //------------------------------------------------------------------------------------------------
@@ -130,7 +127,7 @@ int _2d_Load_Bitmap(char *p_File_Name)
 
 	if(pointer == -1)
 		return -1;
-
+/* TODO
 	_2dd.bitmap[pointer].hbitmap = (HBITMAP)LoadImage(hinst,p_File_Name,IMAGE_BITMAP,0,0,LR_LOADFROMFILE);
 	
 	_2dd.bitmap[pointer].bitmapDC = CreateCompatibleDC(_2dd.hDC);
@@ -150,7 +147,7 @@ int _2d_Load_Bitmap(char *p_File_Name)
 		kprintf(1,"Can't load %s",p_File_Name);
 		return -1;
 	} 
-
+*/
 /*
 	GetObject(hbitmap, sizeof(BITMAP), &_2dd.bitmap[pointer].bitmap);
 	DeleteObject(hbitmap);	
@@ -336,6 +333,7 @@ int _2d_Load_Bitmap(char *p_File_Name)
 
 int _2d_APAK_Load_Bitmap(char *p_File_Name, APAK_HANDLE *pHandle)
 {
+/*
 	long				size;
 	APAK_FILE_HANDLE	*fHandle;
 	BITMAPINFO			bmpInfo;
@@ -414,16 +412,17 @@ int _2d_APAK_Load_Bitmap(char *p_File_Name, APAK_HANDLE *pHandle)
 			  DIB_RGB_COLORS);
 
 	free((void *) pBmp);
-	
+*/	
 /*	if(!DeleteObject(hDIB))
 		kprintf(1,"!DeleteObject(hDIB) v _2d_APAK_Load_Bitmap");*/
-
+/*
 	_2dd.bitmap[pointer].bitmap.bmType = 0;
 	_2dd.bitmap[pointer].bitmap.bmWidth = bmpInfoHeader.biWidth;
 	_2dd.bitmap[pointer].bitmap.bmHeight = bmpInfoHeader.biHeight;
 	_2dd.bitmap[pointer].bLoad = 1;
-	
+  
 	return pointer;
+*/	
 }
 
 
@@ -504,7 +503,7 @@ void lsi_Make_Screenshot(HDC hdc, char *pFile)
 //------------------------------------------------------------------------------------------------
 int _2d_Release_Bitmap(int pointer)
 {
-
+/*
 	if(pointer < 0)
 		return 1;
 
@@ -521,7 +520,7 @@ int _2d_Release_Bitmap(int pointer)
 		_2dd.bitmap[pointer].bLoad = 0;
 		_2dd.bitmap[pointer].bitmapDC = NULL;
 	}
-
+*/
 	return 1;
 }
 
@@ -707,13 +706,13 @@ int _2d_APAK_Load_List(char *p_File_Name)
 	return 1;*/
 }
 
-void _2d_Draw_Load_Screen(HWND hWnd)
+void _2d_Draw_Load_Screen(void)
 {
 	int i;
 
 	//schovej_konzoli();
 	
-	_2d_Init(hwnd_hry);
+	_2d_Init();
 	_2d_Blackness();
 	chdir(_2dd.bm_dir);
 	achdir(pBmpArchive, _2dd.bm_dir);
@@ -728,11 +727,11 @@ void _2d_Draw_Load_Screen(HWND hWnd)
 	}
 	else
 		i = _2d_APAK_Load_Bitmap("LoadScreen.bmp", pBmpArchive);
-
+/*
 	SetStretchBltMode(_2dd.hDC, HALFTONE);
 	//SetBrushOrgEx(_2dd.hDC, 0, 0, NULL);
 	StretchBlt(_2dd.hDC, 0, 0, hwconf.xres, hwconf.yres, _2dd.bitmap[i].bitmapDC,0,0,1024, 768, SRCCOPY);
-
+*/
 	_2d_Release_Bitmap(i);
 	//_2dd.ProgressBmp = _2d_Load_Bitmap("LoadScreen3.bmp");
 
@@ -755,6 +754,7 @@ void _2d_Add_Progress(float fPercent)
 
 void _2d_Draw_Progress(int x, int y)
 {
+/*
 	HPEN	LastPen;
 	HPEN	MePen;
 	int i;
@@ -790,7 +790,7 @@ void _2d_Draw_Progress(int x, int y)
 
 	SelectObject(_2dd.hDC,LastPen);
 	DeleteObject(MePen);
-
+*/
 }
 
 void _2d_Release_Progress(void)
@@ -800,7 +800,7 @@ void _2d_Release_Progress(void)
 
 void _2d_Blackness(void)
 {
-	BitBlt(_2dd.hDC, 0, 0, hwconf.xres, hwconf.yres, NULL, 0, 0, BLACKNESS);
+	//BitBlt(_2dd.hDC, 0, 0, hwconf.xres, hwconf.yres, NULL, 0, 0, BLACKNESS);
 }
 
 
@@ -856,7 +856,7 @@ void _2d_Add_RectItem(RECT_LINE *p_rl, RECT rect, int iLayer)
 		p_rl->rlast++;
 	}
 }
-
+/*
 BOOL TransparentBltU98(
      HDC dcDest,         // handle to Dest DC
      int nXOriginDest,   // x-coord of destination upper-left corner
@@ -997,32 +997,9 @@ BOOL TransparentBltU98(
 
      return TRUE;
 }
-
-BOOL TransparentBltU(
-     HDC dcDest,         // handle to Dest DC
-     int nXOriginDest,   // x-coord of destination upper-left corner
-     int nYOriginDest,   // y-coord of destination upper-left corner
-     int nWidthDest,     // width of destination rectangle
-     int nHeightDest,    // height of destination rectangle
-     HDC dcSrc,          // handle to source DC
-     int nXOriginSrc,    // x-coord of source upper-left corner
-     int nYOriginSrc,    // y-coord of source upper-left corner
-     int nWidthSrc,      // width of source rectangle
-     int nHeightSrc,     // height of source rectangle
-     UINT crTransparent  // color to make transparent
-  )
-{
-	//if(iWinVer >= 490)
-/*		return TransparentBlt(dcDest, nXOriginDest, nYOriginDest, nWidthDest, nHeightDest, 
-						      dcSrc, nXOriginSrc, nYOriginSrc, nWidthSrc, nHeightSrc, crTransparent);*/
-/*	else
-		return (g_pTransparentBlt)(dcDest, nXOriginDest, nYOriginDest, nWidthDest, nHeightDest, 
-						         dcSrc, nXOriginSrc, nYOriginSrc, nWidthSrc, nHeightSrc, crTransparent);*/
-
-  return TRUE;
-}
-
-void _2d_Fill_Rect(HDC hdc, RECT rect, COLORREF color)
+*/
+/*
+void _2d_Fill_Rect(RECT rect, COLORREF color)
 {
 	HBRUSH hbr = CreateSolidBrush(color);
 
@@ -1054,6 +1031,7 @@ BOOL BitBltU(
 
 	return TRUE;
 }
+*/
 
 int LoadTransparentBlt(void)
 {

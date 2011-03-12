@@ -5,15 +5,14 @@
 #ifndef __FONT_
 #define __FONT_
 
-#include <windows.h>
 #include <stdio.h>
 
 #include "trigers.h"
-#include "apak.h"
-#include "3d_graphic.h"
+#include "Apak.h"
+#include "3D_graphic.h"
 
-#include "..\komat\3d_all.h"
-#include "..\Komat\Berusky_universal.h"
+#include "3d_all.h"
+#include "Berusky_universal.h"
 
 #define	FONT_MAX_BMP	16
 
@@ -45,7 +44,7 @@ typedef struct _B2_FONT
 	void fn_Test(int hdc);
 	void fn_Test2(int hdc);
 	void fn_Texture(int iSection);
-	HDC fn_CreateDC(HDC hdc, int x, int y, int _2dd_idx);
+	//HDC fn_CreateDC(HDC hdc, int x, int y, int _2dd_idx);
 	int fn_Gen_Menu(void);
 	int fn_Gen_Menu_Text(int iSection, int hdc, char *cText, int *i1, int *i2);
 
@@ -57,7 +56,7 @@ typedef struct _B2_FONT
 	void fn_Draw_MessageA(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, TRIGER_STRUCTURE *ts, WCHAR *cText, 
 					 int iSection, int *iXmax, int *iYmax);
 
-	int fn_DC2Tex(HDC hdc, int xr, int yr, int turn, int texture);
+	//int fn_DC2Tex(HDC hdc, int xr, int yr, int turn, int texture);
 
 	int fn_Get_Font_Texture(int iSection, char *cText);
 

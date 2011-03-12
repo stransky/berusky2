@@ -1,7 +1,9 @@
 #ifndef __APAK___
 #define __APAK___
 
-	#include "apak_types.h"
+#include "apak_types.h"
+#include <stdlib.h>
+#include <string.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -19,11 +21,11 @@ extern "C" {
 	int achdir(APAK_HANDLE *pHandle, const char *dirname);
 
 	char *agetcwd(APAK_HANDLE *pHandle, char *buffer, int maxlen);
-
+/*
 	long afindfirst(APAK_HANDLE *pHandle, char *filespec, struct _finddata_t *fileinfo);
 
 	int afindnext(long handle, struct _finddata_t *fileinfo);
-
+*/
 	int afindclose(long handle);
 
 	FILE *aopen(APAK_HANDLE *pHandle, const char *filename, const char *mode);
@@ -52,7 +54,7 @@ extern "C" {
 	void agetbuffer(FILE *stream, char **pBuffer, apuLong *psize);
 
 	// vraci to stejne co _find_first, krome lastwrite a last acces
-	void agetfiledata(FILE *stream, struct _finddata_t *fileinfo);
+	// void agetfiledata(FILE *stream, struct _finddata_t *fileinfo);
 
 	//----------------------------------------------------------------------------------
 	// vraci druh astreamu

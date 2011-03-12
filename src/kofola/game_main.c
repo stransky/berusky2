@@ -1,7 +1,6 @@
 //------------------------------------------------------------------------------------------------
 // version 0.0.2
 //------------------------------------------------------------------------------------------------
-#include "..\\komat\\mss_on.h"
 #include <time.h>
 #include <direct.h>
 #include "game_init.h"
@@ -9,9 +8,8 @@
 #include "adas.h"
 #include <math.h>
 #include "tools.h"
-#include "..\komat\3d_all.h"
-#include "audio_plug-in.h"
-#include "..\Komat\berusky3d_kofola_interface.h"
+#include "3d_all.h"
+#include "berusky3d_kofola_interface.h"
 #include "2D_graphic.h"
 #include "3D_graphic.h"
 #include "3d_menus.h"
@@ -482,6 +480,3 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 
 	return 0;
 }
-
-
-

@@ -290,12 +290,12 @@ int gi_Change_Grafic_Mode(int xPels, int yPels, int Bits, int freq, DWORD dwflag
 		return 1;
 
 }
-
+/*
 int gi_EnumDisplaySettings(DEVMODE *pdevmode)
 {
 	return EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, pdevmode);
 }
-
+*/
 void gi_APAK_Load(unsigned long mem, struct _finddata_t* pData)
 {
 	char *pMem;

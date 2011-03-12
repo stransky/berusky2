@@ -28,7 +28,7 @@ typedef struct
 	int					 last;
 	char				 bm_dir[256];
 	EDIT_TEXT			 *p_texture;
-	HWND				 hWnd;
+	//HWND				 hWnd;
 	_3D_TEXTURE			 *p_sysramtexture;
 	char				 bMenuVRAMLoad;
 } _3D_DATA;
@@ -51,7 +51,7 @@ typedef struct
 	void _3d_Draw_Box(int i, float *vfPoint);
 
 	// init 3d
-	int _3d_Init(HWND hWnd);
+	int _3d_Init(void);
 
 	// release 3d
 	void _3d_Release(void);

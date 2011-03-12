@@ -27,4 +27,4 @@ typedef struct
 	void trig_Parse_Line(char *pLine, COMMAND *pCommand, GAME_TRIGER *pTriger, GRAMMAR *pGr, TRIGER_STRUCTURE *pTStruct);
 	void trig_Parse_LineU(WCHAR *pLine, COMMAND *pCommand, GAME_TRIGER *pTriger, GRAMMAR *pGr, TRIGER_STRUCTURE *pTStruct);
 
-#endif;
+#endif

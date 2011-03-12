@@ -1,8 +1,6 @@
 #ifndef __CONTROLS_
 #define __CONTROLS_
 
-#include <windows.h>
-
 #define BUTTON_LARGE 0
 #define BUTTON_SMALL 1
 
@@ -11,8 +9,8 @@ typedef struct _HDC_INFO2
 	int x;
 	int y;
 	HDC hdc;
-	HBITMAP	hbitmap;
-	HBITMAP	hbitmapold;
+	//HBITMAP	hbitmap;
+	//HBITMAP	hbitmapold;
 } HDC_INFO2;
 
 typedef struct _HDC_EDIT_CONTROL2

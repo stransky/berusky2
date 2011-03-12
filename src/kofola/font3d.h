@@ -5,15 +5,14 @@
 #ifndef __FONT_
 #define __FONT_
 
-#include <windows.h>
 #include <stdio.h>
 
 #include "trigers.h"
-#include "apak.h"
-#include "3d_graphic.h"
+#include "Apak.h"
+#include "3D_graphic.h"
 
-#include "..\komat\3d_all.h"
-#include "..\Komat\Berusky_universal.h"
+#include "3d_all.h"
+#include "Berusky_universal.h"
 
 #define	FONT_MAX_BMP	16
 

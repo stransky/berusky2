@@ -1,16 +1,13 @@
 //------------------------------------------------------------------------------------------------
 // version 0.0.1
 //------------------------------------------------------------------------------------------------
-#include "..\\komat\\mss_on.h"
 #include <stdio.h>
-#include <direct.h>
-#include <windows.h>
 
-#include "..\komat\3d_all.h"
-#include "..\komat\Berusky3d_kofola_interface.h"
-#include "..\komat\Berusky_universal.h"
+#include "3d_all.h"
+#include "Berusky3d_kofola_interface.h"
+#include "Berusky_universal.h"
 #include "3D_graphic.h"
-#include "apak.h"
+#include "Apak.h"
 #include "font.h"
 
 _3D_DATA			_3dd;
@@ -24,12 +21,12 @@ int	Xresolution, Yresolution;
 //------------------------------------------------------------------------------------------------
 // init 3d
 //------------------------------------------------------------------------------------------------
-int _3d_Init(HWND hWnd)
+int _3d_Init(void)
 {
 	int i;
 
 	_3dd.count = 200;
-	_3dd.hWnd = hWnd;
+	//_3dd.hWnd = hWnd;
 	_3dd.last = 0;
 
 	_3dd.p_texture = (EDIT_TEXT *) malloc((_3dd.count) * sizeof(EDIT_TEXT));		
@@ -95,7 +92,7 @@ void _3d_Release(void)
 	free ((void *) _3dd.p_texture);
 	free ((void *) _3dd.p_sysramtexture);
 	
-	_3dd.hWnd = NULL;
+	//_3dd.hWnd = NULL;
 	_3dd.last = 0;
 	_3dd.count = 0;
 }

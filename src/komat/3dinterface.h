@@ -123,7 +123,7 @@ void glstav_reset(void);
 
 /* Low-level matice
 */
-__inline GLMATRIX * set_matrix_texture(int num, GLMATRIX *p_text)
+inline GLMATRIX * set_matrix_texture(int num, GLMATRIX *p_text)
 {
   glMatrixMode(GL_TEXTURE);  
   glLoadMatrixf((float *)p_text);
@@ -131,7 +131,7 @@ __inline GLMATRIX * set_matrix_texture(int num, GLMATRIX *p_text)
   return(p_text);
 }
 
-__inline void ret_matrix_texture(int num)
+inline void ret_matrix_texture(int num)
 {
   if(__mat_text[num]) {
     glMatrixMode(GL_TEXTURE);
@@ -140,12 +140,12 @@ __inline void ret_matrix_texture(int num)
   }
 }
 
-__inline GLMATRIX * get_matrix_world_camera(void)
+inline GLMATRIX * get_matrix_world_camera(void)
 {  
   return(&__mat_vysl);
 }
 
-__inline GLMATRIX * set_matrix_world_top(GLMATRIX *p_top_world)
+inline GLMATRIX * set_matrix_world_top(GLMATRIX *p_top_world)
 {
   if(__mat_top_matrix_akt+1 < MAX_WORD_MATRIX_STACK) {    
   
@@ -170,7 +170,7 @@ __inline GLMATRIX * set_matrix_world_top(GLMATRIX *p_top_world)
   }
 }
 
-__inline void ret_matrix_world_top(void)
+inline void ret_matrix_world_top(void)
 {
   if(__mat_top_matrix_akt > 0) {
     __mat_top_matrix_akt--;
@@ -185,7 +185,7 @@ __inline void ret_matrix_world_top(void)
   }
 }
 
-__inline GLMATRIX * set_matrix_camera(GLMATRIX *p_cam)
+inline GLMATRIX * set_matrix_camera(GLMATRIX *p_cam)
 {
  memcpy(&__mat_kamera,p_cam,sizeof(GLMATRIX));
 
@@ -203,18 +203,18 @@ __inline GLMATRIX * set_matrix_camera(GLMATRIX *p_cam)
  return(p_cam);
 }
 
-__inline GLMATRIX * get_matrix_camera(GLMATRIX *p_cam)
+inline GLMATRIX * get_matrix_camera(GLMATRIX *p_cam)
 {
  memcpy(p_cam,&__mat_kamera,sizeof(GLMATRIX)); 
  return(p_cam);
 }
 
-__inline GLMATRIX * get_matrix_camera_point(void)
+inline GLMATRIX * get_matrix_camera_point(void)
 { 
  return(&__mat_kamera);
 }
 
-__inline GLMATRIX * set_matrix_world(GLMATRIX *p_world)
+inline GLMATRIX * set_matrix_world(GLMATRIX *p_world)
 {
  memcpy(&__mat_world,p_world,sizeof(GLMATRIX));
  
@@ -231,7 +231,7 @@ __inline GLMATRIX * set_matrix_world(GLMATRIX *p_world)
  return(p_world);
 }
 
-__inline void set_matrix_world_init(void)
+inline void set_matrix_world_init(void)
 {
  memcpy(&__mat_world,&__mat_init,sizeof(GLMATRIX));
 
@@ -246,13 +246,13 @@ __inline void set_matrix_world_init(void)
  glLoadMatrixf((float *)&__mat_vysl);
 }
 
-__inline GLMATRIX * get_matrix_world(GLMATRIX *p_world)
+inline GLMATRIX * get_matrix_world(GLMATRIX *p_world)
 {
  memcpy(p_world,&__mat_world,sizeof(GLMATRIX));
  return(p_world);
 }
 
-__inline GLMATRIX * push_matrix_world(GLMATRIX *p_world)
+inline GLMATRIX * push_matrix_world(GLMATRIX *p_world)
 {   
  GLMATRIX tmp1;
 
@@ -270,13 +270,13 @@ __inline GLMATRIX * push_matrix_world(GLMATRIX *p_world)
  return(p_world);
 }
 
-__inline void pop_matrix_world(void)
+inline void pop_matrix_world(void)
 {
  glMatrixMode(GL_MODELVIEW);
  glPopMatrix();
 }
 
-__inline void set_matrix_all(GLMATRIX *p_cam, GLMATRIX *p_world)
+inline void set_matrix_all(GLMATRIX *p_cam, GLMATRIX *p_world)
 {
  memcpy(&__mat_kamera,p_cam,sizeof(GLMATRIX)); 
  memcpy(&__mat_world,p_world,sizeof(GLMATRIX));
@@ -293,19 +293,19 @@ __inline void set_matrix_all(GLMATRIX *p_cam, GLMATRIX *p_world)
  glstav_zmena_kamery = TRUE;
 }
 
-__inline GLMATRIX * set_matrix_project(GLMATRIX *p_project)
+inline GLMATRIX * set_matrix_project(GLMATRIX *p_project)
 { 
  glMatrixMode(GL_PROJECTION);
  glLoadMatrixf((float *)p_project);
  return(p_project);
 }
 
-__inline GLMATRIX * get_matrix_project(GLMATRIX *p_project)
+inline GLMATRIX * get_matrix_project(GLMATRIX *p_project)
 { 
  return(p_project);
 }
 
-__inline GLMATRIX * set_matrix_project_push(GLMATRIX *p_project)
+inline GLMATRIX * set_matrix_project_push(GLMATRIX *p_project)
 {
  glMatrixMode(GL_PROJECTION);
  glPushMatrix();
@@ -313,12 +313,12 @@ __inline GLMATRIX * set_matrix_project_push(GLMATRIX *p_project)
  return(p_project);
 }
 
-__inline void set_matrix_project_pop(void)
+inline void set_matrix_project_pop(void)
 {
  glMatrixMode(GL_PROJECTION);
  glPopMatrix();
 }
-__inline void set_matrix_view(int x, int y, int max_x, int max_y)
+inline void set_matrix_view(int x, int y, int max_x, int max_y)
 {
   glstav_view_x = x;
   glstav_view_y = y;
@@ -327,7 +327,7 @@ __inline void set_matrix_view(int x, int y, int max_x, int max_y)
   glViewport(x,y,max_x,max_y);
 }
 
-__inline void get_matrix_view(int *p_x, int *p_y, int *p_max_x, int *p_max_y)
+inline void get_matrix_view(int *p_x, int *p_y, int *p_max_x, int *p_max_y)
 {
   *p_x = glstav_view_x;
   *p_y = glstav_view_y;
@@ -335,7 +335,7 @@ __inline void get_matrix_view(int *p_x, int *p_y, int *p_max_x, int *p_max_y)
   *p_max_y = glstav_view_dy;
 }
 
-__inline void set_matrix_2d(int xres, int yres)
+inline void set_matrix_2d(int xres, int yres)
 {
   if(!glstav_matrix_2d_mod) {
     glstav_matrix_2d_mod = TRUE;
@@ -349,7 +349,7 @@ __inline void set_matrix_2d(int xres, int yres)
   }
 }
 
-__inline void ret_matrix_2d(void)
+inline void ret_matrix_2d(void)
 {
   if(glstav_matrix_2d_mod) {
     glstav_matrix_2d_mod = FALSE;
@@ -361,17 +361,17 @@ __inline void ret_matrix_2d(void)
 }
  
 
-__inline void set_matrix_init(void)
+inline void set_matrix_init(void)
 {
   init_matrix(&__mat_init);
 }
 
-__inline GLMATRIX * get_matrix_init(void)
+inline GLMATRIX * get_matrix_init(void)
 {
   return(&__mat_init);
 }
 
-__inline void set_matrix_camera_project(GLMATRIX *p_project)
+inline void set_matrix_camera_project(GLMATRIX *p_project)
 {
  if(__mat_top_matrix_akt) {
    mat_mult_dir(__mat_top_matrix+__mat_top_matrix_akt-1,&__mat_kamera,&__mat_tmp);
@@ -381,7 +381,7 @@ __inline void set_matrix_camera_project(GLMATRIX *p_project)
  }
 }
 
-__inline GLMATRIX * get_matrix_camera_project(void)
+inline GLMATRIX * get_matrix_camera_project(void)
 {
   return(&__mat_camera_project);
 }
@@ -390,7 +390,7 @@ __inline GLMATRIX * get_matrix_camera_project(void)
 /*
   Nastaveni cullingu
 */
-__inline void cull_on(void)
+inline void cull_on(void)
 {
  if(!glstav_cull) {
    glEnable(GL_CULL_FACE);
@@ -398,7 +398,7 @@ __inline void cull_on(void)
  }
 }
 
-__inline void cull_off(void)
+inline void cull_off(void)
 {
  if(glstav_cull) {
    glDisable(GL_CULL_FACE);
@@ -406,7 +406,7 @@ __inline void cull_off(void)
  }
 }
 
-__inline void cull_back(void)
+inline void cull_back(void)
 {
   if(glstav_cull_mod != 1) {
     glstav_cull_mod = 1;
@@ -414,7 +414,7 @@ __inline void cull_back(void)
   }
 }
 
-__inline void cull_front(void)
+inline void cull_front(void)
 {
   if(glstav_cull_mod != 2) {
     glstav_cull_mod = 2;
@@ -422,7 +422,7 @@ __inline void cull_front(void)
   }
 }
 
-__inline void cull_nastav(int cull)
+inline void cull_nastav(int cull)
 {
  if(!cull) {
    cull_off();
@@ -435,7 +435,7 @@ __inline void cull_nastav(int cull)
  }
 }
 
-__inline void cull_prehod(void)
+inline void cull_prehod(void)
 {
   if(glstav_cull_mod) {
     if(glstav_cull_mod == 1) {
@@ -449,27 +449,27 @@ __inline void cull_prehod(void)
 
 /* Blend-funkce
 */
-__inline void blend_set_one_zero(void)
+inline void blend_set_one_zero(void)
 {
   if(glstav_blending) {
     glBlendFunc(GL_ONE,GL_ZERO);
   }
 }
 
-__inline void blend_get_default(GLenum *p_src, GLenum *p_dest)
+inline void blend_get_default(GLenum *p_src, GLenum *p_dest)
 {
   *p_src = GL_ONE;
   *p_dest = GL_ZERO;
 }
 
-__inline void blend_set(GLenum src, GLenum dest)
+inline void blend_set(GLenum src, GLenum dest)
 {
   if(glstav_blending) {
     glBlendFunc(src,dest);
   }
 }
 
-__inline void blend_off(void)
+inline void blend_off(void)
 {
   if(glstav_blending) {
     glstav_blending = FALSE;
@@ -477,7 +477,7 @@ __inline void blend_off(void)
   }
 }
 
-__inline void blend_on(void)
+inline void blend_on(void)
 {
   if(!glstav_blending) {
     glstav_blending = TRUE;
@@ -485,7 +485,7 @@ __inline void blend_on(void)
   }
 }
 
-__inline void alfa_test_off(void)
+inline void alfa_test_off(void)
 {
   if(glstav_alfa_test) {
     glstav_alfa_test = FALSE;
@@ -493,7 +493,7 @@ __inline void alfa_test_off(void)
   }
 }
 
-__inline void alfa_test_on(void)
+inline void alfa_test_on(void)
 {
   if(!glstav_alfa_test) {
     glstav_alfa_test = TRUE;
@@ -501,7 +501,7 @@ __inline void alfa_test_on(void)
   }
 }
 
-__inline void blend_param(int stav)
+inline void blend_param(int stav)
 {
   if(stav) {
     blend_on();
@@ -513,19 +513,19 @@ __inline void blend_param(int stav)
 
 /* Svetla
 */
-__inline void light_ambient_f(float *p_ambient)
+inline void light_ambient_f(float *p_ambient)
 {
   glLightfv( GL_LIGHT0, GL_AMBIENT, p_ambient);
 }
 
-__inline void light_ambient_d(dword barva)
+inline void light_ambient_d(dword barva)
 {
   float amb[4] = {0,0,0,1};
   rgb_float(barva,amb);
   glLightfv( GL_LIGHT0, GL_AMBIENT, amb);
 }
 
-__inline void light_on_off(int stav)
+inline void light_on_off(int stav)
 {
  if(stav) {
    if(!glstav_lighting) {
@@ -541,12 +541,12 @@ __inline void light_on_off(int stav)
  }
 }
 
-__inline void light_shade_smooth(void)
+inline void light_shade_smooth(void)
 {
   glShadeModel(GL_SMOOTH);  
 }
 
-__inline void light_shade_flat(void)
+inline void light_shade_flat(void)
 {
   glShadeModel(GL_FLAT);
 }
@@ -569,7 +569,7 @@ void enable_fog(void);
 /* 
   Textury - Sigle-texturing
 */
-__inline void text_init(void)
+inline void text_init(void)
 {
   glstav_text_akt = 0;
   
@@ -610,7 +610,7 @@ __inline void text_init(void)
   }
 }
 
-__inline void text_set(GLuint text, GLenum typ)
+inline void text_set(GLuint text, GLenum typ)
 {
   if(typ == GL_TEXTURE_2D) {
     if(glstav_textury_2d[glstav_text_akt] && glstav_last_text_2d[glstav_text_akt] != text) {
@@ -625,7 +625,7 @@ __inline void text_set(GLuint text, GLenum typ)
   }
 }
 
-__inline void text_on(GLenum typ)
+inline void text_on(GLenum typ)
 {
   if(typ == GL_TEXTURE_2D) {
     if(!glstav_textury_2d[glstav_text_akt]) {
@@ -648,7 +648,7 @@ __inline void text_on(GLenum typ)
   }
 }
 
-__inline void text_off(GLenum typ)
+inline void text_off(GLenum typ)
 {
   if(typ == GL_TEXTURE_2D) {
     if(glstav_textury_2d[glstav_text_akt]) {
@@ -663,7 +663,7 @@ __inline void text_off(GLenum typ)
   }
 }
 
-__inline int text_set_num(int num)
+inline int text_set_num(int num)
 {
   if(num < glstav_multitext_units) {
     if(extlist_multitexture && glstav_text_akt != num) {
@@ -676,7 +676,7 @@ __inline int text_set_num(int num)
   }
 }
 
-__inline int text_set_num_off(int num)
+inline int text_set_num_off(int num)
 {
   if(num < glstav_multitext_units) {
     if(extlist_multitexture && (glstav_textury_1d[num] || glstav_textury_2d[num])) {
@@ -703,7 +703,7 @@ __inline int text_set_num_off(int num)
 
 /* Odrazy
 */
-__inline void specular_on(void)
+inline void specular_on(void)
 {
   if(extlist_secondary_color && !glstav_specular) {
     glstav_specular = TRUE;
@@ -711,7 +711,7 @@ __inline void specular_on(void)
   }
 }
 
-__inline void specular_off(void)
+inline void specular_off(void)
 {
   if(extlist_secondary_color && glstav_specular) {
     glstav_specular = FALSE;
@@ -719,24 +719,25 @@ __inline void specular_off(void)
   }
 }
 
-__inline void specular_color(float r, float g, float b)
+inline void specular_color(float r, float g, float b)
 {
   if(extlist_secondary_color) {
-    glSecondaryColor3fEXT(r,g,b);
-    glDisable(GL_COLOR_SUM_EXT);
+    // TODO
+    //glSecondaryColor3fEXT(r,g,b);
+    //glDisable(GL_COLOR_SUM_EXT);
   }
 }
 
 
 /* Diffusni barvy
 */
-__inline void diffuse_off(float r, float g, float b, float a)
+inline void diffuse_off(float r, float g, float b, float a)
 {
   glstav_diffuse = FALSE;
   glColor4f(r,g,b,a);
 }
 
-__inline void diffuse_on(void)
+inline void diffuse_on(void)
 {
   glstav_diffuse = TRUE;
 }
@@ -744,7 +745,7 @@ __inline void diffuse_on(void)
 /*
   Rendering z poli
 */
-__inline void array_specular_set(int stav)
+inline void array_specular_set(int stav)
 {
   if(extlist_secondary_color) {
     if(stav) {
@@ -761,7 +762,7 @@ __inline void array_specular_set(int stav)
   }
 }
 
-__inline void array_specular_on(void)
+inline void array_specular_on(void)
 {
   if(extlist_secondary_color) {
     if(!glstav_array_specular) {
@@ -771,7 +772,7 @@ __inline void array_specular_on(void)
   }
 }
 
-__inline void array_specular_off(void)
+inline void array_specular_off(void)
 {
   if(extlist_secondary_color) {
     if(glstav_array_specular) {
@@ -781,7 +782,7 @@ __inline void array_specular_off(void)
   }
 }
 
-__inline void array_diffuse_on(void)
+inline void array_diffuse_on(void)
 {
   if(!glstav_array_diffuse) {
     glstav_array_diffuse = TRUE;
@@ -789,7 +790,7 @@ __inline void array_diffuse_on(void)
   }
 }
 
-__inline void array_diffuse_off(void)
+inline void array_diffuse_off(void)
 {
   if(glstav_array_diffuse) {
     glstav_array_diffuse = FALSE;
@@ -800,7 +801,7 @@ __inline void array_diffuse_off(void)
 
 /* Normalove vektory
 */
-__inline void array_normal_set(int stav)
+inline void array_normal_set(int stav)
 {
   if(stav) {
     if(!glstav_array_normal) {
@@ -815,7 +816,7 @@ __inline void array_normal_set(int stav)
   }
 }
 
-__inline void array_normal_on(void)
+inline void array_normal_on(void)
 {
   if(!glstav_array_normal) {
     glstav_array_normal = TRUE;
@@ -823,7 +824,7 @@ __inline void array_normal_on(void)
   }
 }
 
-__inline void array_normal_off(void)
+inline void array_normal_off(void)
 {
   if(glstav_array_normal) {
     glstav_array_normal = FALSE;
@@ -833,7 +834,7 @@ __inline void array_normal_off(void)
 
 /* Vertex-listy
 */
-__inline int array_text_set_num(int num)
+inline int array_text_set_num(int num)
 {
   if(num < glstav_multitext_units) {
     if(num != glstav_text_array_akt) {
@@ -845,7 +846,7 @@ __inline int array_text_set_num(int num)
     return(FALSE);
 }
 
-__inline void array_text_on(void)
+inline void array_text_on(void)
 {
   if(!glstav_text_array[glstav_text_array_akt]) {
     glstav_text_array[glstav_text_array_akt] = TRUE;
@@ -853,7 +854,7 @@ __inline void array_text_on(void)
   }
 }
 
-__inline void array_text_off(void)
+inline void array_text_off(void)
 {
   if(glstav_text_array[glstav_text_array_akt]) {
     glstav_text_array[glstav_text_array_akt] = FALSE;
@@ -864,7 +865,7 @@ __inline void array_text_off(void)
 
 /* Mlha
 */
-__inline void nastav_fog(MLZNA_KOSTKA *p_mlha)
+inline void nastav_fog(MLZNA_KOSTKA *p_mlha)
 {
   if(p_mlha) {
     glFogi(GL_FOG_MODE, p_mlha->mod);
@@ -875,7 +876,7 @@ __inline void nastav_fog(MLZNA_KOSTKA *p_mlha)
   }
 }
 
-__inline void disable_fog(void)
+inline void disable_fog(void)
 {
   if(glstav_mlha) {
     glDisable(GL_FOG);
@@ -883,7 +884,7 @@ __inline void disable_fog(void)
   }
 }
 
-__inline void enable_fog(void)
+inline void enable_fog(void)
 {
   if(!glstav_mlha) {
     glEnable(GL_FOG);
@@ -891,7 +892,7 @@ __inline void enable_fog(void)
   }
 }
 
-__inline void disable_fog_causal(void)
+inline void disable_fog_causal(void)
 {
   if(glstav_mlha && glstav_mlha_causal) {
     glstav_mlha_causal = FALSE;
@@ -899,7 +900,7 @@ __inline void disable_fog_causal(void)
   }
 }
 
-__inline void enable_fog_causal(void)
+inline void enable_fog_causal(void)
 {
   if(glstav_mlha && !glstav_mlha_causal) {
     glstav_mlha_causal = TRUE;
@@ -907,7 +908,7 @@ __inline void enable_fog_causal(void)
   }
 }
 
-__inline void text_sharp(float sharp)
+inline void text_sharp(float sharp)
 {
   if(extlist_text_sharp) {
     sharp = -sharp;
@@ -923,7 +924,7 @@ __inline void text_sharp(float sharp)
   }
 }
 
-__inline void reset_kamera_flag(void)
+inline void reset_kamera_flag(void)
 {
   glstav_zmena_kamery = FALSE;
 }
@@ -934,7 +935,7 @@ __inline void reset_kamera_flag(void)
 #define TEXGEN_EYE_LINEAR    2
 */
 
-__inline void texgen_env_on(int num)
+inline void texgen_env_on(int num)
 {
   if(glstav_genenv_s[num] != TEXGEN_SPHEREMAP) {
     glstav_genenv_s[num] = TEXGEN_SPHEREMAP;
@@ -957,7 +958,7 @@ __inline void texgen_env_on(int num)
 }
 
 // Musi se nastavit transformacni matice pro transformace tech souradnic
-__inline void texgen_linear_eye_2d_on(int num, float *p_spar, float *p_tpar)
+inline void texgen_linear_eye_2d_on(int num, float *p_spar, float *p_tpar)
 {
   GLMATRIX *p_mat = glstav_texgen+num;
 
@@ -1010,7 +1011,7 @@ __inline void texgen_linear_eye_2d_on(int num, float *p_spar, float *p_tpar)
   }
 }
 
-__inline void texgen_off(int num)
+inline void texgen_off(int num)
 {
   if(glstav_genenv_s[num]) {
     glstav_genenv_s[num] = FALSE;
@@ -1030,7 +1031,7 @@ __inline void texgen_off(int num)
   }
 }
 
-__inline void deph_test_set(int stav)
+inline void deph_test_set(int stav)
 {
   if(stav) {
     if(!glstav_deph_test) {
@@ -1045,7 +1046,7 @@ __inline void deph_test_set(int stav)
   }  
 }
 
-__inline void zmask_set(int stav)
+inline void zmask_set(int stav)
 {
   if(stav) {
     if(!glstav_zmask) {
@@ -1060,12 +1061,12 @@ __inline void zmask_set(int stav)
   }  
 }
 
-__inline void zmask_set_fleky(int stav)
+inline void zmask_set_fleky(int stav)
 {
   glDepthMask((GLboolean)stav);
 }
 
-__inline void set_alfa_blok(int blok)
+inline void set_alfa_blok(int blok)
 {
   if(blok != glstav_alfa_blok) {
     glstav_alfa_blok = blok;
@@ -1073,7 +1074,7 @@ __inline void set_alfa_blok(int blok)
   }    
 }
 
-__inline void text_set_blok(int text, int blok)
+inline void text_set_blok(int text, int blok)
 {
   if(blok != glstav_text_blok[text]) {
     glstav_text_blok[text] = blok;
@@ -1081,18 +1082,18 @@ __inline void text_set_blok(int text, int blok)
   }    
 }
 
-__inline void text_stage_func_nic(int last_text)
+inline void text_stage_func_nic(int last_text)
 {
   int i = last_text;
   if(i != K_CHYBA) {
-    for(i; i < MAT_TEXTUR; i++) {
+    for(; i < MAT_TEXTUR; i++) {
       if(!text_set_num_off(i))
         return;
     }
   }
 }
 
-__inline void reset_stage_bloky(void)
+inline void reset_stage_bloky(void)
 {
   glstav_alfa_blok = K_CHYBA;
   glstav_text_blok[0] = K_CHYBA;
@@ -1105,7 +1106,7 @@ __inline void reset_stage_bloky(void)
 }
 
 
-__inline void text_set_num_poly(int num)
+inline void text_set_num_poly(int num)
 {
   text_set_num(num);
   text_on(GL_TEXTURE_2D);
@@ -1115,11 +1116,11 @@ __inline void text_set_num_poly(int num)
   glstav_text_poly_indicie = num;
 }
 
-__inline void text_stage_func_nic_poly(int last_text, int poly_text)
+inline void text_stage_func_nic_poly(int last_text, int poly_text)
 {
   int i = last_text;
   if(i != K_CHYBA) {
-    for(i; i < MAT_TEXTUR; i++) {
+    for(; i < MAT_TEXTUR; i++) {
       if(!text_set_num_off(i)) {
         break;
       }

@@ -48,7 +48,30 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_berusky2_OBJECTS = main.$(OBJEXT)
+am_berusky2_OBJECTS = 3D_graphic.$(OBJEXT) 3D_menus.$(OBJEXT) \
+	3d_math.$(OBJEXT) Apak.$(OBJEXT) Apakio.$(OBJEXT) \
+	Bind.$(OBJEXT) Camera.$(OBJEXT) Comics.$(OBJEXT) \
+	Command.$(OBJEXT) Dda.$(OBJEXT) Demo.$(OBJEXT) Init.$(OBJEXT) \
+	Menu.$(OBJEXT) Menu2.$(OBJEXT) Tools.$(OBJEXT) \
+	animation.$(OBJEXT) animend_functions.$(OBJEXT) \
+	apakdir.$(OBJEXT) apakfind.$(OBJEXT) apakstream.$(OBJEXT) \
+	controls.$(OBJEXT) controls3d.$(OBJEXT) credits.$(OBJEXT) \
+	ddutil.$(OBJEXT) font.$(OBJEXT) font3d.$(OBJEXT) \
+	game_init.$(OBJEXT) game_logic.$(OBJEXT) game_main.$(OBJEXT) \
+	grammar.$(OBJEXT) load_level.$(OBJEXT) menu_script.$(OBJEXT) \
+	profiles.$(OBJEXT) setup.$(OBJEXT) square_cut.$(OBJEXT) \
+	trigers.$(OBJEXT) volume.$(OBJEXT) water.$(OBJEXT) \
+	3dinterface.$(OBJEXT) 3dmath.$(OBJEXT) 3dproject.$(OBJEXT) \
+	Berusky3d.$(OBJEXT) Berusky3d_animace.$(OBJEXT) \
+	Berusky3d_castice.$(OBJEXT) Berusky3d_ini.$(OBJEXT) \
+	Berusky3d_kamery.$(OBJEXT) Berusky3d_kofola2d.$(OBJEXT) \
+	Berusky3d_kofola_interface.$(OBJEXT) Berusky3d_light.$(OBJEXT) \
+	Berusky3d_load.$(OBJEXT) Berusky3d_render.$(OBJEXT) \
+	Bmp.$(OBJEXT) Ddx.$(OBJEXT) Di.$(OBJEXT) Kdtree.$(OBJEXT) \
+	Keyframe.$(OBJEXT) Load.$(OBJEXT) Load_chunks.$(OBJEXT) \
+	Load_out.$(OBJEXT) Mat3d.$(OBJEXT) Matrix.$(OBJEXT) \
+	Texture.$(OBJEXT) Texture_import.$(OBJEXT) Tga.$(OBJEXT) \
+	gglext.$(OBJEXT) kfile.$(OBJEXT) obb.$(OBJEXT) strip.$(OBJEXT)
 berusky2_OBJECTS = $(am_berusky2_OBJECTS)
 berusky2_DEPENDENCIES =
 berusky2_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -58,6 +81,15 @@ DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
@@ -215,7 +247,9 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-INCLUDES = 
+INCLUDES = \
+	 -Ikomat -Ikofola
+
 AM_CFLAGS = \
 	 -Wall\
 	 -g
@@ -225,14 +259,173 @@ AM_CXXFLAGS = \
 	 -g
 
 berusky2_SOURCES = \
-	main.cc
+	kofola/3D_graphic.c\
+	kofola/3D_graphic.h\
+	kofola/3D_menus.c\
+	kofola/3D_menus.h\
+	kofola/3d_math.c\
+	kofola/3d_math.h\
+	kofola/Apak.c\
+	kofola/Apak.h\
+	kofola/Apakio.c\
+	kofola/Bind.c\
+	kofola/Bind.h\
+	kofola/Camera.c\
+	kofola/Comics.c\
+	kofola/Comics.h\
+	kofola/Command.c\
+	kofola/Command.h\
+	kofola/Dda.c\
+	kofola/Dda.h\
+	kofola/Demo.c\
+	kofola/Demo.h\
+	kofola/Init.c\
+	kofola/Menu.c\
+	kofola/Menu.h\
+	kofola/Menu2.c\
+	kofola/Menu2.h\
+	kofola/Object.h\
+	kofola/Setup.h\
+	kofola/Tools.c\
+	kofola/Tools.h\
+	kofola/animation.c\
+	kofola/animation.h\
+	kofola/animend_functions.c\
+	kofola/animend_functions.h\
+	kofola/apak_types.h\
+	kofola/apakdir.c\
+	kofola/apakfind.c\
+	kofola/apakstream.c\
+	kofola/camera.h\
+	kofola/codec.h\
+	kofola/config_types.h\
+	kofola/controls.c\
+	kofola/controls.h\
+	kofola/controls3d.c\
+	kofola/controls3d.h\
+	kofola/credits.c\
+	kofola/credits.h\
+	kofola/ddutil.cpp\
+	kofola/ddutil.h\
+	kofola/dxutil.h\
+	kofola/font.c\
+	kofola/font.h\
+	kofola/font3d.c\
+	kofola/font3d.h\
+	kofola/game_init.c\
+	kofola/game_init.h\
+	kofola/game_logic.c\
+	kofola/game_logic.h\
+	kofola/game_main.c\
+	kofola/game_main.h\
+	kofola/grammar.c\
+	kofola/grammar.h\
+	kofola/init.h\
+	kofola/level_environment.h\
+	kofola/load_level.c\
+	kofola/load_level.h\
+	kofola/menu_def.h\
+	kofola/menu_script.c\
+	kofola/menu_script.h\
+	kofola/profiles.c\
+	kofola/profiles.h\
+	kofola/secure.h\
+	kofola/setup.c\
+	kofola/square_cut.c\
+	kofola/square_cut.h\
+	kofola/trigers.c\
+	kofola/trigers.h\
+	kofola/volume.c\
+	kofola/volume.h\
+	kofola/water.c\
+	kofola/water.h\
+	kofola/zconf.h\
+	kofola/zlib.h\
+	komat/3d_all.h\
+	komat/3d_typy.h\
+	komat/3dinterface.c\
+	komat/3dinterface.h\
+	komat/3dmath.c\
+	komat/3dmath.h\
+	komat/3dproject.c\
+	komat/3dproject.h\
+	komat/Berusky3d.c\
+	komat/Berusky3d.h\
+	komat/Berusky3d_animace.c\
+	komat/Berusky3d_animace.h\
+	komat/Berusky3d_castice.c\
+	komat/Berusky3d_castice.h\
+	komat/Berusky3d_castice2.h\
+	komat/Berusky3d_ini.c\
+	komat/Berusky3d_ini.h\
+	komat/Berusky3d_kamery.c\
+	komat/Berusky3d_kamery.h\
+	komat/Berusky3d_kofola2d.c\
+	komat/Berusky3d_kofola2d.h\
+	komat/Berusky3d_kofola_interface.c\
+	komat/Berusky3d_kofola_interface.h\
+	komat/Berusky3d_light.c\
+	komat/Berusky3d_light.h\
+	komat/Berusky3d_load.c\
+	komat/Berusky3d_load.h\
+	komat/Berusky3d_render.c\
+	komat/Berusky3d_render.h\
+	komat/Berusky_universal.h\
+	komat/Bmp.c\
+	komat/Bmp.h\
+	komat/Color.h\
+	komat/Dbgwnd.h\
+	komat/Ddx.c\
+	komat/Ddx.h\
+	komat/Di.c\
+	komat/Di.h\
+	komat/Kdtree.c\
+	komat/Kdtree.h\
+	komat/Keyframe.c\
+	komat/Keyframe.h\
+	komat/Load.c\
+	komat/Load.h\
+	komat/Load_chunks.c\
+	komat/Load_chunks.h\
+	komat/Load_out.c\
+	komat/Load_out.h\
+	komat/Mat3d.c\
+	komat/Mat3d.h\
+	komat/Matrix.c\
+	komat/Matrix.h\
+	komat/NvTriStrip.h\
+	komat/Quat.h\
+	komat/Texture.c\
+	komat/Texture.h\
+	komat/Texture_import.cpp\
+	komat/Texture_import.h\
+	komat/Tga.c\
+	komat/Tga.h\
+	komat/Vektor.h\
+	komat/Wglext.h\
+	komat/Wzakl_typ.h\
+	komat/Zconf.h\
+	komat/Zlib.h\
+	komat/dxtlib.h\
+	komat/gglext.c\
+	komat/gglext.h\
+	komat/glext.h\
+	komat/kfile.c\
+	komat/kfile.h\
+	komat/mmalloc.h\
+	komat/mss.h\
+	komat/obb.c\
+	komat/obb.h\
+	komat/strip.cpp\
+	komat/strip.h\
+	komat/zlib_io.h
 
 berusky2_LDFLAGS = 
 berusky2_LDADD = 
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .cc .lo .o .obj
+.SUFFIXES: .c .cpp .lo .o .obj
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -316,28 +509,1068 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3D_graphic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3D_menus.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3d_math.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3dinterface.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3dmath.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3dproject.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Apak.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Apakio.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Berusky3d.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Berusky3d_animace.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Berusky3d_castice.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Berusky3d_ini.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Berusky3d_kamery.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Berusky3d_kofola2d.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Berusky3d_kofola_interface.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Berusky3d_light.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Berusky3d_load.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Berusky3d_render.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Bind.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Bmp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Camera.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Comics.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Command.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Dda.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Ddx.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Demo.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Di.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Init.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Kdtree.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Keyframe.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Load.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Load_chunks.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Load_out.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Mat3d.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Matrix.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Menu.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Menu2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Texture.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Texture_import.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Tga.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Tools.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/animation.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/animend_functions.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/apakdir.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/apakfind.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/apakstream.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/controls.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/controls3d.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/credits.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ddutil.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/font.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/font3d.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/game_init.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/game_logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/game_main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gglext.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/grammar.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kfile.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/load_level.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/menu_script.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/obb.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/profiles.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/setup.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/square_cut.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strip.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/trigers.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/volume.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/water.Po@am__quote@
 
-.cc.o:
+.c.o:
+@am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(COMPILE) -c $<
+
+.c.obj:
+@am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(COMPILE) -c `$(CYGPATH_W) '$<'`
+
+.c.lo:
+@am__fastdepCC_TRUE@	$(LTCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
+
+3D_graphic.o: kofola/3D_graphic.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT 3D_graphic.o -MD -MP -MF $(DEPDIR)/3D_graphic.Tpo -c -o 3D_graphic.o `test -f 'kofola/3D_graphic.c' || echo '$(srcdir)/'`kofola/3D_graphic.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/3D_graphic.Tpo $(DEPDIR)/3D_graphic.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/3D_graphic.c' object='3D_graphic.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o 3D_graphic.o `test -f 'kofola/3D_graphic.c' || echo '$(srcdir)/'`kofola/3D_graphic.c
+
+3D_graphic.obj: kofola/3D_graphic.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT 3D_graphic.obj -MD -MP -MF $(DEPDIR)/3D_graphic.Tpo -c -o 3D_graphic.obj `if test -f 'kofola/3D_graphic.c'; then $(CYGPATH_W) 'kofola/3D_graphic.c'; else $(CYGPATH_W) '$(srcdir)/kofola/3D_graphic.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/3D_graphic.Tpo $(DEPDIR)/3D_graphic.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/3D_graphic.c' object='3D_graphic.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o 3D_graphic.obj `if test -f 'kofola/3D_graphic.c'; then $(CYGPATH_W) 'kofola/3D_graphic.c'; else $(CYGPATH_W) '$(srcdir)/kofola/3D_graphic.c'; fi`
+
+3D_menus.o: kofola/3D_menus.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT 3D_menus.o -MD -MP -MF $(DEPDIR)/3D_menus.Tpo -c -o 3D_menus.o `test -f 'kofola/3D_menus.c' || echo '$(srcdir)/'`kofola/3D_menus.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/3D_menus.Tpo $(DEPDIR)/3D_menus.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/3D_menus.c' object='3D_menus.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o 3D_menus.o `test -f 'kofola/3D_menus.c' || echo '$(srcdir)/'`kofola/3D_menus.c
+
+3D_menus.obj: kofola/3D_menus.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT 3D_menus.obj -MD -MP -MF $(DEPDIR)/3D_menus.Tpo -c -o 3D_menus.obj `if test -f 'kofola/3D_menus.c'; then $(CYGPATH_W) 'kofola/3D_menus.c'; else $(CYGPATH_W) '$(srcdir)/kofola/3D_menus.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/3D_menus.Tpo $(DEPDIR)/3D_menus.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/3D_menus.c' object='3D_menus.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o 3D_menus.obj `if test -f 'kofola/3D_menus.c'; then $(CYGPATH_W) 'kofola/3D_menus.c'; else $(CYGPATH_W) '$(srcdir)/kofola/3D_menus.c'; fi`
+
+3d_math.o: kofola/3d_math.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT 3d_math.o -MD -MP -MF $(DEPDIR)/3d_math.Tpo -c -o 3d_math.o `test -f 'kofola/3d_math.c' || echo '$(srcdir)/'`kofola/3d_math.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/3d_math.Tpo $(DEPDIR)/3d_math.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/3d_math.c' object='3d_math.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o 3d_math.o `test -f 'kofola/3d_math.c' || echo '$(srcdir)/'`kofola/3d_math.c
+
+3d_math.obj: kofola/3d_math.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT 3d_math.obj -MD -MP -MF $(DEPDIR)/3d_math.Tpo -c -o 3d_math.obj `if test -f 'kofola/3d_math.c'; then $(CYGPATH_W) 'kofola/3d_math.c'; else $(CYGPATH_W) '$(srcdir)/kofola/3d_math.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/3d_math.Tpo $(DEPDIR)/3d_math.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/3d_math.c' object='3d_math.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o 3d_math.obj `if test -f 'kofola/3d_math.c'; then $(CYGPATH_W) 'kofola/3d_math.c'; else $(CYGPATH_W) '$(srcdir)/kofola/3d_math.c'; fi`
+
+Apak.o: kofola/Apak.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Apak.o -MD -MP -MF $(DEPDIR)/Apak.Tpo -c -o Apak.o `test -f 'kofola/Apak.c' || echo '$(srcdir)/'`kofola/Apak.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Apak.Tpo $(DEPDIR)/Apak.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Apak.c' object='Apak.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Apak.o `test -f 'kofola/Apak.c' || echo '$(srcdir)/'`kofola/Apak.c
+
+Apak.obj: kofola/Apak.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Apak.obj -MD -MP -MF $(DEPDIR)/Apak.Tpo -c -o Apak.obj `if test -f 'kofola/Apak.c'; then $(CYGPATH_W) 'kofola/Apak.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Apak.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Apak.Tpo $(DEPDIR)/Apak.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Apak.c' object='Apak.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Apak.obj `if test -f 'kofola/Apak.c'; then $(CYGPATH_W) 'kofola/Apak.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Apak.c'; fi`
+
+Apakio.o: kofola/Apakio.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Apakio.o -MD -MP -MF $(DEPDIR)/Apakio.Tpo -c -o Apakio.o `test -f 'kofola/Apakio.c' || echo '$(srcdir)/'`kofola/Apakio.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Apakio.Tpo $(DEPDIR)/Apakio.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Apakio.c' object='Apakio.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Apakio.o `test -f 'kofola/Apakio.c' || echo '$(srcdir)/'`kofola/Apakio.c
+
+Apakio.obj: kofola/Apakio.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Apakio.obj -MD -MP -MF $(DEPDIR)/Apakio.Tpo -c -o Apakio.obj `if test -f 'kofola/Apakio.c'; then $(CYGPATH_W) 'kofola/Apakio.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Apakio.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Apakio.Tpo $(DEPDIR)/Apakio.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Apakio.c' object='Apakio.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Apakio.obj `if test -f 'kofola/Apakio.c'; then $(CYGPATH_W) 'kofola/Apakio.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Apakio.c'; fi`
+
+Bind.o: kofola/Bind.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Bind.o -MD -MP -MF $(DEPDIR)/Bind.Tpo -c -o Bind.o `test -f 'kofola/Bind.c' || echo '$(srcdir)/'`kofola/Bind.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Bind.Tpo $(DEPDIR)/Bind.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Bind.c' object='Bind.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Bind.o `test -f 'kofola/Bind.c' || echo '$(srcdir)/'`kofola/Bind.c
+
+Bind.obj: kofola/Bind.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Bind.obj -MD -MP -MF $(DEPDIR)/Bind.Tpo -c -o Bind.obj `if test -f 'kofola/Bind.c'; then $(CYGPATH_W) 'kofola/Bind.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Bind.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Bind.Tpo $(DEPDIR)/Bind.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Bind.c' object='Bind.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Bind.obj `if test -f 'kofola/Bind.c'; then $(CYGPATH_W) 'kofola/Bind.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Bind.c'; fi`
+
+Camera.o: kofola/Camera.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Camera.o -MD -MP -MF $(DEPDIR)/Camera.Tpo -c -o Camera.o `test -f 'kofola/Camera.c' || echo '$(srcdir)/'`kofola/Camera.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Camera.Tpo $(DEPDIR)/Camera.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Camera.c' object='Camera.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Camera.o `test -f 'kofola/Camera.c' || echo '$(srcdir)/'`kofola/Camera.c
+
+Camera.obj: kofola/Camera.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Camera.obj -MD -MP -MF $(DEPDIR)/Camera.Tpo -c -o Camera.obj `if test -f 'kofola/Camera.c'; then $(CYGPATH_W) 'kofola/Camera.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Camera.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Camera.Tpo $(DEPDIR)/Camera.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Camera.c' object='Camera.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Camera.obj `if test -f 'kofola/Camera.c'; then $(CYGPATH_W) 'kofola/Camera.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Camera.c'; fi`
+
+Comics.o: kofola/Comics.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Comics.o -MD -MP -MF $(DEPDIR)/Comics.Tpo -c -o Comics.o `test -f 'kofola/Comics.c' || echo '$(srcdir)/'`kofola/Comics.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Comics.Tpo $(DEPDIR)/Comics.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Comics.c' object='Comics.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Comics.o `test -f 'kofola/Comics.c' || echo '$(srcdir)/'`kofola/Comics.c
+
+Comics.obj: kofola/Comics.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Comics.obj -MD -MP -MF $(DEPDIR)/Comics.Tpo -c -o Comics.obj `if test -f 'kofola/Comics.c'; then $(CYGPATH_W) 'kofola/Comics.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Comics.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Comics.Tpo $(DEPDIR)/Comics.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Comics.c' object='Comics.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Comics.obj `if test -f 'kofola/Comics.c'; then $(CYGPATH_W) 'kofola/Comics.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Comics.c'; fi`
+
+Command.o: kofola/Command.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Command.o -MD -MP -MF $(DEPDIR)/Command.Tpo -c -o Command.o `test -f 'kofola/Command.c' || echo '$(srcdir)/'`kofola/Command.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Command.Tpo $(DEPDIR)/Command.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Command.c' object='Command.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Command.o `test -f 'kofola/Command.c' || echo '$(srcdir)/'`kofola/Command.c
+
+Command.obj: kofola/Command.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Command.obj -MD -MP -MF $(DEPDIR)/Command.Tpo -c -o Command.obj `if test -f 'kofola/Command.c'; then $(CYGPATH_W) 'kofola/Command.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Command.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Command.Tpo $(DEPDIR)/Command.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Command.c' object='Command.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Command.obj `if test -f 'kofola/Command.c'; then $(CYGPATH_W) 'kofola/Command.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Command.c'; fi`
+
+Dda.o: kofola/Dda.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Dda.o -MD -MP -MF $(DEPDIR)/Dda.Tpo -c -o Dda.o `test -f 'kofola/Dda.c' || echo '$(srcdir)/'`kofola/Dda.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Dda.Tpo $(DEPDIR)/Dda.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Dda.c' object='Dda.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Dda.o `test -f 'kofola/Dda.c' || echo '$(srcdir)/'`kofola/Dda.c
+
+Dda.obj: kofola/Dda.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Dda.obj -MD -MP -MF $(DEPDIR)/Dda.Tpo -c -o Dda.obj `if test -f 'kofola/Dda.c'; then $(CYGPATH_W) 'kofola/Dda.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Dda.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Dda.Tpo $(DEPDIR)/Dda.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Dda.c' object='Dda.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Dda.obj `if test -f 'kofola/Dda.c'; then $(CYGPATH_W) 'kofola/Dda.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Dda.c'; fi`
+
+Demo.o: kofola/Demo.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Demo.o -MD -MP -MF $(DEPDIR)/Demo.Tpo -c -o Demo.o `test -f 'kofola/Demo.c' || echo '$(srcdir)/'`kofola/Demo.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Demo.Tpo $(DEPDIR)/Demo.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Demo.c' object='Demo.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Demo.o `test -f 'kofola/Demo.c' || echo '$(srcdir)/'`kofola/Demo.c
+
+Demo.obj: kofola/Demo.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Demo.obj -MD -MP -MF $(DEPDIR)/Demo.Tpo -c -o Demo.obj `if test -f 'kofola/Demo.c'; then $(CYGPATH_W) 'kofola/Demo.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Demo.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Demo.Tpo $(DEPDIR)/Demo.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Demo.c' object='Demo.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Demo.obj `if test -f 'kofola/Demo.c'; then $(CYGPATH_W) 'kofola/Demo.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Demo.c'; fi`
+
+Init.o: kofola/Init.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Init.o -MD -MP -MF $(DEPDIR)/Init.Tpo -c -o Init.o `test -f 'kofola/Init.c' || echo '$(srcdir)/'`kofola/Init.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Init.Tpo $(DEPDIR)/Init.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Init.c' object='Init.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Init.o `test -f 'kofola/Init.c' || echo '$(srcdir)/'`kofola/Init.c
+
+Init.obj: kofola/Init.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Init.obj -MD -MP -MF $(DEPDIR)/Init.Tpo -c -o Init.obj `if test -f 'kofola/Init.c'; then $(CYGPATH_W) 'kofola/Init.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Init.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Init.Tpo $(DEPDIR)/Init.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Init.c' object='Init.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Init.obj `if test -f 'kofola/Init.c'; then $(CYGPATH_W) 'kofola/Init.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Init.c'; fi`
+
+Menu.o: kofola/Menu.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Menu.o -MD -MP -MF $(DEPDIR)/Menu.Tpo -c -o Menu.o `test -f 'kofola/Menu.c' || echo '$(srcdir)/'`kofola/Menu.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Menu.Tpo $(DEPDIR)/Menu.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Menu.c' object='Menu.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Menu.o `test -f 'kofola/Menu.c' || echo '$(srcdir)/'`kofola/Menu.c
+
+Menu.obj: kofola/Menu.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Menu.obj -MD -MP -MF $(DEPDIR)/Menu.Tpo -c -o Menu.obj `if test -f 'kofola/Menu.c'; then $(CYGPATH_W) 'kofola/Menu.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Menu.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Menu.Tpo $(DEPDIR)/Menu.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Menu.c' object='Menu.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Menu.obj `if test -f 'kofola/Menu.c'; then $(CYGPATH_W) 'kofola/Menu.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Menu.c'; fi`
+
+Menu2.o: kofola/Menu2.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Menu2.o -MD -MP -MF $(DEPDIR)/Menu2.Tpo -c -o Menu2.o `test -f 'kofola/Menu2.c' || echo '$(srcdir)/'`kofola/Menu2.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Menu2.Tpo $(DEPDIR)/Menu2.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Menu2.c' object='Menu2.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Menu2.o `test -f 'kofola/Menu2.c' || echo '$(srcdir)/'`kofola/Menu2.c
+
+Menu2.obj: kofola/Menu2.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Menu2.obj -MD -MP -MF $(DEPDIR)/Menu2.Tpo -c -o Menu2.obj `if test -f 'kofola/Menu2.c'; then $(CYGPATH_W) 'kofola/Menu2.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Menu2.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Menu2.Tpo $(DEPDIR)/Menu2.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Menu2.c' object='Menu2.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Menu2.obj `if test -f 'kofola/Menu2.c'; then $(CYGPATH_W) 'kofola/Menu2.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Menu2.c'; fi`
+
+Tools.o: kofola/Tools.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Tools.o -MD -MP -MF $(DEPDIR)/Tools.Tpo -c -o Tools.o `test -f 'kofola/Tools.c' || echo '$(srcdir)/'`kofola/Tools.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Tools.Tpo $(DEPDIR)/Tools.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Tools.c' object='Tools.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Tools.o `test -f 'kofola/Tools.c' || echo '$(srcdir)/'`kofola/Tools.c
+
+Tools.obj: kofola/Tools.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Tools.obj -MD -MP -MF $(DEPDIR)/Tools.Tpo -c -o Tools.obj `if test -f 'kofola/Tools.c'; then $(CYGPATH_W) 'kofola/Tools.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Tools.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Tools.Tpo $(DEPDIR)/Tools.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/Tools.c' object='Tools.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Tools.obj `if test -f 'kofola/Tools.c'; then $(CYGPATH_W) 'kofola/Tools.c'; else $(CYGPATH_W) '$(srcdir)/kofola/Tools.c'; fi`
+
+animation.o: kofola/animation.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT animation.o -MD -MP -MF $(DEPDIR)/animation.Tpo -c -o animation.o `test -f 'kofola/animation.c' || echo '$(srcdir)/'`kofola/animation.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/animation.Tpo $(DEPDIR)/animation.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/animation.c' object='animation.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o animation.o `test -f 'kofola/animation.c' || echo '$(srcdir)/'`kofola/animation.c
+
+animation.obj: kofola/animation.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT animation.obj -MD -MP -MF $(DEPDIR)/animation.Tpo -c -o animation.obj `if test -f 'kofola/animation.c'; then $(CYGPATH_W) 'kofola/animation.c'; else $(CYGPATH_W) '$(srcdir)/kofola/animation.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/animation.Tpo $(DEPDIR)/animation.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/animation.c' object='animation.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o animation.obj `if test -f 'kofola/animation.c'; then $(CYGPATH_W) 'kofola/animation.c'; else $(CYGPATH_W) '$(srcdir)/kofola/animation.c'; fi`
+
+animend_functions.o: kofola/animend_functions.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT animend_functions.o -MD -MP -MF $(DEPDIR)/animend_functions.Tpo -c -o animend_functions.o `test -f 'kofola/animend_functions.c' || echo '$(srcdir)/'`kofola/animend_functions.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/animend_functions.Tpo $(DEPDIR)/animend_functions.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/animend_functions.c' object='animend_functions.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o animend_functions.o `test -f 'kofola/animend_functions.c' || echo '$(srcdir)/'`kofola/animend_functions.c
+
+animend_functions.obj: kofola/animend_functions.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT animend_functions.obj -MD -MP -MF $(DEPDIR)/animend_functions.Tpo -c -o animend_functions.obj `if test -f 'kofola/animend_functions.c'; then $(CYGPATH_W) 'kofola/animend_functions.c'; else $(CYGPATH_W) '$(srcdir)/kofola/animend_functions.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/animend_functions.Tpo $(DEPDIR)/animend_functions.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/animend_functions.c' object='animend_functions.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o animend_functions.obj `if test -f 'kofola/animend_functions.c'; then $(CYGPATH_W) 'kofola/animend_functions.c'; else $(CYGPATH_W) '$(srcdir)/kofola/animend_functions.c'; fi`
+
+apakdir.o: kofola/apakdir.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT apakdir.o -MD -MP -MF $(DEPDIR)/apakdir.Tpo -c -o apakdir.o `test -f 'kofola/apakdir.c' || echo '$(srcdir)/'`kofola/apakdir.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/apakdir.Tpo $(DEPDIR)/apakdir.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/apakdir.c' object='apakdir.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o apakdir.o `test -f 'kofola/apakdir.c' || echo '$(srcdir)/'`kofola/apakdir.c
+
+apakdir.obj: kofola/apakdir.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT apakdir.obj -MD -MP -MF $(DEPDIR)/apakdir.Tpo -c -o apakdir.obj `if test -f 'kofola/apakdir.c'; then $(CYGPATH_W) 'kofola/apakdir.c'; else $(CYGPATH_W) '$(srcdir)/kofola/apakdir.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/apakdir.Tpo $(DEPDIR)/apakdir.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/apakdir.c' object='apakdir.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o apakdir.obj `if test -f 'kofola/apakdir.c'; then $(CYGPATH_W) 'kofola/apakdir.c'; else $(CYGPATH_W) '$(srcdir)/kofola/apakdir.c'; fi`
+
+apakfind.o: kofola/apakfind.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT apakfind.o -MD -MP -MF $(DEPDIR)/apakfind.Tpo -c -o apakfind.o `test -f 'kofola/apakfind.c' || echo '$(srcdir)/'`kofola/apakfind.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/apakfind.Tpo $(DEPDIR)/apakfind.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/apakfind.c' object='apakfind.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o apakfind.o `test -f 'kofola/apakfind.c' || echo '$(srcdir)/'`kofola/apakfind.c
+
+apakfind.obj: kofola/apakfind.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT apakfind.obj -MD -MP -MF $(DEPDIR)/apakfind.Tpo -c -o apakfind.obj `if test -f 'kofola/apakfind.c'; then $(CYGPATH_W) 'kofola/apakfind.c'; else $(CYGPATH_W) '$(srcdir)/kofola/apakfind.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/apakfind.Tpo $(DEPDIR)/apakfind.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/apakfind.c' object='apakfind.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o apakfind.obj `if test -f 'kofola/apakfind.c'; then $(CYGPATH_W) 'kofola/apakfind.c'; else $(CYGPATH_W) '$(srcdir)/kofola/apakfind.c'; fi`
+
+apakstream.o: kofola/apakstream.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT apakstream.o -MD -MP -MF $(DEPDIR)/apakstream.Tpo -c -o apakstream.o `test -f 'kofola/apakstream.c' || echo '$(srcdir)/'`kofola/apakstream.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/apakstream.Tpo $(DEPDIR)/apakstream.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/apakstream.c' object='apakstream.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o apakstream.o `test -f 'kofola/apakstream.c' || echo '$(srcdir)/'`kofola/apakstream.c
+
+apakstream.obj: kofola/apakstream.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT apakstream.obj -MD -MP -MF $(DEPDIR)/apakstream.Tpo -c -o apakstream.obj `if test -f 'kofola/apakstream.c'; then $(CYGPATH_W) 'kofola/apakstream.c'; else $(CYGPATH_W) '$(srcdir)/kofola/apakstream.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/apakstream.Tpo $(DEPDIR)/apakstream.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/apakstream.c' object='apakstream.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o apakstream.obj `if test -f 'kofola/apakstream.c'; then $(CYGPATH_W) 'kofola/apakstream.c'; else $(CYGPATH_W) '$(srcdir)/kofola/apakstream.c'; fi`
+
+controls.o: kofola/controls.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT controls.o -MD -MP -MF $(DEPDIR)/controls.Tpo -c -o controls.o `test -f 'kofola/controls.c' || echo '$(srcdir)/'`kofola/controls.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/controls.Tpo $(DEPDIR)/controls.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/controls.c' object='controls.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o controls.o `test -f 'kofola/controls.c' || echo '$(srcdir)/'`kofola/controls.c
+
+controls.obj: kofola/controls.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT controls.obj -MD -MP -MF $(DEPDIR)/controls.Tpo -c -o controls.obj `if test -f 'kofola/controls.c'; then $(CYGPATH_W) 'kofola/controls.c'; else $(CYGPATH_W) '$(srcdir)/kofola/controls.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/controls.Tpo $(DEPDIR)/controls.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/controls.c' object='controls.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o controls.obj `if test -f 'kofola/controls.c'; then $(CYGPATH_W) 'kofola/controls.c'; else $(CYGPATH_W) '$(srcdir)/kofola/controls.c'; fi`
+
+controls3d.o: kofola/controls3d.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT controls3d.o -MD -MP -MF $(DEPDIR)/controls3d.Tpo -c -o controls3d.o `test -f 'kofola/controls3d.c' || echo '$(srcdir)/'`kofola/controls3d.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/controls3d.Tpo $(DEPDIR)/controls3d.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/controls3d.c' object='controls3d.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o controls3d.o `test -f 'kofola/controls3d.c' || echo '$(srcdir)/'`kofola/controls3d.c
+
+controls3d.obj: kofola/controls3d.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT controls3d.obj -MD -MP -MF $(DEPDIR)/controls3d.Tpo -c -o controls3d.obj `if test -f 'kofola/controls3d.c'; then $(CYGPATH_W) 'kofola/controls3d.c'; else $(CYGPATH_W) '$(srcdir)/kofola/controls3d.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/controls3d.Tpo $(DEPDIR)/controls3d.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/controls3d.c' object='controls3d.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o controls3d.obj `if test -f 'kofola/controls3d.c'; then $(CYGPATH_W) 'kofola/controls3d.c'; else $(CYGPATH_W) '$(srcdir)/kofola/controls3d.c'; fi`
+
+credits.o: kofola/credits.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT credits.o -MD -MP -MF $(DEPDIR)/credits.Tpo -c -o credits.o `test -f 'kofola/credits.c' || echo '$(srcdir)/'`kofola/credits.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/credits.Tpo $(DEPDIR)/credits.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/credits.c' object='credits.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o credits.o `test -f 'kofola/credits.c' || echo '$(srcdir)/'`kofola/credits.c
+
+credits.obj: kofola/credits.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT credits.obj -MD -MP -MF $(DEPDIR)/credits.Tpo -c -o credits.obj `if test -f 'kofola/credits.c'; then $(CYGPATH_W) 'kofola/credits.c'; else $(CYGPATH_W) '$(srcdir)/kofola/credits.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/credits.Tpo $(DEPDIR)/credits.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/credits.c' object='credits.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o credits.obj `if test -f 'kofola/credits.c'; then $(CYGPATH_W) 'kofola/credits.c'; else $(CYGPATH_W) '$(srcdir)/kofola/credits.c'; fi`
+
+font.o: kofola/font.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT font.o -MD -MP -MF $(DEPDIR)/font.Tpo -c -o font.o `test -f 'kofola/font.c' || echo '$(srcdir)/'`kofola/font.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/font.Tpo $(DEPDIR)/font.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/font.c' object='font.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o font.o `test -f 'kofola/font.c' || echo '$(srcdir)/'`kofola/font.c
+
+font.obj: kofola/font.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT font.obj -MD -MP -MF $(DEPDIR)/font.Tpo -c -o font.obj `if test -f 'kofola/font.c'; then $(CYGPATH_W) 'kofola/font.c'; else $(CYGPATH_W) '$(srcdir)/kofola/font.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/font.Tpo $(DEPDIR)/font.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/font.c' object='font.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o font.obj `if test -f 'kofola/font.c'; then $(CYGPATH_W) 'kofola/font.c'; else $(CYGPATH_W) '$(srcdir)/kofola/font.c'; fi`
+
+font3d.o: kofola/font3d.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT font3d.o -MD -MP -MF $(DEPDIR)/font3d.Tpo -c -o font3d.o `test -f 'kofola/font3d.c' || echo '$(srcdir)/'`kofola/font3d.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/font3d.Tpo $(DEPDIR)/font3d.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/font3d.c' object='font3d.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o font3d.o `test -f 'kofola/font3d.c' || echo '$(srcdir)/'`kofola/font3d.c
+
+font3d.obj: kofola/font3d.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT font3d.obj -MD -MP -MF $(DEPDIR)/font3d.Tpo -c -o font3d.obj `if test -f 'kofola/font3d.c'; then $(CYGPATH_W) 'kofola/font3d.c'; else $(CYGPATH_W) '$(srcdir)/kofola/font3d.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/font3d.Tpo $(DEPDIR)/font3d.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/font3d.c' object='font3d.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o font3d.obj `if test -f 'kofola/font3d.c'; then $(CYGPATH_W) 'kofola/font3d.c'; else $(CYGPATH_W) '$(srcdir)/kofola/font3d.c'; fi`
+
+game_init.o: kofola/game_init.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT game_init.o -MD -MP -MF $(DEPDIR)/game_init.Tpo -c -o game_init.o `test -f 'kofola/game_init.c' || echo '$(srcdir)/'`kofola/game_init.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/game_init.Tpo $(DEPDIR)/game_init.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/game_init.c' object='game_init.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o game_init.o `test -f 'kofola/game_init.c' || echo '$(srcdir)/'`kofola/game_init.c
+
+game_init.obj: kofola/game_init.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT game_init.obj -MD -MP -MF $(DEPDIR)/game_init.Tpo -c -o game_init.obj `if test -f 'kofola/game_init.c'; then $(CYGPATH_W) 'kofola/game_init.c'; else $(CYGPATH_W) '$(srcdir)/kofola/game_init.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/game_init.Tpo $(DEPDIR)/game_init.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/game_init.c' object='game_init.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o game_init.obj `if test -f 'kofola/game_init.c'; then $(CYGPATH_W) 'kofola/game_init.c'; else $(CYGPATH_W) '$(srcdir)/kofola/game_init.c'; fi`
+
+game_logic.o: kofola/game_logic.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT game_logic.o -MD -MP -MF $(DEPDIR)/game_logic.Tpo -c -o game_logic.o `test -f 'kofola/game_logic.c' || echo '$(srcdir)/'`kofola/game_logic.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/game_logic.Tpo $(DEPDIR)/game_logic.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/game_logic.c' object='game_logic.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o game_logic.o `test -f 'kofola/game_logic.c' || echo '$(srcdir)/'`kofola/game_logic.c
+
+game_logic.obj: kofola/game_logic.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT game_logic.obj -MD -MP -MF $(DEPDIR)/game_logic.Tpo -c -o game_logic.obj `if test -f 'kofola/game_logic.c'; then $(CYGPATH_W) 'kofola/game_logic.c'; else $(CYGPATH_W) '$(srcdir)/kofola/game_logic.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/game_logic.Tpo $(DEPDIR)/game_logic.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/game_logic.c' object='game_logic.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o game_logic.obj `if test -f 'kofola/game_logic.c'; then $(CYGPATH_W) 'kofola/game_logic.c'; else $(CYGPATH_W) '$(srcdir)/kofola/game_logic.c'; fi`
+
+game_main.o: kofola/game_main.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT game_main.o -MD -MP -MF $(DEPDIR)/game_main.Tpo -c -o game_main.o `test -f 'kofola/game_main.c' || echo '$(srcdir)/'`kofola/game_main.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/game_main.Tpo $(DEPDIR)/game_main.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/game_main.c' object='game_main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o game_main.o `test -f 'kofola/game_main.c' || echo '$(srcdir)/'`kofola/game_main.c
+
+game_main.obj: kofola/game_main.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT game_main.obj -MD -MP -MF $(DEPDIR)/game_main.Tpo -c -o game_main.obj `if test -f 'kofola/game_main.c'; then $(CYGPATH_W) 'kofola/game_main.c'; else $(CYGPATH_W) '$(srcdir)/kofola/game_main.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/game_main.Tpo $(DEPDIR)/game_main.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/game_main.c' object='game_main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o game_main.obj `if test -f 'kofola/game_main.c'; then $(CYGPATH_W) 'kofola/game_main.c'; else $(CYGPATH_W) '$(srcdir)/kofola/game_main.c'; fi`
+
+grammar.o: kofola/grammar.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT grammar.o -MD -MP -MF $(DEPDIR)/grammar.Tpo -c -o grammar.o `test -f 'kofola/grammar.c' || echo '$(srcdir)/'`kofola/grammar.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/grammar.Tpo $(DEPDIR)/grammar.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/grammar.c' object='grammar.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o grammar.o `test -f 'kofola/grammar.c' || echo '$(srcdir)/'`kofola/grammar.c
+
+grammar.obj: kofola/grammar.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT grammar.obj -MD -MP -MF $(DEPDIR)/grammar.Tpo -c -o grammar.obj `if test -f 'kofola/grammar.c'; then $(CYGPATH_W) 'kofola/grammar.c'; else $(CYGPATH_W) '$(srcdir)/kofola/grammar.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/grammar.Tpo $(DEPDIR)/grammar.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/grammar.c' object='grammar.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o grammar.obj `if test -f 'kofola/grammar.c'; then $(CYGPATH_W) 'kofola/grammar.c'; else $(CYGPATH_W) '$(srcdir)/kofola/grammar.c'; fi`
+
+load_level.o: kofola/load_level.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT load_level.o -MD -MP -MF $(DEPDIR)/load_level.Tpo -c -o load_level.o `test -f 'kofola/load_level.c' || echo '$(srcdir)/'`kofola/load_level.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/load_level.Tpo $(DEPDIR)/load_level.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/load_level.c' object='load_level.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o load_level.o `test -f 'kofola/load_level.c' || echo '$(srcdir)/'`kofola/load_level.c
+
+load_level.obj: kofola/load_level.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT load_level.obj -MD -MP -MF $(DEPDIR)/load_level.Tpo -c -o load_level.obj `if test -f 'kofola/load_level.c'; then $(CYGPATH_W) 'kofola/load_level.c'; else $(CYGPATH_W) '$(srcdir)/kofola/load_level.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/load_level.Tpo $(DEPDIR)/load_level.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/load_level.c' object='load_level.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o load_level.obj `if test -f 'kofola/load_level.c'; then $(CYGPATH_W) 'kofola/load_level.c'; else $(CYGPATH_W) '$(srcdir)/kofola/load_level.c'; fi`
+
+menu_script.o: kofola/menu_script.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT menu_script.o -MD -MP -MF $(DEPDIR)/menu_script.Tpo -c -o menu_script.o `test -f 'kofola/menu_script.c' || echo '$(srcdir)/'`kofola/menu_script.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/menu_script.Tpo $(DEPDIR)/menu_script.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/menu_script.c' object='menu_script.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o menu_script.o `test -f 'kofola/menu_script.c' || echo '$(srcdir)/'`kofola/menu_script.c
+
+menu_script.obj: kofola/menu_script.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT menu_script.obj -MD -MP -MF $(DEPDIR)/menu_script.Tpo -c -o menu_script.obj `if test -f 'kofola/menu_script.c'; then $(CYGPATH_W) 'kofola/menu_script.c'; else $(CYGPATH_W) '$(srcdir)/kofola/menu_script.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/menu_script.Tpo $(DEPDIR)/menu_script.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/menu_script.c' object='menu_script.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o menu_script.obj `if test -f 'kofola/menu_script.c'; then $(CYGPATH_W) 'kofola/menu_script.c'; else $(CYGPATH_W) '$(srcdir)/kofola/menu_script.c'; fi`
+
+profiles.o: kofola/profiles.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT profiles.o -MD -MP -MF $(DEPDIR)/profiles.Tpo -c -o profiles.o `test -f 'kofola/profiles.c' || echo '$(srcdir)/'`kofola/profiles.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/profiles.Tpo $(DEPDIR)/profiles.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/profiles.c' object='profiles.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o profiles.o `test -f 'kofola/profiles.c' || echo '$(srcdir)/'`kofola/profiles.c
+
+profiles.obj: kofola/profiles.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT profiles.obj -MD -MP -MF $(DEPDIR)/profiles.Tpo -c -o profiles.obj `if test -f 'kofola/profiles.c'; then $(CYGPATH_W) 'kofola/profiles.c'; else $(CYGPATH_W) '$(srcdir)/kofola/profiles.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/profiles.Tpo $(DEPDIR)/profiles.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/profiles.c' object='profiles.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o profiles.obj `if test -f 'kofola/profiles.c'; then $(CYGPATH_W) 'kofola/profiles.c'; else $(CYGPATH_W) '$(srcdir)/kofola/profiles.c'; fi`
+
+setup.o: kofola/setup.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT setup.o -MD -MP -MF $(DEPDIR)/setup.Tpo -c -o setup.o `test -f 'kofola/setup.c' || echo '$(srcdir)/'`kofola/setup.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/setup.Tpo $(DEPDIR)/setup.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/setup.c' object='setup.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o setup.o `test -f 'kofola/setup.c' || echo '$(srcdir)/'`kofola/setup.c
+
+setup.obj: kofola/setup.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT setup.obj -MD -MP -MF $(DEPDIR)/setup.Tpo -c -o setup.obj `if test -f 'kofola/setup.c'; then $(CYGPATH_W) 'kofola/setup.c'; else $(CYGPATH_W) '$(srcdir)/kofola/setup.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/setup.Tpo $(DEPDIR)/setup.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/setup.c' object='setup.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o setup.obj `if test -f 'kofola/setup.c'; then $(CYGPATH_W) 'kofola/setup.c'; else $(CYGPATH_W) '$(srcdir)/kofola/setup.c'; fi`
+
+square_cut.o: kofola/square_cut.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT square_cut.o -MD -MP -MF $(DEPDIR)/square_cut.Tpo -c -o square_cut.o `test -f 'kofola/square_cut.c' || echo '$(srcdir)/'`kofola/square_cut.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/square_cut.Tpo $(DEPDIR)/square_cut.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/square_cut.c' object='square_cut.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o square_cut.o `test -f 'kofola/square_cut.c' || echo '$(srcdir)/'`kofola/square_cut.c
+
+square_cut.obj: kofola/square_cut.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT square_cut.obj -MD -MP -MF $(DEPDIR)/square_cut.Tpo -c -o square_cut.obj `if test -f 'kofola/square_cut.c'; then $(CYGPATH_W) 'kofola/square_cut.c'; else $(CYGPATH_W) '$(srcdir)/kofola/square_cut.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/square_cut.Tpo $(DEPDIR)/square_cut.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/square_cut.c' object='square_cut.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o square_cut.obj `if test -f 'kofola/square_cut.c'; then $(CYGPATH_W) 'kofola/square_cut.c'; else $(CYGPATH_W) '$(srcdir)/kofola/square_cut.c'; fi`
+
+trigers.o: kofola/trigers.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT trigers.o -MD -MP -MF $(DEPDIR)/trigers.Tpo -c -o trigers.o `test -f 'kofola/trigers.c' || echo '$(srcdir)/'`kofola/trigers.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/trigers.Tpo $(DEPDIR)/trigers.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/trigers.c' object='trigers.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o trigers.o `test -f 'kofola/trigers.c' || echo '$(srcdir)/'`kofola/trigers.c
+
+trigers.obj: kofola/trigers.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT trigers.obj -MD -MP -MF $(DEPDIR)/trigers.Tpo -c -o trigers.obj `if test -f 'kofola/trigers.c'; then $(CYGPATH_W) 'kofola/trigers.c'; else $(CYGPATH_W) '$(srcdir)/kofola/trigers.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/trigers.Tpo $(DEPDIR)/trigers.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/trigers.c' object='trigers.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o trigers.obj `if test -f 'kofola/trigers.c'; then $(CYGPATH_W) 'kofola/trigers.c'; else $(CYGPATH_W) '$(srcdir)/kofola/trigers.c'; fi`
+
+volume.o: kofola/volume.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT volume.o -MD -MP -MF $(DEPDIR)/volume.Tpo -c -o volume.o `test -f 'kofola/volume.c' || echo '$(srcdir)/'`kofola/volume.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/volume.Tpo $(DEPDIR)/volume.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/volume.c' object='volume.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o volume.o `test -f 'kofola/volume.c' || echo '$(srcdir)/'`kofola/volume.c
+
+volume.obj: kofola/volume.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT volume.obj -MD -MP -MF $(DEPDIR)/volume.Tpo -c -o volume.obj `if test -f 'kofola/volume.c'; then $(CYGPATH_W) 'kofola/volume.c'; else $(CYGPATH_W) '$(srcdir)/kofola/volume.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/volume.Tpo $(DEPDIR)/volume.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/volume.c' object='volume.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o volume.obj `if test -f 'kofola/volume.c'; then $(CYGPATH_W) 'kofola/volume.c'; else $(CYGPATH_W) '$(srcdir)/kofola/volume.c'; fi`
+
+water.o: kofola/water.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT water.o -MD -MP -MF $(DEPDIR)/water.Tpo -c -o water.o `test -f 'kofola/water.c' || echo '$(srcdir)/'`kofola/water.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/water.Tpo $(DEPDIR)/water.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/water.c' object='water.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o water.o `test -f 'kofola/water.c' || echo '$(srcdir)/'`kofola/water.c
+
+water.obj: kofola/water.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT water.obj -MD -MP -MF $(DEPDIR)/water.Tpo -c -o water.obj `if test -f 'kofola/water.c'; then $(CYGPATH_W) 'kofola/water.c'; else $(CYGPATH_W) '$(srcdir)/kofola/water.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/water.Tpo $(DEPDIR)/water.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='kofola/water.c' object='water.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o water.obj `if test -f 'kofola/water.c'; then $(CYGPATH_W) 'kofola/water.c'; else $(CYGPATH_W) '$(srcdir)/kofola/water.c'; fi`
+
+3dinterface.o: komat/3dinterface.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT 3dinterface.o -MD -MP -MF $(DEPDIR)/3dinterface.Tpo -c -o 3dinterface.o `test -f 'komat/3dinterface.c' || echo '$(srcdir)/'`komat/3dinterface.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/3dinterface.Tpo $(DEPDIR)/3dinterface.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/3dinterface.c' object='3dinterface.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o 3dinterface.o `test -f 'komat/3dinterface.c' || echo '$(srcdir)/'`komat/3dinterface.c
+
+3dinterface.obj: komat/3dinterface.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT 3dinterface.obj -MD -MP -MF $(DEPDIR)/3dinterface.Tpo -c -o 3dinterface.obj `if test -f 'komat/3dinterface.c'; then $(CYGPATH_W) 'komat/3dinterface.c'; else $(CYGPATH_W) '$(srcdir)/komat/3dinterface.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/3dinterface.Tpo $(DEPDIR)/3dinterface.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/3dinterface.c' object='3dinterface.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o 3dinterface.obj `if test -f 'komat/3dinterface.c'; then $(CYGPATH_W) 'komat/3dinterface.c'; else $(CYGPATH_W) '$(srcdir)/komat/3dinterface.c'; fi`
+
+3dmath.o: komat/3dmath.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT 3dmath.o -MD -MP -MF $(DEPDIR)/3dmath.Tpo -c -o 3dmath.o `test -f 'komat/3dmath.c' || echo '$(srcdir)/'`komat/3dmath.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/3dmath.Tpo $(DEPDIR)/3dmath.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/3dmath.c' object='3dmath.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o 3dmath.o `test -f 'komat/3dmath.c' || echo '$(srcdir)/'`komat/3dmath.c
+
+3dmath.obj: komat/3dmath.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT 3dmath.obj -MD -MP -MF $(DEPDIR)/3dmath.Tpo -c -o 3dmath.obj `if test -f 'komat/3dmath.c'; then $(CYGPATH_W) 'komat/3dmath.c'; else $(CYGPATH_W) '$(srcdir)/komat/3dmath.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/3dmath.Tpo $(DEPDIR)/3dmath.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/3dmath.c' object='3dmath.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o 3dmath.obj `if test -f 'komat/3dmath.c'; then $(CYGPATH_W) 'komat/3dmath.c'; else $(CYGPATH_W) '$(srcdir)/komat/3dmath.c'; fi`
+
+3dproject.o: komat/3dproject.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT 3dproject.o -MD -MP -MF $(DEPDIR)/3dproject.Tpo -c -o 3dproject.o `test -f 'komat/3dproject.c' || echo '$(srcdir)/'`komat/3dproject.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/3dproject.Tpo $(DEPDIR)/3dproject.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/3dproject.c' object='3dproject.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o 3dproject.o `test -f 'komat/3dproject.c' || echo '$(srcdir)/'`komat/3dproject.c
+
+3dproject.obj: komat/3dproject.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT 3dproject.obj -MD -MP -MF $(DEPDIR)/3dproject.Tpo -c -o 3dproject.obj `if test -f 'komat/3dproject.c'; then $(CYGPATH_W) 'komat/3dproject.c'; else $(CYGPATH_W) '$(srcdir)/komat/3dproject.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/3dproject.Tpo $(DEPDIR)/3dproject.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/3dproject.c' object='3dproject.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o 3dproject.obj `if test -f 'komat/3dproject.c'; then $(CYGPATH_W) 'komat/3dproject.c'; else $(CYGPATH_W) '$(srcdir)/komat/3dproject.c'; fi`
+
+Berusky3d.o: komat/Berusky3d.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Berusky3d.o -MD -MP -MF $(DEPDIR)/Berusky3d.Tpo -c -o Berusky3d.o `test -f 'komat/Berusky3d.c' || echo '$(srcdir)/'`komat/Berusky3d.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d.Tpo $(DEPDIR)/Berusky3d.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Berusky3d.c' object='Berusky3d.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Berusky3d.o `test -f 'komat/Berusky3d.c' || echo '$(srcdir)/'`komat/Berusky3d.c
+
+Berusky3d.obj: komat/Berusky3d.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Berusky3d.obj -MD -MP -MF $(DEPDIR)/Berusky3d.Tpo -c -o Berusky3d.obj `if test -f 'komat/Berusky3d.c'; then $(CYGPATH_W) 'komat/Berusky3d.c'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d.Tpo $(DEPDIR)/Berusky3d.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Berusky3d.c' object='Berusky3d.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Berusky3d.obj `if test -f 'komat/Berusky3d.c'; then $(CYGPATH_W) 'komat/Berusky3d.c'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d.c'; fi`
+
+Berusky3d_animace.o: komat/Berusky3d_animace.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Berusky3d_animace.o -MD -MP -MF $(DEPDIR)/Berusky3d_animace.Tpo -c -o Berusky3d_animace.o `test -f 'komat/Berusky3d_animace.c' || echo '$(srcdir)/'`komat/Berusky3d_animace.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_animace.Tpo $(DEPDIR)/Berusky3d_animace.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Berusky3d_animace.c' object='Berusky3d_animace.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Berusky3d_animace.o `test -f 'komat/Berusky3d_animace.c' || echo '$(srcdir)/'`komat/Berusky3d_animace.c
+
+Berusky3d_animace.obj: komat/Berusky3d_animace.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Berusky3d_animace.obj -MD -MP -MF $(DEPDIR)/Berusky3d_animace.Tpo -c -o Berusky3d_animace.obj `if test -f 'komat/Berusky3d_animace.c'; then $(CYGPATH_W) 'komat/Berusky3d_animace.c'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_animace.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_animace.Tpo $(DEPDIR)/Berusky3d_animace.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Berusky3d_animace.c' object='Berusky3d_animace.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Berusky3d_animace.obj `if test -f 'komat/Berusky3d_animace.c'; then $(CYGPATH_W) 'komat/Berusky3d_animace.c'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_animace.c'; fi`
+
+Berusky3d_castice.o: komat/Berusky3d_castice.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Berusky3d_castice.o -MD -MP -MF $(DEPDIR)/Berusky3d_castice.Tpo -c -o Berusky3d_castice.o `test -f 'komat/Berusky3d_castice.c' || echo '$(srcdir)/'`komat/Berusky3d_castice.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_castice.Tpo $(DEPDIR)/Berusky3d_castice.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Berusky3d_castice.c' object='Berusky3d_castice.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Berusky3d_castice.o `test -f 'komat/Berusky3d_castice.c' || echo '$(srcdir)/'`komat/Berusky3d_castice.c
+
+Berusky3d_castice.obj: komat/Berusky3d_castice.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Berusky3d_castice.obj -MD -MP -MF $(DEPDIR)/Berusky3d_castice.Tpo -c -o Berusky3d_castice.obj `if test -f 'komat/Berusky3d_castice.c'; then $(CYGPATH_W) 'komat/Berusky3d_castice.c'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_castice.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_castice.Tpo $(DEPDIR)/Berusky3d_castice.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Berusky3d_castice.c' object='Berusky3d_castice.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Berusky3d_castice.obj `if test -f 'komat/Berusky3d_castice.c'; then $(CYGPATH_W) 'komat/Berusky3d_castice.c'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_castice.c'; fi`
+
+Berusky3d_ini.o: komat/Berusky3d_ini.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Berusky3d_ini.o -MD -MP -MF $(DEPDIR)/Berusky3d_ini.Tpo -c -o Berusky3d_ini.o `test -f 'komat/Berusky3d_ini.c' || echo '$(srcdir)/'`komat/Berusky3d_ini.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_ini.Tpo $(DEPDIR)/Berusky3d_ini.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Berusky3d_ini.c' object='Berusky3d_ini.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Berusky3d_ini.o `test -f 'komat/Berusky3d_ini.c' || echo '$(srcdir)/'`komat/Berusky3d_ini.c
+
+Berusky3d_ini.obj: komat/Berusky3d_ini.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Berusky3d_ini.obj -MD -MP -MF $(DEPDIR)/Berusky3d_ini.Tpo -c -o Berusky3d_ini.obj `if test -f 'komat/Berusky3d_ini.c'; then $(CYGPATH_W) 'komat/Berusky3d_ini.c'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_ini.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_ini.Tpo $(DEPDIR)/Berusky3d_ini.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Berusky3d_ini.c' object='Berusky3d_ini.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Berusky3d_ini.obj `if test -f 'komat/Berusky3d_ini.c'; then $(CYGPATH_W) 'komat/Berusky3d_ini.c'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_ini.c'; fi`
+
+Berusky3d_kamery.o: komat/Berusky3d_kamery.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Berusky3d_kamery.o -MD -MP -MF $(DEPDIR)/Berusky3d_kamery.Tpo -c -o Berusky3d_kamery.o `test -f 'komat/Berusky3d_kamery.c' || echo '$(srcdir)/'`komat/Berusky3d_kamery.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_kamery.Tpo $(DEPDIR)/Berusky3d_kamery.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Berusky3d_kamery.c' object='Berusky3d_kamery.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Berusky3d_kamery.o `test -f 'komat/Berusky3d_kamery.c' || echo '$(srcdir)/'`komat/Berusky3d_kamery.c
+
+Berusky3d_kamery.obj: komat/Berusky3d_kamery.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Berusky3d_kamery.obj -MD -MP -MF $(DEPDIR)/Berusky3d_kamery.Tpo -c -o Berusky3d_kamery.obj `if test -f 'komat/Berusky3d_kamery.c'; then $(CYGPATH_W) 'komat/Berusky3d_kamery.c'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_kamery.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_kamery.Tpo $(DEPDIR)/Berusky3d_kamery.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Berusky3d_kamery.c' object='Berusky3d_kamery.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Berusky3d_kamery.obj `if test -f 'komat/Berusky3d_kamery.c'; then $(CYGPATH_W) 'komat/Berusky3d_kamery.c'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_kamery.c'; fi`
+
+Berusky3d_kofola2d.o: komat/Berusky3d_kofola2d.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Berusky3d_kofola2d.o -MD -MP -MF $(DEPDIR)/Berusky3d_kofola2d.Tpo -c -o Berusky3d_kofola2d.o `test -f 'komat/Berusky3d_kofola2d.c' || echo '$(srcdir)/'`komat/Berusky3d_kofola2d.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_kofola2d.Tpo $(DEPDIR)/Berusky3d_kofola2d.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Berusky3d_kofola2d.c' object='Berusky3d_kofola2d.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Berusky3d_kofola2d.o `test -f 'komat/Berusky3d_kofola2d.c' || echo '$(srcdir)/'`komat/Berusky3d_kofola2d.c
+
+Berusky3d_kofola2d.obj: komat/Berusky3d_kofola2d.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Berusky3d_kofola2d.obj -MD -MP -MF $(DEPDIR)/Berusky3d_kofola2d.Tpo -c -o Berusky3d_kofola2d.obj `if test -f 'komat/Berusky3d_kofola2d.c'; then $(CYGPATH_W) 'komat/Berusky3d_kofola2d.c'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_kofola2d.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_kofola2d.Tpo $(DEPDIR)/Berusky3d_kofola2d.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Berusky3d_kofola2d.c' object='Berusky3d_kofola2d.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Berusky3d_kofola2d.obj `if test -f 'komat/Berusky3d_kofola2d.c'; then $(CYGPATH_W) 'komat/Berusky3d_kofola2d.c'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_kofola2d.c'; fi`
+
+Berusky3d_kofola_interface.o: komat/Berusky3d_kofola_interface.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Berusky3d_kofola_interface.o -MD -MP -MF $(DEPDIR)/Berusky3d_kofola_interface.Tpo -c -o Berusky3d_kofola_interface.o `test -f 'komat/Berusky3d_kofola_interface.c' || echo '$(srcdir)/'`komat/Berusky3d_kofola_interface.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_kofola_interface.Tpo $(DEPDIR)/Berusky3d_kofola_interface.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Berusky3d_kofola_interface.c' object='Berusky3d_kofola_interface.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Berusky3d_kofola_interface.o `test -f 'komat/Berusky3d_kofola_interface.c' || echo '$(srcdir)/'`komat/Berusky3d_kofola_interface.c
+
+Berusky3d_kofola_interface.obj: komat/Berusky3d_kofola_interface.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Berusky3d_kofola_interface.obj -MD -MP -MF $(DEPDIR)/Berusky3d_kofola_interface.Tpo -c -o Berusky3d_kofola_interface.obj `if test -f 'komat/Berusky3d_kofola_interface.c'; then $(CYGPATH_W) 'komat/Berusky3d_kofola_interface.c'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_kofola_interface.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_kofola_interface.Tpo $(DEPDIR)/Berusky3d_kofola_interface.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Berusky3d_kofola_interface.c' object='Berusky3d_kofola_interface.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Berusky3d_kofola_interface.obj `if test -f 'komat/Berusky3d_kofola_interface.c'; then $(CYGPATH_W) 'komat/Berusky3d_kofola_interface.c'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_kofola_interface.c'; fi`
+
+Berusky3d_light.o: komat/Berusky3d_light.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Berusky3d_light.o -MD -MP -MF $(DEPDIR)/Berusky3d_light.Tpo -c -o Berusky3d_light.o `test -f 'komat/Berusky3d_light.c' || echo '$(srcdir)/'`komat/Berusky3d_light.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_light.Tpo $(DEPDIR)/Berusky3d_light.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Berusky3d_light.c' object='Berusky3d_light.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Berusky3d_light.o `test -f 'komat/Berusky3d_light.c' || echo '$(srcdir)/'`komat/Berusky3d_light.c
+
+Berusky3d_light.obj: komat/Berusky3d_light.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Berusky3d_light.obj -MD -MP -MF $(DEPDIR)/Berusky3d_light.Tpo -c -o Berusky3d_light.obj `if test -f 'komat/Berusky3d_light.c'; then $(CYGPATH_W) 'komat/Berusky3d_light.c'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_light.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_light.Tpo $(DEPDIR)/Berusky3d_light.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Berusky3d_light.c' object='Berusky3d_light.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Berusky3d_light.obj `if test -f 'komat/Berusky3d_light.c'; then $(CYGPATH_W) 'komat/Berusky3d_light.c'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_light.c'; fi`
+
+Berusky3d_load.o: komat/Berusky3d_load.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Berusky3d_load.o -MD -MP -MF $(DEPDIR)/Berusky3d_load.Tpo -c -o Berusky3d_load.o `test -f 'komat/Berusky3d_load.c' || echo '$(srcdir)/'`komat/Berusky3d_load.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_load.Tpo $(DEPDIR)/Berusky3d_load.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Berusky3d_load.c' object='Berusky3d_load.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Berusky3d_load.o `test -f 'komat/Berusky3d_load.c' || echo '$(srcdir)/'`komat/Berusky3d_load.c
+
+Berusky3d_load.obj: komat/Berusky3d_load.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Berusky3d_load.obj -MD -MP -MF $(DEPDIR)/Berusky3d_load.Tpo -c -o Berusky3d_load.obj `if test -f 'komat/Berusky3d_load.c'; then $(CYGPATH_W) 'komat/Berusky3d_load.c'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_load.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_load.Tpo $(DEPDIR)/Berusky3d_load.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Berusky3d_load.c' object='Berusky3d_load.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Berusky3d_load.obj `if test -f 'komat/Berusky3d_load.c'; then $(CYGPATH_W) 'komat/Berusky3d_load.c'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_load.c'; fi`
+
+Berusky3d_render.o: komat/Berusky3d_render.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Berusky3d_render.o -MD -MP -MF $(DEPDIR)/Berusky3d_render.Tpo -c -o Berusky3d_render.o `test -f 'komat/Berusky3d_render.c' || echo '$(srcdir)/'`komat/Berusky3d_render.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_render.Tpo $(DEPDIR)/Berusky3d_render.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Berusky3d_render.c' object='Berusky3d_render.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Berusky3d_render.o `test -f 'komat/Berusky3d_render.c' || echo '$(srcdir)/'`komat/Berusky3d_render.c
+
+Berusky3d_render.obj: komat/Berusky3d_render.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Berusky3d_render.obj -MD -MP -MF $(DEPDIR)/Berusky3d_render.Tpo -c -o Berusky3d_render.obj `if test -f 'komat/Berusky3d_render.c'; then $(CYGPATH_W) 'komat/Berusky3d_render.c'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_render.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_render.Tpo $(DEPDIR)/Berusky3d_render.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Berusky3d_render.c' object='Berusky3d_render.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Berusky3d_render.obj `if test -f 'komat/Berusky3d_render.c'; then $(CYGPATH_W) 'komat/Berusky3d_render.c'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_render.c'; fi`
+
+Bmp.o: komat/Bmp.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Bmp.o -MD -MP -MF $(DEPDIR)/Bmp.Tpo -c -o Bmp.o `test -f 'komat/Bmp.c' || echo '$(srcdir)/'`komat/Bmp.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Bmp.Tpo $(DEPDIR)/Bmp.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Bmp.c' object='Bmp.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Bmp.o `test -f 'komat/Bmp.c' || echo '$(srcdir)/'`komat/Bmp.c
+
+Bmp.obj: komat/Bmp.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Bmp.obj -MD -MP -MF $(DEPDIR)/Bmp.Tpo -c -o Bmp.obj `if test -f 'komat/Bmp.c'; then $(CYGPATH_W) 'komat/Bmp.c'; else $(CYGPATH_W) '$(srcdir)/komat/Bmp.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Bmp.Tpo $(DEPDIR)/Bmp.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Bmp.c' object='Bmp.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Bmp.obj `if test -f 'komat/Bmp.c'; then $(CYGPATH_W) 'komat/Bmp.c'; else $(CYGPATH_W) '$(srcdir)/komat/Bmp.c'; fi`
+
+Ddx.o: komat/Ddx.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Ddx.o -MD -MP -MF $(DEPDIR)/Ddx.Tpo -c -o Ddx.o `test -f 'komat/Ddx.c' || echo '$(srcdir)/'`komat/Ddx.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Ddx.Tpo $(DEPDIR)/Ddx.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Ddx.c' object='Ddx.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Ddx.o `test -f 'komat/Ddx.c' || echo '$(srcdir)/'`komat/Ddx.c
+
+Ddx.obj: komat/Ddx.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Ddx.obj -MD -MP -MF $(DEPDIR)/Ddx.Tpo -c -o Ddx.obj `if test -f 'komat/Ddx.c'; then $(CYGPATH_W) 'komat/Ddx.c'; else $(CYGPATH_W) '$(srcdir)/komat/Ddx.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Ddx.Tpo $(DEPDIR)/Ddx.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Ddx.c' object='Ddx.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Ddx.obj `if test -f 'komat/Ddx.c'; then $(CYGPATH_W) 'komat/Ddx.c'; else $(CYGPATH_W) '$(srcdir)/komat/Ddx.c'; fi`
+
+Di.o: komat/Di.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Di.o -MD -MP -MF $(DEPDIR)/Di.Tpo -c -o Di.o `test -f 'komat/Di.c' || echo '$(srcdir)/'`komat/Di.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Di.Tpo $(DEPDIR)/Di.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Di.c' object='Di.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Di.o `test -f 'komat/Di.c' || echo '$(srcdir)/'`komat/Di.c
+
+Di.obj: komat/Di.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Di.obj -MD -MP -MF $(DEPDIR)/Di.Tpo -c -o Di.obj `if test -f 'komat/Di.c'; then $(CYGPATH_W) 'komat/Di.c'; else $(CYGPATH_W) '$(srcdir)/komat/Di.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Di.Tpo $(DEPDIR)/Di.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Di.c' object='Di.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Di.obj `if test -f 'komat/Di.c'; then $(CYGPATH_W) 'komat/Di.c'; else $(CYGPATH_W) '$(srcdir)/komat/Di.c'; fi`
+
+Kdtree.o: komat/Kdtree.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Kdtree.o -MD -MP -MF $(DEPDIR)/Kdtree.Tpo -c -o Kdtree.o `test -f 'komat/Kdtree.c' || echo '$(srcdir)/'`komat/Kdtree.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Kdtree.Tpo $(DEPDIR)/Kdtree.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Kdtree.c' object='Kdtree.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Kdtree.o `test -f 'komat/Kdtree.c' || echo '$(srcdir)/'`komat/Kdtree.c
+
+Kdtree.obj: komat/Kdtree.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Kdtree.obj -MD -MP -MF $(DEPDIR)/Kdtree.Tpo -c -o Kdtree.obj `if test -f 'komat/Kdtree.c'; then $(CYGPATH_W) 'komat/Kdtree.c'; else $(CYGPATH_W) '$(srcdir)/komat/Kdtree.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Kdtree.Tpo $(DEPDIR)/Kdtree.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Kdtree.c' object='Kdtree.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Kdtree.obj `if test -f 'komat/Kdtree.c'; then $(CYGPATH_W) 'komat/Kdtree.c'; else $(CYGPATH_W) '$(srcdir)/komat/Kdtree.c'; fi`
+
+Keyframe.o: komat/Keyframe.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Keyframe.o -MD -MP -MF $(DEPDIR)/Keyframe.Tpo -c -o Keyframe.o `test -f 'komat/Keyframe.c' || echo '$(srcdir)/'`komat/Keyframe.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Keyframe.Tpo $(DEPDIR)/Keyframe.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Keyframe.c' object='Keyframe.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Keyframe.o `test -f 'komat/Keyframe.c' || echo '$(srcdir)/'`komat/Keyframe.c
+
+Keyframe.obj: komat/Keyframe.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Keyframe.obj -MD -MP -MF $(DEPDIR)/Keyframe.Tpo -c -o Keyframe.obj `if test -f 'komat/Keyframe.c'; then $(CYGPATH_W) 'komat/Keyframe.c'; else $(CYGPATH_W) '$(srcdir)/komat/Keyframe.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Keyframe.Tpo $(DEPDIR)/Keyframe.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Keyframe.c' object='Keyframe.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Keyframe.obj `if test -f 'komat/Keyframe.c'; then $(CYGPATH_W) 'komat/Keyframe.c'; else $(CYGPATH_W) '$(srcdir)/komat/Keyframe.c'; fi`
+
+Load.o: komat/Load.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Load.o -MD -MP -MF $(DEPDIR)/Load.Tpo -c -o Load.o `test -f 'komat/Load.c' || echo '$(srcdir)/'`komat/Load.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Load.Tpo $(DEPDIR)/Load.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Load.c' object='Load.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Load.o `test -f 'komat/Load.c' || echo '$(srcdir)/'`komat/Load.c
+
+Load.obj: komat/Load.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Load.obj -MD -MP -MF $(DEPDIR)/Load.Tpo -c -o Load.obj `if test -f 'komat/Load.c'; then $(CYGPATH_W) 'komat/Load.c'; else $(CYGPATH_W) '$(srcdir)/komat/Load.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Load.Tpo $(DEPDIR)/Load.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Load.c' object='Load.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Load.obj `if test -f 'komat/Load.c'; then $(CYGPATH_W) 'komat/Load.c'; else $(CYGPATH_W) '$(srcdir)/komat/Load.c'; fi`
+
+Load_chunks.o: komat/Load_chunks.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Load_chunks.o -MD -MP -MF $(DEPDIR)/Load_chunks.Tpo -c -o Load_chunks.o `test -f 'komat/Load_chunks.c' || echo '$(srcdir)/'`komat/Load_chunks.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Load_chunks.Tpo $(DEPDIR)/Load_chunks.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Load_chunks.c' object='Load_chunks.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Load_chunks.o `test -f 'komat/Load_chunks.c' || echo '$(srcdir)/'`komat/Load_chunks.c
+
+Load_chunks.obj: komat/Load_chunks.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Load_chunks.obj -MD -MP -MF $(DEPDIR)/Load_chunks.Tpo -c -o Load_chunks.obj `if test -f 'komat/Load_chunks.c'; then $(CYGPATH_W) 'komat/Load_chunks.c'; else $(CYGPATH_W) '$(srcdir)/komat/Load_chunks.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Load_chunks.Tpo $(DEPDIR)/Load_chunks.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Load_chunks.c' object='Load_chunks.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Load_chunks.obj `if test -f 'komat/Load_chunks.c'; then $(CYGPATH_W) 'komat/Load_chunks.c'; else $(CYGPATH_W) '$(srcdir)/komat/Load_chunks.c'; fi`
+
+Load_out.o: komat/Load_out.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Load_out.o -MD -MP -MF $(DEPDIR)/Load_out.Tpo -c -o Load_out.o `test -f 'komat/Load_out.c' || echo '$(srcdir)/'`komat/Load_out.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Load_out.Tpo $(DEPDIR)/Load_out.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Load_out.c' object='Load_out.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Load_out.o `test -f 'komat/Load_out.c' || echo '$(srcdir)/'`komat/Load_out.c
+
+Load_out.obj: komat/Load_out.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Load_out.obj -MD -MP -MF $(DEPDIR)/Load_out.Tpo -c -o Load_out.obj `if test -f 'komat/Load_out.c'; then $(CYGPATH_W) 'komat/Load_out.c'; else $(CYGPATH_W) '$(srcdir)/komat/Load_out.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Load_out.Tpo $(DEPDIR)/Load_out.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Load_out.c' object='Load_out.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Load_out.obj `if test -f 'komat/Load_out.c'; then $(CYGPATH_W) 'komat/Load_out.c'; else $(CYGPATH_W) '$(srcdir)/komat/Load_out.c'; fi`
+
+Mat3d.o: komat/Mat3d.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Mat3d.o -MD -MP -MF $(DEPDIR)/Mat3d.Tpo -c -o Mat3d.o `test -f 'komat/Mat3d.c' || echo '$(srcdir)/'`komat/Mat3d.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Mat3d.Tpo $(DEPDIR)/Mat3d.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Mat3d.c' object='Mat3d.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Mat3d.o `test -f 'komat/Mat3d.c' || echo '$(srcdir)/'`komat/Mat3d.c
+
+Mat3d.obj: komat/Mat3d.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Mat3d.obj -MD -MP -MF $(DEPDIR)/Mat3d.Tpo -c -o Mat3d.obj `if test -f 'komat/Mat3d.c'; then $(CYGPATH_W) 'komat/Mat3d.c'; else $(CYGPATH_W) '$(srcdir)/komat/Mat3d.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Mat3d.Tpo $(DEPDIR)/Mat3d.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Mat3d.c' object='Mat3d.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Mat3d.obj `if test -f 'komat/Mat3d.c'; then $(CYGPATH_W) 'komat/Mat3d.c'; else $(CYGPATH_W) '$(srcdir)/komat/Mat3d.c'; fi`
+
+Matrix.o: komat/Matrix.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Matrix.o -MD -MP -MF $(DEPDIR)/Matrix.Tpo -c -o Matrix.o `test -f 'komat/Matrix.c' || echo '$(srcdir)/'`komat/Matrix.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Matrix.Tpo $(DEPDIR)/Matrix.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Matrix.c' object='Matrix.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Matrix.o `test -f 'komat/Matrix.c' || echo '$(srcdir)/'`komat/Matrix.c
+
+Matrix.obj: komat/Matrix.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Matrix.obj -MD -MP -MF $(DEPDIR)/Matrix.Tpo -c -o Matrix.obj `if test -f 'komat/Matrix.c'; then $(CYGPATH_W) 'komat/Matrix.c'; else $(CYGPATH_W) '$(srcdir)/komat/Matrix.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Matrix.Tpo $(DEPDIR)/Matrix.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Matrix.c' object='Matrix.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Matrix.obj `if test -f 'komat/Matrix.c'; then $(CYGPATH_W) 'komat/Matrix.c'; else $(CYGPATH_W) '$(srcdir)/komat/Matrix.c'; fi`
+
+Texture.o: komat/Texture.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Texture.o -MD -MP -MF $(DEPDIR)/Texture.Tpo -c -o Texture.o `test -f 'komat/Texture.c' || echo '$(srcdir)/'`komat/Texture.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Texture.Tpo $(DEPDIR)/Texture.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Texture.c' object='Texture.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Texture.o `test -f 'komat/Texture.c' || echo '$(srcdir)/'`komat/Texture.c
+
+Texture.obj: komat/Texture.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Texture.obj -MD -MP -MF $(DEPDIR)/Texture.Tpo -c -o Texture.obj `if test -f 'komat/Texture.c'; then $(CYGPATH_W) 'komat/Texture.c'; else $(CYGPATH_W) '$(srcdir)/komat/Texture.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Texture.Tpo $(DEPDIR)/Texture.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Texture.c' object='Texture.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Texture.obj `if test -f 'komat/Texture.c'; then $(CYGPATH_W) 'komat/Texture.c'; else $(CYGPATH_W) '$(srcdir)/komat/Texture.c'; fi`
+
+Tga.o: komat/Tga.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Tga.o -MD -MP -MF $(DEPDIR)/Tga.Tpo -c -o Tga.o `test -f 'komat/Tga.c' || echo '$(srcdir)/'`komat/Tga.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Tga.Tpo $(DEPDIR)/Tga.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Tga.c' object='Tga.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Tga.o `test -f 'komat/Tga.c' || echo '$(srcdir)/'`komat/Tga.c
+
+Tga.obj: komat/Tga.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Tga.obj -MD -MP -MF $(DEPDIR)/Tga.Tpo -c -o Tga.obj `if test -f 'komat/Tga.c'; then $(CYGPATH_W) 'komat/Tga.c'; else $(CYGPATH_W) '$(srcdir)/komat/Tga.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Tga.Tpo $(DEPDIR)/Tga.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/Tga.c' object='Tga.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Tga.obj `if test -f 'komat/Tga.c'; then $(CYGPATH_W) 'komat/Tga.c'; else $(CYGPATH_W) '$(srcdir)/komat/Tga.c'; fi`
+
+gglext.o: komat/gglext.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT gglext.o -MD -MP -MF $(DEPDIR)/gglext.Tpo -c -o gglext.o `test -f 'komat/gglext.c' || echo '$(srcdir)/'`komat/gglext.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/gglext.Tpo $(DEPDIR)/gglext.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/gglext.c' object='gglext.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o gglext.o `test -f 'komat/gglext.c' || echo '$(srcdir)/'`komat/gglext.c
+
+gglext.obj: komat/gglext.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT gglext.obj -MD -MP -MF $(DEPDIR)/gglext.Tpo -c -o gglext.obj `if test -f 'komat/gglext.c'; then $(CYGPATH_W) 'komat/gglext.c'; else $(CYGPATH_W) '$(srcdir)/komat/gglext.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/gglext.Tpo $(DEPDIR)/gglext.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/gglext.c' object='gglext.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o gglext.obj `if test -f 'komat/gglext.c'; then $(CYGPATH_W) 'komat/gglext.c'; else $(CYGPATH_W) '$(srcdir)/komat/gglext.c'; fi`
+
+kfile.o: komat/kfile.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT kfile.o -MD -MP -MF $(DEPDIR)/kfile.Tpo -c -o kfile.o `test -f 'komat/kfile.c' || echo '$(srcdir)/'`komat/kfile.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/kfile.Tpo $(DEPDIR)/kfile.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/kfile.c' object='kfile.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o kfile.o `test -f 'komat/kfile.c' || echo '$(srcdir)/'`komat/kfile.c
+
+kfile.obj: komat/kfile.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT kfile.obj -MD -MP -MF $(DEPDIR)/kfile.Tpo -c -o kfile.obj `if test -f 'komat/kfile.c'; then $(CYGPATH_W) 'komat/kfile.c'; else $(CYGPATH_W) '$(srcdir)/komat/kfile.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/kfile.Tpo $(DEPDIR)/kfile.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/kfile.c' object='kfile.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o kfile.obj `if test -f 'komat/kfile.c'; then $(CYGPATH_W) 'komat/kfile.c'; else $(CYGPATH_W) '$(srcdir)/komat/kfile.c'; fi`
+
+obb.o: komat/obb.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT obb.o -MD -MP -MF $(DEPDIR)/obb.Tpo -c -o obb.o `test -f 'komat/obb.c' || echo '$(srcdir)/'`komat/obb.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/obb.Tpo $(DEPDIR)/obb.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/obb.c' object='obb.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o obb.o `test -f 'komat/obb.c' || echo '$(srcdir)/'`komat/obb.c
+
+obb.obj: komat/obb.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT obb.obj -MD -MP -MF $(DEPDIR)/obb.Tpo -c -o obb.obj `if test -f 'komat/obb.c'; then $(CYGPATH_W) 'komat/obb.c'; else $(CYGPATH_W) '$(srcdir)/komat/obb.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/obb.Tpo $(DEPDIR)/obb.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='komat/obb.c' object='obb.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o obb.obj `if test -f 'komat/obb.c'; then $(CYGPATH_W) 'komat/obb.c'; else $(CYGPATH_W) '$(srcdir)/komat/obb.c'; fi`
+
+.cpp.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ $<
 
-.cc.obj:
+.cpp.obj:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
-.cc.lo:
+.cpp.lo:
 @am__fastdepCXX_TRUE@	$(LTCXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LTCXXCOMPILE) -c -o $@ $<
+
+ddutil.o: kofola/ddutil.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ddutil.o -MD -MP -MF $(DEPDIR)/ddutil.Tpo -c -o ddutil.o `test -f 'kofola/ddutil.cpp' || echo '$(srcdir)/'`kofola/ddutil.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/ddutil.Tpo $(DEPDIR)/ddutil.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='kofola/ddutil.cpp' object='ddutil.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ddutil.o `test -f 'kofola/ddutil.cpp' || echo '$(srcdir)/'`kofola/ddutil.cpp
+
+ddutil.obj: kofola/ddutil.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ddutil.obj -MD -MP -MF $(DEPDIR)/ddutil.Tpo -c -o ddutil.obj `if test -f 'kofola/ddutil.cpp'; then $(CYGPATH_W) 'kofola/ddutil.cpp'; else $(CYGPATH_W) '$(srcdir)/kofola/ddutil.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/ddutil.Tpo $(DEPDIR)/ddutil.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='kofola/ddutil.cpp' object='ddutil.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ddutil.obj `if test -f 'kofola/ddutil.cpp'; then $(CYGPATH_W) 'kofola/ddutil.cpp'; else $(CYGPATH_W) '$(srcdir)/kofola/ddutil.cpp'; fi`
+
+Texture_import.o: komat/Texture_import.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Texture_import.o -MD -MP -MF $(DEPDIR)/Texture_import.Tpo -c -o Texture_import.o `test -f 'komat/Texture_import.cpp' || echo '$(srcdir)/'`komat/Texture_import.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Texture_import.Tpo $(DEPDIR)/Texture_import.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Texture_import.cpp' object='Texture_import.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Texture_import.o `test -f 'komat/Texture_import.cpp' || echo '$(srcdir)/'`komat/Texture_import.cpp
+
+Texture_import.obj: komat/Texture_import.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Texture_import.obj -MD -MP -MF $(DEPDIR)/Texture_import.Tpo -c -o Texture_import.obj `if test -f 'komat/Texture_import.cpp'; then $(CYGPATH_W) 'komat/Texture_import.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Texture_import.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Texture_import.Tpo $(DEPDIR)/Texture_import.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Texture_import.cpp' object='Texture_import.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Texture_import.obj `if test -f 'komat/Texture_import.cpp'; then $(CYGPATH_W) 'komat/Texture_import.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Texture_import.cpp'; fi`
+
+strip.o: komat/strip.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT strip.o -MD -MP -MF $(DEPDIR)/strip.Tpo -c -o strip.o `test -f 'komat/strip.cpp' || echo '$(srcdir)/'`komat/strip.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/strip.Tpo $(DEPDIR)/strip.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/strip.cpp' object='strip.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o strip.o `test -f 'komat/strip.cpp' || echo '$(srcdir)/'`komat/strip.cpp
+
+strip.obj: komat/strip.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT strip.obj -MD -MP -MF $(DEPDIR)/strip.Tpo -c -o strip.obj `if test -f 'komat/strip.cpp'; then $(CYGPATH_W) 'komat/strip.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/strip.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/strip.Tpo $(DEPDIR)/strip.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/strip.cpp' object='strip.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o strip.obj `if test -f 'komat/strip.cpp'; then $(CYGPATH_W) 'komat/strip.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/strip.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

@@ -1,7 +1,7 @@
 #ifndef __INIT_
 #define __INIT_
 
-#include "object.h"
+#include "Object.h"
 
 	// nahraje databazi objektu
 	int  lsi_Load_Items(LEVELINFO *p_Level);

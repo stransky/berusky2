@@ -1,14 +1,11 @@
 //------------------------------------------------------------------------------------------------
 // 0.0.1
 //------------------------------------------------------------------------------------------------
-#include "..\\komat\\mss_on.h"
-#include <windows.h>
 #include "camera.h"
 #include "3d_math.h"
-#include "adas.h"
 #include "Object.h"
-#include "..\komat\3d_all.h"
-#include "..\Komat\berusky3d_kofola_interface.h"
+#include "3d_all.h"
+#include "Berusky3d_kofola_interface.h"
 
 #define MAXZOOMSPEED 20
 #define MAXRSPEED    80
@@ -146,26 +143,29 @@ void camera_Animate(CAMERA_ANIMATION *cam)
 		Multiple_Vector(v, (1.0f / fpq));
 		
 		r = (cam->finish.r - cam->init.r) / fpq;
-		if(fabs(r) > (MAXRSPEED / (fpq * 4.0f)))
+		if(fabs(r) > (MAXRSPEED / (fpq * 4.0f))) {
 			if(r < 0)
 				r = MAXRSPEED / (fpq * -4.0f);
 			else
 				r = MAXRSPEED / (fpq * 4.0f);
+    }
 
 		fi = (cam->finish.fi - cam->init.fi) / fpq;
-		if(fabs(fi) > (MAXFISPEED / (fpq * 4.0f)))
+		if(fabs(fi) > (MAXFISPEED / (fpq * 4.0f))) {
 			if(fi < 0)
 				fi = MAXFISPEED / (fpq * -4.0f);
 			else
 				fi = MAXFISPEED / (fpq * 4.0f);
+    }
 
 
 		dist = (cam->finish.Distance - cam->init.Distance) / (fpq * 4.0f);
-		if(fabs(dist) > (MAXZOOMSPEED / (fpq * 4.0f)))
+		if(fabs(dist) > (MAXZOOMSPEED / (fpq * 4.0f))) {
 			if(dist < 0)
 				dist = MAXZOOMSPEED / (fpq * -4.0f);
 			else
 				dist = MAXZOOMSPEED / (fpq * 4.0f);
+    }
 	}
 
 	if( min_p > 60)
@@ -218,11 +218,12 @@ void camera_Fast_Turn(int pressed_key, char left, int *flag, float fpq)
 	f = (int)floor(cam.finish.r / 90.0f);
 	i = (int)floor(cam.finish.r)%90;
 
-	if(abs(i) < 45)
+	if(abs(i) < 45) {
 		if(left)
 			f--;
 		else
 			f++;
+  }
 
 	cam.finish.r = f * 90.0f;
 

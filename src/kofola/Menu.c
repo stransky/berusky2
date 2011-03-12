@@ -1,36 +1,32 @@
 //------------------------------------------------------------------------------------------------
 // 0.0.1
 //------------------------------------------------------------------------------------------------
-#include "..\\komat\\mss_on.h"
-#include <windows.h>
-#include <direct.h>
 #include <stdio.h>
-#include "..\komat\3d_all.h"
-#include "..\Komat\berusky3d_kofola_interface.h"
-#include "adas.h"
+#include "3d_all.h"
+#include "Berusky3d_kofola_interface.h"
 #include "game_logic.h"
-#include "audio_plug-in.h"
 #include "menu_script.h"
-#include "command.h"
-#include "3D_Graphic.h"
-#include "2D_Graphic.h"
+#include "Command.h"
+#include "3D_graphic.h"
+#include "2D_graphic.h"
 #include "menu.h"
-#include "comics.h"
+#include "Comics.h"
 #include "credits.h"
 #include "font.h"
 #include "controls.h"
 #include "menu_def.h"
-#include "setup.h"
-#include "2ddx.h"
+#include "Setup.h"
 #include "profiles.h"
-#include "apak.h"
-#include "3d_graphic.h"
-#include "3d_menus.h"
-#include "demo.h"
+#include "Apak.h"
+#include "3D_menus.h"
+#include "Demo.h"
 #include "load_level.h"
-#include "menu2.h"
+#include "Menu2.h"
 #include "menu_def.h"
-#include "tools.h"
+#include "Tools.h"
+
+#define HDC2DD		-1
+#define TRANSCOLOR	0//RGB(255, 0, 255)
 
 #define RES_NUM 200
 
@@ -89,7 +85,7 @@ static _2D_HINT	_2d_hint;
 RECT_LINE	rline;
 
 extern int gi_Change_Grafic_Mode(int xPels, int yPels, int Bits, int freq, DWORD dwflags);
-extern int gi_EnumDisplaySettings(DEVMODE *pdevmode);
+//extern int gi_EnumDisplaySettings(DEVMODE *pdevmode);
 extern int iMaxBpp;
 extern int iMaxFreq;
 
@@ -177,13 +173,14 @@ int NextStep(CMD_LINE *cmd)
 
 void DrawFrame(CMD_LINE *cmd, AUDIO_DATA *p_ad)
 {
+/*
 	if(cmd->iAnim[cmd->iLastfrm][10] == 2)
 	{
 		float p[3] = {0, 0, 0};
 
 		//kprintf(1, "Play");
-    if(karmin_aktivni)
-		  ap_Play_Sound(0, 1, 0, p, 147 + (rand()%2), NULL, p_ad);
+//    if(karmin_aktivni)
+//		  ap_Play_Sound(0, 1, 0, p, 147 + (rand()%2), NULL, p_ad);
 	}
 
 	if(!cmd->iLayer)
@@ -191,6 +188,7 @@ void DrawFrame(CMD_LINE *cmd, AUDIO_DATA *p_ad)
 		if(cmd->iAnim[cmd->iLastfrm][6] >= 0)
 		{
 			RECT r;
+
 			ddxBitBlt(CompositDC, 
 					  cmd->iAnim[cmd->iLastfrm][2] + cmd->iAnim[cmd->iLastfrm][6], 
 					  cmd->iAnim[cmd->iLastfrm][3] + cmd->iAnim[cmd->iLastfrm][7], 
@@ -207,12 +205,14 @@ void DrawFrame(CMD_LINE *cmd, AUDIO_DATA *p_ad)
 		}
 		else
 			ddxDrawSurface(CompositDC, cmd->iAnim[cmd->iLastfrm], 1);
+    
 	}
 	else
 		if(cmd->iLayer == 10)
 			ddxDrawSurfaceColorKey(CompositDC, cmd->iAnim[cmd->iLastfrm], 1, TRANSCOLOR);
 		else
 			ddxDrawSurface(FontDC, cmd->iAnim[cmd->iLastfrm], 3);
+*/
 }
 
 //------------------------------------------------------------------------------------------------
@@ -307,7 +307,7 @@ void AnimationEvent(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime, AUDIO_DATA
 				if(anm[i].iWave > -1)
 				{
 					//kprintf(1, "%d", anm[i].iWave);
-					adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, anm[i].iWave);
+					//adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, anm[i].iWave);
 				}
 
 				anm[i].iWave = -1;
@@ -333,52 +333,56 @@ void AnimationEvent(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime, AUDIO_DATA
 			for(i=0;i<rline.rlast;i++)
 			{
 				dr = &rline.rect[i];
-
+/*
 				ddxTransparentBlt(BackDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
 							      FontDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
 							      TRANSCOLOR);
+      */
 			}
 
 			for(i=0;i<rline.rlast;i++)
 			{
 				dr = &rline.rect[i];
-				
+/*
 				ddxTransparentBlt(CompositDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom,
 							    BackDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
 							    TRANSCOLOR);
-
+*/
 			}
 		}
 		else
 			for(i=0;i<rline.rlast;i++)
 			{
 				dr = &rline.rect[i];
-
+/*
 				ddxTransparentBlt(CompositDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
 							      FontDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
 							      TRANSCOLOR);
+*/      
 			}
 
-			ddxSetFlip(0);
+			//ddxSetFlip(0);
 
 			for(j=0;j<2;j++)
 			{
 				for(i=0;i<rline.rlast;i++)
 				{
 					dr = &rline.rect[i];
-	
+/*	
 					ddxTransparentBltDisplay(dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
 											 CompositDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
 											 TRANSCOLOR);
+*/        
 				}
 
-				ddxUpdateMouse();
-
+//				ddxUpdateMouse();
+/*
 				if(!j)
 					DisplayFrame();
+*/      
 			}
 
-			ddxSetFlip(1);
+//			ddxSetFlip(1);
 
 			bAnim = 1;
 	}
@@ -388,7 +392,7 @@ void AnimationEvent(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime, AUDIO_DATA
 	if(!bAnim && (dim.dx || dim.dy) && timercntframe > 9)
 	{
 		timercntframe = 0;
-		DisplayFrame();
+		//DisplayFrame();
 	}
 
 	dwLTime = dwTime;
@@ -407,8 +411,8 @@ void StartAnimationTimer(void)
 	for(i=0;i<32;i++)
 		anm[i].cmd = NULL;
 
-	ATimer_ID = SetTimer(NULL, 0, 30, (TIMERPROC)AnimationEvent);
-	dwLTime = timeGetTime();
+//	ATimer_ID = SetTimer(NULL, 0, 30, (TIMERPROC)AnimationEvent);
+//	dwLTime = timeGetTime();
 }
 
 
@@ -419,7 +423,7 @@ void StopAnimationTimer(void)
 {
 	int i;
 
-	KillTimer(NULL, ATimer_ID);
+//	KillTimer(NULL, ATimer_ID);
 
 	for(i=0;i<32;i++)
 		anm[i].cmd = NULL;	
@@ -480,18 +484,18 @@ int AddAnimation(CMD_LINE *cmd, AUDIO_DATA *p_ad, char bOnlyOnes, char bButton)
 				{
 					if(cmd->iParam[2] >= 0)
 					{
-						adas_Get_Listener_Position(pos);
+//						adas_Get_Listener_Position(pos);
             
-						if(karmin_aktivni)
-						  ap_Play_Sound(0,1,0,pos,cmd->iParam[2], NULL, p_ad);
+//						if(karmin_aktivni)
+//						  ap_Play_Sound(0,1,0,pos,cmd->iParam[2], NULL, p_ad);
 					}
 				}
 				else
 				{
-					adas_Get_Listener_Position(pos);
+//					adas_Get_Listener_Position(pos);
 
-					if(karmin_aktivni)
-					  ap_Play_Sound(0,1,0,pos,cmd->iParam[r+2], NULL, p_ad);
+					//if(karmin_aktivni)
+					  //ap_Play_Sound(0,1,0,pos,cmd->iParam[r+2], NULL, p_ad);
 				}
 			}
 
@@ -638,26 +642,26 @@ void StretchAnimation(RECT *rStart, RECT *rFinish, int iSurface, int iSpeed, AUD
 	
 	rBmp.left = 0;
 	rBmp.top = 0;
-	rBmp.right = ddxGetWidth(iSurface);
-	rBmp.bottom = ddxGetHight(iSurface);
+	//rBmp.right = ddxGetWidth(iSurface);
+	//rBmp.bottom = ddxGetHight(iSurface);
 
 	memcpy(&rDraw, rStart, sizeof(RECT));
 
-	dwS = timeGetTime();
+	//dwS = timeGetTime();
 
 	while(!done)
 	{
-		ddxStretchBltDisplay(&rDraw, iSurface, &rBmp);
-		DisplayFrame();
+		//ddxStretchBltDisplay(&rDraw, iSurface, &rBmp);
+		//DisplayFrame();
 
-		dwF = timeGetTime();
+//		dwF = timeGetTime();
 
 		dwE = dwF - dwS;
 
-		rDraw.left = rStart->left + (int)ftoi((s[0] * dwE) / (float) iSpeed);
-		rDraw.top = rStart->top + (int)ftoi((s[1] * dwE) / (float) iSpeed);
-		rDraw.right = rStart->right + (int)ftoi((s[2] * dwE) / (float) iSpeed);
-		rDraw.bottom = rStart->bottom + (int)ftoi((s[3] * dwE) / (float) iSpeed);
+		rDraw.left = rStart->left + (int)((s[0] * dwE) / (float) iSpeed);
+		rDraw.top = rStart->top + (int)((s[1] * dwE) / (float) iSpeed);
+		rDraw.right = rStart->right + (int)((s[2] * dwE) / (float) iSpeed);
+		rDraw.bottom = rStart->bottom + (int)((s[3] * dwE) / (float) iSpeed);
 
 		//kprintf(1, "rDraw.left, rFinish->left: [%d, %d]", rDraw.left, rFinish->left);
 		if(rDraw.left <= rFinish->left && p[0])
@@ -688,21 +692,22 @@ void StretchAnimation(RECT *rStart, RECT *rFinish, int iSurface, int iSpeed, AUD
 		}
 
 		spracuj_spravy(0);
-		ddxUpdateMouse();
+		//ddxUpdateMouse();
 
 		/*if(rDraw.left <= rFinish->left &&
 		   rDraw.top  <= rFinish->top &&
 		   rDraw.bottom >= rFinish->bottom &&
 		   rDraw.right >= rFinish->right)
 			done = 1;*/
-
+/*
 		if(ddxRestore(&CompositDC, &FontDC, &BackDC, &iCompositDC, &iFontDC, &iBackDC, &cBrutalRestart, p_ad))
 			return;
+*/  
 	}
 
-	ddxStretchBltDisplay(rFinish, iSurface, &rBmp);
-	DisplayFrame();
-	ddxStretchBltDisplay(rFinish, iSurface, &rBmp);
+	//ddxStretchBltDisplay(rFinish, iSurface, &rBmp);
+	//DisplayFrame();
+	//ddxStretchBltDisplay(rFinish, iSurface, &rBmp);
 //	StartAnimationTimer();
 }
 
@@ -718,18 +723,18 @@ int mPlaySound(CMD_LINE *cmd, AUDIO_DATA *p_ad, int type)
 	{
 		if(cmd->iParam[1] >= 0)
 		{
-			adas_Get_Listener_Position(pos);
+			//adas_Get_Listener_Position(pos);
 
-			if(karmin_aktivni)
-			  ret = ap_Play_Sound(type,1,0,pos,cmd->iParam[1], NULL, p_ad);
+			//if(karmin_aktivni)
+			  //ret = ap_Play_Sound(type,1,0,pos,cmd->iParam[1], NULL, p_ad);
 		}
 	}
 	else
 	{
-		adas_Get_Listener_Position(pos);
+//		adas_Get_Listener_Position(pos);
 
-		if(karmin_aktivni)
-		  ret = ap_Play_Sound(type,1,0,pos,cmd->iParam[r+1], NULL, p_ad);
+		//if(karmin_aktivni)
+		  //ret = ap_Play_Sound(type,1,0,pos,cmd->iParam[r+1], NULL, p_ad);
 	}
 
 	return ret;
@@ -801,10 +806,10 @@ int RunLevel(HWND hWnd, AUDIO_DATA *p_ad, int cpu, char *lvl, char *env)
 	int ret;
 	unsigned int Timer_ID;
 	char	cenv[64];
-	float	f = p_ad->Music_Gain;
+	float	f = 0;//p_ad->Music_Gain;
 
 	strcpy(cenv, env);
-
+/*
 	if(ogg_playing())
 	{
 		while(f >= 0.05f)
@@ -816,13 +821,13 @@ int RunLevel(HWND hWnd, AUDIO_DATA *p_ad, int cpu, char *lvl, char *env)
 
 		ap_Stop_Song(p_ad);
 	}
-
+*/
 	Sleep(1000);
 
-	ddxRelease();
-	FreeDirectDraw();
+//	ddxRelease();
+//	FreeDirectDraw();
 
-	ShowCursor(FALSE);
+//	ShowCursor(FALSE);
 	
 	if(kom_graf_init())
 	{
@@ -831,7 +836,7 @@ int RunLevel(HWND hWnd, AUDIO_DATA *p_ad, int cpu, char *lvl, char *env)
 		RunMenuLoadScreenAddProgress(-1);
 		RunMenuLoadScreenDrawProgress(-1,-1);
 
-		_3d_Init(hwnd_hry);
+		_3d_Init();
 		_3d_Load_List("3D_load.dat");
 
 		_3d_Gen_Hints(pHintTexture, 26);
@@ -839,12 +844,13 @@ int RunLevel(HWND hWnd, AUDIO_DATA *p_ad, int cpu, char *lvl, char *env)
 		RunMenuLoadScreenAddProgress(-1);
 
 		_3d_Load_Indikace();
+/*  
 		Timer_ID = SetTimer(NULL, 0, 250, (TIMERPROC)gl_Set_Frame_Rate);
 
 		adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
 		adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
-
-		ret = gl_Run_Level(lvl, cenv, hwnd_hry, p_ad, cpu);
+*/
+		ret = gl_Run_Level(lvl, cenv, NULL, NULL, cpu);
 	
 		if(ret == 1)
 			pPlayerProfile.cLevel[iActualLevel] = 1;
@@ -853,7 +859,7 @@ int RunLevel(HWND hWnd, AUDIO_DATA *p_ad, int cpu, char *lvl, char *env)
 				RunMenuLoadScreenRelease(3);
 	
 		kprintf(1, "KillTimer");
-		KillTimer(NULL,Timer_ID);
+		//KillTimer(NULL,Timer_ID);
 
 		kprintf(1, "_3d_Release_Hints");
 		_3d_Release_Hints(pHintTexture, 26);
@@ -863,42 +869,42 @@ int RunLevel(HWND hWnd, AUDIO_DATA *p_ad, int cpu, char *lvl, char *env)
 		kprintf(1, "kom_graf_konec");
 		kom_graf_konec(!bWindowMenu);
 		spracuj_spravy(0);
-		//maximalizuj_okno(hwnd_hry);
-		ShowCursor(TRUE);
+		//maximalizuj_okno(NULL);
+		//ShowCursor(TRUE);
 		spracuj_spravy(0);
 	}
 	else
 	{
 		//----------------------- MessageBox ......
 		kprintf(1, "kom_graf_init - nepodarilo se nahodit");
-		MyMessageBox(hwnd_hry, "##error_title", "##kom_graf_init_error","");
+		MyMessageBox(NULL,"##error_title", "##kom_graf_init_error","");
 		spracuj_spravy(0);
-		//maximalizuj_okno(hwnd_hry);
-		ShowCursor(TRUE);
+		//maximalizuj_okno(NULL);
+		//ShowCursor(TRUE);
 		spracuj_spravy(0);
 	}
 
 	kprintf(1, "ddxInit");
-	ddxInit();
+	//ddxInit();
 	spracuj_spravy(0);
 	kprintf(1, "InitDirectDraw");
-	InitDirectDraw(hwnd_hry, 1024, 768, GetPrivateProfileInt("hra", "menu_bpp", 16, ini_file));
+	//InitDirectDraw(NULL, 1024, 768, GetPrivateProfileInt("hra", "menu_bpp", 16, ini_file));
 	spracuj_spravy(0);
 	kprintf(1, "ddxLoadList");
-	ddxLoadList("2d_load.dat", 0);
+	//ddxLoadList("2d_load.dat", 0);
 	spracuj_spravy(0);
 	kprintf(1, "ddxFindFreeSurface");
-	iCompositDC = ddxFindFreeSurface();
+	//iCompositDC = ddxFindFreeSurface();
 	kprintf(1, "ddxCreateSurface");
-	CompositDC = ddxCreateSurface(1024, 768, iCompositDC);
+	//CompositDC = ddxCreateSurface(1024, 768, iCompositDC);
 	kprintf(1, "ddxFindFreeSurface");
-	iFontDC = ddxFindFreeSurface();
+	//iFontDC = ddxFindFreeSurface();
 	kprintf(1, "ddxCreateSurface");
-	FontDC = ddxCreateSurface(1024, 768, iFontDC);
+	//FontDC = ddxCreateSurface(1024, 768, iFontDC);
 	kprintf(1, "ddxFindFreeSurface");
-	iBackDC = ddxFindFreeSurface();
+	//iBackDC = ddxFindFreeSurface();
 	kprintf(1, "ddxCreateSurface");
-	BackDC = ddxCreateSurface(1024, 768, iBackDC);
+	//BackDC = ddxCreateSurface(1024, 768, iBackDC);
 
 	spracuj_spravy(0);
 	
@@ -923,15 +929,15 @@ int RunLevel(HWND hWnd, AUDIO_DATA *p_ad, int cpu, char *lvl, char *env)
 				pr_SaveProfile(&pProfile);
 			}
 
-			ogg_gain(p_ad->Music_Gain);
-			RunMenuComix("menu_comix.txt", hwnd_hry, p_ad, iActualScene);
+			//ogg_gain(p_ad->Music_Gain);
+			RunMenuComix("menu_comix.txt", NULL, p_ad, iActualScene);
 
 			if(iActualScene < 9)
 				bNewScene = 1;
 
 			if(iActualScene == 9)
 			{
-				cr_Credits(hwnd_hry, p_ad);
+				cr_Credits(NULL, p_ad);
 				cRestartMainMenu = 1;
 				bNewScene = 1;
 				iActualScene = 0;
@@ -939,18 +945,18 @@ int RunLevel(HWND hWnd, AUDIO_DATA *p_ad, int cpu, char *lvl, char *env)
 		}
 		else
 		{
-			ap_Play_Song(0,0,p_ad);
+			//ap_Play_Song(0,0,p_ad);
 			//adas_OGG_Set_Priority(cpu);
 		}
 	else
 	{
-		ap_Play_Song(0,0,p_ad);
+		//ap_Play_Song(0,0,p_ad);
 		//adas_OGG_Set_Priority(cpu);
 	}
 #endif
 
 #ifdef __DEMO
-	ap_Play_Song(0,0,p_ad);
+	//ap_Play_Song(0,0,p_ad);
 #endif
 
 	cBrutalRestart = 1;
@@ -965,31 +971,31 @@ void Credits(HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 	char	dir[256];
 
 	StopAll();
-
+/*
 	if(ogg_playing())
 		ap_Stop_Song(p_ad);
-
-	SetCursor(NULL);
+*/
+//	SetCursor(NULL);
 	_2d_Release();
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
 	chdir(dir);
 
 
-	cr_Credits(hwnd_hry, p_ad);
+	cr_Credits(NULL, p_ad);
 
-	_2d_Init(hwnd_hry);
+	_2d_Init();
 	_2d_APAK_Load_List("2d_load.dat");
 	
-	ap_Play_Song(0,0,p_ad);
+	//ap_Play_Song(0,0,p_ad);
 	//adas_OGG_Set_Priority(cpu);
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
 	chdir(dir);
 	
-	SetCursor(LoadCursor(NULL, IDC_ARROW));
+	//SetCursor(LoadCursor(NULL, IDC_ARROW));
 	spracuj_spravy(0);
-	ShowCursor(TRUE);
+	//ShowCursor(TRUE);
 	spracuj_spravy(0);
 }
 
@@ -1016,13 +1022,15 @@ void CreateFontAnimations(CMD_LINE *res, int *lastcmd)
 
 	for(i=0;i<lcmd;i++)
 		if(res[i].iParam[0] == COM_CREATEBUTTON)
-			if(fn_Gen_Menu_Text(0, HDC2DD, res[i].cParam[0], &sidx1, &sidx2) != -1)
+			//if(fn_Gen_Menu_Text(0, HDC2DD, res[i].cParam[0], &sidx1, &sidx2) != -1)
+			if(fn_Gen_Menu_Text(0, -1, res[i].cParam[0], &sidx1, &sidx2) != -1)
 				if(sidx1 != -1 && sidx2 != -1)
 				{
 					int ii;
 					int oy = res[i].iParam[2];
-					//int x = r.left + ftoi((r.right - r.left - _2dd.bitmap[sidx1].bitmap.bmWidth) / (float)2.0f);
-					int x = r.left + ftoi((r.right - r.left - ddxGetWidth(sidx1)) / (float)2.0f);
+					//int x = r.left + (int)((r.right - r.left - _2dd.bitmap[sidx1].bitmap.bmWidth) / (float)2.0f);
+					//int x = r.left + (int)((r.right - r.left - ddxGetWidth(sidx1)) / (float)2.0f);
+          int x = 0;
 					
 					if(res[i].iParam[1] != -1)
 					{
@@ -1060,7 +1068,7 @@ void CreateFontAnimations(CMD_LINE *res, int *lastcmd)
 					for(ii=6;ii<13;ii++)
 						res[*lastcmd].iAnim[0][ii] = -1;
 
-					x = r.left + ftoi((r.right - r.left - ddxGetWidth(sidx2)) / (float)2.0f);
+					x = r.left + (int)((r.right - r.left - ddxGetWidth(sidx2)) / (float)2.0f);
 
 					if(res[i].iParam[1] != -1)
 						x = res[i].iParam[1];
@@ -1145,6 +1153,7 @@ int CheckRozliseni(ROZLISENI *res, int roz_size, DWORD x, DWORD y, DWORD bpp)
 
 void EnumRozliseni(ROZLISENI **res, int *roz_size)
 {
+/*
 	int i=0 , j=0;
 	DEVMODE dmSettings;
 	
@@ -1183,7 +1192,7 @@ void EnumRozliseni(ROZLISENI **res, int *roz_size)
 				kprintf(1, "Skip (%d x %d x %d)", dmSettings.dmPelsWidth, dmSettings.dmPelsHeight, dmSettings.dmBitsPerPel);
 				goto NEXT_ENUM;
 			}
-
+*/
 			/*if(j > 0)
 				if((*res)[j-1].bpp == dmSettings.dmBitsPerPel &&
 				   (*res)[j-1].x == dmSettings.dmPelsWidth &&
@@ -1192,7 +1201,7 @@ void EnumRozliseni(ROZLISENI **res, int *roz_size)
 					kprintf(1, "Skip (%d x %d x %d)", dmSettings.dmPelsWidth, dmSettings.dmPelsHeight, dmSettings.dmBitsPerPel);
 					goto NEXT_ENUM;
 				}*/
-				
+/*
 			(*res)[j].bpp = dmSettings.dmBitsPerPel;
 			(*res)[j].x = dmSettings.dmPelsWidth;
 			(*res)[j].y = dmSettings.dmPelsHeight;
@@ -1211,6 +1220,7 @@ void EnumRozliseni(ROZLISENI **res, int *roz_size)
 		dmSettings.dmSize = sizeof(DEVMODE);
 		i++;
 	}
+*/  
 }
 
 void Key2String(int k, char *text)
@@ -1302,7 +1312,7 @@ void SetCharMenu(LIST_VIEW_CONTROL *p_li)
 			key[K_PLUS] = 0;
 			key[K_MINUS] = 0;
 		}
-
+/*
 		if(iCursor < 100)
 			ddxFillRectDisplay(&r, RGB(63, 122, 163));
 		else
@@ -1313,7 +1323,7 @@ void SetCharMenu(LIST_VIEW_CONTROL *p_li)
 				iCursor = 0;
 				ddxFillRectDisplay(&r, 0);
 			}
-
+*/
 		iCursor+=4;
 
 		//if(dim.dx || dim.dy)
@@ -1707,7 +1717,7 @@ void InitTab3d(CONTROL_LIST_ITEM *citem, int *hdcTab, ROZLISENI	*roz, int roz_si
 		co_Combo_Drop_Add_String(citem[42].p_combod, "+2.75", 2.75f);
 		co_Combo_Drop_Add_String(citem[42].p_combod, "+3.0", 3.0f);
 
-		i = ftoi(((setup.text_ostrost + 3) * 100) / 25.0f);
+		i = (int)(((setup.text_ostrost + 3) * 100) / 25.0f);
 
 		if(i > 24)
 			i = 24;
@@ -2161,9 +2171,7 @@ MENU_SETTING_BRUTAL_RESTART:
 	}
 
 	DrawClock(iClock, 3);
-	if(!co_Load_Graphic(0))
-		MessageBox(NULL,"co_Load_Graphic","co_Load_Graphic", MB_OK);
-	else
+	if(co_Load_Graphic(0))
 	{
 		int count = 0;
 
@@ -2229,17 +2237,17 @@ MENU_SETTING_BRUTAL_RESTART:
 
 		/*co_Set_Text_Right(hdcTab[0], "##settings_transparency", 0, 450, 300);
 		citem[6].p_prog = co_Create_Progres(hdcTab[0], 500, 300, 2, 18, 0);
-		co_Progres_Set(citem[6].p_prog, hdcTab[0], ftoi(setup.p_kamera_alfa * 20));
+		co_Progres_Set(citem[6].p_prog, hdcTab[0], (int)(setup.p_kamera_alfa * 20));
 		citem[6].bActive = 1;*/
 		
 		co_Set_Text_Right(hdcTab[0], "##setings_camera_speed", 0, 450, 390);
 		citem[52].p_prog = co_Create_Progres(hdcTab[0], 500, 387, 0, 10, 0);
-		co_Progres_Set(citem[52].p_prog, hdcTab[0], ftoi(setup.ovladani_rohy_rychlost * 10));
+		co_Progres_Set(citem[52].p_prog, hdcTab[0], (int)(setup.ovladani_rohy_rychlost * 10));
 		citem[52].bActive = 1;
 
 		co_Set_Text_Right(hdcTab[0], "##settings_trans_radius", 0, 450, 425);
 		citem[7].p_prog = co_Create_Progres(hdcTab[0], 500, 412, 1, 20, 1);
-		co_Progres_Set(citem[7].p_prog, hdcTab[0], ftoi(setup.p_kamera_radius * 2));
+		co_Progres_Set(citem[7].p_prog, hdcTab[0], (int)(setup.p_kamera_radius * 2));
 		citem[7].bActive = 1;
 
 		/*if(!setup.posouvat_kameru)
@@ -2444,25 +2452,26 @@ MENU_SETTING_BRUTAL_RESTART:
 		}
 
 		co_Handle_Controls(citem, CLIST_ITEMC, dim.x - TAB_X, dim.y - TAB_Y, HDC2DD, TAB_X, TAB_Y);
-
+/*
 		if(co_Progres_Changed(citem, CLIST_ITEMC, 4))
 			p_ad->Sound_Gain = co_Progres_Get(citem, CLIST_ITEMC, 4) / 100.0f;
-
+*/
+/*
 		if(co_Progres_Changed(citem, CLIST_ITEMC, 6))
 		{
 			float f = co_Progres_Get(citem, CLIST_ITEMC, 6) / 100.0f;
 
-			ogg_gain(f);
-			p_ad->Music_Gain = f;
+			//ogg_gain(f);
+			//p_ad->Music_Gain = f;
 
 			if(f >= 0.05f && !ogg_playing())
 			{
-				p_ad->Music_Gain = f;
-				ap_Play_Song(0,0,p_ad);
+			//	p_ad->Music_Gain = f;
+				//ap_Play_Song(0,0,p_ad);
 			}
 
 		}
-
+*/
 		if(ActiveTab == 1)
 		{
 			iComboActSel = co_Combo_Get_Sel_Not_Opend(citem, CLIST_ITEMC, 1);
@@ -2484,8 +2493,8 @@ MENU_SETTING_BRUTAL_RESTART:
 			{
 				float pos[3]={0, 0, 0};
 
-				if(karmin_aktivni)
-				  ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, p_ad);
+				//if(karmin_aktivni)
+				  //ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, p_ad);
 
 				SetCharMenu(p_li);
 			}
@@ -2589,8 +2598,8 @@ MENU_SETTING_BRUTAL_RESTART:
 			{
 				float pos[3]={0, 0, 0};
 
-        if(karmin_aktivni)
-				  ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, p_ad);
+        //if(karmin_aktivni)
+				  //ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, p_ad);
 
 				SetMenuSettings(roz, citem, hdcTabUse);
 				Save_ini();
@@ -2601,8 +2610,8 @@ MENU_SETTING_BRUTAL_RESTART:
 			{
 				float pos[3]={0, 0, 0};
 
-        if(karmin_aktivni)
-				  ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, p_ad);
+        //if(karmin_aktivni)
+				  //ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, p_ad);
 
 				key[K_ESC] = 1;
 			}
@@ -2666,7 +2675,7 @@ MENU_SETTING_BRUTAL_RESTART:
 			}*/
 
 			resid = -1;
-
+/*
 			if(key[K_ESC])
 			{
 				for(i=0;i<lastcmd;i++)
@@ -2678,6 +2687,7 @@ MENU_SETTING_BRUTAL_RESTART:
 
 				goto __QUIT;
 			}
+*/
 			/*else
 				goto BEGIN_MENU;*/
 		}
@@ -2968,7 +2978,7 @@ void RunMenuNewGameSceneLoadGame(HWND hWnd, AUDIO_DATA *p_ad, int cpu, char bLoa
 	GetRunMenuNewGameSceneLoadGame(cscene, cscenemap, csceneanim, cscenelevel, &iLevelStart, &iNumOfLevels, 
 								   &xTV, &yTV, &bTutorial, &xBack, &yBack);
 
-	RunMenuSceneMap(cscene, hwnd_hry, p_ad, cpu, cscenemap, 
+	RunMenuSceneMap(cscene, NULL, p_ad, cpu, cscenemap, 
 					csceneanim, iActualScene, iLevelStart, 
 					iNumOfLevels, cscenelevel, xTV, yTV, 1, cSaveFile, bTutorial, 0, 0);
 }
@@ -3004,7 +3014,7 @@ void RunMenuNewGameScene(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu
 	{
 		pPlayerProfile.cMovie[0] = 1;
 		pr_SaveProfile(&pPlayerProfile);
-		RunMenuComix("menu_comix.txt", hwnd_hry, p_ad, 0);
+		RunMenuComix("menu_comix.txt", NULL, p_ad, 0);
 	}
 #endif
 
@@ -3013,7 +3023,7 @@ void RunMenuNewGameScene(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu
 	{
 		if(lsi_Get_Save_Info(cSaveFile, &iActualLevel, &iActualScene))
 		{
-			RunMenuNewGameSceneLoadGame(hwnd_hry, p_ad, cpu, bLoadGame, cSaveFile);
+			RunMenuNewGameSceneLoadGame(NULL, p_ad, cpu, bLoadGame, cSaveFile);
 
 			bLoadGame = 0;
 
@@ -3027,7 +3037,7 @@ void RunMenuNewGameScene(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu
 	else
 		if(!iActualScene)
 		{
-			RunMenuSceneMap("Mmnew_game_scene0_map.txt", hwnd_hry, p_ad, cpu, "scene0_map.bmp", 
+			RunMenuSceneMap("Mmnew_game_scene0_map.txt", NULL, p_ad, cpu, "scene0_map.bmp", 
 							"scene0_anim", 0, 200, 20, "scene0_levels.txt", 0, 0, 0, NULL, 1, 975, 7);
 
 			bLoadGame = 0;
@@ -3041,7 +3051,7 @@ void RunMenuNewGameScene(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu
 		else
 		if(iActualScene == 10)
 		{
-			RunMenuSceneMap("Mmnew_game_scene10_map.txt", hwnd_hry, p_ad, cpu, "scene10_map.bmp", 
+			RunMenuSceneMap("Mmnew_game_scene10_map.txt", NULL, p_ad, cpu, "scene10_map.bmp", 
 							"scene10_anim", 10, 300, 15, "scene10_levels.txt", 920, 2, 0, NULL, 0, 706, 6);
 
 			bLoadGame = 0;
@@ -3055,7 +3065,7 @@ void RunMenuNewGameScene(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu
 		else
 		if(iActualScene == 11)
 		{
-			RunMenuSceneMap("Mmnew_game_scene11_map.txt", hwnd_hry, p_ad, cpu, "scene11_map.bmp", 
+			RunMenuSceneMap("Mmnew_game_scene11_map.txt", NULL, p_ad, cpu, "scene11_map.bmp", 
 							"scene11_anim", 11, 315, 15, "scene11_levels.txt", 920, 2, 0, NULL, 0, 750, 5);
 
 			bLoadGame = 0;
@@ -3069,7 +3079,7 @@ void RunMenuNewGameScene(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu
 		else
 		if(iActualScene == 12)
 		{
-			RunMenuSceneMap("Mmnew_game_scene12_map.txt", hwnd_hry, p_ad, cpu, "scene12_map.bmp", 
+			RunMenuSceneMap("Mmnew_game_scene12_map.txt", NULL, p_ad, cpu, "scene12_map.bmp", 
 							"scene12_anim", 12, 330, 15, "scene12_levels.txt", 920, 7, 0, NULL, 0, 973, 229);
 
 			bLoadGame = 0;
@@ -3374,7 +3384,7 @@ BEGIN_MENU_NEWGAMESCENE:
 				{
 					iActualScene = 1;
 					RunStretchAnimation("scene1_map.bmp", 0, 129, p_ad);
-					RunMenuSceneMap("Mmnew_game_scene1_map.txt", hwnd_hry, p_ad, cpu, "scene1_map.bmp", 
+					RunMenuSceneMap("Mmnew_game_scene1_map.txt", NULL, p_ad, cpu, "scene1_map.bmp", 
 									"scene1_anim", 1, 0, 11, "scene1_levels.txt", 919, 677, 0, NULL, 0, 713, 679);
 				}
 			}
@@ -3392,7 +3402,7 @@ BEGIN_MENU_NEWGAMESCENE:
 				{
 					iActualScene = 2;
 					RunStretchAnimation("scene2_map.bmp", 215, 0, p_ad);
-					RunMenuSceneMap("Mmnew_game_scene2_map.txt", hwnd_hry, p_ad, cpu, "scene2_map.bmp", 
+					RunMenuSceneMap("Mmnew_game_scene2_map.txt", NULL, p_ad, cpu, "scene2_map.bmp", 
 									"scene2_anim", 2, 11, 10, "scene2_levels.txt", 916, 8, 0, NULL, 0, 971, 703);
 				}
 			}
@@ -3410,7 +3420,7 @@ BEGIN_MENU_NEWGAMESCENE:
 				{
 					iActualScene = 3;
 					RunStretchAnimation("scene3_map.bmp", 177, 248, p_ad);
-					RunMenuSceneMap("Mmnew_game_scene3_map.txt", hwnd_hry, p_ad, cpu, "scene3_map.bmp", 
+					RunMenuSceneMap("Mmnew_game_scene3_map.txt", NULL, p_ad, cpu, "scene3_map.bmp", 
 									"scene3_anim", 3, 21, 12, "scene3_levels.txt", 918, 7, 0, NULL, 0, 973, 413);
 				}
 			}
@@ -3428,7 +3438,7 @@ BEGIN_MENU_NEWGAMESCENE:
 				{
 					iActualScene = 4;
 					RunStretchAnimation("scene4_map.bmp", 444, 64, p_ad);
-					RunMenuSceneMap("Mmnew_game_scene4_map.txt", hwnd_hry, p_ad, cpu, "scene4_map.bmp", 
+					RunMenuSceneMap("Mmnew_game_scene4_map.txt", NULL, p_ad, cpu, "scene4_map.bmp", 
 									"scene4_anim", 4, 33, 10, "scene4_levels.txt", 197, 9, 0, NULL, 0, 8, 16);
 				}
 			}
@@ -3446,7 +3456,7 @@ BEGIN_MENU_NEWGAMESCENE:
 				{
 					iActualScene = 5;
 					RunStretchAnimation("scene5_map.bmp", 465, 386, p_ad);
-					RunMenuSceneMap("Mmnew_game_scene5_map.txt", hwnd_hry, p_ad, cpu, "scene5_map.bmp", 
+					RunMenuSceneMap("Mmnew_game_scene5_map.txt", NULL, p_ad, cpu, "scene5_map.bmp", 
 									"scene5_anim", 5, 43, 10, "scene5_levels.txt", 918, 9, 0, NULL, 0, 976, 309);
 				}
 			}
@@ -3465,7 +3475,7 @@ BEGIN_MENU_NEWGAMESCENE:
 				{
 					iActualScene = 6;
 					RunStretchAnimation("scene6_map.bmp", 37, 495, p_ad);
-					RunMenuSceneMap("Mmnew_game_scene6_map.txt", hwnd_hry, p_ad, cpu, "scene6_map.bmp", 
+					RunMenuSceneMap("Mmnew_game_scene6_map.txt", NULL, p_ad, cpu, "scene6_map.bmp", 
 									"scene6_anim", 6, 53, 10, "scene6_levels.txt", 920, 8, 0, NULL, 0, 967, 211);
 				}
 			}
@@ -3476,7 +3486,7 @@ BEGIN_MENU_NEWGAMESCENE:
 			{
 				iActualScene = 6;
 				RunStretchAnimation("scene6_map.bmp", 37, 495, p_ad);
-				RunMenuSceneMap("Mmnew_game_scene6_map.txt", hwnd_hry, p_ad, cpu, "scene6_map.bmp", 
+				RunMenuSceneMap("Mmnew_game_scene6_map.txt", NULL, p_ad, cpu, "scene6_map.bmp", 
 								"scene6_anim", 6, 53, 6, "scene6_levels.txt", 920, 8, 0, NULL, 0, 967, 211);
 			}
 #endif
@@ -3494,7 +3504,7 @@ BEGIN_MENU_NEWGAMESCENE:
 				{
 					iActualScene = 7;
 					RunStretchAnimation("scene7_map.bmp", 616, 638, p_ad);
-					RunMenuSceneMap("Mmnew_game_scene7_map.txt", hwnd_hry, p_ad, cpu, "scene7_map.bmp", 
+					RunMenuSceneMap("Mmnew_game_scene7_map.txt", NULL, p_ad, cpu, "scene7_map.bmp", 
 									"scene7_anim", 7, 63, 10, "scene7_levels.txt", 11, 6, 0, NULL, 0, 8, 279);
 				}
 			}
@@ -3512,7 +3522,7 @@ BEGIN_MENU_NEWGAMESCENE:
 				{
 					iActualScene = 8;
 					RunStretchAnimation("scene8_map.bmp", 836, 469, p_ad);
-					RunMenuSceneMap("Mmnew_game_scene8_map.txt", hwnd_hry, p_ad, cpu, "scene8_map.bmp", 
+					RunMenuSceneMap("Mmnew_game_scene8_map.txt", NULL, p_ad, cpu, "scene8_map.bmp", 
 									"scene8_anim", 8, 73, 12, "scene8_levels.txt", 15, 677, 0, NULL, 0, 12, 490);
 				}
 			}
@@ -3530,7 +3540,7 @@ BEGIN_MENU_NEWGAMESCENE:
 				{
 					iActualScene = 9;
 					RunStretchAnimation("scene9_map.bmp", 836, 49, p_ad);
-					RunMenuSceneMap("Mmnew_game_scene9_map.txt", hwnd_hry, p_ad, cpu, "scene9_map.bmp", 
+					RunMenuSceneMap("Mmnew_game_scene9_map.txt", NULL, p_ad, cpu, "scene9_map.bmp", 
 									"scene9_anim", 9, 85, 10, "scene9_levels.txt", 918, 7, 0, NULL, 0, 971, 338);
 				}
 			}
@@ -3542,13 +3552,14 @@ BEGIN_MENU_NEWGAMESCENE:
 
 			if(key[K_ESC])
 			{
+/*
 				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-
+*/
 				goto __QUIT;
 			}
 			else
@@ -3598,7 +3609,7 @@ BEGIN_MENU_NEWGAMESCENE:
 
 		spracuj_spravy(0);
 		ddxUpdateMouse();
-		AnimationEvent(hwnd_hry, 0, 0, dwStop, p_ad);
+		AnimationEvent(NULL, 0, 0, dwStop, p_ad);
 
 		if(dim.tf1)
 		{
@@ -4097,8 +4108,8 @@ int LoadClock(int *iClock)
 
 /*			if(i != -1)
 			{
-				int x = dim.x - ftoi(ddxGetWidth(i) / 2.0f);
-				int y = dim.y - ftoi(ddxGetHight(i) / 2.0f);
+				int x = dim.x - (int)(ddxGetWidth(i) / 2.0f);
+				int y = dim.y - (int)(ddxGetHight(i) / 2.0f);
 
 				ddxTransparentBltDisplay(x, y, ddxGetWidth(i), ddxGetHight(i), i, 0, 0, ddxGetWidth(i), ddxGetHight(i), TRANSCOLOR);
 			}*/
@@ -4260,7 +4271,7 @@ void RunMenuSceneMap(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu, ch
 	{
 		sprintf(dir, "%s.lv6", cSaveFile);
 
-		if(RunLevel(hwnd_hry, p_ad, cpu, dir, "LOAD_GAME") == 1)
+		if(RunLevel(NULL, p_ad, cpu, dir, "LOAD_GAME") == 1)
 		{
 			pPlayerProfile.cLevel[iActualLevel] = 1;
 			pr_SaveProfile(&pPlayerProfile);
@@ -4649,7 +4660,7 @@ BRUTAL_RESTART_SCENE_MAP_MENU:
 
 				sprintf(cLevel, "Level%d.lv6", iActualLevel);
 
-				if(RunLevel(hwnd_hry, p_ad, cpu, cLevel, "RUN_LEVEL") == 1)
+				if(RunLevel(NULL, p_ad, cpu, cLevel, "RUN_LEVEL") == 1)
 				{
 					pPlayerProfile.cLevel[iActualLevel] = 1;
 					pr_SaveProfile(&pPlayerProfile);
@@ -4670,13 +4681,14 @@ BRUTAL_RESTART_SCENE_MAP_MENU:
 
 			if(key[K_ESC])
 			{
+/*
 				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-
+*/
 				goto __QUIT;
 			}
 		}
@@ -4702,7 +4714,7 @@ BRUTAL_RESTART_SCENE_MAP_MENU:
 
 		spracuj_spravy(0);
 		ddxUpdateMouse();
-		AnimationEvent(hwnd_hry, 0, 0, dwStop, p_ad);
+		AnimationEvent(NULL, 0, 0, dwStop, p_ad);
 
 		if(dim.tf1)
 		{
@@ -4725,10 +4737,10 @@ BRUTAL_RESTART_SCENE_MAP_MENU:
 	}
 
 __QUIT:
-
+/*
 	adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
 	adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
-
+*/
 	StopAll();
 
 	if(bReload)
@@ -4864,9 +4876,7 @@ int RunMenuNewGame(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 		}
 	}
 
-	if(!co_Load_Graphic(1))
-		MessageBox(NULL,"co_Load_Graphic","co_Load_Graphic", MB_OK);
-	else
+	if(co_Load_Graphic(1))
 	{
 		int xx, sel = -1;
 		RECT r;
@@ -5145,13 +5155,14 @@ BEGIN_MENU_NEWGAME:
 
 			if(bDone)
 			{
+/*
 				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-
+*/
 				goto __QUIT;
 			}
 			else
@@ -5179,7 +5190,7 @@ BEGIN_MENU_NEWGAME:
 
 		spracuj_spravy(0);
 		ddxUpdateMouse();
-		AnimationEvent(hwnd_hry, 0, 0, dwStop, p_ad);
+		AnimationEvent(NULL, 0, 0, dwStop, p_ad);
 
 		if(dim.tf1)
 		{
@@ -5225,7 +5236,7 @@ char check_profile(char *p_name)
 {
 	WCHAR	wc[128];
 
-	MultiByteToWideChar( CP_ACP, 0, p_name, strlen(p_name)+1, wc, sizeof(wc)/sizeof(wc[0]));
+//	MultiByteToWideChar( CP_ACP, 0, p_name, strlen(p_name)+1, wc, sizeof(wc)/sizeof(wc[0]));
 
 	if(!wcscmp(pPlayerProfile.cName, wc))
 		return 1;
@@ -5243,6 +5254,7 @@ int compare( const void *arg1, const void *arg2 )
 
 int FillStringList(char *cmask, LIST_ITEM_ **list, int *isize)
 {
+/*
 	int c = 0;
 	long Done, error;
 	struct _finddata_t	Data;
@@ -5290,6 +5302,7 @@ int FillStringList(char *cmask, LIST_ITEM_ **list, int *isize)
 	(*isize) = c;
 
 	return c;
+*/
 }
 
 int FillComboProfiles(COMBO_CONTROL *p_co, int *iSel)
@@ -5615,7 +5628,7 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu
 	//co_List_Redraw(Ltmp1DC, llcitem[1].p_list, 0);
 
 	if(!co_Load_Graphic(1))
-		MessageBox(NULL,"co_Load_Graphic","co_Load_Graphic", MB_OK);
+		assert(0);
 	else
 	{
 		int xx, sel = 0;
@@ -5846,7 +5859,7 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu
 					{
 						//fn_Release_Font(1);
 						StopAll();
-						RunMenuNewGameScene("Mmnew_game_scene.txt", hwnd_hry, p_ad, cpu, 1, p_li->piValue[p_li->cSelected].cValue, 0);
+						RunMenuNewGameScene("Mmnew_game_scene.txt", NULL, p_ad, cpu, 1, p_li->piValue[p_li->cSelected].cValue, 0);
 						//fn_Set_Font("font_system.pak");
 						//fn_Load_Bitmaps();
 						key[K_ESC] = 1;
@@ -5857,7 +5870,7 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu
 
 						CreateLevelCommandLine(p_li->piValue[p_li->cSelected].cValue, ctext);
 						demo_Set_Scene_Level(p_li->piValue[p_li->cSelected].cValue, &iActualScene, &iActualLevel);
-						RunLevel(hwnd_hry, p_ad, cpu, ctext, "LOAD_DEMO");
+						RunLevel(NULL, p_ad, cpu, ctext, "LOAD_DEMO");
 
 						for(i=0;i<32;i++)
 							anm[i].cmd = NULL;
@@ -5972,7 +5985,7 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu
 					{
 						//fn_Release_Font(1);
 						StopAll();
-						RunMenuNewGameScene("Mmnew_game_scene.txt", hwnd_hry, p_ad, cpu, 1, p_li->piValue[p_li->cClckSel].cValue, 0);
+						RunMenuNewGameScene("Mmnew_game_scene.txt", NULL, p_ad, cpu, 1, p_li->piValue[p_li->cClckSel].cValue, 0);
 						//fn_Set_Font("font_system.pak");
 						//fn_Load_Bitmaps();
 						key[K_ESC] = 1;
@@ -5983,7 +5996,7 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu
 
 						CreateLevelCommandLine(p_li->piValue[p_li->cClckSel].cValue, ctext);
 						demo_Set_Scene_Level(p_li->piValue[p_li->cClckSel].cValue, &iActualScene, &iActualLevel);
-						RunLevel(hwnd_hry, p_ad, cpu, ctext, "LOAD_DEMO");
+						RunLevel(NULL, p_ad, cpu, ctext, "LOAD_DEMO");
 
 						for(i=0;i<32;i++)
 							anm[i].cmd = NULL;
@@ -6000,13 +6013,13 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu
 
 			if(key[K_ESC])
 			{
-				for(i=0;i<lastcmd;i++)
+/*				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-
+*/
 				goto __QUIT;
 			}
 		}
@@ -6032,7 +6045,7 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu
 
 		spracuj_spravy(0);
 		ddxUpdateMouse();
-		AnimationEvent(hwnd_hry, 0, 0, dwStop, p_ad);
+		AnimationEvent(NULL, 0, 0, dwStop, p_ad);
 
 		if(dim.tf1)
 		{
@@ -6427,10 +6440,10 @@ BEGIN_MENU_LOAD:
 			}
 
 			if(!strcmp(res[resid].cParam[1], "LOAD_GAME_LOAD"))
-				RunMenuLoadGameLoad("Mmload_game_load.txt", hwnd_hry, p_ad, cpu, 1);
+				RunMenuLoadGameLoad("Mmload_game_load.txt", NULL, p_ad, cpu, 1);
 
 			if(!strcmp(res[resid].cParam[1], "LOAD_GAME_DEMO"))
-				RunMenuLoadGameLoad("Mmload_game_load.txt", hwnd_hry, p_ad, cpu, 0);
+				RunMenuLoadGameLoad("Mmload_game_load.txt", NULL, p_ad, cpu, 0);
 	
 			if(cBrutalRestart)
 				key[K_ESC] = 1;
@@ -6467,13 +6480,14 @@ BEGIN_MENU_LOAD:
 
 			if(key[K_ESC])
 			{
+/*
 				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-
+*/
 				goto __QUIT;
 			}
 			else
@@ -6507,7 +6521,7 @@ BEGIN_MENU_LOAD:
 
 		spracuj_spravy(0);
 		ddxUpdateMouse();
-		AnimationEvent(hwnd_hry, 0, 0, dwStop, p_ad);
+		AnimationEvent(NULL, 0, 0, dwStop, p_ad);
 
 		if(dim.tf1)
 		{
@@ -6861,7 +6875,7 @@ BEGIN_MENU:
 
 		ddxBitBlt(idx, 0, 0, 1024, 768, HDC2DD, 0, 0);
 
-		if(RunMenuNewGame("Mmnew_game.txt", hwnd_hry, p_ad, cpu))
+		if(RunMenuNewGame("Mmnew_game.txt", NULL, p_ad, cpu))
 		{
 			//ddxReleaseBitmap(idx);
 			goto RUN_MENU_BRUTAL_RESTART;
@@ -7086,7 +7100,7 @@ BEGIN_MENU:
 
 			if(!strcmp(res[resid].cParam[1], "PLAYER_NAME"))
 			{
-				if(RunMenuNewGame("Mmnew_game.txt", hwnd_hry, p_ad, cpu))
+				if(RunMenuNewGame("Mmnew_game.txt", NULL, p_ad, cpu))
 					goto RUN_MENU_BRUTAL_RESTART;
 
 				bStop = 1;
@@ -7101,12 +7115,12 @@ BEGIN_MENU:
 
 				if(lid < 2 || lid == 4)
 				{
-					if(cr_Credits(hwnd_hry, p_ad))
+					if(cr_Credits(NULL, p_ad))
 						goto RUN_MENU_BRUTAL_RESTART;
 				}
 				else
 				{
-					if(cr_CreditsUNI(hwnd_hry, p_ad))
+					if(cr_CreditsUNI(NULL, p_ad))
 						goto RUN_MENU_BRUTAL_RESTART;
 				}
 			}
@@ -7114,21 +7128,21 @@ BEGIN_MENU:
 			if(!strcmp(res[resid].cParam[1], "NEW_GAME"))
 			{
 				//RunMenuNewGame("Mmnew_game.txt", hWnd, p_ad, cpu);
-				RunMenuStartGame("Mmstart_game.txt", hwnd_hry, p_ad, cpu);
+				RunMenuStartGame("Mmstart_game.txt", NULL, p_ad, cpu);
 				if(cBrutalRestart)
 					goto RUN_MENU_BRUTAL_RESTART;
 			}
 
 			if(!strcmp(res[resid].cParam[1], "LOAD_GAME"))
 			{
-				RunMenuLoadGame("Mmload_game.txt", hwnd_hry, p_ad, cpu);
+				RunMenuLoadGame("Mmload_game.txt", NULL, p_ad, cpu);
 				if(cBrutalRestart)
 					goto RUN_MENU_BRUTAL_RESTART;
 			}
 
 			if(!strcmp(res[resid].cParam[1], "SETTINGS"))
 			{
-				RunMenuSettings("Mmsettings.txt", hwnd_hry, p_ad, cpu);
+				RunMenuSettings("Mmsettings.txt", NULL, p_ad, cpu);
 
 				if(cBrutalRestart)
 					goto RUN_MENU_BRUTAL_RESTART;
@@ -7168,13 +7182,13 @@ BEGIN_MENU:
 
 			if(key[K_ESC])
 			{
-				for(i=0;i<lastcmd;i++)
+/*				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-
+*/
 				goto __QUIT;
 			}
 			else
@@ -7202,7 +7216,7 @@ BEGIN_MENU:
 
 		spracuj_spravy(0);
 		ddxUpdateMouse();
-		AnimationEvent(hwnd_hry, 0, 0, dwStop, p_ad);
+		AnimationEvent(NULL, 0, 0, dwStop, p_ad);
 
 		if(dim.tf1)
 		{
@@ -7223,7 +7237,7 @@ BEGIN_MENU:
 	}
 
 __QUIT:
-	
+/*	
 	for(i=0;i<lastcmd;i++)
 		if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 		{
@@ -7234,7 +7248,7 @@ __QUIT:
 	//fn_Release_Font();
 	adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
 	adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
-
+*/
 	StopAll();
 //	StopAnimationTimer();
 	
@@ -7595,7 +7609,7 @@ BEGIN_MENU_CHILDNEWGAME:
 					bBackDC = 0;
 					iActualScene = 10;
 
-					RunMenuNewGameScene("Mmnew_game_scene.txt", hwnd_hry, p_ad, cpu, 0, NULL, 0);
+					RunMenuNewGameScene("Mmnew_game_scene.txt", NULL, p_ad, cpu, 0, NULL, 0);
 				
 					key[K_ESC] = 1;
 				}
@@ -7614,7 +7628,7 @@ BEGIN_MENU_CHILDNEWGAME:
 					bBackDC = 0;
 					iActualScene = 11;
 
-					RunMenuNewGameScene("Mmnew_game_scene.txt", hwnd_hry, p_ad, cpu, 0, NULL, 0);
+					RunMenuNewGameScene("Mmnew_game_scene.txt", NULL, p_ad, cpu, 0, NULL, 0);
 					
 					key[K_ESC] = 1;
 				}
@@ -7633,7 +7647,7 @@ BEGIN_MENU_CHILDNEWGAME:
 					bBackDC = 0;
 					iActualScene = 12;
 
-					RunMenuNewGameScene("Mmnew_game_scene.txt", hwnd_hry, p_ad, cpu, 0, NULL, 0);
+					RunMenuNewGameScene("Mmnew_game_scene.txt", NULL, p_ad, cpu, 0, NULL, 0);
 				
 					key[K_ESC] = 1;
 				}
@@ -7667,13 +7681,14 @@ BEGIN_MENU_CHILDNEWGAME:
 
 			if(key[K_ESC])
 			{
+/*
 				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-
+*/
 				goto __QUIT;
 			}
 			else
@@ -7701,7 +7716,7 @@ BEGIN_MENU_CHILDNEWGAME:
 
 		spracuj_spravy(0);
 		ddxUpdateMouse();
-		AnimationEvent(hwnd_hry, 0, 0, dwStop, p_ad);
+		AnimationEvent(NULL, 0, 0, dwStop, p_ad);
 
 		if(dim.tf1)
 		{
@@ -8110,13 +8125,13 @@ BEGIN_MENU_NEWGAME:
 			{
 				iActualScene = 1;
 				StopAll();
-				RunMenuNewGameScene("Mmnew_game_scene.txt", hwnd_hry, p_ad, cpu, 0, NULL, 1);
+				RunMenuNewGameScene("Mmnew_game_scene.txt", NULL, p_ad, cpu, 0, NULL, 1);
 				key[K_ESC] = 1;
 			}
 
 			if(!strcmp(res[resid].cParam[1], "CHILD_SCENE"))
 			{
-				RunMenuChildGame("Mmstart_child_game.txt", hwnd_hry, p_ad, cpu);
+				RunMenuChildGame("Mmstart_child_game.txt", NULL, p_ad, cpu);
 	
 				if(cRestartMainMenu)
 				{
@@ -8131,7 +8146,7 @@ BEGIN_MENU_NEWGAME:
 				bBackDC = 0;
 				iActualScene = 0;
 
-				RunMenuNewGameScene("Mmnew_game_scene.txt", hwnd_hry, p_ad, cpu, 0, NULL, 0);
+				RunMenuNewGameScene("Mmnew_game_scene.txt", NULL, p_ad, cpu, 0, NULL, 0);
 				
 				key[K_ESC] = 1;
 			}
@@ -8160,13 +8175,14 @@ BEGIN_MENU_NEWGAME:
 
 			if(key[K_ESC])
 			{
+/*
 				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-
+*/
 				goto __QUIT;
 			}
 			else
@@ -8194,7 +8210,7 @@ BEGIN_MENU_NEWGAME:
 
 		spracuj_spravy(0);
 		ddxUpdateMouse();
-		AnimationEvent(hwnd_hry, 0, 0, dwStop, p_ad);
+		AnimationEvent(NULL, 0, 0, dwStop, p_ad);
 
 		if(dim.tf1)
 		{
@@ -8337,7 +8353,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 	iClock = ddxLoadBitmap("clock1-1.bmp", pBmpArchive);
 	ddxResizeCursorBack(iClock);
 	DrawClock(&iClock, 0);
-
+/*
 	if(ogg_playing())
 	{
 		float f;
@@ -8353,7 +8369,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 
 		ap_Stop_Song(p_ad);
 	}
-
+*/
 	Sleep(1000);
 
 	bBackDC = 0;
@@ -8521,7 +8537,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 
 	iSongTime = GetComixTime(iScene);
 
-	ap_Play_Song(iScene+1,0, p_ad);
+	//ap_Play_Song(iScene+1,0, p_ad);
 /*	if (p_ad->bAudio && p_ad->Music_Gain >= 0.05f)
 		ap_Setup_and_Play_Song(iScene+1,0, p_ad);
 
@@ -8706,13 +8722,13 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 
 			if(key[K_ESC])
 			{
-				for(i=0;i<lastcmd;i++)
+/*				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-
+*/
 				goto __QUIT;
 			}
 		}
@@ -8748,7 +8764,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 			rr.right = 700;
 			rr.bottom = 549;
 
-			y = (int)ftoi((dwEplased * (ddxGetHight(iComix) - 550)) / (float) iSongTime);
+			y = (int)(int)((dwEplased * (ddxGetHight(iComix) - 550)) / (float) iSongTime);
 	
 			if(y >=  ddxGetHight(iComix) - 550)
 				key[K_ESC] = 1;
@@ -8758,7 +8774,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 			_2d_Add_RectItem(&rline, rr, 0);
 		}
 
-		AnimationEvent(hwnd_hry, 0, 0, dwStop, p_ad);
+		AnimationEvent(NULL, 0, 0, dwStop, p_ad);
 
 		if(dim.tf1)
 		{
@@ -8784,10 +8800,10 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 __QUIT:
 
 	//kprintf(1, "%d", dwEplased);
-
+/*
 	adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
 	adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
-
+*/
 	StopAll();
 
 	ddxReleaseBitmap(iTVBmp);
@@ -8810,7 +8826,7 @@ __QUIT:
 	if(ogg_playing())
 		ap_Stop_Song(p_ad);
 
-	ap_Play_Song(0, 0, p_ad);
+	//ap_Play_Song(0, 0, p_ad);
 
 	ddxSetFlip(TRUE);
 
@@ -8859,7 +8875,7 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 	iClock = ddxLoadBitmap("clock1-1.bmp", pBmpArchive);
 	ddxResizeCursorBack(iClock);
 	DrawClock(&iClock, 0);
-
+/*
 	if(ogg_playing())
 	{
 		float f;
@@ -8875,7 +8891,7 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 
 		ap_Stop_Song(p_ad);
 	}
-
+*/
 	ddxSetFlip(0);
 
 	DrawClock(&iClock, 0);
@@ -8909,7 +8925,7 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 
 	iSongTime = GetComixTime(iScene);
 
-	ap_Play_Song(iScene+1,0, p_ad);
+	//ap_Play_Song(iScene+1,0, p_ad);
 
 	dwStart = timeGetTime();
 
@@ -8953,7 +8969,7 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 			}
 			while(idx == lidx);
 						
-			dwStart -= ftoi(iSongTime / (float)bmpc);
+			dwStart -= (int)(iSongTime / (float)bmpc);
 		}
 
 		if(ddxRestore(&CompositDC, &FontDC, &BackDC, &iCompositDC, &iFontDC, &iBackDC, &cBrutalRestart, p_ad))
@@ -8962,16 +8978,16 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 			return 1;
 		}
 	}
-
+/*
 	adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
 	adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
-
+*/
 	key[K_ESC] = 0;
 
 	for(i=0;i<64;i++)
 		if(bmp[i] != -1)
 			ddxReleaseBitmap(bmp[i]);
-
+/*
 	if(ogg_playing())
 	{
 		float f;
@@ -8987,10 +9003,10 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 
 		ap_Stop_Song(p_ad);
 	}
-
+*/
 	Sleep(1000);
 
-	ap_Play_Song(0, 0, p_ad);
+	//ap_Play_Song(0, 0, p_ad);
 
 	ddxCleareSurfaceColorDisplay(0);
 	DisplayFrame();

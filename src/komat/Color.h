@@ -1,44 +1,10 @@
 /*
   color.h
 */
-#ifndef __FTOI
-#define __FTOI
-
-__inline int ftoi(float flt)
-{
-	volatile int n; 
-	__asm 
-	{
-		fld flt
-		fistp n
-	}
-	return n;
-}
-
-#endif
-
-#ifndef __FTOIF
-#define __FTOIF
-
-__inline float ftoif(float cislo)
-{
-	volatile int n;   
-	__asm 
-	{
-		fld   cislo
-		fistp n
-	}
-	return (float)n;
-}
-
-#endif
-
-
 #ifndef __COLOR_H
 #define __COLOR_H
 
-
-__inline dword int_rgb(int r, int g, int b)
+inline dword int_rgb(int r, int g, int b)
 {
   dword barva;  
 
@@ -53,7 +19,7 @@ __inline dword int_rgb(int r, int g, int b)
   return(barva);
 }
 
-__inline dword byte_rgb(byte r, byte g, byte b)
+inline dword byte_rgb(byte r, byte g, byte b)
 {
   dword barva;  
   barva  =  r;
@@ -62,7 +28,7 @@ __inline dword byte_rgb(byte r, byte g, byte b)
   return(barva);
 }
 
-__inline dword rgb_byte(dword barva, byte *p_r, byte *p_g, byte *p_b)
+inline dword rgb_byte(dword barva, byte *p_r, byte *p_g, byte *p_b)
 {    
   *p_r = (byte)((barva)&0xff);
   *p_g = (byte)((barva>>8)&0xff);
@@ -70,7 +36,7 @@ __inline dword rgb_byte(dword barva, byte *p_r, byte *p_g, byte *p_b)
   return(barva);
 }
 
-__inline dword rgb_int(dword barva, int *p_r, int *p_g, int *p_b)
+inline dword rgb_int(dword barva, int *p_r, int *p_g, int *p_b)
 {    
   *p_r = (byte)((barva)&0xff);
   *p_g = (byte)((barva>>8)&0xff);
@@ -78,41 +44,41 @@ __inline dword rgb_int(dword barva, int *p_r, int *p_g, int *p_b)
   return(barva);
 }
 
-__inline dword byte_a(dword barva, int a)
+inline dword byte_a(dword barva, int a)
 {  
   return(barva|(a<<24));
 }
 
-__inline byte a_byte(dword barva)
+inline byte a_byte(dword barva)
 {  
   return((byte)(barva>>24));
 }
 
-__inline dword float_rgba(float *p_barva)
+inline dword float_rgba(float *p_barva)
 {
   dword barva;  
-  barva  =   ftoi(p_barva[0]*255.0f);
-  barva |=  (ftoi(p_barva[1]*255.0f)<<8);
-  barva |=  (ftoi(p_barva[2]*255.0f)<<16);
-  barva |=  (ftoi(p_barva[3]*255.0f)<<24);
+  barva  =   (int)(p_barva[0]*255.0f);
+  barva |=  ((int)(p_barva[1]*255.0f)<<8);
+  barva |=  ((int)(p_barva[2]*255.0f)<<16);
+  barva |=  ((int)(p_barva[3]*255.0f)<<24);
   return(barva);
 }
 
-__inline dword float_rgb(float *p_barva)
+inline dword float_rgb(float *p_barva)
 {
   dword barva;  
-  barva  =   ftoi(p_barva[0]*255.0f);
-  barva |=  (ftoi(p_barva[1]*255.0f)<<8);
-  barva |=  (ftoi(p_barva[2]*255.0f)<<16);
+  barva  =   (int)(p_barva[0]*255.0f);
+  barva |=  ((int)(p_barva[1]*255.0f)<<8);
+  barva |=  ((int)(p_barva[2]*255.0f)<<16);
   return(barva);
 }
 
-__inline dword float_a(float alfa)
+inline dword float_a(float alfa)
 {
-  return(ftoi(alfa*255.0f));
+  return((int)(alfa*255.0f));
 }
 
-__inline float * rgba_float(dword barva, float *p_barva)
+inline float * rgba_float(dword barva, float *p_barva)
 {  
   p_barva[0] = ((float)(barva&0xff))/255.0f;
   p_barva[1] = ((float)((barva&0xff00)>>8))/255.0f;
@@ -121,7 +87,7 @@ __inline float * rgba_float(dword barva, float *p_barva)
   return(p_barva);
 }
 
-__inline float * rgb_float(dword barva, float *p_barva)
+inline float * rgb_float(dword barva, float *p_barva)
 {  
   p_barva[0] = ((float)(barva&0xff))/255.0f;
   p_barva[1] = ((float)((barva&0xff00)>>8))/255.0f;
@@ -129,13 +95,13 @@ __inline float * rgb_float(dword barva, float *p_barva)
   return(p_barva);
 }
 
-__inline float a_float(dword barva)
+inline float a_float(dword barva)
 {  
   return(((float)(barva&0xff))/255.0f);
 }
 
 // Prace s barvama
-__inline void add_color(dword *p_baze, dword add)
+inline void add_color(dword *p_baze, dword add)
 { // BGR
   dword rs,gs,bs,as;
   dword rd,gd,bd,ad;
@@ -166,7 +132,7 @@ __inline void add_color(dword *p_baze, dword add)
   *p_baze |= (ad<<24);
 }
 
-__inline void add_color_f(float *p_zdroj, float r, float g, float b)
+inline void add_color_f(float *p_zdroj, float r, float g, float b)
 { // BGR
   p_zdroj[0] += r;
   p_zdroj[1] += g;
@@ -177,7 +143,7 @@ __inline void add_color_f(float *p_zdroj, float r, float g, float b)
   if(p_zdroj[2] > 1.0f) p_zdroj[2] = 1.0f;   
 }
 
-__inline void add_color_fa(float *p_zdroj, float r, float g, float b, float a)
+inline void add_color_fa(float *p_zdroj, float r, float g, float b, float a)
 { // BGR
   p_zdroj[0] += r;
   p_zdroj[1] += g;
@@ -191,7 +157,7 @@ __inline void add_color_fa(float *p_zdroj, float r, float g, float b, float a)
 }
 
 // r,g,b,a
-__inline void add_color_p(float *p_zdroj, float *p_add)
+inline void add_color_p(float *p_zdroj, float *p_add)
 { // BGR
   p_zdroj[0] += p_add[0];
   p_zdroj[1] += p_add[1];
@@ -202,7 +168,7 @@ __inline void add_color_p(float *p_zdroj, float *p_add)
   if(p_zdroj[2] > 1.0f) p_zdroj[2] = 1.0f;  
 }
 
-__inline void add_color_pa(float *p_zdroj, float *p_add)
+inline void add_color_pa(float *p_zdroj, float *p_add)
 { // BGR
   p_zdroj[0] += p_add[0];
   p_zdroj[1] += p_add[1];
@@ -215,7 +181,7 @@ __inline void add_color_pa(float *p_zdroj, float *p_add)
   if(p_zdroj[3] > 1.0f) p_zdroj[3] = 1.0f;
 }
 
-__inline void sub_color(dword *p_baze, dword add)
+inline void sub_color(dword *p_baze, dword add)
 { // BGR
   int rs,gs,bs,as;
   int rd,gd,bd,ad;
@@ -246,7 +212,7 @@ __inline void sub_color(dword *p_baze, dword add)
   *p_baze |= (ad<<24);
 }
 
-__inline void sub_color_f(float *p_zdroj, float r, float g, float b)
+inline void sub_color_f(float *p_zdroj, float r, float g, float b)
 { // BGR
   p_zdroj[0] -= r;
   p_zdroj[1] -= g;
@@ -257,7 +223,7 @@ __inline void sub_color_f(float *p_zdroj, float r, float g, float b)
   if(p_zdroj[2] < 0.0f) p_zdroj[2] = 0.0f;  
 }
 
-__inline void sub_color_fa(float *p_zdroj, float r, float g, float b, float a)
+inline void sub_color_fa(float *p_zdroj, float r, float g, float b, float a)
 { // BGR
   p_zdroj[0] -= r;
   p_zdroj[1] -= g;
@@ -270,7 +236,7 @@ __inline void sub_color_fa(float *p_zdroj, float r, float g, float b, float a)
   if(p_zdroj[3] < 0.0f) p_zdroj[3] = 0.0f;  
 }
 
-__inline void sub_color_p(float *p_zdroj, float *p_sub)
+inline void sub_color_p(float *p_zdroj, float *p_sub)
 { // BGR
   p_zdroj[0] -= p_sub[0];
   p_zdroj[1] -= p_sub[1];
@@ -281,7 +247,7 @@ __inline void sub_color_p(float *p_zdroj, float *p_sub)
   if(p_zdroj[2] < 0.0f) p_zdroj[2] = 0.0f;  
 }
 
-__inline void sub_color_pa(float *p_zdroj, float *p_sub)
+inline void sub_color_pa(float *p_zdroj, float *p_sub)
 { // BGR
   p_zdroj[0] -= p_sub[0];
   p_zdroj[1] -= p_sub[1];
@@ -294,7 +260,7 @@ __inline void sub_color_pa(float *p_zdroj, float *p_sub)
   if(p_zdroj[3] < 0.0f) p_zdroj[3] = 0.0f;  
 }
 
-__inline void add_mult_color_dword(float *p_baze, dword barva, float scale)
+inline void add_mult_color_dword(float *p_baze, dword barva, float scale)
 { // BGR  
   float d[4];
 
@@ -311,7 +277,7 @@ __inline void add_mult_color_dword(float *p_baze, dword barva, float scale)
   if(p_baze[3] > 1.0f) p_baze[3] = 1.0f;
 }
 
-__inline void mult_mult_color_dword(float *p_baze, dword barva, float scale)
+inline void mult_mult_color_dword(float *p_baze, dword barva, float scale)
 { // BGR  
   float d[4];
 
@@ -328,7 +294,7 @@ __inline void mult_mult_color_dword(float *p_baze, dword barva, float scale)
   if(p_baze[3] > 1.0f) p_baze[3] = 1.0f;
 }
 
-__inline void add_mult_color(dword *p_baze, dword add, float scale)
+inline void add_mult_color(dword *p_baze, dword add, float scale)
 { // BGR
   float rs,gs,bs,as;
   float rd,gd,bd,ad;
@@ -359,7 +325,7 @@ __inline void add_mult_color(dword *p_baze, dword add, float scale)
   *p_baze |= ((byte)ad<<24);
 }
 
-__inline void add_mult_color_f(float *p_baze, float *p_add, float scale)
+inline void add_mult_color_f(float *p_baze, float *p_add, float scale)
 { // BGR
   p_baze[0] += p_add[0]*scale;
   p_baze[1] += p_add[1]*scale;
@@ -372,7 +338,7 @@ __inline void add_mult_color_f(float *p_baze, float *p_add, float scale)
   if(p_baze[3] > 1.0f) p_baze[3] = 1.0f;
 }
 
-__inline void sub_mult_color(dword *p_baze, dword *p_add, float scale)
+inline void sub_mult_color(dword *p_baze, dword *p_add, float scale)
 { // BGR
   float rs,gs,bs,as;
   float rd,gd,bd,ad;
@@ -403,7 +369,7 @@ __inline void sub_mult_color(dword *p_baze, dword *p_add, float scale)
   *p_baze |= ((byte)ad<<24);
 }
 
-__inline void sub_mult_color_f(float *p_baze, float *p_add, float scale)
+inline void sub_mult_color_f(float *p_baze, float *p_add, float scale)
 { // BGR
   p_baze[0] -= p_add[0]*scale;
   p_baze[1] -= p_add[1]*scale;
@@ -416,7 +382,7 @@ __inline void sub_mult_color_f(float *p_baze, float *p_add, float scale)
   if(p_baze[3] < 0.0f) p_baze[3] = 0.0f;
 }
 
-__inline void add_color_rgb_dword(dword *p_baze, dword r, dword g, dword b)
+inline void add_color_rgb_dword(dword *p_baze, dword r, dword g, dword b)
 { // BGR
   dword rd,gd,bd;
 
@@ -437,7 +403,7 @@ __inline void add_color_rgb_dword(dword *p_baze, dword r, dword g, dword b)
   *p_baze |= (bd<<16);
 }
 
-__inline void add_color_rgb(float *p_baze, dword r, dword g, dword b)
+inline void add_color_rgb(float *p_baze, dword r, dword g, dword b)
 { // BGR
   p_baze[0] += r/MAX_BYTE;
   p_baze[1] += g/MAX_BYTE;
@@ -448,7 +414,7 @@ __inline void add_color_rgb(float *p_baze, dword r, dword g, dword b)
   if(p_baze[2] > 1.0f) p_baze[2] = 1.0f;
 }
 
-__inline void add_color_rgb_byte(byte *p_baze, byte ar, byte ag, byte ab)
+inline void add_color_rgb_byte(byte *p_baze, byte ar, byte ag, byte ab)
 { // BGR
   int r,g,b;
 
@@ -469,7 +435,7 @@ __inline void add_color_rgb_byte(byte *p_baze, byte ar, byte ag, byte ab)
   p_baze[2] = (byte)b;
 }
 
-__inline void sub_color_rgb(float *p_baze, dword r, dword g, dword b)
+inline void sub_color_rgb(float *p_baze, dword r, dword g, dword b)
 { // BGR
   p_baze[0] -= r/MAX_BYTE;
   p_baze[1] -= g/MAX_BYTE;
@@ -480,7 +446,7 @@ __inline void sub_color_rgb(float *p_baze, dword r, dword g, dword b)
   if(p_baze[2] < 0.0f) p_baze[2] = 01.0f;
 }
 
-__inline void sub_color_rgb_dword(dword *p_baze, dword r, dword g, dword b)
+inline void sub_color_rgb_dword(dword *p_baze, dword r, dword g, dword b)
 { // BGR
   int rd,gd,bd;
 
@@ -501,7 +467,7 @@ __inline void sub_color_rgb_dword(dword *p_baze, dword r, dword g, dword b)
   *p_baze |= (bd<<16);
 }
 
-__inline void add_mult_color_rgba(dword *p_baze, int r, int g, int b, float scale)
+inline void add_mult_color_rgba(dword *p_baze, int r, int g, int b, float scale)
 { // BGR
   float rd,gd,bd,ad;
 
@@ -528,7 +494,7 @@ __inline void add_mult_color_rgba(dword *p_baze, int r, int g, int b, float scal
   *p_baze |= ((byte)ad<<24);
 }
 
-__inline void add_mult_color_rgb_int(byte *p_baze, int r, int g, int b, float scale)
+inline void add_mult_color_rgb_int(byte *p_baze, int r, int g, int b, float scale)
 { // BGR
   float rd,gd,bd;
 
@@ -553,7 +519,7 @@ __inline void add_mult_color_rgb_int(byte *p_baze, int r, int g, int b, float sc
   p_baze[2] = (byte)bd;
 }
 
-__inline void sub_mult_color_rgb(dword *p_baze, dword r, dword g, dword b, float scale)
+inline void sub_mult_color_rgb(dword *p_baze, dword r, dword g, dword b, float scale)
 { // BGR
   float rd,gd,bd;
 
@@ -575,18 +541,18 @@ __inline void sub_mult_color_rgb(dword *p_baze, dword r, dword g, dword b, float
 }
 
 
-__inline void get_add_color_rgb(dword baze, dword *p_r, dword *p_g, dword *p_b)
+inline void get_add_color_rgb(dword baze, dword *p_r, dword *p_g, dword *p_b)
 { // BGR
   *p_r += ((baze)&0xff);
   *p_g += ((baze)&0xff00)>>8;
   *p_b += ((baze)&0xff0000)>>16;
 }
 
-__inline void mult_color_rgb_max(dword *p_baze, dword r, dword g, dword b, float scale)
+inline void mult_color_rgb_max(dword *p_baze, dword r, dword g, dword b, float scale)
 { // BGR
-  r = (dword)ftoi(r*scale);
-  g = (dword)ftoi(g*scale);
-  b = (dword)ftoi(b*scale);
+  r = (dword)(int)(r*scale);
+  g = (dword)(int)(g*scale);
+  b = (dword)(int)(b*scale);
   
   if(r > MAX_BYTE) r = MAX_BYTE;
   if(g > MAX_BYTE) g = MAX_BYTE;

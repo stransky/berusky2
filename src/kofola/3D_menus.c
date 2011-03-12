@@ -1,33 +1,29 @@
 //------------------------------------------------------------------------------------------------
 // version 0.0.1
 //------------------------------------------------------------------------------------------------
-#include "..\\komat\\mss_on.h"
 #include <math.h>
-#include <direct.h>
 
 #include <assert.h>
-//#include <d3d.h>
-#include <windows.h>
 #include "font.h"
 
-#include "..\komat\3d_all.h"
-#include "..\Komat\berusky3d_kofola_interface.h"
-#include "..\komat\berusky3d_light.h"
+#include "3d_all.h"
+#include "Berusky3d_kofola_interface.h"
+#include "Berusky3d_light.h"
 
 #include "3D_graphic.h"
 #include "Object.h"
 #include "menu_script.h"
 #include "controls.h"
-#include "2d_graphic.h"
-#include "menu2.h"
-#include "apak.h"
+#include "2D_graphic.h"
+#include "Menu2.h"
+#include "Apak.h"
 #include "animation.h"
-#include "3d_menus.h"
+#include "3D_menus.h"
 #include "load_level.h"
 #include "menu_def.h"
 
 extern ANIMATION_MODULE	am;
-extern  AUDIO_DATA ad;
+//extern  AUDIO_DATA ad;
 extern _2D_DATA	_2dd;
 extern _3D_DATA	_3dd;
 extern	G_KONFIG ber;
@@ -44,11 +40,11 @@ EDIT_TEXT	sIndikace[3];
 extern APAK_HANDLE		*pBmpArchive;
 extern APAK_HANDLE		*p3DMArchive;
 extern APAK_HANDLE		*pDataArchive;
-
+/*
 extern	   HDC CompositDC;
 extern	   HDC FontDC;
 extern	   HDC BackDC;
-
+*/
 typedef struct
 {
 	float	vfLocation[4];
@@ -102,7 +98,7 @@ typedef struct
 } _3D_ANIMATION_STRUCTURE;
 
 _3D_ANIMATION_STRUCTURE	_3DAnimationStruct;
-extern AUDIO_DATA		ad;
+//extern AUDIO_DATA		ad;
 int	iTopLedgeDL;
 int	iInventoryDL;
 HINT_TEXTURE	pHintTexture[26];
@@ -118,7 +114,7 @@ void _3d_Stop_Animation(int iID, char cCleanDrawLine);
 void _3d_RemoveIDFromDrawList(int iID);
 void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out, LEVELINFO *p_Level,
 						   float *_3d_Scale_Factor, int demo);
-void RunMenuSettings3D(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu, HDC hdc, float *_3d_Scale_Factor);
+//void RunMenuSettings3D(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu, HDC hdc, float *_3d_Scale_Factor);
 void _3d_Start_Settings(float *_3d_Scale_Factor);
 void _3d_Draw_Hint(float *_3d_Scale_Factor);
 void _3d_Draw_Indikace(LEVELINFO *p_Level, float *_3d_Scale_Factor);
@@ -1477,7 +1473,7 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out, LEVELINFO *p_Lev
 			float pos[3] = {0,0,0};
 			int rnd = rand()%3;
 
-			ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
+			//ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
 
 			/*_3d_Cancel_Menu(p_Level);
 			p_Level->Level_Exit = 2;
@@ -1502,7 +1498,7 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out, LEVELINFO *p_Lev
 			float pos[3] = {0,0,0};
 			int rnd = rand()%3;
 
-			ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
+//			ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
 
 			//_3d_Cancel_Menu(p_Level);
 			/*p_Level->Level_Exit = 3;
@@ -1526,9 +1522,9 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out, LEVELINFO *p_Lev
 			int rnd = rand()%3;
 			float pos[3] = {0,0,0};
 
-			ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
+//			ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
 
-			RunMenuSettings2("Mmsettings3D.txt", p_Level->p_ad, p_Level, &am);
+			//RunMenuSettings2("Mmsettings3D.txt", p_Level->p_ad, p_Level, &am);
 		}
 
 		_3DAnimationStruct.iLastIsIn = 4;
@@ -1546,7 +1542,7 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out, LEVELINFO *p_Lev
 			int rnd = rand()%3;
 			float pos[3] = {0,0,0};
 
-			ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
+//			ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
 
 			p_Level->bSaveDemo = 1;
 			_3d_Cancel_Menu(p_Level);
@@ -1566,7 +1562,7 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out, LEVELINFO *p_Lev
 			float pos[3] = {0,0,0};
 			int rnd = rand()%3;
 
-			ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
+//			ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
 
 			_3d_Cancel_Menu(p_Level);
 		}
@@ -1586,10 +1582,11 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out, LEVELINFO *p_Lev
 			float pos[3] = {0,0,0};
 			int rnd = rand()%3;
 
-			ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
+//			ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
 
 			ZeroMemory(cText, 128);
-			RunMenuLoadGameLoad2("Mmload_game_load3d.txt", p_Level->p_ad, p_Level, &am, 1, cText);
+			//RunMenuLoadGameLoad2("Mmload_game_load3d.txt", p_Level->p_ad, p_Level, &am, 1, cText);
+			RunMenuLoadGameLoad2("Mmload_game_load3d.txt", NULL, p_Level, &am, 1, cText);
 
 			if(wcslen(cText))
 			{
@@ -1619,10 +1616,10 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out, LEVELINFO *p_Lev
 			float pos[3] = {0,0,0};
 			int rnd = rand()%3;
 
-			ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
+//			ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
 
 			ZeroMemory(cText, 128);
-			RunMenuLoadGameLoad2("Mmload_game_loads3d.txt", p_Level->p_ad, p_Level, &am, 0, cText);
+			RunMenuLoadGameLoad2("Mmload_game_loads3d.txt", NULL /*p_Level->p_ad*/, p_Level, &am, 0, cText);
 
 			if(wcslen(cText))
 				lsi_Save_Level(cText, p_Level);
@@ -1644,10 +1641,10 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out, LEVELINFO *p_Lev
 void _3d_Start_Settings(float *_3d_Scale_Factor)
 {
 
-	_2d_Init(hwnd_hry);
+	_2d_Init();
 	_2d_APAK_Load_Bitmap("settings.bmp", pBmpArchive);
-	co_CreateDC(_2dd.hDC, 1024, 1024, &hdc_info);
-
+  // TODO
+	//co_CreateDC(_2dd.hDC, 1024, 1024, &hdc_info);
 }
 
 int _3d_BackPack2Hint(int idx)

@@ -6,6 +6,14 @@
 #define __TEXTURE_H__
 
 #define DEF_MIP_LEVEL 9
+ 
+/* 
+** RGB Image Structure 
+*/ 
+typedef struct _AUX_RGBImageRec { 
+    GLint sizeX, sizeY; 
+    unsigned char *data; 
+} AUX_RGBImageRec; 
 
 // ABGR poradi slozek
 typedef struct _RBITMAP {

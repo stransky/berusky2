@@ -1,17 +1,9 @@
-#include "..\\komat\\mss_on.h"
-#include <windows.h>
 #include <stdio.h>
-#include <digitalv.h>
-#include <mmsystem.h>
-#include "..\komat\3d_all.h"
-#include "..\Komat\berusky3d_kofola_interface.h"
-#include "adas.h"
+#include "3d_all.h"
+#include "Berusky3d_kofola_interface.h"
 #include "menu_script.h"
 #include "2D_graphic.h"
 #include "game_init.h"
-#include "volume.h"
-
-#pragma comment(lib,"winmm.lib")
 
 typedef struct
 {
@@ -37,10 +29,12 @@ extern APAK_HANDLE		*pBmpArchive;
 
 void cmcs_Draw(int iIndex, int xPos, int yPos)
 {
+/*
 	BitBlt(_2dd.hDC, xPos, yPos,
 		   _2dd.bitmap[iIndex].bitmap.bmWidth,
 		   _2dd.bitmap[iIndex].bitmap.bmHeight,
 		   _2dd.bitmap[iIndex].bitmapDC,0,0,SRCCOPY);
+*/
 }
 
 void cmcs_Read_Line(char *pLine, COMICS_PICTURE *pPicture)
@@ -78,7 +72,8 @@ void cmcs_Next_Picture(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime)
 	
 	cmcs_Draw(pPicture->iPicture, pPicture->xPos, pPicture->yPos);
 	
-	uiTimerID = SetTimer(NULL, 0, pPicture->iTimeToNextPicture, (TIMERPROC)cmcs_Next_Picture);
+  //TODO
+	//uiTimerID = SetTimer(NULL, 0, pPicture->iTimeToNextPicture, (TIMERPROC)cmcs_Next_Picture);
 
 	iActualBmp++;
 }
@@ -97,7 +92,7 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA *p_ad, char bMusic)
 	if(!file)
 		return;
 
-	_2d_Init(hWnd);
+	_2d_Init();
 
 	for(i=0;i<64;i++)
 		cmcs_Picture[i].iPicture = -1;
@@ -127,11 +122,11 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA *p_ad, char bMusic)
 	}
 
 	fclose(file);
-
+/* TODO
 	if(bMusic)
 		if (p_ad->bAudio && p_ad->Music_Gain >= 0.05f)
 			ap_Setup_and_Play_Song(1,0, p_ad);
-
+*/
 	cmcs_Draw(0, 0, 0);
 
 /*	if(bMusic)
@@ -139,7 +134,8 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA *p_ad, char bMusic)
 			adas_OGG_Play_Stream();*/
 
 	cmcs_Draw(cmcs_Picture[0].iPicture, cmcs_Picture[0].xPos, cmcs_Picture[0].yPos);
-	uiTimerID = SetTimer(NULL, 0, cmcs_Picture[0].iTimeToNextPicture, (TIMERPROC)cmcs_Next_Picture);
+  //TODO
+	//uiTimerID = SetTimer(NULL, 0, cmcs_Picture[0].iTimeToNextPicture, (TIMERPROC)cmcs_Next_Picture);
 	
 	iActualBmp++;
 
@@ -155,10 +151,11 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA *p_ad, char bMusic)
 		Sleep(10);
 	}
 
+/* TODO
 	if(bMusic)
 		if(ogg_playing())
 			ap_Stop_Song(p_ad);
-
+*/
 	KillTimer(NULL, uiTimerID);
 
 	_2d_Release();
@@ -204,6 +201,7 @@ void cmcs_Play_Intro(char *cFile, HWND hWnd, AUDIO_DATA *p_ad)
 
 void cmcs_Game_Down(HWND hWnd)
 {
+/*
 	ShowCursor(FALSE);
 	spracuj_spravy(0);
 	ShowWindow(hWnd,SW_SHOW);
@@ -214,10 +212,12 @@ void cmcs_Game_Down(HWND hWnd)
 	spracuj_spravy(0);
 
 	mciSendString("open digitalvideo", NULL, 0, NULL);
+*/
 }
 
 void cmcs_Game_Up(HWND hWnd)
 {
+/*
 	mciSendString("close digitalvideo", NULL, 0, NULL); 
 
 	ShowCursor(TRUE);
@@ -226,10 +226,12 @@ void cmcs_Game_Up(HWND hWnd)
 	spracuj_spravy(0);
 	ShowWindow(hWnd,SW_MAXIMIZE);
 	spracuj_spravy(0);
+*/
 }
 
 void cmcs_Play_Video(char *pFile, HWND hWnd, long dwVideoTime, AUDIO_DATA *p_ad)
 {
+/*
 	int done = 0;
 	long counter = 0;
 	char lpstrFile[256];
@@ -266,7 +268,7 @@ void cmcs_Play_Video(char *pFile, HWND hWnd, long dwVideoTime, AUDIO_DATA *p_ad)
 		kprintf(1,"%s", lpstrFile);
 	}
 
-	ShowWindow(hWnd,SW_MINIMIZE);
+	//ShowWindow(hWnd,SW_MINIMIZE);
 	spracuj_spravy(0);
 
 	wsprintf(lpstrFile, "setaudio %s %s %s", "anakreonvideo", "volume to 250", "");
@@ -282,6 +284,7 @@ void cmcs_Play_Video(char *pFile, HWND hWnd, long dwVideoTime, AUDIO_DATA *p_ad)
 	
 	mciSendString("stop anakreonvideo",0,0,0);	
 	mciSendString("close anakreonvideo",0,0,0);
+*/
 }
 
 void cmcs_Start_Picture(int Index, long time, HWND hWnd, AUDIO_DATA *p_ad, char bMusic)
@@ -311,8 +314,9 @@ void cmcs_Start_Picture(int Index, long time, HWND hWnd, AUDIO_DATA *p_ad, char 
 		if(timecnt > time)
 			bCimicsEnd = 1;
 	}
-
+/* TODO
 	if(bMusic)
 		if(ogg_playing())
 			ap_Stop_Song(p_ad);
+*/
 }

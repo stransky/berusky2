@@ -1,11 +1,8 @@
-#include "..\\komat\\mss_on.h"
-#include <windows.h>
 #include <stdio.h>
 #include <string.h>
-//#include <malloc.h>
-#include "apak.h"
+#include "Apak.h"
 
-#define APAKMAKEWORD(a, b)      ((unsigned __int16)(((unsigned char)(a)) | ((unsigned __int16)((unsigned char)(b))) << 8))
+#define APAKMAKEWORD(a, b)      ((unsigned short)(((unsigned char)(a)) | ((unsigned short)((unsigned char)(b))) << 8))
 
 extern void apakError(APAK_HANDLE *pHandle, char *cError);
 extern int  apakReadError(int iError, APAK_HANDLE	*pHandle);
@@ -45,7 +42,7 @@ APAKFILE *apakFile(APAK_HANDLE *pHandle, char *cFileName)
 		return NULL;
 
 	for(i=0;(unsigned)i<pHandle->pActualNode->apuLSizeofFile;i++)
-		if(!stricmp(cFileName, pHandle->pActualNode->apakFile[i].cName))
+		if(!strcasecmp(cFileName, pHandle->pActualNode->apakFile[i].cName))
 			return &pHandle->pActualNode->apakFile[i];
 
 	return NULL;

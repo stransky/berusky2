@@ -6,8 +6,8 @@
 #define _DEMO_
 
 #include <time.h>
-#include "bind.h"
-#include "..\\komat\di.h"
+#include "Bind.h"
+#include "Di.h"
 
 #define DEMO_HIVERSION 1
 #define DEMO_LOVERSION 1

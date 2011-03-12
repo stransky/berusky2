@@ -12,6 +12,8 @@ extern "C" {
 #ifndef __GGLEXT_H
 #define __GGLEXT_H
 
+/* TODO
+
 void (APIENTRY * glBlendColor) (GLclampf, GLclampf, GLclampf, GLclampf);
 void (APIENTRY * glBlendEquation) (GLenum);
 void (APIENTRY * glDrawRangeElements) (GLenum, GLuint, GLuint, GLsizei, GLenum, const GLvoid *);
@@ -481,22 +483,7 @@ void (APIENTRY * glTbufferMask3DFX) (GLuint);
 void (APIENTRY * glSampleMaskEXT) (GLclampf, GLboolean);
 void (APIENTRY * glSamplePatternEXT) (GLenum);
 void (APIENTRY * glTextureColorMaskSGIS) (GLboolean, GLboolean, GLboolean, GLboolean);
-
-
-/* NV_spec */
-void (APIENTRY * glGenFencesNV) (GLsizei n, GLuint *fences);
-void (APIENTRY * glDeleteFencesNV) (GLsizei n, const GLuint *fences);
-void (APIENTRY * glSetFenceNV) (GLuint fence, GLenum condition);
-GLboolean (APIENTRY * glTestFenceNV) (GLuint fence);
-void (APIENTRY * glFinishFenceNV) (GLuint fence);
-void (APIENTRY * glIsFenceNV) (GLuint fence);
-void (APIENTRY * glGetFenceivNV) (GLuint fence, GLenum pname, GLint *params);;
-
-
-/* NV_register_combiners2 */
-void * (APIENTRY * wglAllocateMemoryNV) (int size, float readfreq, float writefreq, float priority);
-void (APIENTRY * wglFreeMemoryNV) (void *pointer);
-
+*/
 
 extern void (APIENTRY *glTexBumpParameterivATI)(GLenum pname, GLint *param);
 extern void (APIENTRY *glTexBumpParameterfvATI)(GLenum pname, GLfloat *param);

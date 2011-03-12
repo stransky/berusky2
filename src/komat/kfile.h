@@ -12,20 +12,23 @@ typedef struct _KFILE {
 
 } KFILE;
 
-__inline int efile(byte *p_file)
+inline int efile(char *p_file)
 {
+/* TODO
   struct _finddata_t fileinfo;
   int handle = _findfirst((const char *)p_file,&fileinfo);
   if(handle != -1)
     _findclose(handle);
   return(handle != -1);
+*/
 }
 
 // pokud ses preplej v "adresari" kde mas soboury. 
 // (pokud si otviral paky zpusobem, jakym sem ti rek, tak ano). 
 // Tak musis pouzit afindfirst, next, close .. jinak to nejde
-__inline int efileAPAK(APAK_HANDLE *pAHandle, byte *p_file)
+inline int efileAPAK(APAK_HANDLE *pAHandle, char *p_file)
 {
+/* TODO
   struct _finddata_t fileinfo;
   long handle = afindfirst(pAHandle, (char *)p_file, &fileinfo);
   if(handle != -1) {
@@ -33,10 +36,11 @@ __inline int efileAPAK(APAK_HANDLE *pAHandle, byte *p_file)
     return(TRUE);
   } else {
     return(FALSE);
-  }  
+  } 
+*/
 }
 
-__inline int kefile(APAK_HANDLE *pAHandle, byte *p_file)
+inline int kefile(APAK_HANDLE *pAHandle, char *p_file)
 {  
   if(pAHandle) {
     return(efileAPAK(pAHandle,p_file));
@@ -45,7 +49,7 @@ __inline int kefile(APAK_HANDLE *pAHandle, byte *p_file)
   }
 }
 
-__inline int kread(void *buffer, size_t size, size_t count, KFILE *f)
+inline int kread(void *buffer, size_t size, size_t count, KFILE *f)
 {  
   if(f->pAHandle) {
     return(aread(buffer,size,count,f->f));
@@ -54,7 +58,7 @@ __inline int kread(void *buffer, size_t size, size_t count, KFILE *f)
   }
 }
 
-__inline int kwrite(void *buffer, size_t size, size_t count, KFILE *f)
+inline int kwrite(void *buffer, size_t size, size_t count, KFILE *f)
 {
   if(f->pAHandle) {
     return(awrite(buffer,size,count,f->f));
@@ -63,7 +67,7 @@ __inline int kwrite(void *buffer, size_t size, size_t count, KFILE *f)
   }
 }
 
-__inline int kclose(KFILE *f)
+inline int kclose(KFILE *f)
 {
   if(f->pAHandle) {
     aclose(f->f);
@@ -74,7 +78,7 @@ __inline int kclose(KFILE *f)
   return(TRUE);
 }
 
-__inline KFILE * kopen(APAK_HANDLE *pHandle, char *p_file, char *p_mod)
+inline KFILE * kopen(APAK_HANDLE *pHandle, char *p_file, char *p_mod)
 {
   KFILE *p_fl = NULL;
 
@@ -101,7 +105,7 @@ __inline KFILE * kopen(APAK_HANDLE *pHandle, char *p_file, char *p_mod)
   return(p_fl);
 }
 
-__inline char * kgets(char *string, int n, KFILE *f)
+inline char * kgets(char *string, int n, KFILE *f)
 {
   if(f->pAHandle) {
     return(agets(string,n,f->f));
@@ -110,7 +114,7 @@ __inline char * kgets(char *string, int n, KFILE *f)
   }
 }
 
-__inline int ktell(KFILE *f)
+inline int ktell(KFILE *f)
 {
   if(f->pAHandle) {
     return(atell(f->f));
@@ -119,7 +123,7 @@ __inline int ktell(KFILE *f)
   }
 }
 
-__inline int kseek(KFILE *f, long offset, int origin)
+inline int kseek(KFILE *f, long offset, int origin)
 {
   if(f->pAHandle) {
     return(aseek(f->f,offset,origin));
@@ -128,7 +132,7 @@ __inline int kseek(KFILE *f, long offset, int origin)
   }
 }
 
-__inline int keof(KFILE *f)
+inline int keof(KFILE *f)
 {
   if(f->pAHandle) {
     return(aeof(f->f));

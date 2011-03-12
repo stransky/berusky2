@@ -5,15 +5,13 @@
   (konzole misto hry a zpet)
 */
 #include "mss_on.h"
-#include <windows.h>
-#include <commctrl.h>
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
 #include <time.h>
 #include "3d_all.h"
 
-#include "..\\kofola\\Object.h"
+#include "Object.h"
 
 #include "berusky_universal.h"
 #include "berusky3d_castice.h"

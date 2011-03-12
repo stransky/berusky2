@@ -462,6 +462,7 @@ int WINAPI WinMain( HINSTANCE hi, HINSTANCE hPrevInstance,
 
 int spracuj_spravy(int param)
 {
+/*
  MSG  msg;
  
  while(PeekMessage( &msg, NULL, 0, 0, PM_REMOVE )) {
@@ -472,4 +473,5 @@ int spracuj_spravy(int param)
    }
  }
  return(1);
+*/
 }

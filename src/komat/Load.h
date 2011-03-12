@@ -153,8 +153,8 @@ void lo_zrus_material_kont(EDIT_KONTEJNER *p_kont, EDIT_MATERIAL **p_list, int n
 /*
   Soubor
 */
-int efile(byte *p_file);
-int efileAPAK(APAK_HANDLE *pAHandle, byte *p_file);
+int efile(char *p_file);
+int efileAPAK(APAK_HANDLE *pAHandle, char *p_file);
 
 
 /*
@@ -350,4 +350,3 @@ int   lo_smaz_textury_bmp(EDIT_TEXT *p_text, int max);
 void  lo_reload_stage(EDIT_MATERIAL **p_mat, int num);
 
 #endif
-

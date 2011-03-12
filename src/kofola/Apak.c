@@ -1,23 +1,10 @@
-#include "..\\komat\\mss_on.h"
-#include <windows.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <io.h>
-#include <direct.h>
 #include <string.h>
-#include "apak.h"
+#include "Apak.h"
 
 #define APAK_VERSION_HI		1
 #define APAK_VERSION_LOW	1
-
-//#pragma comment(lib,"zlib.lib")
-#ifdef _DEBUG
-#pragma comment(lib,"lib\\zlib32_d.lib")
-#endif
-
-#ifndef _DEBUG
-#pragma comment(lib,"lib\\zlib32.lib")
-#endif
 
 void apakError(APAK_HANDLE *pHandle, char *cError)
 {
@@ -329,4 +316,3 @@ void apakclose(APAK_HANDLE *pHandle)
 	fclose(pHandle->pFILE);
 	free((void *) pHandle);
 }
-

@@ -1,18 +1,12 @@
 //------------------------------------------------------------------------------------------------
 // version 0.0.2
 //------------------------------------------------------------------------------------------------
-#include "..\\komat\\mss_on.h"
 #include <stdio.h>
-#include <io.h>
-#include <direct.h>
-
 #include <assert.h>
-//#include <d3d.h>
-#include <windows.h>
 #include <math.h>
-#include "..\komat\3d_all.h"
+#include "3d_all.h"
 
-#include "..\Komat\berusky3d_kofola_interface.h"
+#include "Berusky3d_kofola_interface.h"
 #include "init.h"
 
 
@@ -21,6 +15,7 @@
 //------------------------------------------------------------------------------------------------
 int lsi_Load_Items(LEVELINFO *p_Level)
 {
+/*
 	char	text[256], dir[256], odir[256];
 	int		Count,m;
 	struct	_finddata_t Data;
@@ -109,6 +104,7 @@ int lsi_Load_Items(LEVELINFO *p_Level)
 	chdir(odir);
 
 	apakclose(aHandle);
+*/  
 	return 1;
 }
 

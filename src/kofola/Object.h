@@ -7,12 +7,10 @@
 
 #include <stdio.h>
 //#include <d3d.h>
-#include <windows.h>
-#include "..\komat\3d_all.h"
-#include "..\komat\Berusky_universal.h"
-#include "..\komat\berusky3d_castice.h"
+#include "3d_all.h"
+#include "Berusky_universal.h"
+#include "Berusky3d_castice.h"
 #include "camera.h"
-#include "audio_plug-in.h"
 
 #define _3DKOREKCE 40
 #define VERZELO 5
@@ -421,7 +419,7 @@ typedef struct
 	ITEMDESC		*Item;					// pointer na prvky
 	long			*Action_Item;			// seznam spec. log. prvku (teleport, tkacitko,...)
 	long			*Anim_Item;				// seznam prvku, ktere se konstantne 
-	HWND			hWnd;					// hWnd aplikace
+//	HWND			hWnd;					// hWnd aplikace
 	long			Actual_Item;			// aktualni predmet (brouk)
 	char			Status;					// status hry
 	int				Column[3];				// nejzassi posouvany sloupec
@@ -432,7 +430,6 @@ typedef struct
 	char			Level_Exit;				// exit z levelu
 	char			Throw_off;				// setrasat?
 	int				Base_Priority;			// Zakladni priotita podle rychlosti CPU
-	AUDIO_DATA		*p_ad;					// Audio Data
 	char			Item_Lock;				// Zamikani predmetu
 	char			Move_Exeption;			// Vijimka z pravidel posunu
 	ENVIRONMENT		Environment;			// prostredi

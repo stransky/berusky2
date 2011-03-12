@@ -1,9 +1,5 @@
 #define DIRECTINPUT_VERSION 0x0800
 
-#include <windows.h>
-#include <ddraw.h>
-#include <dinput.h>
-#include <mmsystem.h>
 #include <math.h>
 #include "ddutil.h"
 #include "2d_graphic.h"

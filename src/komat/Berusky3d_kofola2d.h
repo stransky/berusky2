@@ -6,7 +6,7 @@
 #ifndef __BERUSKY3D_KOFOLA2D_H__
 #define __BERUSKY3D_KOFOLA2D_H__
 
-#include "..\\kofola\\2d_graphic.h"
+#include "2D_graphic.h"
 
 #define  DDX2_BACK_BUFFER   (-1)
 
@@ -195,7 +195,7 @@ SurfaceHandle ddx2LoadBitmapPosDisk(SurfaceHandle handle, char *pFileName);
 //------------------------------------------------------------------------------------------------
 // load list of bitmaps from APAK
 //------------------------------------------------------------------------------------------------
-BOOL ddx2LoadList(char *pFileName, APAK_HANDLE *pBmpArchive, char *p_bmp_dir);
+int ddx2LoadList(char *pFileName, APAK_HANDLE *pBmpArchive, char *p_bmp_dir);
 
 
 //------------------------------------------------------------------------------------------------

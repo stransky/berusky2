@@ -1,39 +1,34 @@
 //------------------------------------------------------------------------------------------------
 // 0.0.1
 //------------------------------------------------------------------------------------------------
-#include "..\\komat\\mss_on.h"
-#include <windows.h>
-#include <direct.h>
 #include <stdio.h>
-#include "..\komat\3d_all.h"
-#include "..\Komat\berusky3d_kofola_interface.h"
-#include "..\komat\berusky3d_kofola2d.h"
-#include "adas.h"
+#include "3d_all.h"
+#include "Berusky3d_kofola_interface.h"
+#include "Berusky3d_kofola2d.h"
 #include "game_logic.h"
-#include "audio_plug-in.h"
 #include "menu_script.h"
-#include "command.h"
-#include "3D_Graphic.h"
-#include "2D_Graphic.h"
+#include "Command.h"
+#include "3D_graphic.h"
 #include "menu.h"
-#include "comics.h"
+#include "Comics.h"
 #include "credits.h"
 #include "font3d.h"
 #include "controls3d.h"
 #include "menu_def.h"
-#include "setup.h"
-//#include "2ddx.h"
+#include "Setup.h"
 #include "profiles.h"
-#include "apak.h"
+#include "Apak.h"
 #include "Object.h"
 #include "animation.h"
-#include "demo.h"
+#include "Demo.h"
 #include "load_level.h"
 #include "ambient_sounds.h"
 
 #define RES_NUM 60
-#define HDC2DD		-1
-#define TRANSCOLOR	RGB(255, 0, 255)
+
+#define HDC2DD		 -1
+#define TRANSCOLOR	0//RGB(255, 0, 255)
+#define RGB(a,b,c)  (a)
 
 extern SETUP setup;
 extern _3D_CURSOR _3dCur;
@@ -79,7 +74,7 @@ static RECT	iLoadScreenRect = {0, 0, 1024, 768};
 RECT_LINE	rline;
 
 extern int gi_Change_Grafic_Mode(int xPels, int yPels, int Bits, int freq, DWORD dwflags);
-extern int gi_EnumDisplaySettings(DEVMODE *pdevmode);
+//extern int gi_EnumDisplaySettings(DEVMODE *pdevmode);
 extern int iMaxBpp;
 extern int iMaxFreq;
 
@@ -258,10 +253,10 @@ void AnimationEvent2(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime)
 			{
 				anm[i].cmd->iLastfrm = 1;
 				anm[i].cmd->iCounter = 0;
-
+/*
 				if(anm[i].iWave != -1)
 					adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, anm[i].iWave);
-
+*/
 				anm[i].iWave = -1;
 				anm[i].cmd = NULL;
 			}
@@ -383,13 +378,13 @@ int AddAnimation2(CMD_LINE *cmd, AUDIO_DATA *p_ad, char bOnlyOnes)
 					if(cmd->iParam[2] >= 0)
 					{
 						adas_Get_Listener_Position(pos);
-						ap_Play_Sound(0,1,0,pos,cmd->iParam[2], NULL, &ad);
+//						ap_Play_Sound(0,1,0,pos,cmd->iParam[2], NULL, &ad);
 					}
 				}
 				else
 				{
 					adas_Get_Listener_Position(pos);
-					ap_Play_Sound(0,1,0,pos,cmd->iParam[r+2], NULL, &ad);
+//					ap_Play_Sound(0,1,0,pos,cmd->iParam[r+2], NULL, &ad);
 				}
 			}
 
@@ -509,13 +504,13 @@ int mPlaySound2(CMD_LINE *cmd, AUDIO_DATA *p_ad, int type)
 		if(cmd->iParam[1] >= 0)
 		{
 			adas_Get_Listener_Position(pos);
-			ret = ap_Play_Sound(type,1,0,pos,cmd->iParam[1], NULL, &ad);
+//			ret = ap_Play_Sound(type,1,0,pos,cmd->iParam[1], NULL, &ad);
 		}
 	}
 	else
 	{
 		adas_Get_Listener_Position(pos);
-		ret = ap_Play_Sound(type,1,0,pos,cmd->iParam[r+1], NULL, &ad);
+//		ret = ap_Play_Sound(type,1,0,pos,cmd->iParam[r+1], NULL, &ad);
 	}
 
 	return ret;
@@ -1575,12 +1570,12 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 
 		co2_Handle_Controls(citem, CLIST_ITEMC, mi.x - TAB_X, mi.y - TAB_Y, HDC2DD, TAB_X, TAB_Y);
 
-		
+/*		
 		if(co2_Progres_Changed(citem, CLIST_ITEMC, 4))
 			ad.Sound_Gain = co2_Progres_Get(citem, CLIST_ITEMC, 4) / 100.0f;
 
-		if(co2_Progres_Changed(citem, CLIST_ITEMC, 5))
-		{
+    if(co2_Progres_Changed(citem, CLIST_ITEMC, 5))
+		{    
 			float laf = ad.Ambient_Gain;
 
 			ad.Ambient_Gain = co2_Progres_Get(citem, CLIST_ITEMC, 5) / 100.0f;
@@ -1592,6 +1587,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 				as_Start(p_Level->Environment.id, &ad, p_Level);
 			}
 		}
+*/
 
 		if(co2_Progres_Changed(citem, CLIST_ITEMC, 6))
 		{
@@ -1677,7 +1673,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 			if(co2_List_Get_Clck(citem, CLIST_ITEMC, 0, &p_li) == 1)
 			{
 				float pos[3]={0, 0, 0};
-				ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
+//				ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
 				SetCharMenu2(p_li, p_Level, p_am, mix, miy);
 			}
 
@@ -1725,14 +1721,14 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 			if(!strcmp(res[resid].cParam[1], "EXIT"))
 			{
 				float pos[3]={0, 0, 0};
-				ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
+//				ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
 				key[K_ESC] = 1;
 			}
 
 			if(!strcmp(res[resid].cParam[1], "OK"))
 			{
 				float pos[3]={0, 0, 0};
-				ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
+//				ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
 				SetMenuSettings2(citem, hdcTabUse);
 				Save_ini();
 				key[K_ESC] = 1;
@@ -2299,7 +2295,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level
 				if(p_li->cSelected != -1)
 				{
 					float pos[3]={0, 0, 0};
-					ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
+//					ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
 
 					if(!bLoad || bLoad == 2)
 						co2_Edit_Set_Text(citem[0].p_edit, p_li->pwText[p_li->cSelected], 1, HDC2DD, 0, 0);	
@@ -2309,7 +2305,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level
 			if(co2_List_Get_Dbclck(citem, CLIST_ITEMC, 0, &p_li) == 1)
 			{
 				float pos[3]={0, 0, 0};
-				ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
+//				ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
 
 				if(p_li->cSelected != -1)
 				if(p_li->pwText[p_li->cSelected])
@@ -3170,7 +3166,7 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, ANIMA
 			if(co2_Is_Button_Activated(citem, CLIST_ITEMC, 0))
 			{
 				float pos[3]={0, 0, 0};
-				ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
+//				ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
 				key[K_ESC] = 1;
 				p_Level->bResetini = 1;
 			}

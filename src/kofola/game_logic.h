@@ -1,8 +1,7 @@
 #ifndef __GAMA_LOGIC_
 #define __GAMA_LOGIC_
 
-#include <windows.h>
-#include "..\komat\3d_all.h"
+#include "3d_all.h"
 #include "Object.h"
 
 	// spusti level

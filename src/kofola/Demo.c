@@ -1,15 +1,13 @@
 //------------------------------------------------------------------------------------------------
 // 0.0.1
 //------------------------------------------------------------------------------------------------
-#include "..\\komat\\mss_on.h"
-#include <windows.h>
 #include <stdio.h>
 #include <math.h>
-#include "demo.h"
-#include "bind.h"
-#include "..\komat\3d_all.h"
-#include "..\Komat\berusky3d_kofola_interface.h"
-#include "..\Komat\Berusky_universal.h"
+#include "3d_all.h"
+#include "Demo.h"
+#include "Bind.h"
+#include "Berusky3d_kofola_interface.h"
+#include "Berusky_universal.h"
 #include "profiles.h"
 
 extern PLAYER_PROFILE	pPlayerProfile;
@@ -48,6 +46,7 @@ void demo_Set_Scene_Level(char *cDemo, int *pScene, int *pLevel)
 
 int demo_Check_Owner(WCHAR	*wPlayer, char *cDemo, WCHAR *wDemoName)
 {
+/*
 	WCHAR	wc[128];
 	char	text[256];
 
@@ -93,6 +92,8 @@ int demo_Check_Owner(WCHAR	*wPlayer, char *cDemo, WCHAR *wDemoName)
 		wcscpy(wDemoName, FileHeader.cFileName);
 		return 1;
 	}
+  */
+  return 0;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -210,6 +211,7 @@ int demo_Save(DEMOSTRUCTURE *p_Demo, char *p_File_Name, char Ovladani, char *cLe
 
 int demo_Exist(WCHAR *wName, char *cFile)
 {
+/*
 	DEMOFILEHEADER	FileHeader;
 	FILE *file;
 	long Done, error;
@@ -241,7 +243,7 @@ int demo_Exist(WCHAR *wName, char *cFile)
 		}
 	}
 	_findclose(Done); 
-
+*/
 	return 0;
 }
 
@@ -666,7 +668,7 @@ int demo_Rotation(int initRot, int finishRot)
 
 	fr = fr / 90.0f;
 
-	s = ftoi(fr);
+	s = (int)(fr);
 
 	s = s%4;
 
