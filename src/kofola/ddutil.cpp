@@ -8,10 +8,6 @@
 // Copyright (c) 1995-2001 Microsoft Corporation. All rights reserved.
 //-----------------------------------------------------------------------------
 #define STRICT
-#include <tchar.h>
-#include <windows.h>
-#include <windowsx.h>
-#include <ddraw.h>
 #include "ddutil.h"
 #include "dxutil.h"
 

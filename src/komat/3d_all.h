@@ -76,6 +76,10 @@ typedef struct _MOUSE_INFO {
         
 } MOUSE_INFO;
 
+#define RGB(a,b,c) a
+#define CP_ACP     0
+#define TRANSCOLOR 0
+
 void kprintf(char log, char *p_text,...);
 void kprintfl(char log, char *p_text,...);
 void ddw(char *p_text,...);

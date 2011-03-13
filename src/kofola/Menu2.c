@@ -1591,6 +1591,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 
 		if(co2_Progres_Changed(citem, CLIST_ITEMC, 6))
 		{
+    /*
 			float f = co2_Progres_Get(citem, CLIST_ITEMC, 6) / 100.0f;
 
 			ogg_gain(f);
@@ -1603,10 +1604,10 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 
 				ap_Stop_Song(&ad);
 				ap_Play_Song(0,1,&ad);
-				//adas_OGG_Set_Priority(p_Level->Base_Priority);
-				//ap_Play_Song(0,0,&ad);
+				adas_OGG_Set_Priority(p_Level->Base_Priority);
+				ap_Play_Song(0,0,&ad);
 			}
-
+    */
 		}
 
 		//stlacil leve tlacitko
@@ -1778,13 +1779,14 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 
 			if(key[K_ESC])
 			{
+      /*
 				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-
+        */
 				goto __QUIT;
 			}
 		}
@@ -2376,7 +2378,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level
 					char	ccheck[] = "profiles";
 					WCHAR	wcheck[64];
 
-					MultiByteToWideChar( CP_ACP, 0, ccheck, strlen(ccheck)+1, wcheck, sizeof(wcheck)/sizeof(wcheck[0]) );
+					//MultiByteToWideChar( CP_ACP, 0, ccheck, strlen(ccheck)+1, wcheck, sizeof(wcheck)/sizeof(wcheck[0]) );
 					
 					if(wcsicmp(cText, wcheck))
 					{
@@ -2400,13 +2402,14 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level
 
 			if(key[K_ESC])
 			{
+        /*
 				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-
+        */
 				//goto __QUIT;
 			}
 		}
@@ -3222,13 +3225,14 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, ANIMA
 
 			if(key[K_ESC])
 			{
+      /*
 				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-
+        */
 				goto __QUIT;
 			}
 		}
@@ -3772,13 +3776,14 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level,
 
 			if(key[K_ESC])
 			{
+      /*
 				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-
+*/
 				goto __QUIT;
 			}
 		}
@@ -4209,13 +4214,14 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 
 			if(key[K_ESC])
 			{
+      /*
 				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-
+        */
 				goto __QUIT;
 			}
 		}

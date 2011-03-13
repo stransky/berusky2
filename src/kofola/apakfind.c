@@ -1,9 +1,6 @@
-#include "..\\komat\\mss_on.h"
-#include <windows.h>
 #include <stdio.h>
 #include <string.h>
-//#include <malloc.h>
-#include "apak.h"
+#include "Apak.h"
 
 extern void apakError(APAK_HANDLE *pHandle, char *cError);
 extern int  apakReadError(int iError, APAK_HANDLE	*pHandle);
@@ -50,7 +47,7 @@ int apakCheckFile(char *cFile, char *cMask)
 
 	return 1;
 }
-
+/*
 int apakFindFile(APAK_FIND *pFind, struct _finddata_t *fileinfo)
 {
 	int iRet = 0;
@@ -101,8 +98,8 @@ int apakFindFile(APAK_FIND *pFind, struct _finddata_t *fileinfo)
 
 	return 0;
 }
-
-
+*/
+/*
 long afindfirst(APAK_HANDLE *pHandle, char *filespec, struct _finddata_t *fileinfo)
 {
 	int				 iRet;
@@ -220,6 +217,7 @@ int afindnext(long handle, struct _finddata_t *fileinfo)
 
 	return iRet;
 }
+*/
 
 int afindclose(long handle)
 {
@@ -245,5 +243,3 @@ int afindclose(long handle)
 
 	return 0;
 }
-
-

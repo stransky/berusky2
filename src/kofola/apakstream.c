@@ -1,9 +1,6 @@
-#include "..\\komat\\mss_on.h"
-#include <windows.h>
 #include <stdio.h>
 #include <string.h>
-//#include <malloc.h>
-#include "apak.h"
+#include "Apak.h"
 
 extern void apakError(APAK_HANDLE *pHandle, char *cError);
 
@@ -43,6 +40,7 @@ void agetbuffer(FILE *stream, char **pBuffer, apuLong *psize)
 	*psize = pFHandle->pFileInfo->apuLRealSizeofFile;
 }
 
+/*
 void agetfiledata(FILE *stream, struct _finddata_t *fileinfo)
 {
 	APAK_STREAM_TYPE	*pAStream = (APAK_STREAM_TYPE *) stream;
@@ -66,6 +64,7 @@ void agetfiledata(FILE *stream, struct _finddata_t *fileinfo)
 	fileinfo->time_access = 0;
 	fileinfo->time_write = 0;
 }
+*/
 
 FILE *agetfile(FILE *stream)
 {

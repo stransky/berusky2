@@ -1,25 +1,21 @@
 //------------------------------------------------------------------------------------------------
 // version 1.0.1
 //------------------------------------------------------------------------------------------------
-#include "..\\komat\\mss_on.h"
-//#include <d3d.h>
-#include <windows.h>
 #include <math.h>
 
-#include "..\komat\3d_all.h"
-#include "..\Komat\berusky3d_kofola_interface.h"
-#include "..\komat\berusky3d_light.h"
-#include "..\komat\berusky3d_kofola2d.h"
+#include "3d_all.h"
+#include "Berusky3d_kofola_interface.h"
+#include "Berusky3d_light.h"
+#include "Berusky3d_kofola2d.h"
 #include "game_logic.h"
 #include "animation.h"
 #include "animend_functions.h"
 #include "water.h"
 #include "3d_math.h"
-#include "3d_graphic.h"
+#include "3D_graphic.h"
 #include "menu_def.h"
-#include "3d_menus.h"
-#include "adas.h"
-#include "apak.h"
+#include "3D_menus.h"
+#include "Apak.h"
 
 #define randf()      ((float)rand())
 
@@ -457,9 +453,9 @@ void am_Do_Beatle_Cakanec(int mesh, LEVELINFO *p_Level, int id)
 
 	kom_mesh_get_float(mesh, &pos[0], &pos[1], &pos[2], &r);
 
-	iPos[0] = ftoi((pos[0] - ber.x_start - X_PRVEK/2) / X_PRVEK);
-	iPos[2] = ftoi(((pos[1] - ber.y_start - Y_PRVEK/2) / Y_PRVEK) * 2);
-	iPos[1] = ftoi((pos[2] - ber.z_start - Z_PRVEK/2) / Z_PRVEK);
+	iPos[0] = (int)((pos[0] - ber.x_start - X_PRVEK/2) / X_PRVEK);
+	iPos[2] = (int)(((pos[1] - ber.y_start - Y_PRVEK/2) / Y_PRVEK) * 2);
+	iPos[1] = (int)((pos[2] - ber.z_start - Z_PRVEK/2) / Z_PRVEK);
 
 	if(iPos[0] < 0 || iPos[1] < 0 || iPos[2] < 0 ||
 	   iPos[0] >= p_Level->Size[0] ||
@@ -658,10 +654,10 @@ void am_Remove_Beetle_Animation(int mesh, LEVELINFO *p_Level)
 
 			p_Level->BeetleAnim[i].Mesh = -1;
 			p_Level->BeetleAnim[i].iID = 0;
-
+/*
 			if(timeGetTime() - p_Level->BeetleAnim[i].dwTime < 1000 && p_Level->BeetleAnim[i].iSound != -1)
 				adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, p_Level->BeetleAnim[i].iSound);
-
+*/
 			p_Level->BeetleAnim[i].iSound = -1;
 
 			return;
@@ -6634,7 +6630,7 @@ void am_Gen_Swamp_Lights(LEVELINFO *p_Level, RECT *r)
 	//generuj staticke msvetilka
 	for(i=0;i<10;i++)
 	{
-		t = (int)ftoi((randf() / (float)RAND_MAX) * 1000.0f);
+		t = (int)(int)((randf() / (float)RAND_MAX) * 1000.0f);
 
 		done = 0;
 
@@ -6907,7 +6903,7 @@ void am_move_Fiere(FAIRY_EFFECT *pF, LEVELINFO *p_Level)
 		float ftmp[3];
 	
 		memcpy((void *)ftmp, (void *)&pF->pivot, 3 * sizeof(float));
-		adas_Set_Source_Position(PARTICULAR_SOUND_SOURCE, 2, pF->iSound, ftmp);
+		//adas_Set_Source_Position(PARTICULAR_SOUND_SOURCE, 2, pF->iSound, ftmp);
 	}
 
 }
@@ -7035,8 +7031,8 @@ void am_Gen_Star_Lights(LEVELINFO *p_Level, float *pos)
 	
 	for(i=0;i<200;i++)
 	{
-		s = (int)ftoi((randf() / (float)RAND_MAX) * 10000.0f);
-		t = (int)ftoi((randf() / (float)RAND_MAX) * 1000.0f);
+		s = (int)(int)((randf() / (float)RAND_MAX) * 10000.0f);
+		t = (int)(int)((randf() / (float)RAND_MAX) * 1000.0f);
 
 		done = 0;
 

@@ -1,13 +1,9 @@
-#include "..\\komat\\mss_on.h"
-#include <windows.h>
 #include <stdio.h>
-#include <direct.h>
-#include "..\komat\3d_all.h"
-#include "..\Komat\berusky3d_kofola_interface.h"
-#include "adas.h"
+#include "3d_all.h"
+#include "Berusky3d_kofola_interface.h"
 #include "menu_script.h"
 #include "2D_graphic.h"
-#include "2ddx.h"
+//#include "2ddx.h"
 #include "font.h"
 
 #define CREDIT_SURFACES 150
@@ -184,6 +180,7 @@ void cr_Draw_Creadits(CREDIT_SURFACE *cs, int y)
 
 int cr_Credits(HWND hWnd, AUDIO_DATA *p_ad)
 {
+/*
 	DWORD	dwStart, dwStop, dwEplased = 0;
 	int		y = 868;
 	int		dy = 868*2 + 2000;
@@ -438,12 +435,13 @@ int cr_Credits(HWND hWnd, AUDIO_DATA *p_ad)
 	ddxSetFlip(1);
 	key[K_ESC] = 0;
 	apakclose(hArchive);
-
+*/
 	return 0;
 }
 
 int cr_CreditsUNI(HWND hWnd, AUDIO_DATA *p_ad)
 {
+/*
 	DWORD	dwStart, dwStop, dwEplased = 0;
 	int		y = 868;
 	int		dy = 868*2 + 2000;
@@ -700,6 +698,6 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA *p_ad)
 	ddxSetFlip(1);
 	key[K_ESC] = 0;
 	apakclose(hArchive);
-
+*/
 	return 0;
 }

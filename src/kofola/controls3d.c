@@ -1,17 +1,15 @@
-#include "..\\komat\\mss_on.h"
 #include <wchar.h>
-#include <conio.h>
 #include <stdio.h>
+#include "3d_all.h"
+#include "Berusky3d_kofola_interface.h"
+#include "Berusky3d_kofola2d.h"
 #include "controls3d.h"
-#include "apak.h"
-#include "2d_graphic.h"
+#include "Apak.h"
+#include "2D_graphic.h"
 #include "font3d.h"
 #include "menu_def.h"
 //#include "2ddx.h"
 
-#include "..\komat\3d_all.h"
-#include "..\Komat\berusky3d_kofola_interface.h"
-#include "..\Komat\berusky3d_kofola2d.h"
 
 extern B2_FONT	b2_font;
 extern APAK_HANDLE	*pControlsArchive;
@@ -21,7 +19,7 @@ static char bExclusive = 0;
 extern RECT_LINE	rline;
 
 #define HDC2DD		-1
-#define TRANSCOLOR	RGB(255, 0, 255)
+#define TRANSCOLOR	0//RGB(255, 0, 255)
 
 
 HDC_EDIT_CONTROL2		hdcED;
@@ -34,7 +32,8 @@ HDC_FRAME_CONTROL2		hdcFR;
 
 void co2_Del_Combo_List(COMBO_CONTROL2 *p_co, int hdc, int xcor, int ycor);
 int co_Handle_Edit_Key_Filter(void);
-WCHAR co_ToUnicode(WPARAM wScanCode);
+//WCHAR co_ToUnicode(WPARAM wScanCode);
+WCHAR co_ToUnicode(int wScanCode);
 
 void co2_Draw_Disable(int hdc, int xcor, int ycor, int x, int y, int dx, int dy)
 {
@@ -43,6 +42,7 @@ void co2_Draw_Disable(int hdc, int xcor, int ycor, int x, int y, int dx, int dy)
 
 HDC co2_CreateDC(HDC hdc, int x, int y, HDC_INFO2 *pdcinfo)
 {
+/*
 	HDC				hdcBack = NULL;
 	HBITMAP			hback_bitmap = NULL;
 	BITMAP			back_bitmap;
@@ -75,17 +75,18 @@ HDC co2_CreateDC(HDC hdc, int x, int y, HDC_INFO2 *pdcinfo)
 	BitBlt(hdcBack,0,0,x,y,NULL,0,0,BLACKNESS);
 
 	return hdcBack;
+*/
 }
 
 int co2_Release_Bitmap(HDC_INFO2 *pdcinfo)
 {
 	if(!pdcinfo)
 		return 1;
-
+/*
 	SelectObject(pdcinfo->hdc,pdcinfo->hbitmapold);	
     DeleteObject(pdcinfo->hbitmap); 
 	DeleteDC(pdcinfo->hdc);
-
+*/
 	return 1;
 }
 
@@ -570,7 +571,7 @@ int co2_Combo_Drop_Add_String(COMBO_DROP_CONTROL2 *p_co, char *text, float fValu
 
 	p_co->pItem[p_co->CounfOfItems-1].fValue = fValue;
 
-	MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
+	//MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
 	fn2_Draw_MessageA(p_co->pItem[p_co->CounfOfItems-1].Norm, 2, 0, &b2_font.gt, &b2_font.ts, wc, 0, &tx, &ty);
 	fn2_Draw_MessageA(p_co->pItem[p_co->CounfOfItems-1].Sel, 2, 0, &b2_font.gt, &b2_font.ts, wc, 1, &tx, &ty);
 
@@ -677,7 +678,7 @@ int co2_Combo_Add_String(COMBO_CONTROL2 *p_co, char *text)
 
 	strcpy(p_co->pItem[p_co->CounfOfItems-1].text, text);
 
-	MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
+	//MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
 	fn2_Draw_MessageA(p_co->pItem[p_co->CounfOfItems-1].Norm, 2, 0, &b2_font.gt, &b2_font.ts, wc, 0, &tx, &ty);
 	fn2_Draw_MessageA(p_co->pItem[p_co->CounfOfItems-1].Sel, 2, 0, &b2_font.gt, &b2_font.ts, wc, 1, &tx, &ty);
 
@@ -717,8 +718,8 @@ int co2_Combo_Add_StringWC(COMBO_CONTROL2 *p_co, char *text)
 
 	strcpy(p_co->pItem[p_co->CounfOfItems-1].text, text);
 
-	MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
-	MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]) );
+	//MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
+	//MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]) );
 
 	fn2_Draw_Message(p_co->pItem[p_co->CounfOfItems-1].Norm, 2, 0, &b2_font.gt, &b2_font.ts, wc, ws, 0, &tx, &ty);
 	fn2_Draw_Message(p_co->pItem[p_co->CounfOfItems-1].Sel, 2, 0, &b2_font.gt, &b2_font.ts, wc, ws, 1, &tx, &ty);
@@ -1043,8 +1044,8 @@ BUTTON_CONTROL2 *co2_Create_Button(int hdc, int x, int y, int type, char *text, 
 	//BitBltU(tmpDC.hdc,0,0,bmpx,bmpy,NULL,0,0,WHITENESS);
 	tmpDC = ddx2CreateSurface(bmpx, bmpy, ddx2FindFreeSurface());
 
-	MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
-	MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]) );
+	//MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
+	//MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]) );
 
 	//fn2_Draw_Message(tmpDC.hdc, 0, 0, &b2_font.gt, &b2_font.ts, wc, ws, isection, &tx, &ty);
 	fn2_Draw_Message(tmpDC, 0, 0, &b2_font.gt, &b2_font.ts, wc, ws, isection, &tx, &ty);
@@ -1222,8 +1223,8 @@ CHECKBOX_CONTROL2 *co2_Create_CheckBox(int hdc, int x, int y, char *text, int is
 	//TransparentBltU(hdc, x, y, bmpx, 24, bmpDC, 0, 80, bmpx, 24, RGB(237, 77, 0));
 	ddx2TransparentBlt(hdc, x, y, bmpx, 20, bmpDC, 0, 1, bmpx, 20, RGB(237, 77, 0));
 
-	MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
-	MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]) );
+	//MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
+	//MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]) );
 
 	fn2_Draw_Message(hdc, x + 30, y, &b2_font.gt, &b2_font.ts, wc, ws, isection, &tx, &ty);
 
@@ -1446,8 +1447,8 @@ int co2_Set_Text(int hdc, int x, int y, char *text, int isection)
 	WCHAR wc[128];
 	WCHAR ws[128];
 
-	MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
-	MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]) );
+	//MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
+	//MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]) );
 
 	fn2_Draw_Message(hdc, x, y, &b2_font.gt, &b2_font.ts, wc, ws, isection, &tx, &ty);
 
@@ -1459,7 +1460,7 @@ int co2_Set_TextWC(int hdc, int x, int y, char *text, int isection)
 	int tx, ty;
 	WCHAR wc[128];
 
-	MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
+	//MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
 
 	fn2_Draw_MessageA(hdc, x, y, &b2_font.gt, &b2_font.ts, wc, isection, &tx, &ty);
 
@@ -1472,8 +1473,8 @@ int co2_Set_Text_Formated_Rect(int hdc, int x, int y, char *text, int isection, 
 	WCHAR wc[128];
 	WCHAR ws[128];
 
-	MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
-	MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]) );
+	//MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
+	//MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]) );
 
 	fn2_Draw_MessageRECT(hdc, x, y, &b2_font.gt, &b2_font.ts, wc, ws, isection, &tx, &ty, pR);
 
@@ -1494,8 +1495,8 @@ int co2_Set_Text_Center(int hdc, char *text, int isection, RECT r)
 
 	//BitBltU(h.hdc, 0, 0, 600, 100, NULL, 0, 0, WHITENESS);
 
-	MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
-	MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]) );
+	//MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
+	//MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]) );
 
 	fn2_Draw_Message(h, 0, 0, &b2_font.gt, &b2_font.ts, wc, ws, isection, &tx, &ty);
 
@@ -1524,8 +1525,8 @@ int co2_Set_Text_Right(int hdc, char *text, int isection, int x, int y)
 
 	h = ddx2CreateSurface(600, 100, ddx2FindFreeSurface());
 
-	MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
-	MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]) );
+	//MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
+	//MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]) );
 
 	fn2_Draw_Message(h, 0, 0, &b2_font.gt, &b2_font.ts, wc, ws, isection, &tx, &ty);
 
@@ -1542,6 +1543,7 @@ int co2_Set_Text_Right(int hdc, char *text, int isection, int x, int y)
 
 void co2_Draw_Line(int x1, int y1, int x2, int y2, COLORREF color, HDC hdc)
 {
+/*
 	HPEN	LastPen;
 	HPEN	MePen;
 
@@ -1553,6 +1555,7 @@ void co2_Draw_Line(int x1, int y1, int x2, int y2, COLORREF color, HDC hdc)
 
 	SelectObject(hdc,LastPen);
 	DeleteObject(MePen);
+*/
 }
 
 void co2_Draw_Lines(HDC hdc, int xr, int yr, COLORREF color)
@@ -1646,9 +1649,9 @@ int co2_List_Add_String(LIST_VIEW_CONTROL2 *p_li, int index, int x, char *text, 
 	if(p_li->piValue)
 		p_li->piValue[index] = iValue;
 
-	MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]) );
+	//MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]) );
 
-	MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
+	//MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
 
 	if(!bSelected)
 		fn2_Draw_Message(p_li->bDCn, x, (index * 30) + 2, &b2_font.gt, &b2_font.ts, wc, ws, 0, &tx, &ty);
@@ -1684,7 +1687,7 @@ int co2_List_Add_StringWC(LIST_VIEW_CONTROL2 *p_li, int index, int x, char *text
 	if(p_li->piValue)
 		p_li->piValue[index] = iValue;
 
-	MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
+	//MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
 
 	if(!bSelected)
 		fn2_Draw_MessageA(p_li->bDCn, x, (index * 30) + 2, &b2_font.gt, &b2_font.ts, wc, 0, &tx, &ty);
@@ -3429,7 +3432,7 @@ co2_HANDLE_DRAW:
 			int xt, yt;
 			p_ed->bcActive = 1;
 			strcpy(t,"_");
-			MultiByteToWideChar( CP_ACP, 0, t, strlen(t)+1, wt, sizeof(wt)/sizeof(wt[0]) );
+			//MultiByteToWideChar( CP_ACP, 0, t, strlen(t)+1, wt, sizeof(wt)/sizeof(wt[0]) );
 
 			if(!wcslen(p_ed->wtext))
 				wcscat(p_ed->wtext,wt);

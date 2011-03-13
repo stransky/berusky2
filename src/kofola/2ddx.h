@@ -4,30 +4,9 @@
 //------------------------------------------------------------------------------------------------
 // includes
 //------------------------------------------------------------------------------------------------
-#include <ddraw.h>
-#include "audio_plug-in.h"
-
 #ifdef __cplusplus
 	extern "C" {
 #endif
-
-typedef struct _MOUSE_INFO {
-
-  int x_min, x_max;
-  int y_min, y_max;
-  int x_res, y_res;
-
-  int x, y;
-  int rx, ry;
-  int dx,dy;
-
-  int t1,t2;
-  int dt1,dt2;
-  int d1,d2;
-  int tf1, tf2;
-  int lt1, lt2;
-
-} MOUSE_INFO;
 
 	#define HDC2DD		-1
 	#define TRANSCOLOR	RGB(255, 0, 255)

@@ -1,9 +1,6 @@
-#include "..\\komat\\mss_on.h"
-#include <windows.h>
 #include <stdio.h>
 #include <string.h>
-#include <direct.h>
-#include "apak.h"
+#include "Apak.h"
 
 extern void apakError(APAK_HANDLE *pHandle, char *cError);
 extern int  apakReadError(int iError, APAK_HANDLE	*pHandle);
@@ -128,4 +125,3 @@ char *agetcwd(APAK_HANDLE *pHandle, char *buffer, int maxlen )
 
 	return buffer;
 }
-

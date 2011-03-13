@@ -1,13 +1,10 @@
 //------------------------------------------------------------------------------------------------
 // 0.0.1
 //------------------------------------------------------------------------------------------------
-#include "..\\komat\\mss_on.h"
-#include <windows.h>
-#include "..\komat\3d_all.h"
-#include "..\Komat\berusky3d_kofola_interface.h"
-#include "..\Komat\berusky3d_light.h"
+#include "3d_all.h"
+#include "Berusky3d_kofola_interface.h"
+#include "Berusky3d_light.h"
 #include "Object.h"
-#include "adas.h"
 #include "game_logic.h"
 #include "animation.h" 
 #include "animend_functions.h"

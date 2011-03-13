@@ -1,14 +1,10 @@
 //------------------------------------------------------------------------------------------------
 // version 0.0.1
 //------------------------------------------------------------------------------------------------
-#include "..\\komat\\mss_on.h"
-#include <windows.h>
-#include <winbase.h>
-#include <direct.h>
 #include <stdio.h>
-#include "apak.h"
-#include "..\komat\3d_all.h"
-#include "..\Komat\berusky3d_kofola_interface.h"
+#include "Apak.h"
+#include "3d_all.h"
+#include "Berusky3d_kofola_interface.h"
 
 #define KEY			5419579899328476981
 #define CIPHER0		8321075519164711180
@@ -24,36 +20,7 @@ extern char cFontFile[5][64];
 //------------------------------------------------------------------------------------------------
 // Get CPU speed
 //------------------------------------------------------------------------------------------------
-unsigned __int64 tools_Get_CPU_Speed(void)
-{
-    unsigned __int64 start, stop;
-    unsigned __int64 nCtr, nFreq, nCtrStop; 
-
-    QueryPerformanceFrequency((LARGE_INTEGER *)&nFreq);
-    
-	_asm _emit 0x0F
-    _asm _emit 0x31
-    _asm mov DWORD PTR start, eax
-	_asm mov DWORD PTR [start+4], edx
-    
-	QueryPerformanceCounter((LARGE_INTEGER *)&nCtrStop);
-    
-	nCtrStop += nFreq;
-    
-	do
-    {
-        QueryPerformanceCounter((LARGE_INTEGER *)&nCtr);
-    } 
-	while (nCtr < nCtrStop);
-    
-	_asm _emit 0x0F
-    _asm _emit 0x31
-    _asm mov DWORD PTR stop, eax
-    _asm mov DWORD PTR [stop+4], edx
-    
-	return (stop-start);
-}
-
+/*
 double _ui64tod(unsigned __int64 ui64Value)
 {
 	char	string[9], *stopstring;
@@ -79,6 +46,7 @@ float tools_Base_Priority(unsigned __int64 CPU_Speed)
 
 	return (float)result;
 }
+*/
 
 void tools_Parse_Command_Line(char *pCommnad, char *pLevel, char *pDemo, char *demo)
 {
@@ -123,7 +91,7 @@ void tools_Parse_Command_Line(char *pCommnad, char *pLevel, char *pDemo, char *d
 		//strcpy(pDemo, "Demo.dem");
 	}
 }
-
+/*
 void _ui64toc(__int64 a, __int64 b, __int64 *r)
 {
 	*r = a^b;
@@ -180,7 +148,7 @@ char *_ui64towc(__int64 i64, char *cText)
 	else
 		return NULL;
 }
-
+*/
 void GetText(char *Buffer, char *mask, char *text)
 {
 	char *wcChar = strstr(Buffer, mask);
@@ -251,7 +219,7 @@ void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
 
 	strcat(Caption, addtext);
 
-	MessageBox(hWnd, (LPCTSTR) Text, (LPCTSTR) Caption, MB_OK);
+	//MessageBox(hWnd, (LPCTSTR) Text, (LPCTSTR) Caption, MB_OK);
 
 	aclose(file);
 	apakclose(hArchive);

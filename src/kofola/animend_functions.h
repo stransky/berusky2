@@ -48,4 +48,4 @@ void anmend_KamenZaSikmonou(int param, int param2, void *p_param);
 void anmend_PlayKrumpac(int param, int param2, void *p_param);
 void anmend_kom_mesh_set_meshK(int param, int param2, void *p_param);
 
-#endif;
+#endif
