@@ -3,30 +3,24 @@
   Svetelny modul k beruskam II
 
 */
-#include "mss_on.h"
-#include <windows.h>
-#include <commctrl.h>
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
-#include "..\resource.h"
 #include "3d_all.h"
 
-#include "..\\kofola\\Object.h"
+#include "Object.h"
 
-#include "berusky_universal.h"
-#include "berusky3d_castice.h"
-#include "berusky3d.h"
-#include "berusky3d_ini.h"
-#include "berusky3d_load.h"
-#include "berusky3d_render.h"
-#include "berusky3d_animace.h"
-#include "berusky3d_kofola_interface.h"
-#include "berusky3d_light.h"
+#include "Berusky_universal.h"
+#include "Berusky3d_castice.h"
+#include "Berusky3d.h"
+#include "Berusky3d_ini.h"
+#include "Berusky3d_load.h"
+#include "Berusky3d_render.h"
+#include "Berusky3d_animace.h"
+#include "Berusky3d_kofola_interface.h"
+#include "Berusky3d_light.h"
 
 extern G_KONFIG ber, *p_ber;
-
-#include "dbgwnd.h"
 
 __inline void sdl_maxlook_korekce(DYN_LIGHT *p_light, float min, float max, float dosah)
 {
@@ -1899,7 +1893,7 @@ __inline int sdl_poly_pripocitej_svetla_face(G_KONFIG *p_ber, EDIT_MESH_POLY *p_
 
     // Prvne spocitam prave sloupce v lightmape
     // potom leve sloupce    
-
+/*
     if(p_dlight->flag&SDL_ADD_SUB) {
     __asm  {
       
@@ -1980,11 +1974,11 @@ __inline int sdl_poly_pripocitej_svetla_face(G_KONFIG *p_ber, EDIT_MESH_POLY *p_
       jnz  ____dalsi_radek_leva_strana_ms
 
       jmp  __konec_vseho_ms
-
+*/
       /* **************************************************
          Vypocty scan_line
       */
-
+/*
 // edi -> zacatek radku cilove ligthmapy
 // zal -> zacatek radku look-up tabulky
     __spocitej_radek_ms:
@@ -2285,11 +2279,11 @@ __inline int sdl_poly_pripocitej_svetla_face(G_KONFIG *p_ber, EDIT_MESH_POLY *p_
       jnz  ____dalsi_radek_leva_strana_m
 
       jmp  __konec_vseho_m
-
+*/
       /* **************************************************
          Vypocty scan_line
       */
-
+/*
 // edi -> zacatek radku cilove ligthmapy
 // zal -> zacatek radku look-up tabulky
     __spocitej_radek_m:
@@ -2536,11 +2530,11 @@ __inline int sdl_poly_pripocitej_svetla_face(G_KONFIG *p_ber, EDIT_MESH_POLY *p_
       jnz  ____dalsi_radek_leva_strana
 
       jmp  __konec_vseho
-
+*/
       /* **************************************************
          Vypocty scan_line
       */
-
+/*
 // edi -> zacatek radku cilove ligthmapy
 // zal -> zacatek radku look-up tabulky
     __spocitej_radek:
@@ -2708,8 +2702,8 @@ __inline int sdl_poly_pripocitej_svetla_face(G_KONFIG *p_ber, EDIT_MESH_POLY *p_
       popfd
     }
     }  
+*/
   }
-
   p_lf->upload = TRUE;
 
   return(TRUE);
@@ -3654,3 +3648,4 @@ void mlha_reset(void)
 {
   p_ber->p_mlha_akt = NULL;
 }
+

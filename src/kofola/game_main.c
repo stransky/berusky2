@@ -2,24 +2,20 @@
 // version 0.0.2
 //------------------------------------------------------------------------------------------------
 #include <time.h>
-#include <direct.h>
 #include "game_init.h"
 #include "game_logic.h"
-#include "adas.h"
 #include <math.h>
-#include "tools.h"
 #include "3d_all.h"
-#include "berusky3d_kofola_interface.h"
+#include "Berusky3d_kofola_interface.h"
 #include "2D_graphic.h"
 #include "3D_graphic.h"
-#include "3d_menus.h"
+#include "3D_menus.h"
 #include "menu.h"
-#include "comics.h"
+#include "Comics.h"
 #include "font.h"
-#include "apak.h"
-#include "2ddx.h"
+#include "Apak.h"
 #include "profiles.h"
-#include "menu2.h"
+#include "Menu2.h"
 
 APAK_HANDLE		*pBmpArchive = NULL;
 APAK_HANDLE		*pControlsArchive = NULL;
@@ -59,6 +55,7 @@ void winmain_Test(void)
 
 int winmain_Check_Window_Menu(void)
 {
+/*
 	DEVMODE dmSettings;
 
 	if(!GetPrivateProfileInt("hra","fullscreen", 1, (const char *) ini_file))
@@ -75,7 +72,7 @@ int winmain_Check_Window_Menu(void)
 			return 0;
 		}
 	}
-
+*/
 	return 1;
 }
 
@@ -158,12 +155,12 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 
 	iLanguageVersion = GetPrivateProfileInt("game","languageid", 0, ini_file);
 	kprintf(1, "Language ID = %d", iLanguageVersion);
-
+/*
 	if(!gi_Open_Archive(hwnd_hry, dir, &pBmpArchive,"game","bitmap_dir"))
 	{
 		return 0;
 	}
-
+*/
 /*#ifndef __DEMO
 	if(!gi_Open_Archive(hwnd_hry, "bitmap.pak", &pBmpArchive,"game","bitmap_dir"))
 	{
@@ -177,13 +174,14 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 		return 0;
 	}
 #endif*/
-
+/*
 	if(!gi_Open_Archive(hwnd_hry, "controls.pak", &pControlsArchive,"game","bitmap_dir"))
 	{
 		apakclose(pBmpArchive);
 		return 0;
 	}
-
+*/
+/*
 #ifndef __DEMO
 	if(!gi_Open_Archive(hwnd_hry, "sound.pak", &pSndArchive,"soundengine","sound_dir"))
 	{
@@ -192,7 +190,7 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 		return 0;
 	}
 #endif
-	
+
 #ifdef __DEMO
 	if(!gi_Open_Archive(hwnd_hry, "sound_demo.pak", &pSndArchive,"soundengine","sound_dir"))
 	{
@@ -201,9 +199,9 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 		return 0;
 	}
 #endif
-	
+*/
 	GetPrivateProfileString("game","3dmenu_pak","c:\\",dir,256,ini_file);
-	
+/*	
 	if(!gi_Open_Archive(hwnd_hry, dir, &p3DMArchive,"game","bitmap_dir"))
 	{
 		apakclose(pControlsArchive);
@@ -222,7 +220,7 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 		apakclose(pSndArchive);
 		return 0;
 	}
-
+*/
 /*#ifndef __DEMO
 	if(!gi_Open_Archive(hwnd_hry, "data.pak", &pDataArchive,"game","data_dir"))
 	{
@@ -244,7 +242,7 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 		return 0;
 	}
 #endif*/
-
+/*
 #ifndef __DEMO
 	if(!gi_Open_Archive(hwnd_hry, "game_data.pak", &pGDataArchive,"game","game_data_dir"))
 	{
@@ -256,7 +254,8 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 		return 0;
 	}
 #endif
-
+*/
+/*
 #ifdef __DEMO
 	if(!gi_Open_Archive(hwnd_hry, "game_data_demo.pak", &pGDataArchive,"game","game_data_dir"))
 	{
@@ -268,17 +267,17 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 		return 0;
 	}
 #endif
-
+*/
 	cpu = (int)ceil(tools_Base_Priority(tools_Get_CPU_Speed()));
 
 	kprintf(1,"OGG Decompression Thread Priority: %d",cpu);
-
+/*
 	gi_Init_Sound_Engine(hwnd_hry, &ad);
 	chdir(ad.Music_Dir);
 	ap_Load_Play_List("Play_List.dat",&ad);
 	chdir(ad.Sound_Dir);
 	ap_Load_Material_List("Material.dat",&ad);
-
+*/
 	//ap_Play_Song(22,0,&ad);
 
 	/*ogg_open("c:\\AnakreoN\\Berusky II\\Music\\Freemind.ogg");
@@ -312,16 +311,17 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 			cmcs_Game_Up(hWnd);
 		}
 #endif
-
+/*
 		if(FAILED(InitDirectDraw(hwnd_hry, 1024, 768, GetPrivateProfileInt("hra", "menu_bpp", 16, ini_file))))
 			return 0;
-		
+*/		
 		spracuj_spravy(0);
-
+/*
 		if(!bWindowMenu)
 			ShowWindow(hwnd_hry, SW_MAXIMIZE);
 		else		
 			ShowWindow(hwnd_hry, SW_SHOWNORMAL);
+*/  
 		//maximalizuj_okno(hwnd_hry);
 	}
 
@@ -346,7 +346,7 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 		RunMenuLoadScreenInitBar(15);
 		RunMenuLoadScreenAddProgress(-1);
 		RunMenuLoadScreenDrawProgress(-1,-1);
-		_3d_Init(hwnd_hry);
+		_3d_Init();
 		_3d_Load_List("3D_load.dat");
 
 		_3d_Gen_Hints(pHintTexture, 26);
@@ -379,7 +379,7 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 		
 		if(!fn_Set_Font(cFontFile[0]))
 		{
-			MessageBox(hwnd_hry, "Unable to set font!", "Error", MB_OK);
+			//MessageBox(hwnd_hry, "Unable to set font!", "Error", MB_OK);
 			return 0;
 		}
 
@@ -395,20 +395,20 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 		pr_ReadProfile("Default", &pPlayerProfile);
 
 		SetCursor(NULL);
-		Timer_ID = SetTimer(NULL, 0, 250, (TIMERPROC)gl_Set_Frame_Rate);
+		//Timer_ID = SetTimer(NULL, 0, 250, (TIMERPROC)gl_Set_Frame_Rate);
 		_3d_Load_Indikace();
 		//iActualLevel = 218;
 		iActualScene = 0;
-		gl_Run_Level(p_Level_Name,"default.env",hwnd_hry, &ad, cpu);
+		//gl_Run_Level(p_Level_Name,"default.env",hwnd_hry, &ad, cpu);
 		_3d_Release_Hints(pHintTexture, 26);
-		KillTimer(NULL,Timer_ID);
+		//KillTimer(NULL,Timer_ID);
 	}
 	else
 	{
 		//fn_Convert_Rect("", 768, 576);
 		SetCursor(NULL);
 		ShowCursor(FALSE);
-		RunMenu("mainmenu.txt", hwnd_hry, &ad, cpu);
+		//RunMenu("mainmenu.txt", hwnd_hry, &ad, cpu);
 
 #ifdef __DEMO
 		{
@@ -466,7 +466,7 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 	ap_Release(&ad);
 
 	ChangeDisplaySettings(NULL,0);
-	ShowWindow(hwnd_hry, SW_MAXIMIZE);
+	//ShowWindow(hwnd_hry, SW_MAXIMIZE);
 	spracuj_spravy(0);
     ShowCursor(TRUE);
 	spracuj_spravy(0);
@@ -475,7 +475,7 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 
 	//MSS_LOG_BLOCK_LIST;
 
-    DestroyWindow(hwnd_hry);
+    //DestroyWindow(hwnd_hry);
     exit(0);
 
 	return 0;

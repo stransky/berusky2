@@ -1,10 +1,9 @@
-#include "..\\komat\\mss_on.h"
-#include <windows.h>
 #include <stdio.h>
-#include "profiles.h"
 
-#include "..\komat\3d_all.h"
-#include "..\Komat\berusky3d_kofola_interface.h"
+#include "3d_all.h"
+#include "Berusky3d_kofola_interface.h"
+
+#include "profiles.h"
 
 PLAYER_PROFILE	pPlayerProfile;
 
@@ -204,6 +203,7 @@ int pr_ReadProfile(char *cFileName, PLAYER_PROFILE *pProfile)
 
 int pr_FindFileToProfile(WCHAR	*wName, char *cFile)
 {
+/*
 	PLAYER_PROFILE	Profile;
 	FILE *file;
 	long Done, error;
@@ -235,7 +235,7 @@ int pr_FindFileToProfile(WCHAR	*wName, char *cFile)
 		}
 	}
 	_findclose(Done); 
-
+*/
 	return 0;
 }
 

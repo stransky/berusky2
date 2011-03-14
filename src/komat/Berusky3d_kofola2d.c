@@ -5,29 +5,26 @@
   - vypnuti renderingu hry
 */
 
-#include "mss_on.h"
-#include <windows.h>
-#include <commctrl.h>
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
 #include <time.h>
 #include "3d_all.h"
 
-#include "..\\kofola\\Object.h"
+#include "Object.h"
 
-#include "berusky_universal.h"
-#include "berusky3d_castice.h"
-#include "berusky3d.h"
-#include "berusky3d_ini.h"
-#include "berusky3d_load.h"
-#include "berusky3d_render.h"
-#include "berusky3d_animace.h"
-#include "berusky3d_kofola_interface.h"
-#include "berusky3d_light.h"
-#include "berusky3d_kamery.h"
+#include "Berusky_universal.h"
+#include "Berusky3d_castice.h"
+#include "Berusky3d.h"
+#include "Berusky3d_ini.h"
+#include "Berusky3d_load.h"
+#include "Berusky3d_render.h"
+#include "Berusky3d_animace.h"
+#include "Berusky3d_kofola_interface.h"
+#include "Berusky3d_light.h"
+#include "Berusky3d_kamery.h"
 
-#include "berusky3d_kofola2d.h"
+#include "Berusky3d_kofola2d.h"
 
 #define  MAX_TEXT_BUFFER_X 2048
 #define  MAX_TEXT_BUFFER_Y 2048

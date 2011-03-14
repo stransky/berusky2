@@ -1,11 +1,7 @@
 /*
   3D interface - interface pro OpenGL
 */
-#include "mss_on.h"
-#include <windows.h>
 #include "3d_all.h"
-
-#include "dbgwnd.h"
 
 int    glstav_blending;    // blending on-off
 int    glstav_cull;        // cull mod

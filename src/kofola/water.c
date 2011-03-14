@@ -1,7 +1,6 @@
-#include "..\\komat\\mss_on.h"
 #include "game_logic.h"
 #include "water.h"
-#include "..\Komat\berusky3d_kofola_interface.h"
+#include "Berusky3d_kofola_interface.h"
 
 		WATER_STRUCT	wsWater;
 extern	LEVELINFO		Level;

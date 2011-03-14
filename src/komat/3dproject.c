@@ -2,8 +2,6 @@
    Projekcni funkce - rene ja a rudolf, chodivame na golf
    spec podekovani - 
 */
-#include "mss_on.h"
-#include <windows.h>
 #include "3d_all.h"
 
 
@@ -222,4 +220,3 @@ void transf_2d_3d_z_world(float p_x,   float p_y,   float p_z,
  *p_ty = y3/w3;
  *p_tz = z3/w3;
 }
-

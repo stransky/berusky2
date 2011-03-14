@@ -39,7 +39,7 @@ typedef void *          HWND;
 typedef void *          HDC;
 typedef unsigned int    UINT;
 typedef int             BOOL;
-
+typedef void *          HINSTANCE;
 
 typedef struct _RECT {
   int left;
@@ -79,6 +79,7 @@ typedef struct _MOUSE_INFO {
 #define RGB(a,b,c) a
 #define CP_ACP     0
 #define TRANSCOLOR 0
+#define HDC2DD     -1
 
 void kprintf(char log, char *p_text,...);
 void kprintfl(char log, char *p_text,...);

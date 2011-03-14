@@ -1,8 +1,6 @@
 /*
   3D matematicke funkce
 */
-#include "mss_on.h"
-#include <windows.h>
 #include "3d_all.h"
 
 GLMATRIX * calc_reflex_matrix(GLMATRIX *p_mat, BOD *p_a, BOD *p_b, BOD *p_c)

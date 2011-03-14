@@ -19,8 +19,6 @@ The code in this file is subject to the RunicSoft source code licence
 
 **************************************************************************/
 
-#include "mss_on.h"
-#include <windows.h>
 #include <stdio.h>       // for memset
 #include "3d_all.h"
 
@@ -183,6 +181,7 @@ On error the return value is FALSE.
 
 int SaveBMP(FILE *file, byte* Buffer, int width, int height, long paddedsize )
 {
+/*
 	// declare bmp structures 
 	BITMAPFILEHEADER bmfh;
 	BITMAPINFOHEADER info;
@@ -229,7 +228,7 @@ int SaveBMP(FILE *file, byte* Buffer, int width, int height, long paddedsize )
 	{	
 		return FALSE;
 	}
-	
+*/	
 	return TRUE;
 }
 
@@ -249,6 +248,7 @@ On error the return value is NULL.
 *******************************************************************/
 byte* LoadBMP(KFILE *file, int* width, int* height, long* size)
 {
+/*
 	// declare bitmap structures
 	BITMAPFILEHEADER bmpheader;
 	BITMAPINFOHEADER bmpinfo;
@@ -294,4 +294,5 @@ byte* LoadBMP(KFILE *file, int* width, int* height, long* size)
 
 	// everything successful here: close file and return buffer
 	return(Buffer);
+  */
 }

@@ -1,4 +1,3 @@
-#include "..\\komat\\mss_on.h"
 #include "square_cut.h"
 
 void OhodnotVrchol(int x, int y, SQUARE *pOblast, OHODNOCENI *pOhodnot)

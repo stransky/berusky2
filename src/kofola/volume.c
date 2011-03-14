@@ -1,14 +1,13 @@
-#include "..\\komat\\mss_on.h"
-#include <windows.h>
-#include "..\komat\3d_all.h"
+#include "3d_all.h"
 
-static HMIXER m_hMixer = NULL;
+//static HMIXER m_hMixer = NULL;
 static int	m_dwVolumeControlID = 0;
 static long	m_dwMinimum = 0;
 static long m_dwMaximum = 0;
 
 BOOL amdInitialize(HWND hwnd)
 {
+/*
 	MIXERCAPS m_mxcaps;
 
 	// get the number of mixer devices present in the system
@@ -32,23 +31,25 @@ BOOL amdInitialize(HWND hwnd)
 	}
 
 	kprintf(1, "Mixer: %s", m_mxcaps.szPname);
-
+*/
 	return TRUE;
 }
 
 void amdUninitialize()
 {
+/*
 	if (m_hMixer != NULL)
 	{
 		mixerClose(m_hMixer);
 		m_hMixer = NULL;
 	}
-
+*/
 	return;
 }
 
 BOOL amdGetMasterVolumeControl()
 {
+/*
 	MIXERLINE mxl;
 	MIXERCONTROL mxc;
 	MIXERLINECONTROLS mxlc;
@@ -83,12 +84,13 @@ BOOL amdGetMasterVolumeControl()
 	m_dwMinimum = mxc.Bounds.dwMinimum;
 	m_dwMaximum = mxc.Bounds.dwMaximum;
 	m_dwVolumeControlID = mxc.dwControlID;
-
+*/
 	return TRUE;
 }
 
 BOOL amdGetMasterVolumeValue(float *dwVal)
 {
+/*
 	MIXERCONTROLDETAILS_UNSIGNED mxcdVolume;
 	MIXERCONTROLDETAILS mxcd;
 
@@ -109,12 +111,13 @@ BOOL amdGetMasterVolumeValue(float *dwVal)
 	}
 	
 	*dwVal = mxcdVolume.dwValue / (float)(m_dwMaximum - m_dwMinimum);
-
+*/
 	return TRUE;
 }
 
 BOOL amdSetMasterVolumeValue(float dwVal)
 {
+/*
 	MIXERCONTROLDETAILS_UNSIGNED mxcdVolume;
 	MIXERCONTROLDETAILS mxcd;
 
@@ -134,6 +137,6 @@ BOOL amdSetMasterVolumeValue(float dwVal)
 	{
 		return FALSE;
 	}
-	
+*/	
 	return TRUE;
 }

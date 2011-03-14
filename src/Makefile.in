@@ -56,15 +56,15 @@ am_berusky2_OBJECTS = 3D_graphic.$(OBJEXT) 3D_menus.$(OBJEXT) \
 	animation.$(OBJEXT) animend_functions.$(OBJEXT) \
 	apakdir.$(OBJEXT) apakfind.$(OBJEXT) apakstream.$(OBJEXT) \
 	controls.$(OBJEXT) controls3d.$(OBJEXT) credits.$(OBJEXT) \
-	ddutil.$(OBJEXT) font.$(OBJEXT) font3d.$(OBJEXT) \
-	game_init.$(OBJEXT) game_logic.$(OBJEXT) game_main.$(OBJEXT) \
-	grammar.$(OBJEXT) load_level.$(OBJEXT) menu_script.$(OBJEXT) \
-	profiles.$(OBJEXT) setup.$(OBJEXT) square_cut.$(OBJEXT) \
-	trigers.$(OBJEXT) volume.$(OBJEXT) water.$(OBJEXT) \
-	3dinterface.$(OBJEXT) 3dmath.$(OBJEXT) 3dproject.$(OBJEXT) \
-	Berusky3d.$(OBJEXT) Berusky3d_animace.$(OBJEXT) \
-	Berusky3d_castice.$(OBJEXT) Berusky3d_ini.$(OBJEXT) \
-	Berusky3d_kamery.$(OBJEXT) Berusky3d_kofola2d.$(OBJEXT) \
+	font.$(OBJEXT) font3d.$(OBJEXT) game_init.$(OBJEXT) \
+	game_logic.$(OBJEXT) game_main.$(OBJEXT) grammar.$(OBJEXT) \
+	load_level.$(OBJEXT) menu_script.$(OBJEXT) profiles.$(OBJEXT) \
+	setup.$(OBJEXT) square_cut.$(OBJEXT) trigers.$(OBJEXT) \
+	volume.$(OBJEXT) water.$(OBJEXT) 3dinterface.$(OBJEXT) \
+	3dmath.$(OBJEXT) 3dproject.$(OBJEXT) Berusky3d.$(OBJEXT) \
+	Berusky3d_animace.$(OBJEXT) Berusky3d_castice.$(OBJEXT) \
+	Berusky3d_ini.$(OBJEXT) Berusky3d_kamery.$(OBJEXT) \
+	Berusky3d_kofola2d.$(OBJEXT) \
 	Berusky3d_kofola_interface.$(OBJEXT) Berusky3d_light.$(OBJEXT) \
 	Berusky3d_load.$(OBJEXT) Berusky3d_render.$(OBJEXT) \
 	Bmp.$(OBJEXT) Ddx.$(OBJEXT) Di.$(OBJEXT) Kdtree.$(OBJEXT) \
@@ -305,9 +305,6 @@ berusky2_SOURCES = \
 	kofola/controls3d.h\
 	kofola/credits.c\
 	kofola/credits.h\
-	kofola/ddutil.cpp\
-	kofola/ddutil.h\
-	kofola/dxutil.h\
 	kofola/font.c\
 	kofola/font.h\
 	kofola/font3d.c\
@@ -558,7 +555,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/controls.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/controls3d.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/credits.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ddutil.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/font.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/font3d.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/game_init.Po@am__quote@
@@ -1529,20 +1525,6 @@ obb.obj: komat/obb.c
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LTCXXCOMPILE) -c -o $@ $<
-
-ddutil.o: kofola/ddutil.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ddutil.o -MD -MP -MF $(DEPDIR)/ddutil.Tpo -c -o ddutil.o `test -f 'kofola/ddutil.cpp' || echo '$(srcdir)/'`kofola/ddutil.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/ddutil.Tpo $(DEPDIR)/ddutil.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='kofola/ddutil.cpp' object='ddutil.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ddutil.o `test -f 'kofola/ddutil.cpp' || echo '$(srcdir)/'`kofola/ddutil.cpp
-
-ddutil.obj: kofola/ddutil.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ddutil.obj -MD -MP -MF $(DEPDIR)/ddutil.Tpo -c -o ddutil.obj `if test -f 'kofola/ddutil.cpp'; then $(CYGPATH_W) 'kofola/ddutil.cpp'; else $(CYGPATH_W) '$(srcdir)/kofola/ddutil.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/ddutil.Tpo $(DEPDIR)/ddutil.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='kofola/ddutil.cpp' object='ddutil.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ddutil.obj `if test -f 'kofola/ddutil.cpp'; then $(CYGPATH_W) 'kofola/ddutil.cpp'; else $(CYGPATH_W) '$(srcdir)/kofola/ddutil.cpp'; fi`
 
 Texture_import.o: komat/Texture_import.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Texture_import.o -MD -MP -MF $(DEPDIR)/Texture_import.Tpo -c -o Texture_import.o `test -f 'komat/Texture_import.cpp' || echo '$(srcdir)/'`komat/Texture_import.cpp

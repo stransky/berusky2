@@ -1,42 +1,28 @@
 //------------------------------------------------------------------------------------------------
 // version 0.0.1
 //------------------------------------------------------------------------------------------------
-#include "..\\komat\\mss_on.h"
-#include <windows.h>
-#include <conio.h>
 #include <stdio.h>
-#include "apak.h"
+#include "Apak.h"
 
 //------------------------------------------------------------------------------------------------
 // 0.0.1
 //------------------------------------------------------------------------------------------------
 
-#include <io.h>
-#include <direct.h>
 #include "game_init.h"
-#include "adas.h"
-#include "tools.h"
 
-#include "..\komat\3d_all.h"
-#include "..\Komat\berusky3d_kofola_interface.h"
-#include "..\Komat\Berusky_universal.h"
+#include "3d_all.h"
+#include "Berusky3d_kofola_interface.h"
+#include "Berusky_universal.h"
 
 extern HW_KONFIG hwconf;
 extern APAK_HANDLE	*pSndArchive;
-
-#ifdef _DEBUG
-#pragma comment(lib,"lib\\adas_static_d.lib")
-#endif
-
-#ifndef _DEBUG
-#pragma comment(lib,"lib\\adas_static.lib")
-#endif
 
 int		iWinVer = 0;
 extern HWND	hwnd_hry;
 
 void gi_Set_Win_Version(void)
 {
+/*
    OSVERSIONINFO           osvi;
     
    ZeroMemory( &osvi, sizeof( osvi ) );
@@ -47,6 +33,7 @@ void gi_Set_Win_Version(void)
 
    kprintf(1, "Sytem info: Windows v%d.%d build %d - platform ID %d", 
 		   osvi.dwMajorVersion, osvi.dwMinorVersion, osvi.dwBuildNumber, osvi.dwPlatformId);
+*/
 }
 
 int gi_Open_Archive(HWND hWnd, char *cFile, APAK_HANDLE **pAHandle, char *cAppName, char *cKeyName)
@@ -82,7 +69,7 @@ int gi_Open_Archive(HWND hWnd, char *cFile, APAK_HANDLE **pAHandle, char *cAppNa
 		//sprintf(text, "Unable to open archive %s", cFile);
 		//MessageBox(hwnd_hry,text,"Error",MB_OK);
 
-		MyMessageBox(hwnd_hry, "##error_title", "##error_open_archive", cFile);
+		//MyMessageBox(hwnd_hry, "##error_title", "##error_open_archive", cFile);
 
 		return 0;
 	}
@@ -100,7 +87,7 @@ int gi_Open_Archive(HWND hWnd, char *cFile, APAK_HANDLE **pAHandle, char *cAppNa
 int gi_Get_Max_Resolution_Frequency(int xPels, int yPels, int Bits)
 {
 	int i=0, f=0;
-
+/*
 	DEVMODE dmSettings;
 	
 	memset(&dmSettings,0,sizeof(dmSettings));
@@ -117,14 +104,14 @@ int gi_Get_Max_Resolution_Frequency(int xPels, int yPels, int Bits)
 		dmSettings.dmSize = sizeof(DEVMODE);
 		i++;
 	}
-
+*/
 	return f;
 }
 
 int gi_Get_Max_Resolution_Bpp(int xPels, int yPels)
 {
 	int i=0, f=0;
-
+/*
 	DEVMODE dmSettings;
 	
 	memset(&dmSettings,0,sizeof(dmSettings));
@@ -141,12 +128,13 @@ int gi_Get_Max_Resolution_Bpp(int xPels, int yPels)
 		dmSettings.dmSize = sizeof(DEVMODE);
 		i++;
 	}
-
+*/
 	return f;
 }
 
 int gi_Change_Grafic_Test(int xPels, int yPels, int Bits, int freq)
 {
+/*
 	long l;
 	DEVMODE	devmode;
 	ZeroMemory(&devmode, sizeof(DEVMODE));
@@ -191,13 +179,13 @@ int gi_Change_Grafic_Test(int xPels, int yPels, int Bits, int freq)
 		return 0;
 	else
 		return 1;
-
+*/
 }
 
 int gi_Get_Max_Freq(int xPels, int yPels, int bpp)
 {
 	int i=0, f[100], c=0;
-
+/*
 	DEVMODE dmSettings;
 
 	
@@ -236,10 +224,12 @@ int gi_Get_Max_Freq(int xPels, int yPels, int bpp)
 			c++;
 
 	return f[c];
+*/
 }
 
 int gi_Change_Grafic_Mode(int xPels, int yPels, int Bits, int freq, DWORD dwflags)
 {
+/*
 	long l;
 	DEVMODE	devmode;
 
@@ -288,7 +278,7 @@ int gi_Change_Grafic_Mode(int xPels, int yPels, int Bits, int freq, DWORD dwflag
 		return 0;
 	else
 		return 1;
-
+*/
 }
 /*
 int gi_EnumDisplaySettings(DEVMODE *pdevmode)
@@ -296,6 +286,7 @@ int gi_EnumDisplaySettings(DEVMODE *pdevmode)
 	return EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, pdevmode);
 }
 */
+/*
 void gi_APAK_Load(unsigned long mem, struct _finddata_t* pData)
 {
 	char *pMem;
@@ -322,10 +313,12 @@ void gi_APAK_Load(unsigned long mem, struct _finddata_t* pData)
 
 	aclose(file);
 }
+*/
 
 //------------------------------------------------------------------------------------------------
 // nahodi sound engine
 //------------------------------------------------------------------------------------------------
+/*
 void gi_Init_Sound_Engine(HWND hWnd, AUDIO_DATA *p_ad)
 {
 	char				text[256];
@@ -377,7 +370,7 @@ void gi_Init_Sound_Engine(HWND hWnd, AUDIO_DATA *p_ad)
 		{
 			//MessageBox(hWnd,text,"Error",MB_OK);
 			kprintf(1,text);
-			MyMessageBox(hwnd_hry, "##error_title", "##adas_init_error","");
+			//MyMessageBox(hwnd_hry, "##error_title", "##adas_init_error","");
 			p_ad->bAudio = 0;
 		}
 		else
@@ -405,7 +398,7 @@ void gi_Init_Sound_Engine(HWND hWnd, AUDIO_DATA *p_ad)
 			achdir(pSndArchive, init_data.Sound_Dir);
 
 			ap_Load_Sound_List(p_ad, "basicset.dat", 0);
-
+*/
 /*			kprintf(1,"Memory for waves: %.1fMB", max_mem / 1000000.0f);
 			kprintf(1,"Loading waves...");
 			Done = afindfirst(pSndArchive, "*.wav",&Data);
@@ -429,7 +422,7 @@ void gi_Init_Sound_Engine(HWND hWnd, AUDIO_DATA *p_ad)
 				error = afindnext(Done,&Data);
 			}
 			afindclose(Done);*/
-	
+/*	
 			kprintf(1,"Distance Model: AL_INVERSE_DISTANCE_CLAMPED");
 			adas_Set_Distance_Model(AL_INVERSE_DISTANCE_CLAMPED);
 			kprintf(1,"Doppler Factor: 1.0");
@@ -445,7 +438,7 @@ void gi_Init_Sound_Engine(HWND hWnd, AUDIO_DATA *p_ad)
 			adas_Set_Listener_Environment(0);
 			if (adas_Get_Last_Error(text,256))
 				{
-				MyMessageBox(hwnd_hry, "##error_title", "##adas_init_error","");
+				//MyMessageBox(hwnd_hry, "##error_title", "##adas_init_error","");
 					//MessageBox(hWnd,text,"Error",MB_OK);
 					kprintf(1,text);
 				}
@@ -454,14 +447,17 @@ void gi_Init_Sound_Engine(HWND hWnd, AUDIO_DATA *p_ad)
 	else
 		p_ad->bAudio = 0;
 }
+*/
 
 //------------------------------------------------------------------------------------------------
 // ukonci sound engine
 //------------------------------------------------------------------------------------------------
 void gi_Release_Sound_Engine(void)
 {
+/*
 	kprintf(1,"Release loaded waves...");
 	adas_Release_Loaded_Data();
 	kprintf(1,"Release sound engine...");
 	adas_Exit();
+*/
 }

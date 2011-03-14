@@ -1,12 +1,8 @@
 /*
   Interface pro GL
 */
-#include "mss_on.h"
-#include <windows.h>
 #include <stdarg.h>
 #include "3d_all.h"
-
-#include "oe_winini.h"
 
 HW_KONFIG  hwconf;
 TXT_KONFIG txconf;

@@ -1,20 +1,15 @@
-#include "..\\komat\\mss_on.h"
-#include <windows.h>
 #include <stdio.h>
-#include "apak.h"
+#include "Apak.h"
 #include "font3d.h"
 //#include "2d_graphic.h"
 //#include "2ddx.h"
 
-#include "..\komat\3d_all.h"
-#include "..\komat\Berusky3d_kofola_interface.h"
-#include "..\Komat\Berusky_universal.h"
-#include "..\komat\berusky3d_kofola2d.h"
+#include "3d_all.h"
+#include "Berusky3d_kofola_interface.h"
+#include "Berusky_universal.h"
+#include "Berusky3d_kofola2d.h"
 
 //#pragma comment(lib,"Msimg32.lib")
-
-#define HDC2DD		-1
-#define TRANSCOLOR	RGB(255, 0, 255)
 
 B2_FONT	b2_font;
 
@@ -168,11 +163,11 @@ int fn2_Set_Font_Bmps(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts)
 					   gt->command[i].Parametr[1].Type == 2)
 					{
 					   memset(text, 0, 256);
-
+/*
 					   WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK | WC_DEFAULTCHAR, (const unsigned short *)ts->StrTable[gt->command[i].Parametr[1].Value], 
 											wcslen((const unsigned short *)ts->StrTable[gt->command[i].Parametr[1].Value]),
 											text, 256, NULL, NULL);
-
+*/
 					   b2_font.iBitmap[gt->command[i].Parametr[0].Value] = ddx2LoadBitmap(text, b2_font.pArchive);
 					   //_2d_APAK_Load_Bitmap(text, b2_font.pArchive);
 					}  
@@ -185,11 +180,11 @@ int fn2_Set_Font_Bmps(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts)
 					{
 					
 					   memset(text, 0, 256);
-
+/*
 					   WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK | WC_DEFAULTCHAR, (const unsigned short *)ts->StrTable[gt->command[i].Parametr[1].Value], 
 											wcslen((const unsigned short *)ts->StrTable[gt->command[i].Parametr[1].Value]),
 											text, 256, NULL, NULL);
-
+*/
 						txt_nahraj_texturu_z_func(b2_font.pArchive, text, 
 							&b2_font.tex[gt->command[i].Parametr[0].Value], 1, 0, 
 							&b2_font.konf[gt->command[i].Parametr[0].Value],nahraj_aux);
@@ -556,7 +551,7 @@ void fn2_Draw_MessageA(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, TRIG
 					}
 		}
 }
-
+/*
 void fn2_Set_Char(unsigned __int32 *pTexture, int iXSize, int iYSize, int iXpos, int iYpos, 
 				 unsigned __int32 *pSource, int iXSSize, int iYSSize,
 				 int iCXSize, int iCYSize, int iXCpos, int iYCpos)
@@ -574,7 +569,8 @@ void fn2_Set_Char(unsigned __int32 *pTexture, int iXSize, int iYSize, int iXpos,
 		pS -= iXSSize;
 	}
 }
-
+*/
+/*
 void fn2_Gen_Texture(BYTE **lpTexture, int iXSize, int iYSize, int iXpos, int iYpos, GAME_TRIGER *gt, 
 					TRIGER_STRUCTURE *ts, WCHAR *cFile, WCHAR *cStop, int iSection, int *iXres,
 					int *iYres)
@@ -625,7 +621,7 @@ void fn2_Gen_Texture(BYTE **lpTexture, int iXSize, int iYSize, int iXpos, int iY
 				{
 					//y+= 17;
 					y+= b2_font.iYPlus;
-					//*iYres = y;
+					// *iYres = y;
 					x = iXpos;
 					continue;
 				}
@@ -652,7 +648,7 @@ void fn2_Gen_Texture(BYTE **lpTexture, int iXSize, int iYSize, int iXpos, int iY
 					}
 		}
 }
-
+*/
 int fn2_Open_Archive(char *cFile, APAK_HANDLE **pAHandle, char *cAppName, char *cKeyName)
 {
 	int	e;
@@ -684,7 +680,7 @@ int fn2_Open_Archive(char *cFile, APAK_HANDLE **pAHandle, char *cAppName, char *
 		}
 
 		sprintf(text, "Unable to open archive %s", cFile);
-		MessageBox(NULL,text,"Error",MB_OK);
+		//MessageBox(NULL,text,"Error",MB_OK);
 
 		return 0;
 	}
@@ -1038,7 +1034,7 @@ int fn2_Up(int iValue)
 
 	return FONT_X_MAX;
 }
-
+/*
 int fn2_Blt(BYTE *pT, BYTE **pD, int ix, int iy)
 {
 	int y;
@@ -1071,6 +1067,7 @@ int fn2_Blt(BYTE *pT, BYTE **pD, int ix, int iy)
 
 	return 1;
 }
+*/
 
 int fn2_Put_in_3d_List(int text, EDIT_TEXT *p_tex, EDIT_TEXT_KONFIG *p_konf, int x, int y, char *pMem, int ox, int oy)
 {
@@ -1098,6 +1095,7 @@ int fn2_Get_Font_Texture(int iSection, char *cText)
 {
 	int	tx, ty;
 	int Xmax, Ymax;
+/*
 	BYTE *pT = NULL;
 	BYTE *pnT = NULL;
 
@@ -1115,11 +1113,11 @@ int fn2_Get_Font_Texture(int iSection, char *cText)
 	Ymax = fn2_Up(Ymax);
 
 	fn2_Blt(pT, &pnT, Xmax, Ymax);
-
+*/
 	/*glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, b2_font.tex.p_bmp->x, b2_font.tex.p_bmp->y, 0, GL_RGBA, GL_UNSIGNED_BYTE, 
 				 b2_font.tex.p_bmp->data);*/
 
-	return fn2_Put_in_3d_List(b2_font.tex[iSection].text, &b2_font.tex[iSection], &b2_font.konf[iSection], Xmax, Ymax, pnT, tx, ty);
+//	return fn2_Put_in_3d_List(b2_font.tex[iSection].text, &b2_font.tex[iSection], &b2_font.konf[iSection], Xmax, Ymax, pnT, tx, ty);
 }
 
 void fn2_Load_Textures_From_RAM(void)
@@ -1215,6 +1213,7 @@ void fn2_Convert_Rect(char *cFile, int xmax, int ymax)
 
 void fn2_Draw_Line(int x1, int y1, int x2, int y2, COLORREF color, HDC hdc)
 {
+/*
 	HPEN	LastPen;
 	HPEN	MePen;
 
@@ -1226,10 +1225,12 @@ void fn2_Draw_Line(int x1, int y1, int x2, int y2, COLORREF color, HDC hdc)
 
 	SelectObject(hdc,LastPen);
 	DeleteObject(MePen);
+*/
 }
 
 int fn2_DC2Tex(HDC hdc, int xr, int yr, int turn, int texture)
 {
+/*
 	int					tex;
 	int					i, c = 0;
 //	HDC					hdcMem;
@@ -1253,7 +1254,7 @@ int fn2_DC2Tex(HDC hdc, int xr, int yr, int turn, int texture)
 	pbmiRGB->bmiHeader.biCompression   = BI_RGB;     
 	pbmiRGB->bmiHeader.biSizeImage     = pbmiRGB->bmiHeader.biWidth
 										 * abs(pbmiRGB->bmiHeader.biHeight) * 3; 
-
+*/
 /*	hbmRGB = CreateDIBSection(hdcMem, pbmiRGB, DIB_RGB_COLORS,
 							  (PVOID *) &pjBitsRGB, NULL, 0);
 	
@@ -1265,7 +1266,7 @@ int fn2_DC2Tex(HDC hdc, int xr, int yr, int turn, int texture)
  
 	if (!BitBlt(hdcMem, 0,0, xr, yr, hdc, 0,0,SRCCOPY)) 
 		return 0;*/
-
+/*
 	pjBitsRGB = (LPBYTE) GlobalAlloc(GMEM_FIXED, pbmiRGB->bmiHeader.biSizeImage);
 
 	if (!pjBitsRGB) 
@@ -1314,4 +1315,5 @@ int fn2_DC2Tex(HDC hdc, int xr, int yr, int turn, int texture)
 	free((void *) pjBitsTEX);
 
 	return tex;
+*/
 }

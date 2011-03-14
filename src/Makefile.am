@@ -64,9 +64,6 @@ berusky2_SOURCES = \
 	kofola/controls3d.h\
 	kofola/credits.c\
 	kofola/credits.h\
-	kofola/ddutil.cpp\
-	kofola/ddutil.h\
-	kofola/dxutil.h\
 	kofola/font.c\
 	kofola/font.h\
 	kofola/font3d.c\

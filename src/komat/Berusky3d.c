@@ -4,7 +4,6 @@
   - udelat konzoli (alt+tab) - prepinani na konzoli
   (konzole misto hry a zpet)
 */
-#include "mss_on.h"
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
@@ -13,19 +12,17 @@
 
 #include "Object.h"
 
-#include "berusky_universal.h"
-#include "berusky3d_castice.h"
-#include "berusky3d.h"
-#include "berusky3d_ini.h"
-#include "berusky3d_load.h"
-#include "berusky3d_render.h"
-#include "berusky3d_animace.h"
-#include "berusky3d_kofola_interface.h"
-#include "berusky3d_light.h"
-#include "berusky3d_kamery.h"
-#include "berusky3d_kofola2d.h"
-
-#include "dbgwnd.h"
+#include "Berusky_universal.h"
+#include "Berusky3d_castice.h"
+#include "Berusky3d.h"
+#include "Berusky3d_ini.h"
+#include "Berusky3d_load.h"
+#include "Berusky3d_render.h"
+#include "Berusky3d_animace.h"
+#include "Berusky3d_kofola_interface.h"
+#include "Berusky3d_light.h"
+#include "Berusky3d_kamery.h"
+#include "Berusky3d_kofola2d.h"
 
 #define  KAM_MIN_VZDAL   1.0f
 
@@ -256,7 +253,7 @@ void ber_konfiguruj_berusky(G_KONFIG *p_ber)
  
  kprintf(TRUE,"Configuration done"); 
 }
-
+/*
 BOOL CALLBACK doe_callback_konzole(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
   switch(msg)  {
@@ -284,10 +281,11 @@ BOOL CALLBACK doe_callback_konzole(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
   }
   return TRUE;
 }
+*/
 
-void kprintf(byte log, byte *p_text,...)
+void kprintf(char log, char *p_text,...)
 {
-  byte      text[2000];  
+  char      text[2000];  
   va_list   argumenty;
 
   if(log&&p_ber->debug_file) {
@@ -306,9 +304,9 @@ void kprintf(byte log, byte *p_text,...)
   }
 }
 
-void kprintfe(byte log, byte *p_text,...)
+void kprintfe(char log, char *p_text,...)
 {
-  byte      text[2000];  
+  char      text[2000];  
   va_list   argumenty;
 
   if(log&&p_ber->debug_file) {
@@ -326,9 +324,9 @@ void kprintfe(byte log, byte *p_text,...)
   exit(1);
 }
 
-void kprintfl(byte log, byte *p_text,...)
+void kprintfl(char log, char *p_text,...)
 {    
-  byte      text[2000];  
+  char      text[2000];  
   va_list   argumenty;
 
   if(log&&p_ber->debug_file) {
@@ -344,9 +342,9 @@ void kprintfl(byte log, byte *p_text,...)
   }
 }
 
-void ddw(byte *p_text,...)
+void ddw(char *p_text,...)
 {
-  byte      text[2000];  
+  char      text[2000];  
   va_list   argumenty;
 
   if(p_ber->debug_file) {
@@ -571,11 +569,13 @@ float ber_stredni_vzdalenost_ve_scene(G_KONFIG *p_ber)
 
 void ber_nastav_kurzor(int x, int y)
 {
+/*
   POINT p;
   p.x = x; p.y = y;
   ClientToScreen(hwnd_hry,&p);
   SetCursorPos(p.x,p.y);
   spracuj_spravy(1);
+*/
 }
 
 

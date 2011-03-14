@@ -1,12 +1,11 @@
-#include "..\\komat\\mss_on.h"
-#include <windows.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "menu_script.h"
 #include "menu_def.h"
-#include "apak.h"
+#include "Apak.h"
 
+typedef unsigned short WCHAR;
 extern APAK_HANDLE		*pDataArchive;
 
 //------------------------------------------------------------------------------------------------
@@ -21,11 +20,12 @@ int Find_First_Valid_Char(int start, char *text)
 		if(text[i] != 32 &&
 		   text[i] != '(' &&
 		   text[i] != 9 &&
-		   text[i] != ',')
+		   text[i] != ',') {
 			if(text[i] != ')')
 				return i;
 			else
 				return -1;
+    }
 
 	return -1;
 }

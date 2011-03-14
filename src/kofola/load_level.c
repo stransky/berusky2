@@ -1,27 +1,21 @@
 //------------------------------------------------------------------------------------------------
 // version 0.0.6
 //------------------------------------------------------------------------------------------------
-#include "..\\komat\\mss_on.h"
-#include <direct.h>
 #include <stdio.h>
-#include <windows.h>
 
 #include <assert.h>
-//#include <d3d.h>
-#include <windows.h>
 #include <math.h>
 #include <time.h>
-#include "..\komat\3d_all.h"
-#include "..\Komat\Berusky_universal.h"
+#include "3d_all.h"
+#include "Berusky_universal.h"
 #include "load_level.h"
-#include "..\Komat\berusky3d_kofola_interface.h"
-#include "..\Komat\berusky3d_light.h"
+#include "Berusky3d_kofola_interface.h"
+#include "Berusky3d_light.h"
 #include "trigers.h"
 #include "grammar.h"
 #include "menu_script.h"
 #include "animation.h"
 #include "profiles.h"
-#include <tchar.h>
 
 #define VELIKOST_STREPIN	2.0f
 #define VELIKOST_STREPIN_K	20.0f
@@ -1178,10 +1172,10 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO *p_Level)
 
 	if(!lsi_Create_Prach(p_Level, 1))
 		kprintf(1,"Nepodarilo ze vytvorit vsechen prach :) !");
-
+/*
 	if(!Next_Beetle)
 		MessageBox(NULL,"Protože seš lama a spustil si level bez berušky, tak ti to teï spadne!","!!!",MB_OK);
-
+*/
 	return errors;
 }
 
@@ -1445,6 +1439,7 @@ int lsi_Get_Save_Info(char *p_Level_Name, int *pActLevel, int *pActScene)
 
 int lsi_Save_Exist(WCHAR *wName, char *cFile)
 {
+/*
 	FILE *file;
 	long Done, error;
 	struct _finddata_t	Data;
@@ -1490,12 +1485,13 @@ int lsi_Save_Exist(WCHAR *wName, char *cFile)
 		}
 	}
 	_findclose(Done); 
-
+*/
 	return 0;
 }
 
 void delete_dir(char *p_Level_Name)
 {
+/*
 	long Done, error;
 	struct _finddata_t	Data;
 
@@ -1519,10 +1515,12 @@ void delete_dir(char *p_Level_Name)
 
 	_chdir("..");
 	rmdir(p_Level_Name);
+*/
 }
 
 void lsi_Save_Level(WCHAR *pwc_Level_Name, LEVELINFO *p_Level)
 {
+/*
 	FILE *file;
 	int i;
 	char text[256];
@@ -1555,9 +1553,9 @@ void lsi_Save_Level(WCHAR *pwc_Level_Name, LEVELINFO *p_Level)
 	sprintf(p_Level_Name, "save_[%s]_[%s]", pom, pom2);
 
 	exists = lsi_Save_Exist(pwc_Level_Name, p_Level_Name);
-
+*/
 	/*WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK, pwc_Level_Name, wcslen(pwc_Level_Name), p_Level_Name, 256, NULL, NULL);*/
-
+/*
 	delete_dir(p_Level_Name);
 
 	mkdir(p_Level_Name);
@@ -1622,6 +1620,7 @@ void lsi_Save_Level(WCHAR *pwc_Level_Name, LEVELINFO *p_Level)
 		fwrite(&p_Level->Item[i].Square, sizeof(SQUAREDESC), 1, file);
 
 	fclose(file);
+*/
 }
 
 int lsi_fint_item(int mesh, LEVELINFO *p_Level)
@@ -1892,6 +1891,7 @@ void lsi_Bind_Materials2Items(LEVELINFO *p_Level)
 
 void lsi_Make_Screenshot(HDC hdc, char *pFile)
 {
+/*
 	HDC					hdcMem;
 	BITMAPINFO			*pbmiRGB = (BITMAPINFO *) NULL; 
 	HBITMAP				hbmRGB  = (HBITMAP) NULL;
@@ -1958,5 +1958,5 @@ void lsi_Make_Screenshot(HDC hdc, char *pFile)
 	DeleteObject(hbmRGB);
 	LocalFree(pbmiRGB);
 	GlobalFree((HGLOBAL)pjBitsRGB);
+*/
 }
-

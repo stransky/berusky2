@@ -3,36 +3,24 @@
 */
 #define  WM_MOUSEWHEEL  0x020A
 
-#include "mss_on.h"
-#include <windows.h>
-#include <commctrl.h>
 #include <stdio.h>
 #include <math.h>
-#include <direct.h>
 #include <time.h>
 #include <assert.h>
-#include "..\resource.h"
 
 #include "3d_all.h"
 
-#include "..\kofola\Object.h"
-#include "..\Kofola\game_main.h"
+#include "Object.h"
+#include "game_main.h"
 
-#include "berusky_universal.h"
-#include "berusky3d_castice.h"
-#include "berusky3d.h"
-#include "berusky3d_ini.h"
-#include "berusky3d_load.h"
-#include "berusky3d_render.h"
-#include "berusky3d_animace.h"
-#include "berusky3d_kofola_interface.h"
-
-#pragma comment(lib,"opengl32.lib")
-#pragma comment(lib,"glu32.lib")
-#pragma comment(lib,"glaux.lib")
-#pragma comment(lib,"dxguid.lib")
-#pragma comment(lib,"dinput.lib")
-#pragma comment(lib,"dsound.lib")
+#include "Berusky_universal.h"
+#include "Berusky3d_castice.h"
+#include "Berusky3d.h"
+#include "Berusky3d_ini.h"
+#include "Berusky3d_load.h"
+#include "Berusky3d_render.h"
+#include "Berusky3d_animace.h"
+#include "Berusky3d_kofola_interface.h"
 
 #define  BERUSKY_NAME   "Berusky 2"
 
@@ -43,7 +31,7 @@ dword      obsluha_okna = 0;
 dword      play_demo = 0;
 HWND       hwnd_hry;
 HINSTANCE  hinst;
-byte       ini_file[300];
+char       ini_file[300];
 int        mouse_move = FALSE;
 
 #ifdef DEBUG_OKNO
@@ -51,8 +39,8 @@ int        mouse_move = FALSE;
 #endif
 
 byte work_dir[200] = ".";
-
-__inline void nacti_polohu_mysi(WPARAM wParam, LPARAM lParam)
+/*
+inline void nacti_polohu_mysi(WPARAM wParam, LPARAM lParam)
 {    
   mi.dx = LOWORD(lParam)- mi.x;
   mi.dy = HIWORD(lParam)- mi.y;
@@ -60,17 +48,17 @@ __inline void nacti_polohu_mysi(WPARAM wParam, LPARAM lParam)
   mi.y = HIWORD(lParam);
 }                                     
 
-__inline void nacti_tlacitka_mysi(WPARAM wParam, LPARAM lParam)
+inline void nacti_tlacitka_mysi(WPARAM wParam, LPARAM lParam)
 {                                     
   mi.ot1 = mi.dt1 = mi.t1 = LOWORD(wParam) & MK_LBUTTON;
   mi.ot2 = mi.dt2 = mi.t2 = LOWORD(wParam) & MK_RBUTTON;  
 }                                     
-
-__inline int filtr_klaves(int scancode)
+*/
+inline int filtr_klaves(int scancode)
 {   
   return(gl_Allow_Key(scancode) ? scancode : 0);
 }
-
+/*
 long CALLBACK WindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {  
   switch(message) {
@@ -271,20 +259,23 @@ void nastav_okno(HW_KONFIG *p_conf, int menu)
     SetFocus(hwnd_hry);
   }
 }
-
+*/
 void clip_set(HW_KONFIG *p_conf)
 {
+/*
   RECT rc = {p_conf->xstart,p_conf->ystart,
              p_conf->xres,p_conf->yres};
   ClipCursor(&rc);
+*/
 }
 void clip_ret(void)
 {
-  ClipCursor(NULL);
+  //ClipCursor(NULL);
 }
 
 void minimalizuj_hru(void)
 {
+/*
   if(hwnd_hry) {
     grf_prehod_mod_zpet(&hwconf);
     ShowWindow(hwnd_hry,SW_MINIMIZE);
@@ -292,10 +283,12 @@ void minimalizuj_hru(void)
     gl_Kofola_Minimalize();
     clip_ret();
   }
+*/
 }
 
 void maximalizuj_hru(void)
 {
+/*
   if(hwnd_hry) {
     grf_prehod_mod_hra(&hwconf);
     ShowWindow(hwnd_hry,SW_RESTORE);
@@ -306,6 +299,7 @@ void maximalizuj_hru(void)
     if(hwconf.fullscreen)
       clip_set(&hwconf);
   }
+*/
 }
 
 int nahraj_konfig(void)
@@ -341,9 +335,10 @@ int kom_graf_init(void)
   
   /* Nahodi grafiku
   */
+/*
   if(!grf_start(hinst,hwnd_hry,ini_file,NULL,TRUE))
     chyba("Inicializace");
-
+*/
   /* Nahozeni renderovacich funkci
   */ 
   ber_nahod_render_funkce();
@@ -413,8 +408,8 @@ void konec(int konec)
   }
 }
 
-int efile(byte *p_file);
-
+int efile(char *p_file);
+/*
 int WINAPI WinMain( HINSTANCE hi, HINSTANCE hPrevInstance,
                     LPSTR lpCmdLine, int nCmdShow)
 {
@@ -459,6 +454,7 @@ int WINAPI WinMain( HINSTANCE hi, HINSTANCE hPrevInstance,
 
  return(TRUE);
 }
+*/
 
 int spracuj_spravy(int param)
 {
