@@ -5,6 +5,7 @@
 #include "Apak.h"
 #include "3d_all.h"
 #include "Berusky3d_kofola_interface.h"
+#include "ini.h"
 
 #define KEY			5419579899328476981
 #define CIPHER0		8321075519164711180
@@ -105,7 +106,7 @@ char *_ui64towc(__int64 i64, char *cText)
 	FILE	*file;
 	char	buffer[256], buffer1[256];
 
-	_chdir(cText);
+	chdir(cText);
 
 	ZeroMemory(buffer, 256);
 	ZeroMemory(ui64ID, 5 * sizeof(__int64));
@@ -186,7 +187,7 @@ void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
 	if(!ctagtitle || !ctagtext)
 		return;
 
-	_getcwd(odir, MAX_PATH);
+	getcwd(odir, MAX_PATH);
 
 	GetPrivateProfileString("game","bitmap_dir","c:\\",dir,MAX_PATH,ini_file);
 	chdir(dir);

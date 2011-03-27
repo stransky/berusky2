@@ -76,7 +76,7 @@ int	am_Init(ANIMATION_MODULE *p_am, LEVELINFO *p_Level)
 	}
 	
 	GetPrivateProfileString("game","data_dir","c:\\",text,256,ini_file);
-	_chdir(text);
+	chdir(text);
 
 	pDataArchive->pActualNode = pDataArchive->pRootNode->pNextNode;
 
@@ -439,7 +439,7 @@ void am_Play_Beatle_Sound(BEETLEANIMATION *p_anim, int mesh, int idx)
 	kom_mesh_get_float(mesh, &pos[0], &pos[1], &pos[2], &rot);
 
 //	p_anim->iSound = ap_Play_Sound(0, 0, 0, pos, idx + (rand()%3), NULL, &ad);
-	p_anim->dwTime = timeGetTime();
+//	p_anim->dwTime = timeGetTime();
 }
 
 void am_Do_Beatle_Cakanec(int mesh, LEVELINFO *p_Level, int id)
@@ -6211,7 +6211,7 @@ void am_Flip(LEVELINFO *p_Level, ANIMATION_MODULE *p_am, char bAll, RECT_LINE *r
 		else
 		{
 			ZeroMemory(rDrawRect, sizeof(RECT) * DRAW_RECT_NUM);
-
+/*
 			for(i=0;i<rline->rlast;i++)
 				if(!_2d_Is_InRectLine(rDrawRect, &rline->rect[i].rect, x))
 				{
@@ -6219,7 +6219,7 @@ void am_Flip(LEVELINFO *p_Level, ANIMATION_MODULE *p_am, char bAll, RECT_LINE *r
 
 					x++;
 				}
-
+*/
 			ddx2SetRect(rDrawRect, x);
 		}
 	}

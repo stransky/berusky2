@@ -42,7 +42,7 @@ int gi_Open_Archive(HWND hWnd, char *cFile, APAK_HANDLE **pAHandle, char *cAppNa
 	char text[256];
 
 	GetPrivateProfileString(cAppName,cKeyName,"c:\\",text,256,ini_file);
-	_chdir(text);
+	chdir(text);
 
 	(*pAHandle) = apakopen(cFile, text, &e);
 	

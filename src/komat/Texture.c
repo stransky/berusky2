@@ -1,13 +1,9 @@
 /*
   Modul s texturama - Load BMP
 */
-#include "mss_on.h"
-#include <windows.h>
 #include "3d_all.h"
-#include "texture_import.h"
-#include "tga.h"
-
-#pragma comment(lib,"lib\\devil.lib")
+#include "Texture_import.h"
+#include "Tga.h"
 
 AUX_RGBImageRec * vyrob_aux(int x, int y)
 {
@@ -67,6 +63,7 @@ void zrus_aux(AUX_RGBImageRec **p_aux)
 
 int uloz_aux(FILE *f, AUX_RGBImageRec *p_bmp)
 {
+/*
   BITMAPFILEHEADER head;
   BITMAPINFOHEADER info;
   dword sirka,sirka_q,vyska,bpp = 3;
@@ -80,9 +77,7 @@ int uloz_aux(FILE *f, AUX_RGBImageRec *p_bmp)
   sirka_q = sirka*bpp + ((sirka*bpp%4) ? sirka*bpp%4 : 0);
   n = sirka_q*vyska;
 
-  /*
-    Ulozeni bitmapy
-  */  
+  // Ulozeni bitmapy
   memset(&head,0,sizeof(head));
   memset(&info,0,sizeof(info));
 
@@ -101,12 +96,13 @@ int uloz_aux(FILE *f, AUX_RGBImageRec *p_bmp)
   fwrite(&head,sizeof(head),1,f);
   fwrite(&info,sizeof(info),1,f);
   fwrite(p_bmp->data,sizeof(byte),n,f);
-  
+*/  
   return(TRUE);
 }
 
 int uloz_aux_pack(FFILE f, AUX_RGBImageRec *p_bmp)
 {
+/*
   BITMAPFILEHEADER head;
   BITMAPINFOHEADER info;
   dword sirka,sirka_q,vyska,bpp = 3;
@@ -120,9 +116,8 @@ int uloz_aux_pack(FFILE f, AUX_RGBImageRec *p_bmp)
   sirka_q = sirka*bpp + ((sirka*bpp%4) ? sirka*bpp%4 : 0);
   n = sirka_q*vyska;
 
-  /*
-    Ulozeni bitmapy
-  */  
+  
+  // Ulozeni bitmapy
   memset(&head,0,sizeof(head));
   memset(&info,0,sizeof(info));
 
@@ -141,7 +136,7 @@ int uloz_aux_pack(FFILE f, AUX_RGBImageRec *p_bmp)
   ffwrite(&head,sizeof(head),1,f);
   ffwrite(&info,sizeof(info),1,f);
   ffwrite(p_bmp->data,sizeof(byte),n,f);
-  
+*/  
   return(TRUE);
 }
 
@@ -585,7 +580,7 @@ int txt_nahraj_texturu_z_func(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT *p_t
   txt_default_konfig(p_file,&konf,cti_koncovku(p_file));
   txt_nahraj_format(pHandle,p_file,&konf);
 
-  flip = strcmp(_strlwr(cti_koncovku(p_file)),".bmp");
+  flip = strcmp(strlwr(cti_koncovku(p_file)),".bmp");
 
   if(!konf.alfa) {
     if(!(p_tmp = p_load(pHandle,konf.bitmapa)))
@@ -956,9 +951,9 @@ bitmapa * txt_bmp2dot3(bitmapa *p_bmp)
       nY *= oolen;
       nZ *= oolen;
       
-      pix.r = (BYTE) PackFloatInByte(nX);
-      pix.g = (BYTE) PackFloatInByte(nY);
-      pix.b = (BYTE) PackFloatInByte(nZ);
+      pix.r = (byte) PackFloatInByte(nX);
+      pix.g = (byte) PackFloatInByte(nY);
+      pix.b = (byte) PackFloatInByte(nZ);
       
       add_color_rgb_byte((byte *)&pix,60,60,60);
       bmp_putpixel_pix(p_dot, x, y, pix);
@@ -986,10 +981,10 @@ IL_UNSIGNED_INT
 IL_FLOAT
 IL_DOUBLE
 */
-
+/*
 typedef struct _IL_ERROR_LIST {
 
-  ILenum err_code;
+  int    err_code;
   byte   err_string[100];
 
 } IL_ERROR_LIST;
@@ -1017,9 +1012,10 @@ IL_ERROR_LIST il_err_list[] =
   {IL_LIB_PNG_ERROR,       "IL_LIB_PNG_ERROR"},
   {IL_UNKNOWN_ERROR,       "IL_UNKNOWN_ERROR"}
 };
-
+*/
 int il_error(byte *p_file)
 {
+/*
   ILenum  il_err;
   int     err = 0;
   int     kod;
@@ -1034,6 +1030,7 @@ int il_error(byte *p_file)
     err++;
   }
   return(err);
+*/
 }
 
 byte * file_read(APAK_HANDLE *pHandle, byte *p_file, int *p_read)
@@ -1071,6 +1068,7 @@ byte * file_read(APAK_HANDLE *pHandle, byte *p_file, int *p_read)
 
 AUX_RGBImageRec * txt_lib_to_aux(APAK_HANDLE *pHandle, char *p_file)
 {
+/*
   AUX_RGBImageRec *p_aux;
   ILuint	ImgId;
   byte   *p_mem;
@@ -1102,6 +1100,7 @@ AUX_RGBImageRec * txt_lib_to_aux(APAK_HANDLE *pHandle, char *p_file)
   
   free(p_mem);
   return(p_aux);
+*/
 }
 
 int txt_uloz_btx(char *p_file, int typ, int wrap_x, int wrap_y)
@@ -1129,7 +1128,7 @@ void txt_trida(int trida)
 #define MASKA 0x7
 #define PRAH  (MASKA>>1)
 
-__inline void bmp_pix_to_16b(byte *p_baze, int *p_er, int *p_eg, int *p_eb)
+inline void bmp_pix_to_16b(byte *p_baze, int *p_er, int *p_eg, int *p_eb)
 { 
  *p_er = (p_baze[0]&MASKA)-PRAH;
  *p_eg = (p_baze[1]&MASKA)-PRAH;
@@ -1140,7 +1139,7 @@ __inline void bmp_pix_to_16b(byte *p_baze, int *p_er, int *p_eg, int *p_eb)
   p_baze[2]&=~MASKA;
 }
 
-__inline void add_posun_rgba(byte *p_baze, int r, int g, int b, int posun)
+inline void add_posun_rgba(byte *p_baze, int r, int g, int b, int posun)
 {
   r = (r < 0) ? p_baze[0]-((-r)>>posun) : p_baze[0]+(r>>posun);
   g = (g < 0) ? p_baze[1]-((-g)>>posun) : p_baze[1]+(g>>posun);

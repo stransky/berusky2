@@ -71,9 +71,10 @@ ZEXTERN int ZEXPORT compress OF((Bytef *dest,   uLongf *destLen,
 */
 	if(pFHandle->pFileInfo->bNotCompressed)
 		memcpy(pFHandle->pBuffer, pTmp, size);
-	else
+  /*
+	else TODO
 		err = uncompress(pFHandle->pBuffer, &rsize, pTmp, size);
-    
+    */
 	free((void *) pTmp);
 
 	if(err == Z_MEM_ERROR ||

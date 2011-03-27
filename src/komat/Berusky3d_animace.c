@@ -141,7 +141,7 @@ int amat_pridej_poly(G_KONFIG *p_ber, int poly)
 
 /* Updatuje frame animace -> vraci cas dalsi aktualizace
 */
-__inline int amat_frame_updatuj(EDIT_MATERIAL *p_mat, int *p_event)
+inline int amat_frame_updatuj(EDIT_MATERIAL *p_mat, int *p_event)
 {
   ANIM_MATERIAL *p_anim = &p_mat->anim;
   int            next = (p_anim->frameakt+1 >= p_anim->framenum) ? p_anim->frameakt = 0 : ++p_anim->frameakt;
@@ -764,7 +764,7 @@ int rani_zrus(RunHandle ahandle)
    Interni rutiny pro run-animace
    ---------------------------------
 */
-__inline void rani_updatuj_prvek_matice_vnitrek(PRVEK_LEVELU_GAME *p_prv)
+void rani_updatuj_prvek_matice_vnitrek(PRVEK_LEVELU_GAME *p_prv)
 {  
   PRVEK_LEVELU_GAME *p_top;
   BOD               *p_pivot,p; // pouzij pivot point meshe
@@ -843,7 +843,7 @@ __inline void rani_updatuj_prvek_matice_vnitrek(PRVEK_LEVELU_GAME *p_prv)
   }
 }
 
-__inline void rani_updatuj_prvek_matice_vnitrek_end_top(PRVEK_LEVELU_GAME *p_prv)
+void rani_updatuj_prvek_matice_vnitrek_end_top(PRVEK_LEVELU_GAME *p_prv)
 {  
   BOD               *p_pivot,p; // pouzij pivot point meshe
   GLMATRIX           tmp1;  
@@ -937,7 +937,7 @@ void rani_updatuj_top_objekty(void)
   4. zavolani end funkci vsech animaci
 */
 
-__inline void rani_updatuj_1(GK_ANIM *p_gk)
+inline void rani_updatuj_1(GK_ANIM *p_gk)
 {
   GKA_MATICE *p_mat;
   dword       next_time = p_ber->TimeEndLastFrame;  
@@ -1019,7 +1019,7 @@ __inline void rani_updatuj_1(GK_ANIM *p_gk)
 
 /* Zavolani end-funkci podle mistra kofolace...
 */
-__inline void rani_updatuj_2(GK_ANIM *p_gk)
+inline void rani_updatuj_2(GK_ANIM *p_gk)
 {   
   if(p_gk->flag&GK_AKTIVNI && p_gk->konec) {
     p_gk->flag &= ~GK_AKTIVNI;
@@ -1107,7 +1107,7 @@ void lani_go(G_KONFIG *p_ber, GAME_MESH *p_mesh)
 
 /* Strepe animace - prvni na nultou, pokud je aktivni
 */
-__inline void lani_setrep(GAME_MESH_ANIMACE *p_anim)
+inline void lani_setrep(GAME_MESH_ANIMACE *p_anim)
 {
   int i,j;
 

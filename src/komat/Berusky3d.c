@@ -4,6 +4,7 @@
   - udelat konzoli (alt+tab) - prepinani na konzoli
   (konzole misto hry a zpet)
 */
+#include <stdarg.h>
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
@@ -580,7 +581,7 @@ void ber_nastav_kurzor(int x, int y)
 
 
 /*
-  __inline ROVINA * calc_rovinu_bod_vektor(BOD *p, BOD *v, ROVINA *r)
+  inline ROVINA * calc_rovinu_bod_vektor(BOD *p, BOD *v, ROVINA *r)
 */
 void ber_prikaz_posun_sceny(G_KONFIG *p_ber, int ref)
 {

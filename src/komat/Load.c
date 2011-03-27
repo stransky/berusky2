@@ -1,14 +1,10 @@
 /*
   pomocne funkce
 */
-#include "mss_on.h"
-#include <windows.h>
 #include <string.h>
-#include <direct.h>
-#include <io.h>
 #include <limits.h>
-#include "..\\kofola\\apak.h"
-#include "berusky_universal.h"
+#include "Apak.h"
+#include "Berusky_universal.h"
 
 #include "3d_all.h"
 
@@ -342,13 +338,13 @@ void kopiruj_objekt_geometrie(EDIT_OBJEKT *p_src, EDIT_OBJEKT *p_cil)
  free(p_cil->p_vertex);
  p_cil->vertexnum = p_src->vertexnum;
  p_cil->p_vertex = (OBJ_VERTEX *)mmalloc(sizeof(OBJ_VERTEX)*p_cil->vertexnum);
- mtest(p_cil->p_vertex);
+// mtest(p_cil->p_vertex);
  memcpy(p_cil->p_vertex,p_src->p_vertex,sizeof(OBJ_VERTEX)*p_cil->vertexnum);
 
  free(p_cil->p_face);
  p_cil->facenum = p_src->facenum;
  p_cil->p_face = (FACE *)mmalloc(sizeof(FACE)*p_cil->facenum);
- mtest(p_cil->p_face);
+// mtest(p_cil->p_face);
  memcpy(p_cil->p_face,p_src->p_face,sizeof(FACE)*p_cil->facenum);
 }
 
@@ -1923,9 +1919,9 @@ int lo_najdi_texturu(EDIT_TEXT *p_text, int max, byte *p_file, int flag)
 { 
   int i;
   
-  p_file = _strlwr(p_file);
+  p_file = strlwr(p_file);
   for(i = 0; i < max; i++) {
-    if(flag == p_text[i].flag && !strcmp(p_file,_strlwr(p_text[i].jmeno)))
+    if(flag == p_text[i].flag && !strcmp(p_file,strlwr(p_text[i].jmeno)))
       return(i);
   }
   return(K_CHYBA);
@@ -1948,9 +1944,9 @@ int lo_najdi_material(EDIT_MATERIAL **p_mat, int max, byte *p_text)
 { 
   int i;
   
-  p_text = _strlwr(p_text);
+  p_text = strlwr(p_text);
   for(i = 0; i < max; i++) {
-    if(p_mat[i] && !strcmp(p_text,_strlwr(p_mat[i]->jmeno)))
+    if(p_mat[i] && !strcmp(p_text,strlwr(p_mat[i]->jmeno)))
       return(i);
   }
   return(K_CHYBA);
@@ -1990,7 +1986,7 @@ int lo_pocet_materialu(EDIT_MATERIAL **p_mat, int max)
 int lo_najdi_kameru(KAMERA *p_kam, int max, byte *p_jmeno)
 {
  int i;
- _strlwr(p_jmeno);
+ strlwr(p_jmeno);
  for(i = 0; i < max; i++) {
    if(p_kam[i].cislo != K_CHYBA && !strcmp(p_kam[i].jmeno,p_jmeno))
      return(i);
@@ -2051,7 +2047,7 @@ int lo_najdi_kontejner(EDIT_KONTEJNER **p_kont, int max, byte *p_jmeno)
 {
  int i;
 
- _strlwr(p_jmeno);
+ strlwr(p_jmeno);
  for(i = 0; i < max; i++) {
    if(!p_kont[i])
      continue;
@@ -2081,10 +2077,10 @@ int lo_najdi_objekt_kont(EDIT_KONTEJNER *p_kont, byte *p_jmeno)
 
  if(!p_kont)
    return(K_CHYBA);
- _strlwr(p_jmeno);
+ strlwr(p_jmeno);
  for(i = 0; i < p_kont->max_objektu; i++) {
    if(p_kont->p_obj[i]) {
-     _strlwr(p_kont->p_obj[i]->jmeno);
+     strlwr(p_kont->p_obj[i]->jmeno);
      if(!strcmp(p_kont->p_obj[i]->jmeno,p_jmeno))
      return(i);
    }
@@ -2209,7 +2205,7 @@ int lo_reload_textur_formaty(APAK_HANDLE *pHandle, EDIT_TEXT *p_text, int max, i
   for(i = 0; i < max; i++) {
     if(p_text[i].jmeno[0] && !p_text[i].load) {
       kprintf(TRUE,"Texture %s...",p_text[i].jmeno);
-      if(strstr(_strlwr(p_text[i].jmeno),".bmp") || strstr(p_text[i].jmeno,".btx")) {
+      if(strstr(strlwr(p_text[i].jmeno),".bmp") || strstr(p_text[i].jmeno,".btx")) {
 		  if(!txt_nahraj_texturu_z_func(pHandle,p_text[i].jmeno,p_text+i,save,TRUE,NULL,txt_lib_to_aux)) {     
              zamen_koncovku(strcpy(file,p_text[i].jmeno),".jpg");
              if(txt_nahraj_texturu_z_func(pHandle,file,p_text+i,save,TRUE,NULL,txt_lib_to_aux)) {

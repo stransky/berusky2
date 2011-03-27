@@ -1,10 +1,6 @@
 /* Chunky
 */
-#include "mss_on.h"
-#include <windows.h>
 #include <string.h>
-#include <direct.h>
-#include <io.h>
 #include <limits.h>
 #include <errno.h>
 
@@ -809,7 +805,7 @@ int lo_chunk_save_mat(FFILE f, EDIT_MATERIAL *p_mat)
   ch.velikost = sizeof(ch)+strlen(p_mat->jmeno)+1;  
   ffwrite(&ch,sizeof(ch),1,f);
   
-  _strlwr(p_mat->jmeno);
+  strlwr(p_mat->jmeno);
   
   ffwrite(p_mat->jmeno,sizeof(byte),strlen(p_mat->jmeno)+1,f);
   return(TRUE);
@@ -4404,7 +4400,7 @@ int lo_chunk_load_obj_joint_framy(FFILE f, OUT_CHUNK *p_ch)
   Load sim animaci
 */
 
-__inline int lo_najdi_volny_sim(HIERARCHY_SIM *p_sim, int max)
+inline int lo_najdi_volny_sim(HIERARCHY_SIM *p_sim, int max)
 {
   int i;
   for(i = 0; i < max; i++) {
@@ -4934,8 +4930,3 @@ void lo_chunk_stage_load_korekce(EDIT_MATERIAL **p_mat, int num)
     }
   }
 }
-
-
-
-
-

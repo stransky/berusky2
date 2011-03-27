@@ -119,10 +119,10 @@ void rozeber_chybu(void);
 int  cti_texture_format(int format, byte *p_string);
 int  preloz_texture_format(int *p_format, byte *p_string);
 
-GLvoid BuildFont(GLvoid);
-GLvoid KillFont(GLvoid);
-GLvoid glPrint(const char *fmt, ...);
-void   glChyba(void);
+void BuildFont(void);
+void KillFont(void);
+void glPrint(const char *fmt, ...);
+void glChyba(void);
 
 #define printfs   ddw_surf
 #define printfsx  ddw_surf_xy

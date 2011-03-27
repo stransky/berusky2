@@ -39,7 +39,7 @@ extern int				iActualLevel;
 extern int				iActualScene;
 extern B2_FONT	b2_font;
 extern char cFontFile[5][64];
-extern AUDIO_DATA		ad;
+AUDIO_DATA		ad;
 extern int iLanguageVersion;
 
 typedef struct
@@ -377,13 +377,13 @@ int AddAnimation2(CMD_LINE *cmd, AUDIO_DATA *p_ad, char bOnlyOnes)
 				{
 					if(cmd->iParam[2] >= 0)
 					{
-						adas_Get_Listener_Position(pos);
+//						adas_Get_Listener_Position(pos);
 //						ap_Play_Sound(0,1,0,pos,cmd->iParam[2], NULL, &ad);
 					}
 				}
 				else
 				{
-					adas_Get_Listener_Position(pos);
+//					adas_Get_Listener_Position(pos);
 //					ap_Play_Sound(0,1,0,pos,cmd->iParam[r+2], NULL, &ad);
 				}
 			}
@@ -503,13 +503,13 @@ int mPlaySound2(CMD_LINE *cmd, AUDIO_DATA *p_ad, int type)
 	{
 		if(cmd->iParam[1] >= 0)
 		{
-			adas_Get_Listener_Position(pos);
+//			adas_Get_Listener_Position(pos);
 //			ret = ap_Play_Sound(type,1,0,pos,cmd->iParam[1], NULL, &ad);
 		}
 	}
 	else
 	{
-		adas_Get_Listener_Position(pos);
+//		adas_Get_Listener_Position(pos);
 //		ret = ap_Play_Sound(type,1,0,pos,cmd->iParam[r+1], NULL, &ad);
 	}
 
@@ -1419,7 +1419,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 	am_FlipA(p_Level, p_am, 1, &rline, CLIST_ITEMC, 0, 0, 0);
 
 //BEGIN_MENU:
-
+/*
 	for(i=0;i<lastcmd;i++)
 		if(res[i].iParam[0] == COM_RUNANIMATION)
 		{
@@ -1431,7 +1431,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 				anm[iWave].iWave = res[i+1].iParam[5] = mPlaySound2(&res[i+1], &ad, 2);
 			}
 		}
-			
+*/
 	mi.t1 = 0;
 	mi.t2 = 0;
 	mi.dx = 0;
@@ -1865,7 +1865,7 @@ int FillListLoad2(LIST_VIEW_CONTROL2 *p_li, char *mask, char bAdd, char bLoad)
 	int		   isize;
 
 	GetPrivateProfileString("game","save_dir","c:\\",dir,256,ini_file);
-	_chdir(dir);
+	chdir(dir);
 
 	FillStringList(mask, &list, &isize);
 
@@ -1930,6 +1930,7 @@ int FillListLoad2(LIST_VIEW_CONTROL2 *p_li, char *mask, char bAdd, char bLoad)
 
 int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, ANIMATION_MODULE *p_am, char bLoad, WCHAR *cText)
 {
+/*
 	int		iReturn = 0;
 	int		mix, miy;
 	float	s_factor[2], s_bfactor[2];
@@ -2411,6 +2412,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level
 					}
         */
 				//goto __QUIT;
+        /*
 			}
 		}
 
@@ -2515,6 +2517,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level
 
 	p_Level->bRestart = 0;
 	return iReturn;
+*/
 }
 
 int LoadHelp(char *c_file)
@@ -3387,6 +3390,7 @@ int LoadCList2(char *cFile)
 
 void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, ANIMATION_MODULE *p_am)
 {
+/*
 	int		mix, miy;
 	float	s_factor[2];
 	RECT	rTMP = {0, 0, 1024, 768};
@@ -3541,9 +3545,6 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level,
 			case COM_DRAW:
 				//if(!res[i].iLayer)
 					ddx2DrawDisplay(res[i].iParam, 0);
-				/*else
-					ddx2DrawDisplayColorKey(res[i].iParam, 0, TRANSCOLOR );
-					ddx2DrawSurface(FontDC, res[i].iParam, 3);*/
 				break;
 			case COM_RANDOMANIMATION:
 			case COM_ONCLICK:
@@ -3560,10 +3561,6 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level,
 	co2_Set_Text(HDC2DD, 50, 50, "##stats_scene", ifdx);
 	co2_Set_Text(HDC2DD, 50, 80, "##stats_time", ifdx);
 	co2_Set_Text(HDC2DD, 50, 110, "##stats_steps", ifdx);
-
-	/*co2_Set_Text_Right(HDC2DD, "##stats_scene", 0, 450, 100);
-	co2_Set_Text_Right(HDC2DD, "##stats_time", 0, 450, 250);
-	co2_Set_Text_Right(HDC2DD, "##stats_steps", 0, 450, 400);*/
 	
 	GetSceneString(dir);
 	co2_Set_Text(HDC2DD, 250, 50, dir, ifdx);
@@ -3776,14 +3773,6 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level,
 
 			if(key[K_ESC])
 			{
-      /*
-				for(i=0;i<lastcmd;i++)
-					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
-					{
-						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
-						res[i].iParam[5] = -1;
-					}
-*/
 				goto __QUIT;
 			}
 		}
@@ -3840,6 +3829,7 @@ __QUIT:
 
 	 // Start renderu hry
 	ddx2GameRender(TRUE);
+*/
 }
 
 void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, ANIMATION_MODULE *p_am)

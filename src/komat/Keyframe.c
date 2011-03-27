@@ -8,15 +8,10 @@
    digisnap@cs.tu-berlin.de
    06.08.1997
 */
-#include "mss_on.h"
-#include <windows.h>
-#include <direct.h>
+#include <alloca.h>
 
-#include "berusky_universal.h"
-
+#include "Berusky_universal.h"
 #include "3d_all.h"
-
-#include "dbgwnd.h"
 
 #define  DELTA_INTERVAL  0.01f
 
@@ -183,7 +178,7 @@ int key_je_time_klic(KEY_POINT_BRS *p_list, int klicu, dword time)
 }
 
 // najde tento frame nebo nejblizsi levy klic
-__inline static int key_najdi_klice(KEY_POINT_BRS *p_list, int klicu, dword time)
+inline static int key_najdi_klice(KEY_POINT_BRS *p_list, int klicu, dword time)
 {
  int l,p,s;
 
@@ -216,7 +211,7 @@ __inline static int key_najdi_klice(KEY_POINT_BRS *p_list, int klicu, dword time
    trida =  1 -> trida a
          = -1 -> trida b
 */
-__inline float key_tangent_float(float *p_body, KEY_POINT_BRS *p_keys, int kn, int keynum, int trida, int loop, float *p_tn)
+float key_tangent_float(float *p_body, KEY_POINT_BRS *p_keys, int kn, int keynum, int trida, int loop, float *p_tn)
 {
   float bias,continuity,tension;
   float t1,g1,g3;  
@@ -276,7 +271,7 @@ __inline float key_tangent_float(float *p_body, KEY_POINT_BRS *p_keys, int kn, i
 
 
 // Volat pouze pokud keynum > 1 !!!
-__inline int key_track_prepocet_knt(KEY_POINT_BRS *p_keys, int keynum, int time, int endtime, int loop, int *p_kn, int *p_kn1, float *p_time)
+inline int key_track_prepocet_knt(KEY_POINT_BRS *p_keys, int keynum, int time, int endtime, int loop, int *p_kn, int *p_kn1, float *p_time)
 {
   int  start,stop,k1;
   int  dop,intrv;
@@ -394,7 +389,7 @@ float key_track_interpolace_float_linear(float *p_vysl, float *p_body,
    trida =  1 -> trida a
          = -1 -> trida b
 */
-__inline BOD * key_tangent_bod(BOD *p_body, KEY_POINT_BRS *p_keys, int kn, int keynum, int trida, int loop, BOD *p_tn)
+BOD * key_tangent_bod(BOD *p_body, KEY_POINT_BRS *p_keys, int kn, int keynum, int trida, int loop, BOD *p_tn)
 {
   int   kn_1 = kn-1, // key k(n-1)
         kn1  = kn+1; // key k(n+1)
@@ -574,7 +569,7 @@ BOD * key_track_interpolace_bod_linear(BOD *p_vysl, BOD *p_body, KEY_POINT_BRS *
    trida =  1 -> trida a
          = -1 -> trida b
 */
-__inline WBOD * key_tangent_wbod(WBOD *p_body, KEY_POINT_BRS *p_keys, int kn, int keynum, int trida, int loop, WBOD *p_tn)
+WBOD * key_tangent_wbod(WBOD *p_body, KEY_POINT_BRS *p_keys, int kn, int keynum, int trida, int loop, WBOD *p_tn)
 {
   int   kn_1 = kn-1, // key k(n-1)
         kn1  = kn+1; // key k(n+1)
@@ -767,7 +762,7 @@ WBOD * key_track_interpolace_wbod_linear(WBOD *p_vysl, WBOD *p_body,
   ---------------------------
 */
 
-__inline QUAT * key_tangent_quat(QUAT *p_at, KEY_POINT_BRS *p_rkeys, int kn, int keynum, int trida, int loop, QUAT *p_q)
+QUAT * key_tangent_quat(QUAT *p_at, KEY_POINT_BRS *p_rkeys, int kn, int keynum, int trida, int loop, QUAT *p_q)
 {
   int   kn_1 = kn-1, // key k(n-1)
         kn1  = kn+1; // key k(n+1)
@@ -2296,14 +2291,14 @@ int key_sim_nahraj_extended(EDIT_KONTEJNER *p_kont, int cislo_anim, byte *p_file
   
   if(!objektu)
     objektu = 1;
-  p_track_list = _alloca(sizeof(p_track_list[0])*objektu);
+  p_track_list = alloca(sizeof(p_track_list[0])*objektu);
   akt_track = 0;  
   
   stop = 0;
   
   do {    
 
-    p_track = p_track_list[akt_track++] = _alloca(sizeof(p_track[0]));
+    p_track = p_track_list[akt_track++] = alloca(sizeof(p_track[0]));
     memset(p_track,0,sizeof(p_track[0]));
     
     /* reset pivot-pointu

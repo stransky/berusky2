@@ -2,6 +2,7 @@
 // 0.0.1
 //------------------------------------------------------------------------------------------------
 #include <stdio.h>
+#include <unistd.h>
 #include "3d_all.h"
 #include "Berusky3d_kofola_interface.h"
 #include "game_logic.h"
@@ -24,6 +25,7 @@
 #include "Menu2.h"
 #include "menu_def.h"
 #include "Tools.h"
+#include "ini.h"
 
 #define HDC2DD		-1
 #define TRANSCOLOR	0//RGB(255, 0, 255)
@@ -976,7 +978,7 @@ void Credits(HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 		ap_Stop_Song(p_ad);
 */
 //	SetCursor(NULL);
-	_2d_Release();
+//	_2d_Release();
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
 	chdir(dir);
@@ -985,7 +987,7 @@ void Credits(HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 	cr_Credits(NULL, p_ad);
 
 	_2d_Init();
-	_2d_APAK_Load_List("2d_load.dat");
+	//_2d_APAK_Load_List("2d_load.dat");
 	
 	//ap_Play_Song(0,0,p_ad);
 	//adas_OGG_Set_Priority(cpu);
@@ -1044,10 +1046,10 @@ void CreateFontAnimations(CMD_LINE *res, int *lastcmd)
 						y = oy;
 					}
 
-					y += ddxGetHight(sidx1);
+//					y += ddxGetHight(sidx1);
 
 					//OnAbove(16,661,100,748, quit_game.txt, NO_EXEPTION)
-					sprintf(text,"OnAbove(%d,%d,%d,%d, NO_EXEPTION, NO_EXEPTION)", x, oy, x + ddxGetWidth(sidx1), y);
+//					sprintf(text,"OnAbove(%d,%d,%d,%d, NO_EXEPTION, NO_EXEPTION)", x, oy, x + ddxGetWidth(sidx1), y);
 					Parse_LineT(text, res[*lastcmd].iParam, 6, res[*lastcmd].cParam[0], res[*lastcmd].cParam[1]);
 					res[*lastcmd].uiTimerID = 0;
 					res[*lastcmd].iLastfrm = 1;
@@ -1068,7 +1070,7 @@ void CreateFontAnimations(CMD_LINE *res, int *lastcmd)
 					for(ii=6;ii<13;ii++)
 						res[*lastcmd].iAnim[0][ii] = -1;
 
-					x = r.left + (int)((r.right - r.left - ddxGetWidth(sidx2)) / (float)2.0f);
+//					x = r.left + (int)((r.right - r.left - ddxGetWidth(sidx2)) / (float)2.0f);
 
 					if(res[i].iParam[1] != -1)
 						x = res[i].iParam[1];
@@ -1103,8 +1105,8 @@ void CreateFontAnimations(CMD_LINE *res, int *lastcmd)
 					(*lastcmd)++;
 					
 					//OnClick(16,661,100,748, quit_gamec.txt, EXIT)
-					sprintf(text,"OnClick(%d,%d,%d,%d, NO_EXEPTION, %s)", x, oy, x + ddxGetWidth(sidx1), 
-							y, res[i].cParam[1]);
+//					sprintf(text,"OnClick(%d,%d,%d,%d, NO_EXEPTION, %s)", x, oy, x + ddxGetWidth(sidx1), 
+//							y, res[i].cParam[1]);
 
 					Parse_LineT(text, res[*lastcmd].iParam, 6, res[*lastcmd].cParam[0], res[*lastcmd].cParam[1]);
 					res[*lastcmd].iLayer = 1;
@@ -1125,7 +1127,7 @@ void SetTab(int iTab, int iLTab, CONTROL_LIST_ITEM *p_list, int lsize, int	*hdcT
 	if(iLTab > -1)
 	{
 		//BitBlt(hdcTab[iLTab], 0, 0, TAB_XRES, TAB_YRES, _2dd.hDC, TAB_X, TAB_Y, SRCCOPY);
-		ddxBitBlt(hdcTab[iLTab], 0, 0, TAB_XRES, TAB_YRES, HDC2DD, TAB_X, TAB_Y);
+//		ddxBitBlt(hdcTab[iLTab], 0, 0, TAB_XRES, TAB_YRES, HDC2DD, TAB_X, TAB_Y);
 	}
 
 	for(i=0;i<lsize;i++)
@@ -1136,8 +1138,8 @@ void SetTab(int iTab, int iLTab, CONTROL_LIST_ITEM *p_list, int lsize, int	*hdcT
 				(p_list+i)->bActive = 0;
 
 	//BitBlt(_2dd.hDC, TAB_X, TAB_Y, TAB_XRES, TAB_YRES, hdcTab[iTab], 0, 0, SRCCOPY);
-	ddxBitBltDisplay(TAB_X, TAB_Y, TAB_XRES, TAB_YRES, hdcTab[iTab], 0, 0);
-	DisplayFrame();
+//	ddxBitBltDisplay(TAB_X, TAB_Y, TAB_XRES, TAB_YRES, hdcTab[iTab], 0, 0);
+//	DisplayFrame();
 }
 
 int CheckRozliseni(ROZLISENI *res, int roz_size, DWORD x, DWORD y, DWORD bpp)
@@ -1242,12 +1244,12 @@ void CharMenuCheckMultyKyes(LIST_VIEW_CONTROL *p_li, int iKey)
 
 			r.left = 550;
 			r.top = y+2;
-			r.right = r.left + (ddxGetWidth(p_li->bDCn) - 550);
+//			r.right = r.left + (ddxGetWidth(p_li->bDCn) - 550);
 			r.bottom = r.top + 28;
 
-			ddxFillRect(p_li->bDCn, &r, 0 );
+//			ddxFillRect(p_li->bDCn, &r, 0 );
 
-			ddxFillRect(p_li->bDCs, &r, 0 );
+//			ddxFillRect(p_li->bDCs, &r, 0 );
 	
 			co_List_Add_String(p_li, i, 550, "##control_k_255", 255, 0);
 		}
@@ -1255,6 +1257,7 @@ void CharMenuCheckMultyKyes(LIST_VIEW_CONTROL *p_li, int iKey)
 
 void SetCharMenu(LIST_VIEW_CONTROL *p_li)
 {
+/*
 	char text[128];
 	int y = p_li->cSelected * 30;
 	int xs = p_li->rectList.top + TAB_Y + y - p_li->dx;
@@ -1312,7 +1315,7 @@ void SetCharMenu(LIST_VIEW_CONTROL *p_li)
 			key[K_PLUS] = 0;
 			key[K_MINUS] = 0;
 		}
-/*
+
 		if(iCursor < 100)
 			ddxFillRectDisplay(&r, RGB(63, 122, 163));
 		else
@@ -1323,7 +1326,7 @@ void SetCharMenu(LIST_VIEW_CONTROL *p_li)
 				iCursor = 0;
 				ddxFillRectDisplay(&r, 0);
 			}
-*/
+
 		iCursor+=4;
 
 		//if(dim.dx || dim.dy)
@@ -1350,6 +1353,7 @@ void SetCharMenu(LIST_VIEW_CONTROL *p_li)
 		      ddxGetWidth(p_li->bDCs), 30 - xp - xt, p_li->bDCs, 0, y + xp);
 
 	DisplayFrame();
+  */
 }
 
 void SetMenuSettings(ROZLISENI *roz, CONTROL_LIST_ITEM *citem, int *hdcTabUse)
@@ -1520,6 +1524,7 @@ void SetMenuSettingsS(ROZLISENI *roz, CONTROL_LIST_ITEM *citem, int *hdcTabUse)
 
 void InitTab3d(CONTROL_LIST_ITEM *citem, int *hdcTab, ROZLISENI	*roz, int roz_size)
 {
+/*
 	int i;
 	int count = 0;
 	int iClock;
@@ -1766,6 +1771,7 @@ void InitTab3d(CONTROL_LIST_ITEM *citem, int *hdcTab, ROZLISENI	*roz, int roz_si
 		DisplayFrame();
 		DisplayFrame();
 		ddxReleaseBitmap(iClock);
+*/    
 }
 
 void InitTabSound(CONTROL_LIST_ITEM *citem, int *hdcTab)
@@ -1788,6 +1794,7 @@ void InitTabSound(CONTROL_LIST_ITEM *citem, int *hdcTab)
 
 void InitTabControls(CONTROL_LIST_ITEM *citem, int *hdcTab)
 {
+/*
 		char ctext[256];
 		int iClock;
 
@@ -1873,8 +1880,8 @@ void InitTabControls(CONTROL_LIST_ITEM *citem, int *hdcTab)
 		co_List_Add_String(citem[24].p_list, 21, 550, ctext, setup.key[21], 0);
 		Key2String(setup.key[22], ctext);
 		co_List_Add_String(citem[24].p_list, 22, 550, ctext, setup.key[22], 0);
-		/*Key2String(setup.key[23], ctext);
-		co_List_Add_String(citem[24].p_list, 23, 550, ctext, setup.key[23], 0);*/
+		//Key2String(setup.key[23], ctext);
+		//co_List_Add_String(citem[24].p_list, 23, 550, ctext, setup.key[23], 0);
 		Key2String(setup.key[23], ctext);
 		co_List_Add_String(citem[24].p_list, 23, 550, ctext, setup.key[23], 0);
 		Key2String(setup.key[24], ctext);
@@ -1903,10 +1910,12 @@ void InitTabControls(CONTROL_LIST_ITEM *citem, int *hdcTab)
 		DisplayFrame();
 		DisplayFrame();
 		ddxReleaseBitmap(iClock);
+*/    
 }
 
 void RunMenuSetGeneralSettings(CONTROL_LIST_ITEM *citem, int iset)
 {
+/*
 	int i;
 
 	ddxSetFlip(0);
@@ -2022,10 +2031,12 @@ void RunMenuSetGeneralSettings(CONTROL_LIST_ITEM *citem, int iset)
 	}
 
 	ddxSetFlip(1);
+  */
 }
 
 void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 {
+/*
 	DWORD	dwEplased = 0, dwStart, dwStop;
 
 	ROZLISENI	*roz;
@@ -2179,8 +2190,8 @@ MENU_SETTING_BRUTAL_RESTART:
 		citem[0].bActive = 0;
 		citem[1].bActive = 0;
 
-		/*citem[2].p_check = co_Create_CheckBox(hdcTab[0], 25, 50, "##settings_camera_rot", 0, 0);
-		co_Check_Set_State(citem[2].p_check, hdcTab[0], setup.pohled_berusky, 1);*/
+		//citem[2].p_check = co_Create_CheckBox(hdcTab[0], 25, 50, "##settings_camera_rot", 0, 0);
+		//co_Check_Set_State(citem[2].p_check, hdcTab[0], setup.pohled_berusky, 1);
 		citem[2].bActive = 1;
 
 		citem[3].p_check = co_Create_CheckBox(hdcTab[0], 25, 50, "##settings_camera_mov", 0, 1);
@@ -2231,14 +2242,14 @@ MENU_SETTING_BRUTAL_RESTART:
 		co_Check_Set_State(citem[50].p_check, hdcTab[0], setup.ovladani_rohy_smer, 1);
 		citem[50].bActive = 1;
 
-		/*citem[51].p_check = co_Create_CheckBox(hdcTab[0], 25, 350, "##setings_camera_move_cur", 0, 16);
-		co_Check_Set_State(citem[51].p_check, hdcTab[0], setup.ovladani_pr_posun, 1);
-		citem[51].bActive = 1;*/
+		//citem[51].p_check = co_Create_CheckBox(hdcTab[0], 25, 350, "##setings_camera_move_cur", 0, 16);
+		//co_Check_Set_State(citem[51].p_check, hdcTab[0], setup.ovladani_pr_posun, 1);
+		//citem[51].bActive = 1;
 
-		/*co_Set_Text_Right(hdcTab[0], "##settings_transparency", 0, 450, 300);
-		citem[6].p_prog = co_Create_Progres(hdcTab[0], 500, 300, 2, 18, 0);
-		co_Progres_Set(citem[6].p_prog, hdcTab[0], (int)(setup.p_kamera_alfa * 20));
-		citem[6].bActive = 1;*/
+		//co_Set_Text_Right(hdcTab[0], "##settings_transparency", 0, 450, 300);
+		//citem[6].p_prog = co_Create_Progres(hdcTab[0], 500, 300, 2, 18, 0);
+		//co_Progres_Set(citem[6].p_prog, hdcTab[0], (int)(setup.p_kamera_alfa * 20));
+		//citem[6].bActive = 1;
 		
 		co_Set_Text_Right(hdcTab[0], "##setings_camera_speed", 0, 450, 390);
 		citem[52].p_prog = co_Create_Progres(hdcTab[0], 500, 387, 0, 10, 0);
@@ -2250,8 +2261,8 @@ MENU_SETTING_BRUTAL_RESTART:
 		co_Progres_Set(citem[7].p_prog, hdcTab[0], (int)(setup.p_kamera_radius * 2));
 		citem[7].bActive = 1;
 
-		/*if(!setup.posouvat_kameru)
-			co_Check_Disable(hdcTab[0], 0, 0, citem, CLIST_ITEMC, 0);*/
+		//if(!setup.posouvat_kameru)
+		//co_Check_Disable(hdcTab[0], 0, 0, citem, CLIST_ITEMC, 0);
 
 		if(!setup.ovladani_rohy)
 		{
@@ -2266,8 +2277,8 @@ MENU_SETTING_BRUTAL_RESTART:
 		ddxBitBltDisplay(0, 0, 1024, 768, BackDC, 0, 0);
 		SetTab(0, -1, citem, CLIST_ITEMC, hdcTab);
 
-		/*if(!setup.posouvat_kameru)
-			co_Check_Disable(HDC2DD, TAB_X, TAB_Y, citem, CLIST_ITEMC, 0);*/
+		//if(!setup.posouvat_kameru)
+		//	co_Check_Disable(HDC2DD, TAB_X, TAB_Y, citem, CLIST_ITEMC, 0);
 
 		if(!setup.ovladani_rohy)
 		{
@@ -2452,6 +2463,7 @@ MENU_SETTING_BRUTAL_RESTART:
 		}
 
 		co_Handle_Controls(citem, CLIST_ITEMC, dim.x - TAB_X, dim.y - TAB_Y, HDC2DD, TAB_X, TAB_Y);
+    */
 /*
 		if(co_Progres_Changed(citem, CLIST_ITEMC, 4))
 			p_ad->Sound_Gain = co_Progres_Get(citem, CLIST_ITEMC, 4) / 100.0f;
@@ -2472,6 +2484,7 @@ MENU_SETTING_BRUTAL_RESTART:
 
 		}
 */
+/*
 		if(ActiveTab == 1)
 		{
 			iComboActSel = co_Combo_Get_Sel_Not_Opend(citem, CLIST_ITEMC, 1);
@@ -2498,7 +2511,7 @@ MENU_SETTING_BRUTAL_RESTART:
 
 				SetCharMenu(p_li);
 			}
-
+*/
 			/*iCheck = co_Check_Get_State_Change(citem, CLIST_ITEMC, 1);
 
 			if(iCheck != -1)
@@ -2511,7 +2524,7 @@ MENU_SETTING_BRUTAL_RESTART:
 				else
 					co_Check_Enable(HDC2DD, TAB_X, TAB_Y, citem, CLIST_ITEMC, 0);
 			}*/
-
+/*
 			iCheck = co_Check_Get_State_Change(citem, CLIST_ITEMC, 12);
 
 			if(iCheck != -1)
@@ -2654,7 +2667,7 @@ MENU_SETTING_BRUTAL_RESTART:
 				ActiveTab = 3;
 				hdcTabUse[3]++;
 			}
-
+*/
 /*			if(!strcmp(res[resid].cParam[1], "NEW_GAME"))
 				NewGame(hWnd, p_ad, cpu);*/
 	
@@ -2674,7 +2687,7 @@ MENU_SETTING_BRUTAL_RESTART:
 				}
 			}*/
 
-			resid = -1;
+			//resid = -1;
 /*
 			if(key[K_ESC])
 			{
@@ -2690,6 +2703,7 @@ MENU_SETTING_BRUTAL_RESTART:
 */
 			/*else
 				goto BEGIN_MENU;*/
+        /*
 		}
 
 		//pokud prisel cas, tak provedu nahodne animace (podle jejich pravdepodobnosti)
@@ -2706,13 +2720,13 @@ MENU_SETTING_BRUTAL_RESTART:
 					AddAnimation(&res[i], p_ad, 0, 0);
 				}
 		}
-
+*/
 /*		spracuj_spravy(0);
 		ddxUpdateMouse();
 
 		if(dim.dx || dim.dy)
 			DisplayFrame();*/
-
+/*
 		dwStop = timeGetTime();
 
 		dwEplased += dwStop - dwStart;
@@ -2756,10 +2770,12 @@ __QUIT:
 	FreeAnimations(res, RES_NUM);
 	free((void *) res);
 	free((void *) roz);
+*/  
 }
 
 void RunStretchAnimation(char *cScene, int x, int y, AUDIO_DATA *p_ad)
 {
+/*
 	int idx;
 	RECT r;
 	RECT s = {0, 0, 1024, 768};
@@ -2804,10 +2820,12 @@ void RunStretchAnimation(char *cScene, int x, int y, AUDIO_DATA *p_ad)
 
 	if(iLanguageVersion == 4)
 		apakclose(hArchive);
+*/
 }
 
 void RunMenuNewGameSceneActivate(CMD_LINE *res)
 {
+/*
 #ifndef __DEMO
 	int i;
 
@@ -2830,6 +2848,7 @@ void RunMenuNewGameSceneActivate(CMD_LINE *res)
 	ddxDrawSurface(BackDC, res[6+8].iAnim[0], 2);
 
 #endif
+*/
 }
 
 void GetRunMenuNewGameSceneLoadGame(char *cscene, char *cscenemap, char *csceneanim, char	*cscenelevel, 
@@ -3090,11 +3109,11 @@ void RunMenuNewGameScene(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu
 				return;
 			}
 		}
-
+/*
 	ddxCleareSurface(CompositDC);
 	ddxCleareSurface(FontDC);
 	ddxCleareSurface(BackDC);
-
+*/
 BEGIN_MENU_NEWGAMESCENE_BRUTAL:
 
 	for(bind=0;bind<RES_NUM;bind++)
@@ -3145,12 +3164,12 @@ BEGIN_MENU_NEWGAMESCENE_BRUTAL:
 				break;
 		}
 	}
-	
+	/*
 	RunMenuNewGameSceneActivate(res);
 	ddxBitBltDisplay(0, 0, 1024, 768, BackDC, 0, 0);
 	ddxCleareSurface(BackDC);
 	//DisplayFrame();
-
+  */
 BEGIN_MENU_NEWGAMESCENE:
 
 	//NOVA CESTA ////////////////////////////////////////////////////////////////////////////////////
@@ -3226,7 +3245,7 @@ BEGIN_MENU_NEWGAMESCENE:
 						if(in)
 						{
 							Stop(&res[lastabv]);
-
+/*
 							if(!res[lastabv].iLayer)
 							{
 								ddxDrawDisplay(res[lastabv].iAnim[0], 0);
@@ -3237,6 +3256,7 @@ BEGIN_MENU_NEWGAMESCENE:
 								ddxDrawDisplayColorKey(res[lastabv].iAnim[0], 0, TRANSCOLOR);
 								ddxDrawSurface(FontDC, res[lastabv].iAnim[0], 3);
 							}
+*/
 						}
 
 						CheckAnimation(&res[i], p_ad);
@@ -3267,7 +3287,7 @@ BEGIN_MENU_NEWGAMESCENE:
 						// odesel z oblasti, ktera byla aktivni -> stop animace					
 						// a odznaceni oblasti
 						Stop(&res[i]);
-
+/*
 						if(!res[i].iLayer)
 						{
 							ddxDrawDisplay(res[i].iAnim[0], 0);
@@ -3278,7 +3298,7 @@ BEGIN_MENU_NEWGAMESCENE:
 							ddxDrawDisplayColorKey(res[i].iAnim[0], 0, TRANSCOLOR);
 							ddxDrawSurface(FontDC, res[i].iAnim[0], 3);
 						}
-
+*/
 						bind = ChooseBidedExitAnimation(res, i+1, p_ad);
 
 						if(bind != -1)
@@ -3288,7 +3308,7 @@ BEGIN_MENU_NEWGAMESCENE:
 							if(anbind != -1)
 							{
 								Stop(&res[anbind]);
-
+/*
 								if(!res[anbind].iLayer)
 								{
 									ddxDrawDisplay(res[anbind].iAnim[0], 0);
@@ -3299,6 +3319,7 @@ BEGIN_MENU_NEWGAMESCENE:
 									ddxDrawDisplayColorKey(res[anbind].iAnim[0], 0, TRANSCOLOR);
 									ddxDrawSurface(FontDC, res[anbind].iAnim[0], 3);
 								}
+*/
 							}
 
 							iAnim = AddAnimation(&res[bind], p_ad, 1, 1);
@@ -3564,6 +3585,7 @@ BEGIN_MENU_NEWGAMESCENE:
 			}
 			else
 			{
+/*      
 				for(i=0;i<lastcmd;i++)
 				{
 					switch(res[i].iParam[0])
@@ -3577,7 +3599,7 @@ BEGIN_MENU_NEWGAMESCENE:
 				RunMenuNewGameSceneActivate(res);
 				ddxBitBltDisplay(0, 0, 1024, 768, BackDC, 0, 0);
 				ddxCleareSurface(BackDC);
-
+*/
 				goto BEGIN_MENU_NEWGAMESCENE;
 			}
 		}
@@ -3606,7 +3628,7 @@ BEGIN_MENU_NEWGAMESCENE:
 		dwStop = timeGetTime();
 
 		dwEplased += dwStop - dwStart;
-
+/*
 		spracuj_spravy(0);
 		ddxUpdateMouse();
 		AnimationEvent(NULL, 0, 0, dwStop, p_ad);
@@ -3629,14 +3651,15 @@ BEGIN_MENU_NEWGAMESCENE:
 			FreeAnimations(res, RES_NUM);
 			goto BEGIN_MENU_NEWGAMESCENE_BRUTAL;
 		}
+*/
 	}
 
 __QUIT:
-
+/*
 	ddxCleareSurface(FontDC);
 	ddxCleareSurface(BackDC);
 	ddxCleareSurface(CompositDC);
-
+*/
 	cRestartMainMenu = 1;
 	key[K_ESC] = 0;
 
@@ -3666,7 +3689,7 @@ void LoadSceneMap(int *pBmp, char *cSceneBmp, char *cSceneAnim, int iScene, int 
 		else
 			hArchive->pActualNode = hArchive->pRootNode->pNextNode;
 
-		pBmp[0] = ddxLoadBitmap(cSceneBmp, hArchive);
+		//pBmp[0] = ddxLoadBitmap(cSceneBmp, hArchive);
 
 		for(i=1;i<6;i++)
 		{
@@ -3679,16 +3702,17 @@ void LoadSceneMap(int *pBmp, char *cSceneBmp, char *cSceneAnim, int iScene, int 
 	}
 	else
 	{
-		pBmp[0] = ddxLoadBitmap(cSceneBmp, pBmpArchive);
-
+		//pBmp[0] = ddxLoadBitmap(cSceneBmp, pBmpArchive);
+/*
 		for(i=1;i<6;i++)
 		{
 			sprintf(text, "%s%d.bmp", cSceneAnim, i);
 			pBmp[i] = ddxLoadBitmap(text, pBmpArchive);
 			DrawClock(iClock, i);
 		}
+*/  
 	}
-
+/*
 	switch(iScene)
 	{
 		case 1:
@@ -3740,7 +3764,7 @@ void LoadSceneMap(int *pBmp, char *cSceneBmp, char *cSceneAnim, int iScene, int 
 			pBmp[11] = ddxLoadBitmap("level_ok_yellow_l.bmp", pBmpArchive);
 			break;
 	}
-
+*/
 	DrawClock(iClock, 6);
 }
 
@@ -3750,7 +3774,7 @@ void DrawLevelHint(int x, int y, int iLevel)
 	char text[256];
 
 	sprintf(text, "t_%d.bmp", iLevel - 200);
-
+/*
 	idx = ddxLoadBitmap(text, pBmpArchive);
 
 	if(idx == -1)
@@ -3760,6 +3784,7 @@ void DrawLevelHint(int x, int y, int iLevel)
 	ddxTransparentBlt(BackDC, x, y, ddxGetWidth(idx), ddxGetHight(idx), idx, 0, 0, ddxGetWidth(idx), ddxGetHight(idx), TRANSCOLOR);
 
 	ddxReleaseBitmap(idx);
+*/
 }
 
 void CreateLevelButton(int x, int y, CMD_LINE *res, int *lastcmd, int *pBmp, char *cMessage, char bDone, 
@@ -4766,6 +4791,7 @@ __QUIT:
 
 int RunMenuNewGame(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 {
+/*
 	DWORD	dwEplased = 0, dwStart, dwStop;
 	int	ret = 0;
 	int c = 0;
@@ -5155,6 +5181,7 @@ BEGIN_MENU_NEWGAME:
 
 			if(bDone)
 			{
+*/      
 /*
 				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
@@ -5163,6 +5190,7 @@ BEGIN_MENU_NEWGAME:
 						res[i].iParam[5] = -1;
 					}
 */
+/*
 				goto __QUIT;
 			}
 			else
@@ -5230,6 +5258,7 @@ __QUIT:
 	free((void *) res);
 
 	return ret;
+  */
 }
 
 char check_profile(char *p_name)
@@ -5322,7 +5351,7 @@ int FillComboProfiles(COMBO_CONTROL *p_co, int *iSel)
 
 	GetPrivateProfileString("game","profile_dir","c:\\",dir,256,ini_file);
 	GetPrivateProfileString("hra","last_profile","c:\\",cprofile,128,ini_file);
-	_chdir(dir);
+	chdir(dir);
 
 	FillStringList("*.prf", &list, &isize);
 
@@ -5377,7 +5406,7 @@ int check_Save_Owner(char *cDir, WCHAR	*wFileName)
 
 	int	ver;
 
-	_getcwd(dir, MAX_PATH);
+	getcwd(dir, MAX_PATH);
 
 	chdir(cDir);
 
@@ -5440,7 +5469,7 @@ int FillListLoad(LIST_VIEW_CONTROL *p_li, char *mask, char bAdd, int LoadGame)
 	int		   isize;
 
 	GetPrivateProfileString("game","save_dir","c:\\",dir,256,ini_file);
-	_chdir(dir);
+	chdir(dir);
 
 	FillStringList(mask, &list, &isize);
 
@@ -8531,10 +8560,10 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 	in = 0;
 
 	spracuj_spravy(0);
-
+/*
 	if(ogg_playing())
 		ap_Stop_Song(p_ad);
-
+*/
 	iSongTime = GetComixTime(iScene);
 
 	//ap_Play_Song(iScene+1,0, p_ad);
@@ -8615,7 +8644,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 						// odesel z oblasti, ktera byla aktivni -> stop animace					
 						// a odznaceni oblasti
 						Stop(&res[i]);
-
+/*
 						if(res[i].iAnim[0][0] != -1)
 						{
 							if(!res[i].iLayer)
@@ -8629,7 +8658,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 								ddxDrawSurface(FontDC, res[i].iAnim[0], 3);
 							}
 						}
-
+*/
 						bind = ChooseBidedExitAnimation(res, i+1, p_ad);
 
 						if(bind != -1)
@@ -8763,7 +8792,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 			rr.top = 161;
 			rr.right = 700;
 			rr.bottom = 549;
-
+/*
 			y = (int)(int)((dwEplased * (ddxGetHight(iComix) - 550)) / (float) iSongTime);
 	
 			if(y >=  ddxGetHight(iComix) - 550)
@@ -8772,6 +8801,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 			ddxBitBlt(CompositDC, 124, 161, ddxGetWidth(iComix), 549, iComix, 0, y);
 
 			_2d_Add_RectItem(&rline, rr, 0);
+    */
 		}
 
 		AnimationEvent(NULL, 0, 0, dwStop, p_ad);
@@ -8822,10 +8852,10 @@ __QUIT:
 
 	FreeAnimations(res, RES_NUM);
 	free((void *) res);
-
+/*
 	if(ogg_playing())
 		ap_Stop_Song(p_ad);
-
+*/
 	//ap_Play_Song(0, 0, p_ad);
 
 	ddxSetFlip(TRUE);
@@ -9039,3 +9069,4 @@ char MenuCheckSuccessExit(void)
 	else
 		return 0;
 }
+

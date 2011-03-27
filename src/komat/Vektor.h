@@ -79,22 +79,22 @@
 }\
 
 
-__inline float vektor_uhel(BOD *p_v1, BOD *p_v2)
+inline float vektor_uhel(BOD *p_v1, BOD *p_v2)
 {
  return((float)p_v1->x*p_v2->x+p_v1->y*p_v2->y+p_v1->z*p_v2->z);
 }
 
-__inline float vektor_dot_product(BOD *p_v1, BOD *p_v2)
+inline float vektor_dot_product(BOD *p_v1, BOD *p_v2)
 {
  return((float)p_v1->x*p_v2->x+p_v1->y*p_v2->y+p_v1->z*p_v2->z);
 }
 
-__inline float wvektor_dot_product(WBOD *p_v1, WBOD *p_v2)
+inline float wvektor_dot_product(WBOD *p_v1, WBOD *p_v2)
 {
  return((float)p_v1->x*p_v2->x+p_v1->y*p_v2->y+p_v1->z*p_v2->z+p_v1->w*p_v2->w);
 }
 
-__inline BOD * vektor_soucin(BOD *u, BOD *v, BOD *c)
+inline BOD * vektor_soucin(BOD *u, BOD *v, BOD *c)
 {
  c->x = u->y*v->z - u->z*v->y;
  c->y = u->z*v->x - u->x*v->z;
@@ -102,7 +102,7 @@ __inline BOD * vektor_soucin(BOD *u, BOD *v, BOD *c)
  return(c);
 }
 
-__inline float vektor_velikost(BOD *v)
+inline float vektor_velikost(BOD *v)
 {
  float dis = v->x*v->x+v->y*v->y+v->z*v->z;
  if(dis > 0.0f)
@@ -111,7 +111,7 @@ __inline float vektor_velikost(BOD *v)
    return(0.0f); 
 }
 
-__inline float vektor_velikost_2D(BOD *v)
+inline float vektor_velikost_2D(BOD *v)
 {
  float dis = v->x*v->x+v->y*v->y;
  if(dis > 0.0f)
@@ -120,7 +120,7 @@ __inline float vektor_velikost_2D(BOD *v)
    return(0.0f); 
 }
 
-__inline float vektor_norm(BOD *v)
+inline float vektor_norm(BOD *v)
 {
  float vel2,vel = vektor_velikost(v);
  if(vel == 0) 
@@ -134,7 +134,7 @@ __inline float vektor_norm(BOD *v)
  }
 }
 
-__inline float vektor_norm_2D(BOD *v)
+inline float vektor_norm_2D(BOD *v)
 {
  float vel2,vel = vektor_velikost_2D(v);
  if(vel == 0) 
@@ -147,7 +147,7 @@ __inline float vektor_norm_2D(BOD *v)
  }
 }
 
-__inline float vektor_norm_mult(BOD *v, float num)
+inline float vektor_norm_mult(BOD *v, float num)
 {
  float vel2,vel = vektor_velikost(v);
  if(vel == 0) 
@@ -161,7 +161,7 @@ __inline float vektor_norm_mult(BOD *v, float num)
  }
 }
 
-__inline float vektor_norm_mult_vektor(BOD *v, BOD *p_mult)
+inline float vektor_norm_mult_vektor(BOD *v, BOD *p_mult)
 {
  float n,vel = vektor_velikost(v);
  if(vel == 0)
@@ -175,7 +175,7 @@ __inline float vektor_norm_mult_vektor(BOD *v, BOD *p_mult)
  }
 }
 
-__inline BOD * vektor_add(BOD *v, BOD *u, BOD *c)
+inline BOD * vektor_add(BOD *v, BOD *u, BOD *c)
 {
   c->x = v->x + u->x;
   c->y = v->y + u->y;
@@ -183,7 +183,7 @@ __inline BOD * vektor_add(BOD *v, BOD *u, BOD *c)
   return(c);
 }
 
-__inline BOD * vektor_mult(BOD *v, BOD *u, BOD *c)
+inline BOD * vektor_mult(BOD *v, BOD *u, BOD *c)
 {
   c->x = v->x * u->x;
   c->y = v->y * u->y;
@@ -191,7 +191,7 @@ __inline BOD * vektor_mult(BOD *v, BOD *u, BOD *c)
   return(c);
 }
 
-__inline BOD * vektor_sub(BOD *v, BOD *u, BOD *c)
+inline BOD * vektor_sub(BOD *v, BOD *u, BOD *c)
 {
   c->x = v->x - u->x;
   c->y = v->y - u->y;
@@ -199,7 +199,7 @@ __inline BOD * vektor_sub(BOD *v, BOD *u, BOD *c)
   return(c);
 }
 
-__inline BOD * vektor_set(BOD *v, float hodnota)
+inline BOD * vektor_set(BOD *v, float hodnota)
 {
   v->x = hodnota;
   v->y = hodnota;
@@ -207,7 +207,7 @@ __inline BOD * vektor_set(BOD *v, float hodnota)
   return(v);
 }
 
-__inline BOD * vektor_set_all(BOD *v, float x, float y, float z)
+inline BOD * vektor_set_all(BOD *v, float x, float y, float z)
 {
   v->x = x;
   v->y = y;
@@ -217,7 +217,7 @@ __inline BOD * vektor_set_all(BOD *v, float x, float y, float z)
 
 // test na preteceni
 #define MAX_UP 1.0f
-__inline BOD * vektor_norm_up(BOD *v)
+inline BOD * vektor_norm_up(BOD *v)
 {
   if(v->x > MAX_UP) v->x = MAX_UP;
   if(v->y > MAX_UP) v->y = MAX_UP;
@@ -227,7 +227,7 @@ __inline BOD * vektor_norm_up(BOD *v)
 
 // test na podteceni
 #define MAX_DOWN 0.0f
-__inline BOD * vektor_norm_down(BOD *v)
+inline BOD * vektor_norm_down(BOD *v)
 {
   if(v->x < MAX_DOWN) v->x = MAX_DOWN;
   if(v->y < MAX_DOWN) v->y = MAX_DOWN;
@@ -235,7 +235,7 @@ __inline BOD * vektor_norm_down(BOD *v)
   return(v);
 }
 
-__inline BOD * vektor_norm_bump(BOD *v)
+inline BOD * vektor_norm_bump(BOD *v)
 {
   v->x = v->x*0.5f+0.5f;
   v->y = v->y*0.5f+0.5f;
@@ -243,7 +243,7 @@ __inline BOD * vektor_norm_bump(BOD *v)
   return(v);
 }
 
-__inline BOD * vektor_bod(BOD *v, BOD *u, BOD *c, float t)
+inline BOD * vektor_bod(BOD *v, BOD *u, BOD *c, float t)
 {
   float t2 = 1.0f-t;
   c->x = v->x*t2 + u->x*t;
@@ -252,7 +252,7 @@ __inline BOD * vektor_bod(BOD *v, BOD *u, BOD *c, float t)
   return(c);
 }
 
-__inline OBJ_VERTEX * vektor_bod_muj(OBJ_VERTEX *v, OBJ_VERTEX *u, OBJ_VERTEX *c, float t)
+inline OBJ_VERTEX * vektor_bod_muj(OBJ_VERTEX *v, OBJ_VERTEX *u, OBJ_VERTEX *c, float t)
 {
   float t2 = 1.0f-t;
   
@@ -284,7 +284,7 @@ __inline OBJ_VERTEX * vektor_bod_muj(OBJ_VERTEX *v, OBJ_VERTEX *u, OBJ_VERTEX *c
   return(c);
 }
 
-__inline BOD * vektor_copy(BOD *c, BOD *v)
+inline BOD * vektor_copy(BOD *c, BOD *v)
 {
   c->x = v->x;
   c->y = v->y;
@@ -292,7 +292,7 @@ __inline BOD * vektor_copy(BOD *c, BOD *v)
   return(c);
 }
 
-__inline WBOD * wvektor_sub(WBOD *v, WBOD *u, WBOD *c)
+inline WBOD * wvektor_sub(WBOD *v, WBOD *u, WBOD *c)
 {
   c->x = v->x - u->x;
   c->y = v->y - u->y;
@@ -301,7 +301,7 @@ __inline WBOD * wvektor_sub(WBOD *v, WBOD *u, WBOD *c)
   return(c);
 }
 
-__inline BOD * vektor_mult_skalar(BOD *v, float mult, BOD *c)
+inline BOD * vektor_mult_skalar(BOD *v, float mult, BOD *c)
 {
   c->x = v->x * mult;
   c->y = v->y * mult;
@@ -309,7 +309,7 @@ __inline BOD * vektor_mult_skalar(BOD *v, float mult, BOD *c)
   return(c);
 }
 
-__inline BOD * vektor_scale(BOD *v, float mult)
+inline BOD * vektor_scale(BOD *v, float mult)
 {
   v->x *= mult;
   v->y *= mult;
@@ -317,7 +317,7 @@ __inline BOD * vektor_scale(BOD *v, float mult)
   return(v);
 }
 
-__inline BOD * vektor_fabs(BOD *v, BOD *c)
+inline BOD * vektor_fabs(BOD *v, BOD *c)
 {
   c->x = (float)fabs(v->x);
   c->y = (float)fabs(v->y);
@@ -325,7 +325,7 @@ __inline BOD * vektor_fabs(BOD *v, BOD *c)
   return(c);
 }
 
-__inline BOD * vektor_inv(BOD *v)
+inline BOD * vektor_inv(BOD *v)
 {
   v->x = -(v->x);
   v->y = -(v->y);
@@ -333,43 +333,43 @@ __inline BOD * vektor_inv(BOD *v)
   return(v);
 }
 
-__inline float vzdal_bodu(OBJ_VERTEX *a, OBJ_VERTEX *b)
+inline float vzdal_bodu(OBJ_VERTEX *a, OBJ_VERTEX *b)
 {
   return((float)sqrt((b->x-a->x)*(b->x-a->x)+(b->y-a->y)*(b->y-a->y)+(b->z-a->z)*(b->z-a->z)));
 }
 
-__inline float vzdal_bodu_bod(BOD *a, BOD *b)
+inline float vzdal_bodu_bod(BOD *a, BOD *b)
 {
   float v = (b->x-a->x)*(b->x-a->x)+(b->y-a->y)*(b->y-a->y)+(b->z-a->z)*(b->z-a->z);
   return((v > 0.0f) ? (float)sqrt(v) : v);
 }
 
-__inline float vzdal_bodu_2D(OBJ_VERTEX *a, OBJ_VERTEX *b)
+inline float vzdal_bodu_2D(OBJ_VERTEX *a, OBJ_VERTEX *b)
 {
   float v = (b->x-a->x)*(b->x-a->x)+(b->z-a->z)*(b->z-a->z);  
   return((v > 0.0f) ? (float)sqrt(v) : v);
 }
 
-__inline float vzdal_bodu_2D_bod(BOD *a, BOD *b)
+inline float vzdal_bodu_2D_bod(BOD *a, BOD *b)
 {
   float v  = (b->x-a->x)*(b->x-a->x)+(b->z-a->z)*(b->z-a->z);
   return((v > 0.0f) ? (float)sqrt(v) : v);
 }
 
-__inline void calc_primku_2d(BOD *a, BOD *b, float *p_k, float *p_q)
+inline void calc_primku_2d(BOD *a, BOD *b, float *p_k, float *p_q)
 {
   *p_k = (a->y - b->y)/(a->x - b->x);
   *p_q = a->y - (*p_k)*a->x;
 }
 
-__inline void calc_primku_3d(BOD *a, BOD *b, BOD *q) // t je parametr od 0 do 1
+inline void calc_primku_3d(BOD *a, BOD *b, BOD *q) // t je parametr od 0 do 1
 {
   q->x = b->x - a->x;
   q->y = b->y - a->y;
   q->z = b->z - a->z;
 }
 
-__inline float norm_vect(float *p_x, float *p_y, float *p_z)
+inline float norm_vect(float *p_x, float *p_y, float *p_z)
 {
  float vel = (float)sqrt((*p_x)*(*p_x) + (*p_y)*(*p_y) + (*p_z)*(*p_z));
 
@@ -383,7 +383,7 @@ __inline float norm_vect(float *p_x, float *p_y, float *p_z)
  return(vel);
 }
 
-__inline float norm_vect_2D(float *p_x, float *p_y)
+inline float norm_vect_2D(float *p_x, float *p_y)
 {
  float vel = (float)sqrt((*p_x)*(*p_x) + (*p_y)*(*p_y));
  *p_x /= vel;
@@ -391,7 +391,7 @@ __inline float norm_vect_2D(float *p_x, float *p_y)
  return(vel);
 }
 
-__inline float norm_rovinu(ROVINA *r)
+inline float norm_rovinu(ROVINA *r)
 {
  float vel = (float)sqrt(r->x*r->x + r->y*r->y + r->z*r->z);
 
@@ -406,7 +406,7 @@ __inline float norm_rovinu(ROVINA *r)
 }
 
 // p,a,b - primka
-__inline float vzdal_bodu_a_primky(BOD *p, BOD *a, BOD *b)
+inline float vzdal_bodu_a_primky(BOD *p, BOD *a, BOD *b)
 {
  float ti,v;
  float qx,qy,qz;
@@ -430,7 +430,7 @@ __inline float vzdal_bodu_a_primky(BOD *p, BOD *a, BOD *b)
 }
 
 // p,a,b - primka
-__inline float vzdal_bodu_a_primky_bod(BOD *p, BOD *a, BOD *b, BOD *i)
+inline float vzdal_bodu_a_primky_bod(BOD *p, BOD *a, BOD *b, BOD *i)
 {
  float ti,v;
  float qx,qy,qz;
@@ -453,7 +453,7 @@ __inline float vzdal_bodu_a_primky_bod(BOD *p, BOD *a, BOD *b, BOD *i)
 }
 
 //vraci i bod na primce a->b
-__inline float bod_primka_bod_bod(BOD *p, BOD *a, BOD *b, BOD *i)
+inline float bod_primka_bod_bod(BOD *p, BOD *a, BOD *b, BOD *i)
 {
  float ti,v;
  float qx,qy,qz;
@@ -475,12 +475,12 @@ __inline float bod_primka_bod_bod(BOD *p, BOD *a, BOD *b, BOD *i)
  return(ti);
 }
 
-__inline float vzdal_bodu_a_roviny(BOD *p, ROVINA *r)
+inline float vzdal_bodu_a_roviny(BOD *p, ROVINA *r)
 {
   return((float)fabs(r->x*p->x+r->y*p->y+r->z*p->z+r->e));
 }
 
-__inline float vzdal_bodu_a_roviny_nabs(BOD *p, ROVINA *r)
+inline float vzdal_bodu_a_roviny_nabs(BOD *p, ROVINA *r)
 {
   return(r->x*p->x+r->y*p->y+r->z*p->z+r->e);
 }

@@ -71,7 +71,8 @@ am_berusky2_OBJECTS = 3D_graphic.$(OBJEXT) 3D_menus.$(OBJEXT) \
 	Keyframe.$(OBJEXT) Load.$(OBJEXT) Load_chunks.$(OBJEXT) \
 	Load_out.$(OBJEXT) Mat3d.$(OBJEXT) Matrix.$(OBJEXT) \
 	Texture.$(OBJEXT) Texture_import.$(OBJEXT) Tga.$(OBJEXT) \
-	gglext.$(OBJEXT) kfile.$(OBJEXT) obb.$(OBJEXT) strip.$(OBJEXT)
+	gglext.$(OBJEXT) kfile.$(OBJEXT) obb.$(OBJEXT) strip.$(OBJEXT) \
+	ini.$(OBJEXT) compat.$(OBJEXT) 2D_graphic.$(OBJEXT)
 berusky2_OBJECTS = $(am_berusky2_OBJECTS)
 berusky2_DEPENDENCIES =
 berusky2_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -248,13 +249,15 @@ top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
 INCLUDES = \
-	 -Ikomat -Ikofola
+	 -Ikomat -Ikofola -Itmp
 
 AM_CFLAGS = \
+	-std=c99\
 	 -Wall\
 	 -g
 
 AM_CXXFLAGS = \
+	-std=c99\
 	 -Wall\
 	 -g
 
@@ -415,10 +418,18 @@ berusky2_SOURCES = \
 	komat/obb.h\
 	komat/strip.cpp\
 	komat/strip.h\
-	komat/zlib_io.h
+	komat/zlib_io.h\
+	komat/ini.c\
+	komat/ini.h\
+	tmp/compat.c\
+	tmp/compat.h\
+	kofola/2D_graphic.c\
+	kofola/2D_graphic.h
 
 berusky2_LDFLAGS = 
-berusky2_LDADD = 
+berusky2_LDADD = \
+	 -lGL -lz -lGLU
+
 all: all-am
 
 .SUFFIXES:
@@ -506,6 +517,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+include ./$(DEPDIR)/2D_graphic.Po
 include ./$(DEPDIR)/3D_graphic.Po
 include ./$(DEPDIR)/3D_menus.Po
 include ./$(DEPDIR)/3d_math.Po
@@ -552,6 +564,7 @@ include ./$(DEPDIR)/animend_functions.Po
 include ./$(DEPDIR)/apakdir.Po
 include ./$(DEPDIR)/apakfind.Po
 include ./$(DEPDIR)/apakstream.Po
+include ./$(DEPDIR)/compat.Po
 include ./$(DEPDIR)/controls.Po
 include ./$(DEPDIR)/controls3d.Po
 include ./$(DEPDIR)/credits.Po
@@ -562,6 +575,7 @@ include ./$(DEPDIR)/game_logic.Po
 include ./$(DEPDIR)/game_main.Po
 include ./$(DEPDIR)/gglext.Po
 include ./$(DEPDIR)/grammar.Po
+include ./$(DEPDIR)/ini.Po
 include ./$(DEPDIR)/kfile.Po
 include ./$(DEPDIR)/load_level.Po
 include ./$(DEPDIR)/menu_script.Po
@@ -1504,6 +1518,48 @@ obb.obj: komat/obb.c
 #	source='komat/obb.c' object='obb.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
 #	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o obb.obj `if test -f 'komat/obb.c'; then $(CYGPATH_W) 'komat/obb.c'; else $(CYGPATH_W) '$(srcdir)/komat/obb.c'; fi`
+
+ini.o: komat/ini.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ini.o -MD -MP -MF $(DEPDIR)/ini.Tpo -c -o ini.o `test -f 'komat/ini.c' || echo '$(srcdir)/'`komat/ini.c
+	$(am__mv) $(DEPDIR)/ini.Tpo $(DEPDIR)/ini.Po
+#	source='komat/ini.c' object='ini.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ini.o `test -f 'komat/ini.c' || echo '$(srcdir)/'`komat/ini.c
+
+ini.obj: komat/ini.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ini.obj -MD -MP -MF $(DEPDIR)/ini.Tpo -c -o ini.obj `if test -f 'komat/ini.c'; then $(CYGPATH_W) 'komat/ini.c'; else $(CYGPATH_W) '$(srcdir)/komat/ini.c'; fi`
+	$(am__mv) $(DEPDIR)/ini.Tpo $(DEPDIR)/ini.Po
+#	source='komat/ini.c' object='ini.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ini.obj `if test -f 'komat/ini.c'; then $(CYGPATH_W) 'komat/ini.c'; else $(CYGPATH_W) '$(srcdir)/komat/ini.c'; fi`
+
+compat.o: tmp/compat.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT compat.o -MD -MP -MF $(DEPDIR)/compat.Tpo -c -o compat.o `test -f 'tmp/compat.c' || echo '$(srcdir)/'`tmp/compat.c
+	$(am__mv) $(DEPDIR)/compat.Tpo $(DEPDIR)/compat.Po
+#	source='tmp/compat.c' object='compat.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o compat.o `test -f 'tmp/compat.c' || echo '$(srcdir)/'`tmp/compat.c
+
+compat.obj: tmp/compat.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT compat.obj -MD -MP -MF $(DEPDIR)/compat.Tpo -c -o compat.obj `if test -f 'tmp/compat.c'; then $(CYGPATH_W) 'tmp/compat.c'; else $(CYGPATH_W) '$(srcdir)/tmp/compat.c'; fi`
+	$(am__mv) $(DEPDIR)/compat.Tpo $(DEPDIR)/compat.Po
+#	source='tmp/compat.c' object='compat.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o compat.obj `if test -f 'tmp/compat.c'; then $(CYGPATH_W) 'tmp/compat.c'; else $(CYGPATH_W) '$(srcdir)/tmp/compat.c'; fi`
+
+2D_graphic.o: kofola/2D_graphic.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT 2D_graphic.o -MD -MP -MF $(DEPDIR)/2D_graphic.Tpo -c -o 2D_graphic.o `test -f 'kofola/2D_graphic.c' || echo '$(srcdir)/'`kofola/2D_graphic.c
+	$(am__mv) $(DEPDIR)/2D_graphic.Tpo $(DEPDIR)/2D_graphic.Po
+#	source='kofola/2D_graphic.c' object='2D_graphic.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o 2D_graphic.o `test -f 'kofola/2D_graphic.c' || echo '$(srcdir)/'`kofola/2D_graphic.c
+
+2D_graphic.obj: kofola/2D_graphic.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT 2D_graphic.obj -MD -MP -MF $(DEPDIR)/2D_graphic.Tpo -c -o 2D_graphic.obj `if test -f 'kofola/2D_graphic.c'; then $(CYGPATH_W) 'kofola/2D_graphic.c'; else $(CYGPATH_W) '$(srcdir)/kofola/2D_graphic.c'; fi`
+	$(am__mv) $(DEPDIR)/2D_graphic.Tpo $(DEPDIR)/2D_graphic.Po
+#	source='kofola/2D_graphic.c' object='2D_graphic.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o 2D_graphic.obj `if test -f 'kofola/2D_graphic.c'; then $(CYGPATH_W) 'kofola/2D_graphic.c'; else $(CYGPATH_W) '$(srcdir)/kofola/2D_graphic.c'; fi`
 
 .cpp.o:
 	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

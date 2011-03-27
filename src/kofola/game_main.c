@@ -132,7 +132,7 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 	bWindowMenu = !GetPrivateProfileInt("hra","fullscreen", 1, (const char *) ini_file);
 
 	gi_Set_Win_Version();
-	_getdcwd(_getdrive(), CurrentWorkingDirectory, 256);
+	getcwd(CurrentWorkingDirectory, 256);
 
 	srand( (unsigned) time( NULL ) );
 
@@ -268,7 +268,7 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 	}
 #endif
 */
-	cpu = (int)ceil(tools_Base_Priority(tools_Get_CPU_Speed()));
+//	cpu = (int)ceil(tools_Base_Priority(tools_Get_CPU_Speed()));
 
 	kprintf(1,"OGG Decompression Thread Priority: %d",cpu);
 /*
@@ -368,7 +368,7 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 	{
 		//schovej_konzoli();
 		SetCursor(NULL);
-		ddxInit();
+		//ddxInit();
 	
 		//Sleep(2000);
 		RunMenuCinemax();
@@ -427,8 +427,8 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 	{
 		/*_2d_Blackness();
 		_2d_Release();*/
-		ddxRelease();
-		FreeDirectDraw();
+		//ddxRelease();
+		//FreeDirectDraw();
 	}
 	else
 	{
@@ -465,7 +465,7 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 	kprintf(1, "ap_Release");
 	ap_Release(&ad);
 
-	ChangeDisplaySettings(NULL,0);
+	//ChangeDisplaySettings(NULL,0);
 	//ShowWindow(hwnd_hry, SW_MAXIMIZE);
 	spracuj_spravy(0);
     ShowCursor(TRUE);

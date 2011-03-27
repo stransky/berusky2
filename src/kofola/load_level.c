@@ -53,7 +53,7 @@ int lsi_file_copy(byte *p_src, byte *p_out)
   }
 
   p_buffer = malloc(RWBUFF_VEL);
-  mtest(p_buffer);
+//  mtest(p_buffer);
 
   while((nc = fread(p_buffer,1,RWBUFF_VEL,in))) {
     fwrite(p_buffer,1,nc,out);
@@ -556,12 +556,12 @@ void lsi_Load_Level_Script(LEVELINFO *p_Level, char *cFile)
 	GRAMMAR	gr;
 
 	GetPrivateProfileString("game","data_dir","c:\\",text,256,ini_file);
-	_chdir(text);
+	chdir(text);
 
 	gr_Load_Grammar("lsc_grammar.txt", &gr);
 
 	GetPrivateProfileString("game","game_data_dir","c:\\",text,256,ini_file);
-	_chdir(text);
+	chdir(text);
 
 	ts.LastStr = 0;
 	ts.sizeofT = 0;
@@ -762,7 +762,7 @@ int lsi_Create_Level_Raw(char *p_Level_Name, BUNKA_LEVELU_DISK **b_l_d, int *siz
 	FILE	*file;
 
 	kprintf(1, "Tvorba raw struktury pro komata...");
-	_getcwd(text, MAX_PATH);
+	getcwd(text, MAX_PATH);
 	kprintf(1, "_getcwd = %s", text);
 
 	file = fopen(p_Level_Name,"rb");
@@ -833,7 +833,7 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO *p_Level)
 		p_Level->BeetleAnim[i].dwTime = timeGetTime();
 	}
 
-	_getcwd(text, 255);
+	getcwd(text, 255);
 
 	kprintf(1, "Loading level from %s ...", text);
 	//GetPrivateProfileString("game","game_level_dir","c:\\",text,256,ini_file);
@@ -1413,8 +1413,8 @@ int lsi_Get_Save_Info(char *p_Level_Name, int *pActLevel, int *pActScene)
 
 	GetPrivateProfileString("game","save_dir","c:\\",text,256,ini_file);
 
-	_chdir(text);
-	_chdir(p_Level_Name);
+	chdir(text);
+	chdir(p_Level_Name);
 
 	sprintf(text, "%s.lvc", p_Level_Name);
 
@@ -1455,7 +1455,7 @@ int lsi_Save_Exist(WCHAR *wName, char *cFile)
 	{
 		if(error != -1)
 		{
-			_getcwd(cwd,MAX_PATH);
+			getcwd(cwd,MAX_PATH);
 
 			chdir(Data.name);
 
@@ -1495,7 +1495,7 @@ void delete_dir(char *p_Level_Name)
 	long Done, error;
 	struct _finddata_t	Data;
 
-	if(_chdir(p_Level_Name) == -1)
+	if(chdir(p_Level_Name) == -1)
 		return;
 
 	Done = _findfirst("*.*",&Data);
@@ -1513,7 +1513,7 @@ void delete_dir(char *p_Level_Name)
 	}
 	_findclose(Done); 
 
-	_chdir("..");
+	chdir("..");
 	rmdir(p_Level_Name);
 */
 }
@@ -1536,7 +1536,7 @@ void lsi_Save_Level(WCHAR *pwc_Level_Name, LEVELINFO *p_Level)
 
 	GetPrivateProfileString("game","save_dir","c:\\",text,256,ini_file);
 
-	_chdir(text);
+	chdir(text);
 
 	_strdate(pom);
 
@@ -1560,7 +1560,7 @@ void lsi_Save_Level(WCHAR *pwc_Level_Name, LEVELINFO *p_Level)
 
 	mkdir(p_Level_Name);
 
-	_chdir(p_Level_Name);
+	chdir(p_Level_Name);
 
 	lsi_copy_save(p_Level_Name, p_Level);
 

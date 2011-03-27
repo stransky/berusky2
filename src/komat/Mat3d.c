@@ -1,12 +1,7 @@
 /*
   Engine - samotna parba
 */
-#include "mss_on.h"
-#include <windows.h>
 #include "3d_all.h"
-
-
-
 
 void transformuj_kontejner_matici(EDIT_KONTEJNER *p_kont, GLMATRIX *p_m)
 {
@@ -1584,7 +1579,7 @@ void scale_normal_roh(MUJ_BOD *p_vertex, FACE *p_face, int v1, int v2, int v3, B
   vektor_norm(&vektor2);
 
   uhel = acosf(vektor_uhel(&vektor1,&vektor2));
-  if(_finite(uhel) && !_isnan(uhel))
+  if(finite(uhel) && !isnan(uhel))
     vektor_scale(p_normal,uhel/PI);
   else
     vektor_set(p_normal,0.0f);
@@ -1713,7 +1708,7 @@ int ind_vypln_obj(NORM_INT_PROC *p_prc, EDIT_OBJEKT *p_obj, int handle)
   return(handle);
 }
 
-__inline int porovnej_vertexy(BOD *p_v1, BOD *p_v2)
+inline int porovnej_vertexy(BOD *p_v1, BOD *p_v2)
 {
   if(p_v1->x > p_v2->x) {
     return(1);
@@ -1798,7 +1793,7 @@ BOD * ind_najdi_normal(NORM_INT_PROC *p_prc, int vertex, BOD *p_norm)
   return(p_norm);
 }
 
-__inline int stejny_ind(NORM_INDICIE *p_ind1, NORM_INDICIE *p_ind2)
+inline int stejny_ind(NORM_INDICIE *p_ind1, NORM_INDICIE *p_ind2)
 {
   return(stejny_vertex_point(p_ind1->p_vert,p_ind2->p_vert));
 }

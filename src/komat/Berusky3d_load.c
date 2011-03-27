@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
+#include <alloca.h>
 
 #include "3d_all.h"
 
@@ -272,9 +273,9 @@ void ber_umisti_prvek_abs(PRVEK_LEVELU_GAME *p_lev, float x, float y, float z, i
   }
 }
 
-__inline static int _najdi_cislo(byte *p_string)
+inline static int _najdi_cislo(byte *p_string)
 {
-  byte *pom = _alloca(strlen(p_string));
+  byte *pom = alloca(strlen(p_string));
   byte *p_pom,*p_last;
   int   k;
 
@@ -350,7 +351,7 @@ int ber_nahraj_mesh(G_KONFIG *p_ber, byte *p_jmeno, GAME_MESH **p_mesh)
  return((int)p_mesh[0]);
 }
 
-__inline int najdi_volnou_texturu_mat(EDIT_MATERIAL *p_mat)
+inline int najdi_volnou_texturu_mat(EDIT_MATERIAL *p_mat)
 {
   int i;
   for(i = 0; i < MAT_TEXTUR; i++) {
@@ -806,7 +807,7 @@ void ber_nahraj_lightmap(G_KONFIG *p_ber, byte *p_jmeno, byte *p_dir)
   }
 }
 
-__inline void bod_min_max(BOD *p_ref, BOD *p_min, BOD *p_max)
+inline void bod_min_max(BOD *p_ref, BOD *p_min, BOD *p_max)
 {
   if(p_ref->x < p_min->x) p_min->x = p_ref->x;
   if(p_ref->y < p_min->y) p_min->y = p_ref->y;

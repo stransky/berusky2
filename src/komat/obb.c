@@ -1,8 +1,6 @@
 /* OBB a jeho stromy
 */
-
-#include "mss_on.h"
-#include <windows.h>
+#include <alloca.h>
 #include "3d_all.h"
 
 #define stejny_bod(a,b)    (a->x == b->x && a->y == b->y && a->z == b->z)
@@ -946,12 +944,12 @@ void obbtree_vyrob_rec(OBB_TREE *p_prvni, float max_vzdal)
   OBB_TREE_ITEM *p_item = p_prvni->p_item;
   int            itemnum = p_prvni->itnum;
   int            itemzbyva = p_prvni->itnum;
-  OBB_TREE_ITEM *p_tmp_item = _alloca(sizeof(p_tmp_item[0])*itemnum);
+  OBB_TREE_ITEM *p_tmp_item = alloca(sizeof(p_tmp_item[0])*itemnum);
   int            tmp_itemnum;
-  OBB_TREE      *p_obalky = _alloca(sizeof(p_obalky[0])*itemnum);
+  OBB_TREE      *p_obalky = alloca(sizeof(p_obalky[0])*itemnum);
   int            obalnum = 0;
-  int           *p_hits = _alloca(sizeof(p_hits[0])*itemnum);   // globalni hity
-  int           *p_lhits = _alloca(sizeof(p_lhits[0])*itemnum); // lokalni hity
+  int           *p_hits = alloca(sizeof(p_hits[0])*itemnum);   // globalni hity
+  int           *p_lhits = alloca(sizeof(p_lhits[0])*itemnum); // lokalni hity
   OBB            obb;
   int            p,i,itemzustava;
 

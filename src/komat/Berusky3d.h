@@ -552,7 +552,7 @@ void ber_nastav_kurzor(int x, int y);
 
 /* Vyrobi pozicni matici prvku
 */
-__inline GLMATRIX * ber_position_matrix(G_KONFIG *p_ber, GLMATRIX *p_m, int x, int y, int z, int rotace)
+inline GLMATRIX * ber_position_matrix(G_KONFIG *p_ber, GLMATRIX *p_m, int x, int y, int z, int rotace)
 {
   init_matrix(p_m);
   p_m->_41 = (float)(p_ber->x_start+x*X_PRVEK+X_PRVEK/2);
@@ -565,7 +565,7 @@ __inline GLMATRIX * ber_position_matrix(G_KONFIG *p_ber, GLMATRIX *p_m, int x, i
 
 /* Vyrobi pozicni matici divokeho prvku
 */
-__inline GLMATRIX * ber_position_matrix_abs(G_KONFIG *p_ber, GLMATRIX *p_m, float x, float y, float z, int rotace)
+inline GLMATRIX * ber_position_matrix_abs(G_KONFIG *p_ber, GLMATRIX *p_m, float x, float y, float z, int rotace)
 {
   init_matrix(p_m);
   p_m->_41 = x;
@@ -576,7 +576,7 @@ __inline GLMATRIX * ber_position_matrix_abs(G_KONFIG *p_ber, GLMATRIX *p_m, floa
   return(p_m);
 }
 
-__inline void ber_position_level(PRVEK_LEVELU_GAME *p_lev, GLMATRIX *p_m, int rotace)
+inline void ber_position_level(PRVEK_LEVELU_GAME *p_lev, GLMATRIX *p_m, int rotace)
 {
   if(p_lev) {       
     p_lev->x = p_m->_41;

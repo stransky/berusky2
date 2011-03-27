@@ -83,7 +83,7 @@ int preloz_texture_format(int *p_format, byte *p_string)
        "FORMAT_ALFA",
        "FORMAT_LIGHTMAPY"};
 
-  _strupr(p_string);
+  strupr(p_string);
   for(i = 0; i < FORMAT_POCET; i++) {
     if(!strcmp(format_string[i],p_string)) {
       *p_format = i;
@@ -159,7 +159,8 @@ void nastav_konfig(HW_KONFIG *p_hwconf, TXT_KONFIG *p_txt)
   if(p_txt->text_bpp != TEXT_DTX) {
     if(p_txt->text_bpp_plocha) {
       kprintf(1,"Text automatic texture depth");
-      p_txt->text_bpp = p_hwconf->pfd.cColorBits;
+      // TODO
+      //p_txt->text_bpp = p_hwconf->pfd.cColorBits;
     }
     kprintf(1,"Text depth %d bpp",p_txt->text_bpp);
   } else {
@@ -306,21 +307,22 @@ void anisotropic_filtr_init(TXT_KONFIG *p_txt)
   }
 }
 
-int grf_start(HINSTANCE hinst, HWND hwnd, byte *p_file, byte *p_sekce, int extension)
+int grf_start(byte *p_file, byte *p_sekce, int extension)
 {
 
  nahraj_texture_config(p_file,&txconf);
 
- if(!gl_init(hwnd, &hwconf)) {
+ if(!gl_init(&hwconf)) {
    kprintf(1,"Unable initialize OpenGL!");
    return(FALSE);
  }
 
- gl_ext_default();
+ //gl_ext_default();
  if(extension) {
-   gl_load_extension(&hwconf);
-   gl_init_extension(&hwconf);
-   gl_free_extension(&hwconf);
+   //gl_load_extension(&hwconf);
+   //gl_init_extension(&hwconf);
+   //gl_free_extension(&hwconf);
+ ;
  } else {
    kprintf(TRUE,"All extensions off!");
  }
@@ -335,10 +337,10 @@ int grf_start(HINSTANCE hinst, HWND hwnd, byte *p_file, byte *p_sekce, int exten
  return(TRUE);
 }
 
-int grf_stop(HWND hwnd)
+int grf_stop(void)
 {
  KillFont();
- gl_stop(hwnd, &hwconf);
+ gl_stop(&hwconf);
  return(1);
 }
 
@@ -364,6 +366,7 @@ void pn_triangles_init(HW_KONFIG *p_hwconf)
 
 int rozeber_switch(long shit)
 {
+/*
   switch(shit) {
     case DISP_CHANGE_SUCCESSFUL:
       assert(0);
@@ -387,11 +390,13 @@ int rozeber_switch(long shit)
       assert(0);
       break;
   }
+*/
   return(TRUE);
 }
 
 int cti_max_frekvenci_test(int xPels, int yPels, int Bits, int freq)
 {
+/*
 	long l;
 	DEVMODE	devmode;
 	ZeroMemory(&devmode, sizeof(DEVMODE));
@@ -439,10 +444,12 @@ int cti_max_frekvenci_test(int xPels, int yPels, int Bits, int freq)
     kprintf(TRUE,"Test %d OK",freq);
 		return(1);
   }
+  */
 }
 
 int cti_max_frekvenci(int xPels, int yPels, int bpp)
 {
+/*
 	DEVMODE dmSettings;
   int     i;
   dword   max = 0;
@@ -468,11 +475,13 @@ int cti_max_frekvenci(int xPels, int yPels, int bpp)
 
   kprintf(TRUE,"Max frekvence %d",max);
 	return(max);
+  */
 }
 
 
 int grf_prehod_mod_hra(HW_KONFIG *p_conf)
 {
+/*
   LONG vysl;
 
   if(p_conf->fullscreen) {    
@@ -506,6 +515,7 @@ int grf_prehod_mod_hra(HW_KONFIG *p_conf)
     }    
   }
   ShowCursor(FALSE);
+  */
   return(TRUE);
 }
 
@@ -515,6 +525,7 @@ int grf_prehod_mod_hra(HW_KONFIG *p_conf)
 
 int grf_prehod_mod_menu(void)
 {
+/*
   LONG vysl;
   
   DEVMODE dmScreenSettings;					// Device Mode
@@ -543,20 +554,22 @@ int grf_prehod_mod_menu(void)
   }
   
   ShowCursor(FALSE);
+  */
   return(TRUE);
 }
 
 int grf_prehod_mod_zpet(HW_KONFIG *p_conf)
 {
   if(p_conf->fullscreen) {
-    ChangeDisplaySettings(NULL,0);
+    //ChangeDisplaySettings(NULL,0);
     ShowCursor(TRUE);
   }
   return(TRUE);
 }
 
-int gl_init(HWND hwnd, HW_KONFIG *p_conf)
+int gl_init(HW_KONFIG *p_conf)
 {
+/*
   PIXELFORMATDESCRIPTOR pfd;
   GLuint	PixelFormat;		// Holds The Results After Searching For A Match
   RECT    rec;
@@ -607,13 +620,14 @@ int gl_init(HWND hwnd, HW_KONFIG *p_conf)
   if(!wglMakeCurrent(p_conf->hDC,p_conf->hRC)) {
     return(FALSE);
   }
-  
+*/
   return(TRUE);
 }
 
 
-int gl_stop(HWND hwnd, HW_KONFIG *p_conf)
-{  
+int gl_stop(HW_KONFIG *p_conf)
+{
+/*
   if(p_conf->hRC) {
     if(!wglMakeCurrent(NULL,NULL)) {
       kprintf(1,"gl_wglMakeCurrent fail!!!");
@@ -630,7 +644,7 @@ int gl_stop(HWND hwnd, HW_KONFIG *p_conf)
     kprintf(1,"gl_ReleaseDC fail!!!");
     p_conf->hDC=NULL;
   }
-  
+*/  
   return(TRUE);
 }
 
@@ -680,7 +694,7 @@ void ddw_surf_xy(int x, int y, byte *fmt,...)
  glPopAttrib();										// Pops The Display List Bits 
 }
 
-int ddwqueto(HWND hwnd, byte *p_text,...)
+int ddwqueto(byte *p_text,...)
 {
  byte    text[500];
  va_list argumenty;
@@ -689,10 +703,10 @@ int ddwqueto(HWND hwnd, byte *p_text,...)
  vsprintf(text,p_text,argumenty);
  va_end(argumenty);
 
- return(MessageBox(hwnd,text,"DdwQueto:",MB_ICONASTERISK|MB_YESNO|MB_SYSTEMMODAL) == IDYES);
+// return(MessageBox(hwnd,text,"DdwQueto:",MB_ICONASTERISK|MB_YESNO|MB_SYSTEMMODAL) == IDYES);
 }
 
-int ddwquetot(HWND hwnd, byte *p_title, byte *p_text,...)
+int ddwquetot(byte *p_title, byte *p_text,...)
 {
  byte    text[500];
  va_list argumenty;
@@ -701,7 +715,7 @@ int ddwquetot(HWND hwnd, byte *p_title, byte *p_text,...)
  vsprintf(text,p_text,argumenty);
  va_end(argumenty);
 
- return(MessageBox(hwnd,text,p_title,MB_ICONASTERISK|MB_YESNO|MB_SYSTEMMODAL) == IDYES);
+// return(MessageBox(hwnd,text,p_title,MB_ICONASTERISK|MB_YESNO|MB_SYSTEMMODAL) == IDYES);
 }
 
 void gl_texture_scan(void)
@@ -768,8 +782,9 @@ void rozeber_chybu(void)
   
 }
 
-GLvoid BuildFont(GLvoid)		// Build Our Bitmap Font
+void BuildFont(void)		// Build Our Bitmap Font
 {
+/*
 	HFONT	font;								// Windows Font ID
 	hwconf.font_baze = glGenLists(96);		// Storage For 96 Characters
 	font = CreateFont(-14,		// Height Of Font
@@ -789,11 +804,12 @@ GLvoid BuildFont(GLvoid)		// Build Our Bitmap Font
             "Arial");					   // Font Name
 	SelectObject(hwconf.hDC, font);// Selects The Font We Want
 	wglUseFontBitmaps(hwconf.hDC, 32, 96, hwconf.font_baze);// Builds 96 Characters Starting At Character 32
+*/
 }
 
-GLvoid KillFont(GLvoid)									// Delete The Font
+void KillFont(void)									// Delete The Font
 {
-	glDeleteLists(hwconf.font_baze, 96);	// Delete All 96 Characters
+//	glDeleteLists(hwconf.font_baze, 96);	// Delete All 96 Characters
 }
 
 void glChyba(void)

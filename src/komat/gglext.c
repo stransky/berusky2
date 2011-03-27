@@ -2,12 +2,9 @@
   Rozsireni pro open gl
 */
 
-#include "mss_on.h"
-#include <windows.h>
 #include "3d_all.h"
 
 void glDefaultFunkce(void) { }
-
 
 int  extlist_multitexture;
 int  extlist_blend_color;
@@ -34,7 +31,7 @@ int  extlist_ati_element_array;
 int  extlist_ati_pn_triangles;
 int  extlist_arb_vertex_buffer;
 int  extlist_ati_draw_buffers;
-
+/*
 void (APIENTRY * glBlendColor) (GLclampf, GLclampf, GLclampf, GLclampf);
 void (APIENTRY * glBlendEquation) (GLenum);
 void (APIENTRY * glDrawRangeElements) (GLenum, GLuint, GLuint, GLsizei, GLenum, const GLvoid *);
@@ -506,8 +503,10 @@ void (APIENTRY * glSamplePatternEXT) (GLenum);
 void (APIENTRY * glTextureColorMaskSGIS) (GLboolean, GLboolean, GLboolean, GLboolean);
 
 char (APIENTRY * wglGetExtensionsStringARB) (HDC);
+*/
 
 /* NV_spec */
+/*
 void (APIENTRY * glGenFencesNV) (GLsizei n, GLuint *fences);
 void (APIENTRY * glDeleteFencesNV) (GLsizei n, const GLuint *fences);
 void (APIENTRY * glSetFenceNV) (GLuint fence, GLenum condition);
@@ -515,19 +514,20 @@ GLboolean (APIENTRY * glTestFenceNV) (GLuint fence);
 void (APIENTRY * glFinishFenceNV) (GLuint fence);
 void (APIENTRY * glIsFenceNV) (GLuint fence);
 void (APIENTRY * glGetFenceivNV) (GLuint fence, GLenum pname, GLint *params);
-
+*/
 
 /* NV_register_combiners2 */
-void * (APIENTRY * wglAllocateMemoryNV) (int size, float readfreq, float writefreq, float priority);
-void (APIENTRY * wglFreeMemoryNV) (void *pointer);
+//void * (APIENTRY * wglAllocateMemoryNV) (int size, float readfreq, float writefreq, float priority);
+//void (APIENTRY * wglFreeMemoryNV) (void *pointer);
 
 /* Ati bump-mapping */
+/*
 void (APIENTRY *glTexBumpParameterivATI)(GLenum pname, GLint *param);
 void (APIENTRY *glTexBumpParameterfvATI)(GLenum pname, GLfloat *param);
 void (APIENTRY *glGetTexBumpParameterivATI)(GLenum pname, GLint *param);
 void (APIENTRY *glGetTexBumpParameterfvATI)(GLenum pname, GLfloat *param);
-
-
+*/
+/*
 PFNGLNEWOBJECTBUFFERATIPROC       glNewObjectBufferATI = NULL;
 PFNGLISOBJECTBUFFERATIPROC        glIsObjectBufferATI = NULL;
 PFNGLUPDATEOBJECTBUFFERATIPROC    glUpdateObjectBufferATI = NULL;
@@ -544,9 +544,10 @@ PFNGLGETVARIANTARRAYOBJECTIVATIPROC glGetVariantArrayObjectivATI = NULL;
 PFNGLELEMENTPOINTERATIPROC        glElementPointerATI = NULL;
 PFNGLDRAWELEMENTARRAYATIPROC      glDrawElementArrayATI = NULL;
 PFNGLDRAWRANGEELEMENTARRAYATIPROC glDrawRangeElementArrayATI = NULL;
-
+*/
 /* ARB Vertex buffer
 */
+/*
 PFNGLBINDBUFFERARBPROC            glBindBufferARB = NULL;
 PFNGLDELETEBUFFERSARBPROC         glDeleteBuffersARB = NULL;
 PFNGLGENBUFFERSARBPROC            glGenBuffersARB = NULL;
@@ -558,13 +559,14 @@ PFNGLMAPBUFFERARBPROC             glMapBufferARB = NULL;
 PFNGLUNMAPBUFFERARBPROC           glUnmapBufferARB = NULL;
 PFNGLGETBUFFERPARAMETERIVARBPROC  glGetBufferParameterivARB = NULL;
 PFNGLGETBUFFERPOINTERVARBPROC     glGetBufferPointervARB = NULL;
-
+*/
 
 /* ATI_pn_triangles */
+/*
 PFNGLPNTRIANGLESIATIPROC          glPNTrianglesiATI = NULL;
 PFNGLPNTRIANGLESFATIPROC          glPNTrianglesfATI = NULL;
-
-
+*/
+/*
 int gl_load_extension(HW_KONFIG *p_hwconf)
 {
   const byte *p_vend = glGetString(GL_VENDOR);
@@ -1108,6 +1110,7 @@ int gl_init_extension(HW_KONFIG *p_hwconf)
   extlist_vertex_array_packed = gl_init_vertex_array_packed(p_hwconf);
   extlist_ati_pn_triangles = gl_init_ati_pn_triangles(p_hwconf);
   extlist_ati_draw_buffers = gl_init_ati_draw_buffers(p_hwconf);  
+*/  
 /*
   if(hwconf.vertex_arrays) {
     extlist_ati_vertex_array_object = gl_init_vertex_array_object(p_hwconf);
@@ -1120,7 +1123,7 @@ int gl_init_extension(HW_KONFIG *p_hwconf)
     }
   }
 */
-
+/*
   // pouze pokud je vic jak 2 texturovaci jednotky
   if(hwconf.bump_mapping && glstav_multitext_units > 2) {
     extlist_text_env_dot3 = gl_init_text_env_dot3(p_hwconf);
@@ -1130,8 +1133,8 @@ int gl_init_extension(HW_KONFIG *p_hwconf)
 
   return(TRUE);
 }
-  
-
+*/
+/*
 int gl_ext_default(void)
 {
   glActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC)glDefaultFunkce;
@@ -1228,5 +1231,5 @@ int gl_ext_default(void)
   glLockArraysEXT = (PFNGLLOCKARRAYSEXTPROC)glDefaultFunkce;
   glUnlockArraysEXT = (PFNGLUNLOCKARRAYSEXTPROC)glDefaultFunkce;
   return(FALSE);
-} 
-  
+}
+*/

@@ -18,8 +18,6 @@ Comments:
 
 
 
-#pragma comment(lib, "nvDXTlib.lib")
-
 
 
 

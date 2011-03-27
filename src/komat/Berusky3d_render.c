@@ -32,7 +32,7 @@ extern G_KONFIG ber, *p_ber;
 
 EDIT_MATERIAL *__p_last_mat;
 
-__inline float ber_vzdal_bodu_z(BOD *p_stred, GLMATRIX *p_mat)
+inline float ber_vzdal_bodu_z(BOD *p_stred, GLMATRIX *p_mat)
 {
  return(p_mat->_13*p_stred->x + p_mat->_23*p_stred->y + 
         p_mat->_33*p_stred->z + p_mat->_43);
@@ -179,7 +179,7 @@ void ber_viditelnost_flare(G_KONFIG *p_ber, LENS_FLARE *p_flare)
 }
 
 
-__inline void ber_kresli_flare_pre(G_KONFIG *p_ber)
+inline void ber_kresli_flare_pre(G_KONFIG *p_ber)
 {
   int   __flare_x,__flare_y,__flare_maxx,__flare_maxy;
     
@@ -201,7 +201,7 @@ __inline void ber_kresli_flare_pre(G_KONFIG *p_ber)
   specular_off();
 }
 
-__inline void ber_kresli_flare_po(G_KONFIG *p_ber)
+inline void ber_kresli_flare_po(G_KONFIG *p_ber)
 {
   deph_test_set(TRUE);
   ret_matrix_2d();
@@ -289,7 +289,7 @@ void ber_kresli_flare(G_KONFIG *p_ber, LENS_FLARE *p_flare)
   ber_kresli_flare_po(p_ber);
 }
 
-__inline void ber_render_polylistu_start(void)
+inline void ber_render_polylistu_start(void)
 {
   set_matrix_world_init();
 }
@@ -914,7 +914,7 @@ void ber_kresli_obalku_poly(EDIT_MESH_POLY *p_poly)
   obb_kresli_obalku(&p_poly->obb,DDRGBA(1,1,1,1),NULL);  
 }
 
-__inline void ber_kresli_mesh(GAME_MESH *p_mesh, EDIT_MATERIAL **p_mat)
+inline void ber_kresli_mesh(GAME_MESH *p_mesh, EDIT_MATERIAL **p_mat)
 {
   int kflag = p_mesh->p_data->kflag;
   int m2flag = p_mesh->p_data->m2flag;
@@ -1428,7 +1428,7 @@ void ber_kresli_poly_vertex(EDIT_MESH_POLY *p_poly, EDIT_MATERIAL **p_mat)
   }
 }
 
-__inline void ber_kresli_poly(EDIT_MESH_POLY *p_poly, EDIT_MATERIAL **p_mat)
+inline void ber_kresli_poly(EDIT_MESH_POLY *p_poly, EDIT_MATERIAL **p_mat)
 {
   int  kamera_zmena = p_ber->kamera.zmena||p_ber->kamera.zmena_last;
 
@@ -2554,13 +2554,13 @@ void ber_render_list_setrid(G_KONFIG *p_ber)
   qsort(p_ber->p_poly_renderlist,p_ber->poly_rendernum,sizeof(p_ber->p_poly_renderlist[0]),ber_poly_render_list_setrid_compare);
 }
 
-__inline int obb_visibility_flag(OBB *p_obb, GLMATRIX *p_mat, int viz, int flag)
+inline int obb_visibility_flag(OBB *p_obb, GLMATRIX *p_mat, int viz, int flag)
 {
   return(viz ? flag : obb_visibility(p_obb,p_mat));
 }
 
 // viz = TRUE - automaticky viditelny
-__inline int ber_render_list_vyrob_mesh(G_KONFIG *p_ber, int viz, GAME_MESH **p_src, int add, GLMATRIX *p_mat, int viditelny_flag, int zmena_flag, int mail, int kamera_zmena)
+inline int ber_render_list_vyrob_mesh(G_KONFIG *p_ber, int viz, GAME_MESH **p_src, int add, GLMATRIX *p_mat, int viditelny_flag, int zmena_flag, int mail, int kamera_zmena)
 {
   GAME_MESH *p_mesh = *p_src;
   int *p_flag,kflag;
@@ -2621,7 +2621,7 @@ __inline int ber_render_list_vyrob_mesh(G_KONFIG *p_ber, int viz, GAME_MESH **p_
   }
 }
 
-__inline void ber_render_list_vyrob_poly(G_KONFIG *p_ber, EDIT_MESH_POLY *p_poly, int add, GLMATRIX *p_mat, int viditelny_flag, int zmena_flag, int mail)
+inline void ber_render_list_vyrob_poly(G_KONFIG *p_ber, EDIT_MESH_POLY *p_poly, int add, GLMATRIX *p_mat, int viditelny_flag, int zmena_flag, int mail)
 {
   int kflag;
   

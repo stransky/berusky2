@@ -429,7 +429,7 @@ int fn_Open_Archive(char *cFile, APAK_HANDLE **pAHandle, char *cAppName, char *c
 	char text[256];
 
 	GetPrivateProfileString(cAppName,cKeyName,"c:\\",text,256,ini_file);
-	_chdir(text);
+	chdir(text);
 
 	(*pAHandle) = apakopen(cFile, text, &e);
 
@@ -869,7 +869,7 @@ int fn_Get_Font_Texture(int iSection, char *cText)
 	MultiByteToWideChar( CP_ACP, 0, cText, strlen(cText)+1, wc, sizeof(wc)/sizeof(wc[0]) );
 	MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]) );
 
-	fn_Gen_Texture(&pT, FONT_X_MAX, FONT_Y_MAX, 0, 0, &b2_font.gt, &b2_font.ts, wc, ws, iSection, &Xmax, &Ymax);
+	//fn_Gen_Texture(&pT, FONT_X_MAX, FONT_Y_MAX, 0, 0, &b2_font.gt, &b2_font.ts, wc, ws, iSection, &Xmax, &Ymax);
 
 	tx = Xmax;
 	ty = Ymax;
@@ -941,7 +941,7 @@ void fn_Convert_Rect(char *cFile, int xmax, int ymax)
 	char t[32];
 	float *fl1, *fl2, *fl3, *fl4, *fl5;
 
-	_getcwd(text, 255);
+	getcwd(text, 255);
 
 	f = fopen("fontout.txt","w");
 	fi = fopen("font_def.txt","r");

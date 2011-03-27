@@ -22,7 +22,7 @@
 
 extern G_KONFIG ber, *p_ber;
 
-__inline void sdl_maxlook_korekce(DYN_LIGHT *p_light, float min, float max, float dosah)
+inline void sdl_maxlook_korekce(DYN_LIGHT *p_light, float min, float max, float dosah)
 {
   p_light->min = min; // utlum je od 0 do 1
   if(dosah > max) {
@@ -68,7 +68,7 @@ void dl_renderuj_svetla(G_KONFIG *p_ber)
    ***********************************************
 */
 
-static __inline void dl_poly_diff_color_set(EDIT_MESH_POLY *p_poly, float r, float g, float b, float a)
+static inline void dl_poly_diff_color_set(EDIT_MESH_POLY *p_poly, float r, float g, float b, float a)
 {
   TEXT_KOORD *p_koord = p_poly->p_koord;
   int i;
@@ -81,7 +81,7 @@ static __inline void dl_poly_diff_color_set(EDIT_MESH_POLY *p_poly, float r, flo
   }
 }
 
-static __inline void dl_poly_diff_color_add(EDIT_MESH_POLY *p_poly, float r, float g, float b, float a)
+static inline void dl_poly_diff_color_add(EDIT_MESH_POLY *p_poly, float r, float g, float b, float a)
 {
   TEXT_KOORD *p_koord = p_poly->p_koord;
   int i;
@@ -94,7 +94,7 @@ static __inline void dl_poly_diff_color_add(EDIT_MESH_POLY *p_poly, float r, flo
   }
 }
 
-static __inline void dl_poly_diff_color_mult(EDIT_MESH_POLY *p_poly, float r, float g, float b, float a)
+static inline void dl_poly_diff_color_mult(EDIT_MESH_POLY *p_poly, float r, float g, float b, float a)
 {
   TEXT_KOORD *p_koord = p_poly->p_koord;
   int i;
@@ -107,7 +107,7 @@ static __inline void dl_poly_diff_color_mult(EDIT_MESH_POLY *p_poly, float r, fl
   }
 }
 
-static __inline void dl_mesh_diff_color_set(GAME_MESH *p_mesh, float r, float g, float b, float a)
+static inline void dl_mesh_diff_color_set(GAME_MESH *p_mesh, float r, float g, float b, float a)
 {
   BODRGBA *p_vertex;
   int i,vnum;
@@ -122,7 +122,7 @@ static __inline void dl_mesh_diff_color_set(GAME_MESH *p_mesh, float r, float g,
   }
 }
 
-static __inline void dl_mesh_diff_color_add(GAME_MESH *p_mesh, float r, float g, float b, float a)
+static inline void dl_mesh_diff_color_add(GAME_MESH *p_mesh, float r, float g, float b, float a)
 {
   BODRGBA *p_vertex;
   int i,vnum;
@@ -137,7 +137,7 @@ static __inline void dl_mesh_diff_color_add(GAME_MESH *p_mesh, float r, float g,
   }
 }
 
-__inline void ld_mesh_diff_color_mul(GAME_MESH *p_mesh, float r, float g, float b, float a)
+inline void ld_mesh_diff_color_mul(GAME_MESH *p_mesh, float r, float g, float b, float a)
 {
   BODRGBA *p_vertex;
   int i,vnum;
@@ -154,7 +154,7 @@ __inline void ld_mesh_diff_color_mul(GAME_MESH *p_mesh, float r, float g, float 
 
 /* Spekularni
 */
-static __inline void dl_poly_spec_color_set(EDIT_MESH_POLY *p_poly, float r, float g, float b, float a)
+static inline void dl_poly_spec_color_set(EDIT_MESH_POLY *p_poly, float r, float g, float b, float a)
 {
   TEXT_KOORD *p_koord = p_poly->p_koord;
   int i;
@@ -166,7 +166,7 @@ static __inline void dl_poly_spec_color_set(EDIT_MESH_POLY *p_poly, float r, flo
   }
 }
 
-static __inline void dl_poly_spec_color_add(EDIT_MESH_POLY *p_poly, float r, float g, float b, float a)
+static inline void dl_poly_spec_color_add(EDIT_MESH_POLY *p_poly, float r, float g, float b, float a)
 {
   TEXT_KOORD *p_koord = p_poly->p_koord;
   int i;
@@ -178,7 +178,7 @@ static __inline void dl_poly_spec_color_add(EDIT_MESH_POLY *p_poly, float r, flo
   }
 }
 
-static __inline void dl_poly_spec_color_mult(EDIT_MESH_POLY *p_poly, float r, float g, float b, float a)
+static inline void dl_poly_spec_color_mult(EDIT_MESH_POLY *p_poly, float r, float g, float b, float a)
 {
   TEXT_KOORD *p_koord = p_poly->p_koord;
   int i;
@@ -190,7 +190,7 @@ static __inline void dl_poly_spec_color_mult(EDIT_MESH_POLY *p_poly, float r, fl
   }
 }
 
-static __inline void dl_mesh_spec_color_set(GAME_MESH *p_mesh, float r, float g, float b, float a)
+static inline void dl_mesh_spec_color_set(GAME_MESH *p_mesh, float r, float g, float b, float a)
 {
   BODRGB *p_vertex;
   int i,vnum;
@@ -204,7 +204,7 @@ static __inline void dl_mesh_spec_color_set(GAME_MESH *p_mesh, float r, float g,
   }
 }
 
-static __inline void dl_mesh_spec_color_add(GAME_MESH *p_mesh, float r, float g, float b, float a)
+static inline void dl_mesh_spec_color_add(GAME_MESH *p_mesh, float r, float g, float b, float a)
 {
   BODRGB *p_vertex;
   int i,vnum;
@@ -218,7 +218,7 @@ static __inline void dl_mesh_spec_color_add(GAME_MESH *p_mesh, float r, float g,
   } 
 }
 
-static __inline void dl_mesh_spec_color_mul(GAME_MESH *p_mesh, float r, float g, float b, float a)
+static inline void dl_mesh_spec_color_mul(GAME_MESH *p_mesh, float r, float g, float b, float a)
 {
   BODRGB *p_vertex;
   int i,vnum;
@@ -309,7 +309,7 @@ int dl_mesh_add_spec(MeshHandle mh, float r, float g, float b, float a)
      Dynamicke svetla
    *******************************************************************
 */
-__inline void sdla_animaci_zrus(DYN_LIGHT_ANIM *p_an)
+inline void sdla_animaci_zrus(DYN_LIGHT_ANIM *p_an)
 {
   p_an->endtime = 0;
 
@@ -345,7 +345,7 @@ void sdla_animaci_zrus_online(DYN_LIGHT_ANIM *p_an)
   sdla_animaci_zrus(p_an);
 }
 
-__inline void sdla_animaci_vyrob(DYN_LIGHT_ANIM *p_an, int framenum, 
+inline void sdla_animaci_vyrob(DYN_LIGHT_ANIM *p_an, int framenum, 
                                  int pos_keys, int dir_keys, int diff_keys, 
                                  int spec_keys, int dos_keys, int alfa_keys)
 {
@@ -385,7 +385,7 @@ __inline void sdla_animaci_vyrob(DYN_LIGHT_ANIM *p_an, int framenum,
 
 /* keyframova animace svetel
 */
-__inline void sdl_light_to_light(DYN_LIGHT *p_light, DYN_LIGHT_ANIM *p_track, int time)
+inline void sdl_light_to_light(DYN_LIGHT *p_light, DYN_LIGHT_ANIM *p_track, int time)
 {  
   int loop = p_light->an_flag&GK_LOOP;
   BOD d;
@@ -844,7 +844,7 @@ int dl_mesh_pridej_svetla(G_KONFIG *p_ber, GAME_MESH *p_mesh)
 /* Zjisti jestli se nektery dynamicky svetlo meshe zmenilo 
    a musi se teda prepocitat
 */
-__inline int dl_mesh_svetlo_update(GAME_MESH_DATA *p_data)
+inline int dl_mesh_svetlo_update(GAME_MESH_DATA *p_data)
 {
   DYN_LIGHT **p_dlight = (DYN_LIGHT **)p_data->p_light;
   dword flags = 0;
@@ -1131,7 +1131,7 @@ int dl_mesh_pripocitej_svetla(G_KONFIG *p_ber, GAME_MESH *p_mesh, int dyn_light,
                   } else {
                     vzdal = 1.0f-(vzdal-p_light->v_start)/(p_light->v_stop-p_light->v_start);
                     vzdal2 = (vzdal2-p_light->h_start)/(p_light->h_stop-p_light->h_start);
-                    I = max(vzdal,vzdal2);
+                    I = MAX(vzdal,vzdal2);
                     p_vertex_spec->r = p_light->sr*I;
                     p_vertex_spec->g = p_light->sg*I;
                     p_vertex_spec->b = p_light->sb*I;
@@ -1264,7 +1264,7 @@ void dl_reset_svetel(G_KONFIG *p_ber)
   }
 }
 
-__inline void dl_updatuj_mesh(G_KONFIG *p_ber, GAME_MESH *p_mesh, int full_light, int all)
+inline void dl_updatuj_mesh(G_KONFIG *p_ber, GAME_MESH *p_mesh, int full_light, int all)
 {
   int v1,v2;
   
@@ -1276,7 +1276,7 @@ __inline void dl_updatuj_mesh(G_KONFIG *p_ber, GAME_MESH *p_mesh, int full_light
   }
 }
 
-__inline void dl_updatuj_seznam_meshu(G_KONFIG *p_ber, int all)
+inline void dl_updatuj_seznam_meshu(G_KONFIG *p_ber, int all)
 {
   GAME_MESH *p_mesh;
   int flag = (p_ber->conf_dyn_light_prvky || p_ber->conf_dyn_light_beruska) ? KONT_PRVEK : FALSE;
@@ -1418,7 +1418,7 @@ int edl_poly_pridej_svetla(G_KONFIG *p_ber, EDIT_MESH_POLY *p_poly)
   return(TRUE);
 }
 
-__inline int dl_poly_svetlo_update(EDIT_MESH_POLY *p_poly)
+inline int dl_poly_svetlo_update(EDIT_MESH_POLY *p_poly)
 {
   DYN_LIGHT **p_dlight = (DYN_LIGHT **)p_poly->p_dlight;
   dword flags = 0;
@@ -1429,7 +1429,7 @@ __inline int dl_poly_svetlo_update(EDIT_MESH_POLY *p_poly)
   return(flags&(SDL_ZMENA_GLOBAL|SDL_ZMENA_LOKAL));
 }
 
-__inline int edl_poly_svetlo_update(EDIT_MESH_POLY *p_poly, int *p_flag)
+inline int edl_poly_svetlo_update(EDIT_MESH_POLY *p_poly, int *p_flag)
 {
   EXTRA_DYN_LIGHT **p_edlight = (EXTRA_DYN_LIGHT **)p_poly->p_edlight;
   dword flags = 0;
@@ -1523,7 +1523,7 @@ int edl_poly_pripocitej_svetla(G_KONFIG *p_ber, EDIT_MESH_POLY *p_poly)
           } else {
             vzdal = 1.0f-(vzdal-p_light->v_start)/(p_light->v_stop-p_light->v_start);
             vzdal2 = (vzdal2-p_light->h_start)/(p_light->h_stop-p_light->h_start);
-            I = max(vzdal,vzdal2);
+            I = MAX(vzdal,vzdal2);
             p_vertex_spec->r = p_light->sr*I;
             p_vertex_spec->g = p_light->sg*I;
             p_vertex_spec->b = p_light->sb*I;
@@ -1626,7 +1626,7 @@ int edl_poly_pripocitej_svetla(G_KONFIG *p_ber, EDIT_MESH_POLY *p_poly)
 #define MIN_LOOK  0
 
 // full_light - plne osvetleni
-__inline int sdl_poly_pripocitej_svetla_face(G_KONFIG *p_ber, EDIT_MESH_POLY *p_poly, LIGHTMAP_FACE *p_lf, int full_light)
+inline int sdl_poly_pripocitej_svetla_face(G_KONFIG *p_ber, EDIT_MESH_POLY *p_poly, LIGHTMAP_FACE *p_lf, int full_light)
 {  
   int   lnum = p_poly->lightakt;
   dword *p_data;
@@ -2761,7 +2761,7 @@ void sdl_save_lightmap(EDIT_MESH_POLY *p_poly, int p)
 {
   byte pom[200];
   int l;
-  _chdir("e:\\");
+  chdir("e:\\");
   for(l = 0; l < p_poly->lightnum; l++) {
     sprintf(pom,"poly%dlight%d.bmp",p,l);
     bmp_uloz(pom,p_poly->p_light[l]->p_bmp);
@@ -2772,7 +2772,7 @@ void sdl_save_lightmap(EDIT_MESH_POLY *p_poly, int p)
   }
 }
 
-__inline void sdl_updatuj_poly(G_KONFIG *p_ber, EDIT_MESH_POLY *p_poly, int full_light)
+inline void sdl_updatuj_poly(G_KONFIG *p_ber, EDIT_MESH_POLY *p_poly, int full_light)
 {
   if(dl_poly_pridej_svetla(p_ber, p_poly)) {
     if(sdl_poly_pripocitej_svetla(p_ber, p_poly, full_light)) {
@@ -2783,7 +2783,7 @@ __inline void sdl_updatuj_poly(G_KONFIG *p_ber, EDIT_MESH_POLY *p_poly, int full
     edl_poly_pripocitej_svetla(p_ber, p_poly);
 }
 
-__inline void sdl_updatuj_seznam_poly(G_KONFIG *p_ber, int all)
+inline void sdl_updatuj_seznam_poly(G_KONFIG *p_ber, int all)
 {
   int flag = (p_ber->conf_dyn_light_prvky) ? KONT_PRVEK : FALSE;
   int full = p_ber->conf_full_light;
@@ -3356,7 +3356,7 @@ int edl_anim_stop(RunHandle rh)
      Extra-svetla - keyframova animace svetel
    ****************************************************************
 */
-__inline void edl_light_to_light(EXTRA_DYN_LIGHT *p_light, DYN_LIGHT_ANIM *p_track, int time)
+inline void edl_light_to_light(EXTRA_DYN_LIGHT *p_light, DYN_LIGHT_ANIM *p_track, int time)
 {  
   int loop = p_light->an_flag&GK_LOOP;
   
@@ -3648,4 +3648,3 @@ void mlha_reset(void)
 {
   p_ber->p_mlha_akt = NULL;
 }
-

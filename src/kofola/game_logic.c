@@ -93,7 +93,7 @@ CONTROL_KEYS		control;
 extern	int			Xresolution;
 extern	int			Yresolution;
 extern  B2_FONT		b2_font;
-extern _2D_DATA		_2dd;
+_2D_DATA		_2dd;
 static char			demo = 0;	// 1 = real play, 2= fast play, 0 = record
 
 int gl_Do_Lift(long Lift, int *pos, LEVELINFO *p_Level);
@@ -9554,10 +9554,10 @@ void gl_Flip(AUDIO_DATA *pad, LEVELINFO *p_Level, int *Frame_Rate_Counter, char 
 		am.frame_per_quater = (float)(*Frame_Rate_Counter);
 		bSet_Frame_Rate = 0;
 		(*Frame_Rate_Counter) = 0;
-
+/*
 		if(karmin_aktivni)
 			as_Do_Ambient_Sounds(p_Level->Environment.id,pad,p_Level);
-
+*/
 		if(*bCursor)
 		{
 			(*Cursor_Time_Out)++;
@@ -10721,7 +10721,7 @@ PLAY_LEVEL_START:
 		gl_Create_SelectionFlek(Level.Level[Level.Actual_Item], &Level);
 
 //	adas_Set_Listener_Environment(Level.Environment.room);
-	as_Start(Level.Environment.id,p_ad,&Level);
+//	as_Start(Level.Environment.id,p_ad,&Level);
 
 	//schovej_konzoli();
 
@@ -12808,8 +12808,8 @@ void gl_Kofola_End(int DirectX)
 	}
 	else
 	{
-		ddxRelease();
-		FreeDirectDraw();
+		//ddxRelease();
+		//FreeDirectDraw();
 	}
 
 	kprintf(1, "apakclose pGDataArchive");
@@ -12843,7 +12843,7 @@ void gl_Kofola_End(int DirectX)
 	kprintf(1, "ap_Release");
 	ap_Release(&ad);
 */
-	ChangeDisplaySettings(NULL,0);
+//	ChangeDisplaySettings(NULL,0);
 //	ShowWindow(hwnd_hry, SW_MAXIMIZE);
 	spracuj_spravy(0);
     ShowCursor(TRUE);

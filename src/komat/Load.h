@@ -54,7 +54,7 @@
 #define  LOAD_ALL               (LOAD_GEOM|LOAD_MATERIALY|LOAD_TEXTURY|LOAD_STAT_LIGHT|LOAD_DYN_LIGHT|LOAD_EXTRA_DYN_LIGHT|LOAD_AMBIENT|LOAD_MLHA|LOAD_ZRCADLO|LOAD_FLARE|LOAD_LEVEL_ENV|LOAD_LEVEL_CONF|LOAD_KAMERY)
 
 
-__inline void null_free(void **p_mem)
+inline void null_free(void **p_mem)
 {                    
  if((*p_mem) != NULL) {
    free(*p_mem);
@@ -62,7 +62,7 @@ __inline void null_free(void **p_mem)
  }
 }
 
-__inline void lo_vloz_mezery(FILE *f, int pocet)
+inline void lo_vloz_mezery(FILE *f, int pocet)
 {
   int i;
   for(i = 0; i < pocet; i++) 
@@ -71,7 +71,7 @@ __inline void lo_vloz_mezery(FILE *f, int pocet)
 
 extern int hlasit_kolize;
 
-__inline void str_read(byte *p_string, FFILE f)
+inline void str_read(byte *p_string, FFILE f)
 {      
  int ret;
  while((ret = ffread(p_string,sizeof(byte),1,f)) && ret > 0 && *p_string)
@@ -153,8 +153,8 @@ void lo_zrus_material_kont(EDIT_KONTEJNER *p_kont, EDIT_MATERIAL **p_list, int n
 /*
   Soubor
 */
-int efile(char *p_file);
-int efileAPAK(APAK_HANDLE *pAHandle, char *p_file);
+inline int efile(char *p_file);
+inline int efileAPAK(APAK_HANDLE *pAHandle, char *p_file);
 
 
 /*
@@ -243,7 +243,6 @@ EDIT_MESH_POLY * lo_nahraj_poly_list(byte *p_file, int *p_polynum, EDIT_TEXT *p_
 void lo_uloz_poly_list(byte *p_file, EDIT_MESH_POLY *p_poly, int polynum, EDIT_TEXT *p_light, EDIT_MATERIAL **p_mat, int matnum);
 void lo_poly_flaguj_materialy(EDIT_MESH_POLY *p_poly, EDIT_MATERIAL **p_mat);
 void lo_poly_oznac_zrcadlo(EDIT_MESH_POLY *p_poly);
-void lo_vloz_mezery(FILE *f, int pocet);
 int  lo_velikost_textur(EDIT_TEXT *p_text, int max);
 void lo_kontejner_jedinecne_jmena(EDIT_KONTEJNER *p_kont, int ds3);
 GAME_MESH * lo_kontejner_to_mesh(EDIT_KONTEJNER **p_kont_top, EDIT_MATERIAL **p_mat, int max_mat, int extra_light);
@@ -289,7 +288,7 @@ byte * cti_za_znak(byte *p_string, char znak);
  vertexnum--;                                   \
 }                                               
 
-__inline void mat_default_stage_bloky(EDIT_MATERIAL *p_mat)
+inline void mat_default_stage_bloky(EDIT_MATERIAL *p_mat)
 {
   MATERIAL_TEXT *p_stg;
   int i,j;

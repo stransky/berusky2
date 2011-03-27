@@ -27,7 +27,7 @@ HIERARCHY_TRACK_INFO * key_tri_vyrob_un_indir(void);
 HIERARCHY_TRACK_INFO * key_tri_vyrob(int poskey, int rotkey, int scalekey);
 HIERARCHY_TRACK_INFO * key_track_to_tri( TRACK_INFO *p_track);
 BOD  * key_position_tangent(HIERARCHY_TRACK_INFO *p_track, int kn, int trida, BOD *p_tn);
-QUAT * key_rotkey_to_quat(ROTKEY *p_rot, QUAT *p_q);
+inline QUAT * key_rotkey_to_quat(ROTKEY *p_rot, QUAT *p_q);
 void key_zrus_track(TRACK_INFO **p_track);
 void key_tri_child_pridej(HIERARCHY_TRACK_INFO *p_root, HIERARCHY_TRACK_INFO *p_child);
 void key_root_child_pridej(HIERARCHY_ROOT *p_root, HIERARCHY_TRACK_INFO *p_child);
@@ -104,7 +104,7 @@ void        key_sim_root_vloz_pivoty_do_animace_kont(EDIT_KONTEJNER *p_kont);
 void        key_mesh_transformuj_obalky(GAME_MESH *p_mesh, GLMATRIX *p_mat);
 void        key_mesh_transformuj_obalky_keyframe(GAME_MESH *p_mesh, GLMATRIX *p_mat);
 //void        key_mesh_calc_global_obalku(GAME_MESH *p_mesh);
-void        key_mesh_recalc_normal_anim(GAME_MESH *p_mesh);
+inline void key_mesh_recalc_normal_anim(GAME_MESH *p_mesh);
 
 void        key_sim_calc_absolutne(SIMPLE_TRACK_INFO *p_sim);
 
@@ -127,7 +127,7 @@ void        key_sim_calc_absolutne(SIMPLE_TRACK_INFO *p_sim);
 
 /* Prepocitava start/stop na casy start/stop animace
 */
-__inline void calc_time(dword framenum, dword next_time, dword start, dword stop, dword *pstart, dword *pstop, dword *time_start, dword *time_stop, dword *time_delka)
+inline void calc_time(dword framenum, dword next_time, dword start, dword stop, dword *pstart, dword *pstop, dword *time_start, dword *time_stop, dword *time_delka)
 {
   *pstart = start;
   *pstop = stop;
@@ -136,7 +136,7 @@ __inline void calc_time(dword framenum, dword next_time, dword start, dword stop
   *time_stop  = *time_start + *time_delka;
 }
 
-__inline void calc_time_bez_stop(dword framenum, dword next_time, dword pstart, dword pstop,
+inline void calc_time_bez_stop(dword framenum, dword next_time, dword pstart, dword pstop,
                                  dword *p_time_start, dword *p_time_stop, dword *p_time_delka)
 {
   *p_time_delka = !(pstop) ? (framenum-1)*SIM_KONSTI : pstop;
@@ -144,7 +144,7 @@ __inline void calc_time_bez_stop(dword framenum, dword next_time, dword pstart, 
   *p_time_stop  = *p_time_start + *p_time_delka;
 }
 
-__inline void calc_time_end(dword endtime,
+inline void calc_time_end(dword endtime,
                             dword next_time,
                             dword start,
                             dword stop,
@@ -177,7 +177,7 @@ __inline void calc_time_end(dword endtime,
    next_time - 
 
 */
-__inline void calc_time_loop(dword next_time,
+inline void calc_time_loop(dword next_time,
                              dword start,
                              dword *p_time_start,
                              dword *p_time_stop,
@@ -202,52 +202,52 @@ __inline void calc_time_loop(dword next_time,
   *p_time       =  next_time    - *p_time_start;
 */
 
-__inline int calc_time_akt(int next_time, int time_start)
+inline int calc_time_akt(int next_time, int time_start)
 {
  return(next_time-time_start);
 }
 
-__inline int calc_endtime(int framenum)
+inline int calc_endtime(int framenum)
 {
  return((framenum-1)*SIM_KONSTI);
 }
 
-__inline int calc_keynum(int endtime)
+inline int calc_keynum(int endtime)
 {
  return((endtime/SIM_KONSTI)+1);
 }
 
-__inline int calc_framenum(int endtime)
+inline int calc_framenum(int endtime)
 {
  return((endtime/SIM_KONSTI)+1);
 }
 
-__inline int endtime2framenum(int endtime)
+inline int endtime2framenum(int endtime)
 {
  return((endtime/SIM_KONSTI)+1);
 }
 
-__inline int time2frame(int time)
+inline int time2frame(int time)
 {
  return(time/SIM_KONSTI);
 }
 
-__inline float frame2sec(int frame)
+inline float frame2sec(int frame)
 {
   return(frame*0.05f);
 }
 
-__inline int frame2time(int frame)
+inline int frame2time(int frame)
 {
   return(frame*SIM_KONSTI);
 }
 
-__inline float time2sec(int time)
+inline float time2sec(int time)
 {
   return(time/1000.0f);
 }
 
-__inline void key_mesh_recalc_normal_anim(GAME_MESH *p_mesh)
+inline void key_mesh_recalc_normal_anim(GAME_MESH *p_mesh)
 {
   BOD *p_vertex;
   BOD *p_vertex_norm;
@@ -291,7 +291,7 @@ JOINT_ANIMACE * key_kosti_kopiruj_animace(JOINT_ANIMACE *p_prvni);
 JOINT * key_joint_vyrob(void);
 
 
-__inline void key_kosti_reanimuj_kont(EDIT_KONTEJNER *p_kont)
+inline void key_kosti_reanimuj_kont(EDIT_KONTEJNER *p_kont)
 {
   EDIT_OBJEKT *p_obj;
   int i;
@@ -309,7 +309,7 @@ __inline void key_kosti_reanimuj_kont(EDIT_KONTEJNER *p_kont)
 
 void kprintf_matrix(GLMATRIX * m);
 
-__inline void key_kosti_stream_animuj(JOINT_ANIMACE *p_animace)
+inline void key_kosti_stream_animuj(JOINT_ANIMACE *p_animace)
 {
   if(p_animace) {
     key_kosti_stream_animuj_rec(p_animace, p_animace->p_child, NULL, p_animace->time, p_animace->framenum);
@@ -317,7 +317,7 @@ __inline void key_kosti_stream_animuj(JOINT_ANIMACE *p_animace)
   }
 }
 
-__inline void key_track_quat_zkontroluj(QUAT *p_quat, int keynum)
+inline void key_track_quat_zkontroluj(QUAT *p_quat, int keynum)
 {  
   int i; 
   for(i = 0; i < keynum; i++) {

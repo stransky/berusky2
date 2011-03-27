@@ -34,9 +34,9 @@ void kom_init_level(LEVEL_HEADER *p_head) // level header
   ber_zrus_level(p_ber);
   ber_vyrob_level(p_ber, p_head->x, p_head->y, p_head->z);
   
-  p_ber->x_start = _finite(p_head->x_start) ? p_head->x_start : 0.0f;
-  p_ber->y_start = _finite(p_head->y_start) ? p_head->y_start : 0.0f;
-  p_ber->z_start = _finite(p_head->z_start) ? p_head->z_start : 0.0f;
+  p_ber->x_start = finite(p_head->x_start) ? p_head->x_start : 0.0f;
+  p_ber->y_start = finite(p_head->y_start) ? p_head->y_start : 0.0f;
+  p_ber->z_start = finite(p_head->z_start) ? p_head->z_start : 0.0f;
   
   p_ber->level_min.x = p_ber->x_start;
   p_ber->level_min.y = p_ber->y_start;
@@ -657,7 +657,7 @@ void kom_load_level(byte *p_file, int zmen_dir, int restart, BUNKA_LEVELU_DISK *
  kom_posun_slider();
 
  // Load systemovych materialu
- _getcwd(dir,200);
+ getcwd(dir,200);
  
  for(i = 0; i < 10; i++)
    kom_load_sys_material(i);
@@ -669,7 +669,7 @@ void kom_load_level(byte *p_file, int zmen_dir, int restart, BUNKA_LEVELU_DISK *
  } 
 
  chdir(dir);
- _getcwd(dir,200);
+ getcwd(dir,200);
  strcpy(file,p_file);
  
  kom_posun_slider();

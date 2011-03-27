@@ -26,13 +26,13 @@ void  obbtree_zrus(OBB_TREE *p_ob);
 void  obbtree_kresli(OBB_TREE *p_prvni, dword barva);
 
 int   obb_visibility(OBB *p_obb, GLMATRIX *p_m);
-float obb_vzdal_bod(OBB *p_obb, BOD *p_bod);
+inline float obb_vzdal_bod(OBB *p_obb, BOD *p_bod);
 
 void  obb_kresli_obalku(OBB *p_obb, dword barva, GLMATRIX *p_mat);
 
 void  obb_prvek(OBB *p_obb);
 
-__inline float obb_vzdal_rovina_x(OBB *p_obb, float x)
+inline float obb_vzdal_rovina_x(OBB *p_obb, float x)
 {
   float min = p_obb->aabb_min.x,
         max = p_obb->aabb_max.x;
@@ -47,7 +47,7 @@ __inline float obb_vzdal_rovina_x(OBB *p_obb, float x)
   }
 }
 
-__inline float obb_vzdal_rovina_y(OBB *p_obb, float y)
+inline float obb_vzdal_rovina_y(OBB *p_obb, float y)
 {
   float min = p_obb->aabb_min.y,
         max = p_obb->aabb_max.y;  
@@ -62,7 +62,7 @@ __inline float obb_vzdal_rovina_y(OBB *p_obb, float y)
   }
 }
 
-__inline float obb_vzdal_rovina_z(OBB *p_obb, float z)
+inline float obb_vzdal_rovina_z(OBB *p_obb, float z)
 {
   float min = p_obb->aabb_min.z,
         max = p_obb->aabb_max.z;  
@@ -77,7 +77,7 @@ __inline float obb_vzdal_rovina_z(OBB *p_obb, float z)
   }
 }
 
-__inline float obb_vzdal_bod(OBB *p_obb, BOD *p_bod)
+inline float obb_vzdal_bod(OBB *p_obb, BOD *p_bod)
 {
   BOD   v,v1,v2;
   float len;
@@ -100,7 +100,7 @@ __inline float obb_vzdal_bod(OBB *p_obb, BOD *p_bod)
   }
 }
 
-__inline float obb_vzdal_bod_aabb(OBB *p_obb, BOD *p_bod)
+inline float obb_vzdal_bod_aabb(OBB *p_obb, BOD *p_bod)
 {
   BOD   v1,v2;
   float len;
@@ -118,7 +118,7 @@ __inline float obb_vzdal_bod_aabb(OBB *p_obb, BOD *p_bod)
   }
 }
 
-__inline int obb_je_bod_v_kostce(OBB *p_obb, BOD *p_bod)
+inline int obb_je_bod_v_kostce(OBB *p_obb, BOD *p_bod)
 {
   BOD   v,v1;
   BOD   *p_len;
@@ -138,7 +138,7 @@ __inline int obb_je_bod_v_kostce(OBB *p_obb, BOD *p_bod)
     return(FALSE);
 }
 
-__inline int obb_je_bod_v_kostce_aabb(OBB *p_obb, BOD *p_bod)
+inline int obb_je_bod_v_kostce_aabb(OBB *p_obb, BOD *p_bod)
 {
  BOD *p_min = &p_obb->aabb_min;
  BOD *p_max = &p_obb->aabb_max;
@@ -147,27 +147,27 @@ __inline int obb_je_bod_v_kostce_aabb(OBB *p_obb, BOD *p_bod)
         p_min->z <= p_bod->z && p_bod->z <= p_max->z);
 }
 
-__inline void obb_aabb_obj(EDIT_OBJEKT *p_obj, OBB *p_obb)
+inline void obb_aabb_obj(EDIT_OBJEKT *p_obj, OBB *p_obb)
 {
   objekt_obalka(p_obj,NULL,&p_obb->aabb_min, &p_obb->aabb_max);  
 }
 
-__inline void obb_aabb_poly(EDIT_MESH_POLY *p_poly, OBB *p_obb)
+inline void obb_aabb_poly(EDIT_MESH_POLY *p_poly, OBB *p_obb)
 {  
   poly_obalka(p_poly,NULL,&p_obb->aabb_min, &p_obb->aabb_max);  
 }
 
-__inline void obb_aabb_kont(EDIT_KONTEJNER *p_kont, OBB *p_obb)
+inline void obb_aabb_kont(EDIT_KONTEJNER *p_kont, OBB *p_obb)
 {
   kontejner_obalka_aabb(p_kont, &p_obb->aabb_min, &p_obb->aabb_max);
 }
 
-__inline void obb_aabb(OBB *p_obb)
+inline void obb_aabb(OBB *p_obb)
 {
   obb_obalka(NULL, p_obb, &p_obb->aabb_min, &p_obb->aabb_max);
 }
 
-__inline void obb_transformuj(OBB *p_src, GLMATRIX *p_mat, OBB *p_dest)
+inline void obb_transformuj(OBB *p_src, GLMATRIX *p_mat, OBB *p_dest)
 {
   GLMATRIX m;
   BOD      a1;
@@ -208,7 +208,7 @@ __inline void obb_transformuj(OBB *p_src, GLMATRIX *p_mat, OBB *p_dest)
   obb_aabb(p_dest);
 }
 
-__inline void obb_transformuj_aabb(OBB *p_src, GLMATRIX *p_mat, OBB *p_dest)
+inline void obb_transformuj_aabb(OBB *p_src, GLMATRIX *p_mat, OBB *p_dest)
 {
   BOD *p_s1 = p_src->obb_hran,
       *p_s2 = p_dest->obb_hran;
@@ -218,15 +218,14 @@ __inline void obb_transformuj_aabb(OBB *p_src, GLMATRIX *p_mat, OBB *p_dest)
   obb_aabb(p_dest);
 }
 
-__inline void obb_kresli_obalku_obj(EDIT_OBJEKT *p_obj, GLMATRIX *p_mat, dword barva)
+inline void obb_kresli_obalku_obj(EDIT_OBJEKT *p_obj, GLMATRIX *p_mat, dword barva)
 {    
   obb_kresli_obalku(&p_obj->obb,barva,p_mat);
 }
 
-__inline void obb_kresli_obalku_kont(EDIT_KONTEJNER *p_kont, GLMATRIX *p_mat, dword barva)
+inline void obb_kresli_obalku_kont(EDIT_KONTEJNER *p_kont, GLMATRIX *p_mat, dword barva)
 {   
   obb_kresli_obalku(&p_kont->obb,barva,p_mat);
 }
 
 #endif
-

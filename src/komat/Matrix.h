@@ -23,7 +23,7 @@ typedef struct _GLDMATRIX {
 
 } GLDMATRIX;
 
-__inline GLDMATRIX * gl2gld_matrix(GLMATRIX * mf, GLDMATRIX * md)
+inline GLDMATRIX * gl2gld_matrix(GLMATRIX * mf, GLDMATRIX * md)
 { 
   md->_11 = (double)mf->_11;
   md->_12 = (double)mf->_12;
@@ -48,7 +48,7 @@ __inline GLDMATRIX * gl2gld_matrix(GLMATRIX * mf, GLDMATRIX * md)
   return(md);
 }
 
-__inline GLMATRIX * gld2gl_matrix(GLDMATRIX * mf, GLMATRIX * md)
+inline GLMATRIX * gld2gl_matrix(GLDMATRIX * mf, GLMATRIX * md)
 { 
   md->_11 = (float)mf->_11;
   md->_12 = (float)mf->_12;
@@ -74,7 +74,7 @@ __inline GLMATRIX * gld2gl_matrix(GLDMATRIX * mf, GLMATRIX * md)
 }
 
 // vynuluje matici
-__inline GLMATRIX * zero_matrix(GLMATRIX * m)
+inline GLMATRIX * zero_matrix(GLMATRIX * m)
 {
  memset(m,0,sizeof(*m));
  return(m);
@@ -82,7 +82,7 @@ __inline GLMATRIX * zero_matrix(GLMATRIX * m)
 
 //  Standartni kody na praci s maticemi
 //  Nastavi matici na jednotkovou
-__inline GLMATRIX * init_matrix (GLMATRIX *m)
+inline GLMATRIX * init_matrix (GLMATRIX *m)
 {
  m->_11 = m->_22 = m->_33 = m->_44 = 1;
  m->_12 = m->_13 = m->_14 = m->_41 = 0;
@@ -93,7 +93,7 @@ __inline GLMATRIX * init_matrix (GLMATRIX *m)
 
 //  Nasobeni matic 'a' a 'b' do matice 'r'
 //  Alespon doufam po me konverzi :-)
-__inline GLMATRIX * mat_mult(GLMATRIX * a, GLMATRIX * b, GLMATRIX * r)
+inline GLMATRIX * mat_mult(GLMATRIX * a, GLMATRIX * b, GLMATRIX * r)
 {
   GLMATRIX tmp;
 
@@ -121,7 +121,7 @@ __inline GLMATRIX * mat_mult(GLMATRIX * a, GLMATRIX * b, GLMATRIX * r)
   return(r);
 }
 
-__inline GLMATRIX * mat_add(GLMATRIX * a, GLMATRIX * b, GLMATRIX * r)
+inline GLMATRIX * mat_add(GLMATRIX * a, GLMATRIX * b, GLMATRIX * r)
 {
   r->_11 = a->_11 + b->_11;
   r->_12 = a->_12 + b->_12;
@@ -146,7 +146,7 @@ __inline GLMATRIX * mat_add(GLMATRIX * a, GLMATRIX * b, GLMATRIX * r)
   return(r);
 }
                     
-__inline GLMATRIX * mat_mult_skalar(GLMATRIX * r, float scale)
+inline GLMATRIX * mat_mult_skalar(GLMATRIX * r, float scale)
 {
 
   r->_11 *= scale;
@@ -172,7 +172,7 @@ __inline GLMATRIX * mat_mult_skalar(GLMATRIX * r, float scale)
   return(r);
 }
 
-__inline int mat_porovnej(GLMATRIX * r, GLMATRIX * a)
+inline int mat_porovnej(GLMATRIX * r, GLMATRIX * a)
 {
   if(r->_11 != a->_11)
     return(FALSE);
@@ -213,12 +213,12 @@ __inline int mat_porovnej(GLMATRIX * r, GLMATRIX * a)
   return(TRUE);
 }
 
-__inline GLMATRIX * mat_copy(GLMATRIX * d, GLMATRIX * s)
+inline GLMATRIX * mat_copy(GLMATRIX * d, GLMATRIX * s)
 {
   return((GLMATRIX *)memcpy(d,s,sizeof(*d)));
 }
 
-__inline GLMATRIX * mat_mult_dir(GLMATRIX * a, GLMATRIX * b, GLMATRIX * r)
+inline GLMATRIX * mat_mult_dir(GLMATRIX * a, GLMATRIX * b, GLMATRIX * r)
 {
   r->_11 = a->_11*b->_11 + a->_12*b->_21 + a->_13*b->_31 + a->_14*b->_41;
   r->_21 = a->_21*b->_11 + a->_22*b->_21 + a->_23*b->_31 + a->_24*b->_41;
@@ -245,7 +245,7 @@ __inline GLMATRIX * mat_mult_dir(GLMATRIX * a, GLMATRIX * b, GLMATRIX * r)
 
 
 //  Rotace kolem osy x o uhel angle
-__inline GLMATRIX * rotate_matrix_x(GLMATRIX * m, float angle)
+inline GLMATRIX * rotate_matrix_x(GLMATRIX * m, float angle)
 {
   GLMATRIX r;
   float  ssin = (float)sin(angle);
@@ -278,7 +278,7 @@ __inline GLMATRIX * rotate_matrix_x(GLMATRIX * m, float angle)
 }
 
 //  Rotace kolem osy y o uhel angle
-__inline GLMATRIX * rotate_matrix_y(GLMATRIX * m, float angle)
+inline GLMATRIX * rotate_matrix_y(GLMATRIX * m, float angle)
 {
   GLMATRIX r;
   float  ssin = (float)sin(angle);
@@ -311,7 +311,7 @@ __inline GLMATRIX * rotate_matrix_y(GLMATRIX * m, float angle)
 }
 
 //  Rotace kolem osy z o uhel angle
-__inline GLMATRIX * rotate_matrix_z(GLMATRIX * m, float angle)
+inline GLMATRIX * rotate_matrix_z(GLMATRIX * m, float angle)
 {
   GLMATRIX r;
   float  ssin = (float)sin(angle);
@@ -341,7 +341,7 @@ __inline GLMATRIX * rotate_matrix_z(GLMATRIX * m, float angle)
   return(m);
 }
 
-__inline GLMATRIX * rotation_matrix_z(GLMATRIX * p_m, float angle)
+inline GLMATRIX * rotation_matrix_z(GLMATRIX * p_m, float angle)
 {  
   float  sinus   = (float)sin(angle);
   float  cosinus = (float)cos(angle);
@@ -355,7 +355,7 @@ __inline GLMATRIX * rotation_matrix_z(GLMATRIX * p_m, float angle)
 }
 
 //  Posunuti matice m o dx,dy,dz
-__inline GLMATRIX * translate_matrix(GLMATRIX * m, float px, float py, float pz)
+inline GLMATRIX * translate_matrix(GLMATRIX * m, float px, float py, float pz)
 {
   m->_41 += px*m->_11 + py*m->_21 + pz*m->_31;
   m->_42 += px*m->_12 + py*m->_22 + pz*m->_32;
@@ -364,7 +364,7 @@ __inline GLMATRIX * translate_matrix(GLMATRIX * m, float px, float py, float pz)
   return(m);  
 }
 
-__inline GLMATRIX * translate_matrix2(GLMATRIX * m, BOD *p_pos)
+inline GLMATRIX * translate_matrix2(GLMATRIX * m, BOD *p_pos)
 {
   float px = p_pos->x; 
   float py = p_pos->y; 
@@ -378,7 +378,7 @@ __inline GLMATRIX * translate_matrix2(GLMATRIX * m, BOD *p_pos)
   return(m);  
 }
 
-__inline GLMATRIX * translate_matrix_set(GLMATRIX * m, BOD *p_pos)
+inline GLMATRIX * translate_matrix_set(GLMATRIX * m, BOD *p_pos)
 {
   m->_41 = p_pos->x;
   m->_42 = p_pos->y;
@@ -387,7 +387,7 @@ __inline GLMATRIX * translate_matrix_set(GLMATRIX * m, BOD *p_pos)
 }
 
 //  scale matice m o dx,dy,dz
-__inline GLMATRIX * scale_matrix(GLMATRIX * m, float x, float y, float z)
+inline GLMATRIX * scale_matrix(GLMATRIX * m, float x, float y, float z)
 {
   m->_11 *= x;
   m->_21 *= x;
@@ -406,7 +406,7 @@ __inline GLMATRIX * scale_matrix(GLMATRIX * m, float x, float y, float z)
 
 //  vypocet inverzni matice k src
 // Spocita inverzni matici k *src a ulozi ji do *inv
-__inline GLMATRIX * invert_matrix(GLMATRIX * src, GLMATRIX * inv)
+inline GLMATRIX * invert_matrix(GLMATRIX * src, GLMATRIX * inv)
 {
   float det;
 
@@ -445,7 +445,7 @@ __inline GLMATRIX * invert_matrix(GLMATRIX * src, GLMATRIX * inv)
   return(inv);
 }
 
-__inline void __gluMakeIdentityf(float m[16])
+inline void __gluMakeIdentityf(float m[16])
 {
   memset(m,16,sizeof(m[0]));
   m[0+4*0] = 1;
@@ -457,7 +457,7 @@ __inline void __gluMakeIdentityf(float m[16])
 /* SGI-GLU implementace
 ** inverse = invert(src)
 */
-__inline int __gluInvertMatrixf(const float src[16], float inverse[16])
+inline int __gluInvertMatrixf(const float src[16], float inverse[16])
 {
   int i, j, k, swap;
   float  t;
@@ -522,7 +522,7 @@ __inline int __gluInvertMatrixf(const float src[16], float inverse[16])
   return GL_TRUE;
 }
 
-__inline int matrix_det(GLMATRIX *p_mat)
+inline int matrix_det(GLMATRIX *p_mat)
 {
   float m1 =   p_mat->_22 * p_mat->_33 - p_mat->_23 * p_mat->_32;
   float m2 = - p_mat->_12 * p_mat->_33 + p_mat->_13 * p_mat->_32;
@@ -530,7 +530,7 @@ __inline int matrix_det(GLMATRIX *p_mat)
   return((m1 * p_mat->_11 + m2 * p_mat->_21 + m3 * p_mat->_31) != 0.0);
 }
 
-__inline GLMATRIX * invert_matrix_copy(GLMATRIX * src, GLMATRIX * inv)
+inline GLMATRIX * invert_matrix_copy(GLMATRIX * src, GLMATRIX * inv)
 {
   GLMATRIX m;
   float    det;
@@ -571,7 +571,7 @@ __inline GLMATRIX * invert_matrix_copy(GLMATRIX * src, GLMATRIX * inv)
   return(inv);
 }
 
-__inline GLMATRIX * mat_rot(GLMATRIX *p_mat, BOD *p_vx, BOD *p_vy, BOD *p_vz)
+inline GLMATRIX * mat_rot(GLMATRIX *p_mat, BOD *p_vx, BOD *p_vy, BOD *p_vz)
 {
   p_mat->_11 = p_vx->x; p_mat->_21 = p_vx->y; p_mat->_31 = p_vx->z;
   p_mat->_12 = p_vy->x; p_mat->_22 = p_vy->y; p_mat->_32 = p_vy->z;
@@ -582,7 +582,7 @@ __inline GLMATRIX * mat_rot(GLMATRIX *p_mat, BOD *p_vx, BOD *p_vy, BOD *p_vz)
   return(p_mat);
 }
 
-__inline GLMATRIX * mat_rot_2(GLMATRIX *p_mat, BOD *p_vx, BOD *p_vy, BOD *p_vz, BOD *p_pos)
+inline GLMATRIX * mat_rot_2(GLMATRIX *p_mat, BOD *p_vx, BOD *p_vy, BOD *p_vz, BOD *p_pos)
 {
   p_mat->_11 = p_vx->x; p_mat->_21 = p_vx->y; p_mat->_31 = p_vx->z;
   p_mat->_12 = p_vy->x; p_mat->_22 = p_vy->y; p_mat->_32 = p_vy->z;
@@ -595,18 +595,18 @@ __inline GLMATRIX * mat_rot_2(GLMATRIX *p_mat, BOD *p_vx, BOD *p_vy, BOD *p_vz, 
   return(p_mat);
 }
 
-__inline GLMATRIX * mat_rot_inv(GLMATRIX *p_mat, BOD *p_vx, BOD *p_vy, BOD *p_vz)
+inline GLMATRIX * mat_rot_inv(GLMATRIX *p_mat, BOD *p_vx, BOD *p_vy, BOD *p_vz)
 {
   return(invert_matrix_copy(mat_rot(p_mat,p_vx,p_vy,p_vz),p_mat));
 }
 
-__inline GLMATRIX * mat_rot_2_inv(GLMATRIX *p_mat, BOD *p_vx, BOD *p_vy, BOD *p_vz, BOD *p_pos)
+inline GLMATRIX * mat_rot_2_inv(GLMATRIX *p_mat, BOD *p_vx, BOD *p_vy, BOD *p_vz, BOD *p_pos)
 {
   return(invert_matrix_copy(mat_rot_2(p_mat,p_vx,p_vy,p_vz,p_pos),p_mat));
 }
 
 
-__inline GLMATRIX * buildFrustumMatrix(GLMATRIX *m, float l, float r, float b, float t, float n, float f)
+inline GLMATRIX * buildFrustumMatrix(GLMATRIX *m, float l, float r, float b, float t, float n, float f)
 {
   m->_11 = (2.0f*n)/(r-l);
   m->_12 = 0.0f;
@@ -645,7 +645,7 @@ __inline GLMATRIX * buildFrustumMatrix(GLMATRIX *m, float l, float r, float b, f
 #define MIN_VZDAL_Z     1.0f
 
 
-__inline GLMATRIX * projection_matrix(GLMATRIX *p_mat, float fovy, float aspect, float zNear, float zFar)
+inline GLMATRIX * projection_matrix(GLMATRIX *p_mat, float fovy, float aspect, float zNear, float zFar)
 {
   float xmin, xmax, ymin, ymax;
 
@@ -658,8 +658,8 @@ __inline GLMATRIX * projection_matrix(GLMATRIX *p_mat, float fovy, float aspect,
   return(buildFrustumMatrix(p_mat, xmin, xmax, ymin, ymax, zNear, zFar));
 }
 
-//__inline GLMATRIX * mat_mult(GLMATRIX * a, GLMATRIX * b, GLMATRIX * r)
-__inline GLMATRIX * float_to_matrix(GLMATRIX *p_mat, float uhel, BOD *p_pivot)
+//inline GLMATRIX * mat_mult(GLMATRIX * a, GLMATRIX * b, GLMATRIX * r)
+inline GLMATRIX * float_to_matrix(GLMATRIX *p_mat, float uhel, BOD *p_pivot)
 {
   GLMATRIX m2;
   float cosa = (float)cos(uhel);
@@ -706,7 +706,7 @@ __inline GLMATRIX * float_to_matrix(GLMATRIX *p_mat, float uhel, BOD *p_pivot)
   return(p_mat);
 }
 
-__inline GLMATRIX * pivotuj_matrix(GLMATRIX *p_mat, BOD *p_pivot)
+inline GLMATRIX * pivotuj_matrix(GLMATRIX *p_mat, BOD *p_pivot)
 {
   float    px = -p_pivot->x, py = -p_pivot->y, pz = -p_pivot->z;
   float    m14, m24, m34, m41, m42, m43, m44;  
@@ -751,7 +751,7 @@ __inline GLMATRIX * pivotuj_matrix(GLMATRIX *p_mat, BOD *p_pivot)
   return(p_mat);
 }
 
-__inline GLMATRIX * pivotuj_matrix_tam(BOD *p_pivot, GLMATRIX *p_mat)
+inline GLMATRIX * pivotuj_matrix_tam(BOD *p_pivot, GLMATRIX *p_mat)
 {
   float    px = -p_pivot->x, py = -p_pivot->y, pz = -p_pivot->z;
 
@@ -771,7 +771,7 @@ __inline GLMATRIX * pivotuj_matrix_tam(BOD *p_pivot, GLMATRIX *p_mat)
 
 GLfloat * glu_invert_matrix(GLfloat * m, GLfloat * out);
 
-__inline GLMATRIX * rovina_to_matrix(ROVINA *p_r, GLMATRIX *p_mat, float scale)
+inline GLMATRIX * rovina_to_matrix(ROVINA *p_r, GLMATRIX *p_mat, float scale)
 {
   p_mat->_11 = p_r->x*p_r->x*scale;
   p_mat->_21 = p_r->x*p_r->y*scale;
@@ -796,7 +796,7 @@ __inline GLMATRIX * rovina_to_matrix(ROVINA *p_r, GLMATRIX *p_mat, float scale)
   return(p_mat);
 }
 
-__inline void matrix_to_rovina(GLMATRIX *p_mat, ROVINA *p_r)
+inline void matrix_to_rovina(GLMATRIX *p_mat, ROVINA *p_r)
 {
   p_r->x = (float)sqrt(p_mat->_11);
   p_r->y = (float)sqrt(p_mat->_22);

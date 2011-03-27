@@ -150,20 +150,20 @@ extern  char                   ini_file[300]; // ini soubor
 
 // pokud je objekt s guid staticky vraci 1
 // 
-__inline int ber_je_objekt_staticky(int guid)
+inline int ber_je_objekt_staticky(int guid)
 {
   int trida = guid/1000;
   return(trida == 2  || trida == 4  || trida == 9 || trida == 17 ||
          trida == 19 || trida == 20 || trida == 12);
 }
 
-__inline int ber_je_objekt_beruska(int guid)
+inline int ber_je_objekt_beruska(int guid)
 {
   int trida = guid/1000;
   return(trida == 1);
 }
 
-__inline int ber_je_objekt_staticky_bez_exitu(int guid)
+inline int ber_je_objekt_staticky_bez_exitu(int guid)
 {
   int trida = guid/1000;
   return(trida == 2  || trida == 9 || trida == 17 ||

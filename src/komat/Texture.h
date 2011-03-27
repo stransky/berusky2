@@ -126,42 +126,42 @@ int       bmp_uloz(byte *p_file, bitmapa *p_bmp);
 int       bmp_uloz_pack(FFILE f, bitmapa *p_bmp);
 void      bmp_zrus(bitmapa **p_bmp);
 bitmapa * bmp_kopituj(bitmapa *p_bmp);
-void      bmp_cti_rozmery(bitmapa *p_bmp, int *p_x, int *p_y);
-int       bmp_velikost(bitmapa *p_bmp);
+inline void      bmp_cti_rozmery(bitmapa *p_bmp, int *p_x, int *p_y);
+inline int       bmp_velikost(bitmapa *p_bmp);
 
 
 typedef struct _bitmapa_pixel {
   byte r,g,b,a;
 } bitmapa_pixel;
 /*
-__inline dword barva_to_bmp(dword barva)
+inline dword barva_to_bmp(dword barva)
 {
   return((barva << 8)|(barva >> 24));
 }
 */
-__inline dword bmp_getpixel(bitmapa *p_bmp, int x, int y)
+inline dword bmp_getpixel(bitmapa *p_bmp, int x, int y)
 {
  return(p_bmp->data[p_bmp->x*y+x]);
 }
 
-__inline bitmapa_pixel bmp_getpixel_pix(bitmapa *p_bmp, int x, int y)
+inline bitmapa_pixel bmp_getpixel_pix(bitmapa *p_bmp, int x, int y)
 {
  bitmapa_pixel *p_pix = (bitmapa_pixel *)p_bmp->data;
  return(p_pix[p_bmp->x*y+x]);
 }
 
-__inline void bmp_putpixel(bitmapa *p_bmp, int x, int y, dword barva)
+inline void bmp_putpixel(bitmapa *p_bmp, int x, int y, dword barva)
 {
  p_bmp->data[p_bmp->x*y+x] = barva;
 }
 
-__inline void bmp_putpixel_pix(bitmapa *p_bmp, int x, int y, bitmapa_pixel barva)
+inline void bmp_putpixel_pix(bitmapa *p_bmp, int x, int y, bitmapa_pixel barva)
 {
  bitmapa_pixel *p_pix = (bitmapa_pixel *)p_bmp->data;
  p_pix[p_bmp->x*y+x] = barva;
 }
 
-__inline void bmp_cti_rozmery(bitmapa *p_bmp, int *p_x, int *p_y)
+inline void bmp_cti_rozmery(bitmapa *p_bmp, int *p_x, int *p_y)
 {
   if(p_bmp) {
     *p_x = p_bmp->x;
@@ -174,7 +174,7 @@ __inline void bmp_cti_rozmery(bitmapa *p_bmp, int *p_x, int *p_y)
 
 // kopiruje bitmapu do druhe vetsi na zadane souradnice
 // src->dest
-__inline void bmp_kopiruj_rec(bitmapa *p_src, bitmapa *p_desc, int xp, int yp)
+inline void bmp_kopiruj_rec(bitmapa *p_src, bitmapa *p_desc, int xp, int yp)
 {  
   int   x,y;
 
@@ -186,7 +186,7 @@ __inline void bmp_kopiruj_rec(bitmapa *p_src, bitmapa *p_desc, int xp, int yp)
 }
 
 // src->dest
-__inline void bmp_vyber_rec(bitmapa *p_src, bitmapa *p_desc, int xp, int yp)
+inline void bmp_vyber_rec(bitmapa *p_src, bitmapa *p_desc, int xp, int yp)
 {  
   int   x,y;
 
@@ -198,14 +198,14 @@ __inline void bmp_vyber_rec(bitmapa *p_src, bitmapa *p_desc, int xp, int yp)
 }
 
 // kopie src->desc
-__inline void bmp_kopiruj(bitmapa *p_src, bitmapa *p_desc)
+inline void bmp_kopiruj(bitmapa *p_src, bitmapa *p_desc)
 {  
   p_desc->x = p_src->x;
   p_desc->y = p_src->y;
   memcpy(p_desc->data,p_src->data,sizeof(dword)*p_src->x*p_src->y);  
 }
 
-__inline void bmp_smaz(bitmapa *p_text, dword barva)
+inline void bmp_smaz(bitmapa *p_text, dword barva)
 {   
   int i,n = p_text->x*p_text->y; 
   dword *p_col = p_text->data;
@@ -213,12 +213,12 @@ __inline void bmp_smaz(bitmapa *p_text, dword barva)
     *p_col = barva;      
 }
 
-__inline byte PackFloatInByte(float in)
+inline byte PackFloatInByte(float in)
 {
    return (byte) ((in+1.0f) / 2.0f * 255.0f);
 }
 
-__inline int bmp_velikost(bitmapa *p_bmp)
+inline int bmp_velikost(bitmapa *p_bmp)
 {
   return(p_bmp->x*p_bmp->y*4);
 }

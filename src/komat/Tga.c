@@ -15,11 +15,8 @@
  *   (C) 2001 ATI Research, Inc.  All rights reserved.                        *
  ******************************************************************************/
 
-#include "mss_on.h"
-#include <windows.h>
 #include "3d_all.h"
-
-#include "tga.h"
+#include "Tga.h"
 
 #pragma pack(push,x1) 
 #pragma pack(1)
@@ -424,4 +421,3 @@ static unsigned int tgaFindFreeCacheIndex (void)
 
    return(0);
 }
-

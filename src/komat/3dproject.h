@@ -5,20 +5,20 @@
 
 int  transf_3d_2d(float p_x, float p_y, float p_z, int *p_tx, int *p_ty, float *p_tz, GLMATRIX *p_word, GLMATRIX *p_cam, GLMATRIX *p_proj, int x_c, int y_c, int xs, int ys, float z_near, float z_far);
 int  transf_3d_2d_word(float p_x, float p_y, float p_z, int *p_tx, int *p_ty, float *p_tz, GLMATRIX *p_cam, GLMATRIX *p_proj, int x_c, int y_c, int xs, int ys, float z_near, float z_far);
-int  transf_3d_2d_matrix(float p_x, float p_y, float p_z, int *p_tx, int *p_ty, float *p_tz, GLMATRIX *p_mat, int x_c, int y_c, int xs, int ys, float z_near, float z_far);
+inline int  transf_3d_2d_matrix(float p_x, float p_y, float p_z, int *p_tx, int *p_ty, float *p_tz, GLMATRIX *p_mat, int x_c, int y_c, int xs, int ys, float z_near, float z_far);
 
 void transf_2d_3d(float p_x, float p_y, float p_z, float *p_tx, float *p_ty, float *p_tz, GLMATRIX *p_cam, GLMATRIX *p_proj, dword x_c, dword y_c, dword xs, dword ys);
 void transf_2d_3d_world(float p_x, float p_y, float p_z,float *p_tx, float *p_ty, float *p_tz, GLMATRIX *p_world,GLMATRIX *p_cam, GLMATRIX *p_proj, dword x_c, dword y_c, dword xs, dword ys);
-void transf_2d_3d_matrix(float p_x, float p_y, float p_z, float *p_tx, float *p_ty, float *p_tz, GLMATRIX *p_m, dword x_c, dword y_c, dword xs, dword ys);
+inline void transf_2d_3d_matrix(float p_x, float p_y, float p_z, float *p_tx, float *p_ty, float *p_tz, GLMATRIX *p_m, dword x_c, dword y_c, dword xs, dword ys);
 
 void transf_2d_3d_z(float p_x, float p_y, float p_z, float *p_tx, float *p_ty, float *p_tz, GLMATRIX *p_cam, GLMATRIX *p_proj, dword x_c, dword y_c, dword xs, dword ys, float z_near, float z_far);
 void transf_2d_3d_z_world(float p_x, float p_y, float p_z,float *p_tx, float *p_ty, float *p_tz, GLMATRIX *p_world,GLMATRIX *p_cam, GLMATRIX *p_proj, dword x_c, dword y_c, dword xs, dword ys, float z_near, float z_far);
-void transf_2d_3d_z_matrix(float p_x, float p_y, float p_z, float *p_tx, float *p_ty, float *p_tz, GLMATRIX *p_m, dword x_c, dword y_c, dword xs, dword ys, float z_near, float z_far);
+inline void transf_2d_3d_z_matrix(float p_x, float p_y, float p_z, float *p_tx, float *p_ty, float *p_tz, GLMATRIX *p_m, dword x_c, dword y_c, dword xs, dword ys, float z_near, float z_far);
 
 //void transf_2d_3d_z_matrix(float p_x,   float p_y,   float p_z, float *p_tx, float *p_ty, float *p_tz,  GLMATRIX *p_mat, dword x_c, dword y_c, dword xs, dword ys, float z_near, float z_far)
 //void calc_2d_3d_z_matrix(GLMATRIX *p_cam, GLMATRIX *p_proj, GLMATRIX *p_vysl)
 
-__inline int transf_3d_2d_matrix(float p_x, float p_y, float p_z, int *p_tx, int *p_ty, float *p_tz, GLMATRIX *p_mat, int x_c, int y_c, int xs, int ys, float z_near, float z_far)
+inline int transf_3d_2d_matrix(float p_x, float p_y, float p_z, int *p_tx, int *p_ty, float *p_tz, GLMATRIX *p_mat, int x_c, int y_c, int xs, int ys, float z_near, float z_far)
 {
  float x,y,z,w;
 
@@ -42,7 +42,7 @@ __inline int transf_3d_2d_matrix(float p_x, float p_y, float p_z, int *p_tx, int
  }
 }
 
-__inline void transf_2d_3d_matrix(float p_x,   float p_y,   float p_z,
+inline void transf_2d_3d_matrix(float p_x,   float p_y,   float p_z,
                          float *p_tx, float *p_ty, float *p_tz, 
                          GLMATRIX *p_m,
                          dword x_c, dword y_c, dword xs, dword ys)
@@ -70,7 +70,7 @@ __inline void transf_2d_3d_matrix(float p_x,   float p_y,   float p_z,
  *p_tz = z3/w3;
 }
 
-__inline void transf_2d_3d_z_matrix(float p_x,   float p_y,   float p_z,
+inline void transf_2d_3d_z_matrix(float p_x,   float p_y,   float p_z,
                            float *p_tx, float *p_ty, float *p_tz, 
                            GLMATRIX *p_m,
                            dword x_c, dword y_c, dword xs, dword ys,
@@ -104,7 +104,7 @@ __inline void transf_2d_3d_z_matrix(float p_x,   float p_y,   float p_z,
  *p_tz = z3/w3;
 }
 
-__inline void transf_3d_2d_matrix_float_text(float p_x, float p_y, float p_z, float *p_tx, float *p_ty, float *p_tz, GLMATRIX *p_mat, float faktor)
+inline void transf_3d_2d_matrix_float_text(float p_x, float p_y, float p_z, float *p_tx, float *p_ty, float *p_tz, GLMATRIX *p_mat, float faktor)
 {
  float x,y,z,w;
  
@@ -118,7 +118,7 @@ __inline void transf_3d_2d_matrix_float_text(float p_x, float p_y, float p_z, fl
  *p_tz = (z/w)*faktor;
 }
 
-__inline void transf_2d_3d_matrix_float_text(float p_tx, float p_ty, float p_tz, float *p_x, float *p_y, float *p_z, GLMATRIX *p_mat, float faktor)
+inline void transf_2d_3d_matrix_float_text(float p_tx, float p_ty, float p_tz, float *p_x, float *p_y, float *p_z, GLMATRIX *p_mat, float faktor)
 {
  float x,y,z,w;
  

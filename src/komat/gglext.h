@@ -485,6 +485,7 @@ void (APIENTRY * glSamplePatternEXT) (GLenum);
 void (APIENTRY * glTextureColorMaskSGIS) (GLboolean, GLboolean, GLboolean, GLboolean);
 */
 
+/*
 extern void (APIENTRY *glTexBumpParameterivATI)(GLenum pname, GLint *param);
 extern void (APIENTRY *glTexBumpParameterfvATI)(GLenum pname, GLfloat *param);
 extern void (APIENTRY *glGetTexBumpParameterivATI)(GLenum pname, GLint *param);
@@ -521,8 +522,7 @@ extern PFNGLMAPBUFFERARBPROC glMapBufferARB;
 extern PFNGLUNMAPBUFFERARBPROC glUnmapBufferARB;
 extern PFNGLGETBUFFERPARAMETERIVARBPROC glGetBufferParameterivARB;
 extern PFNGLGETBUFFERPOINTERVARBPROC glGetBufferPointervARB;
-
-
+*/
 
 #define KARTA_DEFAULT  0
 #define KARTA_ATI      1
@@ -565,6 +565,7 @@ extern int extlist_ati_pn_triangles;
 extern int extlist_arb_vertex_buffer;
 extern int  extlist_ati_draw_buffers;
 
+
 int gl_load_extension(HW_KONFIG *p_hwconf);
 int gl_init_extension(HW_KONFIG *p_hwconf);
 int gl_free_extension(HW_KONFIG *p_hwconf);
@@ -584,6 +585,7 @@ int gl_init_ati_pn_triangles(HW_KONFIG *p_conf);
 int gl_init_text_filter_anisotropic(HW_KONFIG *p_conf);
 int gl_init_ati_draw_buffers(HW_KONFIG *p_conf);
 int gl_ext_default(void);
+
 
 #endif
 

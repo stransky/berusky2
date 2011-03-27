@@ -13,6 +13,7 @@
 #include "glext.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include <assert.h>
 #include <float.h>
@@ -53,10 +54,8 @@ inline void ZeroMemory(void *mem, int size)
   memset(mem,0,size);
 }
 
-typedef void AUDIO_DATA;
-
 #define MAX_BYTE 0xff
-#define MAX_PATH PATH_MAX
+#define MAX_PATH 128
 
 typedef struct _MOUSE_INFO {
         
@@ -87,6 +86,7 @@ void ddw(char *p_text,...);
 
 #include "level_environment.h"
 #include "Apak.h"
+#include "compat.h"
 
 #include "kfile.h"
 

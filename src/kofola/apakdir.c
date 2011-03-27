@@ -86,7 +86,7 @@ int achdir(APAK_HANDLE *pHandle, const char *dirname)
 	APAKNODE *pNode;
 
 	if(!pHandle)
-		return _chdir(dirname);
+		return chdir(dirname);
 
 	pNode = pHandle->pActualNode;
 
@@ -113,7 +113,7 @@ int achdir(APAK_HANDLE *pHandle, const char *dirname)
 char *agetcwd(APAK_HANDLE *pHandle, char *buffer, int maxlen )
 {
 	if(!pHandle)
-		_getcwd(buffer, maxlen);
+		getcwd(buffer, maxlen);
 
 	if(maxlen > 256)
 		maxlen = 256;

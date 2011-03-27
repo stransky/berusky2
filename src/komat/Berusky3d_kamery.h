@@ -21,7 +21,7 @@ void kam_set_normal_screen(G_KONFIG *p_ber);
 void kam_kino_set_clear(G_KONFIG *p_ber);
 void kam_game_set_clear(G_KONFIG *p_ber);
 
-__inline static void ber_reset_mesh(BODRGBA *p_d, BODRGBA *p_src, int num)
+inline static void ber_reset_mesh(BODRGBA *p_d, BODRGBA *p_src, int num)
 {
   int v;  
   for(v = 0; v < num; v++) {
@@ -31,7 +31,7 @@ __inline static void ber_reset_mesh(BODRGBA *p_d, BODRGBA *p_src, int num)
   }  
 }
 
-__inline static void ber_reset_poly(TEXT_KOORD *p_d, int num)
+inline static void ber_reset_poly(TEXT_KOORD *p_d, int num)
 {
   int v;  
   for(v = 0; v < num; v++) {

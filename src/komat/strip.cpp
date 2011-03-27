@@ -3,15 +3,14 @@
 */
 
 //#include "mss_on.h"
-#include <windows.h>
 #include "strip.h"
-#include "NvTriStrip.h"
 #include "assert.h"
 #include "mmalloc.h"
 
 extern "C" int NvGenerateStrips(unsigned short *p_in_indices, unsigned int   in_numIndices,
                      STRIP_FACE     **p_facer, unsigned short *p_facenum)
 {
+/*
   STRIP_FACE     *p_face;
   PrimitiveGroup *p_primGroups;
   unsigned short  numGroups;
@@ -42,7 +41,6 @@ extern "C" int NvGenerateStrips(unsigned short *p_in_indices, unsigned int   in_
   *p_facenum = numGroups;
 
   delete[] p_primGroups;
+*/
   return(1);
 }
-
-

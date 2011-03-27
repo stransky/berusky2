@@ -324,11 +324,11 @@ int kom_graf_init(void)
   /* Nahodi graficky rezim
   */
   if(full) {    
-    nastav_okno(&hwconf,FALSE);
+//    nastav_okno(&hwconf,FALSE);
     if(!grf_prehod_mod_hra(&hwconf))
       return(FALSE);
-    hwnd_hry = zavri_okno(hwnd_hry);
-    hwnd_hry = otevri_okno(hinst,hwconf.fullscreen,0,0,&hwconf);
+//    hwnd_hry = zavri_okno(hwnd_hry);
+//    hwnd_hry = otevri_okno(hinst,hwconf.fullscreen,0,0,&hwconf);
   }
   
   kprintf(1,"Screen mode %d ok",full);
@@ -386,7 +386,7 @@ void kom_graf_konec(int menu)
   
   if(menu) { // - zpet do menu - full screen
     grf_prehod_mod_menu();
-    nastav_okno(&hwconf,TRUE);
+//    nastav_okno(&hwconf,TRUE);
     spracuj_spravy(0);
   }
 
@@ -417,7 +417,7 @@ int WINAPI WinMain( HINSTANCE hi, HINSTANCE hPrevInstance,
  byte pom2[200];
  hinst = hi;
 
- _getcwd(ini_file,500);
+ getcwd(ini_file,500);
  strcat(ini_file,"\\berusky3d.ini");
  if(!efile(ini_file)) {
    strcpy(ini_file,"berusky3d.ini");

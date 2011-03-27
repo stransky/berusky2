@@ -4,8 +4,8 @@
 #include "menu_script.h"
 #include "menu_def.h"
 #include "Apak.h"
+#include "3d_all.h"
 
-typedef unsigned short WCHAR;
 extern APAK_HANDLE		*pDataArchive;
 
 //------------------------------------------------------------------------------------------------

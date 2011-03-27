@@ -24,8 +24,8 @@ int apakCheckFile(char *cFile, char *cMask)
 	if(!cFile || !cMask || !strlen(cMask))
 		return 0;
 
-	_strlwr(cFile);
-	_strlwr(cMask);
+	strlwr(cFile);
+	strlwr(cMask);
 
 	for(i=0;(unsigned)i<strlen(cFile);i++)
 	{
@@ -221,6 +221,7 @@ int afindnext(long handle, struct _finddata_t *fileinfo)
 
 int afindclose(long handle)
 {
+/*
 	APAK_FIND		 *pFind;
 	APAK_FIND_SWITCH *pFSwitch = (APAK_FIND_SWITCH *)handle;
 
@@ -240,6 +241,6 @@ int afindclose(long handle)
 
 	free((void *) pFind);
 	free((void *) pFSwitch);
-
+*/
 	return 0;
 }

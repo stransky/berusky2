@@ -3,12 +3,14 @@
 //------------------------------------------------------------------------------------------------
 #include <stdio.h>
 #include <math.h>
+#include <unistd.h>
 #include "3d_all.h"
 #include "Demo.h"
 #include "Bind.h"
 #include "Berusky3d_kofola_interface.h"
 #include "Berusky_universal.h"
 #include "profiles.h"
+#include "ini.h"
 
 extern PLAYER_PROFILE	pPlayerProfile;
 extern int				iActualLevel;
@@ -22,7 +24,7 @@ void demo_Set_Scene_Level(char *cDemo, int *pScene, int *pLevel)
 	FILE *file;
 	DEMOFILEHEADER	FileHeader;
 
-	_getcwd(odir, MAX_PATH);
+	getcwd(odir, MAX_PATH);
 	
 	GetPrivateProfileString("game","save_dir","c:\\",dir,MAX_PATH,ini_file);
 	chdir(dir);
@@ -151,7 +153,7 @@ DEMOKEYFRAME* demo_Create_Frame(DEMOSTRUCTURE *p_Demo)
 		p_Demo->Frame_Counter++;
 		p_Demo->p_Last = p_Demo->p_Last->p_Next;
 		p_Demo->p_Last->p_Next = NULL;
-		p_Demo->Start = timeGetTime();
+		//p_Demo->Start = timeGetTime();
 		return p_Demo->p_Last;
 	}
 }
@@ -187,7 +189,7 @@ int demo_Save(DEMOSTRUCTURE *p_Demo, char *p_File_Name, char Ovladani, char *cLe
 	FileHeader.iHiVer = DEMO_HIVERSION;
 	FileHeader.iLoVer = DEMO_LOVERSION;
 	FileHeader.bOvladaniBerusek1 = Ovladani;
-	wcscpy(FileHeader.cPlayerName, pPlayerProfile.cName);
+	//wcscpy(FileHeader.cPlayerName, pPlayerProfile.cName);
 	strcpy(FileHeader.cLevelName, cLevelName);
 	FileHeader.iDemoID = 123456789;
 	FileHeader.iLevel = iActualLevel;
@@ -259,13 +261,13 @@ int demo_SaveWC(DEMOSTRUCTURE *p_Demo, WCHAR *wcName, char Ovladani, char *cLeve
 	int		i;
 	DEMOKEYFRAME* p_Frame;
 
-	_strdate(pom);
+	//strdate(pom);
 
 	for(i=0;i<(signed)strlen(pom);i++)
 		if(pom[i] == '/')
 			pom[i] = '_';
 
-	_strtime(pom2);
+	//strtime(pom2);
 
 	for(i=0;i<(signed)strlen(pom2);i++)
 		if(pom2[i] == ':')

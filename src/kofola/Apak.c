@@ -6,6 +6,11 @@
 #define APAK_VERSION_HI		1
 #define APAK_VERSION_LOW	1
 
+inline void ZeroMemory(void *mem, int size)
+{
+  memset(mem,0,size);
+}
+
 void apakError(APAK_HANDLE *pHandle, char *cError)
 {
 	pHandle->bError = 1;

@@ -1,9 +1,11 @@
 #include <stdio.h>
+#include <unistd.h>
 #include "3d_all.h"
 #include "Berusky3d_kofola_interface.h"
 #include "menu_script.h"
 #include "2D_graphic.h"
 #include "game_init.h"
+#include "ini.h"
 
 typedef struct
 {
@@ -54,7 +56,8 @@ void cmcs_Next_Picture(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime)
 {
 	COMICS_PICTURE *pPicture = &cmcs_Picture[iActualBmp];
 
-	KillTimer(NULL, uiTimerID);
+  // TODO
+	//KillTimer(NULL, uiTimerID);
 
 	if(pPicture->iPicture == -1)
 	{
@@ -97,7 +100,7 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA *p_ad, char bMusic)
 	for(i=0;i<64;i++)
 		cmcs_Picture[i].iPicture = -1;
 
-	_chdir(_2dd.bm_dir);
+	chdir(_2dd.bm_dir);
 
 	while(strcmp(text,"LOAD_END"))
 	{
@@ -148,7 +151,7 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA *p_ad, char bMusic)
 			bCimicsEnd = 1;
 		}
 
-		Sleep(10);
+		//Sleep(10);
 	}
 
 /* TODO
@@ -156,9 +159,9 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA *p_ad, char bMusic)
 		if(ogg_playing())
 			ap_Stop_Song(p_ad);
 */
-	KillTimer(NULL, uiTimerID);
+	//KillTimer(NULL, uiTimerID);
 
-	_2d_Release();
+	//_2d_Release();
 }
 
 void cmcs_Play_Intro(char *cFile, HWND hWnd, AUDIO_DATA *p_ad)
@@ -307,7 +310,7 @@ void cmcs_Start_Picture(int Index, long time, HWND hWnd, AUDIO_DATA *p_ad, char 
 			bCimicsEnd = 1;
 		}
 
-		Sleep(10);
+		//Sleep(10);
 
 		timecnt+=10;
 

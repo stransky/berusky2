@@ -1,9 +1,5 @@
-#include "mss_on.h"
-#include <windows.h>
-#include <direct.h>
+#include <alloca.h>
 #include "3d_all.h"
-
-#include "dbgwnd.h"
 
 /* OBB -> AABB
 */
@@ -144,7 +140,7 @@ typedef struct _MIN_MAX {
 
 static int kd_comp_hrana(const void *p_hrana1, const void *p_hrana2)
 {
-  return(ftoi((((MIN_MAX *)p_hrana1)->min-((MIN_MAX *)p_hrana2)->min)*10000.0f));
+  return((int)((((MIN_MAX *)p_hrana1)->min-((MIN_MAX *)p_hrana2)->min)*10000.0f));
 }
 
 #define   MIN_X   2.0f
@@ -169,7 +165,7 @@ void kd_strom_vyrob_rec(EDIT_MESH_POLY **p_poly, int polynum,
                         KD_BUNKA *p_prvni, int hloubka)
 { 
   int   objnum = polynum+kontnum;
-  MIN_MAX *p_hran = _alloca(sizeof(MIN_MAX)*objnum);
+  MIN_MAX *p_hran = alloca(sizeof(MIN_MAX)*objnum);
   EDIT_MESH_POLY **p_poly1;
   EDIT_KONTEJNER **p_kont1;
   float dx,dy,dz,h1,h2,koeficient;
@@ -433,7 +429,7 @@ void kd_strom_vyrob(EDIT_MESH_POLY *p_upoly, int polynum,
                     EDIT_KONTEJNER **p_kont, int kontnum, 
                     KD_BUNKA *p_prvni)
 {
-  EDIT_MESH_POLY **p_poly = _alloca(sizeof(p_poly[0])*polynum);
+  EDIT_MESH_POLY **p_poly = alloca(sizeof(p_poly[0])*polynum);
   BOD min,max;
   int i,num;
 

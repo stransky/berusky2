@@ -1631,7 +1631,7 @@ typedef struct _OBB_TREE {
 /*
   U skladaneho potrebuju: 
 */
-__inline void transformuj_bod_matici(float *p_x, float *p_y, float *p_z, GLMATRIX *m)
+inline void transformuj_bod_matici(float *p_x, float *p_y, float *p_z, GLMATRIX *m)
 {
  float x,y,z;
 
@@ -1643,7 +1643,7 @@ __inline void transformuj_bod_matici(float *p_x, float *p_y, float *p_z, GLMATRI
 // wp = matSet._14*x + matSet._24*y + matSet._34*z + matSet._44;
 }
 
-__inline BOD * transformuj_bod_bod_matici(BOD *p_p, GLMATRIX *m)
+inline BOD * transformuj_bod_bod_matici(BOD *p_p, GLMATRIX *m)
 {
  float x,y,z;
 
@@ -1656,7 +1656,7 @@ __inline BOD * transformuj_bod_bod_matici(BOD *p_p, GLMATRIX *m)
  return(p_p);
 }
 
-__inline void transformuj_wbod_matici(float *p_x, float *p_y, float *p_z, float *p_w, GLMATRIX *m)
+inline void transformuj_wbod_matici(float *p_x, float *p_y, float *p_z, float *p_w, GLMATRIX *m)
 {
  float x,y,z,w;
 
@@ -1668,7 +1668,7 @@ __inline void transformuj_wbod_matici(float *p_x, float *p_y, float *p_z, float 
  *p_w = m->_14*x + m->_24*y + m->_34*z + m->_44*w;
 }
 
-__inline void transformuj_wbod_matici_wbod(WBOD *p_s, GLMATRIX *m, WBOD *p_c)
+inline void transformuj_wbod_matici_wbod(WBOD *p_s, GLMATRIX *m, WBOD *p_c)
 {
  float x,y,z,w;
 
@@ -1680,7 +1680,7 @@ __inline void transformuj_wbod_matici_wbod(WBOD *p_s, GLMATRIX *m, WBOD *p_c)
  p_c->w = m->_14*x + m->_24*y + m->_34*z + m->_44*w;
 }
 
-__inline BOD * transformuj_bod_matici_bod(BOD *p_bod, GLMATRIX *m, BOD *p_cil)
+inline BOD * transformuj_bod_matici_bod(BOD *p_bod, GLMATRIX *m, BOD *p_cil)
 {
  float x,y,z;
 
@@ -1693,7 +1693,7 @@ __inline BOD * transformuj_bod_matici_bod(BOD *p_bod, GLMATRIX *m, BOD *p_cil)
  return(p_cil);
 }
 
-__inline void transformuj_nbod_matici(BOD *p_bod, GLMATRIX *m)
+inline void transformuj_nbod_matici(BOD *p_bod, GLMATRIX *m)
 {
  float x,y,z;
 
@@ -1704,7 +1704,7 @@ __inline void transformuj_nbod_matici(BOD *p_bod, GLMATRIX *m)
  p_bod->z = m->_13*x + m->_23*y + m->_33*z;
 }
 
-__inline void transformuj_nbod_matici_bod(BOD *p_bod, GLMATRIX *m, BOD *p_cil)
+inline void transformuj_nbod_matici_bod(BOD *p_bod, GLMATRIX *m, BOD *p_cil)
 {
  float x,y,z;
 
@@ -1714,7 +1714,7 @@ __inline void transformuj_nbod_matici_bod(BOD *p_bod, GLMATRIX *m, BOD *p_cil)
  p_cil->z = m->_13*x + m->_23*y + m->_33*z;
 }
 
-__inline void transformuj_objekt_matici(EDIT_OBJEKT *p_obj, GLMATRIX *p_mat)
+inline void transformuj_objekt_matici(EDIT_OBJEKT *p_obj, GLMATRIX *p_mat)
 {
   int v;
   for(v = 0; v < p_obj->vertexnum; v++)
@@ -1724,7 +1724,7 @@ __inline void transformuj_objekt_matici(EDIT_OBJEKT *p_obj, GLMATRIX *p_mat)
                            p_mat);
 }
 
-__inline void nastav_material_rgb(RGB_M *p_rgb, float r, float g, float b)
+inline void nastav_material_rgb(RGB_M *p_rgb, float r, float g, float b)
 {
  p_rgb->r = r;
  p_rgb->g = g;
@@ -1732,7 +1732,7 @@ __inline void nastav_material_rgb(RGB_M *p_rgb, float r, float g, float b)
 }
 
 // nastavi materialovou i vyslednou barvu
-__inline void nastav_barvu_bodu_obj(EDIT_OBJEKT *p_obj, float r, float g, float b, float a)
+inline void nastav_barvu_bodu_obj(EDIT_OBJEKT *p_obj, float r, float g, float b, float a)
 {
   int v;
   for(v = 0; v < p_obj->vertexnum; v++) {
@@ -1743,7 +1743,7 @@ __inline void nastav_barvu_bodu_obj(EDIT_OBJEKT *p_obj, float r, float g, float 
   }
 }
 
-__inline void nastav_barvu_bodu_obj_dword(EDIT_OBJEKT *p_obj, dword barva)
+inline void nastav_barvu_bodu_obj_dword(EDIT_OBJEKT *p_obj, dword barva)
 {
   int v;
   float b[4];
@@ -1756,7 +1756,7 @@ __inline void nastav_barvu_bodu_obj_dword(EDIT_OBJEKT *p_obj, dword barva)
   }
 }
 
-__inline void add_barvu_bodu_obj(EDIT_OBJEKT *p_obj, float r, float g, float b, float a)
+inline void add_barvu_bodu_obj(EDIT_OBJEKT *p_obj, float r, float g, float b, float a)
 {
   int v;
   for(v = 0; v < p_obj->vertexnum; v++) {    
@@ -1765,7 +1765,7 @@ __inline void add_barvu_bodu_obj(EDIT_OBJEKT *p_obj, float r, float g, float b, 
   }
 }
 
-__inline void sub_barvu_bodu_obj(EDIT_OBJEKT *p_obj, float r, float g, float b, float a)
+inline void sub_barvu_bodu_obj(EDIT_OBJEKT *p_obj, float r, float g, float b, float a)
 {
   int v;
   for(v = 0; v < p_obj->vertexnum; v++) {
@@ -1775,7 +1775,7 @@ __inline void sub_barvu_bodu_obj(EDIT_OBJEKT *p_obj, float r, float g, float b, 
 }
 
 
-__inline void nastav_barvu_bodu_kont(EDIT_KONTEJNER *p_kont, float r, float g, float b, float a, byte op)
+inline void nastav_barvu_bodu_kont(EDIT_KONTEJNER *p_kont, float r, float g, float b, float a, byte op)
 {
   int o,mo;
 
@@ -1797,7 +1797,7 @@ __inline void nastav_barvu_bodu_kont(EDIT_KONTEJNER *p_kont, float r, float g, f
   }
 }
 /*
-__inline void nastav_barvu_bodu_kont_alfa(EDIT_KONTEJNER *p_kont, float a)
+inline void nastav_barvu_bodu_kont_alfa(EDIT_KONTEJNER *p_kont, float a)
 {
   int o;
 
@@ -1809,7 +1809,7 @@ __inline void nastav_barvu_bodu_kont_alfa(EDIT_KONTEJNER *p_kont, float a)
 }
 */
 
-__inline void nastav_barvu_bodu_kont_dword(EDIT_KONTEJNER *p_kont, dword barva, byte op)
+inline void nastav_barvu_bodu_kont_dword(EDIT_KONTEJNER *p_kont, dword barva, byte op)
 {
   int o,mo;
   float v[4];
@@ -1832,7 +1832,7 @@ __inline void nastav_barvu_bodu_kont_dword(EDIT_KONTEJNER *p_kont, dword barva, 
   }
 }
 
-__inline void transformuj_mesh_matici(GAME_MESH *p_mesh, GLMATRIX *p_m)
+inline void transformuj_mesh_matici(GAME_MESH *p_mesh, GLMATRIX *p_m)
 { 
  int i,pocet = p_mesh->vertexnum;
  BOD *p_vert = p_mesh->p_vertex_pos;
@@ -1843,7 +1843,7 @@ __inline void transformuj_mesh_matici(GAME_MESH *p_mesh, GLMATRIX *p_m)
 
 GLMATRIX __kont_world_matrix;
 
-__inline GLMATRIX * kont_world_matrix(EDIT_KONTEJNER *p_kont)
+inline GLMATRIX * kont_world_matrix(EDIT_KONTEJNER *p_kont)
 {
   if(p_kont->kflag&KONT_MPMATRIX) {
     return(mat_mult_dir(&p_kont->world,&p_kont->mpmatrix,&__kont_world_matrix));
@@ -1912,8 +1912,8 @@ void mesh_env_maping_camera(GAME_MESH *p_mesh, GLMATRIX *p_cam);
 void poly_env_maping_camera(EDIT_MESH_POLY *p_poly, EDIT_MATERIAL *p_mat, GLMATRIX *p_cam);
 void transformuj_mesh(GAME_MESH *p_mesh);
 void kresli_ctverec_2d_diff(int x1, int y1, int dx, int dy, float r, float g, float b);
-int  stejny_vertex_point(BOD *v1, BOD *v2);
-int  stejny_vertex_point_delta(BOD *v1, BOD *v2, float delta);
+inline int  stejny_vertex_point(BOD *v1, BOD *v2);
+inline int  stejny_vertex_point_delta(BOD *v1, BOD *v2, float delta);
 void mesh_env_maping_spec(GAME_MESH *p_mesh, GLMATRIX *p_cam, EDIT_MATERIAL **p_mt);
 void poly_env_maping_spec(EDIT_MESH_POLY *p_poly, EDIT_MATERIAL *p_mat, GLMATRIX *p_cam);
 void kresli_kosoctverec_word(BOD *p_p, float r, dword barva);
@@ -1923,12 +1923,12 @@ void kontejner_obalka_aabb(EDIT_KONTEJNER *p_kont, BOD *p_min, BOD *p_max);
 //int  intersect_mesh(GAME_MESH *p_mesh, BOD *p_orig, BOD *p_dir);
 int  intersect_mesh_objekt(GAME_MESH *p_mesh, int o, BOD *p_orig, BOD *p_dir);
 
-__inline void oe_olist_reset(int *o)
+inline void oe_olist_reset(int *o)
 {
   *o = -1;
 }
 
-__inline EDIT_OBJEKT * oe_olist_next(EDIT_KONTEJNER *p_kont, int *o)
+inline EDIT_OBJEKT * oe_olist_next(EDIT_KONTEJNER *p_kont, int *o)
 {   
   EDIT_OBJEKT *p_obj;
   if(p_kont) {
@@ -1941,7 +1941,7 @@ __inline EDIT_OBJEKT * oe_olist_next(EDIT_KONTEJNER *p_kont, int *o)
   return(NULL);
 }
 
-__inline float randf(void)
+inline float randf(void)
 {
   return((float)rand()/(float)(RAND_MAX));
 }
@@ -1955,9 +1955,7 @@ void konfiguruj_look_up(int *p_looksqrt_linear, int *p_looksqrt_quadratic, float
 // Minimalni intenzita svetla
 #define DELTA_MIN 0.00392156f
 
-//#define mmalloc(velikost) memset(malloc(velikost),0,velikost)
-
-__inline void * kopiruj_pole(void *p_src, int velikost)
+inline void * kopiruj_pole(void *p_src, int velikost)
 {
   if(p_src) {
     void *p_mem = mmalloc(velikost);
@@ -1970,4 +1968,3 @@ __inline void * kopiruj_pole(void *p_src, int velikost)
 
 
 #endif
-

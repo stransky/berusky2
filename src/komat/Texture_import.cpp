@@ -1,21 +1,15 @@
 /* Import textur
 */
 
-
-#include "mss_on.h"
-#include <windows.h>
 #include <math.h>
 
-#include <direct.h>
 #include <fcntl.h>
-#include <io.h>
-
-#include <GL\gl.h>
+#include <GL/gl.h>
 
 #include <assert.h>
 
 #include "3d_all.h"
-#include "dxtlib.h"
+//#include "dxtlib.h"
 
 static KFILE *file_load;
 
@@ -40,7 +34,7 @@ extern "C" int txt_dds_to_bmp(APAK_HANDLE *pHandle, char *p_file, void **p_retur
   if((file_load = kopen(pHandle,p_file,"rb")) == NULL) {
     return(FALSE);
   }
-  p_data = nvDXTdecompress(width, height, planes, lTotalWidth, rowBytes);
+  //p_data = nvDXTdecompress(width, height, planes, lTotalWidth, rowBytes);
 
   assert(width == lTotalWidth);
   
@@ -92,4 +86,3 @@ void ReadDTXnFile (DWORD count, void *buffer)
 {
   kread(buffer,sizeof(byte),count,file_load);
 }
-

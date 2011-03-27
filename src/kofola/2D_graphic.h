@@ -72,7 +72,6 @@ typedef struct
 	void _2d_Blackness(void);
 	//int _2d_Find_Free_Surface(void);
 
-	void _2d_Clear_RectLine(RECT_LINE *p_rl);
 	void _2d_Add_RectItem(RECT_LINE *p_rl, RECT rect, int iLayer);
 	void _2d_Add_RectItem_IfNPresent(RECT_LINE *p_rl, RECT rect, int iLayer);
 	int _2d_Is_InRectLine(RECT *rline, RECT *p_r, int size);

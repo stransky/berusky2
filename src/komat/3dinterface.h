@@ -558,8 +558,8 @@ void fog_param(int stav);
 void fog_on(void);
 void fog_off(void);
 void aktivuj_mlhu(void);
-void disable_fog(void);
-void enable_fog(void);
+inline void disable_fog(void);
+inline void enable_fog(void);
 
 
 

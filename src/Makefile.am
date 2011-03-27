@@ -5,13 +5,15 @@
 ## 	Please disable it in the Anjuta project configuration
 
 INCLUDES =\
-	 -Ikomat -Ikofola
+	 -Ikomat -Ikofola -Itmp
 
 AM_CFLAGS =\
+	-std=c99\
 	 -Wall\
 	 -g
 
 AM_CXXFLAGS =\
+	-std=c99\
 	 -Wall\
 	 -g
 
@@ -174,9 +176,16 @@ berusky2_SOURCES = \
 	komat/obb.h\
 	komat/strip.cpp\
 	komat/strip.h\
-	komat/zlib_io.h
+	komat/zlib_io.h\
+	komat/ini.c\
+	komat/ini.h\
+	tmp/compat.c\
+	tmp/compat.h\
+	kofola/2D_graphic.c\
+	kofola/2D_graphic.h
 
 berusky2_LDFLAGS = 
 
-berusky2_LDADD = 
+berusky2_LDADD = \
+	 -lGL -lz -lGLU
 

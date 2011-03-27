@@ -1,7 +1,5 @@
 /* Matrix c
 */
-#include "mss_on.h"
-#include <windows.h>
 #include "3d_all.h"
 
 /*

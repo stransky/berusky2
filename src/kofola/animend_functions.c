@@ -359,11 +359,12 @@ void anmend_Lift(int param, int param2, void *p_param)
 
 	if(s >= 0)
 	{
-
+/*
 		for(i=0;i<(abs(param)-1);i++)
 			adas_Queue_Sound(s, p_itm->p_Object->Specific[1].Index);
 
 		adas_Queue_Sound(s, p_itm->p_Object->Specific[2].Index);
+  */
 	}
 
 	if(param > 0)
@@ -420,13 +421,14 @@ void PlayStepsA(float *pos, char bQueue, int Num, int iWave, char bStoneSound)
 	int s,i;
 
 //	s = ap_Play_Sound(0,0,0, pos, iWave, NULL, &ad);
-
+/*
 	if(bStoneSound && s != -1)
 		adas_Queue_Sound(s, 164);
 
 	if(bQueue && s != -1)
 		for(i=0;i<Num;i++)
 			adas_Queue_Sound(s, iWave);
+*/
 }
 
 int GetStep(LEVELINFO  *p_Level)
@@ -689,13 +691,14 @@ void anmend_Steps(int param, int param2, void *p_param)
 		{
 			int idx = GetStep(p_Level);
 //			s = ap_Play_Sound(0,0,0, pos, idx, NULL, &ad);
-
+/*
 			if(p_Level->bStoneSound && s != -1)
 				adas_Queue_Sound(s, 164);
 
 			if(pStruct->bParam && s != -1)
 				for(i=0;i<(pStruct->bParam - pStruct->viParam1[1]);i++)
 					adas_Queue_Sound(s, idx);
+*/    
 		}
 	}
 
@@ -750,8 +753,10 @@ void anmend_Steps2(int param, int param2, void *p_param)
 		else
 		{
 //			s = ap_Play_Sound(0,0,0, pos, 35, NULL, &ad);
+    /*
 			if(pStruct->bParam && s != -1)
 				adas_Queue_Sound(s, 35);
+    */
 		}
 	}
 
@@ -804,13 +809,14 @@ void anmend_StepsSikmina(int param, int param2, void *p_param)
 		else
 		{
 //			s = ap_Play_Sound(0,0,0, pos, 35, NULL, &ad);
-
+/*
 			if(p_Level->bStoneSound && s != -1)
 				adas_Queue_Sound(s, 164);
 
 			if(pStruct->bParam && s != -1)
 				for(i=0;i<(pStruct->bParam);i++)
 					adas_Queue_Sound(s, 35);
+*/    
 		}
 	}
 

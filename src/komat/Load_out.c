@@ -1,10 +1,6 @@
 /* Load/save out souboru
 */
-#include "mss_on.h"
-#include <windows.h>
 #include <string.h>
-#include <direct.h>
-#include <io.h>
 #include <limits.h>
 
 #include "3d_all.h"
@@ -97,7 +93,7 @@ void nahraj_texturu_fc(FFILE f, EDIT_MATERIAL *p_mat, EDIT_TEXT *p_text, int max
 
  if(lo_je_tag(f, TEXT_TAG)) {
    str_read(string,f);
-   _strlwr(string);
+   strlwr(string);
    if(!strcmp(string,S_NIC)) {
      p_mat->p_text[cislo_text] = NULL;
      p_mat->textfile[cislo_text][0] = 0;
@@ -187,7 +183,7 @@ EDIT_MATERIAL * lo_nahraj_material_out(FFILE f, EDIT_TEXT *p_text, int max, int 
  nahraj_texturu_fc(f, p_mat, p_text, max, 1, save);
  nahraj_texturu_fc(f, p_mat, p_text, max, 1, save);
 
- _strlwr(p_mat->jmeno);
+ strlwr(p_mat->jmeno);
  
  if(save)
    return(p_mat);
@@ -490,7 +486,7 @@ int lo_nahraj_objekty_out(EDIT_MATERIAL **p_mat, int max_mat, FFILE f, EDIT_KONT
 
      if(mat) {
        if(!k) {
-         _strlwr(string);
+         strlwr(string);
          if(!strcmp(string,S_NIC)) {
            p_kont->p_obj[i]->material = 0;
            p_kont->p_obj[i]->m1flag = 0;
