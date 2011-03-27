@@ -8,7 +8,7 @@
 #include "Berusky3d_light.h"
 #include "Berusky3d_kofola2d.h"
 #include "game_logic.h"
-#include "animation.h"
+#include "animationk.h"
 #include "animend_functions.h"
 #include "water.h"
 #include "3d_math.h"

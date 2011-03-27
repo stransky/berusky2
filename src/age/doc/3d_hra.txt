@@ -1,0 +1,5 @@
+3D Engine
+---------
+
+- kombinace venkovniho/vnitrniho?
+- real-time rendering?

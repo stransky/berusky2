@@ -1,0 +1,52 @@
+Object lists:
+
+
+object_(next|get_first|append)		-	object list
+render_					-	render list
+hierarchy_				-	hierarchy tree
+
+
+
+
+
+
+Animacni engine:
+----------------
+
+1. Vrstva animaci - skupiny objektu
+
+- klicova/okamzita animace (rychlovkladani klicu!)
+- vazani vice animaci
+
+2. Vrstva animaci
+
+
+- Spojovani objektu do tmp-objektu
+- Pripojeni objektu
+
+
+
+0. Vrstva
+---------
+- Definice zdroju animace objektu - z animacni body
+  Animacni bod pusobi na:
+    - skupinu vertexu objektu
+    - cely objekt
+
+
+
+1. Vrstva
+---------
+- kostni animace jednotlivych vertexu / casti objektu
+
+
+
+
+Koncepce:
+- animacni bod (
+
+
+Struktura graf. engine
+----------------------
+
+Rozsireni z minule:
