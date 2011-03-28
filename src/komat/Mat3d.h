@@ -162,7 +162,7 @@ typedef struct _ZDRCADLO_DESC {
 
 } ZDRCADLO_DESC;
 
-
+/*
 typedef struct _OBB {
 
  BOD          obb[3];     // obb smerovy vektory
@@ -174,6 +174,7 @@ typedef struct _OBB {
  BOD          aabb_max;    // aabb obalka
 
 } OBB;
+*/
 
 // Multitextuing pro 1 texturu
 typedef struct _MULTITEXT_FLAG {
@@ -216,6 +217,7 @@ typedef struct _EDIT_STATE_TEXT_BLOK {
 
 /* 1 renderovaci blok materialu
 */
+/*
 typedef struct _MATERIAL_TEXT {
 
   int   text_stage;                 // stage_funkce pro tento blok
@@ -226,6 +228,7 @@ typedef struct _MATERIAL_TEXT {
   //float parametry...
 
 } MATERIAL_TEXT;
+*/
 
 #define  MLHA_AKTIVNI    0x1
 
