@@ -1,4 +1,5 @@
 #include "3d_all.h"
+#include "ini.h"
 
 void Sleep(int ms)
 {
@@ -371,6 +372,7 @@ void GetPrivateProfileString(
   char * lpFileName // ini file name
 )
 {
+
 }
 
 int WritePrivateProfileString(
@@ -380,6 +382,7 @@ int WritePrivateProfileString(
   char * lpFileName
 )
 {
+
 }
 
 int GetPrivateProfileInt(
@@ -389,4 +392,5 @@ int GetPrivateProfileInt(
   char * lpFileName
 )
 {
+
 }
