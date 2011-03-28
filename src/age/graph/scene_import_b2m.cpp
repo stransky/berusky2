@@ -1471,7 +1471,7 @@ private:
   
   int mesh_material_save_color(FHANDLE *f, MESH_MATERIAL *p_mat)
   {  
-    byte        string[16];
+    char        string[16];
     DATA_CHUNK  ch;
     
     ch.type = CHUNK_COLOR_EXT;
@@ -1492,7 +1492,7 @@ private:
     string[11] = MAX_BYTE;
       
     f->write(&ch,sizeof(ch));
-    f->write(string,sizeof(byte)*16);
+    f->write(string,sizeof(char)*16);
     
     return(TRUE);
   }
@@ -1522,7 +1522,7 @@ private:
       //Prdy z vody - ulozim rovnou texturu
       p_text = p_fram->p_text;
       flag = p_text->flag;
-      f->write(&p_text->name,sizeof(byte),strlen(p_text->name)+1,f);
+      f->write(&p_text->name,sizeof(char),strlen(p_text->name)+1,f);
       f->write(&flag,sizeof(flag));
       
       return(TRUE);
@@ -1542,7 +1542,7 @@ private:
       ch.size = sizeof(ch)+strlen(anim.name)+1+sizeof(p_anim->framenum);    
       
       f->write(&ch,sizeof(ch));
-      f->write(p_anim->name,sizeof(byte),strlen(p_anim->name)+1,f);
+      f->write(p_anim->name,sizeof(char),strlen(p_anim->name)+1,f);
       f->write(&p_anim->framenum,sizeof(p_anim->framenum));        
   
       for(i = 0; i < p_anim->framenum; i++) {      
@@ -1859,9 +1859,9 @@ private:
   int mesh_material_load_color(FHANDLE *f, DATA_CHUNK *p_ch)
   {
     if(p_ch->type == CHUNK_COLOR) {
-      byte string[16];
+      char string[16];
       
-      f->read(string,sizeof(byte)*16);
+      f->read(string,sizeof(char)*16);
 
       RGBAF diff(string[3],string[4],string[5],(byte)MAX_BYTE);
       RGBF  spec(string[6],string[7],string[8]);
@@ -1871,7 +1871,7 @@ private:
       
       return(TRUE);
     } else if (p_ch->type == CHUNK_COLOR_EXT) {
-      byte string[16];
+      char string[16];
       
       f->read(string,sizeof(byte)*16);
   /*

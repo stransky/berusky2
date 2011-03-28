@@ -441,8 +441,8 @@ int txt_reload_lightmap(EDIT_TEXT *p_text, bitmapa *p_bmp)
 // load ok
 int txt_nahraj_format(APAK_HANDLE *pAHandle, const char *p_file, EDIT_TEXT_KONFIG *p_text)
 {
-  byte  jmeno[200];
-  byte *p_znak;
+  char  jmeno[200];
+  char *p_znak;
   int   format = -1;
   KFILE *f;
 
@@ -526,9 +526,9 @@ int txt_nahraj_format(APAK_HANDLE *pAHandle, const char *p_file, EDIT_TEXT_KONFI
   return(TRUE);
 }
 
-void txt_default_konfig(byte *p_file, EDIT_TEXT_KONFIG *p_konf, byte *p_koncovka)
+void txt_default_konfig(char *p_file, EDIT_TEXT_KONFIG *p_konf, char *p_koncovka)
 {
-  byte pom[200] = "_a";
+  char pom[200] = "_a";
 
   strcpy(p_konf->bitmapa,p_file);
   strcpy(p_konf->alfamap,p_file);
@@ -803,7 +803,7 @@ AUX_RGBImageRec * bmp2aux(bitmapa *p_bmp)
   p_vys->sizeX = p_bmp->x;
   p_vys->sizeY = p_bmp->y;
   
-  p_vys->data = mmalloc(sizeof(byte)*3*p_bmp->x*p_bmp->y);
+  p_vys->data = mmalloc(sizeof(char)*3*p_bmp->x*p_bmp->y);
 
   n = p_bmp->x*p_bmp->y;
   for(i = 0; i < n; i++) {
@@ -838,7 +838,7 @@ bitmapa * bmp_kopituj(bitmapa *p_bmp)
   }
 }
 
-int bmp_uloz(byte *p_file, bitmapa *p_bmp)
+int bmp_uloz(char *p_file, bitmapa *p_bmp)
 {
  FILE *f = fopen(p_file,"wb");
  if(f) {
@@ -1013,7 +1013,7 @@ IL_ERROR_LIST il_err_list[] =
   {IL_UNKNOWN_ERROR,       "IL_UNKNOWN_ERROR"}
 };
 */
-int il_error(byte *p_file)
+int il_error(char *p_file)
 {
 /*
   ILenum  il_err;
@@ -1033,9 +1033,9 @@ int il_error(byte *p_file)
 */
 }
 
-byte * file_read(APAK_HANDLE *pHandle, byte *p_file, int *p_read)
+byte * file_read(APAK_HANDLE *pHandle, char *p_file, int *p_read)
 {
-  byte   *p_buffer;
+  char   *p_buffer;
   char   *pBuffer;
   apuLong psize;
   FILE   *f;

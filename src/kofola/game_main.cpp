@@ -15,6 +15,7 @@
 #include "font.h"
 #include "Apak.h"
 #include "profiles.h"
+#include "Menu.h"
 #include "Menu2.h"
 
 APAK_HANDLE		*pBmpArchive = NULL;
@@ -129,7 +130,7 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 	if(!winmain_Check_Window_Menu())
 		return 0;
 
-	bWindowMenu = !GetPrivateProfileInt("hra","fullscreen", 1, (const char *) ini_file);
+	bWindowMenu = !GetPrivateProfileInt("hra","fullscreen", 1, ini_file);
 
 	gi_Set_Win_Version();
 	getcwd(CurrentWorkingDirectory, 256);

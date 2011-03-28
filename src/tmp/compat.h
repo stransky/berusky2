@@ -151,7 +151,7 @@ int MultiByteToWideChar(
   int dwFlags,
   char * lpMultiByteStr,
   int cbMultiByte,
-  char * lpWideCharStr,
+  WCHAR * lpWideCharStr,
   int cchWideChar
 );
 
@@ -192,7 +192,7 @@ int ap_Load_Environment(char *p_Env_Name, void *p_Level, AUDIO_DATA *p_ad);
 
 int ap_Load_Sound_List(AUDIO_DATA *p_ad, char *cFile, int iStart);
 
-void ShowCursor(void *tmp);
+void ShowCursor(bool state);
 void SetCursor(void *tmp);
 
 char * strupr(char * string);

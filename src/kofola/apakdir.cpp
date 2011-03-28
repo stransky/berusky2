@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include "Apak.h"
 
 extern void apakError(APAK_HANDLE *pHandle, char *cError);

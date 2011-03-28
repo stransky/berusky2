@@ -14,7 +14,7 @@
 #include "trigers.h"
 #include "grammar.h"
 #include "menu_script.h"
-#include "animation.h"
+#include "animationk.h"
 #include "profiles.h"
 
 #define VELIKOST_STREPIN	2.0f
@@ -37,10 +37,10 @@ void gl_Logical2Real(int x, int y, int z,long *Real_Pos, LEVELINFO *p_Level);
 
 #define RWBUFF_VEL 60000
 
-int lsi_file_copy(byte *p_src, byte *p_out)
+int lsi_file_copy(char *p_src, char *p_out)
 {
   FILE  *in,*out;
-  byte  *p_buffer;
+  char  *p_buffer;
   int    nc;
 
   in = fopen(p_src,"rb");
@@ -52,7 +52,7 @@ int lsi_file_copy(byte *p_src, byte *p_out)
     return(FALSE);
   }
 
-  p_buffer = malloc(RWBUFF_VEL);
+  p_buffer = (char *)malloc(RWBUFF_VEL);
 //  mtest(p_buffer);
 
   while((nc = fread(p_buffer,1,RWBUFF_VEL,in))) {
@@ -778,7 +778,7 @@ int lsi_Create_Level_Raw(char *p_Level_Name, BUNKA_LEVELU_DISK **b_l_d, int *siz
 
 	(*size) = l_h.x*l_h.y*l_h.z*2;
 
-	(*b_l_d) = malloc((*size) * sizeof(BUNKA_LEVELU_DISK));
+	(*b_l_d) = (BUNKA_LEVELU_DISK *)malloc((*size) * sizeof(BUNKA_LEVELU_DISK));
 
 	if(!(*b_l_d))
 	{
@@ -1108,7 +1108,7 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO *p_Level)
 					{
 						int m;
 
-						p_Level->Item[pointer].p_Back_Pack = malloc(sizeof(BACK_PACK));
+						p_Level->Item[pointer].p_Back_Pack = (BACK_PACK *)malloc(sizeof(BACK_PACK));
 						
 						for(m=0;m<16;m++)
 							p_Level->Item[pointer].p_Back_Pack->item[m] = 0;

@@ -775,7 +775,7 @@ EDIT_OBJEKT * kameru_dratovou_vyrob(BOD *p_p, BOD *p_t, float fov, float roll)
  return(p_obj);
 }
 
-int vyrob_kameru_indir(KAMERA *p_kam, byte *p_jmeno, BOD *p_p, BOD *p_t, float fov, float roll)
+int vyrob_kameru_indir(KAMERA *p_kam, char *p_jmeno, BOD *p_p, BOD *p_t, float fov, float roll)
 {
   BOD p = {0,0,0};
 

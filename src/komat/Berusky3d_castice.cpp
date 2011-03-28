@@ -638,7 +638,7 @@ HnizdoHandle par_vloz_hnizdo_pivot(HnizdoHandle hh, BOD *p_pivot)
   return(hh);
 }
 
-HnizdoHandle par_vloz_hnizdo_rotaci(HnizdoHandle hh, byte rotace)
+HnizdoHandle par_vloz_hnizdo_rotaci(HnizdoHandle hh, char rotace)
 {
   PARMETAC_HNIZDO *p_hnizdo = (PARMETAC_HNIZDO *)hh;
   p_hnizdo->rotace = rotace;

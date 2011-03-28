@@ -22,10 +22,10 @@
 #include "3D_menus.h"
 #include "Demo.h"
 #include "load_level.h"
+#include "Menu.h"
 #include "Menu2.h"
 #include "menu_def.h"
 #include "Tools.h"
-#include "ini.h"
 
 #define HDC2DD		-1
 #define TRANSCOLOR	0//RGB(255, 0, 255)
@@ -6651,7 +6651,7 @@ void RunMenuCibron(char *cBmp)
 	dim.t1 = 0;
 	dim.t2 = 0;
 
-	memset(key, 0, POCET_KLAVES * sizeof(byte));
+	memset(key, 0, POCET_KLAVES * sizeof(char));
 
 	ddxBitBlt(HDC2DD, 0, 0, 1024, 768, idx, 0, 0);
 
@@ -6694,7 +6694,7 @@ void RunMenuCinemax(void)
 	dim.t1 = 0;
 	dim.t2 = 0;
 
-	memset(key, 0, POCET_KLAVES * sizeof(byte));
+	memset(key, 0, POCET_KLAVES * sizeof(char));
 
 	ddxReleaseBitmap(cib);
 	ddxSetCursor(1);
@@ -9069,4 +9069,3 @@ char MenuCheckSuccessExit(void)
 	else
 		return 0;
 }
-

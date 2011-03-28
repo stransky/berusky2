@@ -38,7 +38,7 @@ int        mouse_move = FALSE;
   dword      start_debug;
 #endif
 
-byte work_dir[200] = ".";
+char work_dir[200] = ".";
 /*
 inline void nacti_polohu_mysi(WPARAM wParam, LPARAM lParam)
 {    
@@ -58,6 +58,7 @@ inline int filtr_klaves(int scancode)
 {   
   return(gl_Allow_Key(scancode) ? scancode : 0);
 }
+
 /*
 long CALLBACK WindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {  
@@ -86,7 +87,6 @@ long CALLBACK WindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
       system_kurzor = TRUE;
       if(obsluha_okna)
         minimalizuj_hru();
-      clip_ret();
     }
     break;
   case WM_CLOSE:
@@ -138,140 +138,7 @@ long CALLBACK WindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
   }  
   return DefWindowProc( hwnd, message, wParam, lParam );
 }
-
-int registruj_okno(HINSTANCE handle_aplikace)
-{
-  WNDCLASS    wc;
-
-  wc.style = CS_HREDRAW | CS_VREDRAW;
-  wc.lpfnWndProc = WindowProc;
-  wc.cbClsExtra = 0;
-  wc.cbWndExtra = 0;
-  wc.hInstance = handle_aplikace;
-  wc.hIcon = LoadIcon(handle_aplikace, MAKEINTRESOURCE(IDI_ICON1));
-  wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-  wc.hbrBackground = GetStockObject(BLACK_BRUSH);
-  wc.lpszMenuName = NULL;
-  wc.lpszClassName = BERUSKY_NAME;
-  
-  return(RegisterClass(&wc));
-}
-
-HWND otevri_okno(HINSTANCE handle_aplikace, int full_screen, int dx, int dy, HW_KONFIG *p_conf)
-{
-  HWND        hwnd;
-  
-  if(!dx)
-    dx = GetSystemMetrics(SM_CXSCREEN);
-  if(!dy)
-    dy = GetSystemMetrics(SM_CYSCREEN);
-  
-  if(full_screen) {
-    hwnd = CreateWindowEx(
-      WS_EX_TOPMOST,
-      BERUSKY_NAME,
-      BERUSKY_NAME,
-      WS_POPUP,
-      0,
-      0,
-      dx,
-      dy,
-      NULL,
-      NULL,
-      handle_aplikace,
-      NULL);
-
-    p_conf->xstart = p_conf->ystart = 0;
-    p_conf->xres = dx; p_conf->yres = dy;
-  } else {
-    int sdx = GetSystemMetrics(SM_CXSCREEN);
-    int sdy = GetSystemMetrics(SM_CYSCREEN);
-
-    sdx = sdx/2-dx/2;
-    if(sdx < 0)
-      sdx = 0;
-        
-    sdy = sdy/2-dy/2;
-    if(sdy < 0)
-      sdy = 0;
-
-    p_conf->xstart = sdx;
-    p_conf->ystart = sdy;
-    p_conf->xres = dx; 
-    p_conf->yres = dy;
-
-    hwnd = CreateWindowEx(
-      FALSE,
-      BERUSKY_NAME,
-      BERUSKY_NAME,
-      WS_POPUP|WS_BORDER|WS_CHILD,
-      sdx,
-      sdy,
-      dx,
-      dy,
-      NULL,
-      NULL,
-      handle_aplikace,
-      NULL);
-  }
-
-  if (!hwnd) return NULL;
-
-  BringWindowToTop(hwnd);
-  SetForegroundWindow(hwnd);
-  ShowWindow(hwnd,SW_SHOWNORMAL);
-  UpdateWindow(hwnd);
-  SetFocus(hwnd);
-
-  return(hwnd);
-}
-
-HWND zavri_okno(HWND hwnd)
-{
-  DestroyWindow(hwnd);
-  return(0);
-}
-
-void nastav_okno(HW_KONFIG *p_conf, int menu)
-{ 
-  if(!bDXAktivni && hwnd_hry) {
-    if(menu) {
-      int sdx = GetSystemMetrics(SM_CXSCREEN);
-      int sdy = GetSystemMetrics(SM_CYSCREEN);
-      int dx = XRES_MENU;
-      int dy = YRES_MENU;
-      
-      sdx = sdx/2-dx/2;
-      if(sdx < 0)
-        sdx = 0;
-      
-      sdy = sdy/2-dy/2;
-      if(sdy < 0)
-        sdy = 0;
-
-      MoveWindow(hwnd_hry,sdx,sdy,dx,dy,TRUE);
-    } else {
-      MoveWindow(hwnd_hry,p_conf->xstart,p_conf->ystart,
-                          p_conf->xres,p_conf->yres,TRUE);
-    }
-    BringWindowToTop(hwnd_hry);
-    SetForegroundWindow(hwnd_hry);
-    SetFocus(hwnd_hry);
-  }
-}
 */
-void clip_set(HW_KONFIG *p_conf)
-{
-/*
-  RECT rc = {p_conf->xstart,p_conf->ystart,
-             p_conf->xres,p_conf->yres};
-  ClipCursor(&rc);
-*/
-}
-void clip_ret(void)
-{
-  //ClipCursor(NULL);
-}
 
 void minimalizuj_hru(void)
 {
@@ -296,8 +163,6 @@ void maximalizuj_hru(void)
     nastav_okno(&hwconf,FALSE);
     SetFocus(hwnd_hry);
     gl_Kofola_Maximalize();
-    if(hwconf.fullscreen)
-      clip_set(&hwconf);
   }
 */
 }
@@ -350,9 +215,6 @@ int kom_graf_init(void)
   p_ber->wxres = hwconf.xres;
   p_ber->wyres = hwconf.yres;
 
-  if(hwconf.fullscreen)
-    clip_set(&hwconf);
-
   /* Vyflushni veci z fronty
   */
   spracuj_spravy(TRUE);
@@ -389,8 +251,6 @@ void kom_graf_konec(int menu)
 //    nastav_okno(&hwconf,TRUE);
     spracuj_spravy(0);
   }
-
-  clip_ret();
 }
 
 void konec(int konec)
@@ -409,52 +269,34 @@ void konec(int konec)
 }
 
 int efile(char *p_file);
-/*
-int WINAPI WinMain( HINSTANCE hi, HINSTANCE hPrevInstance,
-                    LPSTR lpCmdLine, int nCmdShow)
+
+int main(int argc, char **argv)
 {
- byte pom[200];
- byte pom2[200];
- hinst = hi;
-
- getcwd(ini_file,500);
- strcat(ini_file,"\\berusky3d.ini");
- if(!efile(ini_file)) {
+  char *p_level;
+  char pom[200];
+  
+  getcwd(ini_file,500);
+  strcat(ini_file,"\\berusky3d.ini");
+  if(!efile(ini_file)) {
    strcpy(ini_file,"berusky3d.ini");
- } 
-
- ilInit();
-
- nahraj_konfig();
-
- registruj_okno(hinst);
- 
- hwnd_hry = otevri_okno(hinst,hwconf.fullscreen,XRES_MENU,YRES_MENU,&hwconf); 
- 
- if(GetPrivateProfileInt("debug","debug_file",0,ini_file)) {
+  } 
+  
+  nahraj_konfig();
+  
+  //hwnd_hry = otevri_okno(hinst,hwconf.fullscreen,XRES_MENU,YRES_MENU,&hwconf); 
+  
+  if(GetPrivateProfileInt("debug","debug_file",0,ini_file)) {
    GetPrivateProfileString("hra","log_file","c:\\berusky2log.txt",pom,500,ini_file);
-   p_ber->debug_file = fopen(pom,"a");
-   kprintf(TRUE, "-----------------------Start game - date %s time %s-----------------",_strdate(pom),_strtime(pom2));
- }
+   p_ber->debug_file = fopen(pom,"a");   
+  } 
+  
+  ber_konfiguruj_berusky(&ber);
 
- kprintf(TRUE,"Komat - sv: %s (%s %s)",VERZE_KOMAT,__DATE__,__TIME__);
- 
- ber_konfiguruj_berusky(&ber);
- 
- {
-   int i;
-   for(i = 0; i < 1; i++) {
-     winmain_Game_Run(hwnd_hry,lpCmdLine);
-   }
- }
- 
- ilShutDown();
-
- //MSS_LOG_BLOCK_LIST;
-
- return(TRUE);
+  p_level = (argc > 1) ? argv[1] : "a";
+  winmain_Game_Run(hwnd_hry,p_level);
+  
+  return(TRUE);
 }
-*/
 
 int spracuj_spravy(int param)
 {

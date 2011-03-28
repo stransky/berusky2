@@ -23,7 +23,7 @@ The code in this file is subject to the RunicSoft source code licence
 #include "3d_all.h"
 
 /*******************************************************************
-byte* ConvertRGBToBMPBuffer ( byte* Buffer, int width, 
+char* ConvertRGBToBMPBuffer ( char* Buffer, int width, 
 		int height, long* newsize )
 
 
@@ -46,8 +46,8 @@ First the RGB triplets are converted to BGR.
 Then the buffer is swapped around since .bmps store
 images uside-down.
 Finally the buffer gets DWORD ( 32bit ) aligned, 
-meaning that each scanline ( 3 * width bytes ) gets
-padded with 0x00 bytes up to the next DWORD boundary
+meaning that each scanline ( 3 * width chars ) gets
+padded with 0x00 chars up to the next DWORD boundary
 
 
 *******************************************************************/

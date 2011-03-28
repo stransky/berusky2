@@ -34,24 +34,27 @@ typedef struct _APAKFILE
 	struct _APAKFILE	*pNext;
 } APAKFILE;
 
+struct apaknode;
+typedef struct apaknode APAKNODE;
+  
 typedef struct _APAKDIRECTORY
 {
 	char					cName[256];
 	time_t					ttCreateTime;
 	apuInt					uattDirAttribute;
-	void					*papakNode;
+	APAKNODE 			 *papakNode;
 	struct _APAKDIRECTORY	*pNext;
 } APAKDIRECTORY;
 
-typedef struct _APAKNODE
+typedef struct apaknode
 {
 	char				cWDir[256];
 	apuLong				apuLSizeofFile;
 	APAKFILE			*apakFile;
 	apuLong				apuLSizeofDirectory;
 	APAKDIRECTORY		*apakDirectory;
-	struct _APAKNODE	*pPreviousNode;
-	struct _APAKNODE	*pNextNode;
+	APAKNODE	*pPreviousNode;
+	APAKNODE	*pNextNode;
 } APAKNODE;
 
 typedef struct _APAKFILENODE

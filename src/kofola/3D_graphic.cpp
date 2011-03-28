@@ -361,9 +361,9 @@ void _3d_Draw_Box(int i, float *vfPoint)
 	glEnd();
 }
 
-void _3d_Put_Texture_In_VRAM(int *text, int x, int y, byte *data)
+void _3d_Put_Texture_In_VRAM(int *text, int x, int y, char *data)
 {
-	glGenTextures(1, text);
+	glGenTextures(1, (GLuint*)text);
 	glBindTexture(GL_TEXTURE_2D, *text);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 
 				 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -378,7 +378,9 @@ void _3d_Load_Hint(HINT_TEXTURE *bTexture, char *cHint, int i, int iSection)
 {
 	fn_Get_Font_Texture(iSection, cHint);
 	
-	_3d_Put_Texture_In_VRAM(&bTexture[i].text.text, _3dd.p_sysramtexture[_3dd.last-1].x, _3dd.p_sysramtexture[_3dd.last-1].y, 
+	_3d_Put_Texture_In_VRAM((int*)&bTexture[i].text.text, 
+                            _3dd.p_sysramtexture[_3dd.last-1].x, 
+                            _3dd.p_sysramtexture[_3dd.last-1].y,
 							_3dd.p_sysramtexture[_3dd.last-1].data);
 
 	bTexture[i].tx = _3dd.p_sysramtexture[_3dd.last-1].tx;

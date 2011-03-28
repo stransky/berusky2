@@ -2,6 +2,7 @@
 // version 0.0.1
 //------------------------------------------------------------------------------------------------
 #include <math.h>
+#include <wchar.h>
 
 #include <assert.h>
 #include "font.h"
@@ -17,7 +18,7 @@
 #include "2D_graphic.h"
 #include "Menu2.h"
 #include "Apak.h"
-#include "animation.h"
+#include "animationk.h"
 #include "3D_menus.h"
 #include "load_level.h"
 #include "menu_def.h"
@@ -1586,7 +1587,7 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out, LEVELINFO *p_Lev
 
 			ZeroMemory(cText, 128);
 			//RunMenuLoadGameLoad2("Mmload_game_load3d.txt", p_Level->p_ad, p_Level, &am, 1, cText);
-			RunMenuLoadGameLoad2("Mmload_game_load3d.txt", NULL, p_Level, &am, 1, cText);
+			//RunMenuLoadGameLoad2("Mmload_game_load3d.txt", NULL, p_Level, &am, 1, cText);
 
 			if(wcslen(cText))
 			{
@@ -1619,7 +1620,7 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out, LEVELINFO *p_Lev
 //			ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
 
 			ZeroMemory(cText, 128);
-			RunMenuLoadGameLoad2("Mmload_game_loads3d.txt", NULL /*p_Level->p_ad*/, p_Level, &am, 0, cText);
+			//RunMenuLoadGameLoad2("Mmload_game_loads3d.txt", NULL /*p_Level->p_ad*/, p_Level, &am, 0, cText);
 
 			if(wcslen(cText))
 				lsi_Save_Level(cText, p_Level);

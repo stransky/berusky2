@@ -3325,7 +3325,7 @@ int co2_Handle_Edit(CONTROL_EDIT2 *p_ed, int x, int y, int hdc, int xcor, int yc
 
 			if(co_Handle_Edit_Key_Filter() || (co2_Handle_wsclen(p_ed) && !key[K_BKSP]))
 			{
-				memset(key, 0, POCET_KLAVES * sizeof(byte));
+				memset(key, 0, POCET_KLAVES * sizeof(char));
 				return 1;
 			}
 
@@ -3338,13 +3338,13 @@ int co2_Handle_Edit(CONTROL_EDIT2 *p_ed, int x, int y, int hdc, int xcor, int yc
 
 			if(!wt[0])
 			{
-				memset(key, 0, POCET_KLAVES * sizeof(byte));
+				memset(key, 0, POCET_KLAVES * sizeof(char));
 				return 1;
 			}
 
 			if(wt[0] == '_')
 			{
-				memset(key, 0, POCET_KLAVES * sizeof(byte));
+				memset(key, 0, POCET_KLAVES * sizeof(char));
 				return 1;
 			}
 
@@ -3417,7 +3417,7 @@ co2_HANDLE_DRAW:
 						      TRANSCOLOR);
 
 			p_ed->tx = xt;
-			memset(key, 0, POCET_KLAVES * sizeof(byte));
+			memset(key, 0, POCET_KLAVES * sizeof(char));
 		}
 	}
 

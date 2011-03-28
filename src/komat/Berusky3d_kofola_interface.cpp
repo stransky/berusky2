@@ -69,7 +69,7 @@ MeshHandle kom_pridej_prvek_levelu(BUNKA_LEVELU_DISK *p_bunka, int x, int y, int
 
 /* Loadne prvek levelu z disku
 */
-MeshHandle kom_pridej_prvek_levelu_disk(byte *p_file, BUNKA_LEVELU_DISK *p_bunka, int x, int y, int z)
+MeshHandle kom_pridej_prvek_levelu_disk(char *p_file, BUNKA_LEVELU_DISK *p_bunka, int x, int y, int z)
 {
   int  handle = K_CHYBA;
   int  mesh;  
@@ -597,8 +597,8 @@ int ber_test_zrcadla(void)
 
 void kom_load_sys_material(int i)
 {
- byte  file[200];
- byte  pom[200];
+ char  file[200];
+ char  pom[200];
  
  sprintf(pom,"system_material_%d",i);
  GetPrivateProfileString("game",pom,"",file,200,ini_file);
@@ -638,14 +638,14 @@ int ber_vyber_berusky(BUNKA_LEVELU_DISK *p_disk, int num, BUNKA_LEVELU_DISK *p_b
 }
 
 // chdir - TRUE - nastavit adresar
-void kom_load_level(byte *p_file, int zmen_dir, int restart, BUNKA_LEVELU_DISK *p_bunka, int bunek)
+void kom_load_level(char *p_file, int zmen_dir, int restart, BUNKA_LEVELU_DISK *p_bunka, int bunek)
 {
  BUNKA_LEVELU_DISK berusky[5];
  int               berusek;
  GAME_MESH **p_slist;
  int         snum;
- byte  dir[200];
- byte  file[200];
+ char  dir[200];
+ char  file[200];
  int   vel1,vel2,vel3,vel4,ret,i,facu,vertexu;
  int  *p_ind;
  dword time;
@@ -814,7 +814,7 @@ BOD * kom_get_fyz_souradnice(int x, int y, int z, BOD *p_bod)
 
 /* Hledaci funkce
 */
-MatHandle kom_najdi_material(byte *p_jmeno)
+MatHandle kom_najdi_material(char *p_jmeno)
 {
   int i;
   for(i = 0; i < MAX_CELKEM_MATERIALU; i++) {
@@ -829,7 +829,7 @@ EDIT_MATERIAL * kom_preloz_material(MatHandle mh)
  return(p_ber->p_mat[mh]);
 }
 
-MeshHandle kom_najdi_mesh_prvek(byte *p_jmeno)
+MeshHandle kom_najdi_mesh_prvek(char *p_jmeno)
 {
   PRVEK_LEVELU_GAME *p_prv;
   int i;
@@ -842,7 +842,7 @@ MeshHandle kom_najdi_mesh_prvek(byte *p_jmeno)
   return(K_CHYBA);
 }
 
-ExMeshHandle kom_najdi_mesh(byte *p_jmeno)
+ExMeshHandle kom_najdi_mesh(char *p_jmeno)
 {
   int i;
   for(i = 0; i < p_ber->meshnum; i++) {
@@ -1070,7 +1070,7 @@ int kom_mesh_get_mat(MeshHandle mh, MatHandle *p_mat)
 }
 
 // Nacte jmeno materialu z materialu
-byte * kom_get_mat_jmeno(MatHandle mh, byte *p_buffer, int max_znaku)
+char * kom_get_mat_jmeno(MatHandle mh, char *p_buffer, int max_znaku)
 {  
   if(p_ber->p_mat[mh] && (strlen(p_ber->p_mat[mh]->jmeno) < (dword)max_znaku)) {
     return(strcpy(p_buffer,p_ber->p_mat[mh]->jmeno));    
@@ -1086,7 +1086,7 @@ int kom_je_prvek_staticky(int guid)
 /* *******************************************************
     Nastaveni mlznych kostek
 */
-MLZNA_KOSTKA * kom_mlhokostka_najdi(byte *p_jmeno)
+MLZNA_KOSTKA * kom_mlhokostka_najdi(char *p_jmeno)
 {
  MLZNA_KOSTKA *p_top = p_ber->p_mlha;
 

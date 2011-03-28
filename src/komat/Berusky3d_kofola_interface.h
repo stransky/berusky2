@@ -58,9 +58,9 @@ void kom_graf_konec(int menu);      // zrusi DirectX
   Load a zruseni levelu - to je taky urcite jasny
  **********************************************************************
 */
-void kom_init_level(LEVEL_HEADER *p_head); // konfiguruje nahravany level, volat pred "void kom_load_level(byte *p_file)"
-void kom_load_level(byte *p_file, int zmen_dir, int restart, BUNKA_LEVELU_DISK *p_bunka, int bunek);
-void kom_post_init_level(void);            // konfiguruje level, volat po "void kom_load_level(byte *p_file)"
+void kom_init_level(LEVEL_HEADER *p_head); // konfiguruje nahravany level, volat pred "void kom_load_level(char *p_file)"
+void kom_load_level(char *p_file, int zmen_dir, int restart, BUNKA_LEVELU_DISK *p_bunka, int bunek);
+void kom_post_init_level(void);            // konfiguruje level, volat po "void kom_load_level(char *p_file)"
 void kom_zrus_level(int restart);          // rusi level, pokud je to restart tak zrus spec zpusobem
 
 // Nacte fyzickou souradnici policka levelu
@@ -72,13 +72,13 @@ BOD * kom_get_fyz_souradnice(int x, int y, int z, BOD *p_bod);
  **********************************************************************
 */
 // Hleda material podle jeho jmena, K_CHYBA pri neuspechu
-MatHandle kom_najdi_material(byte *p_jmeno);
+MatHandle kom_najdi_material(char *p_jmeno);
 
 // Vrati pointer na material - strkat do flaru
 EDIT_MATERIAL * kom_preloz_material(MatHandle mh);
 
 // Hleda meshe prvku
-MeshHandle kom_najdi_mesh_prvek(byte *p_jmeno);
+MeshHandle kom_najdi_mesh_prvek(char *p_jmeno);
 
 
 
@@ -90,14 +90,14 @@ MeshHandle kom_najdi_mesh_prvek(byte *p_jmeno);
 /* load/ruseni
 */
 MeshHandle kom_pridej_prvek_levelu(BUNKA_LEVELU_DISK *p_bunka, int x, int y, int z);
-MeshHandle kom_pridej_prvek_levelu_disk(byte *p_file, BUNKA_LEVELU_DISK *p_bunka, int x, int y, int z);
+MeshHandle kom_pridej_prvek_levelu_disk(char *p_file, BUNKA_LEVELU_DISK *p_bunka, int x, int y, int z);
 
 /* Vlozis jmeno kontejneru co chces najit a on ti z nejvyrobi prvek levelu.
    vraci K_CHYBA pokud nenasel kontejner toho jmena
 */
 MeshHandle kom_pridej_mesh_do_levelu(char *p_jmeno);
 void       kom_zrus_prvek(MeshHandle prvek_handle);
-ExMeshHandle kom_najdi_mesh(byte *p_jmeno);
+ExMeshHandle kom_najdi_mesh(char *p_jmeno);
 
 /* Nastavi pivot point pro prvek, prepise nastaveni pivotu u sim animace
    pokud to nepojede, dej vedet...
@@ -231,7 +231,7 @@ int kom_mesh_get_mat(MeshHandle mh, MatHandle *p_mat);
 
 /* Vrati jmeno konkretniho materialu
 */
-byte * kom_get_mat_jmeno(MatHandle mh, byte *p_buffer, int max_znaku);
+char * kom_get_mat_jmeno(MatHandle mh, char *p_buffer, int max_znaku);
 
 
 /**********************************************************************
@@ -249,7 +249,7 @@ byte * kom_get_mat_jmeno(MatHandle mh, byte *p_buffer, int max_znaku);
   Vyroba animaci hernich prvku
  ***********************************************************************
 */
-AnimHandle sim_nahraj_animaci(APAK_HANDLE *pHandle, byte *p_jmeno, int linearne);
+AnimHandle sim_nahraj_animaci(APAK_HANDLE *pHandle, char *p_jmeno, int linearne);
 AnimHandle sim_vyrob_animaci(int pos_key, int rot_key, int scale_key);
 
 AnimHandle sim_vloz_klic_posun(AnimHandle handle, int klic, float x, float y, float z, int frame);
@@ -463,7 +463,7 @@ int lani_get(MeshHandle mh);
   2. Nahrani animace
 
     Kdyz si animaci udelas v editoru, muzes si ju imto nahrat:    
-     AnimHandle kam_3ds_nahraj_animaci(byte *p_jmeno);
+     AnimHandle kam_3ds_nahraj_animaci(char *p_jmeno);
      
 
   3. Vlozeni klicu 
@@ -592,7 +592,7 @@ AnimHandle kam_pol_vloz_klic_all(AnimHandle handle, int klic, BOD *p_p, float r,
 AnimHandle kam_zrus_animaci(AnimHandle handle);
 
 AnimHandle kam_3ds_vyrob_animaci(int framenum, int pos_keys, int target_keys, int roll_keys, int fov_keys);
-AnimHandle kam_3ds_nahraj_animaci(APAK_HANDLE *pHandle, byte *p_jmeno);
+AnimHandle kam_3ds_nahraj_animaci(APAK_HANDLE *pHandle, char *p_jmeno);
 AnimHandle kam_3ds_vloz_klic_posun(AnimHandle handle, int klic, float x, float y, float z, int frame);
 AnimHandle kam_3ds_vloz_klic_posun_bod(AnimHandle handle, int klic, BOD *p_p, int frame);
 AnimHandle kam_3ds_vloz_klic_posun_parametry(AnimHandle handle, int klic, float tension, float continuity, float bias);
@@ -626,7 +626,7 @@ int  kam_get_mod(void);          // zjisti aktualni mod kamery
 
   typedef struct _MLZNA_KOSTKA {
   
-    byte  jmeno[MAX_JMENO];// jmeno mlzne kostky
+    char  jmeno[MAX_JMENO];// jmeno mlzne kostky
     BOD   min,max;         // rozmery kostky
     int   flag;            // flagy mlhy
     int   mod;             // mod mlhy (linear/exp/exp2)
@@ -641,7 +641,7 @@ int  kam_get_mod(void);          // zjisti aktualni mod kamery
   } MLZNA_KOSTKA;
 */
 
-MLZNA_KOSTKA * kom_mlhokostka_najdi(byte *p_jmeno);
+MLZNA_KOSTKA * kom_mlhokostka_najdi(char *p_jmeno);
 
 
 /***********************************************************************
@@ -674,7 +674,7 @@ ExMeshHandle   kom_najdi_mesh_joint(ExMeshHandle *p_next);
 ExMeshHandle   mesh_to_ex_mesh(MeshHandle mh);
 int            chani_mesh_cti_objekty(ExMeshHandle mh);
 int            chani_mesh_cti_chapadelniky(ExMeshHandle mh, int objekt, ChapadloHandle **p_chap, int *p_chapadel);
-byte *         chani_cti_jmeno(ChapadloHandle chh);
+char *         chani_cti_jmeno(ChapadloHandle chh);
 
 // Vlozi/Vyhodi animace chapadelnika do aniamcniho seznamu
 ChapadloHandle chani_zarad(ChapadloHandle chh);

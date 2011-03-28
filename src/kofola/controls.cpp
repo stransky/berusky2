@@ -3087,7 +3087,7 @@ int co_Check_Shift(void)
 
 int co_Handle_Edit_Key_Filter(void)
 {
-	byte k[256];
+	char k[256];
 	int c = 0, i;
 
 	//GetKeyboardState(k);
@@ -3300,7 +3300,7 @@ int co_Handle_Edit(CONTROL_EDIT *p_ed, int x, int y, int hdc, int xcor, int ycor
 
 			if(co_Handle_Edit_Key_Filter() || (co_Handle_wsclen(p_ed) && !key[K_BKSP]))
 			{
-				memset(key, 0, POCET_KLAVES * sizeof(byte));
+				memset(key, 0, POCET_KLAVES * sizeof(char));
 				return 1;
 			}
 
@@ -3312,13 +3312,13 @@ int co_Handle_Edit(CONTROL_EDIT *p_ed, int x, int y, int hdc, int xcor, int ycor
 
 			if(!wt[0])
 			{
-				memset(key, 0, POCET_KLAVES * sizeof(byte));
+				memset(key, 0, POCET_KLAVES * sizeof(char));
 				return 1;
 			}
 
 			if(wt[0] == '_')
 			{
-				memset(key, 0, POCET_KLAVES * sizeof(byte));
+				memset(key, 0, POCET_KLAVES * sizeof(char));
 				return 1;
 			}
 
@@ -3370,7 +3370,7 @@ CO_HANDLE_DRAW:
 
 			p_ed->tx = draw_edit(p_ed, x, y, hdc, xcor, ycor);
 
-			memset(key, 0, POCET_KLAVES * sizeof(byte));
+			memset(key, 0, POCET_KLAVES * sizeof(char));
 		}
 	}
 

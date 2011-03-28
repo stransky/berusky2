@@ -5,7 +5,6 @@
 #include "menu_script.h"
 #include "2D_graphic.h"
 #include "game_init.h"
-#include "ini.h"
 
 typedef struct
 {

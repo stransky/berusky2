@@ -31,9 +31,9 @@ int hlasit_kolize = 0;
 */
 /* Zameni koncovku, koncovka je zadana vcetne tecky
 */
-byte * zamen_koncovku(byte *p_file, byte *p_koncovka)
+char * zamen_koncovku(char *p_file, char *p_koncovka)
 {
-  byte *p_pom = p_file,*p_last = NULL;
+  char *p_pom = p_file,*p_last = NULL;
   while((p_pom = strchr(p_pom,'.'))) {
     p_last = p_pom++;
   }
@@ -43,19 +43,19 @@ byte * zamen_koncovku(byte *p_file, byte *p_koncovka)
 
 /* Zameni koncovku, oddelovaci znak se zadava
 */
-byte * zamen_koncovku_znak(byte *p_file, byte znak, byte *p_koncovka)
+char * zamen_koncovku_znak(char *p_file, char znak, char *p_koncovka)
 {
-  byte *p_pom = strchr(p_file,znak);
+  char *p_pom = strchr(p_file,znak);
   if(p_pom) *p_pom = 0;  
   return((p_koncovka) ? strcat(p_file,p_koncovka) : p_file);
 }
 
 /* Vrati koncovku souboru
 */
-byte * cti_koncovku(byte *p_file)
+char * cti_koncovku(char *p_file)
 {
   if(p_file) {
-    byte *p_pom = strchr(p_file,'.');
+    char *p_pom = strchr(p_file,'.');
     return(p_pom);
   } else {
     return(NULL);
@@ -64,16 +64,16 @@ byte * cti_koncovku(byte *p_file)
 
 /* Vrati znak
 */
-byte * cti_za_znak(byte *p_string, char znak)
+char * cti_za_znak(char *p_string, char znak)
 {
-  byte *p_pom = p_string;
+  char *p_pom = p_string;
   while(*p_pom && *p_pom == znak) p_pom++;
   return(p_pom);
 }
 
 /* Mlzna kostka
 */
-MLZNA_KOSTKA * vyrob_mlhokostku(byte *p_jmeno)
+MLZNA_KOSTKA * vyrob_mlhokostku(char *p_jmeno)
 {
   MLZNA_KOSTKA *p_mlha = mmalloc(sizeof(p_mlha[0]));
   
@@ -87,7 +87,7 @@ MLZNA_KOSTKA * vyrob_mlhokostku(byte *p_jmeno)
   return(p_mlha);
 }
 
-MLZNA_KOSTKA * kopiruj_mlhokostku(MLZNA_KOSTKA *p_src, byte *p_jmeno)
+MLZNA_KOSTKA * kopiruj_mlhokostku(MLZNA_KOSTKA *p_src, char *p_jmeno)
 {
   MLZNA_KOSTKA *p_mlha = mmalloc(sizeof(p_mlha[0]));
   
@@ -1915,7 +1915,7 @@ void zrus_mesh(GAME_MESH **p_mesh_top)
  ************************************************************************
 */
 // pocet textur - MAX_EDIT_TEXTUR
-int lo_najdi_texturu(EDIT_TEXT *p_text, int max, byte *p_file, int flag)
+int lo_najdi_texturu(EDIT_TEXT *p_text, int max, char *p_file, int flag)
 { 
   int i;
   
@@ -1940,7 +1940,7 @@ int lo_najdi_volnou_texturu(EDIT_TEXT *p_text, int max)
 }
 
 // Pocet materialu - MAX_EDIT_MATERIALU
-int lo_najdi_material(EDIT_MATERIAL **p_mat, int max, byte *p_text)
+int lo_najdi_material(EDIT_MATERIAL **p_mat, int max, char *p_text)
 { 
   int i;
   
@@ -1983,7 +1983,7 @@ int lo_pocet_materialu(EDIT_MATERIAL **p_mat, int max)
   return(vel);
 }
 
-int lo_najdi_kameru(KAMERA *p_kam, int max, byte *p_jmeno)
+int lo_najdi_kameru(KAMERA *p_kam, int max, char *p_jmeno)
 {
  int i;
  strlwr(p_jmeno);
@@ -2043,7 +2043,7 @@ int lo_najdi_volny_kontejner_zpet(EDIT_KONTEJNER **p_kont, int max)
  return(K_CHYBA);
 }
 
-int lo_najdi_kontejner(EDIT_KONTEJNER **p_kont, int max, byte *p_jmeno)
+int lo_najdi_kontejner(EDIT_KONTEJNER **p_kont, int max, char *p_jmeno)
 {
  int i;
 
@@ -2071,7 +2071,7 @@ int lo_najdi_volny_objekt_kont(EDIT_KONTEJNER *p_kont)
  return(K_CHYBA);
 }
 
-int lo_najdi_objekt_kont(EDIT_KONTEJNER *p_kont, byte *p_jmeno)
+int lo_najdi_objekt_kont(EDIT_KONTEJNER *p_kont, char *p_jmeno)
 {
  int i;
 
@@ -2114,7 +2114,7 @@ int lo_najdi_objekt_kont_plny(EDIT_KONTEJNER *p_kont)
  return(K_CHYBA);
 }
 
-EDIT_OBJEKT * lo_najdi_objekt_kont_poiter(EDIT_KONTEJNER *p_kont, byte *p_jmeno)
+EDIT_OBJEKT * lo_najdi_objekt_kont_poiter(EDIT_KONTEJNER *p_kont, char *p_jmeno)
 {
  int i;
 
@@ -2233,7 +2233,7 @@ int lo_reload_textur_formaty(APAK_HANDLE *pHandle, EDIT_TEXT *p_text, int max, i
 }
 
 
-int lo_reload_textur_dir(EDIT_TEXT *p_text, int max, byte *p_dir, int save)
+int lo_reload_textur_dir(EDIT_TEXT *p_text, int max, char *p_dir, int save)
 {
   if(chdir(p_dir)) {
     kprintfl(TRUE,"Chyba dir %s...",p_dir);
@@ -2243,7 +2243,7 @@ int lo_reload_textur_dir(EDIT_TEXT *p_text, int max, byte *p_dir, int save)
   return(0);
 }
 
-int lo_reload_textur_file(EDIT_TEXT *p_text, int max, byte *p_file, int save)
+int lo_reload_textur_file(EDIT_TEXT *p_text, int max, char *p_file, int save)
 {
   APAK_HANDLE *pHandle;
   int err;
@@ -2475,12 +2475,12 @@ int lo_najdi_prazdnou_animaci(ANIM_MATERIAL *p_anim, int max)
 #define FFF_ALFA   'A'
 #define FFF_POSUN  'P'
 
-void lo_vyrob_animaci_list(EDIT_MATERIAL *p_mat, byte *p_list, EDIT_TEXT *p_text, int max, byte komplet, byte *p_dir)
+void lo_vyrob_animaci_list(EDIT_MATERIAL *p_mat, char *p_list, EDIT_TEXT *p_text, int max, char komplet, char *p_dir)
 {
  ANIM_MATERIAL *p_amat = &p_mat->anim;
  FILE *f;
- byte  line[200]; // max delka radku
- byte  *p_pom,*p_next;
+ char  line[200]; // max delka radku
+ char  *p_pom,*p_next;
  int   linenum;
  int   first_text = 1,
        i,t,akt,pos,alfa,a;
@@ -2622,7 +2622,7 @@ void lo_vyrob_animaci_list(EDIT_MATERIAL *p_mat, byte *p_list, EDIT_TEXT *p_text
 #define FRAME_TEXTURA     0x4  // tento frame ma nastavit texturu
 #define FRAME_POSUN       0x8  // posun texturu oproti originalu
 */
-void lo_uloz_animaci_list(EDIT_MATERIAL *p_mat, byte *p_list, byte *p_dir)
+void lo_uloz_animaci_list(EDIT_MATERIAL *p_mat, char *p_list, char *p_dir)
 {
  ANIM_MATERIAL *p_amat = &p_mat->anim;
  int   i,akt;
@@ -2863,7 +2863,7 @@ void lo_poly_oznac_zrcadlo(EDIT_MESH_POLY *p_poly)
   p_poly->kflag |= KONT_ZRCADLO;
 }
 
-FFILE lo_poly_file_vyrob(byte *p_file, int filenum, int velikost)
+FFILE lo_poly_file_vyrob(char *p_file, int filenum, int velikost)
 {
   FFILE f;
 
@@ -2878,7 +2878,7 @@ FFILE lo_poly_file_vyrob(byte *p_file, int filenum, int velikost)
   return(f);
 }
 
-FFILE lo_poly_file_otevri(byte *p_file, int *p_filenum, int velikost)
+FFILE lo_poly_file_otevri(char *p_file, int *p_filenum, int velikost)
 {
   FFILE f;
   int   vel;
@@ -2941,10 +2941,10 @@ void lo_poly_nahraj_indir(FFILE f, EDIT_MESH_POLY *p_poly, EDIT_TEXT *p_light)
   }
 }
 
-EDIT_MESH_POLY * lo_nahraj_poly_list(byte *p_file, int *p_polynum, EDIT_TEXT *p_light, EDIT_MATERIAL **p_mat, int matnum)
+EDIT_MESH_POLY * lo_nahraj_poly_list(char *p_file, int *p_polynum, EDIT_TEXT *p_light, EDIT_MATERIAL **p_mat, int matnum)
 {
   EDIT_MESH_POLY *p_poly;
-  byte  material[50];
+  char  material[50];
   int   i,filenum,mat,mn;
   FFILE f;
 
@@ -2962,7 +2962,7 @@ EDIT_MESH_POLY * lo_nahraj_poly_list(byte *p_file, int *p_polynum, EDIT_TEXT *p_
     assert(0); chyba("Pamet!");
   }
   for(i = 0; i < filenum; i++) {
-    ffread(material,sizeof(byte),50,f);      
+    ffread(material,sizeof(char),50,f);      
     lo_poly_nahraj_indir(f,p_poly+i,p_light);
     
     if(p_poly[i].m1flag&MAT_ANIM_FRAME) { 
@@ -2992,9 +2992,9 @@ EDIT_MESH_POLY * lo_nahraj_poly_list(byte *p_file, int *p_polynum, EDIT_TEXT *p_
 }
 
 
-void lo_uloz_poly_list(byte *p_file, EDIT_MESH_POLY *p_poly, int polynum, EDIT_TEXT *p_light, EDIT_MATERIAL **p_mat, int matnum)
+void lo_uloz_poly_list(char *p_file, EDIT_MESH_POLY *p_poly, int polynum, EDIT_TEXT *p_light, EDIT_MATERIAL **p_mat, int matnum)
 {
-  byte  material[50];
+  char  material[50];
   FFILE f;
   int   i;
   
@@ -3004,7 +3004,7 @@ void lo_uloz_poly_list(byte *p_file, EDIT_MESH_POLY *p_poly, int polynum, EDIT_T
     assert(p_poly[i].material < matnum && p_mat[p_poly[i].material]);
     
     strcpy(material,p_mat[p_poly[i].material]->jmeno);
-    ffwrite(material,sizeof(byte),50,f);
+    ffwrite(material,sizeof(char),50,f);
     
     lo_poly_uloz(f,p_poly+i,p_light);
   }
@@ -3125,7 +3125,7 @@ void lo_poly_calc_lightmap_face(EDIT_MESH_POLY *p_poly)
 */
 /* Uklada utomaticky do *.b2m
 */
-FFILE lo_uloz_kontejner(EDIT_MATERIAL **p_mat, int max_mat, EDIT_KONTEJNER *p_kont_top, byte *p_jmeno, int file, FFILE f)
+FFILE lo_uloz_kontejner(EDIT_MATERIAL **p_mat, int max_mat, EDIT_KONTEJNER *p_kont_top, char *p_jmeno, int file, FFILE f)
 {   
   EDIT_KONTEJNER *p_kont;  
 
@@ -3153,7 +3153,7 @@ FFILE lo_uloz_kontejner(EDIT_MATERIAL **p_mat, int max_mat, EDIT_KONTEJNER *p_ko
 /*
   Nacti b2m (OGL) a out meshe
 */
-EDIT_KONTEJNER * lo_nahraj_kontejner(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TEXT *p_text, int max_text, byte *p_jmeno, int mat)
+EDIT_KONTEJNER * lo_nahraj_kontejner(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TEXT *p_text, int max_text, char *p_jmeno, int mat)
 {
   if(!strcmp(cti_koncovku(p_jmeno),KONCOVKA_MESH_OLD)) {
     return(lo_nahraj_kontejner_out(p_mat,max_mat,p_text,max_text,p_jmeno,mat));
@@ -3165,7 +3165,7 @@ EDIT_KONTEJNER * lo_nahraj_kontejner(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TE
 /* Nahraje b2t nebo mnt materialy
 */
 int lo_nahraj_materialy(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TEXT *p_text, 
-                        int max_text, byte *p_file)
+                        int max_text, char *p_file)
 {
  if(!strcmp(cti_koncovku(p_file),KONCOVKA_MATERIAL_OLD)) {
    return(lo_nahraj_materialy_out_jmeno(p_mat,max_mat,p_text,max_text,p_file,TRUE));
@@ -3177,9 +3177,9 @@ int lo_nahraj_materialy(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TEXT *p_text,
 /*
   Ulozi vsechny materialy vcetne animaci - pouze jako chunk
 */
-int lo_uloz_materialy(EDIT_MATERIAL **p_mat, int max_mat, byte *p_file, byte *p_dir)
+int lo_uloz_materialy(EDIT_MATERIAL **p_mat, int max_mat, char *p_file, char *p_dir)
 {
- byte file[500];
+ char file[500];
  FFILE f;
  int   i;
  
@@ -3200,9 +3200,9 @@ int lo_uloz_materialy(EDIT_MATERIAL **p_mat, int max_mat, byte *p_file, byte *p_
  return(TRUE);
 }
 
-int lo_uloz_material(EDIT_MATERIAL *p_mat, byte *p_file, byte *p_dir)
+int lo_uloz_material(EDIT_MATERIAL *p_mat, char *p_file, char *p_dir)
 {
- byte file[500];
+ char file[500];
  FFILE f;
  
  strcpy(file,p_file);
@@ -3222,9 +3222,9 @@ int lo_uloz_material(EDIT_MATERIAL *p_mat, byte *p_file, byte *p_dir)
 /*
   ulozi pouzite materily vcetne animaci
 */
-int lo_uloz_materialy_pouzite(EDIT_MATERIAL **p_mat, int max_mat, byte *p_file, byte *p_dir)
+int lo_uloz_materialy_pouzite(EDIT_MATERIAL **p_mat, int max_mat, char *p_file, char *p_dir)
 { 
-  byte file[200];
+  char file[200];
   FFILE f;
   int i;
   
@@ -3251,7 +3251,7 @@ int lo_uloz_materialy_pouzite(EDIT_MATERIAL **p_mat, int max_mat, byte *p_file, 
 */
 GAME_MESH * lo_nahraj_mesh(EDIT_MATERIAL **p_mat, int max_mat, 
                            EDIT_TEXT *p_text, int max_text,
-                           byte *p_file, int mat,
+                           char *p_file, int mat,
                            int extra_light)
 {
   EDIT_KONTEJNER *p_kont_top,
@@ -3320,7 +3320,7 @@ GAME_MESH * lo_kontejner_to_mesh(EDIT_KONTEJNER **p_kont_top, EDIT_MATERIAL **p_
 // Prevede kontejner tak, aby jeho objekty meli jedinecne jmena
 void lo_kontejner_jedinecne_jmena(EDIT_KONTEJNER *p_kont, int ds3)
 {
-  byte pom[200];
+  char pom[200];
   int  i,j,max = 0;
 
   if(ds3) {
@@ -3355,7 +3355,7 @@ void lo_kontejner_jedinecne_jmena(EDIT_KONTEJNER *p_kont, int ds3)
 
 void lo_kontlist_jedinecne_jmena(EDIT_KONTEJNER **p_kont, int listnum)
 {
-  byte pom[200];
+  char pom[200];
   int  i,j,max = 0;
 
   // Zjistim posledni objekt

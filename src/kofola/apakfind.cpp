@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "Apak.h"
+#include "3d_all.h"
 
 extern void apakError(APAK_HANDLE *pHandle, char *cError);
 extern int  apakReadError(int iError, APAK_HANDLE	*pHandle);

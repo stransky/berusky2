@@ -55,7 +55,7 @@ int  dl_mesh_add_spec(MeshHandle mh, float r, float g, float b, float a);
 typedef struct _LIGHT_INFO {
 
   int    light_handle;     // handle na svetlo (dynamicke/extra dynamicke)
-  byte   jmeno[MAX_JMENO]; // jeho jmeno
+  char   jmeno[MAX_JMENO]; // jeho jmeno
   int    kof_cislo;        // kofolovo cislo svetla
 
 } LIGHT_INFO;
@@ -72,7 +72,7 @@ int edl_get_list(LIGHT_INFO *p_li, int max);
 /* Vyrobi/zrusi svetlo
 */
 LightHandle sdl_svetlo_vyrob(dword flag);
-LightHandle sdl_svetlo_pojmenuj(LightHandle handle, byte *p_jmeno);
+LightHandle sdl_svetlo_pojmenuj(LightHandle handle, char *p_jmeno);
 int         sdl_svetlo_zrus(LightHandle handle);
 
 /* Jednorazove nastaveni
@@ -122,7 +122,7 @@ void        sdla_animaci_zrus_online(DYN_LIGHT_ANIM *p_an);
 */
 
 // Nahraje svetlo ze sim animace
-ExtraLightHandle edl_svetlo_nahraj(byte *p_file);
+ExtraLightHandle edl_svetlo_nahraj(char *p_file);
 
 // Vyrobi/Zrusi svetlo
 // Prida/Odebere meshe svetla

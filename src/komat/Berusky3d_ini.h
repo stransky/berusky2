@@ -24,9 +24,6 @@ int  nahraj_konfig(void);
 void minimalizuj_hru(void);
 void maximalizuj_hru(void);
 
-void clip_set(HW_KONFIG *p_conf);
-void clip_ret(void);
-
 
 //HWND zavri_okno(HWND hwnd);
 

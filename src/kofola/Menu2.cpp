@@ -19,7 +19,7 @@
 #include "profiles.h"
 #include "Apak.h"
 #include "Object.h"
-#include "animation.h"
+#include "animationk.h"
 #include "Demo.h"
 #include "load_level.h"
 #include "ambient_sounds.h"

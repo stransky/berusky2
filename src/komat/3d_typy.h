@@ -39,12 +39,6 @@ typedef struct
   int x,y,z;
 } BOD3D,QBOD;
 
-typedef struct _QUAT {
-
-  float x,y,z,w;
-
-} QUAT;
-
 typedef struct _BARVA_RGBA {
   
   float r,g,b,a;

@@ -478,7 +478,7 @@ void kd_strom_zrus(KD_BUNKA *p_prvni)
 
 void kd_strom_tiskni(KD_BUNKA *p_prvni, int hloubka)
 {
-  byte pom[300];
+  char pom[300];
   int  i;
 
   for(i = 0; i < hloubka; i++)

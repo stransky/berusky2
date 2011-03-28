@@ -273,10 +273,10 @@ void ber_umisti_prvek_abs(PRVEK_LEVELU_GAME *p_lev, float x, float y, float z, i
   }
 }
 
-inline static int _najdi_cislo(byte *p_string)
+inline static int _najdi_cislo(char *p_string)
 {
-  byte *pom = alloca(strlen(p_string));
-  byte *p_pom,*p_last;
+  char *pom = alloca(strlen(p_string));
+  char *p_pom,*p_last;
   int   k;
 
   strcpy(pom,p_string);
@@ -293,9 +293,9 @@ inline static int _najdi_cislo(byte *p_string)
 /*
   Nahraje materialy
 */
-int ber_nahraj_materialy(G_KONFIG *p_ber, byte *p_jmeno, byte *p_dir)
+int ber_nahraj_materialy(G_KONFIG *p_ber, char *p_jmeno, char *p_dir)
 {
-  byte      pom[200];
+  char      pom[200];
 
   strcpy(pom,p_jmeno);
   zamen_koncovku(pom,KONCOVKA_MATERIAL);
@@ -315,7 +315,7 @@ void ber_materialy_rozkopiruj(G_KONFIG *p_ber, GAME_MESH *p_mesh, int restart)
 {
   EDIT_MATERIAL **p_imat = p_ber->p_mat;
   EDIT_MATERIAL *p_mat;
-  byte pom[MAX_JMENO];
+  char pom[MAX_JMENO];
   int  mat,mnew = K_CHYBA;
   int  i;
 
@@ -344,7 +344,7 @@ void ber_materialy_rozkopiruj(G_KONFIG *p_ber, GAME_MESH *p_mesh, int restart)
 
 /* Nahraje jeden mesh
 */
-int ber_nahraj_mesh(G_KONFIG *p_ber, byte *p_jmeno, GAME_MESH **p_mesh)
+int ber_nahraj_mesh(G_KONFIG *p_ber, char *p_jmeno, GAME_MESH **p_mesh)
 {
  chdir(p_ber->dir.out_dir);
  p_mesh[0] = lo_nahraj_mesh(p_ber->p_mat, MAX_CELKEM_MATERIALU, p_ber->p_text, MAX_CELKEM_TEXTUR, p_jmeno, TRUE, p_ber->conf_extra_light_vertex);
@@ -559,7 +559,7 @@ static char ber_list[][50] = {"beruska_zluta_game.b2m",
                               "beruska_modra_game.b2m",
                               "beruska_zelena_game.b2m"};
 
-int ber_je_mesh_beruska(int kont, BUNKA_LEVELU_DISK *p_berusky, int bernum, byte *p_jmeno)
+int ber_je_mesh_beruska(int kont, BUNKA_LEVELU_DISK *p_berusky, int bernum, char *p_jmeno)
 {    
   int i,br;
   
@@ -576,13 +576,13 @@ int ber_je_mesh_beruska(int kont, BUNKA_LEVELU_DISK *p_berusky, int bernum, byte
 /*
   Nahraje scenu
 */
-int ber_nahraj_scenu(G_KONFIG *p_ber, byte *p_jmeno, byte *p_dir, int reload, BUNKA_LEVELU_DISK *p_berusky, int bernum)
+int ber_nahraj_scenu(G_KONFIG *p_ber, char *p_jmeno, char *p_dir, int reload, BUNKA_LEVELU_DISK *p_berusky, int bernum)
 { 
   EDIT_KONTEJNER *p_kont[MAX_BERUSKY_KONTEJNERU];
   NASTAVENI_KAMER kam;
   LENS_FLARE      flare[MAX_FLARE_SVETEL];
   LEVEL_KONFIG    lc;
-  byte            file[200],tmp[200];
+  char            file[200],tmp[200];
   dword           ambient;
   int             k,f,kflag,p,m,ret;
   
@@ -705,10 +705,10 @@ int ber_nahraj_scenu(G_KONFIG *p_ber, byte *p_jmeno, byte *p_dir, int reload, BU
 /*
   ber_load_poly
 */
-void ber_nahraj_poly(G_KONFIG *p_ber, byte *p_jmeno, byte *p_dir)
+void ber_nahraj_poly(G_KONFIG *p_ber, char *p_jmeno, char *p_dir)
 {
   MLZNA_KOSTKA *p_tmp;
-  byte file[200];
+  char file[200];
   int  i;
 
   chdir(p_dir);
@@ -755,10 +755,10 @@ void ber_nahraj_poly(G_KONFIG *p_ber, byte *p_jmeno, byte *p_dir)
 /*
   nahraje lightmapy
 */
-void ber_nahraj_lightmap(G_KONFIG *p_ber, byte *p_jmeno, byte *p_dir)
+void ber_nahraj_lightmap(G_KONFIG *p_ber, char *p_jmeno, char *p_dir)
 {
   TXT_KONFIG zal;
-  byte pom[200];
+  char pom[200];
   KFILE *f;
   int i,r;
 

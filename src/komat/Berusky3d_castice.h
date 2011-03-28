@@ -99,7 +99,7 @@ typedef struct _PAR_KOUR_STOPA {
 
   dword time_vznik;      // cas vzniku castice
   
-  byte  rotace;          // rotace vypoustenych castic
+  char  rotace;          // rotace vypoustenych castic
 
   float x_max;           // klipovaci roviny -> pouzite pro kresleni castic
   float x_min;
@@ -150,7 +150,7 @@ typedef struct _PARMETAC_HNIZDO {
   BOD   min,max;       // min,max
   int   pnum;          // pocet aktivnich castic
 
-  byte  rotace;        // rotace vypoustenych castic
+  char  rotace;        // rotace vypoustenych castic
 
   dword time_last;     // cas posledniho uvolneni
   dword time_interval; // interval uvolnovani novych castic
@@ -340,7 +340,7 @@ HnizdoHandle par_vloz_hnizdo_diff(HnizdoHandle hh, float r, float g, float b, fl
 HnizdoHandle par_vloz_hnizdo_y_plane(HnizdoHandle hh, float y_plane);
 HnizdoHandle par_vloz_hnizdo_frame(HnizdoHandle hh, float frame, float framedelta);
 HnizdoHandle par_vloz_hnizdo_clip(HnizdoHandle hh, float min_x, float min_z, float max_x, float max_z);
-HnizdoHandle par_vloz_hnizdo_rotaci(HnizdoHandle hh, byte rotace);
+HnizdoHandle par_vloz_hnizdo_rotaci(HnizdoHandle hh, char rotace);
 
 /* Generuje castici z hnizda (okamzite, neceka na cas)
 */
@@ -405,4 +405,3 @@ VodnikHandle vod_vloz_vodnika_add_spec(VodnikHandle vh, float sr, float sg, floa
 
 
 #endif
-

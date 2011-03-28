@@ -6,7 +6,7 @@
 #include "Berusky3d_light.h"
 #include "Object.h"
 #include "game_logic.h"
-#include "animation.h" 
+#include "animationk.h" 
 #include "animend_functions.h"
 
 typedef struct
@@ -61,7 +61,7 @@ void anmend_Play_PadBerusky(ITEMDESC *p_itm, LEVELINFO *p_Level)
 
 	ipos[2]--;
 
-	gl_Logical2Real(ipos[0], ipos[1], ipos[2], (long *)&rot, p_Level);
+	gl_Logical2Real(ipos[0], ipos[1], ipos[2], &rot, p_Level);
 
 	if(p_Level->Level[rot])
 		anmend_Play_Sound_PadBerusky(pos, p_Level->Level[rot]->p_Object->Material);
@@ -71,7 +71,7 @@ void anmend_Play_PadBerusky(ITEMDESC *p_itm, LEVELINFO *p_Level)
 
 			if(ipos[2] >= 0)
 			{
-				gl_Logical2Real(ipos[0], ipos[1], ipos[2], (long *)&rot, p_Level);
+				gl_Logical2Real(ipos[0], ipos[1], ipos[2], &rot, p_Level);
 
 				if(p_Level->Level[rot])
 					anmend_Play_Sound_PadBerusky(pos, p_Level->Level[rot]->p_Object->Material);
@@ -94,12 +94,12 @@ void anmend_PadBedny(int param, int param2, void *p_param)
 		anmend_Play_PadBerusky(p_itm, p_Level);
 }
 
-void anmend_Add_Beetle_Animation(int param, int param2, void *p_param)
+void anmend_Add_Beetle_Animation(int param, int param2, LEVELINFO *p_param)
 {
 	am_Add_Beetle_Animation(param, p_param, param2, 1);
 }
 
-void anmend_kom_mesh_set_mesh(int param, int param2, void *p_param)
+void anmend_kom_mesh_set_mesh(int param, int param2, LEVELINFO *p_param)
 {
 	kom_mesh_set_mesh(param, param2, (int)p_param);
 	lani_set(param, 0, 0, &Level.TrashFlag, 0, 0, 0);
@@ -128,7 +128,7 @@ void anmend_ExplozeBedny(int param, int param2, void *p_param)
 	float pos[3], pos1[3];
 	int	  ipos[3], vipos[3];
 	int	  rot,i;
-	long  s;
+	int   s;
 	FLEK_K *pFlek;
 	char	cFlek[32];
 	int		mat[2];
@@ -552,7 +552,7 @@ void PlaySteps(LEVELINFO  *p_Level, OBJECTDESC *pObj, float *pos, char bQueue, i
 int anmend_Is_On_Water(long item, LEVELINFO  *p_Level)
 {
 	int pos[3];
-	long r;
+	int r;
 
 	if(p_Level->Level[item])
 	{

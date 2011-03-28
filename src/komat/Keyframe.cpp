@@ -1684,7 +1684,7 @@ typedef struct _HIERARCHY_SIM {
   dword     stop;  
   
   int       keynum;         // pocet klicu
-  byte      jmeno[MAX_JMENO]; // jmeno animace
+  char      jmeno[MAX_JMENO]; // jmeno animace
   int       childnum;         // pocet detskych traku
   SIMPLE_TRACK_INFO *p_child;
 
@@ -2056,7 +2056,7 @@ B 0       // bias
 L 0 0 0   // tension/continuity/bias
 */
 
-void key_sim_uloz(SIMPLE_TRACK_INFO *p_sim, byte *p_file, byte *p_dir)
+void key_sim_uloz(SIMPLE_TRACK_INFO *p_sim, char *p_file, char *p_dir)
 {
   BOD   b;
   float uhel;
@@ -2089,17 +2089,17 @@ void key_sim_uloz(SIMPLE_TRACK_INFO *p_sim, byte *p_file, byte *p_dir)
 }
 
 // load sim z text-file
-int key_sim_nahraj(APAK_HANDLE *pHandle, SIMPLE_TRACK_INFO *p_sim, byte *p_file, byte *p_dir, int linear)
+int key_sim_nahraj(APAK_HANDLE *pHandle, SIMPLE_TRACK_INFO *p_sim, char *p_file, char *p_dir, int linear)
 {
   HIERARCHY_TRACK_INFO track; // load jako hierarchie -> prevedu do simple tracku
   KEY_POINT_BRS       *p_spline = NULL;
-  byte                 line[1000],*p_pom;
+  char                 line[1000],*p_pom;
   KFILE               *f;
   int                  p,r,s,fr,loop = 0;  
   BOD                  pivot = {0.0f,0.0f,0.0f};
   BOD                  osa;
   float                uhel;
-  byte               **p_line;
+  char               **p_line;
   int                  l,lmax;
 
   chdir(p_dir);
@@ -2115,7 +2115,7 @@ int key_sim_nahraj(APAK_HANDLE *pHandle, SIMPLE_TRACK_INFO *p_sim, byte *p_file,
   while(kgets(line,999,f)) {
     assert(l < MAX_SIM_RADKU);
     if(line[0] && line[0] != '\n' && line[0] != ';') {
-      p_line[l] = kopiruj_pole(line,sizeof(byte)*(strlen(line)+1));
+      p_line[l] = kopiruj_pole(line,sizeof(char)*(strlen(line)+1));
       l++;
     }
   }
@@ -2243,15 +2243,15 @@ int key_sim_nahraj(APAK_HANDLE *pHandle, SIMPLE_TRACK_INFO *p_sim, byte *p_file,
 }
 
 // rozsirene sim-animace load
-int key_sim_nahraj_extended(EDIT_KONTEJNER *p_kont, int cislo_anim, byte *p_file, byte *p_dir)
+int key_sim_nahraj_extended(EDIT_KONTEJNER *p_kont, int cislo_anim, char *p_file, char *p_dir)
 {
   HIERARCHY_TRACK_INFO **p_track_list;
   HIERARCHY_TRACK_INFO  *p_track;
   HIERARCHY_ROOT         root;
   int                    akt_track;
   KEY_POINT_BRS         *p_spline = NULL;
-  byte                   pom[1000];
-  byte                   pom1[1000];
+  char                   pom[1000];
+  char                   pom1[1000];
   FILE                  *f;
   int                    p,r,s,fr,loop = 0,framu;  
   BOD                    pivot = {0.0f,0.0f,0.0f};
@@ -2632,7 +2632,7 @@ typedef struct _SIMPLE_TRACK_INFO {
 typedef struct _HIERARCHY_SIM {
   
   float     delka;         // delka casu animace (fps)
-  byte      stav;          // 0 = stop, 1 = run
+  char      stav;          // 0 = stop, 1 = run
   
   int       flag;          // flagy animace (GL_LOOP,GL_REMOVE)
 
@@ -2645,7 +2645,7 @@ typedef struct _HIERARCHY_SIM {
   dword     stop;  
   
   int       keynum;         // pocet klicu
-  byte      jmeno[MAX_JMENO]; // jmeno animace
+  char      jmeno[MAX_JMENO]; // jmeno animace
   int       childnum;         // pocet detskych traku
   SIMPLE_TRACK_INFO *p_child;
 
@@ -2809,7 +2809,7 @@ void key_kamera_zrus_indir(KAMERA_TRACK_INFO *p_track)
 
 /* Ulozi kameru
 */
-int key_kamera_uloz(KAMERA_TRACK_INFO *p_track, byte *p_jmeno_kamery, byte *p_jmeno_anim, byte *p_file, byte *p_dir)
+int key_kamera_uloz(KAMERA_TRACK_INFO *p_track, char *p_jmeno_kamery, char *p_jmeno_anim, char *p_file, char *p_dir)
 {
   FILE *f;
   int   i,keynum;
@@ -2880,15 +2880,15 @@ int key_kamera_uloz(KAMERA_TRACK_INFO *p_track, byte *p_jmeno_kamery, byte *p_jm
 
 /* Nahraje kameru
 */
-int key_kamera_nahraj(KAMERA_TRACK_INFO *p_track, byte *p_jmeno_kamery, byte *p_jmeno_anim, APAK_HANDLE *pHandle, byte *p_file, byte *p_dir)
+int key_kamera_nahraj(KAMERA_TRACK_INFO *p_track, char *p_jmeno_kamery, char *p_jmeno_anim, APAK_HANDLE *pHandle, char *p_file, char *p_dir)
 {
   KEY_POINT_BRS *p_spline = NULL;
-  byte           line[1000];
-  byte          *p_pom;
+  char           line[1000];
+  char          *p_pom;
   int            p,t,r,fv,fr;
   float          uhel;
   KFILE         *f;
-  byte         **p_line;
+  char         **p_line;
   int            l,lmax;
 
 
@@ -2903,7 +2903,7 @@ int key_kamera_nahraj(KAMERA_TRACK_INFO *p_track, byte *p_jmeno_kamery, byte *p_
   while(kgets(line,999,f)) {
     assert(l < MAX_SIM_RADKU);
     if(line[0] && line[0] != '\n' && line[0] != ';') {
-      p_line[l] = kopiruj_pole(line,sizeof(byte)*(strlen(line)+1));
+      p_line[l] = kopiruj_pole(line,sizeof(char)*(strlen(line)+1));
       l++;
     }
   }
@@ -3167,11 +3167,11 @@ void key_mat_to_text_matrix(GLMATRIX *p_ttext, BOD *p_pos, float uhel, BOD *p_sc
 }
 
 // load text animace z text-file
-ANIM_TEXT * key_text_nahraj(byte *p_file, byte *p_dir)
+ANIM_TEXT * key_text_nahraj(char *p_file, char *p_dir)
 {
   ANIM_TEXT           *p_track;
   KEY_POINT_BRS       *p_spline = NULL;
-  byte                 pom[1000];
+  char                 pom[1000];
   FILE                *f;
   int                  p,r,s,v,fr;
   float                uhel;
@@ -3277,7 +3277,7 @@ ANIM_TEXT * key_text_nahraj(byte *p_file, byte *p_dir)
   return(p_track);
 }
 
-int key_text_uloz(ANIM_TEXT *p_track, byte *p_file, byte *p_dir)
+int key_text_uloz(ANIM_TEXT *p_track, char *p_file, char *p_dir)
 {
   FILE *f;
   int   i,p,r,s,v,frame;

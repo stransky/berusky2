@@ -5,19 +5,16 @@
 #ifndef  __3D_ALL__
 #define  __3D_ALL__
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-
-//#define  GL_GLEXT_PROTOTYPES
-
-#include "glext.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <assert.h>
 #include <float.h>
 #include <limits.h>
+#include <unistd.h>
+#include <wchar.h>
+
+#include "age.h"
 
 #include "mmalloc.h"
 
@@ -35,7 +32,7 @@ typedef unsigned int    dword;
 typedef unsigned int    COLORREF;
 typedef dword           DWORD;
 typedef float           FLOAT;
-typedef unsigned short  WCHAR;
+typedef wchar_t         WCHAR;
 typedef void *          HWND;
 typedef void *          HDC;
 typedef unsigned int    UINT;
@@ -84,6 +81,8 @@ void kprintf(char log, char *p_text,...);
 void kprintfl(char log, char *p_text,...);
 void ddw(char *p_text,...);
 
+extern char ini_file[300];
+
 #include "level_environment.h"
 #include "Apak.h"
 #include "compat.h"
@@ -110,6 +109,6 @@ void ddw(char *p_text,...);
 #include "Quat.h"
 #include "3dinterface.h"
 #include "Bmp.h"
-#include "obb.h"
+#include "obbo.h"
 
 #endif

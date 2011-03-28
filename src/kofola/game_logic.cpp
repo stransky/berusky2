@@ -12,7 +12,7 @@
 #include "Berusky3d_kofola_interface.h"
 #include "Berusky3d_light.h"
 #include "Berusky3d_kamery.h"
-#include "animation.h"
+#include "animationk.h"
 #include "ambient_sounds.h"
 #include "3D_menus.h"
 #include "Demo.h"
@@ -25,6 +25,8 @@
 #include "water.h"
 #include "font.h"
 #include "game_init.h"
+#include "Tools.h"
+#include "Menu2.h"
 
 extern HINT_STATE	sHint;
 extern KUK_STATE	sKuk;
@@ -109,7 +111,7 @@ int gl_Will_Go_Under_Water(int *iPos, int DontCountPos, int Plus,  int *pVaha, L
 int gl_Can_Go_Into_Water(ITEMDESC *pItem);
 int gl_Check_Detonation_Pack_Water_Rules(int *iPos, LEVELINFO *p_Level);
 int gl_Test_Rule1(ITEMDESC *pItem, ITEMDESC *pTestItem, LEVELINFO *p_Level);
-void gl_Logical2Real(int x, int y, int z,long *Real_Pos, LEVELINFO *p_Level);
+void gl_Logical2Real(int x, int y, int z, int *Real_Pos, LEVELINFO *p_Level);
 int gl_Test_Rule2(int *pos, LEVELINFO *p_Level);
 int gl_Test_Rule1B(ITEMDESC *pItem, int *pTestPos, LEVELINFO *p_Level);
 int gl_Is_Included_In(SIM_ANIMATION *p_animation, int mesh);
@@ -140,7 +142,7 @@ void gl_Get_PR_ScanCode(int *pPScan, int *pRScan)
 
 int gl_Chech_Wall(int *Pos, LEVELINFO *p_Level)
 {
-	long real;
+	int real;
 
 	gl_Logical2Real(Pos[0], Pos[1], Pos[2], &real, p_Level);
 
@@ -160,7 +162,7 @@ int gl_Chech_Wall(int *Pos, LEVELINFO *p_Level)
 
 void gl_Sand_Fill(int *Pos, int IncomingSide, int bUnderWater, LEVELINFO *p_Level)
 {
-	long real, ireal;
+	int real, ireal;
 	int iPos[3];
 
 	memcpy((void *) iPos, (void *)Pos, 3 * sizeof(int));
@@ -423,7 +425,7 @@ void gl_Connect_Animations(LEVELINFO *p_Level)
 //------------------------------------------------------------------------------------------------
 // transtales real position to logical position
 //------------------------------------------------------------------------------------------------
-void gl_Logical2Real(int x, int y, int z,long *Real_Pos, LEVELINFO *p_Level)
+void gl_Logical2Real(int x, int y, int z, int *Real_Pos, LEVELINFO *p_Level)
 {
 	*Real_Pos = x + y*p_Level->Size[0] + z*p_Level->Size[0]*p_Level->Size[1];
 }
@@ -431,7 +433,7 @@ void gl_Logical2Real(int x, int y, int z,long *Real_Pos, LEVELINFO *p_Level)
 //------------------------------------------------------------------------------------------------
 // transtales real position to logical position
 //------------------------------------------------------------------------------------------------
-void gl_Logical2Real2D(int x, int y, long *Real_Pos, LEVELINFO *p_Level)
+void gl_Logical2Real2D(int x, int y, int *Real_Pos, LEVELINFO *p_Level)
 {
 	*Real_Pos = x + y*p_Level->Size[0];
 }
@@ -978,7 +980,7 @@ void gl_Do_Teleport_Sparks(float *pos, LEVELINFO *p_Level)
 int gl_Teleport_Item(long Teleport, long Item, LEVELINFO *p_Level)
 {
 	int old_pos[3],test_pos[3];
-	long new_real, test_real;
+	int new_real, test_real;
 	ANIMATION_QUEUE_SET *p_prev_set;
 	int rot, iConnect = 0;
 	float pos[3];
@@ -1004,7 +1006,7 @@ int gl_Teleport_Item(long Teleport, long Item, LEVELINFO *p_Level)
 	kom_mesh_get_float(p_Level->Level[Teleport]->Index_Of_Game_Mesh, 
 					   &pos[0], &pos[1], &pos[2], &rot);
 
-	pS = malloc(sizeof(POINTERSTRUCTURE));
+	pS = (POINTERSTRUCTURE *)malloc(sizeof(POINTERSTRUCTURE));
 
 	if(pS)
 	{
@@ -1054,7 +1056,7 @@ int gl_Teleport_Item(long Teleport, long Item, LEVELINFO *p_Level)
 int gl_Get_Column_Height(int x, int y, int z, LEVELINFO *p_Level)
 {
 	int h = 1,i;
-	long r;
+	int r;
 
 	for(i = z;i<p_Level->Size[2];i+=2)
 	{
@@ -1086,7 +1088,7 @@ int gl_Get_Column_Height(int x, int y, int z, LEVELINFO *p_Level)
 
 int gl_Check_Throw_off_Water(int *column, int z, LEVELINFO *p_Level)
 {
-	long	real;
+	int	real;
 
 	gl_Logical2Real(column[0], column[1], z-1, &real, p_Level);
 
@@ -1103,9 +1105,9 @@ int gl_Check_Throw_off_Water(int *column, int z, LEVELINFO *p_Level)
 int gl_Throw_off(int *column, LEVELINFO *p_Level)
 {
 	int move[100][2];
-	long real_pos1, real_pos2;
-	long test_pos1, test_pos2;
-	int  iValue1[3], iValue2[3], iValue3[3]; //, iValue4[3];
+	int real_pos1, real_pos2;
+	int test_pos1, test_pos2;
+	int iValue1[3], iValue2[3], iValue3[3]; //, iValue4[3];
 	int i,m,test,n;
 	int w;
 	int ret = 0;
@@ -1299,8 +1301,8 @@ int gl_Throw_off(int *column, LEVELINFO *p_Level)
 			if(!vc && voda > -1)
 			{
 				//bedna prosla vodou -> bubl,bubl,....
-				POINTERSTRUCTURE *pS = malloc(sizeof(POINTERSTRUCTURE));
-				long r;
+				POINTERSTRUCTURE *pS = (POINTERSTRUCTURE *)malloc(sizeof(POINTERSTRUCTURE));
+				int r;
 				int percent, percent1;
 
 				if(pS)
@@ -1536,9 +1538,9 @@ int gl_Throw_off(int *column, LEVELINFO *p_Level)
 int gl_Throw_offAnim(int *column, LEVELINFO *p_Level)
 {
 	int move[100][2];
-	long real_pos1, real_pos2;
-	long test_pos1, test_pos2;
-	int  iValue1[3], iValue2[3], iValue3[3]; //, iValue4[3];
+	int real_pos1, real_pos2;
+	int test_pos1, test_pos2;
+	int iValue1[3], iValue2[3], iValue3[3]; //, iValue4[3];
 	int i,m,test,n;
 	int w;
 	int ret = 0;
@@ -1716,8 +1718,8 @@ int gl_Throw_offAnim(int *column, LEVELINFO *p_Level)
 			if(!vc && voda > -1)
 			{
 				//bedna prosla vodou -> bubl,bubl,....
-				POINTERSTRUCTURE *pS = malloc(sizeof(POINTERSTRUCTURE));
-				long r;
+				POINTERSTRUCTURE *pS = (POINTERSTRUCTURE *)malloc(sizeof(POINTERSTRUCTURE));
+				int r;
 				int percent, percent1;
 
 				if(pS)
@@ -2110,7 +2112,7 @@ void gl_Select_BeatleFlek(ITEMDESC *p_Item, LEVELINFO *p_Level)
 //------------------------------------------------------------------------------------------------
 void gl_Do_Flek(float *pos, ITEMDESC *p_Item, LEVELINFO *p_Level)
 {
-	long rs;
+	int rs;
 	FLEK_K *pFlek;
 	char	cFlek[32];
 	int		pos_[3];
@@ -2292,7 +2294,7 @@ void gl_Pripoj_Flek_k_Predmenu(ITEMDESC *pItem, LEVELINFO *p_Level)
 {
 	float pos[3];
 	int   ipos[3];
-	long  r;
+	int  r;
 	FLEK_K *pFlek;
 	char	stat;
 
@@ -2580,7 +2582,7 @@ void gl_Do_Prach(float *pos, LEVELINFO *p_Level)
 void gl_Do_Strepiny_Na_Vode(float *pos, LEVELINFO *p_Level, float fycor)
 {
 	float fPos[3];
-	long real;
+	int real;
 	int iPos[3];
 
 	if(p_Level->bUnderWaterLevel)
@@ -3183,7 +3185,7 @@ void gl_Destroy_Item(long Item, int Type, LEVELINFO *p_Level)
 int gl_Analyse_Column(int *column, LEVELINFO *p_Level)
 {
 	int i, result = 0,w, c[3];
-	long item_pos, check_pos;
+	int item_pos, check_pos;
 	OBJECTDESC *p_real_posO, *p_check_posO;
 
 
@@ -3259,7 +3261,7 @@ int gl_Is_Move_Possible(int *iValue_old, int *iValue_new, LEVELINFO *p_Level)
 {
 	int Move[3], act_pos[3], pos[3], old_pos[3];
 	int Vrstva;
-	long real_pos, test_pos, check_pos;
+	int real_pos, test_pos, check_pos;
 	int i;
 	int counter = 0;
 	int	Weight,Total_Weight = 0;
@@ -3700,7 +3702,7 @@ int	gl_Take_Item(long Item, long Beatle, LEVELINFO *p_Level, char bSound, char b
 		if (!p_Beatle_BP->item[7])
 		{
 			int iPos[3];
-			long real;
+			int real;
 
 			memcpy((void *)iPos, (void *)p_Level->Level[Item]->Pos, 3 * sizeof(int));
 
@@ -3838,7 +3840,7 @@ void gl_Hrebik(ITEMDESC	*pItem)
 void gl_Kontrola_Pontonky(int *iValue, LEVELINFO * p_Level)
 {
 	int Vrstva = iValue[2] - 2;
-	long r;
+	int r;
 
 	if(Vrstva < 0)
 		return;
@@ -3884,7 +3886,7 @@ void gl_Do_Propadlo(float* pos, LEVELINFO *p_Level, int material)
 	par_go(ph, &p_Level->Propadla[r].flag, 0, 0);
 }
 
-gl_Set_3ds_Mesh(char bSet, int iID, int iMesh, int iRotace)
+void gl_Set_3ds_Mesh(char bSet, int iID, int iMesh, int iRotace)
 {
 	p_set->bSetMesh = bSet;
 	p_set->iMeshID = iID;
@@ -3892,7 +3894,7 @@ gl_Set_3ds_Mesh(char bSet, int iID, int iMesh, int iRotace)
 	p_set->iRot = iRotace;
 }
 
-gl_Set_3ds_Anim(int mesh, int poradi, int c_anim, int *p_flag, int flag, int start, int stop)
+void gl_Set_3ds_Anim(int mesh, int poradi, int c_anim, int *p_flag, int flag, int start, int stop)
 {
 	p_set->_3dsAnim[poradi].mesh = mesh;
 	p_set->_3dsAnim[poradi].c_anim = c_anim;
@@ -3906,7 +3908,7 @@ int gl_Test_Rule1(ITEMDESC *pItem, ITEMDESC *pTestItem, LEVELINFO *p_Level)
 {
 	ITEMDESC *pBreatle = NULL;
 	int		 pos[3], c, plus  = 0, PlusVaha;
-	long	r;
+	int	r;
 
 	if(pTestItem->p_Object->Class != 5 &&
 	   pTestItem->p_Object->Class != 6)
@@ -3955,7 +3957,7 @@ int gl_Test_Rule1B(ITEMDESC *pItem, int *pTestPos, LEVELINFO *p_Level)
 {
 	ITEMDESC *pBreatle = NULL;
 	int		 pos[3], c, plus  = 0;
-	long	r;
+	int	r;
 
 	memcpy((void *)pos, (void *) pItem->Pos, 3 * sizeof(int));
 
@@ -4003,7 +4005,7 @@ int gl_Test_Rule1B(ITEMDESC *pItem, int *pTestPos, LEVELINFO *p_Level)
 
 int gl_Test_Rule2(int *pos, LEVELINFO *p_Level)
 {
-	long real;
+	int real;
 	int iPos[3],i;
 
 	memcpy((void *)iPos, (void *) pos, 3 * sizeof(int));
@@ -4045,7 +4047,7 @@ int gl_Test_Rule2(int *pos, LEVELINFO *p_Level)
 
 int gl_Test_Rule2B(int *pos, LEVELINFO *p_Level)
 {
-	long real;
+	int real;
 	int iPos[3],i;
 
 	memcpy((void *)iPos, (void *) pos, 3 * sizeof(int));
@@ -4080,7 +4082,7 @@ int gl_Test_Rule2B(int *pos, LEVELINFO *p_Level)
 
 int gl_Test_Rule3(ITEMDESC *pItem, int *iPos, LEVELINFO *p_Level)
 {
-	long real;
+	int real;
 	int ivPos[3];
 
 	memcpy((void *)ivPos, (void *) iPos, 3 * sizeof(int));	
@@ -4125,7 +4127,7 @@ void gl_Test_Rule4(ITEMDESC *pItem, int *iPos, LEVELINFO *p_Level)
 
 void gl_Walk_Out_Of_Water(int *pos, int iMesh, DWORD dwExpire, LEVELINFO *p_Level)
 {
-	long real;
+	int real;
 	int iPos[3], i;
 
 	memcpy((void *)iPos, (void *)pos, 3 * sizeof(int));
@@ -4154,7 +4156,7 @@ void gl_Walk_Out_Of_Water(int *pos, int iMesh, DWORD dwExpire, LEVELINFO *p_Leve
 
 int gl_Test_Rule5(int *pos, LEVELINFO *p_Level)
 {
-	long real;
+	int real;
 	int iPos[3];
 
 	if(!pos)
@@ -4196,7 +4198,7 @@ int gl_Test_Rule5(int *pos, LEVELINFO *p_Level)
 
 int gl_TestRule7(ITEMDESC *pItem, int *pos, LEVELINFO *p_Level)
 {
-	long real;
+	int real;
 	int iPos[3];
 
 	memcpy((void *)iPos, (void *)pos, 3 * sizeof(int));
@@ -4217,7 +4219,7 @@ int gl_TestRule7(ITEMDESC *pItem, int *pos, LEVELINFO *p_Level)
 
 			if(iPos[2] >= 0)
 			{
-				long rtest_pos;
+				int rtest_pos;
 
 				gl_Logical2Real(iPos[0], iPos[1], iPos[2], &rtest_pos, p_Level);
 
@@ -4298,9 +4300,9 @@ int gl_Test_Rule8(int *Old_Pos, int *New_Pos, LEVELINFO *p_Level)
 long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 {
 	int i;
-	long real_p;
+	int real_p;
 	int iValue_new[3], ret;
-	long real_pos;
+	int real_pos;
 	int Vrstva = p_Level->Level[Item]->Pos[2];
 	OBJECTDESC	*p_ItemO = p_Level->Level[Item]->p_Object;
 	OBJECTDESC	*p_real_pO = NULL, *p_real_posO = NULL;
@@ -4354,7 +4356,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 			if(p_real_pO->Class == 15)			
 			{
 				int iTest[3];
-				long test_pos;
+				int test_pos;
 				int w;
 				OBJECTDESC	*p_test_posO;
 
@@ -4440,7 +4442,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 
 				if(iPos[2] >= 0)
 				{
-					long rtest_pos;
+					int rtest_pos;
 
 					gl_Logical2Real(iPos[0], iPos[1], iPos[2], &rtest_pos, p_Level);
 
@@ -4622,7 +4624,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 			//-----------------------------------------------------------------------------------
 			if (p_real_pI->p_Object->Class == 19)
 			{
-				long		dest_pos;
+				int		dest_pos;
 				int			Move[3], dest[3], m;
 				ITEMDESC	*p_destI;
 
@@ -4782,7 +4784,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 					{
 						if(p_destI->p_Object->Class == 13)
 						{
-							POINTERSTRUCTURE *pS = malloc(sizeof(POINTERSTRUCTURE));
+							POINTERSTRUCTURE *pS = (POINTERSTRUCTURE *)malloc(sizeof(POINTERSTRUCTURE));
 
 							if(pS)
 							{
@@ -4812,12 +4814,12 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 
 						if(p_destI->p_Object->Class == 5)
 						{
+              NORMAL_BEATLE_ITEM_MOVE_B:
+            
 							//je tam dedna
 							int			next_dest[3];
 							int			weight = 0, cweight;
-							long		Lnext_dest;
-
-						NORMAL_BEATLE_ITEM_MOVE_B:
+							int		Lnext_dest;
 
 							weight = 0;
 
@@ -4900,8 +4902,8 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 						{
 							//je tam vybusnina
 							int			next_dest[3];
-							long		Lnext_dest, Ldest;
-							POINTERSTRUCTURE *pS = malloc(sizeof(POINTERSTRUCTURE));
+							int		Lnext_dest, Ldest;
+							POINTERSTRUCTURE *pS = (POINTERSTRUCTURE *)malloc(sizeof(POINTERSTRUCTURE));
 
 							for(m=0;m<3;m++)
 								next_dest[m] = dest[m]+Move[m];
@@ -5020,8 +5022,8 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 					if(p_destI->p_Object->Class == 7)
 					{
 						//je tam kamen
-						long	Ldest;
-						POINTERSTRUCTURE *pS = malloc(sizeof(POINTERSTRUCTURE));
+						int	Ldest;
+						POINTERSTRUCTURE *pS = (POINTERSTRUCTURE *)malloc(sizeof(POINTERSTRUCTURE));
 
 						if(p_Level->Item_Lock || p_Level->Flip) 
 							return -1;
@@ -5138,7 +5140,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 				if(p_ItemO->Class == 5)
 				{
 					int item_pos[3];
-					long p_sikmina;
+					int p_sikmina;
 					int weight;
 
 					gl_Logical2Real(dest[0], dest[1], dest[2], &dest_pos, p_Level);
@@ -5168,8 +5170,8 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 					if(!p_destI)
 					{
 						//normalni posun. na destinaci neni nic
-						long		p_tmp;
-						long		p_sikmina;
+						int		p_tmp;
+						int		p_sikmina;
 						ITEMDESC	*p_sikminaI;
 						int			item_pos[3];
 
@@ -5262,7 +5264,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 					{
 						//na destinaci je predmet
 						int			next_dest[3], m, cweight;
-						long		rpos;
+						int		rpos;
 						ITEMDESC	*p_rposI;
 
 						for(m=0;m<3;m++)
@@ -5331,7 +5333,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 				{
 					//tlasim vybusninu
 					int			item_pos[3];
-					long		p_sikmina;
+					int		p_sikmina;
 					ITEMDESC	*p_sikminaI;
 					
 					//nad bednou nesmi nikdo byt
@@ -5435,7 +5437,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 		if (p_real_pI)
 		{
 			int iValue_new1[3];
-			long test_pos;
+			int test_pos;
 
 			// postupuj az ke stropu
 			while(Vrstva < p_Level->Size[2])
@@ -5543,7 +5545,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 		if ((p_real_posI->p_Object->Class == 19) ||
 			(p_real_posI->p_Object->Class == 20))
 		{
-			long		dest_pos;
+			int		dest_pos;
 			int			Move[3], dest[3], m;
 			ITEMDESC	*p_destI;
 			
@@ -5674,7 +5676,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 				{
 					if(p_destI->p_Object->Class == 13)
 					{
-						POINTERSTRUCTURE *pS = malloc(sizeof(POINTERSTRUCTURE));
+						POINTERSTRUCTURE *pS = (POINTERSTRUCTURE *)malloc(sizeof(POINTERSTRUCTURE));
 
 						if(pS)
 						{
@@ -5704,14 +5706,12 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 
 					if(p_destI->p_Object->Class == 5)
 					{
+            NORMAL_BEATLE_ITEM_MOVE:
+          
 						//je tam dedna
 						int			next_dest[3];
 						int			weight = 0, cweight;
-						long		Lnext_dest;
-
-					NORMAL_BEATLE_ITEM_MOVE:
-
-						weight = 0;
+						int		Lnext_dest;
 
 						for(m=0;m<3;m++)
 							next_dest[m] = dest[m];
@@ -5792,8 +5792,8 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 					{
 						//je tam vybusnina
 						int			next_dest[3];
-						long		Lnext_dest, Ldest;
-						POINTERSTRUCTURE *pS = malloc(sizeof(POINTERSTRUCTURE));
+						int		Lnext_dest, Ldest;
+						POINTERSTRUCTURE *pS = (POINTERSTRUCTURE *)malloc(sizeof(POINTERSTRUCTURE));
 
 						for(m=0;m<3;m++)
 							next_dest[m] = dest[m]+Move[m];
@@ -5919,8 +5919,8 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 					if(p_destI->p_Object->Class == 7)
 					{
 						//je tam kamen
-						POINTERSTRUCTURE *pS = malloc(sizeof(POINTERSTRUCTURE));
-						long	Ldest;
+						POINTERSTRUCTURE *pS = (POINTERSTRUCTURE *)malloc(sizeof(POINTERSTRUCTURE));
+						int	Ldest;
 
 						if(p_Level->Item_Lock || p_Level->Flip) 
 							return -1;
@@ -6026,11 +6026,13 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 			//posunuju bednu na sikminu
 			if(p_ItemO->Class == 5)
 			{
-				long		p_sikmina;
-				ITEMDESC	*p_sikminaI = p_Level->Level[Item];
+				int		p_sikmina;
+				ITEMDESC	*p_sikminaI;
 				int			item_pos[3];
 				int			weight;
 
+        p_sikminaI = p_Level->Level[Item];
+      
 				// siknima se schodkem -> zadna bedna pred to nemuze
 				if(p_real_posI->p_Object->Class == 20)
 					return -1;
@@ -6061,10 +6063,10 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 
 				if(!p_destI)
 				{
+          NORMAL_BEATLE_ITEM_MOVE_:
+        
 					//normalni posun. na destinaci neni nic
 					int anm_i;
-
-				NORMAL_BEATLE_ITEM_MOVE_:
 
 					gl_Logical2Real(dest[0], dest[1], dest[2], &dest_pos, p_Level);	
 					gl_Logical2Real(iValue[0], iValue[1], iValue[2], &p_sikmina, p_Level);
@@ -6252,11 +6254,11 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 			if(p_ItemO->Class == 6)
 			{
 				//tlasim vybusninu
-				long		Ldest;
+				int		Ldest;
 				int			item_pos[3];
 				int			weight;
 				int			anm_i;
-				long		p_sikmina;
+				int		p_sikmina;
 				ITEMDESC	*p_sikminaI;
 
 				// jestlize tou vybusninou neni co vyhodit, tak skoc na normalni posun
@@ -6350,7 +6352,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 		if ((p_ItemO->Class == 1) &&
 			(p_real_posO->Class == 13))
 		{
-			POINTERSTRUCTURE *pS = malloc(sizeof(POINTERSTRUCTURE));
+			POINTERSTRUCTURE *pS = (POINTERSTRUCTURE *)malloc(sizeof(POINTERSTRUCTURE));
 
 			if(pS)
 			{
@@ -6598,7 +6600,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item, LEVELINFO *p_Level)
 					if (p_real_pI)
 					{
 						int iValue_new1[3];
-						long test_pos;
+						int test_pos;
 							
 						// postupuj az ke stropu
 						while(Vrstva < p_Level->Size[2])
@@ -6712,7 +6714,7 @@ return -1;
 int gl_Count_Weight(int *column, LEVELINFO *p_Level)
 {
 	int i, weight = 0;
-	long real_pos;
+	int real_pos;
 	OBJECTDESC *p_real_posO;
 
 	for(i=column[2];i<p_Level->Size[2];i+=2)
@@ -6757,7 +6759,7 @@ int gl_Stlac_Tlacitko(ITEMDESC *pTlacitko, char *bPowerOn, LEVELINFO *p_Level)
 {
 	int p_run;
 	int pos[3];
-	long r;
+	int r;
 	char off;
 	
 	*bPowerOn = -1;
@@ -6802,7 +6804,7 @@ int gl_Stlac_Tlacitko(ITEMDESC *pTlacitko, char *bPowerOn, LEVELINFO *p_Level)
 //------------------------------------------------------------------------------------------------
 int gl_Do_Button(long real_pos, char bUse, LEVELINFO *p_Level)
 {
-	long test_pos, ret, connection, connection1;
+	int test_pos, ret, connection, connection1;
 	int pos[3];
 	int ret_value = 0;
 	char bPowerOn;
@@ -6882,10 +6884,10 @@ int gl_Do_Button(long real_pos, char bUse, LEVELINFO *p_Level)
 	return ret_value;
 }
 
-int gl_Lift_Is_Move_Possible(ITEMDESC *p_Lift, int *Beruska, long real_pos, LEVELINFO *p_Level, int *move)
+int gl_Lift_Is_Move_Possible(ITEMDESC *p_Lift, int *Beruska, int real_pos, LEVELINFO *p_Level, int *move)
 {
 	int		pos[3], dist, i;
-	long	real;
+	int	real;
 
 	memcpy((void *) pos, (void *) p_Lift->Pos, 3*sizeof(int));
 
@@ -6940,7 +6942,7 @@ int gl_Lift_Is_Move_Possible(ITEMDESC *p_Lift, int *Beruska, long real_pos, LEVE
 int gl_Is_There_Water(int *from, int *to, LEVELINFO *p_Level)
 {
 	int i;
-	long r;
+	int r;
 
 	for(i=from[2];i<to[2];i++)
 	{
@@ -6957,7 +6959,7 @@ int gl_Is_There_Water(int *from, int *to, LEVELINFO *p_Level)
 
 int gl_Find_Top_Of_Lift_things(LEVELINFO *p_Level, int x, int y, int z)
 {
-	long r;
+	int r;
 	int i;
 
 	for(i = z; i < p_Level->Size[2]; i+=2)
@@ -6979,7 +6981,7 @@ int gl_Find_Top_Of_Lift_things(LEVELINFO *p_Level, int x, int y, int z)
 //------------------------------------------------------------------------------------------------
 int gl_Do_Lift(long Lift, int *pos, LEVELINFO *p_Level)
 {
-	long test_pos, real_pos, test1_pos;
+	int test_pos, real_pos, test1_pos;
 	int  item, new_pos[3], move[3], old_Zpos;
 	int  i,j;
 	char bMove;
@@ -7329,11 +7331,11 @@ int gl_Do_Lift(long Lift, int *pos, LEVELINFO *p_Level)
 
 			if(voda != -1 && SmerDolu)
 			{
-				POINTERSTRUCTURE *pS = malloc(sizeof(POINTERSTRUCTURE));
+				POINTERSTRUCTURE *pS = (POINTERSTRUCTURE *)malloc(sizeof(POINTERSTRUCTURE));
 		
 				if(pS)
 				{
-					long r;
+					int r;
 					int percent;
 
 					gl_Logical2Real(pos[0], pos[1], voda+1, &r, p_Level);
@@ -7360,7 +7362,7 @@ int gl_Do_Lift(long Lift, int *pos, LEVELINFO *p_Level)
 
 			if(voda != -1 && !SmerDolu)
 			{
-				POINTERSTRUCTURE *pS = malloc(sizeof(POINTERSTRUCTURE));
+				POINTERSTRUCTURE *pS = (POINTERSTRUCTURE *)malloc(sizeof(POINTERSTRUCTURE));
 				int percent;
 
 				percent = ((voda - (lpos[2] + VyskaSloupce)) * 100) / (p_LiftI->Pos[2] - lpos[2]);
@@ -7370,7 +7372,7 @@ int gl_Do_Lift(long Lift, int *pos, LEVELINFO *p_Level)
 
 				if(pS)
 				{
-					long r;
+					int r;
 
 					gl_Logical2Real(pos[0], pos[1], voda+1, &r, p_Level);
 
@@ -7632,7 +7634,7 @@ void gl_Add_Walls_Bellow_Lifts(LEVELINFO *p_Level)
 {
 	int i, j,p1[3],p2[3], p3[3];
 	ITEMDESC* p_lift;
-	long real;
+	int real;
 
 	
 	p_Level->pWall = gl_Find_First_Wall(p_Level);
@@ -7707,7 +7709,7 @@ void gl_Add_Walls_Bellow_LiftsH(LEVELINFO *p_Level)
 {
 	int i, p1[3], p2[3];
 	ITEMDESC* p_lift;
-	long real;
+	int real;
 	DDA	dda;
 	
 	p_Level->pWall = gl_Find_First_Wall(p_Level);
@@ -7783,7 +7785,7 @@ void gl_Open_Door(ITEMDESC *p_DoorI, LEVELINFO *p_Level)
 //------------------------------------------------------------------------------------------------
 int gl_Gate_Keeper(long Door, int *Item, LEVELINFO *p_Level)
 {
-	long Real_Item;
+	int Real_Item;
 	ITEMDESC *p_DoorI = p_Level->Level[Door];
 	OBJECTDESC *p_Real_ItemO;
 
@@ -8009,7 +8011,7 @@ int gl_Find_Top_With_Water(int *pWater, ITEMDESC *pItem, LEVELINFO *p_Level)
 void gl_Vyrob_Animaci(int move, int newL, int Water, int bWater, ITEMDESC *pItem, LEVELINFO *p_Level)
 {
 	POINTERSTRUCTURE *pS;
-	long real, new_real;
+	int real, new_real;
 
 	p_set->animation[p_set->last].p_anim = sim_vyrob_animaci(2,0,0);
 
@@ -8041,7 +8043,7 @@ void gl_Vyrob_Animaci(int move, int newL, int Water, int bWater, ITEMDESC *pItem
 	
 	if(Water != -1 && bWater)
 	{
-		pS = malloc(sizeof(POINTERSTRUCTURE));
+		pS = (POINTERSTRUCTURE *)malloc(sizeof(POINTERSTRUCTURE));
 		
 		if(pS)
 		{
@@ -8073,7 +8075,7 @@ void gl_Vyrob_Animaci(int move, int newL, int Water, int bWater, ITEMDESC *pItem
 
 int gl_Check_Anim_Pontonky(ITEMDESC *pItem, LEVELINFO *p_Level)
 {
-	long real;
+	int real;
 	int iPos[3];
 
 	if(!pItem)
@@ -8201,7 +8203,7 @@ int gl_Vynor_Pontonky(LEVELINFO *p_Level)
 	return ret;
 }
 
-gl_Close_Door(ITEMDESC *pDoor, LEVELINFO *p_Level)
+void gl_Close_Door(ITEMDESC *pDoor, LEVELINFO *p_Level)
 {
 	float pos[3];
 	int r;
@@ -8223,8 +8225,8 @@ gl_Close_Door(ITEMDESC *pDoor, LEVELINFO *p_Level)
 int gl_Check_Logic_Dependences(LEVELINFO *p_Level)
 {
 	int x,y,z,i,m;
-	//long real_pos, test_pos, ret, real_p;
-	long test_pos, ret, real_p;
+	//int real_pos, test_pos, ret, real_p;
+	int test_pos, ret, real_p;
 	int pos[3];
 	int ret_value = 0;
 	int r;
@@ -8411,7 +8413,7 @@ int gl_Can_Go_Into_Water(ITEMDESC *pItem)
 int gl_Is_There_Beatle(int *iPos, ITEMDESC **pItem, LEVELINFO *p_Level)
 {
 	int i,c = 0;
-	long real;
+	int real;
 
 	for(i=iPos[2];i<p_Level->Size[2];i+=2)
 	{
@@ -8451,7 +8453,7 @@ int gl_Will_Go_Under_Water(int *iPos, int DontCountPos, int Plus, int *pVaha, LE
 {
 	int i, iPocetBeden = Plus, cPos[3];
 	char bUnderWater = 0;
-	long real;
+	int real;
 
 	if(pVaha)
 		(*pVaha) = 0;
@@ -8558,7 +8560,7 @@ void gl_Throw_Detonation_Pack(long item, LEVELINFO *p_Level)
 {
 	int			pos[3], rot;
 	float		fpos[3];
-	long		real_pos;
+	int		real_pos;
 	OBJECTDESC	*p_real_posO;
 	ITEMDESC	*p_itemI = p_Level->Level[item];
 
@@ -8624,7 +8626,7 @@ void gl_Throw_Detonation_Pack(long item, LEVELINFO *p_Level)
 //------------------------------------------------------------------------------------------------
 int gl_Is_Drop_Item_Possible(int *p_Pos, LEVELINFO *p_Level)
 {
-	long real_pos;
+	int real_pos;
 	int i;
 	OBJECTDESC *p_real_posO;
 
@@ -8653,7 +8655,7 @@ int gl_Is_Drop_Item_Possible(int *p_Pos, LEVELINFO *p_Level)
 //------------------------------------------------------------------------------------------------
 int gl_Find_Bottom(int *p_Pos, int *bVoda, LEVELINFO *p_Level)
 {
-	long real_pos;
+	int real_pos;
 	int i, bottom = p_Pos[2];
 	
 	*bVoda = -1;
@@ -9245,11 +9247,11 @@ int gl_Drop_Item(int item, int *pos, LEVELINFO *p_Level)
 	int			obj;
 	int			mesh;
 	int			new_pos[3],move[3];
-	long		real_pos;
+	int		real_pos;
 	ITEMDESC *p_real_posI;
 	int			Voda, vodapos[3];
 	POINTERSTRUCTURE *pS;
-	long real;
+	int real;
 
 	if(!gl_Is_Drop_Item_Possible(pos,p_Level))
 		return 0;
@@ -9337,7 +9339,7 @@ int gl_Drop_Item(int item, int *pos, LEVELINFO *p_Level)
 
 		if(Voda != -1)
 		{
-			pS = malloc(sizeof(POINTERSTRUCTURE));
+			pS = (POINTERSTRUCTURE *)malloc(sizeof(POINTERSTRUCTURE));
 		
 			if(pS)
 			{
@@ -9447,7 +9449,7 @@ int gl_Moveto_Beatle(int btl, LEVELINFO *p_Level)
 	{
 		BOD b;
 		float dist;
-		long frame;
+		int frame;
 		int rot;
 		int last_b;
 			
@@ -9512,7 +9514,7 @@ int gl_Screen_Shot(int i)
 void gl_Init_Buttons(LEVELINFO *p_Level)
 {
 	int i, pos[3];
-	long r;
+	int r;
 
 	for(i=0;i<p_Level->Size_of_Level;i++)
 		if(p_Level->Level[i])
@@ -9662,7 +9664,7 @@ void gl_Beetle_Exit(LEVELINFO *p_Level)
 {
 	BOD b;
 	float dist;
-	long frame;
+	int frame;
 	int rot, iPos[3], i;
 	CAMERA_ANIMATION	camera;
 	ANIMATION_QUEUE_SET *p_prev_set = gl_Get_Prev_Queue_SetA(2, p_Level);
@@ -11716,7 +11718,7 @@ PLAY_LEVEL_START:
 
 					if (_new > -1)
 					{
-						POINTERSTRUCTURE *pS = malloc(sizeof(POINTERSTRUCTURE));
+						POINTERSTRUCTURE *pS = (POINTERSTRUCTURE *)malloc(sizeof(POINTERSTRUCTURE));
 						int i;
 
 						Level.iNumOfSteps++;
@@ -11966,7 +11968,7 @@ PLAY_LEVEL_START:
 			{
 				Level.bSikminaMoveExeption = 0;
 
-				pS = malloc(sizeof(POINTERSTRUCTURE));
+				pS = (POINTERSTRUCTURE *)malloc(sizeof(POINTERSTRUCTURE));
 
 				pos_n[0] = Level.Level[Level.Actual_Item]->Pos[0];
 				pos_n[1] = Level.Level[Level.Actual_Item]->Pos[1];
@@ -12102,7 +12104,7 @@ PLAY_LEVEL_START:
 			if((Level.bSikminaMoveExeption && !Level.Flip) || !Level.bSikminaMoveExeption)
 			{
 				Level.bSikminaMoveExeption = 0;
-				pS = malloc(sizeof(POINTERSTRUCTURE));
+				pS = (POINTERSTRUCTURE *)malloc(sizeof(POINTERSTRUCTURE));
 
 				pos_n[0] = Level.Level[Level.Actual_Item]->Pos[0];
 				pos_n[1] = Level.Level[Level.Actual_Item]->Pos[1];
@@ -12225,7 +12227,7 @@ PLAY_LEVEL_START:
 			if((Level.bSikminaMoveExeption && !Level.Flip) || !Level.bSikminaMoveExeption)
 			{
 				Level.bSikminaMoveExeption = 0;
-				pS = malloc(sizeof(POINTERSTRUCTURE));
+				pS = (POINTERSTRUCTURE *)malloc(sizeof(POINTERSTRUCTURE));
 
 				pos_n[0] = Level.Level[Level.Actual_Item]->Pos[0];
 				pos_n[1] = Level.Level[Level.Actual_Item]->Pos[1];
@@ -12846,7 +12848,7 @@ void gl_Kofola_End(int DirectX)
 //	ChangeDisplaySettings(NULL,0);
 //	ShowWindow(hwnd_hry, SW_MAXIMIZE);
 	spracuj_spravy(0);
-    ShowCursor(TRUE);
+  ShowCursor(TRUE);
 	spracuj_spravy(0);
 
 //	DestroyWindow(hwnd_hry);

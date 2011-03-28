@@ -639,9 +639,9 @@ AnimHandle kam_3ds_vyrob_animaci(int framenum, int pos_keys, int target_keys, in
 
 /* Load animace
 */
-AnimHandle kam_3ds_nahraj_animaci(APAK_HANDLE *pHandle, byte *p_jmeno)
+AnimHandle kam_3ds_nahraj_animaci(APAK_HANDLE *pHandle, char *p_jmeno)
 {
-  byte jmeno_kam[200];
+  char jmeno_kam[200];
   int  kam;
   int  i;
   

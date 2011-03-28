@@ -262,8 +262,8 @@ typedef struct _EDIT_OKNO {
  float   rfi;
  float   roll;
 
- byte    fs; // full-scrren -> pojeho deaktivaci prekresli zbyvajici okna
- byte    vp; // jakej pouziva view-port
+ char    fs; // full-scrren -> pojeho deaktivaci prekresli zbyvajici okna
+ char    vp; // jakej pouziva view-port
 
 } EDIT_OKNO;
 

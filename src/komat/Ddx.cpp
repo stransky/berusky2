@@ -9,7 +9,7 @@ TXT_KONFIG txconf;
 
 #define FORMATU  24
 
-int  cti_texture_format(int format, byte *p_string)
+int  cti_texture_format(int format, char *p_string)
 {
   int i;
   int formaty_cisla[FORMATU] = {GL_RGB5,
@@ -36,7 +36,7 @@ int  cti_texture_format(int format, byte *p_string)
                  GL_COMPRESSED_LUMINANCE_ALPHA_ARB,
                  GL_COMPRESSED_ALPHA_ARB,
                  GL_RGB5};
-  byte formaty_stringy[FORMATU][50] = {"GL_RGB5",
+  char formaty_stringy[FORMATU][50] = {"GL_RGB5",
                       "GL_RGB5_A1",
                       "GL_RGBA4",
                       "GL_LUMINANCE8",
@@ -70,10 +70,10 @@ int  cti_texture_format(int format, byte *p_string)
   return(FALSE);
 }
 
-int preloz_texture_format(int *p_format, byte *p_string)
+int preloz_texture_format(int *p_format, char *p_string)
 {
   int i;
-  byte format_string[FORMAT_POCET][50] = {
+  char format_string[FORMAT_POCET][50] = {
        "FORMAT_RGB",
        "FORMAT_RGBA1",
        "FORMAT_RGBA4",
@@ -223,7 +223,7 @@ void nastav_konfig(HW_KONFIG *p_hwconf, TXT_KONFIG *p_txt)
 
 /* load hw konfigu
 */
-int nahraj_device_config(byte *p_file, byte *p_sekce, HW_KONFIG *p_conf)
+int nahraj_device_config(char *p_file, char *p_sekce, HW_KONFIG *p_conf)
 {
  p_conf->xres = GetPrivateProfileInt(p_sekce,"xres",800,p_file);
  p_conf->yres = GetPrivateProfileInt(p_sekce,"yres",600,p_file);
@@ -241,7 +241,7 @@ int nahraj_device_config(byte *p_file, byte *p_sekce, HW_KONFIG *p_conf)
  return(TRUE);
 }
 
-int nahraj_universal_device_config(byte *p_file, byte *p_sekce, HW_KONFIG *p_conf)
+int nahraj_universal_device_config(char *p_file, char *p_sekce, HW_KONFIG *p_conf)
 { 
  p_conf->pn_triangles = GetPrivateProfileInt(p_sekce,"pn_triangles",0,p_file);
  p_conf->pn_triangles_detail = GetPrivateProfileInt(p_sekce,"pn_triangles_tesell",0,p_file);
@@ -250,9 +250,9 @@ int nahraj_universal_device_config(byte *p_file, byte *p_sekce, HW_KONFIG *p_con
 
 /* load konfigu textur
 */
-int nahraj_texture_config(byte *p_file, TXT_KONFIG *p_txt)
+int nahraj_texture_config(char *p_file, TXT_KONFIG *p_txt)
 {
- byte pom[200];
+ char pom[200];
  int  i;
  
  p_txt->text_kvalita =     GetPrivateProfileInt(TXT_SEKCE,"text_kvalita",0,p_file); 
@@ -307,7 +307,7 @@ void anisotropic_filtr_init(TXT_KONFIG *p_txt)
   }
 }
 
-int grf_start(byte *p_file, byte *p_sekce, int extension)
+int grf_start(char *p_file, char *p_sekce, int extension)
 {
 
  nahraj_texture_config(p_file,&txconf);
@@ -651,9 +651,9 @@ int gl_stop(HW_KONFIG *p_conf)
 #define KONZOLE_POZADI  0xffffffff
 #define KONZOLE_TEXT    0x0
 
-void ddw_surf(int x, int y, byte *fmt,...)
+void ddw_surf(int x, int y, char *fmt,...)
 {
- byte text[1000];	
+ char text[1000];	
  va_list	ap;								  		  // Pointer To List Of Arguments
 
  if(fmt == NULL)									// If There's No Text
@@ -673,9 +673,9 @@ void ddw_surf(int x, int y, byte *fmt,...)
  glPopAttrib();										// Pops The Display List Bits 
 }
 
-void ddw_surf_xy(int x, int y, byte *fmt,...)
+void ddw_surf_xy(int x, int y, char *fmt,...)
 {
- byte text[1000];	
+ char text[1000];	
  va_list	ap;								  		  // Pointer To List Of Arguments
 
  if(fmt == NULL)									// If There's No Text
@@ -694,9 +694,9 @@ void ddw_surf_xy(int x, int y, byte *fmt,...)
  glPopAttrib();										// Pops The Display List Bits 
 }
 
-int ddwqueto(byte *p_text,...)
+int ddwqueto(char *p_text,...)
 {
- byte    text[500];
+ char    text[500];
  va_list argumenty;
 
  va_start(argumenty,p_text);
@@ -706,9 +706,9 @@ int ddwqueto(byte *p_text,...)
 // return(MessageBox(hwnd,text,"DdwQueto:",MB_ICONASTERISK|MB_YESNO|MB_SYSTEMMODAL) == IDYES);
 }
 
-int ddwquetot(byte *p_title, byte *p_text,...)
+int ddwquetot(char *p_title, char *p_text,...)
 {
- byte    text[500];
+ char    text[500];
  va_list argumenty;
 
  va_start(argumenty,p_text);
@@ -736,8 +736,8 @@ void gl_texture_scan(void)
 */
 void tiskni_chybu(int line, char *p_file, char *p_text,...)
 {
-  byte    text[2000];
-  byte    text1[2000];
+  char    text[2000];
+  char    text1[2000];
   va_list argumenty;
 
   sprintf(text1,"Chyba na line %d file %s\n",line,p_file); 
@@ -755,8 +755,8 @@ void tiskni_chybu(int line, char *p_file, char *p_text,...)
 
 void tiskni_chybu_bez_exit(int line, char *p_file, char *p_text,...)
 {
-  byte    text[2000];
-  byte    text1[2000];
+  char    text[2000];
+  char    text1[2000];
   va_list argumenty;
 
   sprintf(text1,"Chyba na line %d file %s\n",line,p_file); 

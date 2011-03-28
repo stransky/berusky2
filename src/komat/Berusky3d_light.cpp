@@ -425,7 +425,7 @@ LightHandle sdl_svetlo_vyrob(dword flag)
   return(l);
 }
 
-LightHandle sdl_svetlo_pojmenuj(LightHandle handle, byte *p_jmeno)
+LightHandle sdl_svetlo_pojmenuj(LightHandle handle, char *p_jmeno)
 {
   if(!p_ber->p_dlight[handle].akt)
     return(FALSE);
@@ -2759,7 +2759,7 @@ int sdl_poly_updatuj_lightmap(G_KONFIG *p_ber, EDIT_MESH_POLY *p_poly)
 
 void sdl_save_lightmap(EDIT_MESH_POLY *p_poly, int p)
 {
-  byte pom[200];
+  char pom[200];
   int l;
   chdir("e:\\");
   for(l = 0; l < p_poly->lightnum; l++) {

@@ -5744,7 +5744,7 @@ void am_Start_Joint_Animations(void)
 {   
   ExMeshHandle    mh, next;
   ChapadloHandle *p_handle = NULL;
-  byte           *p_jmeno;
+  char           *p_jmeno;
   int             chapadel;
   static int      flag;
   int             i,j,objektu;

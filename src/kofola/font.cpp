@@ -541,7 +541,7 @@ int fn_Set_Font(char *cPAK)
 	}
 	else
 	{
-		agetbuffer(b2_font.file, (char **)&b2_font.pTBuffer, &b2_font.iTSize);
+    agetbuffer(b2_font.file, (char **)&b2_font.pTBuffer, &b2_font.iTSize);
 
 		if(!b2_font.pTBuffer)
 		{
@@ -895,7 +895,7 @@ void fn_Load_Textures_From_RAM(void)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _3dd.p_sysramtexture[i].x, _3dd.p_sysramtexture[i].y, 
 					 0, GL_RGBA, GL_UNSIGNED_BYTE, _3dd.p_sysramtexture[i].data);
 
-	    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); 
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);

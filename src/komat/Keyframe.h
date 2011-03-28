@@ -39,8 +39,8 @@ void key_sim_to_sim_indir(SIMPLE_TRACK_INFO *p_dest, SIMPLE_TRACK_INFO *p_src);
 void key_sim_animuj_strom(SIMPLE_TRACK_INFO *p_sim, int time, GLMATRIX *p_otec);
 SIMPLE_TRACK_INFO * key_sim_vyrob_indir(SIMPLE_TRACK_INFO *p_sim, int framenum);
 SIMPLE_TRACK_INFO * key_tri_to_sim_indir(HIERARCHY_TRACK_INFO *p_track, SIMPLE_TRACK_INFO *p_sim, int loop, int float_scale);
-void key_sim_uloz(SIMPLE_TRACK_INFO *p_sim, byte *p_file, byte *p_dir);
-int  key_sim_nahraj(APAK_HANDLE *pHandle, SIMPLE_TRACK_INFO *p_sim, byte *p_file, byte *p_dir, int linear);
+void key_sim_uloz(SIMPLE_TRACK_INFO *p_sim, char *p_file, char *p_dir);
+int  key_sim_nahraj(APAK_HANDLE *pHandle, SIMPLE_TRACK_INFO *p_sim, char *p_file, char *p_dir, int linear);
 GLMATRIX * key_sim_to_matrix(SIMPLE_TRACK_INFO *p_sim, int time, GLMATRIX *p_m);
 GLMATRIX * key_sim_to_matrix_param(SIMPLE_TRACK_INFO *p_sim, int time, GLMATRIX *p_m, BOD *p_pos, QUAT *p_quat, BOD *p_scale);
 void key_sim_root_to_matrix(EDIT_KONTEJNER *p_kont, HIERARCHY_SIM *p_sim, int time, GLMATRIX *p_m);
@@ -59,8 +59,8 @@ int  key_track_klic_vloz_auto(byte **p_hodnoty, KEY_POINT_BRS **p_skeys, int key
 int  key_track_klic_smaz(byte **p_hodnoty, KEY_POINT_BRS **p_skeys, int *p_keynum, int size_of_hodnota, dword del_time);
 
 int  key_kamera_vyrob_indir(KAMERA_TRACK_INFO *p_track, int pos_keys, int trg_keys, int roll_keys, int fov_keys, int quat_keys);
-int  key_kamera_uloz(KAMERA_TRACK_INFO *p_track, byte *p_jmeno_kamery, byte *p_jmeno_anim, byte *p_file, byte *p_dir);
-int  key_kamera_nahraj(KAMERA_TRACK_INFO *p_track, byte *p_jmeno_kamery, byte *p_jmeno_anim, APAK_HANDLE *pHandle, byte *p_file, byte *p_dir);
+int  key_kamera_uloz(KAMERA_TRACK_INFO *p_track, char *p_jmeno_kamery, char *p_jmeno_anim, char *p_file, char *p_dir);
+int  key_kamera_nahraj(KAMERA_TRACK_INFO *p_track, char *p_jmeno_kamery, char *p_jmeno_anim, APAK_HANDLE *pHandle, char *p_file, char *p_dir);
 void key_kamera_zrus_indir(KAMERA_TRACK_INFO *p_track);
 
 int  key_kamera_track_cti(KAMERA_TRACK_INFO *p_track, BOD *p_p, BOD *p_t, float *p_roll, float *p_fov);
@@ -81,8 +81,8 @@ void        key_zrus_material_animace(ANIM_TEXT **p_mat);
 
 void        key_sim_to_text_matrix(ANIM_TEXT *p_text, int time, GLMATRIX *p_ttext);
 void        key_mat_to_text_matrix(GLMATRIX *p_ttext, BOD *p_pos, float uhel, BOD *p_scale, BOD *p_pivot);
-ANIM_TEXT * key_text_nahraj(byte *p_file, byte *p_dir);
-int         key_text_uloz(ANIM_TEXT *p_track, byte *p_file, byte *p_dir);
+ANIM_TEXT * key_text_nahraj(char *p_file, char *p_dir);
+int         key_text_uloz(ANIM_TEXT *p_track, char *p_file, char *p_dir);
 
 void        key_sim_zrus_vnitrek(SIMPLE_TRACK_INFO *p_sim);
 void        key_sim_root_zrus(HIERARCHY_SIM *p_sim);
@@ -97,7 +97,7 @@ void        key_sim_root_to_sim_indir(HIERARCHY_SIM *p_root, SIMPLE_TRACK_INFO *
 void        key_kontejner_sim_reanimuj(EDIT_KONTEJNER *p_kont);
 
 void        key_sim_dopln_matrix_mesh(GAME_MESH *p_mesh, SIMPLE_TRACK_INFO *p_sim);
-int         key_sim_nahraj_extended(EDIT_KONTEJNER *p_kont, int cislo_anim, byte *p_file, byte *p_dir);
+int         key_sim_nahraj_extended(EDIT_KONTEJNER *p_kont, int cislo_anim, char *p_file, char *p_dir);
 void        key_sim_root_vloz_pivoty_do_animace(EDIT_KONTEJNER *p_kont, HIERARCHY_SIM *p_root);
 void        key_sim_root_vloz_pivoty_do_animace_kont(EDIT_KONTEJNER *p_kont);
 

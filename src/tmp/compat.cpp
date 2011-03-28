@@ -234,7 +234,7 @@ int MultiByteToWideChar(
   int dwFlags,
   char * lpMultiByteStr,
   int cbMultiByte,
-  char * lpWideCharStr,
+  WCHAR * lpWideCharStr,
   int cchWideChar
 )
 {
@@ -303,7 +303,7 @@ int ap_Load_Sound_List(AUDIO_DATA *p_ad, char *cFile, int iStart)
 {
 }
 
-void ShowCursor(void *tmp)
+void ShowCursor(bool state)
 {
 }
 

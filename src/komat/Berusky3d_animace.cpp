@@ -277,7 +277,7 @@ int kom_amat_get_kontejner(MeshHandle mh)
 */
 /* Vraci handle nebo K_CHYBA kdyz nic/chyba loadu
 */
-AnimHandle sim_nahraj_animaci(APAK_HANDLE *pHandle, byte *p_jmeno, int linearne)
+AnimHandle sim_nahraj_animaci(APAK_HANDLE *pHandle, char *p_jmeno, int linearne)
 {
   AnimHandle sim;
   int i;
@@ -1547,7 +1547,7 @@ int chani_mesh_cti_chapadelniky(ExMeshHandle mh, int objekt, ChapadloHandle **p_
     return(0);
 }
 
-byte * chani_cti_jmeno(ChapadloHandle chh)
+char * chani_cti_jmeno(ChapadloHandle chh)
 {
   JOINT_ANIMACE *p_ani = (JOINT_ANIMACE *)chh;
   return(p_ani->jmeno);

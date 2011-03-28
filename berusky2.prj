@@ -71,144 +71,142 @@ module.include.files=
 module.source.name=src
 module.source.type=
 module.source.files=\
-	kofola/3D_graphic.c\
+	kofola/3D_graphic.cpp\
 	kofola/3D_graphic.h\
-	kofola/3D_menus.c\
+	kofola/3D_menus.cpp\
 	kofola/3D_menus.h\
-	kofola/3d_math.c\
+	kofola/3d_math.cpp\
 	kofola/3d_math.h\
-	kofola/Apak.c\
+	kofola/Apak.cpp\
 	kofola/Apak.h\
-	kofola/Apakio.c\
-	kofola/Bind.c\
+	kofola/Apakio.cpp\
+	kofola/Bind.cpp\
 	kofola/Bind.h\
-	kofola/Camera.c\
-	kofola/Comics.c\
+	kofola/Camera.cpp\
+	kofola/Comics.cpp\
 	kofola/Comics.h\
-	kofola/Command.c\
+	kofola/Command.cpp\
 	kofola/Command.h\
-	kofola/Dda.c\
+	kofola/Dda.cpp\
 	kofola/Dda.h\
-	kofola/Demo.c\
+	kofola/Demo.cpp\
 	kofola/Demo.h\
-	kofola/Init.c\
-	kofola/Menu.c\
+	kofola/Init.cpp\
+	kofola/Menu.cpp\
 	kofola/Menu.h\
-	kofola/Menu2.c\
+	kofola/Menu2.cpp\
 	kofola/Menu2.h\
 	kofola/Object.h\
 	kofola/Setup.h\
-	kofola/Tools.c\
+	kofola/Tools.cpp\
 	kofola/Tools.h\
-	kofola/animation.c\
-	kofola/animation.h\
-	kofola/animend_functions.c\
+	kofola/animend_functions.cpp\
 	kofola/animend_functions.h\
 	kofola/apak_types.h\
-	kofola/apakdir.c\
-	kofola/apakfind.c\
-	kofola/apakstream.c\
+	kofola/apakdir.cpp\
+	kofola/apakfind.cpp\
+	kofola/apakstream.cpp\
 	kofola/camera.h\
 	kofola/codec.h\
 	kofola/config_types.h\
-	kofola/controls.c\
+	kofola/controls.cpp\
 	kofola/controls.h\
-	kofola/controls3d.c\
+	kofola/controls3d.cpp\
 	kofola/controls3d.h\
-	kofola/credits.c\
+	kofola/credits.cpp\
 	kofola/credits.h\
-	kofola/font.c\
+	kofola/font.cpp\
 	kofola/font.h\
-	kofola/font3d.c\
+	kofola/font3d.cpp\
 	kofola/font3d.h\
-	kofola/game_init.c\
+	kofola/game_init.cpp\
 	kofola/game_init.h\
-	kofola/game_logic.c\
+	kofola/game_logic.cpp\
 	kofola/game_logic.h\
-	kofola/game_main.c\
+	kofola/game_main.cpp\
 	kofola/game_main.h\
-	kofola/grammar.c\
+	kofola/grammar.cpp\
 	kofola/grammar.h\
 	kofola/init.h\
 	kofola/level_environment.h\
-	kofola/load_level.c\
+	kofola/load_level.cpp\
 	kofola/load_level.h\
 	kofola/menu_def.h\
-	kofola/menu_script.c\
+	kofola/menu_script.cpp\
 	kofola/menu_script.h\
-	kofola/profiles.c\
+	kofola/profiles.cpp\
 	kofola/profiles.h\
 	kofola/secure.h\
-	kofola/setup.c\
-	kofola/square_cut.c\
+	kofola/setup.cpp\
+	kofola/square_cut.cpp\
 	kofola/square_cut.h\
-	kofola/trigers.c\
+	kofola/trigers.cpp\
 	kofola/trigers.h\
-	kofola/volume.c\
+	kofola/volume.cpp\
 	kofola/volume.h\
-	kofola/water.c\
+	kofola/water.cpp\
 	kofola/water.h\
 	kofola/zconf.h\
 	kofola/zlib.h\
 	komat/3d_all.h\
 	komat/3d_typy.h\
-	komat/3dinterface.c\
+	komat/3dinterface.cpp\
 	komat/3dinterface.h\
-	komat/3dmath.c\
+	komat/3dmath.cpp\
 	komat/3dmath.h\
-	komat/3dproject.c\
+	komat/3dproject.cpp\
 	komat/3dproject.h\
-	komat/Berusky3d.c\
+	komat/Berusky3d.cpp\
 	komat/Berusky3d.h\
-	komat/Berusky3d_animace.c\
+	komat/Berusky3d_animace.cpp\
 	komat/Berusky3d_animace.h\
-	komat/Berusky3d_castice.c\
+	komat/Berusky3d_castice.cpp\
 	komat/Berusky3d_castice.h\
 	komat/Berusky3d_castice2.h\
-	komat/Berusky3d_ini.c\
+	komat/Berusky3d_ini.cpp\
 	komat/Berusky3d_ini.h\
-	komat/Berusky3d_kamery.c\
+	komat/Berusky3d_kamery.cpp\
 	komat/Berusky3d_kamery.h\
-	komat/Berusky3d_kofola2d.c\
+	komat/Berusky3d_kofola2d.cpp\
 	komat/Berusky3d_kofola2d.h\
-	komat/Berusky3d_kofola_interface.c\
+	komat/Berusky3d_kofola_interface.cpp\
 	komat/Berusky3d_kofola_interface.h\
-	komat/Berusky3d_light.c\
+	komat/Berusky3d_light.cpp\
 	komat/Berusky3d_light.h\
-	komat/Berusky3d_load.c\
+	komat/Berusky3d_load.cpp\
 	komat/Berusky3d_load.h\
-	komat/Berusky3d_render.c\
+	komat/Berusky3d_render.cpp\
 	komat/Berusky3d_render.h\
 	komat/Berusky_universal.h\
-	komat/Bmp.c\
+	komat/Bmp.cpp\
 	komat/Bmp.h\
 	komat/Color.h\
 	komat/Dbgwnd.h\
-	komat/Ddx.c\
+	komat/Ddx.cpp\
 	komat/Ddx.h\
-	komat/Di.c\
+	komat/Di.cpp\
 	komat/Di.h\
-	komat/Kdtree.c\
+	komat/Kdtree.cpp\
 	komat/Kdtree.h\
-	komat/Keyframe.c\
+	komat/Keyframe.cpp\
 	komat/Keyframe.h\
-	komat/Load.c\
+	komat/Load.cpp\
 	komat/Load.h\
-	komat/Load_chunks.c\
+	komat/Load_chunks.cpp\
 	komat/Load_chunks.h\
-	komat/Load_out.c\
+	komat/Load_out.cpp\
 	komat/Load_out.h\
-	komat/Mat3d.c\
+	komat/Mat3d.cpp\
 	komat/Mat3d.h\
-	komat/Matrix.c\
+	komat/Matrix.cpp\
 	komat/Matrix.h\
 	komat/NvTriStrip.h\
 	komat/Quat.h\
-	komat/Texture.c\
+	komat/Texture.cpp\
 	komat/Texture.h\
 	komat/Texture_import.cpp\
 	komat/Texture_import.h\
-	komat/Tga.c\
+	komat/Tga.cpp\
 	komat/Tga.h\
 	komat/Vektor.h\
 	komat/Wglext.h\
@@ -216,24 +214,190 @@ module.source.files=\
 	komat/Zconf.h\
 	komat/Zlib.h\
 	komat/dxtlib.h\
-	komat/gglext.c\
+	komat/gglext.cpp\
 	komat/gglext.h\
 	komat/glext.h\
-	komat/kfile.c\
+	komat/kfile.cpp\
 	komat/kfile.h\
 	komat/mmalloc.h\
 	komat/mss.h\
-	komat/obb.c\
-	komat/obb.h\
 	komat/strip.cpp\
 	komat/strip.h\
 	komat/zlib_io.h\
-	komat/ini.c\
-	komat/ini.h\
-	tmp/compat.c\
+	tmp/compat.cpp\
 	tmp/compat.h\
-	kofola/2D_graphic.c\
-	kofola/2D_graphic.h
+	kofola/2D_graphic.cpp\
+	kofola/2D_graphic.h\
+	age/graph/aabb.cpp\
+	age/graph/aabb.h\
+	age/graph/age.cpp\
+	age/graph/age.h\
+	age/graph/alpha.cpp\
+	age/graph/alpha.h\
+	age/graph/animation.cpp\
+	age/graph/animation.h\
+	age/graph/animation_time.cpp\
+	age/graph/animation_time.h\
+	age/graph/animation_track.cpp\
+	age/graph/animation_track.h\
+	age/graph/animation_track_bezier.cpp\
+	age/graph/animation_track_bezier.h\
+	age/graph/animation_track_linear.cpp\
+	age/graph/animation_track_linear.h\
+	age/graph/bitmap.cpp\
+	age/graph/bitmap.h\
+	age/graph/box.cpp\
+	age/graph/box.h\
+	age/graph/camera.cpp\
+	age/graph/camera.h\
+	age/graph/camera_interface.cpp\
+	age/graph/camera_interface.h\
+	age/graph/color.cpp\
+	age/graph/color.h\
+	age/graph/color_helpers.h\
+	age/graph/color_hsv.cpp\
+	age/graph/color_hsv.h\
+	age/graph/color_operators.h\
+	age/graph/draw.cpp\
+	age/graph/draw.h\
+	age/graph/ferguson.cpp\
+	age/graph/ferguson.h\
+	age/graph/gext.cpp\
+	age/graph/gext.h\
+	age/graph/glwrapper.cpp\
+	age/graph/glwrapper.h\
+	age/graph/gpipe.cpp\
+	age/graph/gpipe.h\
+	age/graph/graph3d.cpp\
+	age/graph/graph3d.h\
+	age/graph/intersect.cpp\
+	age/graph/intersect.h\
+	age/graph/lighting.cpp\
+	age/graph/lighting.h\
+	age/graph/material.cpp\
+	age/graph/material.h\
+	age/graph/material_texture.cpp\
+	age/graph/material_texture.h\
+	age/graph/matrix.cpp\
+	age/graph/matrix.h\
+	age/graph/matrix_animated.cpp\
+	age/graph/matrix_animated.h\
+	age/graph/matrix_notified.cpp\
+	age/graph/matrix_notified.h\
+	age/graph/mesh.cpp\
+	age/graph/mesh.h\
+	age/graph/normals.cpp\
+	age/graph/normals.h\
+	age/graph/obb.cpp\
+	age/graph/obb.h\
+	age/graph/object_base.cpp\
+	age/graph/object_base.h\
+	age/graph/object_box.cpp\
+	age/graph/object_box.h\
+	age/graph/object_geometry.cpp\
+	age/graph/object_geometry.h\
+	age/graph/object_hierarchy.cpp\
+	age/graph/object_hierarchy.h\
+	age/graph/object_list.cpp\
+	age/graph/object_list.h\
+	age/graph/object_mark.h\
+	age/graph/object_name.h\
+	age/graph/object_render_list.cpp\
+	age/graph/object_render_list.h\
+	age/graph/object_scene.cpp\
+	age/graph/object_scene.h\
+	age/graph/object_select.h\
+	age/graph/object_transformation.cpp\
+	age/graph/object_transformation.h\
+	age/graph/object_world.cpp\
+	age/graph/object_world.h\
+	age/graph/polar.cpp\
+	age/graph/polar.h\
+	age/graph/print.cpp\
+	age/graph/print.h\
+	age/graph/quat.h\
+	age/graph/scene.cpp\
+	age/graph/scene.h\
+	age/graph/scene_import_3ds.cpp\
+	age/graph/scene_import_3ds.h\
+	age/graph/scene_import_b2m.cpp\
+	age/graph/scene_import_b2m.h\
+	age/graph/scene_import_txt.cpp\
+	age/graph/scene_import_txt.h\
+	age/graph/scene_load.cpp\
+	age/graph/scene_load.h\
+	age/graph/scene_reference.h\
+	age/graph/selection.cpp\
+	age/graph/selection.h\
+	age/graph/surface.cpp\
+	age/graph/surface.h\
+	age/graph/surface_height.cpp\
+	age/graph/surface_height.h\
+	age/graph/surface_mask.cpp\
+	age/graph/surface_mask.h\
+	age/graph/surface_sdl.cpp\
+	age/graph/surface_sdl.h\
+	age/graph/surface_sw.cpp\
+	age/graph/surface_sw.h\
+	age/graph/texture_func.cpp\
+	age/graph/texture_func.h\
+	age/graph/texture_unit.cpp\
+	age/graph/texture_unit.h\
+	age/graph/triangle.cpp\
+	age/graph/triangle.h\
+	age/graph/vector.cpp\
+	age/graph/vector.h\
+	age/graph/vector_operators.h\
+	age/graph/vertex_arrays.cpp\
+	age/graph/vertex_arrays.h\
+	age/graph/world_interface.cpp\
+	age/graph/world_interface.h\
+	age/include/compatibility.h\
+	age/include/defs.h\
+	age/include/defs_config.h\
+	age/include/floats.h\
+	age/include/opengl.h\
+	age/include/typ.h\
+	age/include/typ_graph.h\
+	age/support/age_main.cpp\
+	age/support/age_main.h\
+	age/support/events.cpp\
+	age/support/events.h\
+	age/support/events_types.h\
+	age/support/input.cpp\
+	age/support/input.h\
+	age/support/timer.cpp\
+	age/support/timer.h\
+	age/utils/array.h\
+	age/utils/barray.h\
+	age/utils/btree.h\
+	age/utils/change.cpp\
+	age/utils/change.h\
+	age/utils/data_file.cpp\
+	age/utils/data_file.h\
+	age/utils/flag.h\
+	age/utils/ini.cpp\
+	age/utils/ini.h\
+	age/utils/llist.h\
+	age/utils/llist_named.h\
+	age/utils/lock.h\
+	age/utils/log.cpp\
+	age/utils/log.h\
+	age/utils/mem_alloc.cpp\
+	age/utils/mem_alloc.h\
+	age/utils/mtree.cpp\
+	age/utils/mtree.h\
+	age/utils/mtree_named.h\
+	age/utils/stack.h\
+	age/utils/types.h\
+	age/utils/utils.cpp\
+	age/utils/utils.h\
+	komat/obbo.cpp\
+	komat/obbo.h\
+	kofola/animationk.cpp\
+	kofola/animationk.h\
+	generator/generator_random.cpp\
+	generator/generator_random.h
 
 module.pixmap.name=pixmaps
 module.pixmap.type=
@@ -257,19 +421,26 @@ compiler.options.supports=
 compiler.options.include.paths=\
 	komat\
 	kofola\
-	tmp
+	tmp\
+	age/graph\
+	age/include\
+	age/support\
+	age/utils\
+	generator
 compiler.options.library.paths=
 compiler.options.libraries=\
 	GL\
 	z\
-	GLU
-compiler.options.libraries.selected=1 1 1 
+	GLU\
+	SDL\
+	SDL_image
+compiler.options.libraries.selected=1 1 1 1 1 
 compiler.options.defines=
-compiler.options.defines.selected=1 1 1 
+compiler.options.defines.selected=1 1 1 1 1 
 compiler.options.warning.buttons=0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 
 compiler.options.optimize.buttons=1 0 0 0 
 compiler.options.other.buttons=1 0 
-compiler.options.other.c.flags=-std=c99
+compiler.options.other.c.flags=-w
 compiler.options.other.l.flags=
 compiler.options.other.l.libs=
 

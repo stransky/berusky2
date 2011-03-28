@@ -15,7 +15,7 @@
 
 	void gl_Destroy_Item(long Item, int Type, LEVELINFO *p_Level);
 
-	void gl_Logical2Real(int x, int y, int z,long *Real_Pos, LEVELINFO *p_Level);
+	void gl_Logical2Real(int x, int y, int z, int *Real_Pos, LEVELINFO *p_Level);
 	void gl_Next_Queue_Set(LEVELINFO *p_Level);
 	void gl_Change_Destonation(LEVELINFO *p_Level, int *pos);
 	void gl_i2FStr(int i, char *cStr);

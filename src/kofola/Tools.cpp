@@ -5,7 +5,6 @@
 #include "Apak.h"
 #include "3d_all.h"
 #include "Berusky3d_kofola_interface.h"
-#include "ini.h"
 
 #define KEY			5419579899328476981
 #define CIPHER0		8321075519164711180

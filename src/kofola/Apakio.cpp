@@ -173,7 +173,7 @@ FILE *aopen(APAK_HANDLE *pHandle, const char *filename, const char *mode )
 
 	pHandle->pActualNode = pNode;
 
-	pFHandle->pBuffer = malloc(pFHandle->pFileInfo->apuLRealSizeofFile);
+	pFHandle->pBuffer = (char *)malloc(pFHandle->pFileInfo->apuLRealSizeofFile);
 
 	if(!pFHandle->pBuffer)
 	{
@@ -230,7 +230,7 @@ int aclose(FILE *stream)
 
 size_t aread(void *buffer, size_t size, size_t count, FILE *stream)
 {
-	char				*cbuffer = buffer;
+	char				*cbuffer = (char *)buffer;
 	char				*cbCursor = NULL;
 	int					iAddSize = 0;
 	unsigned int		readsize, 

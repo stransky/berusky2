@@ -33,7 +33,7 @@ typedef RBITMAP  bitmapa;
 
 typedef struct _EDIT_TEXT {
 
-  byte     jmeno[MAX_JMENO]; //jmeno textury
+  char     jmeno[MAX_JMENO]; //jmeno textury
   bitmapa *p_bmp;     // pointer na bitmapu textury
   GLuint   text;      // jmeno textury
   GLenum   typ;       // typ textury (1D/2D)
@@ -58,8 +58,8 @@ typedef struct _EDIT_TEXT {
 // Konfigurace textury pro nahrani z disku (format&pod.)
 typedef struct _EDIT_TEXT_KONFIG {
 
-  byte     bitmapa[200]; // bitmapa
-  byte     alfamap[200]; // alfamapa textury
+  char     bitmapa[200]; // bitmapa
+  char     alfamap[200]; // alfamapa textury
   GLenum   typ;      // typ textury (1D/2D/3D/4D/5D/6D)
   GLint    format;   // format texury
   GLint    wrap_x;   // wrap/clamp
@@ -108,7 +108,7 @@ int  txt_zrus_texturu_ram(EDIT_TEXT *p_text);
 AUX_RGBImageRec * nahraj_aux(APAK_HANDLE *pAHandle, char *p_file);
 AUX_RGBImageRec * nahraj_aux_file(KFILE *f);
 bitmapa * txt_bmp2dot3(bitmapa *p_bmp);
-void txt_default_konfig(byte *p_file, EDIT_TEXT_KONFIG *p_konf, byte *p_koncovka);
+void txt_default_konfig(char *p_file, EDIT_TEXT_KONFIG *p_konf, char *p_koncovka);
 int  txt_uloz_btx(char *p_file, int typ, int wrap_x, int wrap_y);
 int  txt_kopiruj(EDIT_TEXT *p_dest, EDIT_TEXT *p_src);
 
@@ -117,12 +117,12 @@ int  txt_zrus_2D_texturu(int *p_text);
 
 int  txt_zrus_lightmapu(EDIT_TEXT *p_text);
 
-byte * file_read(APAK_HANDLE *pHandle, byte *p_file, int *p_read);
+byte * file_read(APAK_HANDLE *pHandle, char *p_file, int *p_read);
 
 bitmapa * bmp_vyrob(int x, int y);
 bitmapa * bmp_nahraj(char *p_file, int flip);
 bitmapa * bmp_nahraj_pack(char *p_file, APAK_HANDLE *pAHandle);
-int       bmp_uloz(byte *p_file, bitmapa *p_bmp);
+int       bmp_uloz(char *p_file, bitmapa *p_bmp);
 int       bmp_uloz_pack(FFILE f, bitmapa *p_bmp);
 void      bmp_zrus(bitmapa **p_bmp);
 bitmapa * bmp_kopituj(bitmapa *p_bmp);

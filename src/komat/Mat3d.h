@@ -231,7 +231,7 @@ typedef struct _MATERIAL_TEXT {
 
 typedef struct _MLZNA_KOSTKA {
 
-  byte  jmeno[MAX_JMENO];// jmeno mlzne kostky
+  char  jmeno[MAX_JMENO];// jmeno mlzne kostky
   BOD   min,max;         // rozmery kostky
   int   flag;            // flagy mlhy
   int   mod;             // mod mlhy (linear/exp/exp2)
@@ -253,14 +253,14 @@ typedef struct _MLZNA_KOSTKA {
 typedef struct _STATIC_LIGHT {
 
   int       akt;         // aktivni svetlo
-  byte      jmeno[MAX_JMENO]; // jmeno svetla
+  char      jmeno[MAX_JMENO]; // jmeno svetla
   int       index;       // index svetla (pozice + ID)  
   BOD       p;
   float     r,g,b;
   float     k1,k2,k3;    // tlumici koeficienty
   float     dosah;       // max. dosah svetla
-  byte      uhel;        // tlumit podle uhlu svetla
-  byte      utlum;       // tlumit podle vzdalenosti
+  char      uhel;        // tlumit podle uhlu svetla
+  char      utlum;       // tlumit podle vzdalenosti
   void     *p_flare;     // flare svetla - pointer na nej
   int       last_poly;   // posledni hitovany poly
   int       last_kont;   // posledni hitovany kontejner
@@ -312,7 +312,7 @@ typedef struct _DYN_LIGHT_ANIM {
 
 typedef struct _DYN_LIGHT {
 
-  byte   jmeno[MAX_JMENO];
+  char   jmeno[MAX_JMENO];
 
   int    aup;         // aktualni upload
   float  avzdal;      // aktualni vzdalenost
@@ -389,7 +389,7 @@ typedef struct _DYN_LIGHT {
 
 typedef struct _EXTRA_DYN_LIGHT {
    
-  byte   jmeno[MAX_JMENO];
+  char   jmeno[MAX_JMENO];
 
   int    akt;         // svetlo je aktivni/neaktivni
   dword  flag;        // flagy svetla
@@ -582,7 +582,7 @@ typedef struct _EXTRA_DYN_LIGHT {
 
 typedef struct _ANIM_FRAME {
 
-  byte                  file[MAX_JMENO];  // soubor s animaci
+  char                  file[MAX_JMENO];  // soubor s animaci
   EDIT_TEXT            *p_text;
   dword                 time;             // cas
   dword                 alfa;             // alfa faktor
@@ -594,7 +594,7 @@ typedef struct _ANIM_FRAME {
 
 typedef struct _ANIM_MATERIAL {
 
-  byte        jmeno[MAX_JMENO];
+  char        jmeno[MAX_JMENO];
   byte        pouzita;   // pouzita animace
   byte        aktivni;   // aktivni animace (animuje se)
 
@@ -668,10 +668,10 @@ typedef struct _ANIM_TEXT {
 typedef struct _EDIT_MATERIAL {
 
   // Jmeno materialu
-  byte            jmeno[MAX_JMENO];
+  char            jmeno[MAX_JMENO];
   
   // Textury materialu
-  byte            textfile[MAT_TEXTUR][MAX_JMENO];
+  char            textfile[MAT_TEXTUR][MAX_JMENO];
   EDIT_TEXT      *p_text[MAT_TEXTUR];
   int             textflag[MAT_TEXTUR];// flag textury
   GLMATRIX        ttext[MAT_TEXTUR];   // matrice posunu co se dava jako settransformmatrix
@@ -726,7 +726,7 @@ typedef struct _EDIT_MATERIAL {
 */
 typedef struct _TRACK_INFO {
   
-  byte jmeno[MAX_JMENO];
+  char jmeno[MAX_JMENO];
   int  objekt;  //objekt kteremu tento track patri
                 //kazdy objekt ma 1 track
   int  parent;  //rodic tohoto objektu
@@ -769,7 +769,7 @@ typedef struct _KEYFRAMER_DATA {
 
 typedef struct _KAMERA_TRACK_INFO {
 
-  byte      jmeno[MAX_JMENO];
+  char      jmeno[MAX_JMENO];
   int       flag; 
   int       parent;
   int       objekt;
@@ -829,8 +829,8 @@ typedef struct _HIERARCHY_TRACK_INFO {
   BOD        pivot_sim;
 
   // Jmena rodicu
-  byte       jmeno[MAX_JMENO];
-  byte       jmeno_otec[MAX_JMENO];
+  char       jmeno[MAX_JMENO];
+  char       jmeno_otec[MAX_JMENO];
 
   // loadovaci promene
   int      parentnum;
@@ -871,7 +871,7 @@ typedef struct _HIERARCHY_ROOT {
   int       framenum;      // framenum = 0 - volna animace
   
   int       childnum;      // pocet detskych traku
-  byte      jmeno[MAX_JMENO]; // jmena animaci
+  char      jmeno[MAX_JMENO]; // jmena animaci
   HIERARCHY_TRACK_INFO **p_child;
 
 } HIERARCHY_ROOT;
@@ -937,7 +937,7 @@ typedef struct _HIERARCHY_SIM {
   dword     stop;  
   
   int       keynum;         // pocet klicu
-  byte      jmeno[MAX_JMENO]; // jmeno animace
+  char      jmeno[MAX_JMENO]; // jmeno animace
   int       childnum;         // pocet detskych traku
   SIMPLE_TRACK_INFO *p_child;
 
@@ -1004,7 +1004,7 @@ typedef struct _JOINT {
 
 typedef struct _JOINT_ANIMACE {
 
-  byte   jmeno[MAX_JMENO];
+  char   jmeno[MAX_JMENO];
   
   int    framenum;
 
@@ -1051,8 +1051,8 @@ typedef struct _JOINT_ANIMACE {
 // Konstni animace objektu
 typedef struct _EDIT_OBJEKT {
 
-  byte          jmeno[MAX_JMENO];
-  byte          jmeno_parent[MAX_JMENO];
+  char          jmeno[MAX_JMENO];
+  char          jmeno_parent[MAX_JMENO];
   int           Objekt_ID;        // ID objektu
 
   word          vertexnum; 
@@ -1120,7 +1120,7 @@ typedef struct _BUNKA_ZEME {
 
 typedef struct _EDIT_KONTEJNER {
 
- byte         jmeno[MAX_JMENO];
+ char         jmeno[MAX_JMENO];
  int          kontejner_ID;  // identifikacni cislo kontejneru -> jedinecne pri ukldani sceny
  EDIT_OBJEKT *p_obj[MAX_KONT_OBJEKTU];
  
@@ -1247,7 +1247,7 @@ typedef struct _GAME_MESH_DATA {
 
 typedef struct _GAME_MESH { //celej kontejner
 
- byte                     jmeno[MAX_JMENO];
+ char                     jmeno[MAX_JMENO];
 
  dword                    vertexnum;             // pocet vsech vertexu
  BOD                     *p_vertex_pos;          // pozice bodu (po trojicich)
@@ -1362,7 +1362,7 @@ typedef struct _LIGHTMAP_FACE {
 // pouze na staticke objekty
 typedef struct _EDIT_MESH_POLY { //celej kontejner
   
- byte         jmeno[MAX_JMENO]; // jmeno poly
+ char         jmeno[MAX_JMENO]; // jmeno poly
 
  int          facenum;   // co face to objekt
  TEXT_KOORD  *p_koord;   // list texture koordinatu - plosky po 3
@@ -1455,28 +1455,28 @@ typedef struct _PRVEK_LEVELU_GAME {  // prvek, ktery je umisteny v levelu
 
 typedef struct _KONFIG_DIR {
 
- byte    prvky_dir[100];
- byte    level_dir[100];
+ char    prvky_dir[100];
+ char    level_dir[100];
  
- byte    out_dir[100];
- byte    material_dir[100];
+ char    out_dir[100];
+ char    material_dir[100];
 
- byte    data_dir[100];
- byte    scene_dir[100];
+ char    data_dir[100];
+ char    scene_dir[100];
 
- byte    game_level_dir[100];
- byte    game_data_dir[100];
- byte    edit_level_dir[100];
+ char    game_level_dir[100];
+ char    game_data_dir[100];
+ char    edit_level_dir[100];
 
 } KONFIG_DIR;
 
 typedef struct _TEXT_DIR {
 
-  byte    texture_dir[TEXT_DIRS][100];   // adresare textur
+  char    texture_dir[TEXT_DIRS][100];   // adresare textur
   int     texture_dir_class[TEXT_DIRS];
-  byte    texture_file[TEXT_DIRS][100];  // soubory textur
+  char    texture_file[TEXT_DIRS][100];  // soubory textur
   int     texture_file_class[TEXT_DIRS]; // tridy textur v paku
-  byte    scene_texture_dir[100];
+  char    scene_texture_dir[100];
 
 } TEXT_DIR;
 
@@ -1495,7 +1495,7 @@ typedef struct _TRIANGLE {
 typedef struct _KAMERA {
 
   int   cislo; // "use" - flag nebo K_CHYBA
-  byte  jmeno[MAX_JMENO]; // jmeno kamery
+  char  jmeno[MAX_JMENO]; // jmeno kamery
   int   flag;  // 0 - nic, 1,2 -> kreslit osy
   
   /* Pocatecni hodnoty kamery
@@ -1904,7 +1904,7 @@ void nastav_material_rgb_MAT(RGB_M *p_rgb);
 void nastav_material(float r, float g, float b);
 EDIT_OBJEKT * umisti_krychli_dratovou(EDIT_OBJEKT *p_obj, BOD *p_bod);
 void kresli_caru(BOD *p_s, BOD *p_k, dword barva);
-int  vyrob_kameru_indir(KAMERA *p_kam, byte *p_jmeno, BOD *p_p, BOD *p_t, float fov, float roll);
+int  vyrob_kameru_indir(KAMERA *p_kam, char *p_jmeno, BOD *p_p, BOD *p_t, float fov, float roll);
 void kresli_kosoctverec(GLMATRIX *p_project, GLMATRIX *p_camera, GLMATRIX *p_world, BOD *p_p, float r, float dr, float dg, float db);
 void transformuj_objekt_text_coord(EDIT_OBJEKT *p_obj, GLMATRIX *p_mat, int coord);
 void transformuj_kontejner_text_coord(EDIT_KONTEJNER *p_kont, GLMATRIX *p_mat, int coord);

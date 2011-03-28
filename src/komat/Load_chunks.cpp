@@ -518,7 +518,7 @@ void lo_chunk_save_mlhokostku(FFILE f, MLZNA_KOSTKA *p_top, int kont)
 void lo_chunk_save_flare(FFILE f, LENS_FLARE *p_flare, EDIT_MATERIAL **p_mat, int light)
 { 
   OUT_CHUNK ch;    
-  byte pom[200];
+  char pom[200];
   int  nic = K_CHYBA;
 
   if(!p_flare)
@@ -542,13 +542,13 @@ void lo_chunk_save_flare(FFILE f, LENS_FLARE *p_flare, EDIT_MATERIAL **p_mat, in
   ffwrite(&nic,sizeof(int),1,f); // navazani  
   ffwrite(&p_flare->alfa,sizeof(int),1,f);
   ffwrite(&p_flare->zflag,sizeof(int),1,f);
-  ffwrite(pom,sizeof(byte),strlen(pom)+1,f);  
+  ffwrite(pom,sizeof(char),strlen(pom)+1,f);  
 }
 
 void lo_chunk_save_flare_mesh(FFILE f, LENS_FLARE *p_flare, EDIT_MATERIAL **p_mat)
 { 
   OUT_CHUNK ch;    
-  byte pom[200];
+  char pom[200];
   int  nic = K_CHYBA;
 
   if(!p_flare)
@@ -573,13 +573,13 @@ void lo_chunk_save_flare_mesh(FFILE f, LENS_FLARE *p_flare, EDIT_MATERIAL **p_ma
   ffwrite(&nic,sizeof(int),1,f); // navazani  
   ffwrite(&p_flare->alfa,sizeof(int),1,f);
   ffwrite(&p_flare->zflag,sizeof(int),1,f);
-  ffwrite(pom,sizeof(byte),strlen(pom)+1,f);  
+  ffwrite(pom,sizeof(char),strlen(pom)+1,f);  
 }
 
 void lo_chunk_save_flare_slozeny(FFILE f, LENS_FLARE *p_flare, EDIT_MATERIAL **p_mat)
 {
   OUT_CHUNK ch;
-  byte      pom[SLOZ_FLARE][200];
+  char      pom[SLOZ_FLARE][200];
   int       s,d = 0;
 
   if(!p_flare || !p_flare->p_sloz)
@@ -605,7 +605,7 @@ void lo_chunk_save_flare_slozeny(FFILE f, LENS_FLARE *p_flare, EDIT_MATERIAL **p
     ffwrite(&p_flare->p_sloz[s].vzdal,sizeof(float),1,f);
     ffwrite(&p_flare->p_sloz[s].r,sizeof(float),4,f);
     ffwrite(&p_flare->p_sloz[s].dx,sizeof(float),2,f);
-    ffwrite(pom[s],sizeof(byte),strlen(pom[s])+1,f);
+    ffwrite(pom[s],sizeof(char),strlen(pom[s])+1,f);
   }
 }
 
@@ -713,7 +713,7 @@ int lo_chunk_save_static_light(FFILE f, STATIC_LIGHT *p_light, EDIT_MATERIAL **p
   
   ffwrite(&ch,sizeof(ch),1,f);
   ffwrite(&p_light->akt,sizeof(p_light->akt),1,f);
-  ffwrite(p_light->jmeno,sizeof(byte),strlen(p_light->jmeno)+1,f);
+  ffwrite(p_light->jmeno,sizeof(char),strlen(p_light->jmeno)+1,f);
   ffwrite(&p_light->index,sizeof(p_light->index),1,f);
   ffwrite(&p_light->p,sizeof(p_light->p),1,f);
   ffwrite(&p_light->r,sizeof(float),1,f);
@@ -760,7 +760,7 @@ int lo_chunk_save_static_light_mesh(FFILE f, STATIC_LIGHT *p_light, EDIT_MATERIA
     
     ffwrite(&ch,sizeof(ch),1,f);
     ffwrite(&p_light->akt,sizeof(p_light->akt),1,f);
-    ffwrite(p_light->jmeno,sizeof(byte),strlen(p_light->jmeno)+1,f);
+    ffwrite(p_light->jmeno,sizeof(char),strlen(p_light->jmeno)+1,f);
     ffwrite(&p_light->index,sizeof(p_light->index),1,f);
     ffwrite(&p_light->p,sizeof(p_light->p),1,f);
     ffwrite(&p_light->r,sizeof(float),1,f);
@@ -807,7 +807,7 @@ int lo_chunk_save_mat(FFILE f, EDIT_MATERIAL *p_mat)
   
   strlwr(p_mat->jmeno);
   
-  ffwrite(p_mat->jmeno,sizeof(byte),strlen(p_mat->jmeno)+1,f);
+  ffwrite(p_mat->jmeno,sizeof(char),strlen(p_mat->jmeno)+1,f);
   return(TRUE);
 }
 
@@ -841,7 +841,7 @@ int lo_chunk_save_mat_smat_pos(FFILE f, EDIT_MATERIAL *p_mat)
 int lo_chunk_save_mat_color(FFILE f, EDIT_MATERIAL *p_mat)
 {
   MATERIAL *p_dxmat;
-  byte      string[16];
+  char      string[16];
   OUT_CHUNK ch;
   
   ch.typ = CHUNK_COLOR_EXT;
@@ -870,7 +870,7 @@ int lo_chunk_save_mat_color(FFILE f, EDIT_MATERIAL *p_mat)
   string[15] = (byte)(p_dxmat->faktor_a*MAX_BYTE);
   
   ffwrite(&ch,sizeof(ch),1,f);
-  ffwrite(string,sizeof(byte),16,f);
+  ffwrite(string,sizeof(char),16,f);
   
   return(TRUE);
 }
@@ -899,7 +899,7 @@ int lo_chunk_save_mat_matanim_frame(FFILE f, ANIM_FRAME *p_fram, int frame)
     //Prdy z vody - ulozim rovnou texturu
     p_text = p_fram->p_text;
     flag = p_text->flag;
-    ffwrite(&p_text->jmeno,sizeof(byte),strlen(p_text->jmeno)+1,f);
+    ffwrite(&p_text->jmeno,sizeof(char),strlen(p_text->jmeno)+1,f);
     ffwrite(&flag,sizeof(flag),1,f);
     
     return(TRUE);
@@ -919,7 +919,7 @@ int lo_chunk_save_mat_matanim(FFILE f, EDIT_MATERIAL *p_mat)
     ch.velikost = sizeof(ch)+strlen(p_mat->anim.jmeno)+1+sizeof(p_anim->framenum);    
     
     ffwrite(&ch,sizeof(ch),1,f);
-    ffwrite(p_anim->jmeno,sizeof(byte),strlen(p_anim->jmeno)+1,f);
+    ffwrite(p_anim->jmeno,sizeof(char),strlen(p_anim->jmeno)+1,f);
     ffwrite(&p_anim->framenum,sizeof(p_anim->framenum),1,f);        
 
     for(i = 0; i < p_anim->framenum; i++) {      
@@ -1075,7 +1075,7 @@ int lo_chunk_save_mat_text(FFILE f, EDIT_MATERIAL *p_mat, int num, int typ)
     ch.typ = typ;
     ch.velikost = sizeof(ch)+strlen(p_mat->textfile[num])+1;
     ffwrite(&ch,sizeof(ch),1,f);
-    ffwrite(p_mat->textfile[num],sizeof(byte),strlen(p_mat->textfile[num])+1,f);
+    ffwrite(p_mat->textfile[num],sizeof(char),strlen(p_mat->textfile[num])+1,f);
     return(TRUE);
   } else
     return(FALSE);
@@ -1166,8 +1166,8 @@ int lo_chunk_save_keyframe_root(FFILE f, HIERARCHY_ROOT *p_root)
 
 int lo_chunk_save_keyframe_node(FFILE f, HIERARCHY_TRACK_INFO *p_node)
 {
-  byte jmeno[200];
-  byte otec[200];
+  char jmeno[200];
+  char otec[200];
   OUT_CHUNK ch;  
 
   if(p_node) {
@@ -1180,8 +1180,8 @@ int lo_chunk_save_keyframe_node(FFILE f, HIERARCHY_TRACK_INFO *p_node)
                   strlen(jmeno)+1+strlen(otec)+1;
     ffwrite(&ch,sizeof(ch),1,f);
     
-    ffwrite(jmeno,sizeof(byte),strlen(jmeno)+1,f);
-    ffwrite(otec,sizeof(byte),strlen(otec)+1,f);
+    ffwrite(jmeno,sizeof(char),strlen(jmeno)+1,f);
+    ffwrite(otec,sizeof(char),strlen(otec)+1,f);
     ffwrite(p_node,sizeof(*p_node),1,f);
     return(TRUE);
   } else
@@ -1292,7 +1292,7 @@ typedef struct _HIERARCHY_SIM {
   dword     stop;  
   
   int       keynum;         // pocet klicu
-  byte      jmeno[MAX_JMENO]; // jmeno animace
+  char      jmeno[MAX_JMENO]; // jmeno animace
   int       childnum;         // pocet detskych traku
   SIMPLE_TRACK_INFO *p_child;
 
@@ -1415,7 +1415,7 @@ int lo_chunk_save_kont_jmeno(FFILE f, EDIT_KONTEJNER *p_kont, int pozice)
     ch.velikost = sizeof(ch)+sizeof(p_kont->prvek)+strlen(p_kont->jmeno)+1;
     ffwrite(&ch,sizeof(ch),1,f);
     ffwrite(&pozice,sizeof(int),1,f);
-    ffwrite(p_kont->jmeno,sizeof(byte),strlen(p_kont->jmeno)+1,f);    
+    ffwrite(p_kont->jmeno,sizeof(char),strlen(p_kont->jmeno)+1,f);    
     return(TRUE);
   } else
     return(FALSE);
@@ -1428,7 +1428,7 @@ int lo_chunk_save_kont_low_jmeno(FFILE f, EDIT_KONTEJNER *p_kont)
     ch.typ = CHUNK_KONT_LOW_JMENO;
     ch.velikost = sizeof(ch)+strlen(p_kont->jmeno)+1;
     ffwrite(&ch,sizeof(ch),1,f);
-    ffwrite(p_kont->jmeno,sizeof(byte),strlen(p_kont->jmeno)+1,f);
+    ffwrite(p_kont->jmeno,sizeof(char),strlen(p_kont->jmeno)+1,f);
     return(TRUE);
   } else
     return(FALSE);
@@ -1543,7 +1543,7 @@ int lo_chunk_save_obj_jmeno(FFILE f, EDIT_OBJEKT *p_obj)
     ch.typ = CHUNK_OBJ_JMENO;
     ch.velikost = sizeof(ch)+strlen(p_obj->jmeno)+1;
     ffwrite(&ch,sizeof(ch),1,f);      
-    ffwrite(p_obj->jmeno,sizeof(byte),strlen(p_obj->jmeno)+1,f);
+    ffwrite(p_obj->jmeno,sizeof(char),strlen(p_obj->jmeno)+1,f);
     return(TRUE);
   } else
     return(FALSE);
@@ -1595,7 +1595,7 @@ int lo_chunk_save_obj_material(FFILE f, EDIT_MATERIAL *p_mat)
     ch.typ = CHUNK_OBJ_MATERIAL;
     ch.velikost = sizeof(ch)+strlen(p_mat->jmeno)+1;
     ffwrite(&ch,sizeof(ch),1,f);    
-    ffwrite(p_mat->jmeno,sizeof(byte),strlen(p_mat->jmeno)+1,f);
+    ffwrite(p_mat->jmeno,sizeof(char),strlen(p_mat->jmeno)+1,f);
     return(TRUE);
   } else
     return(FALSE);
@@ -2005,7 +2005,7 @@ int lo_chunk_save_obj_joint_animaci(FILE *f, JOINT_ANIMACE *p_jani)
   ch.typ = CHUNK_OBJ_JA;
   ch.velikost = sizeof(ch)+strlen(p_jani->jmeno)+1;    
   ffwrite(&ch,sizeof(ch),1,f);
-  ffwrite(p_jani->jmeno,sizeof(byte),strlen(p_jani->jmeno)+1,f);
+  ffwrite(p_jani->jmeno,sizeof(char),strlen(p_jani->jmeno)+1,f);
   
   ch.typ = CHUNK_OBJ_JA_FRAMU;
   ch.velikost = sizeof(ch)+sizeof(p_jani->framenum);
@@ -2230,7 +2230,7 @@ int lo_uloz_kontejner_chunk(FFILE f, EDIT_MATERIAL **p_mat, int max_mat,
 
 /* Ulozi vsechny veci do .prj
 */
-int lo_uloz_projekt(EDIT_MATERIAL **p_mat, int max_mat, EDIT_KONTEJNER **p_kontlist, int kontnum, byte *p_jmeno, STATIC_LIGHT *p_light, int lightnum, ZDRCADLO_DESC *p_zrcadlo, LENS_FLARE *p_flarr, int flaremax, dword ambient, MLZNA_KOSTKA *p_mlha, DYN_LIGHT *p_ddlight, int ddlightnum, EXTRA_DYN_LIGHT *p_eelight, int eelightnum, LEVEL_ENVIRONMENT *p_env, NASTAVENI_KAMER *p_kam, LEVEL_KONFIG *p_lc, int level, int transf_static)
+int lo_uloz_projekt(EDIT_MATERIAL **p_mat, int max_mat, EDIT_KONTEJNER **p_kontlist, int kontnum, char *p_jmeno, STATIC_LIGHT *p_light, int lightnum, ZDRCADLO_DESC *p_zrcadlo, LENS_FLARE *p_flarr, int flaremax, dword ambient, MLZNA_KOSTKA *p_mlha, DYN_LIGHT *p_ddlight, int ddlightnum, EXTRA_DYN_LIGHT *p_eelight, int eelightnum, LEVEL_ENVIRONMENT *p_env, NASTAVENI_KAMER *p_kam, LEVEL_KONFIG *p_lc, int level, int transf_static)
 {
  EDIT_KONTEJNER *p_kont;
  FFILE f;
@@ -2793,7 +2793,7 @@ int lo_chunk_load_mlho_kostek_2(FFILE f, OUT_CHUNK *p_ch)
 */
 int lo_chunk_load_flare(FFILE f, OUT_CHUNK *p_ch)
 {
-  byte pom[200];
+  char pom[200];
   int  i,nic;
 
   if(p_flarelist && p_ch->typ == CHUNK_FLARE) {
@@ -2835,7 +2835,7 @@ int lo_chunk_load_flare(FFILE f, OUT_CHUNK *p_ch)
 
 int lo_chunk_load_flare_ext(FFILE f, OUT_CHUNK *p_ch)
 {   
-  byte pom[200];
+  char pom[200];
   int  i,nic;
 
   if(p_flarelist && p_ch->typ == CHUNK_FLARE_EXT) {
@@ -2878,7 +2878,7 @@ int lo_chunk_load_flare_ext(FFILE f, OUT_CHUNK *p_ch)
 
 int lo_chunk_load_flare_light(FFILE f, OUT_CHUNK *p_ch)
 {   
-  byte pom[200];
+  char pom[200];
   int  i,nic;
  
   if(p_flarelist && p_lightakt && p_ch->typ == CHUNK_FLARE_LIGHT) {
@@ -2921,7 +2921,7 @@ int lo_chunk_load_flare_light(FFILE f, OUT_CHUNK *p_ch)
 
 int lo_chunk_load_flare_light_ext(FFILE f, OUT_CHUNK *p_ch)
 {   
-  byte pom[200];
+  char pom[200];
   int  i,nic;
  
   if(p_flarelist && p_lightakt && p_ch->typ == CHUNK_FLARE_LIGHT_EXT) {
@@ -2965,7 +2965,7 @@ int lo_chunk_load_flare_light_ext(FFILE f, OUT_CHUNK *p_ch)
 
 int lo_chunk_load_flare_mesh(FFILE f, OUT_CHUNK *p_ch)
 {   
-  byte pom[200];
+  char pom[200];
   int  nic;
 
   if(p_light_mesh && p_ch->typ == CHUNK_FLARE_MESH) {
@@ -3001,7 +3001,7 @@ int lo_chunk_load_flare_mesh(FFILE f, OUT_CHUNK *p_ch)
 
 int lo_chunk_load_flare_mesh_ext(FFILE f, OUT_CHUNK *p_ch)
 {   
-  byte pom[200];
+  char pom[200];
   int  nic;
 
   if(p_light_mesh && p_ch->typ == CHUNK_FLARE_MESH_EXT) {
@@ -3039,7 +3039,7 @@ int lo_chunk_load_flare_mesh_ext(FFILE f, OUT_CHUNK *p_ch)
 // Ulozeni slozeneho flare
 int lo_chunk_load_flare_slozeny(FFILE f, OUT_CHUNK *p_ch)
 {
-  byte      pom[200];
+  char      pom[200];
   int       s;
 
   if(p_flare && p_ch->typ == CHUNK_FLARE_SLOZENY) {
@@ -3236,7 +3236,7 @@ int lo_chunk_load_static_light_mesh(FFILE f, OUT_CHUNK *p_ch)
 */
 int lo_chunk_load_mat(FFILE f, OUT_CHUNK *p_ch)
 {  
-  byte pom[200];
+  char pom[200];
   int m;
 
   /* Vybere novy material + zvoli jej jako aktivni
@@ -3279,10 +3279,10 @@ int lo_chunk_load_mat_smat_pos(FFILE f, OUT_CHUNK *p_ch)
 int lo_chunk_load_color(FFILE f, OUT_CHUNK *p_ch)
 {
   MATERIAL *p_dxmat;
-  byte      string[9];
+  char      string[9];
   
   if(p_mat && p_ch->typ == CHUNK_COLOR) {
-    ffread(string,sizeof(byte),9,f);
+    ffread(string,sizeof(char),9,f);
     p_dxmat = &p_mat->dxmat;
     
     p_dxmat->ambient_r = (float)string[0]/MAX_BYTE;
@@ -3311,10 +3311,10 @@ int lo_chunk_load_color(FFILE f, OUT_CHUNK *p_ch)
 int lo_chunk_load_color_ext(FFILE f, OUT_CHUNK *p_ch)
 {
   MATERIAL *p_dxmat;
-  byte      string[16];
+  char      string[16];
   
   if(p_mat && p_ch->typ == CHUNK_COLOR_EXT) {
-    ffread(string,sizeof(byte),16,f);
+    ffread(string,sizeof(char),16,f);
     p_dxmat = &p_mat->dxmat;
     
     p_dxmat->ambient_r = (float)string[0]/MAX_BYTE;
@@ -3773,7 +3773,7 @@ int lo_chunk_load_text(FFILE f, OUT_CHUNK *p_ch)
 int lo_chunk_load_kont_jmeno(FFILE f, OUT_CHUNK *p_ch)
 {
   int  pozice,i;
-  byte jmeno[200];
+  char jmeno[200];
 
   if(p_ch->typ == CHUNK_KONT_JMENO) {
 
@@ -3949,7 +3949,7 @@ int lo_chunk_load_obj_obb(FFILE f, OUT_CHUNK *p_ch)
 
 int lo_chunk_load_obj_material(FFILE f, OUT_CHUNK *p_ch)
 {  
-  byte jmeno_materialu[200];
+  char jmeno_materialu[200];
 
   if(p_obj && p_ch->typ == CHUNK_OBJ_MATERIAL) {
     str_read(jmeno_materialu,f);
@@ -4681,7 +4681,7 @@ int lo_load_chunky(FFILE f)
 /* Nahraje vsechny materialy + prvni kontejner
 */
 EDIT_KONTEJNER * lo_nahraj_kontejner_chunk(EDIT_MATERIAL **p_mat, int max_mat,
-                 EDIT_TEXT *p_text, int max_text, byte *p_jmeno, int mat, int normal)                                  
+                 EDIT_TEXT *p_text, int max_text, char *p_jmeno, int mat, int normal)                                  
 {
   FFILE f;
 
@@ -4751,7 +4751,7 @@ EDIT_KONTEJNER * lo_nahraj_kontejner_chunk(EDIT_MATERIAL **p_mat, int max_mat,
 */
 int lo_nahraj_projekt(EDIT_MATERIAL **p_mat, int max_mat,
                       EDIT_KONTEJNER **p_kontls, int kontnum,
-                      EDIT_TEXT *p_text, int max_text, byte *p_jmeno,
+                      EDIT_TEXT *p_text, int max_text, char *p_jmeno,
                       STATIC_LIGHT *p_light, int lightnum,
                       ZDRCADLO_DESC *p_zrcadlo, int *p_zrcadlo_aktivni,
                       LENS_FLARE *p_flarr, int flaremax,
@@ -4840,7 +4840,7 @@ int lo_nahraj_projekt(EDIT_MATERIAL **p_mat, int max_mat,
 
 
 int lo_nahraj_materialy_chunk(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TEXT *p_text, 
-                              int max_text, byte *p_file, int save)
+                              int max_text, char *p_file, int save)
 {
   FFILE f;
 

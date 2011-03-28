@@ -10,7 +10,6 @@
 #include "Berusky3d_kofola_interface.h"
 #include "Berusky_universal.h"
 #include "profiles.h"
-#include "ini.h"
 
 extern PLAYER_PROFILE	pPlayerProfile;
 extern int				iActualLevel;

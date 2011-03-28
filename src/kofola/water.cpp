@@ -7,7 +7,7 @@ extern	LEVELINFO		Level;
 
 int w_Check_Oclussion(int x, int y, int z)
 {
-	long real;
+	int real;
 	int xs = x-1;
 	int ys = y-1;
 	int i, j, c = 0;
@@ -34,7 +34,7 @@ int w_Check_Oclussion(int x, int y, int z)
 
 int w_Check_Oclussion_Vertical(int x, int y, int z)
 {
-	long real;
+	int real;
 	int ys = y-1;
 	int j, c = 0;
 
@@ -58,7 +58,7 @@ int w_Check_Oclussion_Vertical(int x, int y, int z)
 
 int w_Check_Oclussion_Horizontal(int x, int y, int z)
 {
-	long real;
+	int real;
 	int xs = x-1;
 	int i, c = 0;
 
@@ -82,7 +82,7 @@ int w_Check_Oclussion_Horizontal(int x, int y, int z)
 
 int	w_Find_Top(int x, int y, int z)
 {
-	long real;
+	int real;
 	int i;
 
 	for(i=y;i<Level.Size[1];i++)
@@ -99,7 +99,7 @@ int	w_Find_Top(int x, int y, int z)
 
 int	w_Find_Bottom(int x, int y, int z)
 {
-	long real;
+	int real;
 	int i;
 
 	for(i=y;i>=0;i--)
@@ -116,7 +116,7 @@ int	w_Find_Bottom(int x, int y, int z)
 
 int	w_Find_Left(int x, int y, int z)
 {
-	long real;
+	int real;
 	int i;
 
 	for(i=x;i>=0;i--)
@@ -133,7 +133,7 @@ int	w_Find_Left(int x, int y, int z)
 
 int	w_Find_Right(int x, int y, int z)
 {
-	long real;
+	int real;
 	int i;
 
 	for(i=x;i<Level.Size[0];i++)
@@ -253,7 +253,7 @@ void w_Construct_Boundary(int x, int y, int z)
 
 void w_Create_Water_Boundaries(void)
 {
-	long real;
+	int real;
 	int i, j, k;
 
 	wsWater.iCount = 0;

@@ -530,9 +530,9 @@ extern PFNGLGETBUFFERPOINTERVARBPROC glGetBufferPointervARB;
 
 typedef struct _EXTENSION_FLAGS {
 
-  const byte *p_vend;
-  const byte *p_rend;
-  const byte *p_ver;
+  const char *p_vend;
+  const char *p_rend;
+  const char *p_ver;
   int   karta;
 
 } EXTENSION_FLAGS;
@@ -569,7 +569,7 @@ extern int  extlist_ati_draw_buffers;
 int gl_load_extension(HW_KONFIG *p_hwconf);
 int gl_init_extension(HW_KONFIG *p_hwconf);
 int gl_free_extension(HW_KONFIG *p_hwconf);
-int gl_is_extension(HW_KONFIG *p_conf, byte *p_text);
+int gl_is_extension(HW_KONFIG *p_conf, char *p_text);
 int gl_init_multitexture(HW_KONFIG *p_conf);
 int gl_init_blend_color(HW_KONFIG *p_conf);
 int gl_init_blend_minmax(HW_KONFIG *p_conf);

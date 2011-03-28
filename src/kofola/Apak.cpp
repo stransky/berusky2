@@ -298,8 +298,9 @@ void apakReleaseNode(APAKNODE *pNode)
 
 	if(pNode->apuLSizeofDirectory)
 	{
-		for(i=0;(unsigned)i<pNode->apuLSizeofDirectory;i++)
-			apakReleaseNode(pNode->apakDirectory[i].papakNode);
+// TODO
+//		for(i=0;(unsigned)i<pNode->apuLSizeofDirectory;i++)
+//			apakReleaseNode(pNode->apakDirectory[i].papakNode);
 
 		free((void *) pNode->apakDirectory);
 	}

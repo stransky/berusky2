@@ -120,7 +120,7 @@ void ber_uloz_lookup(G_KONFIG *p_ber)
 
 void ber_rekonfiguruj_hra(G_KONFIG *p_ber)
 {
- byte pom[200];
+ char pom[200];
 
  p_ber->conf_start_zpruhlednovac = GetPrivateProfileInt("hra","start_zpruhlednovani",0,ini_file); 
  p_ber->conf_start_zvyraznovac = GetPrivateProfileInt("hra","start_zvyraznovani",0,ini_file);
@@ -135,7 +135,7 @@ void ber_rekonfiguruj_hra(G_KONFIG *p_ber)
 
 void ber_rekonfiguruj_3D(G_KONFIG *p_ber)
 {
- byte pom[200];
+ char pom[200];
 
  hwconf.ditering = GetPrivateProfileInt("hra","ditering",0,ini_file);
  
@@ -171,7 +171,7 @@ void ber_rekonfiguruj_3D_aplikuj(G_KONFIG *p_ber)
 // taky float lok-up tabulka !!!
 void ber_konfiguruj_berusky(G_KONFIG *p_ber)
 {
- byte pom[200];
+ char pom[200];
  int  i;
 
  // vysmazime to
@@ -295,7 +295,7 @@ void kprintf(char log, char *p_text,...)
     vsprintf(text,p_text,argumenty);
     va_end(argumenty);
 
-    //dbgprintf(text);
+    fprintf(stderr,text);
         
     if(log&&p_ber->debug_file) {
       fputs(text,p_ber->debug_file);
@@ -709,7 +709,7 @@ void ber_test_animaci(G_KONFIG *p_ber)
 {   
   ExMeshHandle    mh, next;
   ChapadloHandle *p_handle = NULL;
-  byte           *p_jmeno;
+  char           *p_jmeno;
   int             chapadel;
   static int      flag;
   int             i,j,objektu;

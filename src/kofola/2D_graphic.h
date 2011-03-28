@@ -77,6 +77,7 @@ typedef struct
 	int _2d_Is_InRectLine(RECT *rline, RECT *p_r, int size);
 
 	void _2d_Fill_Rect(RECT rect, COLORREF color);
+  void _2d_Clear_RectLine(RECT_LINE *p_rl);
 /*
 	bool BitBltU(
   //HDC hdcDest, // handle to destination DC

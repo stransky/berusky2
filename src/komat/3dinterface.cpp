@@ -75,7 +75,7 @@ EDIT_STATE_TEXT_BLOK text_stage_edit_blok[STAGE_TEXT_FUNKCI];
 #define TYP_TEXT_DOT3   1
 #define TYP_TEXT_DUDV   2
 
-byte typ_textury[TYP_TEXTURY_NUM][MAX_JMENO] = {"Color Map","DOT3 Bump-Map","DUDV Map"};
+char typ_textury[TYP_TEXTURY_NUM][MAX_JMENO] = {"Color Map","DOT3 Bump-Map","DUDV Map"};
 
 
 GLMATRIX __mat_kamera;

@@ -13,28 +13,28 @@ typedef struct _KONTEJNER_KONFIG {
  
   dword flag;          // flagy konteneru
   BOD   zrcadlo[4];    // 4 body zrcadla
-  byte  rezerved[52];
+  char  rezerved[52];
 
 } KONTEJNER_KONFIG;
 
 typedef struct _KONTEJNER_KONFIG_OLD {
  
-  byte  flag;          // flagy konteneru
-  byte  rezerved[2000];
+  char  flag;          // flagy konteneru
+  char  rezerved[2000];
 
 } KONTEJNER_KONFIG_OLD;
 
 typedef struct _GENERIC_HEAD { //typicka hlavicka
 
-  byte h[4];  //flag (VVVV,FFFF,MMMM)
+  char h[4];  //flag (VVVV,FFFF,MMMM)
   word pocet; //pocet elementu
 
 } GENERIC_HEAD;
 
-int lo_je_tag(FFILE f, byte *p_tag)
+int lo_je_tag(FFILE f, char *p_tag)
 {
  long t = fftell(f);
- byte string[10];
+ char string[10];
    
  ffgets(string, 5, f);
  string[4] = 0;
@@ -88,7 +88,7 @@ int lo_nacti_word_matrix_out(FFILE f, GLMATRIX *p_mat)
 void nahraj_texturu_fc(FFILE f, EDIT_MATERIAL *p_mat, EDIT_TEXT *p_text, int max, int cislo_text, int save)
 {
  OLD_MULTITEXT_FLAG mt;
- byte string[100];
+ char string[100];
  int  t;
 
  if(lo_je_tag(f, TEXT_TAG)) {
@@ -118,7 +118,7 @@ EDIT_MATERIAL * lo_nahraj_material_out(FFILE f, EDIT_TEXT *p_text, int max, int 
  EDIT_MATERIAL *p_mat;
  MATERIAL      *p_dxmat;
  OLD_MULTITEXT_FLAG mt;
- byte  string[50];
+ char  string[50];
  dword tmp;
  int i = 0;
  
@@ -128,7 +128,7 @@ EDIT_MATERIAL * lo_nahraj_material_out(FFILE f, EDIT_TEXT *p_text, int max, int 
    p_mat = vyrob_material();
    str_read(p_mat->jmeno,f);
  }
- ffread(string,sizeof(byte),9,f);
+ ffread(string,sizeof(char),9,f);
  
  // nacteni grb
  if(save) {
@@ -165,7 +165,7 @@ EDIT_MATERIAL * lo_nahraj_material_out(FFILE f, EDIT_TEXT *p_text, int max, int 
 
  // Nacte stage blok
  if(lo_je_tag(f, STAG_TAG)) {
-   ffread(string,sizeof(byte),1,f);
+   ffread(string,sizeof(char),1,f);
  
    ffread(&tmp,sizeof(dword),1,f);
    ffread(&tmp,sizeof(dword),1,f);
@@ -230,7 +230,7 @@ int lo_nahraj_materialy_out(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TEXT *p_tex
 }
 
 int lo_nahraj_materialy_out_jmeno(EDIT_MATERIAL **p_mat, int max_mat,
-                                  EDIT_TEXT *p_text, int max_text, byte *p_file,
+                                  EDIT_TEXT *p_text, int max_text, char *p_file,
                                   int save)
 {
 
@@ -442,7 +442,7 @@ EDIT_OBJEKT * lo_nacti_vec_FILE_out(FFILE f)
  return(p_obj);
 }
 
-EDIT_OBJEKT * lo_nacti_vec_out(byte *p_filename)
+EDIT_OBJEKT * lo_nacti_vec_out(char *p_filename)
 {
  EDIT_OBJEKT *p_obj;
  FILE        *f;
@@ -458,7 +458,7 @@ EDIT_OBJEKT * lo_nacti_vec_out(byte *p_filename)
 
 int lo_nahraj_objekty_out(EDIT_MATERIAL **p_mat, int max_mat, FFILE f, EDIT_KONTEJNER *p_kont, int mat)
 {
- byte  string[50];
+ char  string[50];
  int   i,j,k;
  word  r1;
 
@@ -526,7 +526,7 @@ int lo_nahraj_objekty_out(EDIT_MATERIAL **p_mat, int max_mat, FFILE f, EDIT_KONT
 }
 
 EDIT_KONTEJNER * lo_nahraj_kontejner_out(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TEXT *p_text, int max_text,
-                 byte *p_jmeno, int mat)
+                 char *p_jmeno, int mat)
 {
  EDIT_KONTEJNER *p_kont = NULL;
  FFILE f;
