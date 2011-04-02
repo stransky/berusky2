@@ -235,7 +235,7 @@ int sbl_text_modulace(EDIT_MATERIAL *p_mat, EDIT_STATE_TEXT_BLOK *p_stage, MATER
   EDIT_TEXT *p_txt;
   int t,ret = last_text+1;
   int koord;
-  
+  /*
   glstav_multitext_units -= rezerva;
   if(text_set_num(last_text)) { // cislo textury    
     t = p_text->textury[0];
@@ -270,6 +270,7 @@ int sbl_text_modulace(EDIT_MATERIAL *p_mat, EDIT_STATE_TEXT_BLOK *p_stage, MATER
   }
   
   glstav_multitext_units += rezerva;
+  */
   return(ret);
 }
 
@@ -278,7 +279,7 @@ int sbl_text_modulace_2x(EDIT_MATERIAL *p_mat, EDIT_STATE_TEXT_BLOK *p_stage, MA
   EDIT_TEXT *p_txt;
   int t,ret = last_text+1;
   int koord;
-  
+  /*
   glstav_multitext_units -= rezerva;
   if(text_set_num(last_text)) { // cislo textury    
     t = p_text->textury[0];
@@ -313,6 +314,7 @@ int sbl_text_modulace_2x(EDIT_MATERIAL *p_mat, EDIT_STATE_TEXT_BLOK *p_stage, MA
   }
   
   glstav_multitext_units += rezerva;
+  */
   return(ret);
 }
 
@@ -321,7 +323,7 @@ int sbl_text_add(EDIT_MATERIAL *p_mat, EDIT_STATE_TEXT_BLOK *p_stage, MATERIAL_T
   EDIT_TEXT *p_txt;
   int t,ret = last_text+1;
   int koord;
-  
+  /*
   glstav_multitext_units -= rezerva;
   if(text_set_num(last_text)) { // cislo textury    
     t = p_text->textury[0];
@@ -357,6 +359,7 @@ int sbl_text_add(EDIT_MATERIAL *p_mat, EDIT_STATE_TEXT_BLOK *p_stage, MATERIAL_T
   }
   
   glstav_multitext_units += rezerva;
+  */
   return(ret);
 }
 
@@ -365,7 +368,7 @@ int sbl_text_decal(EDIT_MATERIAL *p_mat, EDIT_STATE_TEXT_BLOK *p_stage, MATERIAL
   EDIT_TEXT *p_txt;
   int t,ret = last_text+1;
   int koord;
-  
+  /*
   glstav_multitext_units -= rezerva;
   if(text_set_num(last_text)) { // cislo textury    
     t = p_text->textury[0];
@@ -400,6 +403,7 @@ int sbl_text_decal(EDIT_MATERIAL *p_mat, EDIT_STATE_TEXT_BLOK *p_stage, MATERIAL
   }
   
   glstav_multitext_units += rezerva;
+  */
   return(ret);
 }
 
@@ -408,7 +412,7 @@ int sbl_text_blend(EDIT_MATERIAL *p_mat, EDIT_STATE_TEXT_BLOK *p_stage, MATERIAL
   EDIT_TEXT *p_txt;
   int t,ret = last_text+1;
   int koord;
-  
+  /*
   glstav_multitext_units -= rezerva;
   if(text_set_num(last_text)) { // cislo textury    
     t = p_text->textury[0];
@@ -443,6 +447,7 @@ int sbl_text_blend(EDIT_MATERIAL *p_mat, EDIT_STATE_TEXT_BLOK *p_stage, MATERIAL
   }
   
   glstav_multitext_units += rezerva;
+  */
   return(ret);
 }
 
@@ -451,7 +456,7 @@ int sbl_text_replace(EDIT_MATERIAL *p_mat, EDIT_STATE_TEXT_BLOK *p_stage, MATERI
   EDIT_TEXT *p_txt;
   int t,ret = last_text+1;
   int koord;
-  
+  /*
   glstav_multitext_units -= rezerva;
   if(text_set_num(last_text)) { // cislo textury    
     t = p_text->textury[0];
@@ -486,6 +491,7 @@ int sbl_text_replace(EDIT_MATERIAL *p_mat, EDIT_STATE_TEXT_BLOK *p_stage, MATERI
   }
   
   glstav_multitext_units += rezerva;
+  */
   return(ret);
 }
 
@@ -497,6 +503,7 @@ int sbl_text_dot3_bump(EDIT_MATERIAL *p_mat, EDIT_STATE_TEXT_BLOK *p_stage, MATE
 
   /* Test efektu - je to podporovane videokartou?
   */
+/*
   glstav_multitext_units -= rezerva;
   if(glstav_bump_mapping && extlist_text_env_dot3 && last_text+p_stage->textur <= glstav_multitext_units) {
     t = p_text->textury[DOT3_BUMP]; // Text 0 - DOT3
@@ -562,6 +569,7 @@ int sbl_text_dot3_bump(EDIT_MATERIAL *p_mat, EDIT_STATE_TEXT_BLOK *p_stage, MATE
   }
   
   glstav_multitext_units += rezerva;
+  */
   return(ret);
 }
 
@@ -573,6 +581,7 @@ int sbl_text_dot3_bump_env(EDIT_MATERIAL *p_mat, EDIT_STATE_TEXT_BLOK *p_stage, 
 
   /* Test efektu - je to podporovane videokartou?
   */
+/*
   glstav_multitext_units -= rezerva;
   if(glstav_bump_mapping && extlist_text_env_dot3 && last_text+p_stage->textur <= glstav_multitext_units) {
     t = p_text->textury[DOT3_ENV]; // Text 2 - Lightmapa
@@ -666,6 +675,7 @@ int sbl_text_dot3_bump_env(EDIT_MATERIAL *p_mat, EDIT_STATE_TEXT_BLOK *p_stage, 
   }
 
   glstav_multitext_units += rezerva;
+  */
   return(ret);
 }
 
@@ -677,7 +687,7 @@ int sbl_text_bump_env(EDIT_MATERIAL *p_mat, EDIT_STATE_TEXT_BLOK *p_stage, MATER
   int text_unit;
   int env_unit;
   int koord;
-
+/*
   glstav_multitext_units -= rezerva;
 
   // Test efektu - je to podporovane videokartou?  
@@ -830,6 +840,7 @@ int sbl_text_bump_env(EDIT_MATERIAL *p_mat, EDIT_STATE_TEXT_BLOK *p_stage, MATER
       ret = K_CHYBA;
     }
   }
+  */
   return(ret);
 }
 
@@ -1014,21 +1025,26 @@ void nahod_state_bloky(void)
 */
 void mesh_vertex_array_init_ati(GAME_MESH *p_mesh)
 {
+/*
   VERTEX_ARRAYS *p_varray = &p_mesh->varray;
   p_varray->ati_handle = glNewObjectBufferATI(p_varray->ati_velikost,NULL,GL_DYNAMIC_ATI);
+*/
 }
 
 void mesh_vertex_array_zrus_ati(GAME_MESH *p_mesh)
 {
+/*
   VERTEX_ARRAYS *p_varray = &p_mesh->varray;
   if(glIsObjectBufferATI(p_varray->ati_handle)) {
     glFreeObjectBufferATI(p_varray->ati_handle);
     p_varray->ati_handle = 0;
   }
+*/
 }
 
 void mesh_vertex_array_set_ati(GAME_MESH *p_mesh)
 {
+/*
   VERTEX_ARRAYS *p_va = &p_mesh->varray;
   int handle = p_mesh->varray.ati_handle;
   int m2flag = p_mesh->p_data->m2flag;
@@ -1038,7 +1054,7 @@ void mesh_vertex_array_set_ati(GAME_MESH *p_mesh)
   array_normal_off();
   array_diffuse_off();
   array_specular_off();
-
+*/
   /*
   if(norm) {
     array_normal_on();
@@ -1065,6 +1081,7 @@ void mesh_vertex_array_set_ati(GAME_MESH *p_mesh)
 
 void mesh_vertex_array_set_koord_ati(GAME_MESH *p_mesh)
 {
+/*
   VERTEX_ARRAYS *p_va = &p_mesh->varray;
   int handle = p_mesh->varray.ati_handle;        
   int *p_int,ind;
@@ -1109,10 +1126,12 @@ void mesh_vertex_array_set_koord_ati(GAME_MESH *p_mesh)
       array_text_off();
     }
   }
+  */
 }
 
 void mesh_vertex_array_upload_ati(GAME_MESH *p_mesh)
 {
+/*
   VERTEX_ARRAYS *p_va = &p_mesh->varray;
   int handle = p_mesh->varray.ati_handle;
   int vertexu = p_mesh->vertexnum,
@@ -1120,6 +1139,7 @@ void mesh_vertex_array_upload_ati(GAME_MESH *p_mesh)
       m2flag = p_mesh->p_data->m2flag,
       kflag = p_mesh->p_data->kflag;  
   int norm = glstav_pn_triangles || p_mesh->p_data->m2flag&(MAT2_CALC_MAP1|MAT2_CALC_MAP2|MAT2_CALC_MAP3|MAT2_CALC_MAP4);
+*/
 /*
   if(k2flag&KONT2_UPDATE_POS)
     glUpdateObjectBufferATI(handle,p_va->ati_start_pos,
@@ -1175,8 +1195,9 @@ void mesh_vertex_array_upload_ati(GAME_MESH *p_mesh)
     glUpdateObjectBufferATI(handle,p_va->ati_start_text[3],
       sizeof(p_mesh->p_vertex_uv4_material[0])*vertexu,p_mesh->p_vertex_uv4_material,
       GL_PRESERVE_ATI);
-*/
+      
   p_mesh->p_data->k2flag&=~(KONT2_UPLOAD);
+*/
 }
 
 
@@ -1210,7 +1231,7 @@ void poly_vertex_array_upload_ati(EDIT_MESH_POLY *p_poly)
 void poly_vertex_array_set_ati(EDIT_MESH_POLY *p_poly)
 {
   int handle = p_poly->varray.ati_handle;
-  int spec = p_poly->m2flag&(MAT2_SPECULAR|MAT2_ENV_SPEC) || p_poly->kflag&KONT_DRAW_SPEC;
+  int spec = p_poly->m2flag&(MAT2_SPECULAR|MAT2_ENV_SPEC) || p_poly->kflag&MESH_DRAW_SPEC;
   int norm = glstav_pn_triangles || p_poly->m2flag&(MAT2_CALC_MAP1|MAT2_CALC_MAP2|MAT2_CALC_MAP3|MAT2_CALC_MAP4);
   int *p_int,ind;
     
@@ -1300,10 +1321,11 @@ void poly_vertex_array_set_ati(EDIT_MESH_POLY *p_poly)
 // 1 rutina pro rendering vsech poli
 void vertex_array_start_render_ati(void)
 {
+/*
   glEnableClientState(GL_VERTEX_ARRAY);
   if(extlist_ati_element_array)
     glEnableClientState(GL_ELEMENT_ARRAY_ATI);
-  
+*/
   array_text_set_num(0);
   array_text_on();
   array_text_set_num(1);
@@ -1316,10 +1338,11 @@ void vertex_array_start_render_ati(void)
 
 void vertex_array_stop_render_ati(void)
 {
+/*
   glDisableClientState(GL_VERTEX_ARRAY);  
   if(extlist_ati_element_array)
     glDisableClientState(GL_ELEMENT_ARRAY_ATI);
-
+*/
   array_diffuse_off();
   array_specular_off();
   array_normal_off();
@@ -1338,14 +1361,17 @@ void vertex_array_stop_render_ati(void)
 */
 void mesh_vertex_array_init_arb(GAME_MESH *p_mesh)
 {
+/*
   VERTEX_ARRAYS *p_va = &p_mesh->varray;  
   glGenBuffersARB(1, &p_va->ati_handle);
   glGenBuffersARB(1, &p_va->arb_handle_indicie);
+*/
 }
 
 // Zrusi pole
 void mesh_vertex_array_zrus_arb(GAME_MESH *p_mesh)
 {
+/*
   VERTEX_ARRAYS *p_varray = &p_mesh->varray;
   
   if(glIsBufferARB(p_varray->ati_handle)) {
@@ -1357,11 +1383,13 @@ void mesh_vertex_array_zrus_arb(GAME_MESH *p_mesh)
     glDeleteBuffersARB(1,&p_varray->arb_handle_indicie);
     p_varray->arb_handle_indicie = 0;
   }
+*/
 }
 
 // Nastavi mesh pro rendering - vertexy
 void mesh_vertex_array_set_arb(GAME_MESH *p_mesh)
 {
+/*
   VERTEX_ARRAYS *p_va = &p_mesh->varray;
   int m2flag = p_mesh->p_data->m2flag;
   int norm = glstav_pn_triangles || m2flag&(MAT2_CALC_MAP1|MAT2_CALC_MAP2|MAT2_CALC_MAP3|MAT2_CALC_MAP4);
@@ -1391,11 +1419,13 @@ void mesh_vertex_array_set_arb(GAME_MESH *p_mesh)
   } else {
     array_specular_off();
   } 
+*/
 }
 
 // Nastavi mesh pro rendering - koordinaty
 void mesh_vertex_array_set_koord_arb(GAME_MESH *p_mesh)
 {
+/*
   VERTEX_ARRAYS *p_va = &p_mesh->varray;
   int *p_int,ind;
   
@@ -1434,12 +1464,14 @@ void mesh_vertex_array_set_koord_arb(GAME_MESH *p_mesh)
     } else {
       array_text_off();
     }
-  }  
+  }
+  */
 }
 
 // Uploadnuje mesh do videoram po zmene
 void mesh_vertex_array_upload_arb(GAME_MESH *p_mesh)
 {
+/*
   VERTEX_ARRAYS *p_va = &p_mesh->varray;  
   int vertexu = p_mesh->vertexnum,
       k2flag = p_mesh->p_data->k2flag,
@@ -1489,6 +1521,7 @@ void mesh_vertex_array_upload_arb(GAME_MESH *p_mesh)
     glBufferSubDataARB(GL_ARRAY_BUFFER_ARB,p_va->ati_start_text[3],sizeof(p_mesh->p_vertex_uv4_material[0])*vertexu,p_mesh->p_vertex_uv4_material);
 
   p_mesh->p_data->k2flag&=~(KONT2_UPLOAD);
+  */
 }
 
 /* Poly-listy - inicializace
@@ -1496,7 +1529,7 @@ void mesh_vertex_array_upload_arb(GAME_MESH *p_mesh)
 void poly_vertex_array_init_arb(EDIT_MESH_POLY *p_poly)
 {
   VERTEX_ARRAYS *p_va = &p_poly->varray;
-  glGenBuffersARB(1, &p_va->ati_handle);
+//  glGenBuffersARB(1, &p_va->ati_handle);
 }
 
 // Zruseni
@@ -1504,7 +1537,7 @@ void poly_vertex_array_zrus_arb(EDIT_MESH_POLY *p_poly)
 {
   VERTEX_ARRAYS *p_va = &p_poly->varray;
   if(glIsBufferARB(p_va->ati_handle)) {
-    glDeleteBuffersARB(1,&p_va->ati_handle);
+//    glDeleteBuffersARB(1,&p_va->ati_handle);
     p_va->ati_handle = 0;
   }
 }
@@ -1521,7 +1554,7 @@ void poly_vertex_array_upload_arb(EDIT_MESH_POLY *p_poly)
 void poly_vertex_array_set_arb(EDIT_MESH_POLY *p_poly)
 {
   VERTEX_ARRAYS *p_va = &p_poly->varray;  
-  int spec = p_poly->m2flag&(MAT2_SPECULAR|MAT2_ENV_SPEC) || p_poly->kflag&KONT_DRAW_SPEC;
+  int spec = p_poly->m2flag&(MAT2_SPECULAR|MAT2_ENV_SPEC) || p_poly->kflag&MESH_DRAW_SPEC;
   int norm = glstav_pn_triangles || p_poly->m2flag&(MAT2_CALC_MAP1|MAT2_CALC_MAP2|MAT2_CALC_MAP3|MAT2_CALC_MAP4);
   int *p_int,ind;
     
@@ -1653,6 +1686,7 @@ void vertex_array_stop_render_nic(void) {};
 */
 void vertex_array_ini(void)
 {
+/*
   if(extlist_arb_vertex_buffer) {
 
     extlist_vertex_array = TRUE;
@@ -1695,4 +1729,5 @@ void vertex_array_ini(void)
     vertex_array_start_render = vertex_array_start_render_nic;
     vertex_array_stop_render = vertex_array_stop_render_nic;
   }
+  */
 }

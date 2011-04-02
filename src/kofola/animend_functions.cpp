@@ -1240,8 +1240,7 @@ void anmend_Teleport(int param, int param2, void *p_param)
 
 	if(p_Level->Flip == 1)
 		gl_Go_Animations();
-
-	p_Level->Status = 5;
+	p_Level->status = 5;
 	free((void *) pStruct);
 
 	if(p_itm->p_Object->Class == 1)

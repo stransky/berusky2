@@ -144,7 +144,7 @@ inline void kd_bunka_expanze(BOD *p_stred, BOD *p_len, BOD *p_min, BOD *p_max)
 
 inline void kd_bunka_expanze2(BOD *p_len, BOD *p_min, BOD *p_max)
 {
-  BOD v = {0,0,0};
+  BOD v(0,0,0);
   vektor_sub(&v,p_len,p_min);
   vektor_add(&v,p_len,p_max);
 }

@@ -16,7 +16,7 @@ void ber_zrcadlo_zrus(void);
    Postaveni dynamickeho render-listu
   ******************************************************************
 */
-__inline void ber_dynamic_mesh_list_vyrob(G_KONFIG *p_ber)
+inline void ber_dynamic_mesh_list_vyrob(G_KONFIG *p_ber)
 {
   int i;
 
@@ -24,17 +24,17 @@ __inline void ber_dynamic_mesh_list_vyrob(G_KONFIG *p_ber)
   p_ber->dyn_meshlistnum = 0;
   
   for(i = 0; i < MAX_BERUSKY_KONTEJNERU; i++) {
-    if(p_ber->p_mesh[i] && !(p_ber->p_mesh[i]->p_data->kflag&KONT_STATIC))
+    if(p_ber->p_mesh[i] && !(p_ber->p_mesh[i]->mflags.flag_get(MESH_STATIC)))
       p_ber->p_dyn_meshlist[p_ber->dyn_meshlistnum++] = &p_ber->p_mesh[i];
   }
 }
 
-__inline void ber_dynamic_mesh_list_vloz_mesh(G_KONFIG *p_ber, int meshnum)
+inline void ber_dynamic_mesh_list_vloz_mesh(G_KONFIG *p_ber, int meshnum)
 {
   p_ber->p_dyn_meshlist[p_ber->dyn_meshlistnum++] = &p_ber->p_mesh[meshnum];
 }
 
-__inline void ber_dynamic_mesh_list_zrus(G_KONFIG *p_ber)
+inline void ber_dynamic_mesh_list_zrus(G_KONFIG *p_ber)
 {
   memset(p_ber->p_dyn_meshlist,0,sizeof(p_ber->p_dyn_meshlist[0])*MAX_BERUSKY_KONTEJNERU);
   p_ber->dyn_meshlistnum = 0;
@@ -54,12 +54,12 @@ void ber_render_list_vyrob(G_KONFIG *p_ber, int zrcadlo, int kamera_zmena);
    Prochazeni mesh render listu
   ******************************************************************
 */
-__inline void ber_mesh_render_list_reset(G_KONFIG *p_ber)
+inline void ber_mesh_render_list_reset(G_KONFIG *p_ber)
 {
   p_ber->mesh_renderakt = 0;
 }
 
-__inline GAME_MESH * ber_mesh_render_list_next(G_KONFIG *p_ber)
+inline GAME_MESH * ber_mesh_render_list_next(G_KONFIG *p_ber)
 { 
   GAME_MESH **p_tmp;
   while(p_ber->mesh_renderakt < p_ber->mesh_rendernum) {
@@ -71,7 +71,7 @@ __inline GAME_MESH * ber_mesh_render_list_next(G_KONFIG *p_ber)
   return(NULL);
 }
 
-__inline GAME_MESH * ber_mesh_render_list_next_flag(G_KONFIG *p_ber, int flag, int not_flag)
+inline GAME_MESH * ber_mesh_render_list_next_flag(G_KONFIG *p_ber, int flag, int not_flag)
 {
   GAME_MESH **p_tmp,*p_mesh;
   int         kflag;
@@ -79,7 +79,7 @@ __inline GAME_MESH * ber_mesh_render_list_next_flag(G_KONFIG *p_ber, int flag, i
     p_tmp = p_ber->p_mesh_renderlist[p_ber->mesh_renderakt++];
     if(p_tmp && *p_tmp) {
       p_mesh = *p_tmp;
-      kflag = p_mesh->p_data->kflag;
+      kflag = p_mesh->mflags;
       if((kflag&flag) == flag && !(kflag&not_flag))
         return(p_mesh);
     }
@@ -92,24 +92,24 @@ __inline GAME_MESH * ber_mesh_render_list_next_flag(G_KONFIG *p_ber, int flag, i
    Prochazeni poly render listu
   ******************************************************************
 */
-__inline void ber_poly_render_list_zrus(G_KONFIG *p_ber)
+inline void ber_poly_render_list_zrus(G_KONFIG *p_ber)
 {
-  null_free((void *)&p_ber->p_poly_renderlist);
+  null_free((void **)&p_ber->p_poly_renderlist);
   p_ber->poly_rendernum = 0;
   p_ber->poly_renderakt = 0;
 }
 
-__inline void ber_poly_render_list_reset(G_KONFIG *p_ber)
+inline void ber_poly_render_list_reset(G_KONFIG *p_ber)
 {
   p_ber->poly_renderakt = 0;
 }
 
-__inline EDIT_MESH_POLY * ber_poly_render_list_next(G_KONFIG *p_ber)
+inline EDIT_MESH_POLY * ber_poly_render_list_next(G_KONFIG *p_ber)
 {
   return(p_ber->poly_renderakt < p_ber->poly_rendernum ? p_ber->p_poly_renderlist[p_ber->poly_renderakt++] : NULL);
 }
 
-__inline EDIT_MESH_POLY * ber_poly_render_list_next_flag(G_KONFIG *p_ber, int flag, int not_flag)
+inline EDIT_MESH_POLY * ber_poly_render_list_next_flag(G_KONFIG *p_ber, int flag, int not_flag)
 {
   EDIT_MESH_POLY *p_poly;
   int kflag;

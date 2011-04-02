@@ -551,7 +551,7 @@ void cekej(int kolik)
 float ber_stredni_vzdalenost_ve_scene(G_KONFIG *p_ber)
 {
  BOD  a,b,p;
- ROVINA   r = {0.0f,1.0f,0.0f,0.0f};
+ ROVINA r(0.0f,1.0f,0.0f,0.0f);
  transf_2d_3d((float)OXRES/2, (float)OYRES/2, 0,
    &a.x, &a.y, &a.z,
    p_ber->p_camera,
@@ -883,7 +883,7 @@ void ber_test_animaci2(G_KONFIG *p_ber)
 void ber_test_animaci3(G_KONFIG *p_ber)
 { 
 	int iAnimation = K_CHYBA, iMesh = K_CHYBA;
-	BOD b = {(float)(rand()%2),0,(float)(rand()%2)};
+	BOD b((float)(rand()%2),0,(float)(rand()%2));
 	BOD p;
 	int anim, i, f1, f2;
 	float r;

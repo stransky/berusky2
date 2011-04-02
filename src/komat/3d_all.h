@@ -45,7 +45,6 @@
 #include "3dmath.h"
 #include "3dproject.h"
 #include "Quat.h"
-#include "3dinterface.h"
 #include "Bmp.h"
 #include "obbo.h"
 */

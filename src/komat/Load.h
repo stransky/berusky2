@@ -54,13 +54,6 @@
 #define  LOAD_ALL               (LOAD_GEOM|LOAD_MATERIALY|LOAD_TEXTURY|LOAD_STAT_LIGHT|LOAD_DYN_LIGHT|LOAD_EXTRA_DYN_LIGHT|LOAD_AMBIENT|LOAD_MLHA|LOAD_ZRCADLO|LOAD_FLARE|LOAD_LEVEL_ENV|LOAD_LEVEL_CONF|LOAD_KAMERY)
 
 
-inline void null_free(void **p_mem)
-{                    
- if((*p_mem) != NULL) {
-   free(*p_mem);
-   *p_mem = NULL;
- }
-}
 
 inline void lo_vloz_mezery(FILE *f, int pocet)
 {

@@ -39,19 +39,6 @@ typedef class mesh_material MESH_MATERIAL;
  */
 
 /*
- * Material flags
- */
-#define MATERIAL_TRANSPARENT  (1<<0)
-
-#define MATERIAL_ZMASK        (1<<1)
-#define MATERIAL_ZTEST        (1<<2)
-
-#define MATERIAL_CULL         (1<<3)
-
-#define MATERIAL_DIFFUSE      (1<<4)
-#define MATERIAL_SPECULAR     (1<<5)
-
-/*
  * Texture configuration for each texture layer
  */
 typedef class material_text_config {
@@ -80,13 +67,81 @@ public:
 } MATERIAL_TEXT_CONFIG;
 
 /*
+ * Material flags
+ */
+#define MATERIAL_USED         (1<<0)
+#define MATERIAL_TRANSPARENT  (1<<1)
+
+#define MATERIAL_ZMASK        (1<<2)
+#define MATERIAL_ZTEST        (1<<3)
+#define MATERIAL_CULL         (1<<4)
+
+#define MATERIAL_ANIM_FRAME   (1<<5)  // material is animated
+#define MATERIAL_2D_MOVE      (1<<6)  // texture animation - coordinate movement
+#define MATERIAL_SYSTEM       (1<<7)  // system material
+#define MATERIAL_LIB          (1<<8)  // it's a part of material library
+#define MATERIAL_SCENE        (1<<9)  // material sceny
+#define MATERIAL_SCENE_NUTNY  (1<<10) // material sceny nutny
+#define MATERIAL_NO_SCMT      (1<<11) // material bez causticu
+
+#define MATERIAL_T1_EYE_LIN   (1<<12)
+#define MATERIAL_T2_EYE_LIN   (1<<13)
+#define MATERIAL_T3_EYE_LIN   (1<<14)
+#define MATERIAL_T4_EYE_LIN   (1<<15)
+
+#define MATERIAL_T1_SPHERE    (1<<16)
+#define MATERIAL_T2_SPHERE    (1<<17)
+#define MATERIAL_T3_SPHERE    (1<<18)
+#define MATERIAL_T4_SPHERE    (1<<19)
+
+/* 
+  Secondary flags
+*/
+#define MATERIAL2_DIFFUSE      (1<<0)
+#define MATERIAL2_SPECULAR     (1<<1)
+
+#define MATERIAL2_DIFFUSE_RAY  (1<<2) // material se pouzije pro raytracing
+#define MATERIAL2_SPECULAR_RAY (1<<3) // spocitaji se odlesky
+
+#define MATERIAL2_MAP1         (1<<4) // koordinates 1 are akctive
+#define MATERIAL2_MAP2         (1<<5) // koordinates 2 are akctive
+#define MATERIAL2_MAP3         (1<<6) // koordinates 3 are akctive
+#define MATERIAL2_MAP4         (1<<7) // koordinates 4 are akctive
+
+#define MATERIAL2_CALC_MAP1    (1<<8)  // koordinates 1 are calculated
+#define MATERIAL2_CALC_MAP2    (1<<9)  // koordinates 2 are calculated
+#define MATERIAL2_CALC_MAP3    (1<<10) // koordinates 3 are calculated
+#define MATERIAL2_CALC_MAP4    (1<<11) // koordinates 4 are calculated
+
+#define MATERIAL2_DEF_TEXTANIM (1<<12) // run firts animation by default
+
+#define MATERIAL2_ENV_SPEC     (1<<13) // specular env mapping
+#define MATERIAL2_ENV_SPEC_OBE (1<<14) // specular double sided env mapping
+
+#define MATERIAL2_T1_MATRIX    (1<<15) // pouzivat transformacni matici c.1
+#define MATERIAL2_T2_MATRIX    (1<<16) // pouzivat transformacni matici c.2
+#define MATERIAL2_T3_MATRIX    (1<<17) // pouzivat transformacni matici c.3
+#define MATERIAL2_T4_MATRIX    (1<<18) // pouzivat transformacni matici c.4
+
+#define MATERIAL2_MASK         (1<<19)
+#define MATERIAL2_BUMP         (1<<20)
+
+
+/*
  * Mesh material
  */
 typedef class mesh_material:  
-  public flag_interface,
+  
   public object_list
 {
+  /* 
+   * Material flags
+   */
+public:
   
+  FLAG_INTERFACE mflags;
+  FLAG_INTERFACE m2flags;
+
   /* 
    * Material aplha blending
    */

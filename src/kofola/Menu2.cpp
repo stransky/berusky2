@@ -3852,9 +3852,9 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 	int		bind;
 	int		dh = 0;
 	int		ycorrection = 0;
-	EDIT_TEXT	ttext;
+	//EDIT_TEXT	ttext;
 	//int		sh = K_CHYBA;
-
+/*
 	ZeroMemory(&ttext, sizeof(EDIT_TEXT));
 
 	p_Level->iCursor = 133;
@@ -4204,14 +4204,12 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 
 			if(key[K_ESC])
 			{
-      /*
 				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-        */
 				goto __QUIT;
 			}
 		}
@@ -4270,6 +4268,7 @@ __QUIT:
 	ddx2GameRender(TRUE);
 
 	txt_zrus_texturu(&ttext);
+  */
 }
 
 void RunMenuLoadScreen2(void)

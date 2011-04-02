@@ -53,40 +53,29 @@ void ber_nahod_render_funkce(void)
 {
   vertex_array_ini();
 
-  if(extlist_multitexture) {
-    if(extlist_secondary_color) {
-      ber_nastav_material_single = ber_nastav_material_single_multi_spec;
-      ber_nastav_material_single_poly = ber_nastav_material_single_poly_multi_spec;
-    } else {
-      ber_nastav_material_single = ber_nastav_material_single_multi;
-      ber_nastav_material_single_poly = ber_nastav_material_single_poly_multi;
-    }
+  if(extlist_secondary_color) {
+    ber_nastav_material_single = ber_nastav_material_single_multi_spec;
+    ber_nastav_material_single_poly = ber_nastav_material_single_poly_multi_spec;
   } else {
-    ber_nastav_material_single = ber_nastav_material_single_nic;
-    ber_nastav_material_single_poly = ber_nastav_material_single_poly_nic;
+    ber_nastav_material_single = ber_nastav_material_single_multi;
+    ber_nastav_material_single_poly = ber_nastav_material_single_poly_multi;
   }
   
   if(extlist_vertex_array) {
-      kprintf(TRUE,"Array-Vertex function ok");
-      ber_kresli_poly_v1 = ber_kresli_poly_array;
-      if(extlist_indicie_array) {
-        kprintf(TRUE,"Array-Indices function ok");
-        ber_kresli_mesh_v1 = ber_kresli_mesh_array;
-        ber_kresli_mesh_v2 = ber_kresli_mesh_array;
-      } else {
-        ber_kresli_mesh_v1 = ber_kresli_mesh_vertex_multitext;
-        ber_kresli_mesh_v2 = extlist_secondary_color ? ber_kresli_mesh_vertex_multitext_specular : ber_kresli_mesh_vertex_multitext;
-      }      
-  } else {
-    if(extlist_multitexture) {
+    kprintf(TRUE,"Array-Vertex function ok");
+    ber_kresli_poly_v1 = ber_kresli_poly_array;
+    if(extlist_indicie_array) {
+      kprintf(TRUE,"Array-Indices function ok");
+      ber_kresli_mesh_v1 = ber_kresli_mesh_array;
+      ber_kresli_mesh_v2 = ber_kresli_mesh_array;
+    } else {
       ber_kresli_mesh_v1 = ber_kresli_mesh_vertex_multitext;
       ber_kresli_mesh_v2 = extlist_secondary_color ? ber_kresli_mesh_vertex_multitext_specular : ber_kresli_mesh_vertex_multitext;
-      ber_kresli_poly_v1 = extlist_secondary_color ? ber_kresli_poly_vertex_multitext_specular : ber_kresli_poly_vertex_multitext;
-    } else {
-      ber_kresli_mesh_v1 = ber_kresli_mesh_vertex;
-      ber_kresli_mesh_v2 = ber_kresli_mesh_vertex;
-      ber_kresli_poly_v1 = ber_kresli_poly_vertex;
-    }
+    }      
+  } else {
+    ber_kresli_mesh_v1 = ber_kresli_mesh_vertex_multitext;
+    ber_kresli_mesh_v2 = extlist_secondary_color ? ber_kresli_mesh_vertex_multitext_specular : ber_kresli_mesh_vertex_multitext;
+    ber_kresli_poly_v1 = extlist_secondary_color ? ber_kresli_poly_vertex_multitext_specular : ber_kresli_poly_vertex_multitext;
   }
 }
 

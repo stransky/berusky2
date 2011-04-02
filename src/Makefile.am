@@ -317,7 +317,11 @@ berusky2_SOURCES = \
 	generator/generator_random.cpp\
 	generator/generator_random.h\
 	komat/Ddx.cpp\
-	komat/kfile.cpp
+	komat/kfile.cpp\
+	komat/Mat3d.h\
+	komat/3dmath.h\
+	komat/3dproject.h\
+	komat/mesh_flags.h
 
 berusky2_LDFLAGS = 
 

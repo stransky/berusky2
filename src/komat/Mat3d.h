@@ -162,20 +162,6 @@ typedef struct _ZDRCADLO_DESC {
 
 } ZDRCADLO_DESC;
 
-/*
-typedef struct _OBB {
-
- BOD          obb[3];     // obb smerovy vektory
- BOD          obb_stred;
- BOD          obb_len;
- BOD          obb_hran[8]; // 8 hranicnich bodu obalky
- 
- BOD          aabb_min;    // aabb obalka
- BOD          aabb_max;    // aabb obalka
-
-} OBB;
-*/
-
 // Multitextuing pro 1 texturu
 typedef struct _MULTITEXT_FLAG {
 
@@ -217,6 +203,7 @@ typedef struct _EDIT_STATE_TEXT_BLOK {
 
 /* 1 renderovaci blok materialu
 */
+/*
 typedef struct _MATERIAL_TEXT {
 
   int   text_stage;                 // stage_funkce pro tento blok
@@ -227,7 +214,7 @@ typedef struct _MATERIAL_TEXT {
   //float parametry...
 
 } MATERIAL_TEXT;
-
+*/
 
 #define  MLHA_AKTIVNI    0x1
 
@@ -506,6 +493,7 @@ typedef struct _EXTRA_DYN_LIGHT {
 
 /* Run-time flagy
 */
+/*
 #define KONT_POHYB              0x00000001  // Mesh se pohnul v poslednim tahu
 #define KONT_VIDITELNY          0x00000002  // Mesh je viditelny
 #define KONT_DRAW_SPEC          0x00000004  // Mesh/Poly pouziva na vykresleni docasne spekularni barvu
@@ -571,11 +559,12 @@ typedef struct _EXTRA_DYN_LIGHT {
 
 #define KONT_STATICKY_PRVEK  (KONT_PRVEK|KONT_STATIC)
 #define KONT_DYNAMICKY_PRVEK (KONT_PRVEK|KONT_VERTEX_LIGHT|KONT_NO_DRAW_SHADOW|KONT_NO_SELF_SHADOW)
+*/
+
 
 /*
   Frame animace
 */
-
 #define FRAME_EVENT       0x1  // timto framem se nepokracuje (ceka se na udalost)
 #define FRAME_ALFA_FAKTOR 0x2  // tento frame ma nastavit alfa-stage
 #define FRAME_TEXTURA     0x4  // tento frame ma nastavit texturu
@@ -597,8 +586,8 @@ typedef struct _ANIM_FRAME {
 typedef struct _ANIM_MATERIAL {
 
   char        jmeno[MAX_JMENO];
-  byte        pouzita;   // pouzita animace
-  byte        aktivni;   // aktivni animace (animuje se)
+  char        pouzita;   // pouzita animace
+  char        aktivni;   // aktivni animace (animuje se)
 
   int         framenum;  // framova animace
   int         frameakt;  // aktualni frame
@@ -630,7 +619,7 @@ typedef struct _ANIM_TEXT {
   int      flag;           // flagy animace (loop a pod)  
   int     *p_flag;         // strkani vysleku animovani
 
-  byte     stav;           // 0 = stop, 1 = run
+  char     stav;           // 0 = stop, 1 = run
   
   dword    endtime;        // konecny cas (pocet framu)
   dword    time;           // aktualni cas  
@@ -858,7 +847,7 @@ typedef struct _HIERARCHY_TRACK_INFO {
 typedef struct _HIERARCHY_ROOT {
   
   float     delka;         // delka casu animace (fps)
-  byte      stav;          // 0 = stop, 1 = run
+  char      stav;          // 0 = stop, 1 = run
   
   int       flag;          // flagy animace (GL_LOOP,GL_REMOVE)
 
@@ -926,7 +915,7 @@ typedef struct _SIMPLE_TRACK_INFO {
 typedef struct _HIERARCHY_SIM {
   
   float     delka;         // delka casu animace (fps)
-  byte      stav;          // 0 = stop, 1 = run
+  char      stav;          // 0 = stop, 1 = run
   
   int       flag;          // flagy animace (GL_LOOP,GL_REMOVE)
 
@@ -1082,11 +1071,11 @@ typedef struct _EDIT_OBJEKT {
   word          x_rect;     // x ctvercu objektu
   word          y_rect;     // y ctvercu objektu
 
-  byte          kreslit;
+  char          kreslit;
 
   BOD           pivot;      // pivot-point objektu (relativni)
 
-  byte          trans;      // transformovane svetlo (je preveden na billboard a spocitane okoli)
+  char          trans;      // transformovane svetlo (je preveden na billboard a spocitane okoli)
   dword         m1flag;     // flagy objektu
   dword         m2flag;     // flagy objektu
   dword         oflag;
@@ -1130,7 +1119,7 @@ typedef struct _EDIT_KONTEJNER {
  GLMATRIX     mpmatrix;  // pozicni matice - aktivni pouze pri ukladani/nahravani
  
  int          max_objektu;
- byte         kreslit;
+ char         kreslit;
  
  int          prvek;      // pokud prvek -> je to logicky prvek k beruskam == K_CHYBA -> neni to prvek
 
@@ -1386,7 +1375,7 @@ typedef struct _EDIT_MESH_POLY { //celej kontejner
  int         *p_lightnum;  // pocty light-map
  EDIT_TEXT  **p_light;     // pole  light-map
  
- byte         kreslit;
+ char         kreslit;
  int          mail;        // mailbox poly :)
 
  OBB          obb;
@@ -1535,7 +1524,7 @@ typedef struct _LENS_FLARE_SLOZ {
 
 typedef struct _LENS_FLARE {
 
-  byte  akt;
+  char  akt;
   BOD   p;         // kde je ve 3d  
   BOD  *p_bod;     // pointer na bod
   float r,g,b,a;   // barva lensu
@@ -1777,7 +1766,7 @@ inline void sub_barvu_bodu_obj(EDIT_OBJEKT *p_obj, float r, float g, float b, fl
 }
 
 
-inline void nastav_barvu_bodu_kont(EDIT_KONTEJNER *p_kont, float r, float g, float b, float a, byte op)
+inline void nastav_barvu_bodu_kont(EDIT_KONTEJNER *p_kont, float r, float g, float b, float a, char op)
 {
   int o,mo;
 
@@ -1811,7 +1800,7 @@ inline void nastav_barvu_bodu_kont_alfa(EDIT_KONTEJNER *p_kont, float a)
 }
 */
 
-inline void nastav_barvu_bodu_kont_dword(EDIT_KONTEJNER *p_kont, dword barva, byte op)
+inline void nastav_barvu_bodu_kont_dword(EDIT_KONTEJNER *p_kont, dword barva, char op)
 {
   int o,mo;
   float v[4];
@@ -1833,21 +1822,24 @@ inline void nastav_barvu_bodu_kont_dword(EDIT_KONTEJNER *p_kont, dword barva, by
     }
   }
 }
-/*
+
 inline void transformuj_mesh_matici(GAME_MESH *p_mesh, GLMATRIX *p_m)
 { 
+// TODO
+/*
  int i,pocet = p_mesh->vertexnum;
  BOD *p_vert = p_mesh->p_vertex_pos;
  for(i = 0; i < pocet; i++) {
    transformuj_bod_matici(&p_vert[i].x, &p_vert[i].y, &p_vert[i].z, p_m);
  }
-}
 */
+}
+
 GLMATRIX __kont_world_matrix;
 
 inline GLMATRIX * kont_world_matrix(EDIT_KONTEJNER *p_kont)
 {
-  if(p_kont->kflag&KONT_MPMATRIX) {
+  if(p_kont->kflag&MESH_MPMATRIX) {
     return(mat_mult_dir(&p_kont->world,&p_kont->mpmatrix,&__kont_world_matrix));
   } else {
     return(&p_kont->world);
@@ -1914,8 +1906,8 @@ void mesh_env_maping_camera(GAME_MESH *p_mesh, GLMATRIX *p_cam);
 void poly_env_maping_camera(EDIT_MESH_POLY *p_poly, EDIT_MATERIAL *p_mat, GLMATRIX *p_cam);
 void transformuj_mesh(GAME_MESH *p_mesh);
 void kresli_ctverec_2d_diff(int x1, int y1, int dx, int dy, float r, float g, float b);
-inline int  stejny_vertex_point(BOD *v1, BOD *v2);
-inline int  stejny_vertex_point_delta(BOD *v1, BOD *v2, float delta);
+int  stejny_vertex_point(BOD *v1, BOD *v2);
+int  stejny_vertex_point_delta(BOD *v1, BOD *v2, float delta);
 void mesh_env_maping_spec(GAME_MESH *p_mesh, GLMATRIX *p_cam, EDIT_MATERIAL **p_mt);
 void poly_env_maping_spec(EDIT_MESH_POLY *p_poly, EDIT_MATERIAL *p_mat, GLMATRIX *p_cam);
 void kresli_kosoctverec_word(BOD *p_p, float r, dword barva);
@@ -1956,6 +1948,8 @@ void konfiguruj_look_up(int *p_looksqrt_linear, int *p_looksqrt_quadratic, float
 
 // Minimalni intenzita svetla
 #define DELTA_MIN 0.00392156f
+
+//#define mmalloc(velikost) memset(malloc(velikost),0,velikost)
 
 inline void * kopiruj_pole(void *p_src, int velikost)
 {

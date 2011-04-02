@@ -742,13 +742,14 @@ typedef class game_mesh :
   public scene_object_geometry
 {
   friend class mesh_params;
+
   /*
    * Mesh flags
    */
-private:
+public:
   
-  tflag                    mflag;         // mesh flags
-  tflag                    m2flag;        // 
+  FLAG_INTERFACE           mflags;
+  FLAG_INTERFACE           m2flags;
 
   /*
    * Material section

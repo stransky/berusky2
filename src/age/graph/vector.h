@@ -844,6 +844,14 @@ public:
 
   plane(void) {}
 
+  plane(float x_, float y_, float z_, float e_) 
+  {
+    x = x_;
+    y = y_;
+    z = z_;
+    e = e_;
+  }
+  
   plane(VECT3DF a, VECT3DF b, VECT3DF c)
   {
     x = (b.y - a.y)*(c.z - a.z)-(c.y - a.y)*(b.z - a.z);

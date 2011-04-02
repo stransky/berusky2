@@ -272,7 +272,10 @@ typedef struct _EDIT_OKNO {
 #define SFL_ZOOM         0x0004
 
 typedef struct _G_KONFIG {
- 
+
+  // Interface to 3D engine
+  AGE_MAIN  *p_age;
+
   GLMATRIX            *p_project,
                       *p_word,
                       *p_camera,
@@ -338,8 +341,8 @@ typedef struct _G_KONFIG {
   EDIT_MESH_POLY      *p_poly;                        // seznam statickych objektu
   EDIT_MATERIAL       *p_mat[MAX_CELKEM_MATERIALU];   // seznam materialu
   EDIT_MATERIAL       *p_smat;                        // scene-material
-  EDIT_TEXT            p_text[MAX_CELKEM_TEXTUR];     // seznam textur
-  EDIT_TEXT            p_lightmap[MAX_RAY_TEXTUR];    // seznam lightmap
+  //EDIT_TEXT            p_text[MAX_CELKEM_TEXTUR];     // seznam textur
+  //EDIT_TEXT            p_lightmap[MAX_RAY_TEXTUR];    // seznam lightmap
   OBB_TREE             obbtree;                       // obb-tree levelu
 
   /* Fleky v levelu

@@ -35,8 +35,8 @@ extern int cameraflag;
 HDC_INFO	hdc_info;
 
 HINT_STATE	sHint;
-KUK_STATE	sKuk;
-EDIT_TEXT	sIndikace[3];
+//KUK_STATE	sKuk;
+//EDIT_TEXT	sIndikace[3];
 
 extern APAK_HANDLE		*pBmpArchive;
 extern APAK_HANDLE		*p3DMArchive;
@@ -102,8 +102,8 @@ _3D_ANIMATION_STRUCTURE	_3DAnimationStruct;
 //extern AUDIO_DATA		ad;
 int	iTopLedgeDL;
 int	iInventoryDL;
-HINT_TEXTURE	pHintTexture[26];
-HINT_TEXTURE	pMessageTexture[8];
+//HINT_TEXTURE	pHintTexture[26];
+//HINT_TEXTURE	pMessageTexture[8];
 
 #define HINT_SCALE	1.0f
 
@@ -1180,16 +1180,19 @@ void _3d_Draw_MenusB(LEVELINFO *p_Level, int act_item, char *bCursor, float *_3d
 
 void _3d_Start_Kuk(float *_3d_Scale_Factor)
 {
+/*
 	sKuk.y = randf() * (640 * _3d_Scale_Factor[1]);
 	sKuk.x = (float)hwconf.xres;
 	sKuk.bKUK = 1;
 	sKuk.iState = 0;
 	sKuk.Speed = 600.0f;
 	sKuk.dwTCounter = 0;
+*/
 }
 
 void _3d_Process_Kuk(float *_3d_Scale_Factor)
 {
+/*
 	float pos[4];
 	float f = sKuk.Speed * (ber.TimeLastFrame / 1000.0f);
 
@@ -1228,7 +1231,7 @@ void _3d_Process_Kuk(float *_3d_Scale_Factor)
 
 	//kprintf(1, "%f, %f, %f, %f", pos[0], pos[1], pos[2], pos[3]);
 
-	glBindTexture(GL_TEXTURE_2D, sKuk.text.text);
+	glBindTexture(GL_TEXTURE_2D, sKuk.text.gl_text_get());
 
 	glBegin(GL_TRIANGLE_STRIP);
 	glTexCoord2d(0,1);
@@ -1240,6 +1243,7 @@ void _3d_Process_Kuk(float *_3d_Scale_Factor)
 	glTexCoord2d(1,0);
 	glVertex2d(pos[2], pos[3]);
 	glEnd();
+  */
 }
 
 //------------------------------------------------------------------------------------------------
@@ -1296,7 +1300,7 @@ void _3d_Draw_Menus(char *bCursor, int *Cursor_Time_Out, float *_3d_Scale_Factor
 	_3d_Draw_3DAnimations();
 
 	_3d_Draw_Indikace(p_Level, _3d_Scale_Factor);
-
+/*
 	if(!sKuk.bKUK)
 	{
 		if(!(rand()%100000))
@@ -1305,7 +1309,7 @@ void _3d_Draw_Menus(char *bCursor, int *Cursor_Time_Out, float *_3d_Scale_Factor
 	else
 		if(sKuk.bKUK)
 			_3d_Process_Kuk(_3d_Scale_Factor);
-
+*/
 	if(sHint.bHint)
 	{
 		_3d_Set_Smooth();
@@ -1751,10 +1755,10 @@ void _3d_Draw_Hint(float *_3d_Scale_Factor)
 
 	pos[0] = sHint.x - (6 * _3d_Scale_Factor[0]);
 	pos[1] = sHint.y - (6 * _3d_Scale_Factor[1]);
-	pos[2] = (sHint.x - (6 * _3d_Scale_Factor[0])) + (((pHintTexture[sHint.iHint].tx + 12) * HINT_SCALE) * _3d_Scale_Factor[0]);
-	pos[3] = (sHint.y - (6 * _3d_Scale_Factor[1])) + (((pHintTexture[sHint.iHint].ty + 12) * HINT_SCALE) * _3d_Scale_Factor[1]);
+//	pos[2] = (sHint.x - (6 * _3d_Scale_Factor[0])) + (((pHintTexture[sHint.iHint].tx + 12) * HINT_SCALE) * _3d_Scale_Factor[0]);
+//	pos[3] = (sHint.y - (6 * _3d_Scale_Factor[1])) + (((pHintTexture[sHint.iHint].ty + 12) * HINT_SCALE) * _3d_Scale_Factor[1]);
 
-	glBindTexture(GL_TEXTURE_2D, pHintTexture[0].text.text);
+//	glBindTexture(GL_TEXTURE_2D, pHintTexture[0].text.gl_text_get());
 
 	glBegin(GL_TRIANGLE_STRIP);
 	glTexCoord2d(0,1);
@@ -1766,13 +1770,13 @@ void _3d_Draw_Hint(float *_3d_Scale_Factor)
 	glTexCoord2d(1,0);
 	glVertex2d(pos[2], pos[3]);
 	glEnd();
-
+/*
 	pos[0] = sHint.x;
 	pos[1] = sHint.y;
 	pos[2] = sHint.x + (pHintTexture[sHint.iHint].x * HINT_SCALE * _3d_Scale_Factor[0]);
 	pos[3] = sHint.y + (pHintTexture[sHint.iHint].y * HINT_SCALE * _3d_Scale_Factor[1]);
 
-	glBindTexture(GL_TEXTURE_2D, pHintTexture[sHint.iHint].text.text);
+	glBindTexture(GL_TEXTURE_2D, pHintTexture[sHint.iHint].text.gl_text_get());
 
 	glBegin(GL_TRIANGLE_STRIP);
 	glTexCoord2d(0,1);
@@ -1784,7 +1788,7 @@ void _3d_Draw_Hint(float *_3d_Scale_Factor)
 	glTexCoord2d(1,0);
 	glVertex2d(pos[2], pos[3]);
 	glEnd();
-
+*/
 }
 
 void _3d_Display_Hint(LEVELINFO *p_Level, float *_3d_Scale_Factor)
@@ -1810,13 +1814,13 @@ void _3d_Display_Hint(LEVELINFO *p_Level, float *_3d_Scale_Factor)
 
 	sHint.x = (float)mi.x + _3dCur.idx + _3dCur.iaddx;
 	sHint.y = (float)mi.y + _3dCur.idy + _3dCur.iaddy;
-
+/*
 	if(sHint.y + (pHintTexture[sHint.iHint].ty * HINT_SCALE * _3d_Scale_Factor[1]) > hwconf.yres - 25)
 		sHint.y = (float)(hwconf.yres - (pHintTexture[sHint.iHint].ty * HINT_SCALE * _3d_Scale_Factor[1]) - 25);
 
 	if(sHint.x + (pHintTexture[sHint.iHint].tx * HINT_SCALE * _3d_Scale_Factor[0]) > hwconf.xres - 25)
 		sHint.x = (float)(hwconf.xres - (pHintTexture[sHint.iHint].tx * HINT_SCALE * _3d_Scale_Factor[0]) - 25);
-
+*/
 	sHint.bHint = 1;
 	sHint.dwTCounter = 0;
 }
@@ -1844,25 +1848,25 @@ void _3d_Display_Hint_Inventory(LEVELINFO *p_Level, ITEMDESC *pItem, int idx, in
 
 	sHint.x = x * _3d_Scale_Factor[0];
 	sHint.y = (y - 32) * _3d_Scale_Factor[1];
-
+/*
 	if(sHint.x + (pHintTexture[sHint.iHint].tx * HINT_SCALE * _3d_Scale_Factor[0]) > hwconf.xres - 25)
 		sHint.x = (float)(hwconf.xres - (pHintTexture[sHint.iHint].tx * HINT_SCALE * _3d_Scale_Factor[0]) - 25);
-
+*/
 	sHint.bHint = 1;
 	sHint.dwTCounter = 0;
 }
 
 void _3d_Nahraj_Kuk(void)
 {
-	txt_trida(TEXT_MENU);
+	//txt_trida(TEXT_MENU);
 	kom_set_default_text_config(0,0,1,0,0,1);
-	txt_nahraj_texturu_z_func(p3DMArchive,"brouk1.bmp", &sKuk.text, 0, 1, NULL,nahraj_aux);
+	//txt_nahraj_texturu_z_func(p3DMArchive,"brouk1.bmp", &sKuk.text, 0, 1, NULL,nahraj_aux);
 	kom_ret_default_text_config();
 }
 
 void _3d_Release_Kuk(void)
 {
-	txt_zrus_texturu(&sKuk.text);
+//	txt_zrus_texturu(&sKuk.gl_text_get());
 }
 
 void _3d_Draw_Indikace(LEVELINFO *p_Level, float *_3d_Scale_Factor)
@@ -1876,7 +1880,7 @@ void _3d_Draw_Indikace(LEVELINFO *p_Level, float *_3d_Scale_Factor)
 		pos[2] = 1024 * _3d_Scale_Factor[0];
 		pos[3] = 768 * _3d_Scale_Factor[1];
 
-		glBindTexture(GL_TEXTURE_2D, sIndikace[0].text);
+//		glBindTexture(GL_TEXTURE_2D, sIndikace[0].gl_text_get());
 
 		glBegin(GL_TRIANGLE_STRIP);
 		glTexCoord2d(0,1);
@@ -1897,7 +1901,7 @@ void _3d_Draw_Indikace(LEVELINFO *p_Level, float *_3d_Scale_Factor)
 		pos[2] = 960 * _3d_Scale_Factor[0];
 		pos[3] = 768 * _3d_Scale_Factor[1];
 
-		glBindTexture(GL_TEXTURE_2D, sIndikace[2].text);
+//		glBindTexture(GL_TEXTURE_2D, sIndikace[2]..gl_text_get());
 
 		glBegin(GL_TRIANGLE_STRIP);
 		glTexCoord2d(0,1);
@@ -1921,7 +1925,7 @@ void _3d_Draw_Indikace(LEVELINFO *p_Level, float *_3d_Scale_Factor)
 		pos[2] = 896 * _3d_Scale_Factor[0];
 		pos[3] = 768 * _3d_Scale_Factor[1];
 
-		glBindTexture(GL_TEXTURE_2D, sIndikace[1].text);
+//		glBindTexture(GL_TEXTURE_2D, sIndikace[1]..gl_text_get());
 
 		glBegin(GL_TRIANGLE_STRIP);
 		glTexCoord2d(0,1);
@@ -1938,6 +1942,7 @@ void _3d_Draw_Indikace(LEVELINFO *p_Level, float *_3d_Scale_Factor)
 
 int _3d_Draw_MessageBox(int iMessage, float *_3d_Scale_Factor)
 {
+/*
 	int	ret = 0;
 	float pos[4];
 	float	x = (1024 - (pMessageTexture[iMessage].tx + 12 )) / 2.0f;
@@ -1954,7 +1959,7 @@ int _3d_Draw_MessageBox(int iMessage, float *_3d_Scale_Factor)
 	dx = (pMessageTexture[iMessage].tx + 12 ) / 2.0f;
 	dy = pMessageTexture[iMessage].ty * 2.0f;
 
-	glBindTexture(GL_TEXTURE_2D, pHintTexture[0].text.text);
+	glBindTexture(GL_TEXTURE_2D, pHintTexture[0].text..gl_text_get());
 
 	glBegin(GL_TRIANGLE_STRIP);
 	glTexCoord2d(0,1);
@@ -1972,7 +1977,7 @@ int _3d_Draw_MessageBox(int iMessage, float *_3d_Scale_Factor)
 	pos[2] = (x + (pMessageTexture[iMessage].x * HINT_SCALE)) * _3d_Scale_Factor[0];
 	pos[3] = (y + (pMessageTexture[iMessage].y * HINT_SCALE)) * _3d_Scale_Factor[1];
 
-	glBindTexture(GL_TEXTURE_2D, pMessageTexture[iMessage].text.text);
+	glBindTexture(GL_TEXTURE_2D, pMessageTexture[iMessage].text..gl_text_get());
 
 	glBegin(GL_TRIANGLE_STRIP);
 	glTexCoord2d(0,1);
@@ -1997,11 +2002,11 @@ int _3d_Draw_MessageBox(int iMessage, float *_3d_Scale_Factor)
 	if(mi.x >= pos[0] && mi.x <= pos[0] + (pMessageTexture[1].tx * _3d_Scale_Factor[0]) &&
 	   mi.y >= pos[1] && mi.y <= pos[1] + (pMessageTexture[1].ty * _3d_Scale_Factor[1]))
 	{
-		glBindTexture(GL_TEXTURE_2D, pMessageTexture[1].text.text);
+		glBindTexture(GL_TEXTURE_2D, pMessageTexture[1].text..gl_text_get());
 		ret = 1;
 	}
 	else
-		glBindTexture(GL_TEXTURE_2D, pMessageTexture[0].text.text);
+		glBindTexture(GL_TEXTURE_2D, pMessageTexture[0].text..gl_text_get());
 
 	glBegin(GL_TRIANGLE_STRIP);
 	glTexCoord2d(0,1);
@@ -2056,4 +2061,5 @@ int _3d_Draw_MessageBox(int iMessage, float *_3d_Scale_Factor)
 	}
 
 	return ret;
+  */
 }

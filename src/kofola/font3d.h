@@ -23,8 +23,8 @@ typedef struct _B2_FONT
 	GRAMMAR				gr;
 	TRIGER_STRUCTURE	ts;
 	GAME_TRIGER			gt;
-	EDIT_TEXT			tex[FONT_MAX_BMP];
-	EDIT_TEXT_KONFIG	konf[FONT_MAX_BMP];
+	//EDIT_TEXT			tex[FONT_MAX_BMP];
+	//EDIT_TEXT_KONFIG	konf[FONT_MAX_BMP];
 	WCHAR				*pTBuffer;
 	unsigned long iTSize;
 	FILE				*file;

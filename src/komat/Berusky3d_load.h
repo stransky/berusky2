@@ -38,13 +38,15 @@ GAME_MESH ** ber_mesh_vyber_staticke(G_KONFIG *p_ber, int *p_snum, int **p_index
 int  ber_uprava_materialu_bump_mapping(G_KONFIG *p_ber);
 
 inline int ber_je_mesh_beruska_fast(GAME_MESH *p_mesh)
-{    
-  return(p_mesh->p_data->k2flag&KONT2_BERUSKA);
+{   
+  // TODO
+  //return(p_mesh->p_data->k2flag&KONT2_BERUSKA);
 }
 
 inline int ber_je_mesh_prvek_fast(GAME_MESH *p_mesh)
 {    
-  return((p_mesh->p_data->kflag)&KONT_PRVEK);
+  // TODO
+  //return((p_mesh->p_data->kflag)&KONT_PRVEK);
 }
 
 #define JMENO_KURZOR "sv2.b2m"

@@ -17,10 +17,25 @@ typedef void *          HDC;
 typedef unsigned int    UINT;
 typedef int             BOOL;
 typedef void *          HINSTANCE;
+typedef VECT2DF         BODUV;
 typedef VECT3DF         BOD;
+typedef VECT4DF         WBOD;
 typedef RGBF            BODRGB;
+typedef RGBAF           BODRGBA;
+typedef RGBF            RGB_M;
+typedef RGBAF           BARVA_RGBA;
 typedef PLANE           ROVINA;
 typedef PLANE           ROVINAD;
+typedef MATERIAL_TEXT   EDIT_TEXT;
+typedef SURFACE_SW      bitmapa;
+
+#include "Vektor.h"
+#include "Matrix.h"
+#include "mesh_flags.h"
+#include "Mat3d.h"
+#include "3dinterface.h"
+#include "3dproject.h"
+#include "3dmath.h"
 
 typedef void (* END_FUNKCE)(int param, int param2, void *p_param);
 
@@ -305,3 +320,22 @@ int GetPrivateProfileInt(
   int nDefault,
   char * lpFileName
 );
+
+bitmapa * bmp_vyrob(int x, int y);
+bitmapa * bmp_nahraj(char *p_file, int flip);
+bitmapa * bmp_nahraj_pack(char *p_file, APAK_HANDLE *pAHandle);
+int       bmp_uloz(char *p_file, bitmapa *p_bmp);
+int       bmp_uloz_pack(FFILE f, bitmapa *p_bmp);
+void      bmp_zrus(bitmapa **p_bmp);
+bitmapa * bmp_kopituj(bitmapa *p_bmp);
+void      bmp_cti_rozmery(bitmapa *p_bmp, int *p_x, int *p_y);
+int       bmp_velikost(bitmapa *p_bmp);
+void      bmp_putpixel(bitmapa *p_bmp, int x, int y, dword barva);
+
+inline void null_free(void **p_mem)
+{                    
+ if((*p_mem) != NULL) {
+   free(*p_mem);
+   *p_mem = NULL;
+ }
+}

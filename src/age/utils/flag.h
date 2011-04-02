@@ -37,7 +37,12 @@ typedef class flag_interface {
   int iflag;
   
 public:  
-  
+
+  operator int(void)
+  {
+    return(iflag);
+  }
+
   bool flag_get(int flag)
   {
     return(iflag&flag);

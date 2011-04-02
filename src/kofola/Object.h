@@ -421,7 +421,7 @@ typedef struct
 	long			*Anim_Item;				// seznam prvku, ktere se konstantne 
 //	HWND			hWnd;					// hWnd aplikace
 	long			Actual_Item;			// aktualni predmet (brouk)
-	char			Status;					// status hry
+	int 			status;					// status hry
 	int				Column[3];				// nejzassi posouvany sloupec
 	char			bColumn;				// identifikace jeho zvoleni
 	int       SecColumn[3];

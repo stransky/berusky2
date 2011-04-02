@@ -252,38 +252,6 @@ inline BOD * vektor_bod(BOD *v, BOD *u, BOD *c, float t)
   return(c);
 }
 
-inline OBJ_VERTEX * vektor_bod_muj(OBJ_VERTEX *v, OBJ_VERTEX *u, OBJ_VERTEX *c, float t)
-{
-  float t2 = 1.0f-t;
-  
-  c->x = v->x*t2 + u->x*t;
-  c->y = v->y*t2 + u->y*t;
-  c->z = v->z*t2 + u->z*t;
-  
-  c->tu1 = v->tu1*t2 + u->tu1*t;
-  c->tv1 = v->tv1*t2 + u->tv1*t;
-  
-  c->mda = v->mda*t2 + u->mda*t;
-  c->mdr = v->mdr*t2 + u->mdr*t;
-  c->mdg = v->mdg*t2 + u->mdg*t;
-  c->mdb = v->mdb*t2 + u->mdb*t;
-
-  c->da = v->da*t2 + u->da*t;
-  c->dr = v->dr*t2 + u->dr*t;
-  c->dg = v->dg*t2 + u->dg*t;
-  c->db = v->db*t2 + u->db*t;
-
-  c->msr = v->msr*t2 + u->msr*t;
-  c->msg = v->msg*t2 + u->msg*t;
-  c->msb = v->msb*t2 + u->msb*t;
-
-  c->sr = v->sr*t2 + u->sr*t;
-  c->sg = v->sg*t2 + u->sg*t;
-  c->sb = v->sb*t2 + u->sb*t;
-
-  return(c);
-}
-
 inline BOD * vektor_copy(BOD *c, BOD *v)
 {
   c->x = v->x;
@@ -333,20 +301,9 @@ inline BOD * vektor_inv(BOD *v)
   return(v);
 }
 
-inline float vzdal_bodu(OBJ_VERTEX *a, OBJ_VERTEX *b)
-{
-  return((float)sqrt((b->x-a->x)*(b->x-a->x)+(b->y-a->y)*(b->y-a->y)+(b->z-a->z)*(b->z-a->z)));
-}
-
 inline float vzdal_bodu_bod(BOD *a, BOD *b)
 {
   float v = (b->x-a->x)*(b->x-a->x)+(b->y-a->y)*(b->y-a->y)+(b->z-a->z)*(b->z-a->z);
-  return((v > 0.0f) ? (float)sqrt(v) : v);
-}
-
-inline float vzdal_bodu_2D(OBJ_VERTEX *a, OBJ_VERTEX *b)
-{
-  float v = (b->x-a->x)*(b->x-a->x)+(b->z-a->z)*(b->z-a->z);  
   return((v > 0.0f) ? (float)sqrt(v) : v);
 }
 

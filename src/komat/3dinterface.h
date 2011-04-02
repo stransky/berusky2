@@ -596,18 +596,13 @@ inline void text_init(void)
   glstav_text_array[3] = FALSE;
   glstav_last_text_1d[3] = FALSE;
   glstav_last_text_2d[3] = FALSE;
-
-  if(extlist_multitexture) {
-    glActiveTextureARB(GL_TEXTURE1_ARB);
-    glDisable(GL_TEXTURE_1D);
-    glDisable(GL_TEXTURE_2D);
-    glActiveTextureARB(GL_TEXTURE0_ARB);
-    glDisable(GL_TEXTURE_1D);    
-    glDisable(GL_TEXTURE_2D);
-  } else {
-    glDisable(GL_TEXTURE_1D);
-    glDisable(GL_TEXTURE_2D);
-  }
+  
+  glActiveTextureARB(GL_TEXTURE1_ARB);
+  glDisable(GL_TEXTURE_1D);
+  glDisable(GL_TEXTURE_2D);
+  glActiveTextureARB(GL_TEXTURE0_ARB);
+  glDisable(GL_TEXTURE_1D);    
+  glDisable(GL_TEXTURE_2D);
 }
 
 inline void text_set(GLuint text, GLenum typ)
@@ -666,7 +661,7 @@ inline void text_off(GLenum typ)
 inline int text_set_num(int num)
 {
   if(num < glstav_multitext_units) {
-    if(extlist_multitexture && glstav_text_akt != num) {
+    if(glstav_text_akt != num) {
       glstav_text_akt = num;
       glActiveTextureARB(arb_prevodni_tabulka[num]);
     }
@@ -679,7 +674,7 @@ inline int text_set_num(int num)
 inline int text_set_num_off(int num)
 {
   if(num < glstav_multitext_units) {
-    if(extlist_multitexture && (glstav_textury_1d[num] || glstav_textury_2d[num])) {
+    if(glstav_textury_1d[num] || glstav_textury_2d[num]) {
       if(glstav_text_akt != num) {
         glstav_text_akt = num;
         glActiveTextureARB(arb_prevodni_tabulka[num]);
@@ -705,7 +700,7 @@ inline int text_set_num_off(int num)
 */
 inline void specular_on(void)
 {
-  if(extlist_secondary_color && !glstav_specular) {
+  if(!glstav_specular) {
     glstav_specular = TRUE;
     glEnable(GL_COLOR_SUM_EXT);
   }
@@ -713,7 +708,7 @@ inline void specular_on(void)
 
 inline void specular_off(void)
 {
-  if(extlist_secondary_color && glstav_specular) {
+  if(glstav_specular) {
     glstav_specular = FALSE;
     glDisable(GL_COLOR_SUM_EXT);
   }
@@ -721,11 +716,8 @@ inline void specular_off(void)
 
 inline void specular_color(float r, float g, float b)
 {
-  if(extlist_secondary_color) {
-    // TODO
-    //glSecondaryColor3fEXT(r,g,b);
-    //glDisable(GL_COLOR_SUM_EXT);
-  }
+  glSecondaryColor3fEXT(r,g,b);
+  glDisable(GL_COLOR_SUM_EXT);
 }
 
 
@@ -746,39 +738,33 @@ inline void diffuse_on(void)
   Rendering z poli
 */
 inline void array_specular_set(int stav)
-{
-  if(extlist_secondary_color) {
-    if(stav) {
-      if(!glstav_array_specular) {
-        glstav_array_specular = TRUE;
-        glEnableClientState(GL_SECONDARY_COLOR_ARRAY_EXT);
-      }
-    } else {
-      if(glstav_array_specular) {
-        glstav_array_specular = FALSE;
-        glDisableClientState(GL_SECONDARY_COLOR_ARRAY_EXT);
-      }
-    }
-  }
-}
-
-inline void array_specular_on(void)
-{
-  if(extlist_secondary_color) {
+{  
+  if(stav) {
     if(!glstav_array_specular) {
       glstav_array_specular = TRUE;
       glEnableClientState(GL_SECONDARY_COLOR_ARRAY_EXT);
     }
+  } else {
+    if(glstav_array_specular) {
+      glstav_array_specular = FALSE;
+      glDisableClientState(GL_SECONDARY_COLOR_ARRAY_EXT);
+    }
+  } 
+}
+
+inline void array_specular_on(void)
+{
+  if(!glstav_array_specular) {
+    glstav_array_specular = TRUE;
+    glEnableClientState(GL_SECONDARY_COLOR_ARRAY_EXT);
   }
 }
 
 inline void array_specular_off(void)
 {
-  if(extlist_secondary_color) {
-    if(glstav_array_specular) {
-      glstav_array_specular = FALSE;
-      glDisableClientState(GL_SECONDARY_COLOR_ARRAY_EXT);
-    }
+  if(glstav_array_specular) {
+    glstav_array_specular = FALSE;
+    glDisableClientState(GL_SECONDARY_COLOR_ARRAY_EXT);
   }
 }
 
@@ -910,17 +896,11 @@ inline void enable_fog_causal(void)
 
 inline void text_sharp(float sharp)
 {
-  if(extlist_text_sharp) {
-    sharp = -sharp;
-    if(extlist_multitexture) {
-      int i;
-      for(i = 0; i < glstav_multitext_units; i++) {
-        text_set_num(i);
-        glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT,GL_TEXTURE_LOD_BIAS_EXT,sharp);
-      }
-    } else {
-      glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT,GL_TEXTURE_LOD_BIAS_EXT,sharp);
-    } 
+  sharp = -sharp;    
+  int i;
+  for(i = 0; i < glstav_multitext_units; i++) {
+    text_set_num(i);
+    glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT,GL_TEXTURE_LOD_BIAS_EXT,sharp);
   }
 }
 

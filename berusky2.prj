@@ -49,20 +49,20 @@ project.menu.need.terminal=0
 
 project.configure.options=
 anjuta.program.arguments=
-preferences.build.option.keep.going=1
-preferences.build.option.autosave=0
-preferences.build.option.silent=0
-preferences.build.option.warn.undef=0
-preferences.build.option.jobs=0
-preferences.make=make
-preferences.use.tabs=0
-preferences.indent.automatic=1
-preferences.tabsize=2
+preferences.autoformat.disable=0
 preferences.indent.opening=1
 preferences.autoformat.custom.style=-bap -bad -br -brs -cli2 -i2 -nbfda -ncs -npcs -npsl -nut
-preferences.autoformat.disable=0
-preferences.indent.closing=1
 preferences.indent.size=2
+preferences.indent.automatic=1
+preferences.tabsize=2
+preferences.indent.closing=1
+preferences.use.tabs=0
+preferences.build.option.autosave=0
+preferences.make=make
+preferences.build.option.keep.going=1
+preferences.build.option.jobs=0
+preferences.build.option.warn.undef=0
+preferences.build.option.silent=0
 
 module.include.name=include
 module.include.type=
@@ -368,7 +368,11 @@ module.source.files=\
 	generator/generator_random.cpp\
 	generator/generator_random.h\
 	komat/Ddx.cpp\
-	komat/kfile.cpp
+	komat/kfile.cpp\
+	komat/Mat3d.h\
+	komat/3dmath.h\
+	komat/3dproject.h\
+	komat/mesh_flags.h
 
 module.pixmap.name=pixmaps
 module.pixmap.type=

@@ -12,7 +12,7 @@ typedef struct
 
 typedef struct
 {
-	EDIT_TEXT_KONFIG	konf;
+	//EDIT_TEXT_KONFIG	konf;
 	char				bVLoaded;
 	char				bSLoaded;
 	int					x;
