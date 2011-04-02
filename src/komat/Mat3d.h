@@ -217,7 +217,6 @@ typedef struct _EDIT_STATE_TEXT_BLOK {
 
 /* 1 renderovaci blok materialu
 */
-/*
 typedef struct _MATERIAL_TEXT {
 
   int   text_stage;                 // stage_funkce pro tento blok
@@ -228,7 +227,7 @@ typedef struct _MATERIAL_TEXT {
   //float parametry...
 
 } MATERIAL_TEXT;
-*/
+
 
 #define  MLHA_AKTIVNI    0x1
 
@@ -1247,7 +1246,7 @@ typedef struct _GAME_MESH_DATA {
  struct _EXTRA_DYN_LIGHT *p_lelight;   // seznam extra svetel
 
 } GAME_MESH_DATA;
-
+/*
 typedef struct _GAME_MESH { //celej kontejner
 
  char                     jmeno[MAX_JMENO];
@@ -1321,7 +1320,7 @@ typedef struct _GAME_MESH { //celej kontejner
  int                      nekreslit;
 
 } GAME_MESH;
-
+*/
 typedef struct _POZICE_BODU_2D {
 
   float x,y,z,w;  // transformovane souradnice
@@ -1604,7 +1603,7 @@ typedef struct _LEVEL_KONFIG {
   ZEMNI_MLHA zm;           // nastaveni zemni mlhy
 
 } LEVEL_KONFIG;
-
+/*
 typedef struct _OBB_TREE_ITEM {
 
   OBB              *p_obb;
@@ -1629,7 +1628,7 @@ typedef struct _OBB_TREE {
   struct _OBB_TREE  *p_next;    // podobalky
   
 } OBB_TREE;
-
+*/
 
 /*
   U skladaneho potrebuju: 
@@ -1834,7 +1833,7 @@ inline void nastav_barvu_bodu_kont_dword(EDIT_KONTEJNER *p_kont, dword barva, by
     }
   }
 }
-
+/*
 inline void transformuj_mesh_matici(GAME_MESH *p_mesh, GLMATRIX *p_m)
 { 
  int i,pocet = p_mesh->vertexnum;
@@ -1843,7 +1842,7 @@ inline void transformuj_mesh_matici(GAME_MESH *p_mesh, GLMATRIX *p_m)
    transformuj_bod_matici(&p_vert[i].x, &p_vert[i].y, &p_vert[i].z, p_m);
  }
 }
-
+*/
 GLMATRIX __kont_world_matrix;
 
 inline GLMATRIX * kont_world_matrix(EDIT_KONTEJNER *p_kont)

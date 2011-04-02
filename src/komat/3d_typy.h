@@ -5,12 +5,6 @@
 #ifndef  __3D_TYPY__
 #define  __3D_TYPY__
 
-
-typedef struct
-{
-  float x,y,z;
-} BOD,VEKTOR,VX,POZICE_BODU;
-
 typedef struct
 {
   float u,v;
@@ -59,6 +53,5 @@ float r,g,b;
 
 } RGB_M;
 
-typedef void (* END_FUNKCE)(int param, int param2, void *p_param);
 
 #endif

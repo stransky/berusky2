@@ -101,10 +101,6 @@ berusky2_SOURCES = \
 	komat/3d_typy.h\
 	komat/3dinterface.cpp\
 	komat/3dinterface.h\
-	komat/3dmath.cpp\
-	komat/3dmath.h\
-	komat/3dproject.cpp\
-	komat/3dproject.h\
 	komat/Berusky3d.cpp\
 	komat/Berusky3d.h\
 	komat/Berusky3d_animace.cpp\
@@ -129,44 +125,19 @@ berusky2_SOURCES = \
 	komat/Berusky_universal.h\
 	komat/Bmp.cpp\
 	komat/Bmp.h\
-	komat/Color.h\
-	komat/Dbgwnd.h\
-	komat/Ddx.cpp\
 	komat/Ddx.h\
 	komat/Di.cpp\
 	komat/Di.h\
-	komat/Kdtree.cpp\
-	komat/Kdtree.h\
-	komat/Keyframe.cpp\
-	komat/Keyframe.h\
 	komat/Load.cpp\
 	komat/Load.h\
 	komat/Load_chunks.cpp\
 	komat/Load_chunks.h\
 	komat/Load_out.cpp\
 	komat/Load_out.h\
-	komat/Mat3d.cpp\
-	komat/Mat3d.h\
-	komat/Matrix.cpp\
-	komat/Matrix.h\
 	komat/NvTriStrip.h\
-	komat/Quat.h\
-	komat/Texture.cpp\
-	komat/Texture.h\
-	komat/Texture_import.cpp\
-	komat/Texture_import.h\
 	komat/Tga.cpp\
 	komat/Tga.h\
-	komat/Vektor.h\
-	komat/Wglext.h\
-	komat/Wzakl_typ.h\
-	komat/Zconf.h\
-	komat/Zlib.h\
 	komat/dxtlib.h\
-	komat/gglext.cpp\
-	komat/gglext.h\
-	komat/glext.h\
-	komat/kfile.cpp\
 	komat/kfile.h\
 	komat/mmalloc.h\
 	komat/mss.h\
@@ -341,12 +312,12 @@ berusky2_SOURCES = \
 	age/utils/types.h\
 	age/utils/utils.cpp\
 	age/utils/utils.h\
-	komat/obbo.cpp\
-	komat/obbo.h\
 	kofola/animationk.cpp\
 	kofola/animationk.h\
 	generator/generator_random.cpp\
-	generator/generator_random.h
+	generator/generator_random.h\
+	komat/Ddx.cpp\
+	komat/kfile.cpp
 
 berusky2_LDFLAGS = 
 

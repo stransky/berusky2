@@ -49,20 +49,20 @@ project.menu.need.terminal=0
 
 project.configure.options=
 anjuta.program.arguments=
-preferences.autoformat.disable=0
-preferences.indent.opening=1
-preferences.autoformat.custom.style=-bap -bad -br -brs -cli2 -i2 -nbfda -ncs -npcs -npsl -nut
-preferences.indent.size=2
+preferences.build.option.keep.going=1
+preferences.build.option.autosave=0
+preferences.build.option.silent=0
+preferences.build.option.warn.undef=0
+preferences.build.option.jobs=0
+preferences.make=make
+preferences.use.tabs=0
 preferences.indent.automatic=1
 preferences.tabsize=2
+preferences.indent.opening=1
+preferences.autoformat.custom.style=-bap -bad -br -brs -cli2 -i2 -nbfda -ncs -npcs -npsl -nut
+preferences.autoformat.disable=0
 preferences.indent.closing=1
-preferences.use.tabs=0
-preferences.build.option.autosave=0
-preferences.make=make
-preferences.build.option.keep.going=1
-preferences.build.option.jobs=0
-preferences.build.option.warn.undef=0
-preferences.build.option.silent=0
+preferences.indent.size=2
 
 module.include.name=include
 module.include.type=
@@ -152,10 +152,6 @@ module.source.files=\
 	komat/3d_typy.h\
 	komat/3dinterface.cpp\
 	komat/3dinterface.h\
-	komat/3dmath.cpp\
-	komat/3dmath.h\
-	komat/3dproject.cpp\
-	komat/3dproject.h\
 	komat/Berusky3d.cpp\
 	komat/Berusky3d.h\
 	komat/Berusky3d_animace.cpp\
@@ -180,44 +176,19 @@ module.source.files=\
 	komat/Berusky_universal.h\
 	komat/Bmp.cpp\
 	komat/Bmp.h\
-	komat/Color.h\
-	komat/Dbgwnd.h\
-	komat/Ddx.cpp\
 	komat/Ddx.h\
 	komat/Di.cpp\
 	komat/Di.h\
-	komat/Kdtree.cpp\
-	komat/Kdtree.h\
-	komat/Keyframe.cpp\
-	komat/Keyframe.h\
 	komat/Load.cpp\
 	komat/Load.h\
 	komat/Load_chunks.cpp\
 	komat/Load_chunks.h\
 	komat/Load_out.cpp\
 	komat/Load_out.h\
-	komat/Mat3d.cpp\
-	komat/Mat3d.h\
-	komat/Matrix.cpp\
-	komat/Matrix.h\
 	komat/NvTriStrip.h\
-	komat/Quat.h\
-	komat/Texture.cpp\
-	komat/Texture.h\
-	komat/Texture_import.cpp\
-	komat/Texture_import.h\
 	komat/Tga.cpp\
 	komat/Tga.h\
-	komat/Vektor.h\
-	komat/Wglext.h\
-	komat/Wzakl_typ.h\
-	komat/Zconf.h\
-	komat/Zlib.h\
 	komat/dxtlib.h\
-	komat/gglext.cpp\
-	komat/gglext.h\
-	komat/glext.h\
-	komat/kfile.cpp\
 	komat/kfile.h\
 	komat/mmalloc.h\
 	komat/mss.h\
@@ -392,12 +363,12 @@ module.source.files=\
 	age/utils/types.h\
 	age/utils/utils.cpp\
 	age/utils/utils.h\
-	komat/obbo.cpp\
-	komat/obbo.h\
 	kofola/animationk.cpp\
 	kofola/animationk.h\
 	generator/generator_random.cpp\
-	generator/generator_random.h
+	generator/generator_random.h\
+	komat/Ddx.cpp\
+	komat/kfile.cpp
 
 module.pixmap.name=pixmaps
 module.pixmap.type=
