@@ -53,7 +53,7 @@ void ber_kamera_zpruhledni_mesh(GAME_MESH *p_mesh, BOD *p_cam, BOD *p_stred)
   int      v,vn,o,in;
   int      pruhlednych;
   BOD      dir;
-  
+  /*
   vektor_sub(p_stred,p_cam,&dir);
   in = obb_intersect_line_dist(&p_mesh->obb_world,p_cam,&dir);
   if(in) {    
@@ -89,6 +89,7 @@ void ber_kamera_zpruhledni_mesh(GAME_MESH *p_mesh, BOD *p_cam, BOD *p_stred)
       p_mesh->p_data->k2flag |= KONT2_UPDATE_DIFF;
     }    
   }
+  */
 }
 
 void ber_kamera_zpruhledni_poly(EDIT_MESH_POLY *p_poly, BOD *p_cam, BOD *p_stred)
@@ -96,7 +97,7 @@ void ber_kamera_zpruhledni_poly(EDIT_MESH_POLY *p_poly, BOD *p_cam, BOD *p_stred
   TEXT_KOORD *p_koord;
   BOD         dir;
   int         v,in;
-
+/*
   vektor_sub(p_stred,p_cam,&dir);
   in = obb_intersect_line_dist(&p_poly->obb,p_cam,&dir);
   if(in && intersect_poly(p_poly, p_cam, &dir)) {
@@ -115,6 +116,7 @@ void ber_kamera_zpruhledni_poly(EDIT_MESH_POLY *p_poly, BOD *p_cam, BOD *p_stred
       p_poly->k2flag |= KONT_UPLOAD;
     }
   }
+  */
 }
 
 /* viditelny objekt/poly
@@ -127,7 +129,7 @@ void ber_kamera_zpruhledni_objekty(G_KONFIG *p_ber)
   GAME_MESH      *p_mesh;
   GLMATRIX       *p_inv = p_ber->p_invcam;
   int             mh;
-  static BOD      lt = {FLT_MAX,FLT_MAX,FLT_MAX};
+  static BOD      lt(FLT_MAX,FLT_MAX,FLT_MAX);
   BOD             t,p;
   int             pohyb_kamery = p_ber->kamera.zmena || p_ber->kamera.zmena_last;
   
@@ -155,20 +157,23 @@ void ber_kamera_zpruhledni_objekty(G_KONFIG *p_ber)
 
   /* Projedu seznam viditelnych meshu
   */
+/* TODO
   ber_mesh_render_list_reset(p_ber);
   while(p_mesh = ber_mesh_render_list_next_flag(p_ber,KONT_VIDITELNY,KONT_PRVEK)) {
     if(p_mesh->p_vertex_diff && (pohyb_kamery || p_mesh->p_data->kflag&KONT_POHYB))
       ber_kamera_zpruhledni_mesh(p_mesh,&p,&t);
   }
-  
+*/  
   /* Projedu seznam viditelnych poly
-  */  
+  */
+/* TODO
   if(pohyb_kamery) {
     ber_poly_render_list_reset(p_ber);
     while(p_poly = ber_poly_render_list_next_flag(p_ber,KONT_VIDITELNY,KONT_PRVEK)) {
       ber_kamera_zpruhledni_poly(p_poly,&p,&t);
     }
   }
+  */
 }
 
 void ber_kamera_zpruhledni_objekty_reset(G_KONFIG *p_ber)
@@ -176,7 +181,7 @@ void ber_kamera_zpruhledni_objekty_reset(G_KONFIG *p_ber)
   EDIT_MESH_POLY *p_poly;
   GAME_MESH *p_mesh;
   int i,kflag;
-
+/*
   for(i = 0; i < p_ber->meshnum; i++) {
     p_mesh = p_ber->p_mesh[i];
     if(p_mesh && !(p_mesh->p_data->kflag&KONT_PRVEK)) {
@@ -200,6 +205,7 @@ void ber_kamera_zpruhledni_objekty_reset(G_KONFIG *p_ber)
     }
     p_poly++;
   }
+  */
 }
 
 int ber_kamera_korekce_vzdalenosti(G_KONFIG *p_ber, int korekce, int korekce_vzdal)
@@ -829,11 +835,11 @@ int kam_start(int a_handle, int *p_flag, int flag, int start, int stop)
 
    calc_time_end(p_ber->kamera.p_anim->endtime,p_ber->TimeEndLastFrame,
                  start,stop,
-                 &p_ber->kamera.start,
-                 &p_ber->kamera.stop,
-                 &p_ber->kamera.time_start,
-                 &p_ber->kamera.time_stop,
-                 &p_ber->kamera.time_delka);
+                 (dword *)&p_ber->kamera.start,
+                 (dword *)&p_ber->kamera.stop,
+                 (dword *)&p_ber->kamera.time_start,
+                 (dword *)&p_ber->kamera.time_stop,
+                 (dword *)&p_ber->kamera.time_delka);
  }
  return(TRUE);
 }
@@ -856,7 +862,7 @@ void kani_updatuj(G_KONFIG *p_ber)
   GAME_KAMERA *p_kam; 
   int          konec, loop, zrusit = FALSE;
   int          next_time = p_ber->TimeEndLastFrame;
-  QUAT         q = {1.0f,0.0f,0.0f,0.0f};
+  QUAT         q(1.0f,0.0f,0.0f,0.0f);
 
   p_kam = &p_ber->kamera;
   p_track = p_ber->kamera.p_anim;   
@@ -866,10 +872,10 @@ void kani_updatuj(G_KONFIG *p_ber)
   if((konec = (next_time > p_kam->time_stop))) {
     if(loop) {
       calc_time_loop(next_time,p_kam->start,
-                    &p_kam->time_start,
-                    &p_kam->time_stop,
-                    &p_kam->time_delka,
-                    &p_kam->time);
+                    (dword *)&p_kam->time_start,
+                    (dword *)&p_kam->time_stop,
+                    (dword *)&p_kam->time_delka,
+                    (dword *)&p_kam->time);
       if(p_kam->p_flag)
        *(p_kam->p_flag) = 0;
       konec = 0;
@@ -1113,7 +1119,7 @@ int kam_pol_cti_klic(AnimHandle handle, float time, BOD *p_t, float *p_r, float 
 {
   KAMERA_TRACK_INFO *p_track;
   int  loop,dtime;
-  QUAT q = {1,0,0,0};
+  QUAT q(1,0,0,0);
 
   if(handle >= p_ber->kamnum)
     return(K_CHYBA);
@@ -1148,7 +1154,7 @@ void ber_zpruhledni_prvky_reset(G_KONFIG *p_ber)
   EDIT_MESH_POLY *p_poly;
   GAME_MESH      *p_mesh;
   int             i;
-
+/*
   for(i = 0; i < p_ber->meshnum; i++) {
     p_mesh = p_ber->p_mesh[i];
     if(p_mesh) {      
@@ -1173,6 +1179,7 @@ void ber_zpruhledni_prvky_reset(G_KONFIG *p_ber)
     }
     p_poly++;
   }
+  */
 }
 
 void ber_zpruhledni_prvky(G_KONFIG *p_ber)
@@ -1183,7 +1190,7 @@ void ber_zpruhledni_prvky(G_KONFIG *p_ber)
   GLMATRIX       *p_m;
   float           ra,radius = p_ber->conf_pruhledna_kamera_radius;
   float           vzdal,alfa;
-  static BOD      lt = {FLT_MAX,FLT_MAX,FLT_MAX};
+  static BOD      lt(FLT_MAX,FLT_MAX,FLT_MAX);
   OBB_TREE       *p_prvni = &p_ber->obbtree;
   GAME_MESH      *p_mesh,*p_beruska;
   BOD             t,p,i,*p_vrt,vr;
@@ -1198,7 +1205,7 @@ void ber_zpruhledni_prvky(G_KONFIG *p_ber)
   BOD            *p_vertex_pos;
   OBB            *p_obb;  
   int             kamera_zmena = p_ber->kamera.zmena||p_ber->kamera.zmena_last;
-
+/*
   if(!p_ber->conf_pruhledna_kamera)
     return;
 
@@ -1332,6 +1339,7 @@ void ber_zpruhledni_prvky(G_KONFIG *p_ber)
     }
     p_poly->kflag |= (KONT_UPLOAD|KONT_DRAW_CAMERA);
   }
+  */
 }
 
 #define KINO_POMER (6.0f/12.0f)

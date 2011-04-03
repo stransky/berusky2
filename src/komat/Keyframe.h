@@ -251,10 +251,10 @@ inline void key_mesh_recalc_normal_anim(GAME_MESH *p_mesh)
 {
   BOD *p_vertex;
   BOD *p_vertex_norm;
-  BOD  n,up = {0,1,0};
+  BOD  n,up(0,1,0);
   int o,i,kflag,vr;
   float last,akt,num;
-
+/*
   kflag = p_mesh->p_data->kflag;
 
   if(kflag&KONT_NORMAL_ANIM) {
@@ -275,6 +275,7 @@ inline void key_mesh_recalc_normal_anim(GAME_MESH *p_mesh)
       p_mesh->p_data->k2flag |= KONT2_UPDATE_POS;
     }
   }
+  */
 }
 
 JOINT_KEYS * key_kost_spline_vyrob(JOINT *p_joint);
@@ -295,7 +296,7 @@ inline void key_kosti_reanimuj_kont(EDIT_KONTEJNER *p_kont)
 {
   EDIT_OBJEKT *p_obj;
   int i;
-
+/*
   if(p_kont->k2flag&KONT2_JOINT_ANIM) {
     for(i = 0; i < MAX_KONT_OBJEKTU; i++) {  
       p_obj = p_kont->p_obj[i];
@@ -305,16 +306,19 @@ inline void key_kosti_reanimuj_kont(EDIT_KONTEJNER *p_kont)
       }
     }
   }
+*/
 }
 
 void kprintf_matrix(GLMATRIX * m);
 
 inline void key_kosti_stream_animuj(JOINT_ANIMACE *p_animace)
 {
+/*
   if(p_animace) {
     key_kosti_stream_animuj_rec(p_animace, p_animace->p_child, NULL, p_animace->time, p_animace->framenum);
     *p_animace->p_k2flag |= KONT2_UPDATE_POS|KONT2_UPDATE_NORM;    
   }
+*/
 }
 
 inline void key_track_quat_zkontroluj(QUAT *p_quat, int keynum)

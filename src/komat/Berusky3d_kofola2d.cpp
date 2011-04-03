@@ -58,7 +58,7 @@ extern	RECT_LINE	rline;
 //------------------------------------------------------------------------------------------------
 int ddx2Init(int max_surfacu, dword pruhledna_barva)
 {
-  slist.p_slist = mmalloc(sizeof(slist.p_slist[0])*max_surfacu);
+  slist.p_slist = (DDX2_SURFACE *)mmalloc(sizeof(slist.p_slist[0])*max_surfacu);
   slist.surf_max = max_surfacu;
   slist.pruhledna_barva = pruhledna_barva;
   slist.surf_num = 0;  
@@ -75,7 +75,7 @@ void ddx2Release(void)
   for(i = 0; i < slist.surf_max; i++) {
     ddx2ReleaseBitmap(i);
   }
-  null_free(&slist.p_slist);
+  null_free((void **)&slist.p_slist);
 }
 
 //-----------------------------------------------------------------------------
@@ -86,7 +86,7 @@ void ddx2Release(void)
 //-----------------------------------------------------------------------------
 DeviceHandle ddx2DeviceCreate(int linear_filtr, int bpp)
 {
-  DDX2_SURFACE_DEVICE *p_tmp = mmalloc(sizeof(p_tmp[0]));  
+  DDX2_SURFACE_DEVICE *p_tmp = (DDX2_SURFACE_DEVICE *)mmalloc(sizeof(p_tmp[0]));  
   p_tmp->p_next = p_dev_list;
   p_dev_list = p_tmp;
   p_tmp->hw.filtr = linear_filtr;
@@ -358,7 +358,7 @@ void ddx2RenderujDevice(G_KONFIG *p_ber, DDX2_SURFACE_DEVICE *p_dev)
 
   if(!p_rlist || !p_dev->rnum)
     return;
-
+/*
   glBindTexture(GL_TEXTURE_2D,p_hw->text);
   glPixelStorei(GL_UNPACK_ROW_LENGTH,p_dev->p_back_buffer->x);
   
@@ -410,6 +410,7 @@ void ddx2RenderujDevice(G_KONFIG *p_ber, DDX2_SURFACE_DEVICE *p_dev)
     glTexCoord2fv((float *)(p_v));
     glVertex2i(p_hw->scr_x,p_hw->scr_y);
   glEnd();
+  */
 }
 
 
@@ -619,10 +620,10 @@ BOOL ddx2LoadList(char *pFileName, APAK_HANDLE *pBmpArchive, char *p_bmp_dir)
   
   achdir(pBmpArchive, p_bmp_dir);
   
-  kprintf(1,(unsigned char *) "Kofola: - Load bitmap pro herni menu");
+  kprintf(1,(char *) "Kofola: - Load bitmap pro herni menu");
   file = aopen(pBmpArchive, pFileName,"rb");
   if(!file) {
-    kprintf(1,(unsigned char *) "File not found : %s",pFileName);
+    kprintf(1,(char *) "File not found : %s",pFileName);
     konec(TRUE);
   }
 
@@ -640,7 +641,7 @@ BOOL ddx2LoadList(char *pFileName, APAK_HANDLE *pBmpArchive, char *p_bmp_dir)
   aclose(file);
   
   Stop = timeGetTime();
-  kprintf(1, (unsigned char *) "--------------Total load time %.1f s -----------------", Eplased / 1000.0f);
+  kprintf(1, (char *) "--------------Total load time %.1f s -----------------", Eplased / 1000.0f);
   
   return(TRUE);
 }
@@ -675,16 +676,20 @@ SurfaceHandle ddx2CreateSurface(int x, int y, int idx)
 //------------------------------------------------------------------------------------------------
 void ddx2DrawSurfaceColorKey(int iSurface, int *com, int layer, COLORREF color)
 {  
+/* TODO
   bitmapa *p_src = get_bmp(com[1]);
   ddx2TransparentBlt(iSurface, com[2], com[3], p_src->x, p_src->y, 
                      com[1], 0, 0, p_src->x, p_src->y, color);
+*/
 }
 
 void ddx2DrawDisplayColorKey(int *com, int layer, COLORREF color)
 { 
+/*
   bitmapa *p_src = get_bmp(com[1]);
   ddx2TransparentBlt(DDX2_BACK_BUFFER, com[2], com[3], p_src->x, p_src->y, 
                      com[1], 0, 0, p_src->x, p_src->y, color);
+*/
 }
 
 // ----------------------------------------------------------
@@ -693,7 +698,7 @@ void ddx2DrawDisplayColorKey(int *com, int layer, COLORREF color)
 void ddx2DrawSurface(int iSurface, int *com, int layer)
 {  
   RECT r;
-
+/*
   bitmapa *p_src = get_bmp(com[1]);
   ddx2BitBlt(iSurface, com[2], com[3], p_src->x, p_src->y, com[1], 0, 0);
 
@@ -703,15 +708,18 @@ void ddx2DrawSurface(int iSurface, int *com, int layer)
   r.bottom = p_src->y;
 
   ddx2AddRectItem(&rline, r, layer);
+*/
 }
 
 // ----------------------------------------------------------
 // Kresli na displey
 // ----------------------------------------------------------
 void ddx2DrawDisplay(int *com, int layer)
-{  
+{ 
+/*
   bitmapa *p_src = get_bmp(com[1]);
   ddx2BitBlt(DDX2_BACK_BUFFER, com[2], com[3], p_src->x, p_src->y, com[1], 0, 0);
+*/
 }
 
 // color to make transparent
@@ -719,6 +727,7 @@ BOOL ddx2TransparentBlt(SurfaceHandle dst, int dx, int dy, int dsirka, int dvysk
                         SurfaceHandle src, int sx, int sy, int ssirka, int svyska,
                         dword pruhledna)
 {
+/*
   bitmapa *p_src = get_bmp(src);
   bitmapa *p_dst = get_bmp(dst);
   int      sirka_src = p_src->x;
@@ -763,15 +772,17 @@ BOOL ddx2TransparentBlt(SurfaceHandle dst, int dx, int dy, int dsirka, int dvysk
     p_dst_data += rozdil_dst;
     p_src_data += rozdil_src;
   }
-
+*/
   return(TRUE);
 }
 
 BOOL ddx2TransparentBltFull(SurfaceHandle dst, int dx, int dy, SurfaceHandle src, dword barva)
 {
+/*
   bitmapa *p_src = get_bmp(src);
   return(ddx2TransparentBlt(dst,dx,dy,p_src->x, p_src->y,
                             src, 0, 0,p_src->x, p_src->y, barva));
+*/
 }
 
 BOOL ddx2TransparentBltDisplay(int dx, int dy, int dsirka, int dvyska,
@@ -785,6 +796,7 @@ BOOL ddx2TransparentBltDisplay(int dx, int dy, int dsirka, int dvyska,
 BOOL ddx2BitBlt(SurfaceHandle dst, int dx, int dy, int sirka, int vyska, 
                 SurfaceHandle src, int sx, int sy)
 {
+/*
   bitmapa *p_src = get_bmp(src);
   bitmapa *p_dst = get_bmp(dst);
   int      sirka_src = p_src->x;
@@ -817,14 +829,16 @@ BOOL ddx2BitBlt(SurfaceHandle dst, int dx, int dy, int sirka, int vyska,
     p_dst_data += sirka_dst;
     p_src_data += sirka_src;
   }
-  
+*/
   return(TRUE);
 }
 
 BOOL ddx2BitBltFull(SurfaceHandle dst, int dx, int dy, SurfaceHandle src)
 {
+/*
   bitmapa *p_src = get_bmp(src);
   return(ddx2BitBlt(dst, dx, dy, p_src->x, p_src->y, src, 0, 0));
+*/
 }
 
 BOOL ddx2BitBltDisplay(int dx, int dy, int sirka, int vyska, 
@@ -836,29 +850,34 @@ BOOL ddx2BitBltDisplay(int dx, int dy, int sirka, int vyska,
 
 int ddx2GetWidth(SurfaceHandle src)
 {
+/*
   if(src == DDX2_BACK_BUFFER) {
     return(p_dev->hw.back_dx);
   } else {
     return(slist.p_slist[src].p_bmp->x);
   } 
+*/
 }
 
 int ddx2GetHeight(SurfaceHandle src)
 {
+/*
   if(src == DDX2_BACK_BUFFER) {
     return(p_dev->hw.back_dy);
   } else {
     return(slist.p_slist[src].p_bmp->y);
   } 
+*/
 }
 
 void ddx2CleareSurfaceColor(SurfaceHandle iSurface, COLORREF color)
 {  
-  bmp_smaz(get_bmp(iSurface),vysledna_barva(color));
+  //bmp_smaz(get_bmp(iSurface),vysledna_barva(color));
 }
 
 void ddx2FillRect(SurfaceHandle iSurface, RECT *rect, COLORREF color)
 {
+/*
   dword    barva = vysledna_barva(color);
   bitmapa *p_src = get_bmp(iSurface);  
   int      sirka = rect->right-rect->left;
@@ -874,6 +893,7 @@ void ddx2FillRect(SurfaceHandle iSurface, RECT *rect, COLORREF color)
       *p_src_data++ = barva;
     p_src_data += sirka_src;
   }
+*/
 }
 
 void ddx2CleareSurface(SurfaceHandle iSurface)

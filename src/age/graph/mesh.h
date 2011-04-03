@@ -752,6 +752,21 @@ public:
   FLAG_INTERFACE           m2flags;
 
   /*
+   * Mesh material flags
+   */
+public:
+  
+  FLAG_INTERFACE material_flag_get(void)
+  {
+    return(p_mat ? p_mat->mflags : FLAG_INTERFACE());
+  }
+
+  FLAG_INTERFACE material_flag_2_get(void)
+  {
+    return(p_mat ? p_mat->m2flags : FLAG_INTERFACE());
+  }
+
+  /*
    * Material section
    */
 private:

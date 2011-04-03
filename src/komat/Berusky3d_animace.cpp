@@ -40,7 +40,8 @@ int amat_pridej_mesh(G_KONFIG *p_ber, int mesh)
 
   assert(p_mesh);
 
-  if(p_mesh->p_data->m1flag&MAT_ANIM_FRAME) {
+  if(p_mesh->material_flag_get()&MAT_ANIM_FRAME) {
+  /*
     for(i = 0; i < p_mesh->objektu; i++) {
       p_mat = p_imat[p_mesh->p_mat[i]];
       if(p_mat->flag&MAT_ANIM_FRAME) {
@@ -56,6 +57,7 @@ int amat_pridej_mesh(G_KONFIG *p_ber, int mesh)
         }
       } 
     }
+  */
   }
   return(p_ber->mannum);
 }
@@ -105,7 +107,7 @@ int amat_set_frame_text(EDIT_MATERIAL *p_mat, int frame)
     dword flag = p_frame->flag;
     if(flag&FRAME_TEXTURA) {
       text_set_num(0);
-      text_set(p_frame->p_text->text,p_frame->p_text->typ);
+      text_set(p_frame->p_text->gl_text_get(),p_frame->p_text->gl_text_type_get());
     }
     return(TRUE);
   }
@@ -195,11 +197,11 @@ void ani_init(G_KONFIG *p_ber)
 int kom_amat_mesh_get(int mesh, int objekt)
 {
   int i;
-
+/*
   if(!(p_ber->p_mesh[mesh]) || objekt >= p_ber->p_mesh[mesh]->objektu) {
     return(K_CHYBA);
   }
-  
+*/  
   for(i = 0; i < p_ber->mannum; i++) {
     if(p_ber->p_man[i].mesh == mesh && p_ber->p_man[i].objekt == objekt)
       return(i);    
@@ -296,10 +298,10 @@ AnimHandle sim_nahraj_animaci(APAK_HANDLE *pHandle, char *p_jmeno, int linearne)
     sim = p_ber->simnum++;
 
   naslo_se_to1:;
-  
+/*
   if(!key_sim_nahraj(pHandle, p_ber->p_sim+sim, p_jmeno, p_ber->dir.data_dir, linearne))
     return(K_CHYBA);
-
+*/
   p_ber->p_sim[sim].flag |= SIMPLE_AKTIVNI;
   
   return(sim);
@@ -332,7 +334,7 @@ AnimHandle sim_vyrob_animaci(int pos_key, int rot_key, int scale_key)
   naslo_se_to2:;
 
   p_ber->p_sim[sim].flag |= SIMPLE_AKTIVNI;
-  key_tri_vyrob_indir(p_ber->p_track+sim, pos_key, rot_key, scale_key);
+//  key_tri_vyrob_indir(p_ber->p_track+sim, pos_key, rot_key, scale_key);
   return(sim);
 }
 
@@ -658,7 +660,7 @@ MatrixHandle rani_privaz_mesh(RunHandle a_handle, MeshHandle m_handle, int trans
   //__OPRAVA__
   // vsechny meshe naflaguj
   p_mesh = p_ber->p_mesh[p_ber->p_prv_lev[m_handle]->mesh];
-  p_mesh->sim_flag |= GAME_MESH_RANI;
+  //p_mesh->sim_flag |= GAME_MESH_RANI;
 
   return(matice);
 }

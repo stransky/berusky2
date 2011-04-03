@@ -21,7 +21,7 @@ extern G_KONFIG ber, *p_ber;
 
 ParHandle par_vyrob(void)
 {
-  PARMETAC *p_par = mmalloc(sizeof(p_par[0]));
+  PARMETAC *p_par = (PARMETAC *)mmalloc(sizeof(p_par[0]));
 
   if(p_ber->p_par) {
     p_ber->p_par->p_prev = p_par;
@@ -202,6 +202,7 @@ void par_vloz_fleky(ParHandle ph, PAR_FLEK *p_part, int pocet)
 
 int pe_updatuj_strepiny(G_KONFIG *p_ber, PARMETAC *p_par)
 {
+/*
   GAME_MESH    *p_mesh;
   PAR_STREPINA *p_part;
   BOD           t;
@@ -246,7 +247,7 @@ int pe_updatuj_strepiny(G_KONFIG *p_ber, PARMETAC *p_par)
 
   p_par->pnum = 0;
 
-  p_part = p_par->p_first;
+  p_part = (PAR_STREPINA *)p_par->p_first;
   while(p_part) {
 
     if(frame) {
@@ -342,6 +343,7 @@ int pe_updatuj_strepiny(G_KONFIG *p_ber, PARMETAC *p_par)
     return(FALSE);
   }
   return(p_par->pnum);
+  */
 }
 
 
@@ -393,7 +395,7 @@ int pe_updatuj_fleky(G_KONFIG *p_ber, PARMETAC *p_par)
   operace = p_par->flag&TPAR_VETSI;
   frame = p_par->flag&TPAR_FRAME;
 
-  p_part = p_par->p_first;
+  p_part = (PAR_FLEK *)p_par->p_first;
   while(p_part) {
   
     if(scale) {
@@ -528,7 +530,7 @@ int par_vloz_kour_stopu(ParHandle ph, PAR_KOUR_STOPA *p_part, int pocet)
 HnizdoHandle par_vloz_hnizdo(ParHandle ph)
 {
   PARMETAC *p_par = (PARMETAC *)ph;
-  PARMETAC_HNIZDO *p_hnizdo = mmalloc(sizeof(p_hnizdo[0]));
+  PARMETAC_HNIZDO *p_hnizdo = (PARMETAC_HNIZDO *)mmalloc(sizeof(p_hnizdo[0]));
   p_par->hnum++;
   p_hnizdo->p_next = p_par->p_hnizdo;
   if(p_hnizdo->p_next)
@@ -581,9 +583,9 @@ PAR_KOUR_STOPA * par_vloz_hnizdo_pust_castice(ParHandle ph, HnizdoHandle hh, int
 
   for(i = 0; i < pocet; i++) {
     if(!p_mt->p_first)
-      return(p_hnizdo->p_first);
+      return((PAR_KOUR_STOPA *)p_hnizdo->p_first);
     
-    p_par = p_mt->p_first;
+    p_par = (PAR_KOUR_STOPA *)p_mt->p_first;
     p_mt->p_first = p_par->p_next;
     
     p_par->p = *p_hnizdo->p_pivot;
@@ -620,7 +622,7 @@ PAR_KOUR_STOPA * par_vloz_hnizdo_pust_castice(ParHandle ph, HnizdoHandle hh, int
 
     
     // Insert-first
-    p_par->p_next = p_hnizdo->p_first;
+    p_par->p_next = (PAR_KOUR_STOPA *)p_hnizdo->p_first;
     if(p_par->p_next) {
       p_par->p_next->p_prev = p_par;
     }
@@ -628,7 +630,7 @@ PAR_KOUR_STOPA * par_vloz_hnizdo_pust_castice(ParHandle ph, HnizdoHandle hh, int
     p_par->p_prev = NULL;
   }
 
-  return(p_hnizdo->p_first);
+  return((PAR_KOUR_STOPA *)p_hnizdo->p_first);
 }
 
 HnizdoHandle par_vloz_hnizdo_pivot(HnizdoHandle hh, BOD *p_pivot)
@@ -725,7 +727,7 @@ PARMETAC_HNIZDO * par_cti_hnizdo(HnizdoHandle hh)
 PAR_KOUR_STOPA  * par_cti_hnizdo_castice(HnizdoHandle hh)
 {
   PARMETAC_HNIZDO *p_hnizdo = (PARMETAC_HNIZDO *)hh;  
-  return(p_hnizdo->p_first);
+  return((PAR_KOUR_STOPA *)p_hnizdo->p_first);
 }
 
 int par_get_hnizda(ParHandle ph)
@@ -738,13 +740,13 @@ void par_zrus_hnizdo(ParHandle ph, HnizdoHandle hh)
 {
   PARMETAC_HNIZDO *p_hnizdo = (PARMETAC_HNIZDO *)hh;
   PARMETAC        *p_par = (PARMETAC *)ph;
-  PAR_KOUR_STOPA  *p_next = p_hnizdo->p_first, *p_tmp;
+  PAR_KOUR_STOPA  *p_next = (PAR_KOUR_STOPA *)p_hnizdo->p_first, *p_tmp;
 
 
   // Prevedu zbyvajici castice do spolecneho fondu  
   while(p_next) {
     p_tmp = p_next->p_next;
-    p_next->p_next = p_par->p_first;
+    p_next->p_next = (PAR_KOUR_STOPA *)p_par->p_first;
     p_par->p_first = p_next;
     p_next = p_tmp;
   }
@@ -848,7 +850,7 @@ int pe_updatuj_kour_stopa(G_KONFIG *p_ber, PARMETAC *p_mt)
       if(!p_mt->p_first)
         continue;
       
-      p_par = p_mt->p_first;
+      p_par = (PAR_KOUR_STOPA *)p_mt->p_first;
       p_mt->p_first = p_par->p_next;
 
       p_par->p = *p_hnizdo->p_pivot;
@@ -884,7 +886,7 @@ int pe_updatuj_kour_stopa(G_KONFIG *p_ber, PARMETAC *p_mt)
       p_par->y_plane = p_hnizdo->y_plane;
       
       // Insert-first
-      p_par->p_next = p_hnizdo->p_first;
+      p_par->p_next = (PAR_KOUR_STOPA *)p_hnizdo->p_first;
       if(p_par->p_next) {
         p_par->p_next->p_prev = p_par;
       }
@@ -905,7 +907,7 @@ int pe_updatuj_kour_stopa(G_KONFIG *p_ber, PARMETAC *p_mt)
 
     /* Update stavajicich
     */
-    p_par = p_hnizdo->p_first;
+    p_par = (PAR_KOUR_STOPA *)p_hnizdo->p_first;
     while(p_par) {
       p_next = p_par->p_next;            
 
@@ -928,7 +930,7 @@ int pe_updatuj_kour_stopa(G_KONFIG *p_ber, PARMETAC *p_mt)
         
         /* Soupni ji od seznamu volnych castic
         */
-        p_par->p_next = p_mt->p_first;
+        p_par->p_next = (PAR_KOUR_STOPA *)p_mt->p_first;
         p_mt->p_first = p_par;        
 
       } else {
@@ -982,7 +984,7 @@ int pe_updatuj_kour_stopa(G_KONFIG *p_ber, PARMETAC *p_mt)
           }
           
           // Soupni ji do seznamu volnych castic
-          p_par->p_next = p_mt->p_first;
+          p_par->p_next = (PAR_KOUR_STOPA *)p_mt->p_first;
           p_mt->p_first = p_par;
 
           p_par = p_next;
@@ -1008,11 +1010,13 @@ int pe_updatuj_kour_stopa(G_KONFIG *p_ber, PARMETAC *p_mt)
                 goto vyrad_castici;
               else {
                 ber_mesh_render_list_reset(p_ber);
+              /* TODO
                 while(p_mesh = ber_mesh_render_list_next_flag(p_ber,KONT_PRVEK,KONT_DRAW_NOBALKA)) {
                   if(obb_je_bod_v_kostce_aabb(&p_mesh->obb_world,p_pos)) {
                     goto vyrad_castici;
                   }
                 }
+              */
               }
             }
           }
@@ -1083,8 +1087,8 @@ VodaHandle vod_vyrob(int meshu)
 {
   VODA2 *p_voda;
 
-  p_voda = mmalloc(sizeof(p_voda[0]));
-
+  p_voda = (VODA2 *)mmalloc(sizeof(p_voda[0]));
+/*
   p_voda->p_mesh = mmalloc(sizeof(p_voda->p_mesh[0])*meshu);
 
   p_voda->meshmax = meshu;
@@ -1094,7 +1098,7 @@ VodaHandle vod_vyrob(int meshu)
     p_voda->p_next->p_prev = p_voda;
   }
   p_ber->p_voda = p_voda;
-
+*/
   return((int)p_voda);
 }
 
@@ -1141,7 +1145,8 @@ VodaHandle vod_pridej_mesh(VodaHandle vh, MeshHandle mh)
   if(p_mesh) {
     p_voda->p_mesh[p_voda->meshnum++] = p_mesh;
     assert(p_voda->meshnum <= p_voda->meshmax);
-    p_mesh->p_data->kflag |= KONT_DRAW_VODA;
+    // TODO
+    // p_mesh->p_data->kflag |= KONT_DRAW_VODA;
     transformuj_mesh(p_mesh);
     mesh_pridej_vodavertexy(p_mesh);
     return(vh);
@@ -1161,7 +1166,7 @@ VodaHandle vod_uzavri_meshe(VodaHandle vh)
   BODRGB  *p_spec_mat;
   int    vert = 0,vnum;
   int    i,j;
-
+/*
   for(i = 0; i < p_voda->meshnum; i++) {
     vert += p_voda->p_mesh[i]->vertexnum;
   } 
@@ -1191,7 +1196,7 @@ VodaHandle vod_uzavri_meshe(VodaHandle vh)
       vert++;
     }
   }
-  
+  */
   assert(p_voda->vertexu == vert);
   return(vh);
 }
@@ -1205,7 +1210,7 @@ VodnikHandle vod_vloz_vodnika(VodaHandle vh, BOD *p_pos, int flag,
   float *p_vzdal;
   VODNIK *p_vodnik;
   int i;
-
+/*
   p_vodnik = mmalloc(sizeof(p_vodnik[0]));
 
   p_vodnik->p = *p_pos;
@@ -1239,7 +1244,7 @@ VodnikHandle vod_vloz_vodnika(VodaHandle vh, BOD *p_pos, int flag,
   
   p_vodnik->p_next = p_voda->p_vodnik;
   p_voda->p_vodnik = p_vodnik;
-
+*/
   return((int)p_vodnik);
 }
 
@@ -1447,7 +1452,7 @@ void vod_updatuj(VODA2 *p_voda)
 {
   VODOVERTEX *p_vert;
   int i,m;
-
+/* TODO
   while(p_voda) { // reset vody
     for(i = 0; i < p_voda->vertexu; i++) {
       p_vert = p_voda->p_vertexy+i;
@@ -1463,4 +1468,5 @@ void vod_updatuj(VODA2 *p_voda)
     }
     p_voda = p_voda->p_next;
   }
+*/
 }

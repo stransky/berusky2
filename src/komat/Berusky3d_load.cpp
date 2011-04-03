@@ -56,7 +56,7 @@ void ber_zrus_level(G_KONFIG *p_ber)
 */
 PRVEK_LEVELU_GAME * ber_vyrob_prvek_levelu(void)
 {
- PRVEK_LEVELU_GAME *p_prv = mmalloc(sizeof(PRVEK_LEVELU_GAME));
+ PRVEK_LEVELU_GAME *p_prv = (PRVEK_LEVELU_GAME *)mmalloc(sizeof(PRVEK_LEVELU_GAME));
  init_matrix(&p_prv->mg);
  init_matrix(&p_prv->mp);
  return(p_prv);
@@ -68,8 +68,10 @@ int ber_najdi_mesh_id(GAME_MESH **p_mesh, int max, int id)
 {
   int i;
   for(i = 0; i < max; i++) {
+  /* TODO
     if(p_mesh[i] && p_mesh[i]->p_data->mesh_ID == id)
       return(i);
+  */
   }
   return(K_CHYBA);
 }

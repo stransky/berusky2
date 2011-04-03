@@ -61,9 +61,8 @@ am_berusky2_OBJECTS = 3D_graphic.$(OBJEXT) 3D_menus.$(OBJEXT) \
 	menu_script.$(OBJEXT) profiles.$(OBJEXT) setup.$(OBJEXT) \
 	square_cut.$(OBJEXT) trigers.$(OBJEXT) volume.$(OBJEXT) \
 	water.$(OBJEXT) 3dinterface.$(OBJEXT) Berusky3d.$(OBJEXT) \
-	Berusky3d_animace.$(OBJEXT) Berusky3d_castice.$(OBJEXT) \
-	Berusky3d_ini.$(OBJEXT) Berusky3d_kamery.$(OBJEXT) \
-	Berusky3d_kofola2d.$(OBJEXT) \
+	Berusky3d_castice.$(OBJEXT) Berusky3d_ini.$(OBJEXT) \
+	Berusky3d_kamery.$(OBJEXT) Berusky3d_kofola2d.$(OBJEXT) \
 	Berusky3d_kofola_interface.$(OBJEXT) Berusky3d_light.$(OBJEXT) \
 	Berusky3d_load.$(OBJEXT) Berusky3d_render.$(OBJEXT) \
 	Bmp.$(OBJEXT) Di.$(OBJEXT) Load.$(OBJEXT) \
@@ -98,7 +97,7 @@ am_berusky2_OBJECTS = 3D_graphic.$(OBJEXT) 3D_menus.$(OBJEXT) \
 	data_file.$(OBJEXT) ini.$(OBJEXT) log.$(OBJEXT) \
 	mem_alloc.$(OBJEXT) mtree.$(OBJEXT) utils.$(OBJEXT) \
 	animationk.$(OBJEXT) generator_random.$(OBJEXT) Ddx.$(OBJEXT) \
-	kfile.$(OBJEXT)
+	kfile.$(OBJEXT) Berusky3d_animace.$(OBJEXT)
 berusky2_OBJECTS = $(am_berusky2_OBJECTS)
 berusky2_DEPENDENCIES =
 berusky2_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -371,8 +370,6 @@ berusky2_SOURCES = \
 	komat/3dinterface.h\
 	komat/Berusky3d.cpp\
 	komat/Berusky3d.h\
-	komat/Berusky3d_animace.cpp\
-	komat/Berusky3d_animace.h\
 	komat/Berusky3d_castice.cpp\
 	komat/Berusky3d_castice.h\
 	komat/Berusky3d_castice2.h\
@@ -589,7 +586,11 @@ berusky2_SOURCES = \
 	komat/Mat3d.h\
 	komat/3dmath.h\
 	komat/3dproject.h\
-	komat/mesh_flags.h
+	komat/mesh_flags.h\
+	komat/Keyframe.h\
+	komat/Quat.h\
+	komat/Berusky3d_animace.cpp\
+	komat/Berusky3d_animace.h
 
 berusky2_LDFLAGS = 
 berusky2_LDADD = \
@@ -1364,20 +1365,6 @@ Berusky3d.obj: komat/Berusky3d.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Berusky3d.cpp' object='Berusky3d.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Berusky3d.obj `if test -f 'komat/Berusky3d.cpp'; then $(CYGPATH_W) 'komat/Berusky3d.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d.cpp'; fi`
-
-Berusky3d_animace.o: komat/Berusky3d_animace.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Berusky3d_animace.o -MD -MP -MF $(DEPDIR)/Berusky3d_animace.Tpo -c -o Berusky3d_animace.o `test -f 'komat/Berusky3d_animace.cpp' || echo '$(srcdir)/'`komat/Berusky3d_animace.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_animace.Tpo $(DEPDIR)/Berusky3d_animace.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Berusky3d_animace.cpp' object='Berusky3d_animace.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Berusky3d_animace.o `test -f 'komat/Berusky3d_animace.cpp' || echo '$(srcdir)/'`komat/Berusky3d_animace.cpp
-
-Berusky3d_animace.obj: komat/Berusky3d_animace.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Berusky3d_animace.obj -MD -MP -MF $(DEPDIR)/Berusky3d_animace.Tpo -c -o Berusky3d_animace.obj `if test -f 'komat/Berusky3d_animace.cpp'; then $(CYGPATH_W) 'komat/Berusky3d_animace.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_animace.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_animace.Tpo $(DEPDIR)/Berusky3d_animace.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Berusky3d_animace.cpp' object='Berusky3d_animace.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Berusky3d_animace.obj `if test -f 'komat/Berusky3d_animace.cpp'; then $(CYGPATH_W) 'komat/Berusky3d_animace.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_animace.cpp'; fi`
 
 Berusky3d_castice.o: komat/Berusky3d_castice.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Berusky3d_castice.o -MD -MP -MF $(DEPDIR)/Berusky3d_castice.Tpo -c -o Berusky3d_castice.o `test -f 'komat/Berusky3d_castice.cpp' || echo '$(srcdir)/'`komat/Berusky3d_castice.cpp
@@ -2638,6 +2625,20 @@ kfile.obj: komat/kfile.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/kfile.cpp' object='kfile.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o kfile.obj `if test -f 'komat/kfile.cpp'; then $(CYGPATH_W) 'komat/kfile.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/kfile.cpp'; fi`
+
+Berusky3d_animace.o: komat/Berusky3d_animace.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Berusky3d_animace.o -MD -MP -MF $(DEPDIR)/Berusky3d_animace.Tpo -c -o Berusky3d_animace.o `test -f 'komat/Berusky3d_animace.cpp' || echo '$(srcdir)/'`komat/Berusky3d_animace.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_animace.Tpo $(DEPDIR)/Berusky3d_animace.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Berusky3d_animace.cpp' object='Berusky3d_animace.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Berusky3d_animace.o `test -f 'komat/Berusky3d_animace.cpp' || echo '$(srcdir)/'`komat/Berusky3d_animace.cpp
+
+Berusky3d_animace.obj: komat/Berusky3d_animace.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Berusky3d_animace.obj -MD -MP -MF $(DEPDIR)/Berusky3d_animace.Tpo -c -o Berusky3d_animace.obj `if test -f 'komat/Berusky3d_animace.cpp'; then $(CYGPATH_W) 'komat/Berusky3d_animace.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_animace.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Berusky3d_animace.Tpo $(DEPDIR)/Berusky3d_animace.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Berusky3d_animace.cpp' object='Berusky3d_animace.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Berusky3d_animace.obj `if test -f 'komat/Berusky3d_animace.cpp'; then $(CYGPATH_W) 'komat/Berusky3d_animace.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_animace.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

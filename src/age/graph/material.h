@@ -95,7 +95,7 @@ public:
 #define MATERIAL_T4_SPHERE    (1<<19)
 
 /* 
-  Secondary flags
+  Secondary material flags
 */
 #define MATERIAL2_DIFFUSE      (1<<0)
 #define MATERIAL2_SPECULAR     (1<<1)
@@ -130,8 +130,7 @@ public:
 /*
  * Mesh material
  */
-typedef class mesh_material:  
-  
+typedef class mesh_material:
   public object_list
 {
   /* 
@@ -298,28 +297,28 @@ public:
   void transparent_set(bool transparent)
   {
     if(transparent) {
-      flag_set(MATERIAL_TRANSPARENT);
-      flag_clear(MATERIAL_ZMASK);
+      mflags.flag_set(MATERIAL_TRANSPARENT);
+      mflags.flag_clear(MATERIAL_ZMASK);
       alpha_func_set(ALPHA_TRANSPARENT);
     }
     else {
-      flag_clear(MATERIAL_TRANSPARENT);
-      flag_set(MATERIAL_ZMASK);
+      mflags.flag_clear(MATERIAL_TRANSPARENT);
+      mflags.flag_set(MATERIAL_ZMASK);
       alpha_func_set(ALPHA_OFF);      
     }
   }
   bool transparent_get(void)
   {
-    return(flag_get(MATERIAL_TRANSPARENT));
+    return(mflags.flag_get(MATERIAL_TRANSPARENT));
   }
 
   void double_side_set(bool double_side)
   {
-    flag_set(MATERIAL_CULL, !double_side);
+    mflags.flag_set(MATERIAL_CULL, !double_side);
   }
   bool double_side_get(void)
   {
-    return(flag_get(MATERIAL_CULL));
+    return(mflags.flag_get(MATERIAL_CULL));
   }
 
 public:  

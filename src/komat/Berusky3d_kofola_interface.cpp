@@ -47,7 +47,7 @@ void kom_init_level(LEVEL_HEADER *p_head) // level header
   p_ber->level_max.z = p_ber->z_start+p_head->z*Z_PRVEK;
 
   p_ber->hitnum = p_head->x*p_head->y*p_head->z;
-  p_ber->p_hit_list = mmalloc(sizeof(p_ber->p_hit_list[0])*p_ber->hitnum);
+  p_ber->p_hit_list = (int *)mmalloc(sizeof(p_ber->p_hit_list[0])*p_ber->hitnum);
 
   p_ber->frame = 0;
 }
@@ -119,7 +119,8 @@ int kom_mesh_set_pivot(MeshHandle prvek_handle, float x, float y, float z)
   PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[prvek_handle];
   if(p_prv) {
     GLMATRIX m;
-    memcpy(&m,&p_ber->p_mesh[p_prv->mesh]->m,sizeof(m));
+    // TODO
+    // memcpy(&m,&p_ber->p_mesh[p_prv->mesh]->m,sizeof(m));
     m._41 = m._42 = m._43 = 0.0f;
     transformuj_bod_matici(&x,&y,&z,&m);
     p_prv->pivot.x = x;
@@ -138,7 +139,8 @@ int kom_mesh_get_pivot(MeshHandle prvek_handle, BOD *p_pivot)
   PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[prvek_handle];
   if(p_prv) {
     GAME_MESH *p_mesh = p_ber->p_mesh[p_prv->mesh];
-    *p_pivot = p_mesh->kofola_pivot;
+    // TODO
+    // *p_pivot = p_mesh->kofola_pivot;
     return(TRUE);
   } else {
     return(FALSE);
@@ -153,7 +155,8 @@ int kom_mesh_set_pivot_bod(MeshHandle prvek_handle, BOD *p_bod)
   if(p_prv) {
     BOD p = *p_bod;
     GLMATRIX m;
-    memcpy(&m,&p_ber->p_mesh[p_prv->mesh]->m,sizeof(m));
+    // TODO
+    // memcpy(&m,&p_ber->p_mesh[p_prv->mesh]->m,sizeof(m));
     m._41 = m._42 = m._43 = 0.0f;
     transformuj_bod_matici(&p.x,&p.y,&p.z,&m);
     p_prv->pivot = p;
@@ -172,7 +175,7 @@ int kom_mesh_reset_pr(MeshHandle prvek_handle, int x, int y, int z, int rotace)
     PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[prvek_handle];
     GAME_MESH *p_mesh = p_ber->p_mesh[p_prv->mesh];
     GLMATRIX   m1, m2, m3;
-
+/* TODO
     invert_matrix(ber_position_matrix(p_ber,&m1,x,y,z,rotace),&m2);
     mat_mult(&p_mesh->m,&m2,&m3);
     transformuj_mesh_matici(p_mesh,&m3);
@@ -181,7 +184,7 @@ int kom_mesh_reset_pr(MeshHandle prvek_handle, int x, int y, int z, int rotace)
     memcpy(&p_prv->mp,&m1,sizeof(GLMATRIX));
 
     ber_position_level(p_prv,&m1,rotace);
-
+*/
     return(prvek_handle);
   } else {
     return(K_CHYBA);
@@ -196,7 +199,8 @@ int kom_mesh_set_no_test(MeshHandle prvek_handle)
   GAME_MESH *p_mesh;
   if(p_prv && p_prv->mesh != K_CHYBA) {
     p_mesh = p_ber->p_mesh[p_prv->mesh];
-    p_mesh->p_data->kflag |= KONT_DRAW_NOBALKA;
+    // TODO
+    // p_mesh->p_data->kflag |= KONT_DRAW_NOBALKA;
     return(prvek_handle);
   } else {
     return(K_CHYBA);
@@ -281,14 +285,14 @@ MeshHandle kom_vloz_prvek_z_databaze(DataHandle data_handle, int x, int y, int z
   assert(p_ber->p_mesh[m]); // dest ok?
 
   ber_dynamic_mesh_list_vloz_mesh(p_ber, m);
-  
+  /* TODO
   p_data = p_ber->p_mesh[m]->p_data;
   lo_kopiruj_svetla_do_sceny_mesh(p_data,p_ber->p_dlight,MAX_FLARE_SVETEL,p_ber->p_edlight,MAX_FLARE_SVETEL);
   if(p_data->p_ldlight)
     p_ber->dl_lightnum = lo_najdi_prepocitej_dsvetlo(p_ber->p_dlight, MAX_FLARE_SVETEL);
   if(p_data->p_lelight)
     p_ber->edl_lightnum = lo_najdi_prepocitej_extra_svetlo(p_ber->p_edlight, MAX_FLARE_SVETEL);
-
+  */
   disk.guid = guid;
   disk.Rotace = rotace;
   disk.Vazba1 = disk.Vazba2 = 0;
@@ -356,7 +360,8 @@ void kom_zrus_level(int restart)
   */
   for(i = 0; i < MAX_BERUSKY_DATABAZE; i++) {
     if(p_ber->p_mdata[i]) {
-      lo_vymaz_svetla_mesh(p_ber->p_mdata[i]->p_data);
+      // TODO
+      // lo_vymaz_svetla_mesh(p_ber->p_mdata[i]->p_data);
       zrus_mesh(p_ber->p_mdata+i);
     }
   }
@@ -377,21 +382,23 @@ void kom_zrus_level(int restart)
 
     /* Zrus textury
     */
-    lo_smaz_textury(p_ber->p_text,MAX_CELKEM_TEXTUR);
-    memset(p_ber->p_text,0,sizeof(p_ber->p_text[0])*MAX_CELKEM_TEXTUR);    
+    // TODO
+    //lo_smaz_textury(p_ber->p_text,MAX_CELKEM_TEXTUR);
+    //memset(p_ber->p_text,0,sizeof(p_ber->p_text[0])*MAX_CELKEM_TEXTUR);    
   }
 
   kprintf(TRUE,"Kom_zrus_level - lightmapy...");
 
   /* Zrus lightmapy
   */
+/* TODO
   for(i = 0; i < MAX_RAY_TEXTUR; i++) {
     if(p_ber->p_lightmap[i].load) {
       txt_zrus_lightmapu(p_ber->p_lightmap+i);
     }
   }
   memset(p_ber->p_lightmap,0,sizeof(p_ber->p_lightmap[0])*MAX_CELKEM_TEXTUR);
-
+*/
   kprintf(TRUE,"Kom_zrus_level - mlho-kostky...");
 
   /* Zrus mlho-kostky
@@ -508,7 +515,8 @@ void kom_zrus_level(int restart)
 
   /* Smaze obalky + poly render list
   */
-  obbtree_zrus(&p_ber->obbtree);
+  // TODO
+  // obbtree_zrus(&p_ber->obbtree);
   memset(&p_ber->obbtree,0,sizeof(p_ber->obbtree));
   ber_poly_render_list_zrus(p_ber);
   
@@ -640,6 +648,7 @@ int ber_vyber_berusky(BUNKA_LEVELU_DISK *p_disk, int num, BUNKA_LEVELU_DISK *p_b
 // chdir - TRUE - nastavit adresar
 void kom_load_level(char *p_file, int zmen_dir, int restart, BUNKA_LEVELU_DISK *p_bunka, int bunek)
 {
+/*
  BUNKA_LEVELU_DISK berusky[5];
  int               berusek;
  GAME_MESH **p_slist;
@@ -764,6 +773,7 @@ void kom_load_level(char *p_file, int zmen_dir, int restart, BUNKA_LEVELU_DISK *
 
  ber_velikost_sceny(p_ber);
  kom_posun_slider(); 
+ */
 }
 
 void kom_post_init_level(void)
@@ -775,6 +785,7 @@ void kom_post_init_level(void)
 */  
 void kom_zrus_prvek(MeshHandle prvek_handle)
 {
+/*
   PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[prvek_handle];
   int                mh = p_prv->mesh;
   GAME_MESH_DATA    *p_data;
@@ -792,6 +803,7 @@ void kom_zrus_prvek(MeshHandle prvek_handle)
     free(p_ber->p_prv_lev[prvek_handle]);
     p_ber->p_prv_lev[prvek_handle] = NULL;
   }
+*/
 }
 
 float kom_get_framerate(void)
@@ -833,29 +845,32 @@ MeshHandle kom_najdi_mesh_prvek(char *p_jmeno)
 {
   PRVEK_LEVELU_GAME *p_prv;
   int i;
-
+/*
   for(i = 0; i < p_ber->prvnum; i++) {
     if((p_prv = p_ber->p_prv_lev[i]) && p_prv->mesh != K_CHYBA && 
       !strcmp(p_ber->p_mesh[p_prv->mesh]->jmeno,p_jmeno))
       return((MeshHandle)i);
   }
+*/
   return(K_CHYBA);
 }
 
 ExMeshHandle kom_najdi_mesh(char *p_jmeno)
 {
+/*
   int i;
   for(i = 0; i < p_ber->meshnum; i++) {
     if(p_ber->p_mesh[i] && !strcmp(p_ber->p_mesh[i]->jmeno,p_jmeno))
       return(i);
   }
+*/
   return(K_CHYBA);
 }
 
 ExMeshHandle kom_najdi_mesh_joint(ExMeshHandle *p_next)
 {
   int i;
-  
+  /*
   if(*p_next < 0)
     return(-1);
 
@@ -865,7 +880,7 @@ ExMeshHandle kom_najdi_mesh_joint(ExMeshHandle *p_next)
       return(i);
     }
   }
-  
+  */
   *p_next = K_CHYBA;
   return(K_CHYBA);
 }
@@ -961,12 +976,14 @@ FlekHandle kom_flek_pridej(MeshHandle mh, BOD *p_p, BOD *p_nx, BOD *p_nz, float 
   /* Flek se pripojuje ke scene
   */
   if(mh == K_CHYBA) {
+  /*
     p_flek = mmalloc(sizeof(FLEK));
     
     kom_flek_zmen((FlekHandle)p_flek, p_p, p_nx, p_nz, dx, dz, rotace, uroven, material);
     p_flek->mesh = K_CHYBA;    
     
     kom_vloz_flek(&p_ber->p_fleky,p_flek);
+  */
   }
   
   /* Flek se pripojuje ke meshi
@@ -975,13 +992,13 @@ FlekHandle kom_flek_pridej(MeshHandle mh, BOD *p_p, BOD *p_nx, BOD *p_nz, float 
     p_prv = p_ber->p_prv_lev[mh];
     if(!p_prv || p_prv->mesh == K_CHYBA)
       return(K_CHYBA);
-    
+    /*
     p_mesh = p_ber->p_mesh[p_prv->mesh];
     p_flek = mmalloc(sizeof(FLEK));
 
     kom_flek_zmen((FlekHandle)p_flek, p_p, p_nx, p_nz, dx, dz, rotace, uroven, material);
     p_flek->mesh = p_prv->mesh;    
-    
+    */
     /* Pripojeni fleku ke scene
     */
     kom_vloz_flek(&p_ber->p_fleky_mesh,p_flek);
@@ -1036,7 +1053,7 @@ int kom_mesh_get_matnum(MeshHandle mh)
   EDIT_MATERIAL *p_mat = NULL;
   GAME_MESH     *p_mesh;
   int            i,amat = -1,mat = 0;
-
+/*
   if((p_prv = p_ber->p_prv_lev[mh]) && p_prv->mesh != K_CHYBA) {
     p_mesh = p_ber->p_mesh[p_prv->mesh];
     for(i = mat = 0; i < p_mesh->objektu; i++) {
@@ -1046,6 +1063,7 @@ int kom_mesh_get_matnum(MeshHandle mh)
       }
     }
   }
+*/
   return(mat);
 }
 
@@ -1056,7 +1074,7 @@ int kom_mesh_get_mat(MeshHandle mh, MatHandle *p_mat)
   EDIT_MATERIAL     *p_lmat = NULL;
   GAME_MESH         *p_mesh;
   int                i, amat = -1, mat = 0;
-
+/*
   if((p_prv = p_ber->p_prv_lev[mh]) && p_prv->mesh != K_CHYBA) {
     p_mesh = p_ber->p_mesh[p_prv->mesh];
     for(i = mat = 0; i < p_mesh->objektu; i++) {
@@ -1066,6 +1084,7 @@ int kom_mesh_get_mat(MeshHandle mh, MatHandle *p_mat)
       }
     }
   }
+*/
   return(mat);
 }
 
@@ -1156,7 +1175,7 @@ MeshHandle kom_get_mesh_mys(int itrida)
                      &m, p_ber->wxres, p_ber->wyres, p_ber->wx, p_ber->wy);
  transf_2d_3d_matrix((float)mi.x, (float)mi.y, 0.2f, &b.x, &b.y, &b.z,
                      &m, p_ber->wxres, p_ber->wyres, p_ber->wx, p_ber->wy);
-
+/*
  prvnum = p_ber->prvnum;
  for(i = 0; i < prvnum; i++) {
    p_prv = p_ber->p_prv_lev[i];
@@ -1181,7 +1200,7 @@ MeshHandle kom_get_mesh_mys(int itrida)
      }
    }
  }
-
+*/
  return(min_mesh);
 }
 
@@ -1200,7 +1219,7 @@ int kom_get_mesh_mys_all(void)
                      &m, p_ber->wxres, p_ber->wyres, p_ber->wx, p_ber->wy);
  transf_2d_3d_matrix((float)mi.x, (float)mi.y, 0.2f, &b.x, &b.y, &b.z,
                      &m, p_ber->wxres, p_ber->wyres, p_ber->wx, p_ber->wy);
-
+/*
  meshnum = p_ber->meshnum;
  for(i = 0; i < meshnum; i++) {
    p_mesh = p_ber->p_mesh[i];
@@ -1216,7 +1235,7 @@ int kom_get_mesh_mys_all(void)
      }
    }
  }
-
+*/
  return(min_mesh);
 }
 
@@ -1231,7 +1250,7 @@ MeshHandle kom_mesh_set_mesh(MeshHandle mh, int ID, int rotace)
             *p_last = p_mesh;
 
   assert(mesh != K_CHYBA);
-
+/*
   while(p_mesh) {
     if(p_mesh->low_id == ID) {
       if(p_prev) {
@@ -1250,6 +1269,7 @@ MeshHandle kom_mesh_set_mesh(MeshHandle mh, int ID, int rotace)
     p_prev = p_mesh;
     p_mesh = p_mesh->p_next;
   }  
+*/
   return(K_CHYBA);
 }
 
@@ -1325,7 +1345,8 @@ MeshHandle kom_prvek_viditelnost(MeshHandle mh, int vid)
   if(p_prv) {
     GAME_MESH *p_mesh = p_ber->p_mesh[p_prv->mesh];
     assert(p_mesh);
-    p_mesh->nekreslit = !vid;
+    // TODO
+    // p_mesh->nekreslit = !vid;
     return(TRUE);
   } else {
     return(FALSE);

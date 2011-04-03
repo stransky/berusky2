@@ -26,7 +26,7 @@ typedef struct _HW_KONFIG {
   // TODO
   //HDC    hDC;
   //HGLRC  hRC;
-  byte **p_ext;
+  char **p_ext;
   int    extnum;
   int    perspective;
   GLuint font_baze;
@@ -93,31 +93,29 @@ extern   TXT_KONFIG         txconf;
 
 #define  TXT_SEKCE        "textury"
 
-
 int gl_init(HW_KONFIG *p_conf);
 int gl_stop(HW_KONFIG *p_conf);
 int grf_prehod_mod_hra(HW_KONFIG *p_conf);
 int grf_prehod_mod_zpet(HW_KONFIG *p_conf);
 int grf_prehod_mod_menu(void);
-int grf_start(byte *p_file, byte *p_sekce, int extension);
+int grf_start(char *p_file, char *p_sekce, int extension);
 int grf_stop();
 
-
 void nastav_konfig(HW_KONFIG  *p_hwconf, TXT_KONFIG *p_txt);
-int  nahraj_device_config(byte *p_file, byte *p_sekce, HW_KONFIG *p_conf);
-int  nahraj_universal_device_config(byte *p_file, byte *p_sekce, HW_KONFIG *p_conf);
-int  nahraj_texture_config(byte *p_file, TXT_KONFIG *p_txt);
-void ddw_surf(int x, int y, byte *fmt,...);
-void ddw_surf_xy(int x, int y, byte *fmt,...);
-int  input_surf(int x, int y, byte *p_text, int max);
-int  input_surf_ddw(int x, int y, byte *p_text, void *p_1, void *p_2, void *p_3, void *p_4, void *p_5, void *p_6, void *p_7, void *p_8, void *p_9);
-int  ddwqueto(byte *p_text,...);
-int  ddwquetot(byte *p_title, byte *p_text,...);
+int  nahraj_device_config(char *p_file, char *p_sekce, HW_KONFIG *p_conf);
+int  nahraj_universal_device_config(char *p_file, char *p_sekce, HW_KONFIG *p_conf);
+int  nahraj_texture_config(char *p_file, TXT_KONFIG *p_txt);
+void ddw_surf(int x, int y, char *fmt,...);
+void ddw_surf_xy(int x, int y, char *fmt,...);
+int  input_surf(int x, int y, char *p_text, int max);
+int  input_surf_ddw(int x, int y, char *p_text, void *p_1, void *p_2, void *p_3, void *p_4, void *p_5, void *p_6, void *p_7, void *p_8, void *p_9);
+int  ddwqueto(char *p_text,...);
+int  ddwquetot(char *p_title, char *p_text,...);
 void tiskni_chybu(int line, char *p_file, char *p_text,...);
 void tiskni_chybu_bez_exit(int line, char *p_file, char *p_text,...);
 void rozeber_chybu(void);
-int  cti_texture_format(int format, byte *p_string);
-int  preloz_texture_format(int *p_format, byte *p_string);
+int  cti_texture_format(int format, char *p_string);
+int  preloz_texture_format(int *p_format, char *p_string);
 
 void BuildFont(void);
 void KillFont(void);
@@ -143,7 +141,7 @@ inline void flip(void)
   //SwapBuffers(hwconf.hDC);
 }
 
-inline int fgets_korekce(byte *p_kor)
+inline int fgets_korekce(char *p_kor)
 {
   int delka = strlen((const char *)p_kor);
   if(p_kor[delka-1] == '\n') {

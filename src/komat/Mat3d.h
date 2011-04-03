@@ -493,7 +493,6 @@ typedef struct _EXTRA_DYN_LIGHT {
 
 /* Run-time flagy
 */
-/*
 #define KONT_POHYB              0x00000001  // Mesh se pohnul v poslednim tahu
 #define KONT_VIDITELNY          0x00000002  // Mesh je viditelny
 #define KONT_DRAW_SPEC          0x00000004  // Mesh/Poly pouziva na vykresleni docasne spekularni barvu
@@ -556,11 +555,8 @@ typedef struct _EXTRA_DYN_LIGHT {
 #define KONT2_NO_PHONG          0x00000400 // kontejner se renderuje bez phongu
 #define KONT2_BERUSKA           0x00000800 // kontejner je beruska
 
-
 #define KONT_STATICKY_PRVEK  (KONT_PRVEK|KONT_STATIC)
 #define KONT_DYNAMICKY_PRVEK (KONT_PRVEK|KONT_VERTEX_LIGHT|KONT_NO_DRAW_SHADOW|KONT_NO_SELF_SHADOW)
-*/
-
 
 /*
   Frame animace

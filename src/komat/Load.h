@@ -309,7 +309,6 @@ void  zrus_kosti_prs_rec(JOINT *p_joint);
 
 int * NvConsolidateSingleFace(EXTRA_FACE *p_eface, int facenum, int *p_facevel);
 void  NvStripToGL(EXTRA_FACE *p_face, int facenum);
-void  NvGenerateStrips_fast(unsigned short *p_ind, int num, STRIP_FACE **p_fface, int *p_facenum);
 void  oe_obj_to_strip(EDIT_OBJEKT *p_obj);
 void  oe_kont_to_strip(EDIT_KONTEJNER *p_kont_top);
 int   lo_reload_textur_vypis(EDIT_TEXT *p_text, int num);

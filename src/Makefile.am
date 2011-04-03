@@ -103,8 +103,6 @@ berusky2_SOURCES = \
 	komat/3dinterface.h\
 	komat/Berusky3d.cpp\
 	komat/Berusky3d.h\
-	komat/Berusky3d_animace.cpp\
-	komat/Berusky3d_animace.h\
 	komat/Berusky3d_castice.cpp\
 	komat/Berusky3d_castice.h\
 	komat/Berusky3d_castice2.h\
@@ -321,7 +319,11 @@ berusky2_SOURCES = \
 	komat/Mat3d.h\
 	komat/3dmath.h\
 	komat/3dproject.h\
-	komat/mesh_flags.h
+	komat/mesh_flags.h\
+	komat/Keyframe.h\
+	komat/Quat.h\
+	komat/Berusky3d_animace.cpp\
+	komat/Berusky3d_animace.h
 
 berusky2_LDFLAGS = 
 

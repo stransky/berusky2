@@ -36,6 +36,9 @@ typedef SURFACE_SW      bitmapa;
 #include "3dinterface.h"
 #include "3dproject.h"
 #include "3dmath.h"
+#include "Quat.h"
+#include "Keyframe.h"
+#include "Load.h"
 
 typedef void (* END_FUNKCE)(int param, int param2, void *p_param);
 
@@ -328,9 +331,11 @@ int       bmp_uloz(char *p_file, bitmapa *p_bmp);
 int       bmp_uloz_pack(FFILE f, bitmapa *p_bmp);
 void      bmp_zrus(bitmapa **p_bmp);
 bitmapa * bmp_kopituj(bitmapa *p_bmp);
+void      bmp_kopiruj(bitmapa *p_src, bitmapa *p_desc);
 void      bmp_cti_rozmery(bitmapa *p_bmp, int *p_x, int *p_y);
 int       bmp_velikost(bitmapa *p_bmp);
 void      bmp_putpixel(bitmapa *p_bmp, int x, int y, dword barva);
+void      bmp_smaz(bitmapa *p_text, dword barva);
 
 inline void null_free(void **p_mem)
 {                    
@@ -339,3 +344,6 @@ inline void null_free(void **p_mem)
    *p_mem = NULL;
  }
 }
+
+int  txt_vyrob_2D_texturu(int x, int y, int filtr, int format);
+int  txt_zrus_2D_texturu(int *p_text);

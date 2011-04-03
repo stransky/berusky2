@@ -257,7 +257,7 @@ void konec(int konec)
 {
   /* Stop grafiky
   */
-  grf_stop(hwnd_hry);
+  grf_stop();
   
   /* Zapne kurzor
   */
@@ -292,7 +292,7 @@ int main(int argc, char **argv)
   
   ber_konfiguruj_berusky(&ber);
 
-  p_level = (argc > 1) ? argv[1] : "a";
+  p_level = (argc > 1) ? argv[1] : (char *)"a";
   winmain_Game_Run(hwnd_hry,p_level);
   
   return(TRUE);
