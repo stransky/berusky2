@@ -115,6 +115,7 @@ int ber_prvek_disk_do_bunky(G_KONFIG *p_ber, BUNKA_LEVELU_DISK *p_disk, int *p_h
       p_lev->mesh = mesh;
       
       if(mesh != K_CHYBA && p_ber->p_mesh[mesh]) {
+      /*
         p_mesh = p_ber->p_mesh[mesh];
         p_lev->p_mesh_data = p_mesh->p_data;
         p_lev->mp = p_mesh->m;
@@ -141,6 +142,7 @@ int ber_prvek_disk_do_bunky(G_KONFIG *p_ber, BUNKA_LEVELU_DISK *p_disk, int *p_h
         
         p_mesh->p_data->kflag |= KONT_POHYB;
         p_mesh->p_data->mesh_handle = p_disk->mesh;
+        */
       } else {
         p_lev->mesh = K_CHYBA;
       }      
@@ -172,6 +174,7 @@ int ber_mesh_do_bunky(G_KONFIG *p_ber, int mesh, int *p_handle)
   
   for(i = 0; i < MAX_PRVKU_LEVEL; i++) {
     if(!p_ber->p_prv_lev[i]) {
+    /*
       p_lev = p_ber->p_prv_lev[i] = ber_vyrob_prvek_levelu();
       p_lev->mesh = mesh;
       p_mesh = p_ber->p_mesh[mesh];
@@ -192,6 +195,7 @@ int ber_mesh_do_bunky(G_KONFIG *p_ber, int mesh, int *p_handle)
       p_mesh->p_data->mesh_handle = mesh;
       *p_handle = i;
       p_ber->prvnum++;
+      */
       return(TRUE);
     }
   }
@@ -218,9 +222,11 @@ void ber_umisti_prvek(MeshHandle handle, int x, int y, int z, int rotace)
       init_matrix(&p_lev->mg);
       
       if(p_lev->mesh != K_CHYBA) {
+      /*
         p_mesh = p_ber->p_mesh[p_lev->mesh];
         init_matrix(&p_mesh->m);
         key_mesh_transformuj_obalky(p_mesh, &p_mesh->m);
+      */
       }
     } else {
       
@@ -229,7 +235,7 @@ void ber_umisti_prvek(MeshHandle handle, int x, int y, int z, int rotace)
       
       if(p_lev->mesh != K_CHYBA) {
         p_mesh = p_ber->p_mesh[p_lev->mesh];
-        
+        /*
         p_mesh->m = p_lev->mp;
         init_matrix(&p_lev->mg);
                 
@@ -241,6 +247,7 @@ void ber_umisti_prvek(MeshHandle handle, int x, int y, int z, int rotace)
         } else {
           key_mesh_transformuj_obalky(p_mesh, &p_mesh->m);
         }
+      */
       }
     }
   }
@@ -259,7 +266,7 @@ void ber_umisti_prvek_abs(PRVEK_LEVELU_GAME *p_lev, float x, float y, float z, i
     
     if(p_lev->mesh != K_CHYBA) {
       p_mesh = p_ber->p_mesh[p_lev->mesh];
-            
+/*    
       p_mesh->m = p_lev->mp;
       init_matrix(&p_lev->mg);
             
@@ -271,13 +278,14 @@ void ber_umisti_prvek_abs(PRVEK_LEVELU_GAME *p_lev, float x, float y, float z, i
       } else {
         key_mesh_transformuj_obalky(p_mesh, &p_mesh->m);
       }
+*/    
     }
   }
 }
 
 inline static int _najdi_cislo(char *p_string)
 {
-  char *pom = alloca(strlen(p_string));
+  char *pom = (char *)alloca(strlen(p_string));
   char *p_pom,*p_last;
   int   k;
 
@@ -301,13 +309,14 @@ int ber_nahraj_materialy(G_KONFIG *p_ber, char *p_jmeno, char *p_dir)
 
   strcpy(pom,p_jmeno);
   zamen_koncovku(pom,KONCOVKA_MATERIAL);
-
+/*
   chdir(p_dir);  
   if(!lo_nahraj_materialy(p_ber->p_mat,MAX_CELKEM_MATERIALU,p_ber->p_text,MAX_CELKEM_TEXTUR,pom)) {
     kprintf(1,"Unable to load materials %s",p_jmeno);
     return(FALSE);
   } else  
     return(TRUE);
+*/
 }
 
 /*
@@ -320,7 +329,7 @@ void ber_materialy_rozkopiruj(G_KONFIG *p_ber, GAME_MESH *p_mesh, int restart)
   char pom[MAX_JMENO];
   int  mat,mnew = K_CHYBA;
   int  i;
-
+/*
   if(p_mesh->p_data->m1flag&MAT_ANIM_FRAME) {
     for(i = 0; i < p_mesh->objektu; i++) {
       mat = p_mesh->p_mat[i];
@@ -342,6 +351,7 @@ void ber_materialy_rozkopiruj(G_KONFIG *p_ber, GAME_MESH *p_mesh, int restart)
       }      
     }
   }
+  */
 }
 
 /* Nahraje jeden mesh
@@ -349,7 +359,8 @@ void ber_materialy_rozkopiruj(G_KONFIG *p_ber, GAME_MESH *p_mesh, int restart)
 int ber_nahraj_mesh(G_KONFIG *p_ber, char *p_jmeno, GAME_MESH **p_mesh)
 {
  chdir(p_ber->dir.out_dir);
- p_mesh[0] = lo_nahraj_mesh(p_ber->p_mat, MAX_CELKEM_MATERIALU, p_ber->p_text, MAX_CELKEM_TEXTUR, p_jmeno, TRUE, p_ber->conf_extra_light_vertex);
+ // TODO
+ //p_mesh[0] = lo_nahraj_mesh(p_ber->p_mat, MAX_CELKEM_MATERIALU, p_ber->p_text, MAX_CELKEM_TEXTUR, p_jmeno, TRUE, p_ber->conf_extra_light_vertex);
  return((int)p_mesh[0]);
 }
 
@@ -367,12 +378,12 @@ inline int najdi_volnou_texturu_mat(EDIT_MATERIAL *p_mat)
 #define AUTO_STAGE 0
 
 int ber_mat_vloz_dot3(EDIT_TEXT *p_text, int textnum, EDIT_MATERIAL *p_mat)
-{    
+{
+/*
   MATERIAL_TEXT state_stary;
   int btext,t,mat_text;
 
-  /* Nahradim prvni blok dot-3 a skopiruju operaci    
-  */
+  // Nahradim prvni blok dot-3 a skopiruju operaci    
   if((t = najdi_volnou_texturu_mat(p_mat)) == K_CHYBA)
     return(FALSE);
   state_stary = p_mat->text_state[AUTO_STAGE];
@@ -402,7 +413,7 @@ int ber_mat_vloz_dot3(EDIT_TEXT *p_text, int textnum, EDIT_MATERIAL *p_mat)
   strcpy(p_mat->textfile[t], p_mat->textfile[mat_text]);
   
   p_mat->flag2 |= MAT2_BUMP;
-  
+*/  
   return(TRUE);
 }
 
@@ -410,11 +421,12 @@ int ber_mat_vloz_dot3(EDIT_TEXT *p_text, int textnum, EDIT_MATERIAL *p_mat)
 
 int ber_mat_vloz_dot3_env(EDIT_TEXT *p_text, int textnum, EDIT_MATERIAL *p_mat)
 {
-  MATERIAL_TEXT state_stary;
+  //MATERIAL_TEXT state_stary;
   int btext,t,mat_text;
 
   /* Nahradim prvni blok dot-3 a skopiruju operaci    
   */
+/*
   state_stary = p_mat->text_state[AUTO_STAGE];
   if(text_stage_edit_blok[state_stary.text_stage].textur > 1)
     return(FALSE);
@@ -424,12 +436,12 @@ int ber_mat_vloz_dot3_env(EDIT_TEXT *p_text, int textnum, EDIT_MATERIAL *p_mat)
   p_mat->text_state[AUTO_STAGE].text_funkce[DOT3_TEXT] = state_stary.text_funkce[0];
   p_mat->text_state[AUTO_STAGE].text_koord[DOT3_TEXT] = state_stary.text_koord[0];
 
-  /* Pridam bump-mapu
-  */
+  // Pridam bump-mapu
   if((t = najdi_volnou_texturu_mat(p_mat)) == K_CHYBA) {
     p_mat->text_state[AUTO_STAGE] = state_stary;
     return(FALSE);
   }
+
   p_mat->text_state[AUTO_STAGE].textury[DOT3_BUMP] = t;
   p_mat->text_state[AUTO_STAGE].text_funkce[DOT3_BUMP] = BLOK_DOT3_BUMP;
   p_mat->text_state[AUTO_STAGE].text_koord[DOT3_BUMP] = state_stary.text_koord[0];
@@ -448,13 +460,12 @@ int ber_mat_vloz_dot3_env(EDIT_TEXT *p_text, int textnum, EDIT_MATERIAL *p_mat)
   p_mat->p_text[t] = p_text+btext;
   strcpy(p_mat->textfile[t], p_mat->textfile[mat_text]);
 
-  /* Pridam env mapu
-  */
+  // Pridam env mapu  
   if((t = najdi_volnou_texturu_mat(p_mat)) == K_CHYBA) {
     p_mat->text_state[AUTO_STAGE] = state_stary;
     return(FALSE);
   }
-
+  
   p_mat->text_state[AUTO_STAGE].textury[DOT3_ENV] = t;
   p_mat->text_state[AUTO_STAGE].text_funkce[DOT3_ENV] = BLOK_MODULACE;
   p_mat->text_state[AUTO_STAGE].text_koord[DOT3_ENV] = state_stary.text_koord[0];
@@ -472,7 +483,7 @@ int ber_mat_vloz_dot3_env(EDIT_TEXT *p_text, int textnum, EDIT_MATERIAL *p_mat)
   strcpy(p_mat->textfile[t], BUMP_ENV_TEXT);
 
   p_mat->flag2 |= MAT2_BUMP;
-
+*/
   return(TRUE);
 }
 
@@ -483,7 +494,7 @@ int ber_uprava_materialu_bump_mapping(G_KONFIG *p_ber)
   EDIT_MATERIAL *p_mat;
 
   matnum = lo_pocet_materialu(p_ber->p_mat, MAX_CELKEM_MATERIALU);
-
+/*
   for(i = 0; i < MAX_CELKEM_TEXTUR; i++) {
     if(p_ber->p_text[i].load && p_ber->p_text[i].bump) {
       trida = p_ber->p_text[i].trida;
@@ -508,6 +519,7 @@ int ber_uprava_materialu_bump_mapping(G_KONFIG *p_ber)
       }
     }
   }  
+  */
   return(TRUE);
 }
 
@@ -540,7 +552,8 @@ int ber_nahraj_kurzor(G_KONFIG *p_ber)
   if(ber_nahraj_mesh(p_ber, JMENO_KURZOR, p_ber->p_mesh+l)) {
     if(l >= p_ber->meshnum)
       p_ber->meshnum = l+1;
-    p_ber->p_mesh[l]->p_data->k2flag |= KONT2_BERUSKA;
+    // TODO
+    //p_ber->p_mesh[l]->p_data->k2flag |= KONT2_BERUSKA;
     return(TRUE);
   } else {
     return(FALSE);
@@ -595,7 +608,7 @@ int ber_nahraj_scenu(G_KONFIG *p_ber, char *p_jmeno, char *p_dir, int reload, BU
   zamen_koncovku(file,KONCOVKA_SCENY);
   
   chdir(p_dir);
-  
+  /*
   kprintf(1,"           - Load project....");
   if(lo_nahraj_projekt(p_ber->p_mat,MAX_CELKEM_MATERIALU,
     p_kont,MAX_BERUSKY_KONTEJNERU,
@@ -659,18 +672,15 @@ int ber_nahraj_scenu(G_KONFIG *p_ber, char *p_jmeno, char *p_dir, int reload, BU
         if(!p_ber->p_mesh[m])
           continue;
         
-        /* Kvuli animacim rozkopiruj materialy
-        */
+        // Kvuli animacim rozkopiruj materialy
         ber_materialy_rozkopiruj(p_ber,p_ber->p_mesh[m],reload);
         
-        /* Pridam do animacniho listu materialu
-        */
+        // Pridam do animacniho listu materialu        
         amat_pridej_mesh(p_ber, m);
         
         kflag = p_ber->p_mesh[m]->p_data->kflag;
 
-        /* roztridit to na prvky/ne prvky
-        */
+        // roztridit to na prvky/ne prvky
         if(!(kflag&(KONT_PRVEK|KONT_KEYFRAME))) {
           p_ber->p_mesh[m]->m = p_ber->p_mesh[m]->world;
         }
@@ -702,6 +712,7 @@ int ber_nahraj_scenu(G_KONFIG *p_ber, char *p_jmeno, char *p_dir, int reload, BU
   } else {
     return(FALSE);
   }
+  */
 }
 
 /*
@@ -717,8 +728,8 @@ void ber_nahraj_poly(G_KONFIG *p_ber, char *p_jmeno, char *p_dir)
   strcpy(file,p_jmeno);
   zamen_koncovku(file,".ply");
 
-  /* Load poly
-  */
+  // Load poly
+/*  
   p_ber->p_poly = lo_nahraj_poly_list(file,&p_ber->polynum,p_ber->p_lightmap,
                                       p_ber->p_mat,MAX_CELKEM_MATERIALU);
   for(i = 0; i < p_ber->polynum; i++) {
@@ -726,7 +737,7 @@ void ber_nahraj_poly(G_KONFIG *p_ber, char *p_jmeno, char *p_dir)
     amat_pridej_poly(p_ber, i);
     lo_poly_flaguj_materialy(p_ber->p_poly+i,p_ber->p_mat);
   }
-
+*/
   /* Flagovani zrcadla
   */
   {
@@ -775,21 +786,25 @@ void ber_nahraj_lightmap(G_KONFIG *p_ber, char *p_jmeno, char *p_dir)
   
   if((f = kopen(NULL,pom,"rb"))) {
     while(!keof(f)) {
+    /*
       if(kread(&i,sizeof(i),1,f)) {
         assert(i >= 0 && i < MAX_RAY_TEXTUR);
         sprintf(p_ber->p_lightmap[i].jmeno,"%s_lp%.3d.bmp",pom,i);
         r = txt_nahraj_lightmapu_z_bmp(NULL,f,p_ber->p_lightmap+i,TRUE);
         assert(r);
       }
+    */
     }
     kclose(f);
   } else { // stara verze lightmap
     for(i = 0; i < MAX_RAY_TEXTUR; i++) {
+    /*
       sprintf(p_ber->p_lightmap[i].jmeno,"%s\\%s_lp%.3d.bmp",p_dir,pom,i);
       if(efile(p_ber->p_lightmap[i].jmeno)) {
         kprintfl(TRUE,"Lightmap %s...",p_ber->p_lightmap[i].jmeno);
         txt_nahraj_lightmapu_z_bmp(p_ber->p_lightmap[i].jmeno,NULL,p_ber->p_lightmap+i,TRUE);
       }
+    */
     }
   }
   
@@ -803,10 +818,12 @@ void ber_nahraj_lightmap(G_KONFIG *p_ber, char *p_jmeno, char *p_dir)
 
   /* Zrus prebytecne bitmapy
   */
+/*
   for(i = 0; i < MAX_RAY_TEXTUR; i++) {
     if(p_ber->p_lightmap[i].p_bmp)
       bmp_zrus(&p_ber->p_lightmap[i].p_bmp);
   }
+*/
 }
 
 inline void bod_min_max(BOD *p_ref, BOD *p_min, BOD *p_max)
@@ -834,14 +851,18 @@ void ber_velikost_sceny(G_KONFIG *p_ber)
   for(i = 0; i < p_ber->meshnum; i++) {
     p_mesh = p_ber->p_mesh[i];
     if(p_mesh) {
+    /*
       bod_min_max(&p_mesh->obb_world.aabb_min,&min,&max);
       bod_min_max(&p_mesh->obb_world.aabb_max,&min,&max);
+    */
     }
   }
 
   for(i = 0; i < p_ber->polynum; i++) {
+  /*
     bod_min_max(&p_ber->p_poly[i].obb.aabb_min, &min, &max);
     bod_min_max(&p_ber->p_poly[i].obb.aabb_max, &min, &max);
+  */
   }
 
   vzdal = vzdal_bodu_bod(&min,&max)*1.3f;
@@ -858,7 +879,7 @@ GAME_MESH ** ber_mesh_vyber_staticke(G_KONFIG *p_ber, int *p_snum, int **p_index
   GAME_MESH **p_stat;
   int  i,snum;
   int *p_ind;
-  
+  /*
   snum = 0;
   for(i = 0; i < listnum; i++) {
     if(p_list[i] && p_list[i]->p_data->kflag&KONT_STATIC)
@@ -883,5 +904,6 @@ GAME_MESH ** ber_mesh_vyber_staticke(G_KONFIG *p_ber, int *p_snum, int **p_index
   }
   *p_snum = snum;
   *p_indexy = p_ind;
+  */
   return(p_stat);
 }

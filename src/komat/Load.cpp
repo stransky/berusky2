@@ -75,7 +75,7 @@ char * cti_za_znak(char *p_string, char znak)
 */
 MLZNA_KOSTKA * vyrob_mlhokostku(char *p_jmeno)
 {
-  MLZNA_KOSTKA *p_mlha = mmalloc(sizeof(p_mlha[0]));
+  MLZNA_KOSTKA *p_mlha = (MLZNA_KOSTKA *)mmalloc(sizeof(p_mlha[0]));
   
   strcpy(p_mlha->jmeno,p_jmeno);
   p_mlha->poly = K_CHYBA;
@@ -89,7 +89,7 @@ MLZNA_KOSTKA * vyrob_mlhokostku(char *p_jmeno)
 
 MLZNA_KOSTKA * kopiruj_mlhokostku(MLZNA_KOSTKA *p_src, char *p_jmeno)
 {
-  MLZNA_KOSTKA *p_mlha = mmalloc(sizeof(p_mlha[0]));
+  MLZNA_KOSTKA *p_mlha = (MLZNA_KOSTKA *)mmalloc(sizeof(p_mlha[0]));
   
   *p_mlha = *p_src;
   strcpy(p_mlha->jmeno,p_jmeno);
@@ -179,14 +179,14 @@ EDIT_OBJEKT * vyrob_objekt_komplet(int v, int f)
 }
 
 void zrus_kosti_key(JOINT_KEYS **p_key)
-{  
-  null_free(&(*p_key)->p_pkeys);
-  null_free(&(*p_key)->p_pos);
-  null_free(&(*p_key)->p_rkeys);
-  null_free(&(*p_key)->p_rot);
-  null_free(&(*p_key)->p_skeys);
-  null_free(&(*p_key)->p_scale);
-  null_free(p_key);
+{ 
+  null_free((void **)&(*p_key)->p_pkeys);
+  null_free((void **)&(*p_key)->p_pos);
+  null_free((void **)&(*p_key)->p_rkeys);
+  null_free((void **)&(*p_key)->p_rot);
+  null_free((void **)&(*p_key)->p_skeys);
+  null_free((void **)&(*p_key)->p_scale);
+  null_free((void **)p_key);
   *p_key = NULL;
 }
 
@@ -205,16 +205,16 @@ void zrus_kosti_prs_rec(JOINT *p_joint)
     
     p_joint->pos_keys = 0;
     p_joint->p.x = p_joint->p.y = p_joint->p.z = 0.0f;
-    null_free(&p_joint->p_pos);
+    null_free((void **)&p_joint->p_pos);
     
     p_joint->rot_keys = 0;
     p_joint->r.x = p_joint->r.y = p_joint->r.z = 0.0f;
     p_joint->r.w = 1.0f;
-    null_free(&p_joint->p_rot);
+    null_free((void **)&p_joint->p_rot);
     
     p_joint->scs_keys = 0;
     p_joint->s.x = p_joint->s.y = p_joint->s.z = 1.0f;
-    null_free(&p_joint->p_scs);        
+    null_free((void **)&p_joint->p_scs);
   }
 }
 
@@ -228,11 +228,11 @@ void zrus_kosti_rec(JOINT **p_joint)
     if((*p_joint)->p_keys)
       zrus_kosti_key(&((*p_joint)->p_keys));
     
-    null_free(&(*p_joint)->p_vertexlist);
-    null_free(&(*p_joint)->p_pos);
-    null_free(&(*p_joint)->p_rot);
-    null_free(&(*p_joint)->p_scs);
-    null_free(&(*p_joint));
+    null_free((void **)&(*p_joint)->p_vertexlist);
+    null_free((void **)&(*p_joint)->p_pos);
+    null_free((void **)&(*p_joint)->p_rot);
+    null_free((void **)&(*p_joint)->p_scs);
+    null_free((void **)&(*p_joint));
     
     p_joint = NULL;
   }
@@ -256,13 +256,13 @@ void zrus_objekt(EDIT_OBJEKT **p_obj)
  zrus_kosti(*p_obj);
  if((*p_obj)->p_tmp_sim) {
    key_sim_zrus_vnitrek((*p_obj)->p_tmp_sim);
-   null_free(&(*p_obj)->p_tmp_sim);
+   null_free((void **)&(*p_obj)->p_tmp_sim);
  }
- null_free(&(*p_obj)->p_face);
- null_free(&(*p_obj)->p_opt);
- null_free(&(*p_obj)->p_vertex);
- null_free(&(*p_obj)->p_line);
- null_free(p_obj);  
+ null_free((void **)&(*p_obj)->p_face);
+ null_free((void **)&(*p_obj)->p_opt);
+ null_free((void **)&(*p_obj)->p_vertex);
+ null_free((void **)&(*p_obj)->p_line);
+ null_free((void **)p_obj);  
 }
 
 int smaz_divoke_vertexy_objektu_dir(EDIT_OBJEKT *p_obj)
@@ -315,12 +315,12 @@ EDIT_OBJEKT * kopiruj_objekt(EDIT_OBJEKT *p_src)
  if(!p_src)
    return(p_src);
 
- p_cil = kopiruj_pole(p_src,sizeof(p_src[0])); 
+ p_cil = (EDIT_OBJEKT *)kopiruj_pole(p_src,sizeof(p_src[0])); 
 
- p_cil->p_vertex = kopiruj_pole(p_src->p_vertex,sizeof(OBJ_VERTEX)*p_cil->vertexnum);
- p_cil->p_vertex_kosti = kopiruj_pole(p_src->p_vertex_kosti,sizeof(p_src->p_vertex_kosti[0])*p_cil->vertexnum);
- p_cil->p_face = kopiruj_pole(p_src->p_face,sizeof(FACE)*p_cil->facenum);
- p_cil->p_opt = kopiruj_pole(p_src->p_opt,sizeof(p_src->p_opt[0])*p_src->optnum);
+ p_cil->p_vertex = (OBJ_VERTEX *)kopiruj_pole(p_src->p_vertex,sizeof(OBJ_VERTEX)*p_cil->vertexnum);
+ p_cil->p_vertex_kosti = (BOD *)kopiruj_pole(p_src->p_vertex_kosti,sizeof(p_src->p_vertex_kosti[0])*p_cil->vertexnum);
+ p_cil->p_face = (FACE *)kopiruj_pole(p_src->p_face,sizeof(FACE)*p_cil->facenum);
+ p_cil->p_opt = (int *)kopiruj_pole(p_src->p_opt,sizeof(p_src->p_opt[0])*p_src->optnum);
  
  p_cil->p_line = NULL;
  p_cil->p_joit_animace = key_kosti_kopiruj_animace(p_src->p_joit_animace);
@@ -554,7 +554,7 @@ void updatuj_obalku_kontejner(EDIT_KONTEJNER *p_kont)
   
   for(i = 0; i < p_kont->max_objektu; i++) {
     if(p_kont->p_obj[i]) {
-      obb_calc_obj_fast(p_kont->p_obj[i]);
+      //obb_calc_obj_fast(p_kont->p_obj[i]);
     }
   }
 
@@ -699,7 +699,7 @@ int slep_kontejner_dist(EDIT_KONTEJNER *p_kont, float min_dist)
      i2++;
      continue;
    }
-
+/*
    if(vzdal_bodu_bod(&p_obj1->obb.obb_stred, &p_obj2->obb.obb_stred) < min_dist) {
      p_kont->p_obj[i1] = slep_objekty(p_obj1,p_obj2);
      p_kont->p_obj[i2] = NULL;     
@@ -711,8 +711,9 @@ int slep_kontejner_dist(EDIT_KONTEJNER *p_kont, float min_dist)
      i1++;
      i2++;
    }
+ */
  }
- 
+
  preindexuj_kontejner(p_kont);
  updatuj_kontejner_statistika(p_kont,TRUE);
 
@@ -794,6 +795,7 @@ EDIT_KONTEJNER * kopiruj_kontejner_indir_vyber(EDIT_KONTEJNER *p_src, EDIT_KONTE
 
 int lo_setrid_kontejner_compare(const int *p_obj1, const int *p_obj2)
 {
+/*
   int   o1 = INT_MAX, o2 = INT_MAX;
   float d1,d2;
 
@@ -828,6 +830,7 @@ int lo_setrid_kontejner_compare(const int *p_obj1, const int *p_obj2)
   }
   else 
     return(1); // o2 je vetsi nez o1
+*/
 }
 
 /* setridi staticky kontejner podle pouzitych materialu 
@@ -838,7 +841,7 @@ int lo_setrid_kontejner(EDIT_KONTEJNER *p_kont)
   GLMATRIX *p_tmp;
   int mat = 0,i,
       am = INT_MAX;
-
+/*
   if(p_kont->kflag&KONT_KEYFRAME)
     return(0);
 
@@ -857,7 +860,7 @@ int lo_setrid_kontejner(EDIT_KONTEJNER *p_kont)
       mat++;
     }
   }
-
+*/
   return(mat);
 }
 
@@ -892,10 +895,12 @@ int lo_setrid_kontejner_materialy_compare(const int *p_obj1, const int *p_obj2)
 */
 void lo_setrid_kontejner_materialy(EDIT_KONTEJNER *p_kont)
 {
+/*
   if(!(p_kont->kflag&KONT_KEYFRAME)) {
     qsort((void *)p_kont->p_obj,(size_t)p_kont->max_objektu,
           (size_t)sizeof(EDIT_OBJEKT *), lo_setrid_kontejner_materialy_compare);
-  }  
+  }
+*/
 }
 
 
@@ -904,12 +909,12 @@ void lo_setrid_kontejner_materialy(EDIT_KONTEJNER *p_kont)
 */
 void zrus_tri_vnitrek(HIERARCHY_TRACK_INFO *p_tri)
 {
-  null_free(&p_tri->p_pkeys);
-  null_free(&p_tri->p_pos);
-  null_free(&p_tri->p_rkeys);
-  null_free(&p_tri->p_at);
-  null_free(&p_tri->p_scale);
-  null_free(&p_tri->p_skeys);
+  null_free((void **)&p_tri->p_pkeys);
+  null_free((void **)&p_tri->p_pos);
+  null_free((void **)&p_tri->p_rkeys);
+  null_free((void **)&p_tri->p_at);
+  null_free((void **)&p_tri->p_scale);
+  null_free((void **)&p_tri->p_skeys);
 }
 
 void zrus_tri(HIERARCHY_TRACK_INFO **p_trii)
@@ -974,9 +979,9 @@ EDIT_MATERIAL * vyrob_material(void)
  p_mat->lesk = 1.0f;
   
  p_mat->flag2 |= (MAT2_DIFFUSE|MAT2_DIFFUSE_RAY|MAT2_MAP1);
-
+/*
  mat_default_stage_bloky(p_mat);
-
+*/
  for(i = 0; i < MAT_TEXTUR; i++) {
    init_matrix(p_mat->ttext+i); 
  }
@@ -1003,7 +1008,7 @@ void zrus_material(EDIT_MATERIAL **p_mat)
   if((*p_mat)->p_sub)
     zrus_material(&((*p_mat)->p_sub));
 
-  null_free(p_mat);
+  null_free((void **)p_mat);
  *p_mat = NULL;
 }
 
@@ -1029,8 +1034,10 @@ EDIT_MATERIAL * kopiruj_material_indir(EDIT_MATERIAL *p_src, EDIT_MATERIAL *p_de
 
  // kopie animaci
  if(p_src->flag&MAT_ANIM_FRAME) {
+ /*
    p_dest->anim.p_frame = mmalloc(sizeof(ANIM_FRAME)*p_dest->anim.framenum);
    memcpy(p_dest->anim.p_frame,p_src->anim.p_frame,sizeof(ANIM_FRAME)*p_dest->anim.framenum);
+ */
  }
 
  // kopie animaci 1
@@ -1049,8 +1056,10 @@ EDIT_MATERIAL * kopiruj_material(EDIT_MATERIAL *p_src)
 {
  EDIT_MATERIAL *p_dest;
  if(!p_src) return(NULL);
+/*
  p_dest = mmalloc(sizeof(EDIT_MATERIAL));
  return(kopiruj_material_indir(p_src,p_dest));
+*/
 }
 
 
@@ -1081,6 +1090,7 @@ EDIT_MATERIAL * kopiruj_material(EDIT_MATERIAL *p_src)
 
 GAME_MESH * kopiruj_mesh(GAME_MESH *p_src, GAME_MESH_DATA *p_data)
 {
+/*
   GAME_MESH * p_dest = vyrob_mesh(p_src->objektu,p_data);
   int i;
 
@@ -1122,6 +1132,7 @@ GAME_MESH * kopiruj_mesh(GAME_MESH *p_src, GAME_MESH_DATA *p_data)
   }
 
   return(p_dest);
+  */
 }
 
 /* Kopie Mesh-Dat
@@ -1134,7 +1145,7 @@ GAME_MESH_DATA * kopiruj_mesh_data(GAME_MESH_DATA *p_src, GAME_MESH *p_mesh_top,
 
   if(!p_src || !p_desc)
     return(NULL);
-
+/*
   p_desc->p_mesh = p_mesh_top;
   p_desc->kflag  = p_src->kflag;
   p_desc->m1flag = p_src->m1flag;
@@ -1145,7 +1156,7 @@ GAME_MESH_DATA * kopiruj_mesh_data(GAME_MESH_DATA *p_src, GAME_MESH *p_mesh_top,
   p_desc->slightnum = p_src->slightnum;
   p_desc->lightmax  = p_src->lightmax;
   p_desc->lightakt  = p_src->lightakt;
-  
+
   if(p_src->lightmax && p_src->p_light) {
     p_desc->p_light = mmalloc(sizeof(void *)*p_src->lightmax);
     memcpy(p_desc->p_light,p_src->p_light,sizeof(void *)*p_src->lightmax);
@@ -1201,7 +1212,7 @@ GAME_MESH_DATA * kopiruj_mesh_data(GAME_MESH_DATA *p_src, GAME_MESH *p_mesh_top,
       p_led = p_led->p_next;
     }
   }
-
+*/
   return(p_desc);
 }
 
@@ -1233,6 +1244,7 @@ void rozsir_objekt_light(EDIT_OBJEKT *p_obj)
       }
     }
   }
+/*
   if(num == 2 && vzdal_bodu(p_obj->p_vertex+p[0],p_obj->p_vertex+p[1]) > 2.0f) {
     p_v1 = p_obj->p_vertex+p[0];
     p_v2 = p_obj->p_vertex+p[1];
@@ -1304,6 +1316,7 @@ void rozsir_objekt_light(EDIT_OBJEKT *p_obj)
     p_obj->vertexnum = 5;
     p_obj->facenum = 12;
   }
+  */
 }
 
 // Prida extra-vertex
@@ -1319,6 +1332,7 @@ void kont_extra_light(EDIT_KONTEJNER *p_kont)
 
 void mesh_calc_varray(GAME_MESH *p_mesh)
 {
+/*
   VERTEX_ARRAYS *p_varray = &p_mesh->varray;
   int vertexu = p_mesh->vertexnum;
   int m2flag = p_mesh->p_data->m2flag;
@@ -1360,6 +1374,7 @@ void mesh_calc_varray(GAME_MESH *p_mesh)
     //p_varray->ati_velikost = last+sizeof(p_mesh->p_face[0])*p_mesh->facevel;
     p_varray->ati_velikost = last;
   }
+  */
 }
 
 void mesh_preved_jointy_rec(JOINT *p_joint, int prvni_vertex)
@@ -1381,7 +1396,7 @@ JOINT_ANIMACE * mesh_preved_jointy(EDIT_OBJEKT *p_obj, int prvni_vertex, int obj
 {
   JOINT_ANIMACE *p_ret = p_obj->p_joit_animace;
   JOINT_ANIMACE *p_tmp = p_ret;
-
+/*
   if(!p_ret) {
     p_mesh->p_data->k2flag &= ~KONT2_JOINT_ANIM;
     return(NULL);
@@ -1403,6 +1418,7 @@ JOINT_ANIMACE * mesh_preved_jointy(EDIT_OBJEKT *p_obj, int prvni_vertex, int obj
   p_ret->p_kkflag = &p_mesh->p_data->kflag;
   p_ret->p_koflag =  p_mesh->p_kflag+objnum;
   p_obj->p_joit_animace = NULL;
+  */
   return(p_ret);
 }
 
@@ -1440,7 +1456,7 @@ int * opt_slep(int **p_opt, int *p_optnum, int *p_start, int objnum, int *p_vysn
     vel += p_optnum[i];
   }
  *p_vysnum = vel;
-
+/*
   p_tmp = mmalloc(sizeof(p_tmp[0])*vel);
   start = 0;
   for(i = 0; i < objnum; i++) {
@@ -1450,7 +1466,7 @@ int * opt_slep(int **p_opt, int *p_optnum, int *p_start, int objnum, int *p_vysn
     p_start[i] = start;
     start += num;
   }
-
+*/
   return(p_tmp);
 }
 
@@ -1501,7 +1517,7 @@ void opt_dopln(EDIT_OBJEKT *p_obj)
     kprintf(TRUE,"Stary objekt - calc strip %s...",p_obj->jmeno);
     
     optnum = p_obj->facenum+2;
-    
+/*    
     p_opt = mmalloc(sizeof(p_opt[0])*optnum);
     
     p_opt[O_INDEX_POCET] = p_obj->facenum;
@@ -1512,11 +1528,13 @@ void opt_dopln(EDIT_OBJEKT *p_obj)
 
     p_obj->p_opt = p_opt;
     p_obj->optnum = optnum;
+*/
   }
 }
 
 GAME_MESH * edit_to_mesh(GAME_MESH_DATA *p_mesh_data, EDIT_KONTEJNER *p_kont, EDIT_MATERIAL **p_mat, int max_mat, int shadow_volume)
 {
+/*
   GAME_MESH     *p_mesh = vyrob_mesh(p_kont->objektu,p_mesh_data);
   VERTEX_ARRAYS *p_varray = &p_mesh->varray;
   GLMATRIX       tmp;
@@ -1786,8 +1804,7 @@ GAME_MESH * edit_to_mesh(GAME_MESH_DATA *p_mesh_data, EDIT_KONTEJNER *p_kont, ED
     }
   }
   
-  /* Vertex-arrays inicializace
-  */  
+  // Vertex-arrays inicializace
   mesh_calc_varray(p_mesh);
   mesh_pridej_vertex_array(p_mesh);
 
@@ -1797,8 +1814,8 @@ GAME_MESH * edit_to_mesh(GAME_MESH_DATA *p_mesh_data, EDIT_KONTEJNER *p_kont, ED
     for(i = 0; i < p_mesh->objektu; i++)
       obb_transformuj(p_mesh->p_obb_local+i,&tmp,p_mesh->p_obb_world+i);
   }
-
   return(p_mesh);
+*/
 }
 
 GAME_MESH * vyrob_mesh(int objektu, GAME_MESH_DATA *p_data)
@@ -1810,7 +1827,7 @@ GAME_MESH * vyrob_mesh(int objektu, GAME_MESH_DATA *p_data)
     chyba("pamet");
   }
   memset(p_mesh,0,sizeof(p_mesh[0]));
- 
+/* 
   p_mesh->p_data = (p_data) ? p_data : vyrob_mesh_data();
   p_mesh->objektu = objektu;
   p_mesh->p_data->top_edlight = K_CHYBA;
@@ -1824,20 +1841,24 @@ GAME_MESH * vyrob_mesh(int objektu, GAME_MESH_DATA *p_data)
   p_mesh->siminfo.odkaz = K_CHYBA;
   for(i = 0; i < LANI_FRONTA; i++)
     p_mesh->siminfo.akt[i] = K_CHYBA;
+*/
   return(p_mesh);
 }
 
 GAME_MESH_DATA * vyrob_mesh_data(void)
 {
   GAME_MESH_DATA *p_data;
-  p_data = mmalloc(sizeof(p_data[0]));
+// TODO
+//  p_data = mmalloc(sizeof(p_data[0]));
   return(p_data);
 }
 
 void mesh_pridej_vodavertexy(GAME_MESH *p_mesh)
 {
+/*
   vyrob_pole(p_mesh->p_vertex_diff_voda,p_mesh->vertexnum);
   vyrob_pole(p_mesh->p_vertex_spec_voda,p_mesh->vertexnum);
+*/
 }
 
 void zrus_fleky(FLEK **p_flek)
@@ -1853,7 +1874,7 @@ void zrus_flare(LENS_FLARE **p_flare)
 {
   if(*p_flare) {
     zrus_flare(&((*p_flare)->p_next));
-    null_free(&(*p_flare)->p_sloz);
+    null_free((void **)&(*p_flare)->p_sloz);
     free(*p_flare);
     *p_flare = NULL;
   }
@@ -1864,7 +1885,7 @@ void zrus_mesh_data(GAME_MESH_DATA **p_tmp)
   GAME_MESH_DATA *p_data = *p_tmp;
   null_free((void **)&p_data->p_light);
   null_free((void **)&p_data->p_edlight);
-  null_free(p_tmp);
+  null_free((void **)p_tmp);
 }
 
 void zrus_mesh(GAME_MESH **p_mesh_top)
@@ -1872,8 +1893,8 @@ void zrus_mesh(GAME_MESH **p_mesh_top)
   GAME_MESH *p_mesh = *p_mesh_top;
   GAME_MESH *p_tmp;
   int i;
-  
-  zrus_mesh_data(&p_mesh->p_data);  
+/*  
+  zrus_mesh_data(&p_mesh->p_data);
 
   while(p_mesh) {
   
@@ -1905,7 +1926,7 @@ void zrus_mesh(GAME_MESH **p_mesh_top)
     
     null_free(&p_tmp);
   }
-  
+*/  
   *p_mesh_top = NULL;
 }
 
@@ -1918,24 +1939,26 @@ void zrus_mesh(GAME_MESH **p_mesh_top)
 int lo_najdi_texturu(EDIT_TEXT *p_text, int max, char *p_file, int flag)
 { 
   int i;
-  
+/*  
   p_file = strlwr(p_file);
   for(i = 0; i < max; i++) {
     if(flag == p_text[i].flag && !strcmp(p_file,strlwr(p_text[i].jmeno)))
       return(i);
   }
+*/
   return(K_CHYBA);
 }
 
 int lo_najdi_volnou_texturu(EDIT_TEXT *p_text, int max)
 {
   int i;
-
+/*
   for(i = 0; i < max; i++) {
     if(!p_text[i].jmeno[0]) {
       return(i);
     }
   }
+*/
   return(K_CHYBA);
 }
 
@@ -2165,7 +2188,7 @@ LENS_FLARE * lo_flare2linear(LENS_FLARE *p_flare_list, int max)
     
     if(!p_flare_list[i].akt)
       continue;
-  
+  /*
     p_flare = mmalloc(sizeof(p_flare[0]));
     *p_flare = p_flare_list[i];
     p_flare->p_next = NULL;
@@ -2180,7 +2203,7 @@ LENS_FLARE * lo_flare2linear(LENS_FLARE *p_flare_list, int max)
     if(!i) {
       p_flare_first = p_flare;
     }
-
+*/
     p_prev = p_flare;
   } 
   return(p_flare_first);
@@ -2201,7 +2224,7 @@ int lo_reload_textur_formaty(APAK_HANDLE *pHandle, EDIT_TEXT *p_text, int max, i
 {
   char file[MAX_JMENO];
   int i;
-
+/*
   for(i = 0; i < max; i++) {
     if(p_text[i].jmeno[0] && !p_text[i].load) {
       kprintf(TRUE,"Texture %s...",p_text[i].jmeno);
@@ -2228,7 +2251,7 @@ int lo_reload_textur_formaty(APAK_HANDLE *pHandle, EDIT_TEXT *p_text, int max, i
       }
     }
   }
-  
+  */
   return(0);
 }
 
@@ -2268,7 +2291,7 @@ int lo_reload_textur_file(EDIT_TEXT *p_text, int max, char *p_file, int save)
 int lo_reload_textur(TEXT_DIR *p_dir, EDIT_TEXT *p_text, int num, int save)
 {  
   int i;    
-
+/*
   for(i = 0; i < TEXT_DIRS; i++) {
     if(p_dir->texture_dir[i][0]) {
       txt_trida(p_dir->texture_dir_class[i]);
@@ -2282,7 +2305,7 @@ int lo_reload_textur(TEXT_DIR *p_dir, EDIT_TEXT *p_text, int num, int save)
       lo_reload_textur_file(p_text,num,p_dir->texture_file[i],save);
     }
   }
-
+*/
   lo_reload_textur_chyby(p_text, num);    
 
   return(TRUE);
@@ -2291,12 +2314,14 @@ int lo_reload_textur(TEXT_DIR *p_dir, EDIT_TEXT *p_text, int num, int save)
 int lo_reload_textur_chyby(EDIT_TEXT *p_text, int num)
 {  
   int i,n;
+/*
   for(i = 0, n = 0; i < num; i++) {
     if(p_text[i].jmeno[0] && !p_text[i].load) {
       kprintf(TRUE,"Chyba loadu textury %s...",p_text[i].jmeno);
       n++;
     }
   }  
+*/
   kprintf(TRUE,"Chybne nahrano %d textur",n);
   return(TRUE);
 }
@@ -2304,36 +2329,39 @@ int lo_reload_textur_chyby(EDIT_TEXT *p_text, int num)
 int lo_reload_textur_vypis(EDIT_TEXT *p_text, int num)
 {  
   int i;
-
+/*
   for(i = 0; i < num; i++) {
     if(p_text[i].jmeno[0]) {
       kprintf(TRUE,"%d textura %s %d...",i,p_text[i].jmeno,p_text[i].load);      
     }
   }
-
+*/
   return(TRUE);
 }
 
 int lo_smaz_textury(EDIT_TEXT *p_text, int max)
 {
   int i;
- 
+/* 
   for(i = 0; i < max; i++) {
     if(p_text[i].load) {
       txt_zrus_texturu(p_text+i);
     }
   }
+*/
   return(0);
 }
 
 int lo_smaz_textury_bmp(EDIT_TEXT *p_text, int max)
 {
   int i; 
+/*
   for(i = 0; i < max; i++) {
     if(p_text[i].load && p_text[i].p_bmp) {
       bmp_zrus(&p_text[i].p_bmp);
     }
   }
+*/
   return(0);
 }
 
@@ -2342,7 +2370,7 @@ int lo_velikost_textur(EDIT_TEXT *p_text, int max)
 {
   int i,xres,yres,vel = 0;
   int r,g,b,a,l,in;
- 
+/* 
   for(i = 0; i < max; i++) {
     if(p_text[i].load) {
       glBindTexture(p_text[i].typ,p_text[i].text);
@@ -2357,6 +2385,7 @@ int lo_velikost_textur(EDIT_TEXT *p_text, int max)
       vel += xres*yres*(r+b+g+a+l+in);
     }
   }
+*/
   return(vel);
 }
 
@@ -2365,7 +2394,7 @@ int lo_velikost_textur(EDIT_TEXT *p_text, int max)
 void lo_reload_stage(EDIT_MATERIAL **p_mat, int num)
 {
   int i,t,as;
-  
+  /*
   for(i = 0; i < num; i++) {
     if(p_mat[i]) {
       for(t = 0; t < MAT_TEXTUR; t++) {
@@ -2387,10 +2416,11 @@ void lo_reload_stage(EDIT_MATERIAL **p_mat, int num)
       }
     }
   }
+  */
 }
 
 int lo_pocet_textur(EDIT_TEXT *p_text, int max)
-{
+{/*
   int i,vel = 0;
   for(i = 0; i < max; i++) {
     if(p_text[i].load) {
@@ -2398,10 +2428,12 @@ int lo_pocet_textur(EDIT_TEXT *p_text, int max)
     }
   }
   return(vel);
+*/
 }
 
 int lo_velikost_meshu(GAME_MESH **p_mesh, int num, int *p_facu, int *p_vertexu)
 {
+/*
   int i,vel = 0;
   for(i = 0; i < num; i++) {
     if(p_mesh[i]) {
@@ -2412,6 +2444,7 @@ int lo_velikost_meshu(GAME_MESH **p_mesh, int num, int *p_facu, int *p_vertexu)
     }
   }
   return(vel);
+*/
 }
 
 int lo_velikost_poly(EDIT_MESH_POLY *p_poly, int num, int *p_facu, int *p_vertexu)
@@ -2431,7 +2464,7 @@ int lo_velikost_poly(EDIT_MESH_POLY *p_poly, int num, int *p_facu, int *p_vertex
 void lo_vymaz_materialy(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TEXT *p_text, int max_text)
 {
  int i;
-
+/*
  for(i = 0; i < max_mat; i++) {
    if(p_mat[i])
      zrus_material(p_mat+i);
@@ -2440,7 +2473,8 @@ void lo_vymaz_materialy(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TEXT *p_text, i
    if(p_text[i].load) {
      txt_zrus_texturu(p_text+i);
    }
- } 
+ }
+*/
 }
 
 
@@ -2528,7 +2562,7 @@ void lo_vyrob_animaci_list(EDIT_MATERIAL *p_mat, char *p_list, EDIT_TEXT *p_text
    strcpy(p_amat->jmeno,p_list);
    p_amat->framenum = linenum;
    p_amat->frameakt = 0;
-   p_amat->p_frame = mmalloc(sizeof(ANIM_FRAME)*p_amat->framenum);
+   p_amat->p_frame = (ANIM_FRAME *)mmalloc(sizeof(ANIM_FRAME)*p_amat->framenum);
       
    fseek(f,0,SEEK_SET);
    fgets(line,200,f);
@@ -2555,7 +2589,7 @@ void lo_vyrob_animaci_list(EDIT_MATERIAL *p_mat, char *p_list, EDIT_TEXT *p_text
        */
        // Load textury
        a = tolower((int)p_pom[0]);
-       
+/*       
        switch(a) {
          case 'f': // je to texture file
            // pridej do texture listu
@@ -2566,7 +2600,7 @@ void lo_vyrob_animaci_list(EDIT_MATERIAL *p_mat, char *p_list, EDIT_TEXT *p_text
                chyba("Neni volna textura !");
              else {
                memset(p_text+t,0,sizeof(p_text[t]));
-               strcpy(p_text[t].jmeno,p_pom+2);               
+               strcpy(p_text[t].jmeno,p_pom+2);
              }
            }
            p_amat->p_frame[i].p_text = p_text+t;
@@ -2603,6 +2637,7 @@ void lo_vyrob_animaci_list(EDIT_MATERIAL *p_mat, char *p_list, EDIT_TEXT *p_text
            ddw("Neznamy flag ! (%s)",p_pom);
            break;
        }
+       */
        p_pom = p_next;
      }
    }
@@ -2681,7 +2716,8 @@ void lo_zrus_animaci(ANIM_MATERIAL *p_amat)
 */
 EDIT_MESH_POLY * vyrob_poly(void)
 { 
- return(mmalloc(sizeof(EDIT_MESH_POLY)));
+// TODO
+// return(mmalloc(sizeof(EDIT_MESH_POLY)));
 }
 
 
@@ -2697,10 +2733,10 @@ void zrus_vnitrek_poly(EDIT_MESH_POLY *p_poly)
      bmp_zrus(&p_poly->p_ind[i].p_bmp);
      bmp_zrus(&p_poly->p_ind[i].p_zal);
    }
-   null_free(&p_poly->p_ind);
+   null_free((void **)&p_poly->p_ind);
  }
 
- null_free(&p_poly->p_koord);
+ null_free((void **)&p_poly->p_koord);
  null_free((void **)&p_poly->p_light);
  null_free((void **)&p_poly->p_lightnum);
  null_free((void **)&p_poly->p_edlight);
@@ -2713,7 +2749,7 @@ void zrus_poly(EDIT_MESH_POLY **p_poly)
  *p_poly = NULL;
 }
 
-POZICE_BODU * lo_edit_to_poly_najdi_vetex(POZICE_BODU *p_pozice, int bodu, OBJ_VERTEX *p_bod, int *p_index)
+BOD * lo_edit_to_poly_najdi_vetex(BOD *p_pozice, int bodu, OBJ_VERTEX *p_bod, int *p_index)
 {
   int v;
 
@@ -2769,7 +2805,7 @@ EDIT_MESH_POLY * edit_to_poly_indir(EDIT_KONTEJNER *p_kont, EDIT_MESH_POLY *p_po
   if(!p_obj->p_fsous)
     obj_vyrob_list_sousednosti(p_obj);
   
-  p_poly->p_fsous = kopiruj_pole(p_obj->p_fsous,sizeof(p_obj->p_fsous[0])*p_obj->facenum);
+  p_poly->p_fsous = (dword *)kopiruj_pole(p_obj->p_fsous,sizeof(p_obj->p_fsous[0])*p_obj->facenum);
   
   p_poly->material = p_obj->material;
   
@@ -2833,7 +2869,8 @@ EDIT_MESH_POLY * edit_to_poly_indir(EDIT_KONTEJNER *p_kont, EDIT_MESH_POLY *p_po
   }
   
   p_poly->kreslit = TRUE;  
-  obb_calc_poly(p_poly);
+// TODO
+// obb_calc_poly(p_poly);
   
   return(p_poly);
 }
@@ -2927,11 +2964,11 @@ void lo_poly_nahraj_indir(FFILE f, EDIT_MESH_POLY *p_poly, EDIT_TEXT *p_light)
   ffread(p_poly,sizeof(p_poly[0]),1,f);
   p_poly->mail = 0;
 
-  p_poly->p_koord = mmalloc(sizeof(p_poly->p_koord[0])*p_poly->facenum);
+  p_poly->p_koord = (TEXT_KOORD *)mmalloc(sizeof(p_poly->p_koord[0])*p_poly->facenum);
   ffread(p_poly->p_koord,sizeof(p_poly->p_koord[0]),p_poly->facenum,f);
 
-  p_poly->p_light = mmalloc(sizeof(p_poly->p_light[0])*p_poly->lightnum);
-  p_poly->p_lightnum = mmalloc(sizeof(p_poly->p_lightnum[0])*p_poly->lightnum);
+  p_poly->p_light = (EDIT_TEXT **)mmalloc(sizeof(p_poly->p_light[0])*p_poly->lightnum);
+  p_poly->p_lightnum = (int *)mmalloc(sizeof(p_poly->p_lightnum[0])*p_poly->lightnum);
   
   ffread(p_poly->p_light,sizeof(p_poly->p_light[0]),p_poly->lightnum,f);
   ffread(p_poly->p_lightnum,sizeof(p_poly->p_lightnum[0]),p_poly->lightnum,f);
@@ -3023,7 +3060,7 @@ void lo_poly_calc_lightmap_face(EDIT_MESH_POLY *p_poly)
   float bmp_u,bmp_v;
   BOD   vu,vv;     // smerove vektory x,y
   
-  p_poly->p_ind = mmalloc(sizeof(p_poly->p_ind[0])*facu);
+  p_poly->p_ind = (LIGHTMAP_FACE *)mmalloc(sizeof(p_poly->p_ind[0])*facu);
 
   for(l = 0; l < p_poly->lightnum; l++) {        
     for(i = 0; i < p_poly->p_lightnum[l]; i+=3) {
@@ -3083,7 +3120,7 @@ void lo_poly_calc_lightmap_face(EDIT_MESH_POLY *p_poly)
       vektor_add(&p_lf->s0,&vv,&p_lf->s1);
       vektor_add(&p_lf->s0,&vu,&p_lf->s2);
       vektor_add(&p_lf->s2,&vv,&p_lf->s3);
-
+/*
       if(p_poly->p_light[l]->p_bmp) {
 
         bmp_u = (float)p_poly->p_light[l]->p_bmp->x;
@@ -3114,6 +3151,7 @@ void lo_poly_calc_lightmap_face(EDIT_MESH_POLY *p_poly)
       } else {
         kprintf(1,"lo_poly_calc_lightmap_face -> p_bmp = NULL!");
       }
+*/      
     }
     last += p_poly->p_lightnum[l];
   }
@@ -3134,14 +3172,14 @@ FFILE lo_uloz_kontejner(EDIT_MATERIAL **p_mat, int max_mat, EDIT_KONTEJNER *p_ko
       return(FALSE);
     }
   }
-  
+/* TODO  
   lo_uloz_kontejner_chunk(f,p_mat,max_mat,p_kont_top,FALSE);
   p_kont = p_kont_top->p_next;
   while(p_kont) {
     lo_uloz_kontejner_chunk(f,p_mat,max_mat,p_kont,TRUE);
     p_kont = p_kont->p_next;
   }   
-  
+*/  
   if(!file) {
     ffclose(f);
     return(NULL);
@@ -3155,11 +3193,13 @@ FFILE lo_uloz_kontejner(EDIT_MATERIAL **p_mat, int max_mat, EDIT_KONTEJNER *p_ko
 */
 EDIT_KONTEJNER * lo_nahraj_kontejner(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TEXT *p_text, int max_text, char *p_jmeno, int mat)
 {
+/*
   if(!strcmp(cti_koncovku(p_jmeno),KONCOVKA_MESH_OLD)) {
     return(lo_nahraj_kontejner_out(p_mat,max_mat,p_text,max_text,p_jmeno,mat));
-  } else {    
+  } else {
     return(lo_nahraj_kontejner_chunk(p_mat,max_mat,p_text,max_text,p_jmeno,mat,FALSE));
-  }  
+  }
+*/
 }
 
 /* Nahraje b2t nebo mnt materialy
@@ -3167,11 +3207,13 @@ EDIT_KONTEJNER * lo_nahraj_kontejner(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TE
 int lo_nahraj_materialy(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TEXT *p_text, 
                         int max_text, char *p_file)
 {
+/*
  if(!strcmp(cti_koncovku(p_file),KONCOVKA_MATERIAL_OLD)) {
    return(lo_nahraj_materialy_out_jmeno(p_mat,max_mat,p_text,max_text,p_file,TRUE));
  } else {
    return(lo_nahraj_materialy_chunk(p_mat,max_mat,p_text,max_text,p_file,TRUE));
  }
+*/
 }
 
 /*
@@ -3190,12 +3232,12 @@ int lo_uloz_materialy(EDIT_MATERIAL **p_mat, int max_mat, char *p_file, char *p_
  if((f = ffopen(file,"wb")) == NULL) {
    return(FALSE);
  } 
- 
+ /*
  for(i = 0; i < max_mat; i++) {
    if(p_mat[i])
      lo_uloz_material_chunk(f, p_mat[i]);   
  }
- 
+ */
  ffclose(f);
  return(TRUE);
 }
@@ -3212,9 +3254,9 @@ int lo_uloz_material(EDIT_MATERIAL *p_mat, char *p_file, char *p_dir)
  if((f = ffopen(file,"wb")) == NULL) {
    return(FALSE);
  } 
- 
+ /*
  lo_uloz_material_chunk(f, p_mat);
- 
+ */
  ffclose(f);
  return(TRUE);
 }
@@ -3235,13 +3277,13 @@ int lo_uloz_materialy_pouzite(EDIT_MATERIAL **p_mat, int max_mat, char *p_file, 
   if((f = ffopen(file,"wb")) == NULL) {
     return(FALSE);
   } 
-  
+  /*
   for(i = 0; i < max_mat; i++) {
     if(p_mat[i] && p_mat[i]->flag&(MAT_POUZITY|MAT_SYSTEM)) {
       lo_uloz_material_chunk(f, p_mat[i]);
     }
   }
-  
+  */
   ffclose(f);  
   return(i);
 }
@@ -3260,7 +3302,7 @@ GAME_MESH * lo_nahraj_mesh(EDIT_MATERIAL **p_mat, int max_mat,
             *p_mesh = NULL;
 
   p_kont = p_kont_top = lo_nahraj_kontejner(p_mat,max_mat,p_text,max_text,p_file,mat);
-  
+/*
   if(p_kont && p_kont->bodu && p_kont->objektu) {
     while(p_kont) {
       if(extra_light)
@@ -3278,7 +3320,7 @@ GAME_MESH * lo_nahraj_mesh(EDIT_MATERIAL **p_mat, int max_mat,
   } else {
     p_mesh_top = NULL;
   }
-
+*/
   zrus_kontejner_rec(&p_kont_top,NULL);
   return(p_mesh_top);
 }
@@ -3292,7 +3334,7 @@ GAME_MESH * lo_kontejner_to_mesh(EDIT_KONTEJNER **p_kont_top, EDIT_MATERIAL **p_
                  *p_mesh = NULL;
   
   p_kont = *p_kont_top;
-  
+/*  
   if(p_kont->bodu && p_kont->objektu) {
     while(p_kont) {
       if(extra_light)
@@ -3311,7 +3353,7 @@ GAME_MESH * lo_kontejner_to_mesh(EDIT_KONTEJNER **p_kont_top, EDIT_MATERIAL **p_
   } else {
     p_mesh_top = NULL;
   }
-  
+*/
   zrus_kontejner_rec(p_kont_top,NULL);
   return(p_mesh_top);
 }
@@ -3488,7 +3530,7 @@ EXTRA_DYN_LIGHT * lo_najdi_volne_extra_svetlo_point(EXTRA_DYN_LIGHT *p_dlight, i
 void lo_preved_flare_do_sceny(STATIC_LIGHT *p_light, LENS_FLARE *p_flarelist, int flaremax)
 {
   LENS_FLARE      *p_flare;
-  
+/*  
   while(p_light) {    
     if(p_light->p_flare) {
       p_flare = lo_kopiruj_flare(p_flarelist,flaremax,p_light->p_flare);
@@ -3498,6 +3540,7 @@ void lo_preved_flare_do_sceny(STATIC_LIGHT *p_light, LENS_FLARE *p_flarelist, in
     }
     p_light = p_light->p_next;
   }
+*/
 }
 
 void lo_preved_svetla_do_sceny(EDIT_KONTEJNER *p_kont, STATIC_LIGHT *p_light, int lightnum, DYN_LIGHT *p_dlist, int dlistnum, EXTRA_DYN_LIGHT *p_elist, int elistnum)
@@ -3663,8 +3706,8 @@ void lo_kopiruj_svetla_do_sceny(EDIT_KONTEJNER *p_kont, STATIC_LIGHT *p_light, i
   EXTRA_DYN_LIGHT *p_elight;
   int l,p;
 
-  /* Prevedu staticky svetla
-  */
+  // Prevedu staticky svetla
+/*
   if(p_light) {
     p_slight = p_kont->p_slight;
 
@@ -3714,9 +3757,7 @@ void lo_kopiruj_svetla_do_sceny(EDIT_KONTEJNER *p_kont, STATIC_LIGHT *p_light, i
     }
   }
 
-
-  /* Prevedu dynamicky svetla
-  */
+  // Prevedu dynamicky svetla
   if(p_dlist) {
     p_dlight = p_kont->p_dlight;
     
@@ -3757,8 +3798,7 @@ void lo_kopiruj_svetla_do_sceny(EDIT_KONTEJNER *p_kont, STATIC_LIGHT *p_light, i
     }
   }
 
-  /* Prevedu extra svetla
-  */
+  // Prevedu extra svetla
   if(p_elist) {
     p_elight = p_kont->p_edlight;
     
@@ -3798,6 +3838,7 @@ void lo_kopiruj_svetla_do_sceny(EDIT_KONTEJNER *p_kont, STATIC_LIGHT *p_light, i
       }
     }
   }
+  */
 }
 
 // skopiruje svetla do sceny a navaze se na nove svetla
@@ -4077,7 +4118,7 @@ void lo_premapuj_svetla_kont_mesh(EDIT_KONTEJNER *p_src, GAME_MESH *p_dest)
 
   if(!p_src || !p_dest)
     return;
-
+/*
   while(p_slight) {
     p_slight->p_mesh_data = p_dest->p_data;
     p_slight = p_slight->p_next;    
@@ -4098,10 +4139,12 @@ void lo_premapuj_svetla_kont_mesh(EDIT_KONTEJNER *p_src, GAME_MESH *p_dest)
   }
   p_dest->p_data->p_lelight = p_src->p_edlight;
   p_src->p_edlight = NULL;
+  */
 }
 
 void lo_premapuj_svetla_mesh(GAME_MESH *p_src, GAME_MESH *p_dest)
 {
+/*
   STATIC_LIGHT    *p_slight = p_src->p_data->p_lslight;
   DYN_LIGHT       *p_dlight = p_src->p_data->p_ldlight;
   EXTRA_DYN_LIGHT *p_elight = p_src->p_data->p_lelight;
@@ -4129,6 +4172,7 @@ void lo_premapuj_svetla_mesh(GAME_MESH *p_src, GAME_MESH *p_dest)
   }
   p_dest->p_data->p_lelight = p_src->p_data->p_lelight;
   p_src->p_data->p_lelight = NULL;
+  */
 }
 
 void lo_transformuj_svetla_do_wordspace(EDIT_KONTEJNER *p_src)
@@ -4195,7 +4239,8 @@ void lo_premapuj_svetla_do_wordspace(EDIT_KONTEJNER *p_src)
 }
 
 LENS_FLARE * lo_kopiruj_flare(LENS_FLARE *p_flarelist, int max, LENS_FLARE *p_flare)
-{    
+{   
+/*
   int f = lo_najdi_volny_flare(p_flarelist,max);
   p_flarelist[f] = *p_flare;
   if(p_flare->p_sloz) {
@@ -4204,10 +4249,12 @@ LENS_FLARE * lo_kopiruj_flare(LENS_FLARE *p_flarelist, int max, LENS_FLARE *p_fl
   }
   p_flarelist[f].index = f;
   return(p_flarelist+f);
+*/
 }
 
 void mesh_pridej_vertex_array(GAME_MESH *p_mesh)
 {
+/*
   int flag,m2flag = p_mesh->p_data->m2flag;
   int norm = 0;
   
@@ -4225,15 +4272,14 @@ void mesh_pridej_vertex_array(GAME_MESH *p_mesh)
 
     mesh_vertex_array_upload(p_mesh);
   }
+*/
 }
 
 void poly_pridej_vertex_array(EDIT_MESH_POLY *p_poly)
 {
   memset(&p_poly->varray,0,sizeof(p_poly->varray));
-  if(extlist_vertex_array) {
-    poly_vertex_array_init(p_poly);
-    poly_vertex_array_upload(p_poly);
-  }
+  poly_vertex_array_init(p_poly);
+  poly_vertex_array_upload(p_poly);
 }
 
 int * NvConsolidateSingleFace(EXTRA_FACE *p_eface, int facenum, int *p_facevel)

@@ -78,7 +78,7 @@ byte* ConvertRGBToBMPBuffer ( byte* Buffer, int width, int height, long* newsize
 	*newsize = height * psw;
 
 	// and create new buffer
-	newbuf = malloc(sizeof(byte)*(*newsize));
+	newbuf = (byte *)malloc(sizeof(byte)*(*newsize));
   	
 	// fill the buffer with zero bytes then we dont have to add
 	// extra padding zero bytes later on
@@ -151,7 +151,7 @@ byte* ConvertBMPToRGBBuffer ( byte* Buffer, int width, int height )
 	psw = scanlinebytes + padding;
 
 	// create new buffer
-	newbuf = malloc(sizeof(byte)*width*height*3);
+	newbuf = (byte *)malloc(sizeof(byte)*width*height*3);
   
   for (y = 0; y < height; y++ ) {
     p_p1 = newbuf+y*scanlinebytes;

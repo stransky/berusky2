@@ -102,7 +102,9 @@ void nahraj_texturu_fc(FFILE f, EDIT_MATERIAL *p_mat, EDIT_TEXT *p_text, int max
        if((t = lo_najdi_texturu(p_text,max,string,FALSE)) == K_CHYBA) {
          if((t = lo_najdi_volnou_texturu(p_text,max)) == K_CHYBA)
            chyba("Textury");
+         /*TODO
          strcpy(p_text[t].jmeno,string);
+         */
        }
        p_mat->p_text[cislo_text] = p_text+t;
        strcpy(p_mat->textfile[cislo_text],string);       
@@ -171,8 +173,9 @@ EDIT_MATERIAL * lo_nahraj_material_out(FFILE f, EDIT_TEXT *p_text, int max, int 
    ffread(&tmp,sizeof(dword),1,f);
    
    p_mat->alfa_state = 0;
-   p_mat->text_state[0].text_stage = 0;
-   p_mat->text_state[1].text_stage = 0;
+   //TODO
+   //p_mat->text_state[0].text_stage = 0;
+   //p_mat->text_state[1].text_stage = 0;
  }
 
  // nacteni nuloveho blendu
@@ -286,7 +289,7 @@ int lo_nacti_vertexlist_out(FFILE f, OBJEKT_BOD **p_vert)
  for(i = 0; i < head.pocet; i++) {
    if(!ffread(&v,sizeof(v),1,f)) {
      ffseek(f,t,SEEK_SET);
-     null_free(p_vert);
+     null_free((void **)p_vert);
      return((int)NULL);
    }
    (*p_vert)[i].x = v[0];
@@ -370,7 +373,7 @@ int lo_nacti_facelist_out(FFILE f, FACE **p_face)
  }
 
  if(!ffread(*p_face,sizeof(FACE),head.pocet,f)) {
-   null_free(p_face);
+   null_free((void **)p_face);
    ffseek(f,t,SEEK_SET);
    return((int)NULL);
  }

@@ -1231,6 +1231,7 @@ typedef struct _GAME_MESH_DATA {
  struct _EXTRA_DYN_LIGHT *p_lelight;   // seznam extra svetel
 
 } GAME_MESH_DATA;
+
 /*
 typedef struct _GAME_MESH { //celej kontejner
 
@@ -1306,6 +1307,7 @@ typedef struct _GAME_MESH { //celej kontejner
 
 } GAME_MESH;
 */
+
 typedef struct _POZICE_BODU_2D {
 
   float x,y,z,w;  // transformovane souradnice

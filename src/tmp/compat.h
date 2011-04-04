@@ -28,6 +28,7 @@ typedef PLANE           ROVINA;
 typedef PLANE           ROVINAD;
 typedef MATERIAL_TEXT   EDIT_TEXT;
 typedef SURFACE_SW      bitmapa;
+typedef word            FACE;
 
 #include "Vektor.h"
 #include "Matrix.h"
@@ -39,6 +40,8 @@ typedef SURFACE_SW      bitmapa;
 #include "Quat.h"
 #include "Keyframe.h"
 #include "Load.h"
+#include "Di.h"
+#include "Load_chunks.h"
 
 typedef void (* END_FUNKCE)(int param, int param2, void *p_param);
 
