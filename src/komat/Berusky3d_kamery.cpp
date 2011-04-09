@@ -252,7 +252,8 @@ int ber_kamera_korekce_vzdalenosti(G_KONFIG *p_ber, int korekce, int korekce_vzd
       pos.y += p_ber->p_target->y;
       pos.z += p_ber->p_target->z;
       
-      kd_intersect_kostku_bod_inter(p_ber->p_target, &pos, &p_kam->min, &p_kam->max, &p, &t);
+      //TODO
+      //kd_intersect_kostku_bod_inter(p_ber->p_target, &pos, &p_kam->min, &p_kam->max, &p, &t);
       t = vzdal_bodu_bod(p_ber->p_target,&p)+p_ber->kam.near_plane;
       
       // vyberu ten blizsi bod

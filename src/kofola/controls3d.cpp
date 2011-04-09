@@ -22,13 +22,13 @@ extern RECT_LINE	rline;
 #define TRANSCOLOR	0//RGB(255, 0, 255)
 
 
-HDC_EDIT_CONTROL2		hdcED;
-HDC_COMBO_CONTROL2		hdcCO;
-HDC_LIST_CONTROL2		hdcLI;
-HDC_BUTTON_CONTROL2		hdcBU;
-HDC_CHECKBOX_CONTROL2	hdcCH;
-HDC_PROGRES_CONTROL2	hdcPR;
-HDC_FRAME_CONTROL2		hdcFR;
+static HDC_EDIT_CONTROL2		hdcED;
+static HDC_COMBO_CONTROL2		hdcCO;
+static HDC_LIST_CONTROL2		hdcLI;
+static HDC_BUTTON_CONTROL2		hdcBU;
+static HDC_CHECKBOX_CONTROL2	hdcCH;
+static HDC_PROGRES_CONTROL2	hdcPR;
+static HDC_FRAME_CONTROL2		hdcFR;
 
 void co2_Del_Combo_List(COMBO_CONTROL2 *p_co, int hdc, int xcor, int ycor);
 int co_Handle_Edit_Key_Filter(void);

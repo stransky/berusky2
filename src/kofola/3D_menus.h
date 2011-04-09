@@ -13,7 +13,7 @@ typedef struct
 {
 	float		x;
 	float		y;
-	EDIT_TEXT	text;
+	//EDIT_TEXT	text;
 	DWORD		dwTCounter;
 	float		Speed;
 	int			iState;

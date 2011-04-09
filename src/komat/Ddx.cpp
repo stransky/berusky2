@@ -150,7 +150,7 @@ void nastav_konfig(HW_KONFIG *p_hwconf, TXT_KONFIG *p_txt)
   }
 
   if(p_txt->text_komprese) {
-    if(extlist_text_compresion) {
+    if(gl_ext::extlist_text_compresion) {
       // Komprese je podporovana a povolena
       p_txt->text_bpp = TEXT_DTX;
     }
@@ -286,7 +286,7 @@ void anisotropic_filtr_init(TXT_KONFIG *p_txt)
   float max_anis,as,akt_anis;
   int   i,imax;
 
-  if(p_txt->text_anis && extlist_text_filter_anisotropic) {
+  if(p_txt->text_anis && gl_ext::extlist_text_filter_anisotropic) {
     
     glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &max_anis);
     
@@ -350,7 +350,7 @@ void pn_triangles_init(HW_KONFIG *p_hwconf)
 {
   p_hwconf->pn_triangles = FALSE;
 
-  if(p_hwconf->pn_triangles && extlist_ati_pn_triangles) {
+  if(p_hwconf->pn_triangles && gl_ext::extlist_ati_pn_triangles) {
     glEnable(GL_PN_TRIANGLES_ATI);
     glPNTrianglesiATI( GL_PN_TRIANGLES_POINT_MODE_ATI, GL_PN_TRIANGLES_POINT_MODE_LINEAR_ATI);
     glPNTrianglesiATI( GL_PN_TRIANGLES_NORMAL_MODE_ATI, GL_PN_TRIANGLES_NORMAL_MODE_LINEAR_ATI);

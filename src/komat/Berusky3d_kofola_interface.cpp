@@ -1170,7 +1170,7 @@ MeshHandle kom_get_mesh_mys(int itrida)
  int   min_mesh = K_CHYBA;
  BOD   a,b,p,*p_min,*p_max,min,max;
 
- glu_invert_matrix((float *)p_mat,(float *)&m);
+ glu_invert_matrix(p_mat,&m);
  transf_2d_3d_matrix((float)mi.x, (float)mi.y, 0.0f, &a.x, &a.y, &a.z,
                      &m, p_ber->wxres, p_ber->wyres, p_ber->wx, p_ber->wy);
  transf_2d_3d_matrix((float)mi.x, (float)mi.y, 0.2f, &b.x, &b.y, &b.z,
@@ -1214,7 +1214,7 @@ int kom_get_mesh_mys_all(void)
  int   min_mesh = K_CHYBA;
  BOD   a,b,p,*p_min,*p_max;
 
- glu_invert_matrix((float *)p_mat,(float *)&m);
+ glu_invert_matrix(p_mat,&m);
  transf_2d_3d_matrix((float)mi.x, (float)mi.y, 0.0f, &a.x, &a.y, &a.z,
                      &m, p_ber->wxres, p_ber->wyres, p_ber->wx, p_ber->wy);
  transf_2d_3d_matrix((float)mi.x, (float)mi.y, 0.2f, &b.x, &b.y, &b.z,

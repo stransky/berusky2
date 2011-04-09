@@ -728,7 +728,8 @@ RunHandle rani_go(RunHandle ah, int flag, int start, int stop)
       if(mflag&MESH_TRANSFORMUJ_PIVOT) {
         GLMATRIX m;
         p_mesh = p_ber->p_mesh[p_ber->p_prv_lev[m_handle]->mesh];
-        memcpy(&m,&p_mesh->m,sizeof(m));
+        // TODO
+        //memcpy(&m,&p_mesh->m,sizeof(m));
         m._41 = m._42 = m._43 = 0.0f;
         transformuj_bod_matici_bod(&p_gk->p_sim->pivot,&m,&p_ber->p_prv_lev[m_handle]->pivot);
       } else {
@@ -819,7 +820,7 @@ void rani_updatuj_prvek_matice_vnitrek(PRVEK_LEVELU_GAME *p_prv)
     vektor_add((BOD *)(&p_prv->mp._41),p_pivot,&p);
     pivotuj_matrix(&tmp1,&p);
   }
-  
+  /* TODO
   // vysledna transformacni matice polohy = p_mesh->m
   mat_mult_dir(&p_prv->mp,&tmp1,&p_mesh->m);   
 
@@ -843,6 +844,7 @@ void rani_updatuj_prvek_matice_vnitrek(PRVEK_LEVELU_GAME *p_prv)
     init_matrix(&p_prv->mg);
     p_mesh->sim_flag = FALSE;
   }
+  */
 }
 
 void rani_updatuj_prvek_matice_vnitrek_end_top(PRVEK_LEVELU_GAME *p_prv)
@@ -859,7 +861,7 @@ void rani_updatuj_prvek_matice_vnitrek_end_top(PRVEK_LEVELU_GAME *p_prv)
     mat_copy(&tmp1,&p_prv->mg);
     vektor_add((BOD *)(&p_prv->mp._41),p_pivot,&p);
     pivotuj_matrix(&tmp1,&p);
-    
+  /* TODO  
     mat_mult(&p_prv->mp,p_prv->p_mg_top,&p_prv->mp);
     mat_mult_dir(&p_prv->mp,&tmp1,&p_mesh->m);
 
@@ -876,6 +878,7 @@ void rani_updatuj_prvek_matice_vnitrek_end_top(PRVEK_LEVELU_GAME *p_prv)
     p_prv->z = p_mesh->m._43;    
 
     p_mesh->p_data->kflag |= KONT_POHYB;
+    */
   }
 }
 
@@ -1083,6 +1086,7 @@ void rani_updatuj(G_KONFIG *p_ber)
 */
 void lani_go(G_KONFIG *p_ber, GAME_MESH *p_mesh)
 {
+/*
   GAME_MESH_ANIMACE *p_sinfo = &p_mesh->siminfo;
   SIMPLE_TRACK_INFO *p_sim = p_sinfo->p_sim[0];
   int   i;
@@ -1105,6 +1109,7 @@ void lani_go(G_KONFIG *p_ber, GAME_MESH *p_mesh)
     p_ber->p_lokal[i] = p_mesh;
     p_sinfo->odkaz = i;
   }
+  */
 }
 
 /* Strepe animace - prvni na nultou, pokud je aktivni
@@ -1138,7 +1143,7 @@ MeshHandle lani_set(MeshHandle mh, int poradi, int c_anim, int *p_flag, int flag
     kprintfe(TRUE,"K_CHYBA - FILE %s LINE %d",__FILE__,__LINE__);
     return(K_CHYBA);
   }
-
+/*
   // Pokud je cislo animace mimo rozsah - vezmi prvni animaci
   if(p_mesh->simnum <= c_anim)
     c_anim = 0;
@@ -1158,7 +1163,7 @@ MeshHandle lani_set(MeshHandle mh, int poradi, int c_anim, int *p_flag, int flag
       p_mesh->siminfo.odkaz = K_CHYBA;
     }
   }
-
+*/
   return(mh);
 }
 
@@ -1172,11 +1177,12 @@ MeshHandle lani_next(MeshHandle mh)
     kprintfe(TRUE,"K_CHYBA - FILE %s LINE %d",__FILE__,__LINE__);
     return(K_CHYBA);  
   }
-
+/*
   lani_setrep(&p_mesh->siminfo);
   if(p_mesh->siminfo.akt[0] != K_CHYBA) {    
     lani_go(p_ber,p_mesh);
   }  
+*/
   return(mh);
 }
 
@@ -1193,12 +1199,13 @@ int lani_get(MeshHandle mh)
     kprintfe(TRUE,"K_CHYBA - FILE %s LINE %d",__FILE__,__LINE__);
     return(K_CHYBA);  
   }
-  
+/*  
   if(p_mesh->siminfo.akt[0] == K_CHYBA)
     return(0);
   else {
     return((p_mesh->siminfo.akt[1] == K_CHYBA) ? 1 : 2);
   }
+*/
 }
 
 /* Smaze frontu animaci a vsechny je zastavi
@@ -1212,7 +1219,7 @@ MeshHandle lani_smaz_frontu(MeshHandle mh)
     kprintfe(TRUE,"K_CHYBA - FILE %s LINE %d",__FILE__,__LINE__);
     return(K_CHYBA);  
   }
-
+/*
   for(i = 0; i < LANI_FRONTA; i++)
     p_mesh->siminfo.akt[i] = K_CHYBA;
   
@@ -1220,6 +1227,7 @@ MeshHandle lani_smaz_frontu(MeshHandle mh)
     p_ber->p_lokal[p_mesh->siminfo.odkaz] = NULL;
     p_mesh->siminfo.odkaz = K_CHYBA;
   }
+*/
   return(mh);
 }
 
@@ -1233,7 +1241,7 @@ void lani_updatuj(G_KONFIG *p_ber)
   dword              next_time = p_ber->TimeEndLastFrame;
   int                i,konec;
   int                animovat;
-
+/*
   // animace podle lokalu
   for(i = 0; i < p_ber->lokalnum; i++) {
     if((p_mesh = p_ber->p_lokal[i])) {
@@ -1290,6 +1298,7 @@ void lani_updatuj(G_KONFIG *p_ber)
       }
     }
   }
+  */
 }
 
 
@@ -1377,7 +1386,7 @@ TextHandle tani_go(MatHandle mh, int textura, int animace, int *p_flag, int flag
       kprintfe(TRUE,"K_CHYBA - FILE %s LINE %d",__FILE__,__LINE__);
       return(K_CHYBA);
     }
-
+/*
     p_tani = mmalloc(sizeof(p_tani[0]));
 
     p_tani->material = mh;
@@ -1403,6 +1412,7 @@ TextHandle tani_go(MatHandle mh, int textura, int animace, int *p_flag, int flag
     p_ber->p_textanim = p_tani;
 
     return((int)p_tani);
+  */
   }
   //kprintfe(TRUE,"K_CHYBA - FILE %s LINE %d",__FILE__,__LINE__);
   return(K_CHYBA);
@@ -1472,7 +1482,7 @@ void tani_zrus(GK_TEXTANIM **p_tmp)
 {
   GK_TEXTANIM *p_tani = *p_tmp;
   GK_TEXTANIM *p_next;
-
+/*
   while(p_tani) {
     p_next = p_tani->p_next;
     null_free(&p_tani);
@@ -1481,6 +1491,7 @@ void tani_zrus(GK_TEXTANIM **p_tmp)
   if(p_tmp) {
     *p_tmp = NULL;
   }
+*/
 }
 
 /* Joint-animace - chapadelnici  
@@ -1495,6 +1506,7 @@ ExMeshHandle mesh_to_ex_mesh(MeshHandle mh)
 */
 int chani_mesh_cti_objekty(ExMeshHandle mh)
 {
+/*
   GAME_MESH *p_mesh = p_ber->p_mesh[mh];
   int i,anim = 0;
   if(p_mesh->p_joint_anim) {
@@ -1505,6 +1517,7 @@ int chani_mesh_cti_objekty(ExMeshHandle mh)
     return(anim);
   } else
     return(0);
+*/
 }
 
 /* Cte objekt v poradi s animacema
@@ -1515,7 +1528,7 @@ int chani_mesh_cti_chapadelniky(ExMeshHandle mh, int objekt, ChapadloHandle **p_
   ChapadloHandle *p_handle;
   JOINT_ANIMACE  *p_anim;
   int i,chapadel,anim = 0;
-
+/*
   if(p_mesh->p_joint_anim) {
     for(i = 0; i < p_mesh->objektu; i++) {
       if(p_mesh->p_joint_anim[i]) {
@@ -1547,6 +1560,7 @@ int chani_mesh_cti_chapadelniky(ExMeshHandle mh, int objekt, ChapadloHandle **p_
     return(anim);
   } else
     return(0);
+*/
 }
 
 char * chani_cti_jmeno(ChapadloHandle chh)

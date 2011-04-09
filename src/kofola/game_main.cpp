@@ -350,7 +350,7 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 		_3d_Init();
 		_3d_Load_List("3D_load.dat");
 
-		_3d_Gen_Hints(pHintTexture, 26);
+		//_3d_Gen_Hints(pHintTexture, 26);
 
 /*		if(!fn_Set_Font("font3d.pak"))
 		{
@@ -401,7 +401,7 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 		//iActualLevel = 218;
 		iActualScene = 0;
 		//gl_Run_Level(p_Level_Name,"default.env",hwnd_hry, &ad, cpu);
-		_3d_Release_Hints(pHintTexture, 26);
+		//_3d_Release_Hints(pHintTexture, 26);
 		//KillTimer(NULL,Timer_ID);
 	}
 	else

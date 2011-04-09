@@ -1,9 +1,6 @@
 #ifndef _TOOLS__
 #define _TOOLS__
 
-#ifdef __cplusplus
-extern "C" {
-#endif // __cplusplus
 /*
 	// Get CPU speed
 	unsigned __int64 tools_Get_CPU_Speed(void);
@@ -18,9 +15,5 @@ extern "C" {
 //	char *_ui64towc(__int64 i64, char *cText);
 
 	void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext);
-
-#ifdef __cplusplus
-}
-#endif // __cplusplus
 
 #endif

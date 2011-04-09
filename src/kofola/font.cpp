@@ -7,7 +7,7 @@
 #include "Berusky3d_kofola_interface.h"
 #include "Berusky_universal.h"
 
-B2_FONT	b2_font;
+static B2_FONT	b2_font;
 
 extern _2D_DATA		_2dd;
 extern _3D_DATA		_3dd;

@@ -99,6 +99,11 @@ void anmend_Add_Beetle_Animation(int param, int param2, LEVELINFO *p_param)
 	am_Add_Beetle_Animation(param, p_param, param2, 1);
 }
 
+void anmend_Add_Beetle_Animation(int param, int param2, void *p_param)
+{
+  anmend_Add_Beetle_Animation(param, param2, (LEVELINFO *)p_param);
+}
+
 void anmend_kom_mesh_set_mesh(int param, int param2, LEVELINFO *p_param)
 {
 	kom_mesh_set_mesh(param, param2, (int)p_param);
@@ -1327,7 +1332,7 @@ void anmend_KamenZaSikmonou(int param, int param2, void *p_param)
 					     p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh, 0, (void *)p_Level->Level[p_Level->Actual_Item]->Rotation);*/
 	
 	anmend_Kamen(pStruct->viParam1[0], pStruct->viParam1[1], pStruct->p_Level);
-	anmend_kom_mesh_set_mesh(pStruct->viParam2[0], pStruct->viParam2[1], (void *)pStruct->viParam2[2]);
+	anmend_kom_mesh_set_mesh(pStruct->viParam2[0], pStruct->viParam2[1], (LEVELINFO *)pStruct->viParam2[2]);
 
 	free((void *)pStruct);
 }

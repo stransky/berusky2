@@ -448,7 +448,7 @@ EDIT_OBJEKT * lo_nacti_vec_FILE_out(FFILE f)
 EDIT_OBJEKT * lo_nacti_vec_out(char *p_filename)
 {
  EDIT_OBJEKT *p_obj;
- FILE        *f;
+ FFILE       f;
 
  if((f = ffopen(p_filename,"rb")) == NULL)
    return(NULL);

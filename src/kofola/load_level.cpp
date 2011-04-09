@@ -9,6 +9,7 @@
 #include "3d_all.h"
 #include "Berusky_universal.h"
 #include "load_level.h"
+#include "game_logic.h"
 #include "Berusky3d_kofola_interface.h"
 #include "Berusky3d_light.h"
 #include "trigers.h"
@@ -32,8 +33,6 @@ extern	int				Yresolution;
 extern  int				iActualScene;
 extern  int				iActualLevel;
 extern  PLAYER_PROFILE	pPlayerProfile;
-
-void gl_Logical2Real(int x, int y, int z,long *Real_Pos, LEVELINFO *p_Level);
 
 #define RWBUFF_VEL 60000
 
@@ -1679,7 +1678,7 @@ void lsi_Destroy_Beetle(LEVELINFO *p_Level, int GUID, int mesh)
 //------------------------------------------------------------------------------------------------
 int lsi_Load_Saved_Level(char *p_Level_Name, LEVELINFO *p_Level)
 {
-	long	real;
+	int 	real;
 	char	text[256];
 	char	ctext[256];
 	FILE	*file;
@@ -1756,7 +1755,7 @@ int lsi_Load_Saved_Level(char *p_Level_Name, LEVELINFO *p_Level)
 			{
 				lsi_Destroy_Beetle(p_Level, b_l_d.guid, b_l_d.mesh);
 				kom_zrus_prvek(b_l_d.mesh);
-//				gl_Logical2Real(b_l_d.rez[1], b_l_d.rez[2], b_l_d.rez[3], &real, p_Level);
+				gl_Logical2Real(b_l_d.rez[1], b_l_d.rez[2], b_l_d.rez[3], &real, p_Level);
 
 				if(b_l_d.guid >= 13000 && b_l_d.guid < 14000)
 					am_Remove_Animate_itemB(i, p_Level);

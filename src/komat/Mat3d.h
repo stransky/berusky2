@@ -837,7 +837,6 @@ typedef struct _HIERARCHY_TRACK_INFO {
   KEY_POINT_BRS *p_rkeys;  // Spline values for rotation keys 
   QUAT    *p_at;           // Absolutni traky
   
-  
 } HIERARCHY_TRACK_INFO;
 
 typedef struct _HIERARCHY_ROOT {
@@ -1833,15 +1832,17 @@ inline void transformuj_mesh_matici(GAME_MESH *p_mesh, GLMATRIX *p_m)
 */
 }
 
-GLMATRIX __kont_world_matrix;
+//extern GLMATRIX __kont_world_matrix;
 
 inline GLMATRIX * kont_world_matrix(EDIT_KONTEJNER *p_kont)
 {
+/*
   if(p_kont->kflag&MESH_MPMATRIX) {
     return(mat_mult_dir(&p_kont->world,&p_kont->mpmatrix,&__kont_world_matrix));
   } else {
     return(&p_kont->world);
   }
+*/
 }
 
 #define DDRGB(r, g, b)     (0xff000000 | (((long)((b) * 255)) << 16) |(((long)((g) * 255)) << 8) | (long)((r) * 255))

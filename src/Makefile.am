@@ -323,7 +323,11 @@ berusky2_SOURCES = \
 	komat/Keyframe.h\
 	komat/Quat.h\
 	komat/Berusky3d_animace.cpp\
-	komat/Berusky3d_animace.h
+	komat/Berusky3d_animace.h\
+	komat/3dmath.cpp\
+	komat/3dproject.cpp\
+	komat/Mat3d.cpp\
+	komat/Keyframe.cpp
 
 berusky2_LDFLAGS = 
 

@@ -67,6 +67,7 @@ void transformuj_kontejner(EDIT_KONTEJNER *p_kont)
 
 void transformuj_mesh(GAME_MESH *p_mesh)
 {   
+/*
   dword i;
   if(!(p_mesh->p_data->kflag&KONT_KEYFRAME)) {
     for(i = 0; i < p_mesh->vertexnum; i++) {
@@ -74,10 +75,12 @@ void transformuj_mesh(GAME_MESH *p_mesh)
     }
     init_matrix(&p_mesh->m);
   }
+*/
 }
 
 void calc_norm_vec_inter_object(EDIT_OBJEKT *p_obj)
 {
+/*
  int    j,i,v,v1,k;
  float  p_x,p_y,p_z,p;
  ROVINA r;
@@ -132,6 +135,7 @@ void calc_norm_vec_inter_object(EDIT_OBJEKT *p_obj)
    
  free(p_hv);
  free(p_nasle);
+ */
 }
 
 void texturuj_zemi(EDIT_OBJEKT *p_obj, int rect_x, int rect_y, int c_text, 
@@ -777,7 +781,7 @@ EDIT_OBJEKT * kameru_dratovou_vyrob(BOD *p_p, BOD *p_t, float fov, float roll)
 
 int vyrob_kameru_indir(KAMERA *p_kam, char *p_jmeno, BOD *p_p, BOD *p_t, float fov, float roll)
 {
-  BOD p = {0,0,0};
+  BOD p(0,0,0);
 
   strcpy(p_kam->jmeno,p_jmeno);
 
@@ -798,7 +802,7 @@ int vyrob_kameru_indir(KAMERA *p_kam, char *p_jmeno, BOD *p_p, BOD *p_t, float f
 void kameru_dratovou_reanimuj(KAMERA *p_kam)
 {
   GLMATRIX m;
-  BOD       p = {0,0,0};
+  BOD       p(0,0,0);
 
   kameru_dratovou_calc(p_kam->p_objekt,&p_kam->p,&p_kam->t, p_kam->fov, 0.0f, 0xff0000);
   krychli_dratovou_recalc(p_kam->p_pos,&p,0.2f,0.2f,0.2f,0xffffffff);
@@ -1347,8 +1351,8 @@ void objekt_obalka(EDIT_OBJEKT *p_obj, GLMATRIX *p_m, BOD *p_min, BOD *p_max)
 
 void poly_obalka(EDIT_MESH_POLY *p_poly, GLMATRIX *p_mat, BOD *p_min, BOD *p_max)
 { 
-  BOD max = {-FLT_MAX,-FLT_MAX,-FLT_MAX},
-      min = { FLT_MAX, FLT_MAX, FLT_MAX}, a;
+  BOD max(-FLT_MAX,-FLT_MAX,-FLT_MAX),
+      min(FLT_MAX, FLT_MAX, FLT_MAX), a;
   int f;
    
   for(f = 0; f < p_poly->facenum; f++) {
@@ -1377,10 +1381,10 @@ void kontejner_obalka(EDIT_KONTEJNER *p_kont)
 {
   EDIT_OBJEKT *p_obj;
   OBB *p_obb = &p_kont->obb;
-  BOD   max = {-FLT_MAX,-FLT_MAX,-FLT_MAX},
-        min = { FLT_MAX, FLT_MAX, FLT_MAX};
+  BOD   max(-FLT_MAX,-FLT_MAX,-FLT_MAX),
+        min( FLT_MAX, FLT_MAX, FLT_MAX);
   int   k;
-
+/*
   for(k = 0; k < MAX_KONT_OBJEKTU; k++) {
     p_obj = p_kont->p_obj[k];
     if(p_obj) {
@@ -1395,6 +1399,7 @@ void kontejner_obalka(EDIT_KONTEJNER *p_kont)
   
   kd_stred_bunky(&min,&max,&p_kont->obb.obb_stred);
   kd_len_bunky(&min,&max,&p_kont->obb.obb_len); 
+*/
 }
 
 void kontejner_obalka_aabb(EDIT_KONTEJNER *p_kont, BOD *p_min, BOD *p_max)
@@ -1404,7 +1409,7 @@ void kontejner_obalka_aabb(EDIT_KONTEJNER *p_kont, BOD *p_min, BOD *p_max)
 
   vektor_set(p_min, FLT_MAX);
   vektor_set(p_max,-FLT_MAX);
-
+/*
   for(k = 0; k < MAX_KONT_OBJEKTU; k++) {
     p_obj = p_kont->p_obj[k];
     if(p_obj) {
@@ -1412,6 +1417,7 @@ void kontejner_obalka_aabb(EDIT_KONTEJNER *p_kont, BOD *p_min, BOD *p_max)
       kd_min_max_bod(&p_obj->obb.aabb_max,p_min,p_max);
     }
   }
+*/
 }
 
 // cte velikost objektu v bytech
@@ -1444,7 +1450,7 @@ void cti_velikost_kontejneru(EDIT_KONTEJNER *p_kont, int *p_size, int *p_objektu
 int intersect_ray_koule(BOD *p_stred, float radius, BOD *p_orig, BOD *p_dir)
 {
   BOD q = *p_dir;
-  BOD p = {p_orig->x-p_stred->x,p_orig->y-p_stred->y,p_orig->z-p_stred->z};
+  BOD p(p_orig->x-p_stred->x,p_orig->y-p_stred->y,p_orig->z-p_stred->z);
   float a,b2,c;
   float D4,sqD4,t2;
 
@@ -1496,7 +1502,7 @@ void obj_vyrob_list_sousednosti(EDIT_OBJEKT *p_obj)
   if(p_obj->p_fsous) {
     free(p_obj->p_fsous);
   }
-
+/*
   p_obj->p_fsous = mmalloc(sizeof(p_obj->p_fsous[0])*p_obj->facenum);
   memset(p_obj->p_fsous,K_CHYBA,sizeof(p_obj->p_fsous[0])*p_obj->facenum);
   
@@ -1513,6 +1519,7 @@ void obj_vyrob_list_sousednosti(EDIT_OBJEKT *p_obj)
       }
     }
   }
+*/
 }
 
 static int _num_pass_vertex(OBJ_VERTEX **p_f1, OBJ_VERTEX **p_f2)
@@ -1538,7 +1545,7 @@ void obj_vyrob_list_sousednosti_full(EDIT_OBJEKT *p_obj)
   if(p_obj->p_fsous) {
     free(p_obj->p_fsous);
   }
-
+/*
   p_obj->p_fsous = mmalloc(sizeof(p_obj->p_fsous[0])*p_obj->facenum);
   memset(p_obj->p_fsous,K_CHYBA,sizeof(p_obj->p_fsous[0])*p_obj->facenum);
   
@@ -1562,6 +1569,7 @@ void obj_vyrob_list_sousednosti_full(EDIT_OBJEKT *p_obj)
       }
     }
   }
+  */
 }
 
 void scale_normal_roh(MUJ_BOD *p_vertex, FACE *p_face, int v1, int v2, int v3, BOD *p_normal)
@@ -1615,26 +1623,29 @@ typedef struct _NORM_INT_PROC {
 void ind_init(NORM_INT_PROC *p_prc, int vert, int facu)
 {
   memset(p_prc,0,sizeof(p_prc[0]));
-  
+/*
   p_prc->p_ind = mmalloc(sizeof(p_prc->p_ind[0])*vert);
   p_prc->ind_max = vert;
 
   p_prc->p_fn = mmalloc(sizeof(p_prc->p_fn[0])*facu);
   p_prc->fn_max = facu;
+*/
 }
 
 void ind_smaz(NORM_INT_PROC *p_prc)
 {
+/*
   null_free(&p_prc->p_ind);
   null_free(&p_prc->p_fn);
   memset(p_prc,0,sizeof(p_prc[0]));
+*/
 }
 
-VEKTOR * ind_calc_fnorm(EDIT_OBJEKT *p_obj)
+BOD * ind_calc_fnorm(EDIT_OBJEKT *p_obj)
 {
-  VEKTOR *p_fnorm;
+  BOD *p_fnorm;
   int i;
-  p_fnorm = mmalloc(sizeof(p_fnorm[0])*p_obj->facenum);
+  p_fnorm = (BOD *)mmalloc(sizeof(p_fnorm[0])*p_obj->facenum);
   for(i = 0; i < p_obj->facenum; i+=3) {
     vektor_norm(calc_face_normal((BOD *)(p_obj->p_vertex+p_obj->p_face[i]),
                                  (BOD *)(p_obj->p_vertex+p_obj->p_face[i+1]),
@@ -1651,7 +1662,7 @@ int ind_add_obj(NORM_INT_PROC *p_prc, EDIT_OBJEKT *p_obj)
   int   handle;
   NORM_INDICIE *p_ind;
   FACE_INDICIE *p_fn;
-  VEKTOR *p_fnorm;
+  BOD *p_fnorm;
 
   if(p_prc->ind_akt+vnum > p_prc->ind_max)
     return(K_CHYBA);
@@ -1732,15 +1743,15 @@ inline int porovnej_vertexy(BOD *p_v1, BOD *p_v2)
 
 int ind_sort_rec(const void *p_m1, const void *p_m2)
 {
-  const NORM_INDICIE *p_i1 = p_m1;
-  const NORM_INDICIE *p_i2 = p_m2;
+  const NORM_INDICIE *p_i1 = (NORM_INDICIE *)p_m1;
+  const NORM_INDICIE *p_i2 = (NORM_INDICIE *)p_m2;
   return(porovnej_vertexy(p_i1->p_vert, p_i2->p_vert));
 }
 
 int ind_sort_rec2(const void *p_m1, const void *p_m2)
 {
-  const FACE_INDICIE *p_i1 = p_m1;
-  const FACE_INDICIE *p_i2 = p_m2;
+  const FACE_INDICIE *p_i1 = (FACE_INDICIE *)p_m1;
+  const FACE_INDICIE *p_i2 = (FACE_INDICIE *)p_m2;
   return(p_i1->vertex-p_i2->vertex);
 }
 
@@ -1753,8 +1764,8 @@ void ind_sort(NORM_INT_PROC *p_prc, int brutal)
 
 int ind_sort_obj_rec(const void *p_m1, const void *p_m2)
 {
-  const NORM_INDICIE *p_i1 = p_m1;
-  const NORM_INDICIE *p_i2 = p_m2;
+  const NORM_INDICIE *p_i1 = (NORM_INDICIE *)p_m1;
+  const NORM_INDICIE *p_i2 = (NORM_INDICIE *)p_m2;
   return(p_i1->vertex-p_i2->vertex);
 }
 
@@ -1859,7 +1870,7 @@ void kont_norm_vect_iobject(EDIT_KONTEJNER *p_kont)
 
   ind_init(&prc, p_kont->bodu, p_kont->facu);
 
-  p_handle = mmalloc(sizeof(p_handle[0])*p_kont->objektu);
+  p_handle = (int *)mmalloc(sizeof(p_handle[0])*p_kont->objektu);
 
   i = 0;
   oe_olist_reset(&o);
@@ -2192,9 +2203,9 @@ void mesh_env_maping_spec(GAME_MESH *p_mesh, GLMATRIX *p_cam, EDIT_MATERIAL **p_
   GLMATRIX *p_kw;
   int       flag2;
 
-  p_mesh->p_data->k2flag |= KONT2_UPDATE_SPEC;
-
-  kframe = p_mesh->p_data->kflag&KONT_KEYFRAME;
+  p_mesh->m2flags.flag_set(KONT2_UPDATE_SPEC);
+/*
+  kframe = p_mesh->mflags.flag_get(KONT_KEYFRAME);
   if(!kframe) 
     p_kw = &p_mesh->m;
 
@@ -2277,6 +2288,7 @@ void mesh_env_maping_spec(GAME_MESH *p_mesh, GLMATRIX *p_cam, EDIT_MATERIAL **p_
       }
     }
   }
+  */
 }
 
 
@@ -2347,7 +2359,8 @@ int intersect_poly(EDIT_MESH_POLY *p_poly, BOD *p_orig, BOD *p_dir)
 }
 
 int intersect_mesh_objekt(GAME_MESH *p_mesh, int o, BOD *p_orig, BOD *p_dir)
-{  
+{
+/*
   BOD        *p_vertex_pos;
   int         j,d,facenum,fnum2;
   int         kflag = p_mesh->p_data->kflag;
@@ -2412,4 +2425,5 @@ int intersect_mesh_objekt(GAME_MESH *p_mesh, int o, BOD *p_orig, BOD *p_dir)
   } else {
     return(TRUE);
   }
+  */
 }

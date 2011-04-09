@@ -10,7 +10,7 @@ int transf_3d_2d_word(float p_x, float p_y, float p_z,
                       GLMATRIX *p_cam, GLMATRIX *p_proj,
                       int x_c, int y_c, int xs, int ys,
                       float z_near, float z_far)
-{  
+{ 
   float x,y,z,w,w2;
 
   x_c >>= 1;
@@ -107,7 +107,7 @@ void transf_2d_3d(float p_x,   float p_y,   float p_z,
  y = 1 - p_y/y_c;
  z = 2*p_z - 1;
 
- glu_invert_matrix((float *)mat_mult(p_cam,p_proj,&mi),(float *)&m);
+ glu_invert_matrix(mat_mult(p_cam,p_proj,&mi),&m);
 
  x3 = m._11*x + m._21*y + m._31*z + m._41;
  y3 = m._12*x + m._22*y + m._32*z + m._42;
@@ -143,7 +143,7 @@ void transf_2d_3d_z(float p_x,   float p_y,   float p_z,
  b =-(z_near*z_far)/c;
  z = a+b/p_z;
 
- glu_invert_matrix((float *)mat_mult(p_cam,p_proj,&mi),(float *)&m);
+ glu_invert_matrix(mat_mult(p_cam,p_proj,&mi),&m);
 
  x3 = m._11*x + m._21*y + m._31*z + m._41;
  y3 = m._12*x + m._22*y + m._32*z + m._42;
@@ -175,7 +175,7 @@ void transf_2d_3d_world(float p_x,   float p_y,   float p_z,
 
  mat_mult(p_world,p_cam,&m);
  mat_mult(&m,p_proj,&mi);
- glu_invert_matrix((float *)&mi,(float *)&m); 
+ glu_invert_matrix(&mi,&m); 
 
  w = m._14*x + m._24*y + m._34*z + m._44;
  *p_tx = (m._11*x + m._21*y + m._31*z + m._41)/w;
@@ -209,7 +209,7 @@ void transf_2d_3d_z_world(float p_x,   float p_y,   float p_z,
 
  mat_mult(p_world,p_cam,&m);
  mat_mult(&m,p_proj,&mi);
- glu_invert_matrix((float *)&mi,(float *)&m); 
+ glu_invert_matrix(&mi,&m); 
 
  x3 = m._11*x + m._21*y + m._31*z + m._41;
  y3 = m._12*x + m._22*y + m._32*z + m._42;

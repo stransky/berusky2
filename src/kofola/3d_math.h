@@ -1,10 +1,7 @@
 #ifndef __3D_MATHEMATIC_
 #define __3D_MATHEMATIC_
 
-#ifdef __cplusplus
-	extern "C" {
-#endif
- 
+
 	// Calculate lungth of vector
 	float Vector_Length(float *Vector);
 
@@ -28,9 +25,5 @@
 
 	// Calculate inverse vector
 	void Inverse_Vector(float *Vector, float *vResult, unsigned int uiDimension);
-
-#ifdef __cplusplus
-	}
-#endif
 
 #endif

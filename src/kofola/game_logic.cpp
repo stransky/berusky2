@@ -97,9 +97,8 @@ extern	int			Yresolution;
 extern  B2_FONT		b2_font;
 _2D_DATA		_2dd;
 static char			demo = 0;	// 1 = real play, 2= fast play, 0 = record
-
-int gl_Do_Lift(long Lift, int *pos, LEVELINFO *p_Level);
-int gl_Gate_Keeper(long Door, int *Item, LEVELINFO *p_Level);
+int gl_Do_Lift(int Lift, int *pos, LEVELINFO *p_Level);
+int gl_Gate_Keeper(int Door, int *Item, LEVELINFO *p_Level);
 int gl_Count_Weight(int *column, LEVELINFO *p_Level);
 void gl_Destroy_Item(long Item, int Type, LEVELINFO *p_Level);
 int gl_Are_Animations_Done(LEVELINFO *p_Level);
@@ -441,7 +440,7 @@ void gl_Logical2Real2D(int x, int y, int *Real_Pos, LEVELINFO *p_Level)
 //------------------------------------------------------------------------------------------------
 // transtales real position to logical position
 //------------------------------------------------------------------------------------------------
-void gl_Real2Logical(long Real_Pos, int *Log_Pos, LEVELINFO *p_Level)
+void gl_Real2Logical(int Real_Pos, int *Log_Pos, LEVELINFO *p_Level)
 {
 	int c;
 
@@ -797,7 +796,7 @@ int gl_Get_Free_Lift_Particles(LEVELINFO *p_Level)
 	return -1;
 }
 
-void gl_Do_Lift_Particles(float *pos, int mesh, LEVELINFO *p_Level)
+int gl_Do_Lift_Particles(float *pos, int mesh, LEVELINFO *p_Level)
 {
 	int k,m,i;
 	PAR_KOUR_STOPA	*pKourovaS;
@@ -806,12 +805,12 @@ void gl_Do_Lift_Particles(float *pos, int mesh, LEVELINFO *p_Level)
 	k = gl_Get_Free_Lift_Particles(p_Level);
 
 	if(k == -1)
-		return;
+		return(0);
 
 	pKourovaS = (PAR_KOUR_STOPA *) malloc(size * sizeof(PAR_KOUR_STOPA));
 
 	if(!pKourovaS)
-		return;
+		return(0);
 	
 	p_Level->LiftParticles[k].pCastice = pKourovaS;
 	p_Level->LiftParticles[k].Sizeof = size;
@@ -871,6 +870,8 @@ void gl_Do_Lift_Particles(float *pos, int mesh, LEVELINFO *p_Level)
 
 	p_Level->LiftParticles[k].hHnizdo[1] = mesh;
 	par_go(p_Level->LiftParticles[k].System, &p_Level->LiftParticles[k].flag, 0, 0);
+  
+  return(0);
 }
 
 int gl_Get_Free_Teleport_Sparks(LEVELINFO *p_Level)
@@ -1900,9 +1901,10 @@ int gl_Throw_offAnim(int *column, LEVELINFO *p_Level)
 			p_test_pos2->Pos[2] = iValue2[2];
 
 			if(!counter && p_Level->Actual_Item != -1)
-				am_Set_Start_Function(&p_set_anim->animation[p_set_anim->last-1], anmend_Add_Beetle_Animation,
+				am_Set_Start_Function(&p_set_anim->animation[p_set_anim->last-1], 
+                    anmend_Add_Beetle_Animation,
 									  p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh,
-									  p_Level->Level[p_Level->Actual_Item]->Rotation,(void *)p_Level, 0);
+									  p_Level->Level[p_Level->Actual_Item]->Rotation,p_Level, 0);
 
 			if(!counter && voda < 0)
 			{
@@ -6979,7 +6981,7 @@ int gl_Find_Top_Of_Lift_things(LEVELINFO *p_Level, int x, int y, int z)
 //------------------------------------------------------------------------------------------------
 // provede akci na vytah
 //------------------------------------------------------------------------------------------------
-int gl_Do_Lift(long Lift, int *pos, LEVELINFO *p_Level)
+int gl_Do_Lift(int Lift, int *pos, LEVELINFO *p_Level)
 {
 	int test_pos, real_pos, test1_pos;
 	int  item, new_pos[3], move[3], old_Zpos;
@@ -7783,7 +7785,7 @@ void gl_Open_Door(ITEMDESC *p_DoorI, LEVELINFO *p_Level)
 //------------------------------------------------------------------------------------------------
 // logika dveri
 //------------------------------------------------------------------------------------------------
-int gl_Gate_Keeper(long Door, int *Item, LEVELINFO *p_Level)
+int gl_Gate_Keeper(int Door, int *Item, LEVELINFO *p_Level)
 {
 	int Real_Item;
 	ITEMDESC *p_DoorI = p_Level->Level[Door];
@@ -12801,7 +12803,7 @@ void gl_Kofola_End(int DirectX)
 		//adas_Release_Loaded_Data();
 		
 		kprintf(1, "_3d_Release_Hints");
-		_3d_Release_Hints(pHintTexture, 26);
+		//_3d_Release_Hints(pHintTexture, 26);
 	
 		kprintf(1, "_3d_Release");
 		_3d_Release();

@@ -892,8 +892,8 @@ int key_track_klic_vloz(byte **p_hodnoty, KEY_POINT_BRS **p_skeys, int keynum, i
   int            i,j;
   dword          new_time = p_new_keys->time;
   
-  p_nhod = mmalloc(size_of_hodnota*(keynum+1));
-  p_nkeys = mmalloc(sizeof(p_nkeys[0])*(keynum+1));
+  p_nhod = (byte *)mmalloc(size_of_hodnota*(keynum+1));
+  p_nkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_nkeys[0])*(keynum+1));
   
   // Vlozit pred nulovym framem
   if(keynum && new_time < p_keys[0].time) {
@@ -955,12 +955,12 @@ int key_track_klic_smaz(byte **p_hodnoty, KEY_POINT_BRS **p_skeys, int *p_keynum
   int            i,j,keynum = *p_keynum;
   
   if(keynum == 1) {    
-    null_free(p_hodnoty);
-    null_free(p_skeys);
+    null_free((void **)p_hodnoty);
+    null_free((void **)p_skeys);
     return((*p_keynum = 0));
   } else {
-    p_nhod = mmalloc(size_of_hodnota*(keynum-1));
-    p_nkeys = mmalloc(sizeof(p_nkeys[0])*(keynum-1));
+    p_nhod = (byte *)mmalloc(size_of_hodnota*(keynum-1));
+    p_nkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_nkeys[0])*(keynum-1));
     
     if(p_keys[keynum-1].time == del_time) {
       memcpy(p_nkeys,p_keys,sizeof(p_nkeys[0])*(keynum-1));
@@ -1349,22 +1349,22 @@ TRACK_INFO * key_track_vyrob(int poskey, int rotkey, int scalekey)
 {
   TRACK_INFO *p_track;
 
-  p_track = mmalloc(sizeof(TRACK_INFO));
+  p_track = (TRACK_INFO *)mmalloc(sizeof(TRACK_INFO));
 
   // pozicni klice
   p_track->pos_keys = poskey;  
-  p_track->p_pkeys = mmalloc(sizeof(p_track->p_pkeys[0])*poskey);
+  p_track->p_pkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_track->p_pkeys[0])*poskey);
   p_track->p_pos = (BOD *)mmalloc(sizeof(BOD)*poskey);
   
   // rotacni klice
   p_track->rot_keys = rotkey;
-  p_track->p_rkeys = mmalloc(sizeof(p_track->p_rkeys[0])*rotkey);
+  p_track->p_rkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_track->p_rkeys[0])*rotkey);
   p_track->p_rot = (ROTKEY *)mmalloc(sizeof(ROTKEY)*rotkey);
   p_track->p_at = (QUAT *)mmalloc(sizeof(p_track->p_at[0])*rotkey);
 
   // scalovaci klice
   p_track->scs_keys = scalekey;
-  p_track->p_skeys = mmalloc(sizeof(p_track->p_skeys[0])*scalekey);
+  p_track->p_skeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_track->p_skeys[0])*scalekey);
   p_track->p_scale = (BOD *)mmalloc(sizeof(BOD)*scalekey);
   
   return(p_track);
@@ -1377,20 +1377,20 @@ HIERARCHY_TRACK_INFO * key_tri_vyrob_indir(HIERARCHY_TRACK_INFO *p_hir, int posk
 
   // pozicni klice
   if((p_hir->pos_keys = poskey)) {
-    p_hir->p_pkeys = mmalloc(sizeof(p_hir->p_pkeys[0])*poskey);
+    p_hir->p_pkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_hir->p_pkeys[0])*poskey);
     p_hir->p_pos = (BOD *)mmalloc(sizeof(BOD)*poskey);
   }
   
   // rotacni klice
   if((p_hir->rot_keys = rotkey)) {
-    p_hir->p_rkeys = mmalloc(sizeof(p_hir->p_rkeys[0])*rotkey);
+    p_hir->p_rkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_hir->p_rkeys[0])*rotkey);
     p_hir->p_at = (QUAT *)mmalloc(sizeof(p_hir->p_at[0])*rotkey);
   }
 
   // scalovaci klice
   if((p_hir->scs_keys = scalekey)) {
     p_hir->p_scale = (BOD *)mmalloc(sizeof(BOD)*scalekey);
-    p_hir->p_skeys = mmalloc(sizeof(p_hir->p_skeys[0])*scalekey);
+    p_hir->p_skeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_hir->p_skeys[0])*scalekey);
   }
   
   return(p_hir);
@@ -1400,7 +1400,7 @@ HIERARCHY_TRACK_INFO * key_tri_vyrob(int poskey, int rotkey, int scalekey)
 {
   HIERARCHY_TRACK_INFO *p_hir;
 
-  p_hir = mmalloc(sizeof(HIERARCHY_TRACK_INFO));
+  p_hir = (HIERARCHY_TRACK_INFO *)mmalloc(sizeof(HIERARCHY_TRACK_INFO));
   key_tri_vyrob_indir(p_hir, poskey, rotkey, scalekey);
   return(p_hir);
 }
@@ -1408,7 +1408,7 @@ HIERARCHY_TRACK_INFO * key_tri_vyrob(int poskey, int rotkey, int scalekey)
 HIERARCHY_TRACK_INFO * key_tri_vyrob_un_indir(void)
 {
   HIERARCHY_TRACK_INFO *p_hir;
-  p_hir = mmalloc(sizeof(HIERARCHY_TRACK_INFO));
+  p_hir = (HIERARCHY_TRACK_INFO *)mmalloc(sizeof(HIERARCHY_TRACK_INFO));
   return(p_hir);
 }
 
@@ -1444,14 +1444,14 @@ HIERARCHY_TRACK_INFO * key_track_to_tri( TRACK_INFO *p_track)
 void key_zrus_track(TRACK_INFO **p_track)
 {
   TRACK_INFO *p_tri = *p_track;
-  null_free(&p_tri->p_pkeys);
-  null_free(&p_tri->p_pos);
-  null_free(&p_tri->p_rkeys);
-  null_free(&p_tri->p_rot);
-  null_free(&p_tri->p_at);
-  null_free(&p_tri->p_skeys);
-  null_free(&p_tri->p_scale);
-  null_free(&p_tri);
+  null_free((void **)&p_tri->p_pkeys);
+  null_free((void **)&p_tri->p_pos);
+  null_free((void **)&p_tri->p_rkeys);
+  null_free((void **)&p_tri->p_rot);
+  null_free((void **)&p_tri->p_at);
+  null_free((void **)&p_tri->p_skeys);
+  null_free((void **)&p_tri->p_scale);
+  null_free((void **)&p_tri);
   *p_track = NULL;
 }
 
@@ -1459,7 +1459,7 @@ void key_zrus_track(TRACK_INFO **p_track)
 void key_tri_child_pridej(HIERARCHY_TRACK_INFO *p_root, HIERARCHY_TRACK_INFO *p_child)
 {
   p_root->childnum += 1;
-  p_root->p_child = realloc(p_root->p_child,sizeof(p_root->p_child[0])*p_root->childnum);
+  p_root->p_child = (HIERARCHY_TRACK_INFO **)realloc(p_root->p_child,sizeof(p_root->p_child[0])*p_root->childnum);
   p_root->p_child[p_root->childnum-1] = p_child;
   p_child->p_otec = p_root;
 }
@@ -1468,14 +1468,14 @@ void key_tri_child_pridej(HIERARCHY_TRACK_INFO *p_root, HIERARCHY_TRACK_INFO *p_
 void key_root_child_pridej(HIERARCHY_ROOT *p_root, HIERARCHY_TRACK_INFO *p_child)
 {
   p_root->childnum += 1;
-  p_root->p_child = realloc(p_root->p_child,sizeof(p_root->p_child[0])*p_root->childnum);
+  p_root->p_child = (HIERARCHY_TRACK_INFO **)realloc(p_root->p_child,sizeof(p_root->p_child[0])*p_root->childnum);
   p_root->p_child[p_root->childnum-1] = p_child;
   p_child->p_otec = NULL;
 }
 
 void key_tri_calc_absolutne(TRACK_INFO *p_track, QUAT *p_puvodni)
 {
-  QUAT q = {0,0,0,1};
+  QUAT q(0,0,0,1);
   word i;
 
   if(p_track->rot_keys) {
@@ -1491,7 +1491,7 @@ void key_tri_calc_absolutne(TRACK_INFO *p_track, QUAT *p_puvodni)
 
 void key_sim_calc_absolutne(SIMPLE_TRACK_INFO *p_sim)
 {
-  QUAT q = {0,0,0,1},qz;
+  QUAT q(0,0,0,1),qz;
   int i,il;
 
   if(p_sim->p_at) {    
@@ -1553,7 +1553,7 @@ static void key_tri_to_tri_indir(EDIT_KONTEJNER *p_kont,
     memcpy(p_cil->p_at,p_src->p_at,sizeof(p_src->p_at[0])*p_cil->rot_keys);
   }
 
-  p_cil->p_child = mmalloc(sizeof(p_cil->p_child[0])*p_src->childnum);
+  p_cil->p_child = (HIERARCHY_TRACK_INFO **)mmalloc(sizeof(p_cil->p_child[0])*p_src->childnum);
   for(i = 0; i < p_src->childnum; i++) {
     p_cil->p_child[i] = key_tri_vyrob(p_src->p_child[i]->pos_keys, p_src->p_child[i]->rot_keys, p_src->p_child[i]->scs_keys);
     key_tri_to_tri_indir(p_kont, p_cil->p_child[i], p_src->p_child[i], p_cil);
@@ -1566,7 +1566,7 @@ void key_root_to_root_indir(EDIT_KONTEJNER *p_kont, HIERARCHY_ROOT *p_cil, HIERA
 
   *p_cil = *p_src;
 
-  p_cil->p_child = mmalloc(sizeof(p_cil->p_child[0])*p_src->childnum);
+  p_cil->p_child = (HIERARCHY_TRACK_INFO **)mmalloc(sizeof(p_cil->p_child[0])*p_src->childnum);
   for(i = 0; i < p_src->childnum; i++) {
     p_cil->p_child[i] = key_tri_vyrob(p_src->p_child[i]->pos_keys, p_src->p_child[i]->rot_keys, p_src->p_child[i]->scs_keys);
     key_tri_to_tri_indir(p_kont, p_cil->p_child[i], p_src->p_child[i], NULL);
@@ -1604,7 +1604,7 @@ void key_sim_root_to_sim_root_indir(EDIT_KONTEJNER *p_kont, HIERARCHY_SIM *p_cil
 
   *p_cil = *p_src;
 
-  p_cil->p_child = mmalloc(sizeof(p_cil->p_child[0])*p_src->childnum);
+  p_cil->p_child = (SIMPLE_TRACK_INFO *)mmalloc(sizeof(p_cil->p_child[0])*p_src->childnum);
   for(i = 0; i < p_src->childnum; i++) {
     key_sim_to_sim_indir(p_cil->p_child+i, p_src->p_child+i);
   }
@@ -1643,7 +1643,7 @@ void key_sim_dopln_matrix_kont(EDIT_KONTEJNER *p_kont, HIERARCHY_SIM *p_src)
 static void key_sim_dopln_matrix_mesh_rec(GAME_MESH *p_mesh, SIMPLE_TRACK_INFO *p_sim)
 {  
   int i;
-
+/*
   for(i = 0; i < p_mesh->objektu; i++) {
     if(p_mesh->p_Objekt_ID[i] == p_sim->Objekt_ID) {
       p_sim->p_m = p_mesh->p_key+i;
@@ -1656,6 +1656,7 @@ static void key_sim_dopln_matrix_mesh_rec(GAME_MESH *p_mesh, SIMPLE_TRACK_INFO *
       return;
     }
   }
+*/
   // fuck-ati
 }
 
@@ -1712,7 +1713,7 @@ static void key_root_to_sim_indir_rec(EDIT_KONTEJNER *p_kont, SIMPLE_TRACK_INFO 
 
     p_sim->childnum = p_root->childnum;
     
-    p_sim->p_child = mmalloc(sizeof(p_sim->p_child[0])*p_root->childnum);    
+    p_sim->p_child = (SIMPLE_TRACK_INFO *)mmalloc(sizeof(p_sim->p_child[0])*p_root->childnum);    
 
     for(i = 0; i < p_sim->childnum; i++) {
       p_sim->p_child[i].p_otec = p_sim;
@@ -1734,7 +1735,7 @@ void key_root_to_sim_indir(EDIT_KONTEJNER *p_kont, HIERARCHY_SIM *p_sim, HIERARC
   p_sim->childnum = p_root->childnum;
   p_sim->keynum = p_root->framenum;
   
-  p_sim->p_child = mmalloc(sizeof(p_sim->p_child[0])*p_root->childnum);
+  p_sim->p_child = (SIMPLE_TRACK_INFO *)mmalloc(sizeof(p_sim->p_child[0])*p_root->childnum);
   for(i = 0; i < p_sim->childnum; i++) {
     key_root_to_sim_indir_rec(p_kont, p_sim->p_child+i, p_root->p_child[i], p_root->flag&GK_LOOP, float_scale);
   }
@@ -1796,6 +1797,7 @@ void key_kontejner_retransformuj(EDIT_KONTEJNER *p_kont_top)
 
 void key_mesh_reanimuj(GAME_MESH *p_mesh, int time, GLMATRIX *p_top)
 {
+/*
   SIMPLE_TRACK_INFO *p_sim = p_mesh->p_sim_aktivni;
   int i;
 
@@ -1809,6 +1811,7 @@ void key_mesh_reanimuj(GAME_MESH *p_mesh, int time, GLMATRIX *p_top)
   obb_transformuj(&p_mesh->obb_local,p_top,&p_mesh->obb_world);
 
   key_mesh_recalc_normal_anim(p_mesh);
+*/
 }
 
 /**************************************************************************** 
@@ -1826,26 +1829,26 @@ void key_sim_to_sim_indir(SIMPLE_TRACK_INFO *p_dest, SIMPLE_TRACK_INFO *p_src)
 
   // kopie pozicnich klicu
   if(p_src->p_pos) {
-    p_dest->p_pos = kopiruj_pole(p_src->p_pos,sizeof(p_src->p_pos[0])*p_src->keynum);
+    p_dest->p_pos = (BOD *)kopiruj_pole(p_src->p_pos,sizeof(p_src->p_pos[0])*p_src->keynum);
   }
   
   // kopie rotacnich klicu
   if(p_src->p_at) {
-    p_dest->p_at = kopiruj_pole(p_src->p_at,sizeof(p_src->p_at[0])*p_src->keynum);
+    p_dest->p_at = (QUAT *)kopiruj_pole(p_src->p_at,sizeof(p_src->p_at[0])*p_src->keynum);
   }
 
   // kopie scale klicu
   if(p_src->p_scale) {
-    p_dest->p_scale = kopiruj_pole(p_src->p_scale,sizeof(p_src->p_scale[0])*p_src->keynum);
+    p_dest->p_scale = (BOD *)kopiruj_pole(p_src->p_scale,sizeof(p_src->p_scale[0])*p_src->keynum);
   }
 
   // Kopie zero-matic
   if(p_src->p_all_matrix) {
-    p_dest->p_all_matrix = kopiruj_pole(p_src->p_all_matrix,sizeof(p_src->p_all_matrix[0]));
+    p_dest->p_all_matrix = (GLMATRIX *)kopiruj_pole(p_src->p_all_matrix,sizeof(p_src->p_all_matrix[0]));
   }
 
   if(p_dest->childnum) {
-    p_dest->p_child = mmalloc(sizeof(p_dest->p_child[0])*p_dest->childnum);
+    p_dest->p_child = (SIMPLE_TRACK_INFO *)mmalloc(sizeof(p_dest->p_child[0])*p_dest->childnum);
     for(i = 0; i < p_dest->childnum; i++) {
       key_sim_to_sim_indir(p_dest->p_child+i, p_src->p_child+i);
     }
@@ -1867,7 +1870,7 @@ void key_sim_animuj_strom(SIMPLE_TRACK_INFO *p_sim, int time, GLMATRIX *p_otec)
     p_src = p_sim->p_obb_local;
     p_dest = p_sim->p_obb_world;
     if(p_src && p_dest) {
-      obb_transformuj(p_src,p_top,p_dest);
+      //obb_transformuj(p_src,p_top,p_dest);
     }
   } 
 
@@ -1919,7 +1922,7 @@ SIMPLE_TRACK_INFO * key_tri_to_sim_indir(HIERARCHY_TRACK_INFO *p_track, SIMPLE_T
   /* Kopie pozicnich klicu
   */
   if(p_track->p_pos) {
-    p_sim->p_pos = mmalloc(sizeof(p_sim->p_pos[0])*p_sim->keynum);
+    p_sim->p_pos = (BOD *)mmalloc(sizeof(p_sim->p_pos[0])*p_sim->keynum);
     for(i = 0; i < p_sim->keynum; i++)
       key_track_interpolace_bod(p_sim->p_pos+i,p_track->p_pos,p_track->p_pkeys,
                                i*SIM_KONSTI,endtime,p_track->pos_keys,loop);
@@ -1928,7 +1931,7 @@ SIMPLE_TRACK_INFO * key_tri_to_sim_indir(HIERARCHY_TRACK_INFO *p_track, SIMPLE_T
   /* Kopie rotacnich klicu
   */
   if(p_track->p_at) {
-    p_sim->p_at = mmalloc(sizeof(p_sim->p_at[0])*p_sim->keynum);
+    p_sim->p_at = (QUAT *)mmalloc(sizeof(p_sim->p_at[0])*p_sim->keynum);
     p_sim->pivot3ds = p_track->pivot;
     key_track_quat_zkontroluj(p_track->p_at,p_track->rot_keys);
     for(i = 0; i < p_sim->keynum; i++)
@@ -1941,14 +1944,14 @@ SIMPLE_TRACK_INFO * key_tri_to_sim_indir(HIERARCHY_TRACK_INFO *p_track, SIMPLE_T
   if(p_track->p_scale) {
     if(float_scale) {
       BOD s;
-      p_sim->p_norm = mmalloc(sizeof(p_sim->p_norm[0])*p_sim->keynum);
+      p_sim->p_norm = (float *)mmalloc(sizeof(p_sim->p_norm[0])*p_sim->keynum);
       for(i = 0; i < p_sim->keynum; i++) {
         key_track_interpolace_bod(&s,p_track->p_scale,p_track->p_skeys,i*SIM_KONSTI,endtime,
           p_track->scs_keys,loop);
         p_sim->p_norm[i] = s.x;
       }
     } else {
-      p_sim->p_scale = mmalloc(sizeof(p_sim->p_scale[0])*p_sim->keynum);
+      p_sim->p_scale = (BOD *)mmalloc(sizeof(p_sim->p_scale[0])*p_sim->keynum);
       for(i = 0; i < p_sim->keynum; i++)
         key_track_interpolace_bod(p_sim->p_scale+i,p_track->p_scale,p_track->p_skeys,
                                   i*SIM_KONSTI,endtime,p_track->scs_keys,loop);
@@ -1973,7 +1976,7 @@ SIMPLE_TRACK_INFO * key_tri_to_sim_indir_lin(HIERARCHY_TRACK_INFO *p_track, SIMP
   /* Kopie pozicnich klicu
   */
   if(p_track->p_pos) {
-    p_sim->p_pos = mmalloc(sizeof(p_sim->p_pos[0])*p_sim->keynum);
+    p_sim->p_pos = (BOD *)mmalloc(sizeof(p_sim->p_pos[0])*p_sim->keynum);
     for(i = 0; i < p_sim->keynum; i++)
       key_track_interpolace_bod_linear(p_sim->p_pos+i,p_track->p_pos,p_track->p_pkeys,
                                       i*SIM_KONSTI,endtime,p_track->pos_keys,
@@ -1983,7 +1986,7 @@ SIMPLE_TRACK_INFO * key_tri_to_sim_indir_lin(HIERARCHY_TRACK_INFO *p_track, SIMP
   /* Kopie rotacnich klicu
   */
   if(p_track->p_at) {
-    p_sim->p_at = mmalloc(sizeof(p_sim->p_at[0])*p_sim->keynum);
+    p_sim->p_at = (QUAT *)mmalloc(sizeof(p_sim->p_at[0])*p_sim->keynum);
     p_sim->pivot3ds = p_track->pivot;
     key_track_quat_zkontroluj(p_track->p_at,p_track->rot_keys);
     for(i = 0; i < p_sim->keynum; i++)
@@ -1995,7 +1998,7 @@ SIMPLE_TRACK_INFO * key_tri_to_sim_indir_lin(HIERARCHY_TRACK_INFO *p_track, SIMP
   /* Kopie scale klicu
   */
   if(p_track->p_scale) {
-    p_sim->p_scale = mmalloc(sizeof(p_sim->p_scale[0])*p_sim->keynum);
+    p_sim->p_scale = (BOD *)mmalloc(sizeof(p_sim->p_scale[0])*p_sim->keynum);
     for(i = 0; i < p_sim->keynum; i++)
       key_track_interpolace_bod_linear(p_sim->p_scale+i,p_track->p_scale,p_track->p_skeys,
                                       i*SIM_KONSTI,endtime,p_track->scs_keys,
@@ -2007,10 +2010,10 @@ SIMPLE_TRACK_INFO * key_tri_to_sim_indir_lin(HIERARCHY_TRACK_INFO *p_track, SIMP
 
 void key_sim_zrus_vnitrek(SIMPLE_TRACK_INFO *p_sim)
 {
-  null_free(&p_sim->p_pos);
-  null_free(&p_sim->p_at);
-  null_free(&p_sim->p_scale);
-  null_free(&p_sim->p_all_matrix);
+  null_free((void **)&p_sim->p_pos);
+  null_free((void **)&p_sim->p_at);
+  null_free((void **)&p_sim->p_scale);
+  null_free((void **)&p_sim->p_all_matrix);
 }
 
 // Zrusi animacni strom sim animaci
@@ -2096,7 +2099,7 @@ int key_sim_nahraj(APAK_HANDLE *pHandle, SIMPLE_TRACK_INFO *p_sim, char *p_file,
   char                 line[1000],*p_pom;
   KFILE               *f;
   int                  p,r,s,fr,loop = 0;  
-  BOD                  pivot = {0.0f,0.0f,0.0f};
+  BOD                  pivot(0.0f,0.0f,0.0f);
   BOD                  osa;
   float                uhel;
   char               **p_line;
@@ -2110,12 +2113,12 @@ int key_sim_nahraj(APAK_HANDLE *pHandle, SIMPLE_TRACK_INFO *p_sim, char *p_file,
     kprintf(TRUE,"Nahravam animaci z %s...",p_file);
   }
 
-  p_line = mmalloc(sizeof(p_line[0])*MAX_SIM_RADKU);
+  p_line = (char **)mmalloc(sizeof(p_line[0])*MAX_SIM_RADKU);
   l = 0;
   while(kgets(line,999,f)) {
     assert(l < MAX_SIM_RADKU);
     if(line[0] && line[0] != '\n' && line[0] != ';') {
-      p_line[l] = kopiruj_pole(line,sizeof(char)*(strlen(line)+1));
+      p_line[l] = (char *)kopiruj_pole(line,sizeof(char)*(strlen(line)+1));
       l++;
     }
   }
@@ -2254,7 +2257,7 @@ int key_sim_nahraj_extended(EDIT_KONTEJNER *p_kont, int cislo_anim, char *p_file
   char                   pom1[1000];
   FILE                  *f;
   int                    p,r,s,fr,loop = 0,framu;  
-  BOD                    pivot = {0.0f,0.0f,0.0f};
+  BOD                    pivot(0.0f,0.0f,0.0f);
   BOD                    osa;
   float                  uhel;
   int                    i,objektu = 0,stop,ob,end,float_scale = FALSE;
@@ -2291,14 +2294,14 @@ int key_sim_nahraj_extended(EDIT_KONTEJNER *p_kont, int cislo_anim, char *p_file
   
   if(!objektu)
     objektu = 1;
-  p_track_list = alloca(sizeof(p_track_list[0])*objektu);
+  p_track_list = (HIERARCHY_TRACK_INFO **)alloca(sizeof(p_track_list[0])*objektu);
   akt_track = 0;  
   
   stop = 0;
   
   do {    
 
-    p_track = p_track_list[akt_track++] = alloca(sizeof(p_track[0]));
+    p_track = p_track_list[akt_track++] = (HIERARCHY_TRACK_INFO *)alloca(sizeof(p_track[0]));
     memset(p_track,0,sizeof(p_track[0]));
     
     /* reset pivot-pointu
@@ -2752,28 +2755,28 @@ int key_kamera_vyrob_indir(KAMERA_TRACK_INFO *p_track, int pos_keys, int trg_key
   memset(p_track,0,sizeof(*p_track));
 
   if((p_track->pos_keys = pos_keys)) {
-    p_track->p_pkeys = mmalloc(sizeof(p_track->p_pkeys[0])*pos_keys);    
-    p_track->p_pos = mmalloc(sizeof(p_track->p_pos[0])*pos_keys);
+    p_track->p_pkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_track->p_pkeys[0])*pos_keys);    
+    p_track->p_pos = (BOD *)mmalloc(sizeof(p_track->p_pos[0])*pos_keys);
   }
   
   if((p_track->trg_keys = trg_keys)) {
-    p_track->p_tkeys = mmalloc(sizeof(p_track->p_tkeys[0])*trg_keys);
-    p_track->p_trg = mmalloc(sizeof(p_track->p_trg[0])*trg_keys);
+    p_track->p_tkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_track->p_tkeys[0])*trg_keys);
+    p_track->p_trg = (BOD *)mmalloc(sizeof(p_track->p_trg[0])*trg_keys);
   }
 
   if((p_track->roll_keys = roll_keys)) {
-    p_track->p_rlkeys = mmalloc(sizeof(p_track->p_rlkeys[0])*roll_keys);
-    p_track->p_roll = mmalloc(sizeof(p_track->p_roll[0])*roll_keys);
+    p_track->p_rlkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_track->p_rlkeys[0])*roll_keys);
+    p_track->p_roll = (float *)mmalloc(sizeof(p_track->p_roll[0])*roll_keys);
   }
   
   if((p_track->fov_keys = fov_keys)) {
-    p_track->p_fkeys = mmalloc(sizeof(p_track->p_fkeys[0])*fov_keys);
-    p_track->p_fov = mmalloc(sizeof(p_track->p_fov[0])*fov_keys);
+    p_track->p_fkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_track->p_fkeys[0])*fov_keys);
+    p_track->p_fov = (float *)mmalloc(sizeof(p_track->p_fov[0])*fov_keys);
   }
   
   if((p_track->quat_keys = quat_keys)) {
-    p_track->p_qkeys = mmalloc(sizeof(p_track->p_qkeys[0])*quat_keys);
-    p_track->p_quat = mmalloc(sizeof(p_track->p_quat[0])*quat_keys);
+    p_track->p_qkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_track->p_qkeys[0])*quat_keys);
+    p_track->p_quat = (QUAT *)mmalloc(sizeof(p_track->p_quat[0])*quat_keys);
   }
 
   return(TRUE);
@@ -2784,24 +2787,24 @@ int key_kamera_vyrob_indir(KAMERA_TRACK_INFO *p_track, int pos_keys, int trg_key
 void key_kamera_zrus_indir(KAMERA_TRACK_INFO *p_track)
 {
   if(p_track->fov_keys) {
-    null_free(&p_track->p_fkeys);
-    null_free(&p_track->p_fov);
+    null_free((void **)&p_track->p_fkeys);
+    null_free((void **)&p_track->p_fov);
   }
   if(p_track->pos_keys) {
-    null_free(&p_track->p_pkeys);
-    null_free(&p_track->p_pos);
+    null_free((void **)&p_track->p_pkeys);
+    null_free((void **)&p_track->p_pos);
   }
   if(p_track->roll_keys) {
-    null_free(&p_track->p_rlkeys);
-    null_free(&p_track->p_roll);
+    null_free((void **)&p_track->p_rlkeys);
+    null_free((void **)&p_track->p_roll);
   }
   if(p_track->trg_keys) {
-    null_free(&p_track->p_tkeys);
-    null_free(&p_track->p_trg);
+    null_free((void **)&p_track->p_tkeys);
+    null_free((void **)&p_track->p_trg);
   }
   if(p_track->quat_keys) {
-    null_free(&p_track->p_qkeys);
-    null_free(&p_track->p_quat);
+    null_free((void **)&p_track->p_qkeys);
+    null_free((void **)&p_track->p_quat);
   }
   memset(p_track,0,sizeof(*p_track));
 }
@@ -2898,12 +2901,12 @@ int key_kamera_nahraj(KAMERA_TRACK_INFO *p_track, char *p_jmeno_kamery, char *p_
     return(FALSE);
   }
 
-  p_line = mmalloc(sizeof(p_line[0])*MAX_SIM_RADKU);
+  p_line = (char **)mmalloc(sizeof(p_line[0])*MAX_SIM_RADKU);
   l = 0;
   while(kgets(line,999,f)) {
     assert(l < MAX_SIM_RADKU);
     if(line[0] && line[0] != '\n' && line[0] != ';') {
-      p_line[l] = kopiruj_pole(line,sizeof(char)*(strlen(line)+1));
+      p_line[l] = (char *)kopiruj_pole(line,sizeof(char)*(strlen(line)+1));
       l++;
     }
   }
@@ -3047,58 +3050,58 @@ int key_kamera_track_cti(KAMERA_TRACK_INFO *p_track, BOD *p_p, BOD *p_t, float *
 */
 ANIM_TEXT * key_vyrob_material_animace(int poskey, int rotkey, int scalekey, int pivotkey)
 {
-  ANIM_TEXT *p_mat = mmalloc(sizeof(p_mat[0]));
+  ANIM_TEXT *p_mat = (ANIM_TEXT *)mmalloc(sizeof(p_mat[0]));
 
   if(p_mat->pos_keys = poskey) {
-    p_mat->p_pos = mmalloc(sizeof(BOD)*poskey);    
-    p_mat->p_pkeys = mmalloc(sizeof(p_mat->p_pkeys[0])*poskey);
+    p_mat->p_pos = (BOD *)mmalloc(sizeof(BOD)*poskey);    
+    p_mat->p_pkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_mat->p_pkeys[0])*poskey);
   }
   if(p_mat->piv_keys = pivotkey) {
     p_mat->p_piv = (BOD *)mmalloc(sizeof(BOD)*pivotkey);    
-    p_mat->p_vkeys = mmalloc(sizeof(p_mat->p_vkeys[0])*pivotkey);
+    p_mat->p_vkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_mat->p_vkeys[0])*pivotkey);
   }
   if(p_mat->rot_keys = rotkey) {
-    p_mat->p_rot = mmalloc(sizeof(p_mat->p_rot[0])*rotkey);
-    p_mat->p_rkeys = mmalloc(sizeof(p_mat->p_rkeys[0])*rotkey);
+    p_mat->p_rot = (float *)mmalloc(sizeof(p_mat->p_rot[0])*rotkey);
+    p_mat->p_rkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_mat->p_rkeys[0])*rotkey);
   }
   if(p_mat->scs_keys = scalekey) {  
     p_mat->p_scale = (BOD *)mmalloc(sizeof(BOD)*scalekey);    
-    p_mat->p_skeys = mmalloc(sizeof(p_mat->p_skeys[0])*scalekey);
+    p_mat->p_skeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_mat->p_skeys[0])*scalekey);
   }
   return(p_mat);
 }
 
 ANIM_TEXT * key_kopiruj_material_animace(ANIM_TEXT *p_src)
 {
-  ANIM_TEXT *p_mat = mmalloc(sizeof(p_mat[0]));
+  ANIM_TEXT *p_mat = (ANIM_TEXT *)mmalloc(sizeof(p_mat[0]));
   int poskey = p_src->pos_keys;
   int pivkey = p_src->piv_keys;
   int rotkey = p_src->rot_keys;
   int scalekey = p_src->scs_keys;
 
   if(p_mat->pos_keys = poskey) {
-    p_mat->p_pos = mmalloc(sizeof(p_mat->p_pos[0])*poskey);
-    p_mat->p_pkeys = mmalloc(sizeof(p_mat->p_pkeys[0])*poskey);
+    p_mat->p_pos = (BOD *)mmalloc(sizeof(p_mat->p_pos[0])*poskey);
+    p_mat->p_pkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_mat->p_pkeys[0])*poskey);
     memcpy(p_mat->p_pos,p_src->p_pos,sizeof(BOD)*poskey);
     memcpy(p_mat->p_pkeys,p_src->p_pkeys,sizeof(p_mat->p_pkeys[0])*poskey);
   }
 
   if(p_mat->piv_keys = pivkey) {
-    p_mat->p_piv = mmalloc(sizeof(p_mat->p_piv[0])*pivkey);
-    p_mat->p_vkeys = mmalloc(sizeof(p_mat->p_vkeys[0])*pivkey);
+    p_mat->p_piv = (BOD *)mmalloc(sizeof(p_mat->p_piv[0])*pivkey);
+    p_mat->p_vkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_mat->p_vkeys[0])*pivkey);
     memcpy(p_mat->p_piv,p_src->p_piv,sizeof(BOD)*pivkey);
     memcpy(p_mat->p_vkeys,p_src->p_vkeys,sizeof(p_mat->p_vkeys[0])*pivkey);
   }
 
   if(p_mat->rot_keys = rotkey) {
-    p_mat->p_rot = mmalloc(sizeof(p_mat->p_rot[0])*rotkey);
-    p_mat->p_rkeys = mmalloc(sizeof(p_mat->p_rkeys[0])*rotkey);
+    p_mat->p_rot = (float *)mmalloc(sizeof(p_mat->p_rot[0])*rotkey);
+    p_mat->p_rkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_mat->p_rkeys[0])*rotkey);
     memcpy(p_mat->p_rot,p_src->p_rot,sizeof(p_mat->p_rot[0])*rotkey);
     memcpy(p_mat->p_rkeys,p_src->p_rkeys,sizeof(p_mat->p_rkeys[0])*rotkey);
   }
   if(p_mat->scs_keys = scalekey) {  
-    p_mat->p_scale = mmalloc(sizeof(p_mat->p_scale[0])*scalekey);    
-    p_mat->p_skeys = mmalloc(sizeof(p_mat->p_skeys[0])*scalekey);
+    p_mat->p_scale = (BOD *)mmalloc(sizeof(p_mat->p_scale[0])*scalekey);    
+    p_mat->p_skeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_mat->p_skeys[0])*scalekey);
     memcpy(p_mat->p_scale,p_src->p_scale,sizeof(p_src->p_scale[0])*scalekey);
     memcpy(p_mat->p_skeys,p_src->p_skeys,sizeof(p_mat->p_skeys[0])*scalekey);
   }
@@ -3107,11 +3110,11 @@ ANIM_TEXT * key_kopiruj_material_animace(ANIM_TEXT *p_src)
 
 void key_zrus_material_animace(ANIM_TEXT **p_mat)
 {
-  null_free(&(*p_mat)->p_pos);
-  null_free(&(*p_mat)->p_piv);
-  null_free(&(*p_mat)->p_rot);
-  null_free(&(*p_mat)->p_scale);
-  null_free(&(*p_mat));
+  null_free((void **)&(*p_mat)->p_pos);
+  null_free((void **)&(*p_mat)->p_piv);
+  null_free((void **)&(*p_mat)->p_rot);
+  null_free((void **)&(*p_mat)->p_scale);
+  null_free((void **)&(*p_mat));
 }
 
 /*
@@ -3378,6 +3381,7 @@ void key_sim_root_vloz_pivoty_do_animace_kont(EDIT_KONTEJNER *p_kont)
 */
 void key_mesh_transformuj_obalky(GAME_MESH *p_mesh, GLMATRIX *p_mat)
 {
+/*
   OBB *p_src = p_mesh->p_obb_local;
   OBB *p_dst = p_mesh->p_obb_world;
   int  i;  
@@ -3385,6 +3389,7 @@ void key_mesh_transformuj_obalky(GAME_MESH *p_mesh, GLMATRIX *p_mat)
     obb_transformuj(p_src+i,p_mat,p_dst+i);
   }
   obb_transformuj(&p_mesh->obb_local,p_mat,&p_mesh->obb_world);
+*/
 }
 
 /* Spocita pozuze obalku kontejneru - pri key-animaci kdy se obalky
@@ -3414,7 +3419,7 @@ JOINT_KEYS * key_kost_spline_vyrob(JOINT *p_joint)
 {
   if(p_joint) {
     if(!p_joint->p_keys) {
-      p_joint->p_keys = mmalloc(sizeof(p_joint->p_keys[0]));
+      p_joint->p_keys = (JOINT_KEYS *)mmalloc(sizeof(p_joint->p_keys[0]));
     }
     return(p_joint->p_keys);
   } else {
@@ -3447,7 +3452,7 @@ void key_kosti_updatuj_vertexy(EDIT_OBJEKT *p_obj, JOINT_ANIMACE *p_animace)
   if(p_animace && p_animace->p_child) {
     if(!p_obj->p_vertex_kosti) {
       int i;
-      p_obj->p_vertex_kosti = mmalloc(sizeof(p_obj->p_vertex_kosti[0])*p_obj->vertexnum);
+      p_obj->p_vertex_kosti = (BOD *)mmalloc(sizeof(p_obj->p_vertex_kosti[0])*p_obj->vertexnum);
       for(i = 0; i < p_obj->vertexnum; i++) {
         mujbod2bod(p_obj->p_vertex_kosti+i,p_obj->p_vertex+i);
       }
@@ -3483,20 +3488,20 @@ void key_kosti_interpoluj_rec(JOINT *p_joint, int framenum, int loop)
   
   if(p_key) {
     if(p_key->p_pos) {
-      p_joint->p_pos = mmalloc(sizeof(p_joint->p_pos[0])*keynum);
+      p_joint->p_pos = (BOD *)mmalloc(sizeof(p_joint->p_pos[0])*keynum);
       p_joint->pos_keys = keynum;
       for(i = 0; i < keynum; i++)
         key_track_interpolace_bod(p_joint->p_pos+i,p_key->p_pos,p_key->p_pkeys,i*SIM_KONSTI,endtime,p_key->pos_keys,loop);
     }
     if(p_key->p_rot) {
-      p_joint->p_rot = mmalloc(sizeof(p_joint->p_rot[0])*keynum);
+      p_joint->p_rot = (QUAT *)mmalloc(sizeof(p_joint->p_rot[0])*keynum);
       p_joint->rot_keys = keynum;
       for(i = 0; i < keynum; i++) {
         key_track_interpolace_quat(p_joint->p_rot+i,p_key->p_rot,p_key->p_rkeys,i*SIM_KONSTI,endtime,p_key->rot_keys,loop);
       }
     }
     if(p_key->p_scale) {
-      p_joint->p_scs = mmalloc(sizeof(p_joint->p_scs[0])*keynum);
+      p_joint->p_scs = (BOD *)mmalloc(sizeof(p_joint->p_scs[0])*keynum);
       p_joint->scs_keys = keynum;
       for(i = 0; i < keynum; i++)
         key_track_interpolace_bod(p_joint->p_scs+i,p_key->p_scale,p_key->p_skeys,i*SIM_KONSTI,endtime,p_key->scs_keys,loop);
@@ -3599,8 +3604,8 @@ void key_kosti_animuj(JOINT_ANIMACE *p_animace)
 
 void key_kosti_serad_klice(byte *p_hodnoty, KEY_POINT_BRS *p_skeys, int keynum, int size_of_hodnota)
 {
-  KEY_POINT_BRS *p_nkeys = mmalloc(sizeof(p_nkeys[0])*keynum);
-  byte          *p_nhod = mmalloc(sizeof(byte)*size_of_hodnota*keynum);
+  KEY_POINT_BRS *p_nkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_nkeys[0])*keynum);
+  byte          *p_nhod = (byte *)mmalloc(sizeof(byte)*size_of_hodnota*keynum);
   dword          min_time,
                  min_klic;
   int            i,new_akt = 0;
@@ -3746,16 +3751,16 @@ void key_kosti_stream_animuj_rec(JOINT_ANIMACE *p_anim, JOINT *p_joint, GLMATRIX
 JOINT_KEYS * key_joint_kopiruj_spline(JOINT_KEYS *p_src)
 {
   if(p_src) {
-    JOINT_KEYS *p_new = kopiruj_pole(p_src,sizeof(p_src[0]));
+    JOINT_KEYS *p_new = (JOINT_KEYS *)kopiruj_pole(p_src,sizeof(p_src[0]));
     
-    p_new->p_pkeys = kopiruj_pole(p_new->p_pkeys,sizeof(p_new->p_pkeys[0])*p_new->pos_keys);
-    p_new->p_pos   = kopiruj_pole(p_new->p_pos,  sizeof(p_new->p_pos[0])*p_new->pos_keys);
+    p_new->p_pkeys = (KEY_POINT_BRS *)kopiruj_pole(p_new->p_pkeys,sizeof(p_new->p_pkeys[0])*p_new->pos_keys);
+    p_new->p_pos   = (BOD *)kopiruj_pole(p_new->p_pos,  sizeof(p_new->p_pos[0])*p_new->pos_keys);
     
-    p_new->p_rkeys = kopiruj_pole(p_new->p_rkeys,sizeof(p_new->p_rkeys[0])*p_new->rot_keys);
-    p_new->p_rot   = kopiruj_pole(p_new->p_rot,  sizeof(p_new->p_rot[0])*p_new->rot_keys);
+    p_new->p_rkeys = (KEY_POINT_BRS *)kopiruj_pole(p_new->p_rkeys,sizeof(p_new->p_rkeys[0])*p_new->rot_keys);
+    p_new->p_rot   = (QUAT *)kopiruj_pole(p_new->p_rot,  sizeof(p_new->p_rot[0])*p_new->rot_keys);
     
-    p_new->p_skeys = kopiruj_pole(p_new->p_skeys,sizeof(p_new->p_skeys[0])*p_new->scs_keys);
-    p_new->p_scale = kopiruj_pole(p_new->p_scale,sizeof(p_new->p_scale[0])*p_new->scs_keys);
+    p_new->p_skeys = (KEY_POINT_BRS *)kopiruj_pole(p_new->p_skeys,sizeof(p_new->p_skeys[0])*p_new->scs_keys);
+    p_new->p_scale = (BOD *)kopiruj_pole(p_new->p_scale,sizeof(p_new->p_scale[0])*p_new->scs_keys);
     
     return(p_new);
   } else {
@@ -3765,12 +3770,12 @@ JOINT_KEYS * key_joint_kopiruj_spline(JOINT_KEYS *p_src)
 
 JOINT * key_joint_kopiruj(JOINT *p_src)
 {
-  JOINT *p_new = kopiruj_pole(p_src,sizeof(p_src[0]));  
+  JOINT *p_new = (JOINT *)kopiruj_pole(p_src,sizeof(p_src[0]));  
 
-  p_new->p_vertexlist = kopiruj_pole(p_src->p_vertexlist,sizeof(p_new->p_vertexlist[0])*p_new->vertexnum);
-  p_new->p_pos = kopiruj_pole(p_src->p_pos,sizeof(p_new->p_pos[0])*p_new->pos_keys);
-  p_new->p_rot = kopiruj_pole(p_src->p_rot,sizeof(p_new->p_rot[0])*p_new->rot_keys);
-  p_new->p_scs = kopiruj_pole(p_src->p_scs,sizeof(p_new->p_scs[0])*p_new->scs_keys);
+  p_new->p_vertexlist = (int*)kopiruj_pole(p_src->p_vertexlist,sizeof(p_new->p_vertexlist[0])*p_new->vertexnum);
+  p_new->p_pos = (BOD *)kopiruj_pole(p_src->p_pos,sizeof(p_new->p_pos[0])*p_new->pos_keys);
+  p_new->p_rot = (QUAT *)kopiruj_pole(p_src->p_rot,sizeof(p_new->p_rot[0])*p_new->rot_keys);
+  p_new->p_scs = (BOD *)kopiruj_pole(p_src->p_scs,sizeof(p_new->p_scs[0])*p_new->scs_keys);
   
   p_new->p_keys = key_joint_kopiruj_spline(p_src->p_keys);
   return(p_new);
@@ -3778,7 +3783,7 @@ JOINT * key_joint_kopiruj(JOINT *p_src)
 
 JOINT * key_joint_vyrob(void)
 {
-  JOINT *p_src = mmalloc(sizeof(p_src[0]));
+  JOINT *p_src = (JOINT *)mmalloc(sizeof(p_src[0]));
   p_src->r.w = 1;
   p_src->s.x = p_src->s.y = p_src->s.z = 1.0f;
   init_matrix(&p_src->m);
@@ -3799,7 +3804,7 @@ JOINT * key_kosti_kopiruj_rec(JOINT *p_src)
 */
 JOINT_ANIMACE * key_kosti_kopiruj(JOINT_ANIMACE *p_src)
 {
-  JOINT_ANIMACE *p_new = mmalloc(sizeof(p_src[0]));
+  JOINT_ANIMACE *p_new = (JOINT_ANIMACE *)mmalloc(sizeof(p_src[0]));
   memcpy(p_new,p_src,sizeof(p_src[0]));
   p_new->p_child = key_kosti_kopiruj_rec(p_new->p_child);
   return(p_new);

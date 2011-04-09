@@ -10,47 +10,6 @@ int ftoi(float t)
   return((int)t);
 }
 
-char * itoa(int base, char *buf, int d)
-{
-  char *p = buf;
-  char *p1, *p2;
-  unsigned long ud = d;
-  int divisor = 10;
-
-/* If %d is specified and D is minus, put `-' in the head. */
-  if (base == 'd' && d < 0) {
-    *p++ = '-';
-    buf++;
-    ud = -d;
-  }
-  else if (base == 'x')
-    divisor = 16;
-
-  /* Divide UD by DIVISOR until UD == 0. */
-  do {
-    int remainder = ud % divisor;
-
-    *p++ = (remainder < 10) ? remainder + '0' : remainder + 'A' - 10;
-  }
-  while (ud /= divisor);
-
-  /* Terminate BUF. */
-  *p = 0;
-
-  /* Reverse BUF. */
-  p1 = buf;
-  p2 = p - 1;
-  while (p1 < p2) {
-    char tmp = *p1;
-    *p1 = *p2;
-    *p2 = tmp;
-    p1++;
-    p2--;
-  }
-
-  return(buf);
-}
-
 unsigned int timeGetTime(void)
 {
 }
@@ -393,4 +352,48 @@ int GetPrivateProfileInt(
 )
 {
 
+}
+
+bitmapa * bmp_vyrob(int x, int y)
+{
+}
+bitmapa * bmp_nahraj(char *p_file, int flip)
+{
+}
+bitmapa * bmp_nahraj_pack(char *p_file, APAK_HANDLE *pAHandle)
+{
+}
+int       bmp_uloz(char *p_file, bitmapa *p_bmp)
+{
+}
+int       bmp_uloz_pack(FFILE f, bitmapa *p_bmp)
+{
+}
+void      bmp_zrus(bitmapa **p_bmp)
+{
+}
+bitmapa * bmp_kopituj(bitmapa *p_bmp)
+{
+}
+void      bmp_kopiruj(bitmapa *p_src, bitmapa *p_desc)
+{
+}
+void      bmp_cti_rozmery(bitmapa *p_bmp, int *p_x, int *p_y)
+{
+}
+int       bmp_velikost(bitmapa *p_bmp)
+{
+}
+void      bmp_putpixel(bitmapa *p_bmp, int x, int y, dword barva)
+{
+}
+void      bmp_smaz(bitmapa *p_text, dword barva)
+{
+}
+
+int  txt_vyrob_2D_texturu(int x, int y, int filtr, int format)
+{
+}
+int  txt_zrus_2D_texturu(int *p_text)
+{
 }

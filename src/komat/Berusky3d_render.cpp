@@ -2090,6 +2090,7 @@ void pe_kresli_fleky(G_KONFIG *p_ber, PARMETAC *p_par)
 */
 void pe_kresli_kour_stopu(G_KONFIG *p_ber, PARMETAC *p_mt)
 {
+/*
   GLMATRIX        *p_camera_project = get_matrix_camera_project();
   PARMETAC_HNIZDO *p_hnizdo;
   EDIT_MATERIAL   *p_mat;
@@ -2289,7 +2290,7 @@ void pe_kresli_kour_stopu(G_KONFIG *p_ber, PARMETAC *p_mt)
           } else {
             tv = 0.0f;
           }
-                    
+
           glTexCoord2f(tu,tv);
           glVertex3f(b1x,b1y,b1z);
 
@@ -2378,6 +2379,7 @@ void pe_kresli_kour_stopu(G_KONFIG *p_ber, PARMETAC *p_mt)
 
   if(p_mt->flag&TPAR_NO_FOG)
     enable_fog_causal();
+*/
 }
 
 void pe_renderuj(G_KONFIG *p_ber)
@@ -2387,7 +2389,7 @@ void pe_renderuj(G_KONFIG *p_ber)
   PARMETAC *p_next = NULL;
 
   set_matrix_world_init();
-  
+  /*
   while(p_par) {    
     p_next = p_par->p_next;
     
@@ -2408,6 +2410,7 @@ void pe_renderuj(G_KONFIG *p_ber)
     
     p_par = p_next;
   }
+  */
 }
 
 void ber_renderuj_mlhu(G_KONFIG *p_ber)

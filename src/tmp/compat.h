@@ -41,6 +41,7 @@ typedef word            FACE;
 #include "Keyframe.h"
 #include "Load.h"
 #include "Di.h"
+#include "Ddx.h"
 #include "Load_chunks.h"
 
 typedef void (* END_FUNKCE)(int param, int param2, void *p_param);

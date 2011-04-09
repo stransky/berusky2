@@ -13,9 +13,8 @@
 
 const int NUM_OF_BITMAPS = 700;
 
-_2D_DATA		_2dd;
+static _2D_DATA		_2dd;
 
-extern HW_KONFIG		hwconf;
 extern APAK_HANDLE		*pBmpArchive;
 extern int				iWinVer;
 extern int				iActualScene;

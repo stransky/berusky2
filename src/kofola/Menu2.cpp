@@ -37,7 +37,7 @@ extern PLAYER_PROFILE	pPlayerProfile;
 extern APAK_HANDLE		*p3DMArchive;
 extern int				iActualLevel;
 extern int				iActualScene;
-extern B2_FONT	b2_font;
+B2_FONT	b2_font;
 extern char cFontFile[5][64];
 AUDIO_DATA		ad;
 extern int iLanguageVersion;
@@ -57,13 +57,13 @@ static unsigned int	ATimer_ID = 0;
 static DWORD timercnt = 0;
 static DWORD dwLTime;
 static char cRestartMainMenu;
-	   int CompositDC;
-	   int FontDC;
-	   int BackDC;
+static int CompositDC;
+static int FontDC;
+static int BackDC;
 
-	int		iCompositDC,
-			iFontDC,
-			iBackDC;
+static int iCompositDC;
+static int iFontDC;
+static int iBackDC;
 
 static char bBackDC = 0;
 
@@ -71,7 +71,7 @@ static int	iLoadScreenDevice = 0;
 static int	iLoadScreenBitmap = K_CHYBA;
 static RECT	iLoadScreenRect = {0, 0, 1024, 768};
 
-RECT_LINE	rline;
+static RECT_LINE rline;
 
 extern int gi_Change_Grafic_Mode(int xPels, int yPels, int Bits, int freq, DWORD dwflags);
 //extern int gi_EnumDisplaySettings(DEVMODE *pdevmode);
@@ -2800,7 +2800,7 @@ int DrawHelp(int iBmp, int iSurface, int *iHelpIndex)
 	return 1;
 }
 
-void RunMenuHelp2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, ANIMATION_MODULE *p_am)
+void RunMenuHelp2(char *p_File_Name, void *p_ad, LEVELINFO *p_Level, ANIMATION_MODULE *p_am)
 {
 	int		mix, miy;
 	float	s_factor[2];
@@ -3388,7 +3388,7 @@ int LoadCList2(char *cFile)
 	return i;
 }
 
-void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, ANIMATION_MODULE *p_am)
+void RunMenuLevelStats2(char *p_File_Name, void *p_ad, LEVELINFO *p_Level, ANIMATION_MODULE *p_am)
 {
 /*
 	int		mix, miy;
@@ -3832,7 +3832,7 @@ __QUIT:
 */
 }
 
-void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, ANIMATION_MODULE *p_am)
+void RunMenuTutorial2(char *p_File_Name, void *p_ad, LEVELINFO *p_Level, ANIMATION_MODULE *p_am)
 {
 	int		mix, miy;
 	float	s_factor[2], s_bfactor[2];

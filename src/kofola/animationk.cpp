@@ -446,7 +446,7 @@ void am_Do_Beatle_Cakanec(int mesh, LEVELINFO *p_Level, int id)
 {
 	int iPos[3], r;
 	float pos[3], fPos[3];
-	long real;
+	int real;
 
 	if(p_Level->bUnderWaterLevel)
 		return;
@@ -2044,7 +2044,7 @@ void am_Do_BublSystem(int i, LEVELINFO *p_Level)
 
 int am_Find_Water(int i, float *f, LEVELINFO *p_Level)
 {
-	long r;
+	int r;
 	int j;
 	int iPos[3];
 	float pos[3];
@@ -2085,7 +2085,7 @@ int am_Find_Water(int i, float *f, LEVELINFO *p_Level)
 
 int am_Find_WaterB(int* viPos, float *f, LEVELINFO *p_Level)
 {
-	long r;
+	int r;
 	int j;
 	int iPos[3];
 	float pos[3];
@@ -2190,8 +2190,7 @@ void am_Create_BublSystem(int i, LEVELINFO *p_Level)
 
 void am_Do_Bubliny_Berusek(LEVELINFO *p_Level)
 {
-	long real;
-
+	int real;
 	int i, j;
 
 	for(i=0;i<6;i++)
@@ -4666,7 +4665,7 @@ int am_Create_Nature_Effect(LEVELINFO *p_Level, int iEffectID, float fRadius,
 void am_Create_Water_Effect(LEVELINFO *p_Level)
 {
 	long guid;
-	BOD p={0,0,0};
+	BOD p(0,0,0);
 	WATERDESC *pWater;
 	int i, c = 0;
 
@@ -4765,7 +4764,7 @@ void am_Create_Prizemni_Mlhu(LEVELINFO *p_Level, float fDensity, float fHeight)
 void am_Start_Animaci_Pontonky(ITEMDESC *pItem)
 {
 	int guid = pItem->p_Object->GUID == 5007;
-	BOD b = {(float)(rand()%2),0,(float)(rand()%2)};
+	BOD b((float)(rand()%2),0,(float)(rand()%2));
 	int anim, i, f1, f2;
 	float r;
 
@@ -5084,7 +5083,7 @@ void am_Do_BeatleSmokes(LEVELINFO *p_Level)
 {
 	float pos[3], f;
 	int	  rot, i;
-	long  real;
+	int   real;
 	BEATLE_SMOKE_SYSTEM *pBeatle;
 
 	if(!p_Level->Snow.bSnow)
@@ -5146,7 +5145,7 @@ void am_Do_BeatleSmokes(LEVELINFO *p_Level)
 				pBeatle->dwRealTime = 0;
 
 				gl_Logical2Real(p_Level->Item[pBeatle->iItem].Pos[0], p_Level->Item[pBeatle->iItem].Pos[1],
-								p_Level->Item[pBeatle->iItem].Pos[2], &real, p_Level);
+								        p_Level->Item[pBeatle->iItem].Pos[2], &real, p_Level);
 			
 				if(!p_Level->Square[real].bUnderWater)
 					am_Do_Mouth_Smoke(pBeatle->iItem, pos, p_Level);
@@ -5282,7 +5281,7 @@ void am_Create_Steps_System(LEVELINFO *p_Level)
 void am_Change_NXNZ(LEVELINFO *p_Level, ITEMDESC *pItem, SYSTEMKOUROVYCHCASTIC *pSystem)
 {
 	int iPos[3];
-	long real;
+	int real;
 
 	memcpy((void *)iPos, pItem->Pos, 3*sizeof(int));
 
@@ -6341,7 +6340,7 @@ void am_FlipA(LEVELINFO *p_Level, ANIMATION_MODULE *p_am, char bAll, RECT_LINE *
 void am_Start_Gen_Animation(char *cMesh, LEVELINFO *p_Level)
 {
 	int iAnimation = K_CHYBA, iMesh = K_CHYBA;
-	BOD b = {(float)(rand()%2),0,(float)(rand()%2)};
+	BOD b((float)(rand()%2),0,(float)(rand()%2));
 	BOD p;
 	int anim, i, f1, f2;
 	float r;
@@ -7633,7 +7632,7 @@ void am_Do_CandleSmoke(LEVELINFO *p_Level)
 
 void am_Start_Voda_Kanal(void)
 {
-  BOD p = {0,0,0};
+  BOD p(0,0,0);
 
   MeshHandle mh;
   VodnikHandle voh;
@@ -7702,7 +7701,7 @@ void am_Create_Item_Lights(LEVELINFO *p_Level)
 
 void am_Start_Voda_Akvarko(void)
 {
-  BOD p = {0,0,0};
+  BOD p(0,0,0);
 
   MeshHandle mh;
   VodnikHandle voh;

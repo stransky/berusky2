@@ -34,9 +34,9 @@ extern int cameraflag;
 
 HDC_INFO	hdc_info;
 
-HINT_STATE	sHint;
-//KUK_STATE	sKuk;
-//EDIT_TEXT	sIndikace[3];
+HINT_STATE sHint;
+KUK_STATE	 sKuk;
+void * sIndikace[3];
 
 extern APAK_HANDLE		*pBmpArchive;
 extern APAK_HANDLE		*p3DMArchive;

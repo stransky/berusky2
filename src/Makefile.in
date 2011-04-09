@@ -97,7 +97,8 @@ am_berusky2_OBJECTS = 3D_graphic.$(OBJEXT) 3D_menus.$(OBJEXT) \
 	data_file.$(OBJEXT) ini.$(OBJEXT) log.$(OBJEXT) \
 	mem_alloc.$(OBJEXT) mtree.$(OBJEXT) utils.$(OBJEXT) \
 	animationk.$(OBJEXT) generator_random.$(OBJEXT) Ddx.$(OBJEXT) \
-	kfile.$(OBJEXT) Berusky3d_animace.$(OBJEXT)
+	kfile.$(OBJEXT) Berusky3d_animace.$(OBJEXT) 3dmath.$(OBJEXT) \
+	3dproject.$(OBJEXT) Mat3d.$(OBJEXT) Keyframe.$(OBJEXT)
 berusky2_OBJECTS = $(am_berusky2_OBJECTS)
 berusky2_DEPENDENCIES =
 berusky2_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -590,7 +591,11 @@ berusky2_SOURCES = \
 	komat/Keyframe.h\
 	komat/Quat.h\
 	komat/Berusky3d_animace.cpp\
-	komat/Berusky3d_animace.h
+	komat/Berusky3d_animace.h\
+	komat/3dmath.cpp\
+	komat/3dproject.cpp\
+	komat/Mat3d.cpp\
+	komat/Keyframe.cpp
 
 berusky2_LDFLAGS = 
 berusky2_LDADD = \
@@ -688,6 +693,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3D_menus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3d_math.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3dinterface.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3dmath.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3dproject.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Apak.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Apakio.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Berusky3d.Po@am__quote@
@@ -710,9 +717,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Demo.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Di.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Init.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Keyframe.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Load.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Load_chunks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Load_out.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Mat3d.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Menu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Menu2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Tga.Po@am__quote@
@@ -2639,6 +2648,62 @@ Berusky3d_animace.obj: komat/Berusky3d_animace.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Berusky3d_animace.cpp' object='Berusky3d_animace.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Berusky3d_animace.obj `if test -f 'komat/Berusky3d_animace.cpp'; then $(CYGPATH_W) 'komat/Berusky3d_animace.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Berusky3d_animace.cpp'; fi`
+
+3dmath.o: komat/3dmath.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT 3dmath.o -MD -MP -MF $(DEPDIR)/3dmath.Tpo -c -o 3dmath.o `test -f 'komat/3dmath.cpp' || echo '$(srcdir)/'`komat/3dmath.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/3dmath.Tpo $(DEPDIR)/3dmath.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/3dmath.cpp' object='3dmath.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o 3dmath.o `test -f 'komat/3dmath.cpp' || echo '$(srcdir)/'`komat/3dmath.cpp
+
+3dmath.obj: komat/3dmath.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT 3dmath.obj -MD -MP -MF $(DEPDIR)/3dmath.Tpo -c -o 3dmath.obj `if test -f 'komat/3dmath.cpp'; then $(CYGPATH_W) 'komat/3dmath.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/3dmath.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/3dmath.Tpo $(DEPDIR)/3dmath.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/3dmath.cpp' object='3dmath.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o 3dmath.obj `if test -f 'komat/3dmath.cpp'; then $(CYGPATH_W) 'komat/3dmath.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/3dmath.cpp'; fi`
+
+3dproject.o: komat/3dproject.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT 3dproject.o -MD -MP -MF $(DEPDIR)/3dproject.Tpo -c -o 3dproject.o `test -f 'komat/3dproject.cpp' || echo '$(srcdir)/'`komat/3dproject.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/3dproject.Tpo $(DEPDIR)/3dproject.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/3dproject.cpp' object='3dproject.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o 3dproject.o `test -f 'komat/3dproject.cpp' || echo '$(srcdir)/'`komat/3dproject.cpp
+
+3dproject.obj: komat/3dproject.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT 3dproject.obj -MD -MP -MF $(DEPDIR)/3dproject.Tpo -c -o 3dproject.obj `if test -f 'komat/3dproject.cpp'; then $(CYGPATH_W) 'komat/3dproject.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/3dproject.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/3dproject.Tpo $(DEPDIR)/3dproject.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/3dproject.cpp' object='3dproject.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o 3dproject.obj `if test -f 'komat/3dproject.cpp'; then $(CYGPATH_W) 'komat/3dproject.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/3dproject.cpp'; fi`
+
+Mat3d.o: komat/Mat3d.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Mat3d.o -MD -MP -MF $(DEPDIR)/Mat3d.Tpo -c -o Mat3d.o `test -f 'komat/Mat3d.cpp' || echo '$(srcdir)/'`komat/Mat3d.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Mat3d.Tpo $(DEPDIR)/Mat3d.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Mat3d.cpp' object='Mat3d.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Mat3d.o `test -f 'komat/Mat3d.cpp' || echo '$(srcdir)/'`komat/Mat3d.cpp
+
+Mat3d.obj: komat/Mat3d.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Mat3d.obj -MD -MP -MF $(DEPDIR)/Mat3d.Tpo -c -o Mat3d.obj `if test -f 'komat/Mat3d.cpp'; then $(CYGPATH_W) 'komat/Mat3d.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Mat3d.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Mat3d.Tpo $(DEPDIR)/Mat3d.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Mat3d.cpp' object='Mat3d.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Mat3d.obj `if test -f 'komat/Mat3d.cpp'; then $(CYGPATH_W) 'komat/Mat3d.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Mat3d.cpp'; fi`
+
+Keyframe.o: komat/Keyframe.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Keyframe.o -MD -MP -MF $(DEPDIR)/Keyframe.Tpo -c -o Keyframe.o `test -f 'komat/Keyframe.cpp' || echo '$(srcdir)/'`komat/Keyframe.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Keyframe.Tpo $(DEPDIR)/Keyframe.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Keyframe.cpp' object='Keyframe.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Keyframe.o `test -f 'komat/Keyframe.cpp' || echo '$(srcdir)/'`komat/Keyframe.cpp
+
+Keyframe.obj: komat/Keyframe.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Keyframe.obj -MD -MP -MF $(DEPDIR)/Keyframe.Tpo -c -o Keyframe.obj `if test -f 'komat/Keyframe.cpp'; then $(CYGPATH_W) 'komat/Keyframe.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Keyframe.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Keyframe.Tpo $(DEPDIR)/Keyframe.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Keyframe.cpp' object='Keyframe.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Keyframe.obj `if test -f 'komat/Keyframe.cpp'; then $(CYGPATH_W) 'komat/Keyframe.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Keyframe.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

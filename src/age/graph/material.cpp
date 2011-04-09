@@ -45,10 +45,10 @@ void mesh_material::clear(void)
   
   shine = 1.0f;
   
-  flag_set(MATERIAL_DIFFUSE);
-  flag_set(MATERIAL_ZMASK);
-  flag_set(MATERIAL_ZTEST);
-  flag_set(MATERIAL_CULL);
+  m2flags.flag_set(MATERIAL2_DIFFUSE);
+  mflags.flag_set(MATERIAL_ZMASK);
+  mflags.flag_set(MATERIAL_ZTEST);
+  mflags.flag_set(MATERIAL_CULL);
   
   //env_scale = 1.0f;
 }
@@ -214,17 +214,17 @@ int mesh_material::set(bool forced)
   }
   */
    
-  if(flag_get(MATERIAL_DIFFUSE)) {
+  if(m2flags.flag_get(MATERIAL2_DIFFUSE)) {
     gl_diffuse::on();
     gl_diffuse::set(&diff);
   } else {
     gl_diffuse::off();
   }
   
-  gl_z_buffer::test(flag_get(MATERIAL_ZTEST));
-  gl_z_buffer::mask_set(flag_get(MATERIAL_ZMASK));
+  gl_z_buffer::test(mflags.flag_get(MATERIAL_ZTEST));
+  gl_z_buffer::mask_set(mflags.flag_get(MATERIAL_ZMASK));
   
-  gl_cull_mod::set(flag_get(MATERIAL_CULL));
+  gl_cull_mod::set(mflags.flag_get(MATERIAL_CULL));
     
   return(TRUE);
 }

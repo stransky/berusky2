@@ -15,6 +15,7 @@
 
 	void gl_Destroy_Item(long Item, int Type, LEVELINFO *p_Level);
 
+  void gl_Real2Logical(int Real_Pos, int *Log_Pos, LEVELINFO *p_Level);
 	void gl_Logical2Real(int x, int y, int z, int *Real_Pos, LEVELINFO *p_Level);
 	void gl_Next_Queue_Set(LEVELINFO *p_Level);
 	void gl_Change_Destonation(LEVELINFO *p_Level, int *pos);
@@ -34,5 +35,6 @@
 	int gl_Check_Anim_Pontonky(ITEMDESC *pItem, LEVELINFO *p_Level);
 	void gl_Do_Krompac(float *pos, LEVELINFO *p_Level, int material);
 	char gl_Check_Mesh_Sim(int iMesh);
+  void gl_Logical2Real(int x, int y, int z, int *Real_Pos, LEVELINFO *p_Level);
 
 #endif

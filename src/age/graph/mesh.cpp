@@ -631,10 +631,7 @@ game_mesh::game_mesh(class scene *p_scene)
 {
   p_geom = NULL;
   p_mat = NULL;
-  
-  mflag = 0;
-  m2flag = 0;
-  
+    
   object_type_set(SCENE_OBJECT_MESH);
   object_box_type_set(BOX_OBB);
 }

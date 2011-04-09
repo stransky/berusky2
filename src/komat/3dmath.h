@@ -153,13 +153,13 @@ inline void matrix_to_pos_2d(GLMATRIX *p_m, BOD *p_p)
 inline GLMATRIX * calc_transf_3d_2d_matrix(GLMATRIX *p_w, GLMATRIX *p_c, GLMATRIX *p_p, GLMATRIX *p_v)
 {
  GLMATRIX m;
- return((GLMATRIX *)glu_invert_matrix((float *)mat_mult(mat_mult(p_w,p_c,p_v),p_p,&m),(float *)p_v));
+ return((GLMATRIX *)glu_invert_matrix(mat_mult(mat_mult(p_w,p_c,p_v),p_p,&m),p_v));
 }
 
 inline GLMATRIX * calc_transf_3d_2d_matrix_smpl(GLMATRIX *p_c, GLMATRIX *p_p, GLMATRIX *p_v)
 {
  GLMATRIX m;
- return((GLMATRIX *)glu_invert_matrix((float *)mat_mult(p_c,p_p,&m),(float *)p_v));
+ return((GLMATRIX *)glu_invert_matrix(mat_mult(p_c,p_p,&m),p_v));
 }
 
 inline void stred_to_obalka(BOD *p_prv, BOD *p_min, BOD *p_max, float dx, float dy, float dz)
