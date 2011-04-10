@@ -146,8 +146,8 @@ void lo_zrus_material_kont(EDIT_KONTEJNER *p_kont, EDIT_MATERIAL **p_list, int n
 /*
   Soubor
 */
-inline int efile(char *p_file);
-inline int efileAPAK(APAK_HANDLE *pAHandle, char *p_file);
+int efile(char *p_file);
+int efileAPAK(APAK_HANDLE *pAHandle, char *p_file);
 
 
 /*

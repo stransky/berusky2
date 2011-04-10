@@ -268,15 +268,13 @@ void konec(int konec)
   }
 }
 
-int efile(char *p_file);
-
 int main(int argc, char **argv)
 {
   char *p_level;
   char pom[200];
   
   getcwd(ini_file,500);
-  strcat(ini_file,"\\berusky3d.ini");
+  strcat(ini_file,"//berusky3d.ini");
   if(!efile(ini_file)) {
    strcpy(ini_file,"berusky3d.ini");
   } 

@@ -273,54 +273,6 @@ void SetCursor(void *tmp)
 char * strupr(char * string)
 {
 }
-/*
-GLAPI GLuint APIENTRY glNewObjectBufferATI (GLsizei t1, const GLvoid *t2, GLenum t3)
-{
-}
-GLAPI GLboolean APIENTRY glIsObjectBufferATI (GLuint t1)
-{
-}
-GLAPI void APIENTRY glUpdateObjectBufferATI (GLuint t1, GLuint t2, GLsizei t3, const GLvoid *t4, GLenum t5)
-{
-}
-GLAPI void APIENTRY glGetObjectBufferfvATI (GLuint t1, GLenum t2, GLfloat * t3)
-{
-}
-GLAPI void APIENTRY glGetObjectBufferivATI (GLuint t1, GLenum t2, GLint * t3)
-{
-}
-GLAPI void APIENTRY glFreeObjectBufferATI (GLuint t)
-{
-}
-GLAPI void APIENTRY glArrayObjectATI (GLenum t1, GLint t2, GLenum t3, GLsizei t4, GLuint t5, GLuint t6)
-{
-}
-GLAPI void APIENTRY glGetArrayObjectfvATI (GLenum t, GLenum t1, GLfloat * t2)
-{
-}
-GLAPI void APIENTRY glGetArrayObjectivATI (GLenum t, GLenum t1, GLint * t2)
-{
-}
-GLAPI void APIENTRY glVariantArrayObjectATI (GLuint t, GLenum t1, GLsizei t2, GLuint t3, GLuint t4)
-{
-}
-GLAPI void APIENTRY glGetVariantArrayObjectfvATI (GLuint t, GLenum t1, GLfloat * t2)
-{
-}
-GLAPI void APIENTRY glGetVariantArrayObjectivATI (GLuint t, GLenum t2, GLint * t3)
-{
-}
-
-GLAPI void APIENTRY glElementPointerATI (GLenum t, const GLvoid * t1)
-{
-}
-GLAPI void APIENTRY glDrawElementArrayATI (GLenum t, GLsizei t1)
-{
-}
-GLAPI void APIENTRY glDrawRangeElementArrayATI (GLenum t1, GLuint t2, GLuint t3, GLsizei t4)
-{
-}
-*/
 
 void GetPrivateProfileString(
   char * lpAppName, // section name
@@ -331,11 +283,12 @@ void GetPrivateProfileString(
   char * lpFileName // ini file name
 )
 {
-
+  // lpAppName -> unused
+  ini_read_string(lpFileName, lpKeyName, lpReturnedString, nSize, lpDefault);
 }
 
 int WritePrivateProfileString(
-  char * lpAppName,
+  char * lpAppName, // section name
   char * lpKeyName,
   char * lpString,
   char * lpFileName
@@ -345,13 +298,14 @@ int WritePrivateProfileString(
 }
 
 int GetPrivateProfileInt(
-  char * lpAppName,
+  char * lpAppName, // section name
   char * lpKeyName,
   int nDefault,
   char * lpFileName
 )
 {
-
+  // lpAppName -> unused
+  return(ini_read_int(lpFileName, lpKeyName, nDefault));
 }
 
 bitmapa * bmp_vyrob(int x, int y)

@@ -116,6 +116,9 @@ int    file_size_get(char * p_dir, char * p_file);
 void   print_errno(bool new_line = FALSE);
 
 /* File abstraction
+
+   safe = TRUE  -> if it fails, call exit 
+   safe = FALSE -> if it fails, return NULL file
 */
 typedef class fhandle {
   

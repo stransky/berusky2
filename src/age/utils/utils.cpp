@@ -679,7 +679,7 @@ bool file_copy(char *p_src, char *p_src_dir, char *p_dest, char *p_dest_dir, boo
 
 bool file_exists(char * p_dir, char * p_file)
 {
-  FFILE f(p_dir, p_file, "rb", FALSE);  
+  FFILE f(p_dir, p_file, "rb", FALSE);
   if(!(f)) {
     return(FALSE);
   } 

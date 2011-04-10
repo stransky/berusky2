@@ -14,17 +14,11 @@ typedef struct _KFILE {
 
 inline int efile(char *p_file)
 {
-/* TODO
-  struct _finddata_t fileinfo;
-  int handle = _findfirst((const char *)p_file,&fileinfo);
-  if(handle != -1)
-    _findclose(handle);
-  return(handle != -1);
-*/
+  return(file_exists(NULL, p_file));
 }
 
-// pokud ses preplej v "adresari" kde mas soboury. 
-// (pokud si otviral paky zpusobem, jakym sem ti rek, tak ano). 
+// pokud ses preplej v "adresari" kde mas soboury.
+// (pokud si otviral paky zpusobem, jakym sem ti rek, tak ano).
 // Tak musis pouzit afindfirst, next, close .. jinak to nejde
 inline int efileAPAK(APAK_HANDLE *pAHandle, char *p_file)
 {
@@ -36,7 +30,7 @@ inline int efileAPAK(APAK_HANDLE *pAHandle, char *p_file)
     return(TRUE);
   } else {
     return(FALSE);
-  } 
+  }
 */
 }
 
