@@ -2291,7 +2291,7 @@ int lo_reload_textur_file(EDIT_TEXT *p_text, int max, char *p_file, int save)
 int lo_reload_textur(TEXT_DIR *p_dir, EDIT_TEXT *p_text, int num, int save)
 {  
   int i;    
-/*
+
   for(i = 0; i < TEXT_DIRS; i++) {
     if(p_dir->texture_dir[i][0]) {
       txt_trida(p_dir->texture_dir_class[i]);
@@ -2305,7 +2305,7 @@ int lo_reload_textur(TEXT_DIR *p_dir, EDIT_TEXT *p_text, int num, int save)
       lo_reload_textur_file(p_text,num,p_dir->texture_file[i],save);
     }
   }
-*/
+
   lo_reload_textur_chyby(p_text, num);    
 
   return(TRUE);

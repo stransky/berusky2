@@ -716,7 +716,7 @@ inline void specular_off(void)
 
 inline void specular_color(float r, float g, float b)
 {
-  glSecondaryColor3fEXT(r,g,b);
+  //glSecondaryColor3fEXT(r,g,b);
   glDisable(GL_COLOR_SUM_EXT);
 }
 

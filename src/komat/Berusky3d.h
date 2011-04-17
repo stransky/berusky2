@@ -321,28 +321,28 @@ typedef struct _G_KONFIG {
   /* Seznamy pro kresleni
   */
   int                  dyn_meshlistnum;
-  GAME_MESH          **p_dyn_meshlist[MAX_BERUSKY_KONTEJNERU];
+  GAME_MESH_OLD      **p_dyn_meshlist[MAX_BERUSKY_KONTEJNERU];
 
   /* Standartni scena
   */
   int                  mesh_rendernum;
   int                  mesh_renderakt;
-  GAME_MESH          **p_mesh_renderlist[MAX_BERUSKY_KONTEJNERU];
+  GAME_MESH_OLD      **p_mesh_renderlist[MAX_BERUSKY_KONTEJNERU];
   
   int                  poly_rendernum;
   int                  poly_renderakt;
   EDIT_MESH_POLY     **p_poly_renderlist;
 
   int                  meshnum;
-  GAME_MESH           *p_mesh[MAX_BERUSKY_KONTEJNERU];// seznam dynamickych hernich objektu
+  GAME_MESH_OLD       *p_mesh[MAX_BERUSKY_KONTEJNERU];// seznam dynamickych hernich objektu
   int                  mdatanum;
-  GAME_MESH           *p_mdata[MAX_BERUSKY_DATABAZE]; // seznam databaze
+  GAME_MESH_OLD       *p_mdata[MAX_BERUSKY_DATABAZE]; // seznam databaze
   int                  polynum;
   EDIT_MESH_POLY      *p_poly;                        // seznam statickych objektu
   EDIT_MATERIAL       *p_mat[MAX_CELKEM_MATERIALU];   // seznam materialu
   EDIT_MATERIAL       *p_smat;                        // scene-material
-  //EDIT_TEXT            p_text[MAX_CELKEM_TEXTUR];     // seznam textur
-  //EDIT_TEXT            p_lightmap[MAX_RAY_TEXTUR];    // seznam lightmap
+  EDIT_TEXT            p_text[MAX_CELKEM_TEXTUR];     // seznam textur
+  EDIT_TEXT            p_lightmap[MAX_RAY_TEXTUR];    // seznam lightmap
   OBB_TREE             obbtree;                       // obb-tree levelu
 
   /* Fleky v levelu
@@ -382,7 +382,7 @@ typedef struct _G_KONFIG {
 
   /* Lokalni animacni traky
   */
-  GAME_MESH           *p_lokal[MAX_RUN_ANIMACI];
+  GAME_MESH_OLD       *p_lokal[MAX_RUN_ANIMACI];
   int                  lokalnum;
 
   /* Animace kamer

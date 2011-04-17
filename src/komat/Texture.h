@@ -15,6 +15,7 @@ typedef struct _AUX_RGBImageRec {
     unsigned char *data; 
 } AUX_RGBImageRec; 
 
+
 // ABGR poradi slozek
 typedef struct _RBITMAP {
     int    x, y;
@@ -31,7 +32,7 @@ typedef RBITMAP  bitmapa;
 #define  TEXT2_POUZITA  0x0001
 #define  TEXT2_FLARE    0x0002
 
-typedef struct _EDIT_TEXT {
+typedef struct _EDIT_TEXT_OLD {
 
   char     jmeno[MAX_JMENO]; //jmeno textury
   bitmapa *p_bmp;     // pointer na bitmapu textury
@@ -53,7 +54,7 @@ typedef struct _EDIT_TEXT {
   int      floyd;
   int      floyd_transp;
   
-} EDIT_TEXT;
+} EDIT_TEXT, EDIT_TEXT_OLD;
 
 // Konfigurace textury pro nahrani z disku (format&pod.)
 typedef struct _EDIT_TEXT_KONFIG {
@@ -87,35 +88,35 @@ typedef struct _EDIT_TEXT_KONFIG {
 #define TEXT_DTX             128
 
 void      txt_lightmap_konfig(EDIT_TEXT_KONFIG *p_konf);
-bitmapa * txt_bmp2textura(bitmapa *p_bmp, EDIT_TEXT *p_text, EDIT_TEXT_KONFIG *p_konf, int _2d_text);
-int       txt_reload_lightmap(EDIT_TEXT *p_text, bitmapa *p_bmp);
+bitmapa * txt_bmp2textura(bitmapa *p_bmp, EDIT_TEXT_OLD *p_text, EDIT_TEXT_KONFIG *p_konf, int _2d_text);
+int       txt_reload_lightmap(EDIT_TEXT_OLD *p_text, bitmapa *p_bmp);
 
-int  txt_nahraj_texturu_do_vram(EDIT_TEXT *p_text, EDIT_TEXT_KONFIG *p_konf);
-int  txt_zrus_texturu_z_vram(EDIT_TEXT *p_text);
-int  txt_nahraj_lightmapu_z_bmp(char *p_file, KFILE *f, EDIT_TEXT *p_text, int save);
+int  txt_nahraj_texturu_do_vram(EDIT_TEXT_OLD *p_text, EDIT_TEXT_KONFIG *p_konf);
+int  txt_zrus_texturu_z_vram(EDIT_TEXT_OLD *p_text);
+int  txt_nahraj_lightmapu_z_bmp(char *p_file, FILE *f, EDIT_TEXT_OLD *p_text, int save);
 
-int  txt_nahraj_texturu_z_func(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT *p_text, int save, int load, EDIT_TEXT_KONFIG *p_konf, AUX_RGBImageRec * (*p_load)(APAK_HANDLE *pAHandle, char *p_file));
-int  txt_nahraj_texturu_z_dds(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT *p_text, int save);
-int  txt_nahraj_texturu_z_lib(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT *p_text, int save);
-int  txt_nahraj_texturu_z_tga(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT *p_text);
-int  txt_nahraj_texturu_dot3(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT *p_text, int save);
-int  txt_to_dot3(EDIT_TEXT *p_text, int save);
+int  txt_nahraj_texturu_z_func(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT_OLD *p_text, int save, int load, EDIT_TEXT_KONFIG *p_konf, AUX_RGBImageRec * (*p_load)(APAK_HANDLE *pAHandle, char *p_file));
+int  txt_nahraj_texturu_z_dds(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT_OLD *p_text, int save);
+int  txt_nahraj_texturu_z_lib(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT_OLD *p_text, int save);
+int  txt_nahraj_texturu_z_tga(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT_OLD *p_text);
+int  txt_nahraj_texturu_dot3(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT_OLD *p_text, int save);
+int  txt_to_dot3(EDIT_TEXT_OLD *p_text, int save);
 AUX_RGBImageRec * txt_lib_to_aux(APAK_HANDLE *pHandle, char *p_file);
 
-int  txt_uvolni_texturu(EDIT_TEXT *p_text);
-int  txt_zrus_texturu(EDIT_TEXT *p_text);
-int  txt_zrus_texturu_ram(EDIT_TEXT *p_text);
+int  txt_uvolni_texturu(EDIT_TEXT_OLD *p_text);
+int  txt_zrus_texturu(EDIT_TEXT_OLD *p_text);
+int  txt_zrus_texturu_ram(EDIT_TEXT_OLD *p_text);
 AUX_RGBImageRec * nahraj_aux(APAK_HANDLE *pAHandle, char *p_file);
-AUX_RGBImageRec * nahraj_aux_file(KFILE *f);
+AUX_RGBImageRec * nahraj_aux_file(FILE *f);
 bitmapa * txt_bmp2dot3(bitmapa *p_bmp);
 void txt_default_konfig(char *p_file, EDIT_TEXT_KONFIG *p_konf, char *p_koncovka);
 int  txt_uloz_btx(char *p_file, int typ, int wrap_x, int wrap_y);
-int  txt_kopiruj(EDIT_TEXT *p_dest, EDIT_TEXT *p_src);
+int  txt_kopiruj(EDIT_TEXT_OLD *p_dest, EDIT_TEXT_OLD *p_src);
 
 int  txt_vyrob_2D_texturu(int x, int y, int filtr, int format);
 int  txt_zrus_2D_texturu(int *p_text);
 
-int  txt_zrus_lightmapu(EDIT_TEXT *p_text);
+int  txt_zrus_lightmapu(EDIT_TEXT_OLD *p_text);
 
 byte * file_read(APAK_HANDLE *pHandle, char *p_file, int *p_read);
 

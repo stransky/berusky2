@@ -387,10 +387,9 @@ int	winmain_Game_Run(char *p_Level_Name)
 
 		SetCursor(NULL);
 		//Timer_ID = SetTimer(NULL, 0, 250, (TIMERPROC)gl_Set_Frame_Rate);
-		_3d_Load_Indikace();
-		//iActualLevel = 218;
+		_3d_Load_Indikace();		
 		iActualScene = 0;
-		//gl_Run_Level(p_Level_Name,"default.env",hwnd_hry, &ad, cpu);
+		gl_Run_Level(p_Level_Name,"default.env",&ad, cpu);
 		//_3d_Release_Hints(pHintTexture, 26);
 		//KillTimer(NULL,Timer_ID);
 	}

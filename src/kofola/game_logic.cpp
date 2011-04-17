@@ -10286,7 +10286,7 @@ void gl_Change_Dir_To_Level(char *p_Level_Name)
 //				2  = Level restart
 //				3  = Level nedokoncen uspesne
 //------------------------------------------------------------------------------------------------
-int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, HWND hWnd, AUDIO_DATA *p_ad, int iCPU)
+int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, AUDIO_DATA *p_ad, int iCPU)
 {	int					iKeyLine[3];
 	int					iKeyCursor;
 	int					Return;
@@ -10298,7 +10298,7 @@ int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, HWND hWnd, AUDIO_DATA *p_
 	char				bCursor;
 	int					Cursor_Time_Out;
 	float				_3d_Scale_Factor[2];
-	int					act_item;	
+	int					act_item;
 	int					top_item;
 	int					iReturn[2];
 	char				Active_Beetle;
@@ -10628,14 +10628,13 @@ PLAY_LEVEL_START:
 
 	am_Init_Zhave_Castice(&Level);
 
-/*	kprintf(1,"Load gramatiky trigeru...");
+	/*kprintf(1,"Load gramatiky trigeru...");
 	gr_Load_Grammar("trigers_grammar.txt", &gr);
 	kprintf(1,"Load trigeru...");
 	trig_Load_Trigers(cLevelName,"trigers.txt", &tri, &gr);*/
 
 	RunMenuLoadScreenAddProgress(-1);
 	RunMenuLoadScreenDrawProgress(-1,-1);
-
 
 	//kprintf(1,"1...");
 	kprintf(1,"kom_post_init_level...");
@@ -10799,7 +10798,7 @@ PLAY_LEVEL_START:
 	RunMenuLoadScreenRelease(3);
 	
 	kprintf(1,"kom_get_level_environment, kam_3ds_nahraj_animaci...");
-	//if(!demo)
+	if(!demo)
 	{
 		char file[256];
 		int	 camerarun;

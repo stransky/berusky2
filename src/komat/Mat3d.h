@@ -203,8 +203,7 @@ typedef struct _EDIT_STATE_TEXT_BLOK {
 
 /* 1 renderovaci blok materialu
 */
-/*
-typedef struct _MATERIAL_TEXT {
+typedef struct _MATERIAL_TEXT_OLD {
 
   int   text_stage;                 // stage_funkce pro tento blok
   int   textury[MAT_TEXTUR];        // seznam textur pro dany efekt
@@ -213,8 +212,7 @@ typedef struct _MATERIAL_TEXT {
   float text_ati_bump_matrix[4];    // Ati-bump-map parametry
   //float parametry...
 
-} MATERIAL_TEXT;
-*/
+} MATERIAL_TEXT_OLD;
 
 #define  MLHA_AKTIVNI    0x1
 
@@ -1231,8 +1229,7 @@ typedef struct _GAME_MESH_DATA {
 
 } GAME_MESH_DATA;
 
-/*
-typedef struct _GAME_MESH { //celej kontejner
+typedef struct _GAME_MESH_OLD { //celej kontejner
 
  char                     jmeno[MAX_JMENO];
 
@@ -1304,8 +1301,7 @@ typedef struct _GAME_MESH { //celej kontejner
  int                      mail;
  int                      nekreslit;
 
-} GAME_MESH;
-*/
+} GAME_MESH_OLD;
 
 typedef struct _POZICE_BODU_2D {
 

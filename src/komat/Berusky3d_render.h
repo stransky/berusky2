@@ -59,9 +59,9 @@ inline void ber_mesh_render_list_reset(G_KONFIG *p_ber)
   p_ber->mesh_renderakt = 0;
 }
 
-inline GAME_MESH * ber_mesh_render_list_next(G_KONFIG *p_ber)
+inline GAME_MESH_OLD * ber_mesh_render_list_next(G_KONFIG *p_ber)
 { 
-  GAME_MESH **p_tmp;
+  GAME_MESH_OLD **p_tmp;
   while(p_ber->mesh_renderakt < p_ber->mesh_rendernum) {
     p_tmp = p_ber->p_mesh_renderlist[p_ber->mesh_renderakt++];
     if(p_tmp && *p_tmp) {
@@ -71,9 +71,9 @@ inline GAME_MESH * ber_mesh_render_list_next(G_KONFIG *p_ber)
   return(NULL);
 }
 
-inline GAME_MESH * ber_mesh_render_list_next_flag(G_KONFIG *p_ber, int flag, int not_flag)
+inline GAME_MESH_OLD * ber_mesh_render_list_next_flag(G_KONFIG *p_ber, int flag, int not_flag)
 {
-  GAME_MESH **p_tmp,*p_mesh;
+  GAME_MESH_OLD **p_tmp,*p_mesh;
   int         kflag;
   while(p_ber->mesh_renderakt < p_ber->mesh_rendernum) {
     p_tmp = p_ber->p_mesh_renderlist[p_ber->mesh_renderakt++];

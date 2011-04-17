@@ -5,7 +5,7 @@
 #include "Object.h"
 
 	// spusti level
-	int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, HWND hWnd, AUDIO_DATA *p_ad, int iCPU);
+	int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, AUDIO_DATA *p_ad, int iCPU);
 	
 	// set_ frame rate
 	void gl_Set_Frame_Rate(void);

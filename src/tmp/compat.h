@@ -26,13 +26,14 @@ typedef RGBF            RGB_M;
 typedef RGBAF           BARVA_RGBA;
 typedef PLANE           ROVINA;
 typedef PLANE           ROVINAD;
-typedef MATERIAL_TEXT   EDIT_TEXT;
-typedef SURFACE_SW      bitmapa;
+//typedef MATERIAL_TEXT   EDIT_TEXT;
+//typedef SURFACE_SW      bitmapa;
 typedef word            FACE;
 
 #include "Vektor.h"
 #include "Matrix.h"
 #include "mesh_flags.h"
+#include "Texture.h"
 #include "Mat3d.h"
 #include "3dinterface.h"
 #include "3dproject.h"

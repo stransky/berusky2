@@ -852,7 +852,7 @@ int RunLevel(HWND hWnd, AUDIO_DATA *p_ad, int cpu, char *lvl, char *env)
 		adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
 		adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
 */
-		ret = gl_Run_Level(lvl, cenv, NULL, NULL, cpu);
+		ret = gl_Run_Level(lvl, cenv, NULL, cpu);
 	
 		if(ret == 1)
 			pPlayerProfile.cLevel[iActualLevel] = 1;

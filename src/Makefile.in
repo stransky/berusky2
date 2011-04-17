@@ -98,7 +98,8 @@ am_berusky2_OBJECTS = 3D_graphic.$(OBJEXT) 3D_menus.$(OBJEXT) \
 	mem_alloc.$(OBJEXT) mtree.$(OBJEXT) utils.$(OBJEXT) \
 	animationk.$(OBJEXT) generator_random.$(OBJEXT) Ddx.$(OBJEXT) \
 	kfile.$(OBJEXT) Berusky3d_animace.$(OBJEXT) 3dmath.$(OBJEXT) \
-	3dproject.$(OBJEXT) Mat3d.$(OBJEXT) Keyframe.$(OBJEXT)
+	3dproject.$(OBJEXT) Mat3d.$(OBJEXT) Keyframe.$(OBJEXT) \
+	Texture.$(OBJEXT) Texture_import.$(OBJEXT)
 berusky2_OBJECTS = $(am_berusky2_OBJECTS)
 berusky2_DEPENDENCIES =
 berusky2_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -595,7 +596,11 @@ berusky2_SOURCES = \
 	komat/3dmath.cpp\
 	komat/3dproject.cpp\
 	komat/Mat3d.cpp\
-	komat/Keyframe.cpp
+	komat/Keyframe.cpp\
+	komat/Texture.cpp\
+	komat/Texture.h\
+	komat/Texture_import.cpp\
+	komat/Texture_import.h
 
 berusky2_LDFLAGS = 
 berusky2_LDADD = \
@@ -724,6 +729,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Mat3d.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Menu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Menu2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Texture.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Texture_import.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Tga.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Tools.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/aabb.Po@am__quote@
@@ -2704,6 +2711,34 @@ Keyframe.obj: komat/Keyframe.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Keyframe.cpp' object='Keyframe.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Keyframe.obj `if test -f 'komat/Keyframe.cpp'; then $(CYGPATH_W) 'komat/Keyframe.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Keyframe.cpp'; fi`
+
+Texture.o: komat/Texture.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Texture.o -MD -MP -MF $(DEPDIR)/Texture.Tpo -c -o Texture.o `test -f 'komat/Texture.cpp' || echo '$(srcdir)/'`komat/Texture.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Texture.Tpo $(DEPDIR)/Texture.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Texture.cpp' object='Texture.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Texture.o `test -f 'komat/Texture.cpp' || echo '$(srcdir)/'`komat/Texture.cpp
+
+Texture.obj: komat/Texture.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Texture.obj -MD -MP -MF $(DEPDIR)/Texture.Tpo -c -o Texture.obj `if test -f 'komat/Texture.cpp'; then $(CYGPATH_W) 'komat/Texture.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Texture.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Texture.Tpo $(DEPDIR)/Texture.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Texture.cpp' object='Texture.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Texture.obj `if test -f 'komat/Texture.cpp'; then $(CYGPATH_W) 'komat/Texture.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Texture.cpp'; fi`
+
+Texture_import.o: komat/Texture_import.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Texture_import.o -MD -MP -MF $(DEPDIR)/Texture_import.Tpo -c -o Texture_import.o `test -f 'komat/Texture_import.cpp' || echo '$(srcdir)/'`komat/Texture_import.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Texture_import.Tpo $(DEPDIR)/Texture_import.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Texture_import.cpp' object='Texture_import.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Texture_import.o `test -f 'komat/Texture_import.cpp' || echo '$(srcdir)/'`komat/Texture_import.cpp
+
+Texture_import.obj: komat/Texture_import.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Texture_import.obj -MD -MP -MF $(DEPDIR)/Texture_import.Tpo -c -o Texture_import.obj `if test -f 'komat/Texture_import.cpp'; then $(CYGPATH_W) 'komat/Texture_import.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Texture_import.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Texture_import.Tpo $(DEPDIR)/Texture_import.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Texture_import.cpp' object='Texture_import.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Texture_import.obj `if test -f 'komat/Texture_import.cpp'; then $(CYGPATH_W) 'komat/Texture_import.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Texture_import.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

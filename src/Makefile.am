@@ -327,7 +327,11 @@ berusky2_SOURCES = \
 	komat/3dmath.cpp\
 	komat/3dproject.cpp\
 	komat/Mat3d.cpp\
-	komat/Keyframe.cpp
+	komat/Keyframe.cpp\
+	komat/Texture.cpp\
+	komat/Texture.h\
+	komat/Texture_import.cpp\
+	komat/Texture_import.h
 
 berusky2_LDFLAGS = 
 

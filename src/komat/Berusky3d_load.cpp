@@ -608,7 +608,7 @@ int ber_nahraj_scenu(G_KONFIG *p_ber, char *p_jmeno, char *p_dir, int reload, BU
   zamen_koncovku(file,KONCOVKA_SCENY);
   
   chdir(p_dir);
-  /*
+  
   kprintf(1,"           - Load project....");
   if(lo_nahraj_projekt(p_ber->p_mat,MAX_CELKEM_MATERIALU,
     p_kont,MAX_BERUSKY_KONTEJNERU,
@@ -712,7 +712,6 @@ int ber_nahraj_scenu(G_KONFIG *p_ber, char *p_jmeno, char *p_dir, int reload, BU
   } else {
     return(FALSE);
   }
-  */
 }
 
 /*

@@ -264,7 +264,7 @@ void txt_build_2D_mip_map(bitmapa *p_bmp, int format)
 
 /* Prevod vcetne alfa mapy
 */
-bitmapa * txt_bmp2textura(bitmapa *p_bmp, EDIT_TEXT *p_text, EDIT_TEXT_KONFIG *p_konf, int _2d_text)
+bitmapa * txt_bmp2textura(bitmapa *p_bmp, EDIT_TEXT_OLD *p_text, EDIT_TEXT_KONFIG *p_konf, int _2d_text)
 { 
   int dx,dy,x,y,scale = FALSE;
   int wrap;
@@ -419,7 +419,7 @@ int txt_vyrob_2D_texturu(int x, int y, int filtr, int format)
   return(text);
 }
 
-int txt_kopiruj(EDIT_TEXT *p_dest, EDIT_TEXT *p_src)
+int txt_kopiruj(EDIT_TEXT_OLD *p_dest, EDIT_TEXT_OLD *p_src)
 {
   *p_dest = *p_src;
   p_dest->load = FALSE;
@@ -427,7 +427,7 @@ int txt_kopiruj(EDIT_TEXT *p_dest, EDIT_TEXT *p_src)
   return(TRUE);
 }
 
-int txt_reload_lightmap(EDIT_TEXT *p_text, bitmapa *p_bmp)
+int txt_reload_lightmap(EDIT_TEXT_OLD *p_text, bitmapa *p_bmp)
 { 
   EDIT_TEXT_KONFIG cnf;  
   
@@ -570,7 +570,7 @@ void txt_lightmap_konfig(EDIT_TEXT_KONFIG *p_konf)
 /* Textury
   +scale textur, je-li to potreba
 */
-int txt_nahraj_texturu_z_func(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT *p_text, int save, int load, EDIT_TEXT_KONFIG *p_konf, AUX_RGBImageRec * (*p_load)(APAK_HANDLE *pAHandle, char *p_file))
+int txt_nahraj_texturu_z_func(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT_OLD *p_text, int save, int load, EDIT_TEXT_KONFIG *p_konf, AUX_RGBImageRec * (*p_load)(APAK_HANDLE *pAHandle, char *p_file))
 {
   AUX_RGBImageRec *p_tmp = NULL;
   AUX_RGBImageRec *p_alf = NULL;
@@ -625,7 +625,7 @@ int txt_nahraj_texturu_z_func(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT *p_t
   return(p_text->load);
 }
 
-int txt_to_dot3(EDIT_TEXT *p_text, int save)
+int txt_to_dot3(EDIT_TEXT_OLD *p_text, int save)
 {
   bitmapa *p_dot;  
   p_dot = txt_bmp2dot3(p_text->p_bmp);
@@ -638,18 +638,18 @@ int txt_to_dot3(EDIT_TEXT *p_text, int save)
   return(TRUE);
 }
 
-int txt_nahraj_texturu_do_vram(EDIT_TEXT *p_text, EDIT_TEXT_KONFIG *p_konf)
+int txt_nahraj_texturu_do_vram(EDIT_TEXT_OLD *p_text, EDIT_TEXT_KONFIG *p_konf)
 {
   return(p_text->p_bmp = txt_bmp2textura(p_text->p_bmp, p_text, p_konf, TRUE),TRUE);
 }
 
-int txt_zrus_texturu_ram(EDIT_TEXT *p_text)
+int txt_zrus_texturu_ram(EDIT_TEXT_OLD *p_text)
 {
   bmp_zrus(&p_text->p_bmp);
   return(TRUE);
 }
 
-int txt_nahraj_lightmapu_z_bmp(char *p_file, KFILE *f, EDIT_TEXT *p_text, int save)
+int txt_nahraj_lightmapu_z_bmp(char *p_file, FILE *f, EDIT_TEXT_OLD *p_text, int save)
 {
   AUX_RGBImageRec *p_tmp = NULL;
   EDIT_TEXT_KONFIG konf;
@@ -675,7 +675,7 @@ int txt_nahraj_lightmapu_z_bmp(char *p_file, KFILE *f, EDIT_TEXT *p_text, int sa
   return(p_text->load);
 }
 
-int txt_nahraj_texturu_z_dds(APAK_HANDLE *pHandle, char *p_file,  EDIT_TEXT *p_text, int save)
+int txt_nahraj_texturu_z_dds(APAK_HANDLE *pHandle, char *p_file,  EDIT_TEXT_OLD *p_text, int save)
 {
   EDIT_TEXT_KONFIG konf;  
   AUX_RGBImageRec *p_tmp = NULL;
@@ -705,7 +705,7 @@ int txt_nahraj_texturu_z_dds(APAK_HANDLE *pHandle, char *p_file,  EDIT_TEXT *p_t
   return(p_text->load);
 }
 
-int txt_nahraj_texturu_z_tga(APAK_HANDLE *pHandle, char *p_file,  EDIT_TEXT *p_text)
+int txt_nahraj_texturu_z_tga(APAK_HANDLE *pHandle, char *p_file,  EDIT_TEXT_OLD *p_text)
 {
   int              ret;
   
@@ -734,7 +734,7 @@ int txt_zrus_2D_texturu(int *p_text)
   }
 }
 
-int txt_zrus_texturu(EDIT_TEXT *p_text)
+int txt_zrus_texturu(EDIT_TEXT_OLD *p_text)
 {
   int ret;
   
@@ -747,7 +747,7 @@ int txt_zrus_texturu(EDIT_TEXT *p_text)
   return(ret);
 }
 
-int txt_zrus_lightmapu(EDIT_TEXT *p_text)
+int txt_zrus_lightmapu(EDIT_TEXT_OLD *p_text)
 {
   int ret;
   
@@ -763,7 +763,7 @@ int txt_zrus_lightmapu(EDIT_TEXT *p_text)
   return(ret);
 }
 
-int txt_zrus_texturu_z_vram(EDIT_TEXT *p_text)
+int txt_zrus_texturu_z_vram(EDIT_TEXT_OLD *p_text)
 {
   int ret;
   

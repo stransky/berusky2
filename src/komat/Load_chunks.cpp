@@ -4767,7 +4767,7 @@ EDIT_KONTEJNER * lo_nahraj_kontejner_chunk(EDIT_MATERIAL **p_mat, int max_mat,
 */
 int lo_nahraj_projekt(EDIT_MATERIAL **p_mat, int max_mat,
                       EDIT_KONTEJNER **p_kontls, int kontnum,
-                      EDIT_TEXT *p_text, int max_text, char *p_jmeno,
+                      EDIT_TEXT_OLD *p_text, int max_text, char *p_jmeno,
                       STATIC_LIGHT *p_light, int lightnum,
                       ZDRCADLO_DESC *p_zrcadlo, int *p_zrcadlo_aktivni,
                       LENS_FLARE *p_flarr, int flaremax,

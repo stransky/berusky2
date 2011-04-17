@@ -648,7 +648,6 @@ int ber_vyber_berusky(BUNKA_LEVELU_DISK *p_disk, int num, BUNKA_LEVELU_DISK *p_b
 // chdir - TRUE - nastavit adresar
 void kom_load_level(char *p_file, int zmen_dir, int restart, BUNKA_LEVELU_DISK *p_bunka, int bunek)
 {
-/*
  BUNKA_LEVELU_DISK berusky[5];
  int               berusek;
  GAME_MESH **p_slist;
@@ -726,7 +725,8 @@ void kom_load_level(char *p_file, int zmen_dir, int restart, BUNKA_LEVELU_DISK *
  
  kprintf(1,"Load scene - static items - OBB Tree...");
  p_slist = ber_mesh_vyber_staticke(p_ber, &snum, &p_ind);
- obbtree_vyrob(&p_ber->obbtree, p_ber->p_poly, p_ber->polynum, p_slist, snum, p_ind, p_ber->p_mat);
+ //TODO
+ //obbtree_vyrob(&p_ber->obbtree, p_ber->p_poly, p_ber->polynum, p_slist, snum, p_ind, p_ber->p_mat);
  null_free((void **)&p_slist);
  null_free((void **)&p_ind);
  
@@ -736,7 +736,8 @@ void kom_load_level(char *p_file, int zmen_dir, int restart, BUNKA_LEVELU_DISK *
 
  kprintf(1,"Load scene - lightmaps...."); 
  ber_nahraj_lightmap(p_ber,file,dir);
- 
+  
+ /* TODO
  time = timeGetTime();
  if(!restart) {
    int bump = hwconf.bump_mapping && p_ber->conf_dyn_light && p_ber->conf_dyn_rychlost == LIGHT_ALL;
@@ -750,6 +751,7 @@ void kom_load_level(char *p_file, int zmen_dir, int restart, BUNKA_LEVELU_DISK *
  } else {
    lo_reload_textur(&p_ber->tdir, p_ber->p_text, MAX_CELKEM_TEXTUR, FALSE);
  }
+ */
  lo_reload_stage(p_ber->p_mat,MAX_CELKEM_MATERIALU);
  kprintf(TRUE,"time %d",timeGetTime()-time);
 
@@ -757,8 +759,9 @@ void kom_load_level(char *p_file, int zmen_dir, int restart, BUNKA_LEVELU_DISK *
  
  kprintf(1,"Static lights  %d",p_ber->slightnum);
  
- vel1 = (lo_velikost_textur(p_ber->p_text, MAX_CELKEM_TEXTUR))/8000;
- vel2 = (lo_velikost_textur(p_ber->p_lightmap, MAX_RAY_TEXTUR))/8000;
+ //TODO
+ //vel1 = (lo_velikost_textur(p_ber->p_text, MAX_CELKEM_TEXTUR))/8000;
+ //vel2 = (lo_velikost_textur(p_ber->p_lightmap, MAX_RAY_TEXTUR))/8000;
  facu = 0; vertexu = 0;
  vel3 = lo_velikost_meshu(p_ber->p_mesh, p_ber->meshnum, &facu, &vertexu)/1000;
  vel4 = lo_velikost_poly(p_ber->p_poly, p_ber->polynum, &facu, &vertexu)/1000;
@@ -773,7 +776,6 @@ void kom_load_level(char *p_file, int zmen_dir, int restart, BUNKA_LEVELU_DISK *
 
  ber_velikost_sceny(p_ber);
  kom_posun_slider(); 
- */
 }
 
 void kom_post_init_level(void)
@@ -785,13 +787,12 @@ void kom_post_init_level(void)
 */  
 void kom_zrus_prvek(MeshHandle prvek_handle)
 {
-/*
   PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[prvek_handle];
   int                mh = p_prv->mesh;
   GAME_MESH_DATA    *p_data;
-
+/*
   if(p_prv) {
-    if(mh != K_CHYBA) {      
+    if(mh != K_CHYBA) {
       p_data = p_ber->p_mesh[mh]->p_data;
       lo_vymaz_svetla_ze_sceny_mesh(p_data);
       if(p_data->p_ldlight)
