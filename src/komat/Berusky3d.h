@@ -53,7 +53,7 @@ typedef struct _VODA2 {
 
   int         meshnum; // meshe privazany k vode (co se vlni)
   int         meshmax; // max pocty meshu ve vodnim dile
-  GAME_MESH **p_mesh;
+  GAME_MESH_OLD **p_mesh;
 
   int         vertexu;
   VODOVERTEX *p_vertexy;
@@ -343,7 +343,7 @@ typedef struct _G_KONFIG {
   EDIT_MATERIAL       *p_smat;                        // scene-material
   EDIT_TEXT            p_text[MAX_CELKEM_TEXTUR];     // seznam textur
   EDIT_TEXT            p_lightmap[MAX_RAY_TEXTUR];    // seznam lightmap
-  OBB_TREE             obbtree;                       // obb-tree levelu
+  OBB_TREE_OLD         obbtree;                       // obb-tree levelu
 
   /* Fleky v levelu
   */  

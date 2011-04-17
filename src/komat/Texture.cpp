@@ -649,7 +649,7 @@ int txt_zrus_texturu_ram(EDIT_TEXT_OLD *p_text)
   return(TRUE);
 }
 
-int txt_nahraj_lightmapu_z_bmp(char *p_file, FILE *f, EDIT_TEXT_OLD *p_text, int save)
+int txt_nahraj_lightmapu_z_bmp(char *p_file, KFILE *f, EDIT_TEXT_OLD *p_text, int save)
 {
   AUX_RGBImageRec *p_tmp = NULL;
   EDIT_TEXT_KONFIG konf;

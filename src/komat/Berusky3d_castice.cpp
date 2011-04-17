@@ -1135,7 +1135,7 @@ VodaHandle vod_pridej_mesh(VodaHandle vh, MeshHandle mh)
 {
   int mesh = p_ber->p_prv_lev[mh]->mesh;
   VODA2 *p_voda = (VODA2 *)vh;
-  GAME_MESH *p_mesh;
+  GAME_MESH_OLD *p_mesh;
   
   if(mesh == K_CHYBA)
     return(K_CHYBA);
@@ -1144,9 +1144,9 @@ VodaHandle vod_pridej_mesh(VodaHandle vh, MeshHandle mh)
   
   if(p_mesh) {
     p_voda->p_mesh[p_voda->meshnum++] = p_mesh;
-    assert(p_voda->meshnum <= p_voda->meshmax);
-    // TODO
-    // p_mesh->p_data->kflag |= KONT_DRAW_VODA;
+    assert(p_voda->meshnum <= p_voda->meshmax);    
+  
+    p_mesh->p_data->kflag |= KONT_DRAW_VODA;
     transformuj_mesh(p_mesh);
     mesh_pridej_vodavertexy(p_mesh);
     return(vh);

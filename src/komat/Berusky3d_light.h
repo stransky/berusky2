@@ -174,9 +174,9 @@ int         edl_anim_stop(RunHandle rh);
   **********************
 */
 
-int  dl_mesh_pridej_svetla(G_KONFIG *p_ber, GAME_MESH *p_mesh);
-int  edl_mesh_pridej_svetla(G_KONFIG *p_ber, GAME_MESH *p_mesh);
-int  dl_mesh_pripocitej_svetla(G_KONFIG *p_ber, GAME_MESH *p_mesh, int dyn_light, int extra_light, int full_light, int all);
+int  dl_mesh_pridej_svetla(G_KONFIG *p_ber, GAME_MESH_OLD *p_mesh);
+int  edl_mesh_pridej_svetla(G_KONFIG *p_ber, GAME_MESH_OLD *p_mesh);
+int  dl_mesh_pripocitej_svetla(G_KONFIG *p_ber, GAME_MESH_OLD *p_mesh, int dyn_light, int extra_light, int full_light, int all);
 
 void edla_updatuj(G_KONFIG *p_ber);
 void sdla_updatuj(G_KONFIG *p_ber);

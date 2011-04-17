@@ -162,6 +162,18 @@ typedef struct _ZDRCADLO_DESC {
 
 } ZDRCADLO_DESC;
 
+typedef struct _OBB_OLD {
+
+ BOD          obb[3];     // obb smerovy vektory
+ BOD          obb_stred;
+ BOD          obb_len;
+ BOD          obb_hran[8]; // 8 hranicnich bodu obalky
+
+ BOD          aabb_min;    // aabb obalka
+ BOD          aabb_max;    // aabb obalka
+
+} OBB_OLD;
+
 // Multitextuing pro 1 texturu
 typedef struct _MULTITEXT_FLAG {
 
@@ -667,8 +679,8 @@ typedef struct _EDIT_MATERIAL {
 
   /* Michaci funkce
   */
-  int             alfa_state;             // alfa blok
-  MATERIAL_TEXT   text_state[MAT_TEXTUR]; // texture bloky
+  int               alfa_state;             // alfa blok
+  MATERIAL_TEXT_OLD text_state[MAT_TEXTUR]; // texture bloky
   
   float           lesk;      // lesklost 
   MATERIAL        dxmat;     // barva objektu
@@ -896,8 +908,8 @@ typedef struct _SIMPLE_TRACK_INFO {
   GLMATRIX *p_all_matrix; // v pripade all-inclusive
   float    *p_object_norm;// semka strkat normal-scale
 
-  OBB      *p_obb_local;
-  OBB      *p_obb_world;
+  OBB_OLD      *p_obb_local;
+  OBB_OLD      *p_obb_world;
   
   int       childnum;      // pocet svistich traku
   struct   _SIMPLE_TRACK_INFO *p_child; // svisti traky
@@ -1076,7 +1088,7 @@ typedef struct _EDIT_OBJEKT {
   TRACK_INFO   *p_track;    // track info k animaci  
   GLMATRIX      m;          // matrix k animacim
   
-  OBB           obb;
+  OBB_OLD       obb;
 
   void                *p_tmp_top;  // pomocny pointer na kontejner
   struct _EDIT_OBJEKT *p_tmp_next; // pomocny pointer na dalsi objekt
@@ -1129,7 +1141,7 @@ typedef struct _EDIT_KONTEJNER {
  int          kont;
  int          low_id;     // identifikator low/top-kontejneru
  
- OBB           obb;
+ OBB_OLD           obb;
 
  MLZNA_KOSTKA *p_mlha;    // pointer na mlznou kostku kontejneru
 
@@ -1258,10 +1270,10 @@ typedef struct _GAME_MESH_OLD { //celej kontejner
  word                    *objektnum;   // pocty vertextu v objektech
  word                    *objektstart; // starty vertextu objektu
 
- OBB                     *p_obb_local; // lokalni obalky objektu
- OBB                     *p_obb_world; // obalky transformovane do world-space
- OBB                      obb_local;   // lokalni obalka kontejneru
- OBB                      obb_world;   // world-space obalka kontejneru
+ OBB_OLD                     *p_obb_local; // lokalni obalky objektu
+ OBB_OLD                     *p_obb_world; // obalky transformovane do world-space
+ OBB_OLD                      obb_local;   // lokalni obalka kontejneru
+ OBB_OLD                      obb_world;   // world-space obalka kontejneru
  
 // EDIT_MATERIAL          **p_mat;       // pole pointeru na materialy na jednotlive objekty
  int                     *p_mat;       // odkaz na meshe
@@ -1288,7 +1300,7 @@ typedef struct _GAME_MESH_OLD { //celej kontejner
  dword                    sim_flag;        // flag meshe
 
  int                      low_id;      // low-id meshe
- struct _GAME_MESH       *p_next;      // pointer na dalsi mesh v poradi
+ struct _GAME_MESH_OLD    *p_next;      // pointer na dalsi mesh v poradi
 
  GAME_MESH_DATA          *p_data;      // stejne data pro vsechny meshe v multimeshu
 
@@ -1371,7 +1383,7 @@ typedef struct _EDIT_MESH_POLY { //celej kontejner
  char         kreslit;
  int          mail;        // mailbox poly :)
 
- OBB          obb;
+ OBB_OLD          obb;
 
  // Svetla poly - dynamicke 
  void       **p_dlight;  // pole svetel meshu 
@@ -1585,32 +1597,31 @@ typedef struct _LEVEL_KONFIG {
   ZEMNI_MLHA zm;           // nastaveni zemni mlhy
 
 } LEVEL_KONFIG;
-/*
-typedef struct _OBB_TREE_ITEM {
 
-  OBB              *p_obb;
+typedef struct _OBB_TREE_ITEM_OLD {
+
+  OBB_OLD          *p_obb;
   EDIT_MESH_POLY   *p_poly;
-  GAME_MESH        *p_mesh;
+  GAME_MESH_OLD    *p_mesh;
   int               mesh;
   int               viditelny;
   int               zrc_viditelny;
 
-} OBB_TREE_ITEM;
+} OBB_TREE_ITEM_OLD;
 
-typedef struct _OBB_TREE {
+typedef struct _OBB_TREE_OLD {
 
   int                mail;  
-  OBB                obb;
+  OBB_OLD            obb;
 
   int                itnum;     // polozky stromu
-  OBB_TREE_ITEM     *p_item;
+  OBB_TREE_ITEM_OLD *p_item;
 
-  struct _OBB_TREE  *p_up;      // otec stromu
+  struct _OBB_TREE_OLD *p_up;      // otec stromu
   int                nextnum;   // pocet podobalek
-  struct _OBB_TREE  *p_next;    // podobalky
+  struct _OBB_TREE_OLD *p_next;    // podobalky
   
-} OBB_TREE;
-*/
+} OBB_TREE_OLD;
 
 /*
   U skladaneho potrebuju: 
@@ -1780,18 +1791,18 @@ inline void nastav_barvu_bodu_kont(EDIT_KONTEJNER *p_kont, float r, float g, flo
     }
   }
 }
-/*
+
 inline void nastav_barvu_bodu_kont_alfa(EDIT_KONTEJNER *p_kont, float a)
 {
   int o;
-
+/*
   for(o = 0; o < p_kont->max_objektu; o++) {    
     if(p_kont->p_obj[o]) {
       oe_set_barva_objekt_maska(p_kont->p_obj[o],1,1,1,a,0,COLOR_SET,0,0,0,1);
     }
   }
-}
 */
+}
 
 inline void nastav_barvu_bodu_kont_dword(EDIT_KONTEJNER *p_kont, dword barva, char op)
 {
@@ -1816,36 +1827,31 @@ inline void nastav_barvu_bodu_kont_dword(EDIT_KONTEJNER *p_kont, dword barva, ch
   }
 }
 
-inline void transformuj_mesh_matici(GAME_MESH *p_mesh, GLMATRIX *p_m)
+inline void transformuj_mesh_matici(GAME_MESH_OLD *p_mesh, GLMATRIX *p_m)
 { 
-// TODO
-/*
  int i,pocet = p_mesh->vertexnum;
  BOD *p_vert = p_mesh->p_vertex_pos;
  for(i = 0; i < pocet; i++) {
    transformuj_bod_matici(&p_vert[i].x, &p_vert[i].y, &p_vert[i].z, p_m);
  }
-*/
 }
 
-//extern GLMATRIX __kont_world_matrix;
+extern GLMATRIX __kont_world_matrix;
 
 inline GLMATRIX * kont_world_matrix(EDIT_KONTEJNER *p_kont)
 {
-/*
   if(p_kont->kflag&MESH_MPMATRIX) {
     return(mat_mult_dir(&p_kont->world,&p_kont->mpmatrix,&__kont_world_matrix));
   } else {
     return(&p_kont->world);
   }
-*/
 }
 
 #define DDRGB(r, g, b)     (0xff000000 | (((long)((b) * 255)) << 16) |(((long)((g) * 255)) << 8) | (long)((r) * 255))
 #define DDRGBA(r, g, b, a) ((((long)((a) * 255)) << 24) | (((long)((b) * 255)) << 16) | (((long)((g) * 255)) << 8) | (long)((r) * 255))
 
 
-typedef int  (* STAGE_FUNC)(EDIT_MATERIAL *p_mat, EDIT_STATE_TEXT_BLOK *p_stage, MATERIAL_TEXT *p_text, int text, int rezerva);
+typedef int  (* STAGE_FUNC)(EDIT_MATERIAL *p_mat, EDIT_STATE_TEXT_BLOK *p_stage, MATERIAL_TEXT_OLD *p_text, int text, int rezerva);
 typedef void (* STAGE_FUNC_ELEM)(void);
 typedef void (* STAGE_FUNC_ALFA)(void);
 
@@ -1854,7 +1860,7 @@ void transformuj_kontejner_matici(EDIT_KONTEJNER *p_kont, GLMATRIX *p_m);
 void transformuj_kontejner_keyframe(EDIT_KONTEJNER *p_kont);
 void transformuj_kontejner(EDIT_KONTEJNER *p_kont);
 void calc_norm_vec_inter_object(EDIT_OBJEKT *p_obj);
-//void mesh_norm_vect(GAME_MESH *p_mesh);
+//void mesh_norm_vect(GAME_MESH_OLD *p_mesh);
 void texturuj_zemi(EDIT_OBJEKT *p_obj, int rect_x, int rect_y, int c_text, int flag, int mat, float skok_u, float skok_v);
 EDIT_OBJEKT * vyrob_zemi(int rect_x, int rect_y, float skok);
 EDIT_OBJEKT * vyrob_zemi_start(int rect_x, int rect_y, float skok, float start_x, float start_y);
@@ -1897,20 +1903,20 @@ int  vyrob_kameru_indir(KAMERA *p_kam, char *p_jmeno, BOD *p_p, BOD *p_t, float 
 void kresli_kosoctverec(GLMATRIX *p_project, GLMATRIX *p_camera, GLMATRIX *p_world, BOD *p_p, float r, float dr, float dg, float db);
 void transformuj_objekt_text_coord(EDIT_OBJEKT *p_obj, GLMATRIX *p_mat, int coord);
 void transformuj_kontejner_text_coord(EDIT_KONTEJNER *p_kont, GLMATRIX *p_mat, int coord);
-void mesh_env_maping_camera(GAME_MESH *p_mesh, GLMATRIX *p_cam);
+void mesh_env_maping_camera(GAME_MESH_OLD *p_mesh, GLMATRIX *p_cam);
 void poly_env_maping_camera(EDIT_MESH_POLY *p_poly, EDIT_MATERIAL *p_mat, GLMATRIX *p_cam);
-void transformuj_mesh(GAME_MESH *p_mesh);
+void transformuj_mesh(GAME_MESH_OLD *p_mesh);
 void kresli_ctverec_2d_diff(int x1, int y1, int dx, int dy, float r, float g, float b);
 int  stejny_vertex_point(BOD *v1, BOD *v2);
 int  stejny_vertex_point_delta(BOD *v1, BOD *v2, float delta);
-void mesh_env_maping_spec(GAME_MESH *p_mesh, GLMATRIX *p_cam, EDIT_MATERIAL **p_mt);
+void mesh_env_maping_spec(GAME_MESH_OLD *p_mesh, GLMATRIX *p_cam, EDIT_MATERIAL **p_mt);
 void poly_env_maping_spec(EDIT_MESH_POLY *p_poly, EDIT_MATERIAL *p_mat, GLMATRIX *p_cam);
 void kresli_kosoctverec_word(BOD *p_p, float r, dword barva);
 void poly_obalka(EDIT_MESH_POLY *p_poly, GLMATRIX *p_mat, BOD *p_min, BOD *p_max);
 int  intersect_poly(EDIT_MESH_POLY *p_poly, BOD *p_orig, BOD *p_dir);
 void kontejner_obalka_aabb(EDIT_KONTEJNER *p_kont, BOD *p_min, BOD *p_max);
-//int  intersect_mesh(GAME_MESH *p_mesh, BOD *p_orig, BOD *p_dir);
-int  intersect_mesh_objekt(GAME_MESH *p_mesh, int o, BOD *p_orig, BOD *p_dir);
+int  intersect_mesh(GAME_MESH_OLD *p_mesh, BOD *p_orig, BOD *p_dir);
+int  intersect_mesh_objekt(GAME_MESH_OLD *p_mesh, int o, BOD *p_orig, BOD *p_dir);
 
 inline void oe_olist_reset(int *o)
 {

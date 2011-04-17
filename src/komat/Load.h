@@ -153,14 +153,14 @@ int efileAPAK(APAK_HANDLE *pAHandle, char *p_file);
 /*
   Meshe
 */
-GAME_MESH * kopiruj_mesh(GAME_MESH *p_src, GAME_MESH_DATA *p_data);
-GAME_MESH * edit_to_mesh(GAME_MESH_DATA *p_mesh_data, EDIT_KONTEJNER *p_kont, EDIT_MATERIAL **p_mat, int max_mat, int shadow_volume);
-GAME_MESH * vyrob_mesh(int objektu, GAME_MESH_DATA *p_data);
+GAME_MESH_OLD  * kopiruj_mesh(GAME_MESH_OLD *p_src, GAME_MESH_DATA *p_data);
+GAME_MESH_OLD * edit_to_mesh(GAME_MESH_DATA *p_mesh_data, EDIT_KONTEJNER *p_kont, EDIT_MATERIAL **p_mat, int max_mat, int shadow_volume);
+GAME_MESH_OLD * vyrob_mesh(int objektu, GAME_MESH_DATA *p_data);
 GAME_MESH_DATA * vyrob_mesh_data(void);
-GAME_MESH_DATA * kopiruj_mesh_data(GAME_MESH_DATA *p_src, GAME_MESH *p_mesh_top, GAME_MESH_DATA *p_desc);
-void zrus_mesh(GAME_MESH **p_mesh);
-void mesh_pridej_vodavertexy(GAME_MESH *p_mesh);
-void mesh_pridej_vertex_array(GAME_MESH *p_mesh);
+GAME_MESH_DATA * kopiruj_mesh_data(GAME_MESH_DATA *p_src, GAME_MESH_OLD *p_mesh_top, GAME_MESH_DATA *p_desc);
+void zrus_mesh(GAME_MESH_OLD **p_mesh);
+void mesh_pridej_vodavertexy(GAME_MESH_OLD *p_mesh);
+void mesh_pridej_vertex_array(GAME_MESH_OLD *p_mesh);
 
 /*
   Polylisty
@@ -199,7 +199,7 @@ int lo_najdi_volny_kontejner_zpet(EDIT_KONTEJNER **p_kont, int max);
 int lo_najdi_kontejner(EDIT_KONTEJNER **p_kont, int max, char *p_jmeno);
 
 int lo_najdi_volny_objekt_kont(EDIT_KONTEJNER *p_kont);
-int lo_najdi_volny_mesh(GAME_MESH **p_mesh, int max);
+int lo_najdi_volny_mesh(GAME_MESH_OLD **p_mesh, int max);
 
 int lo_najdi_prazdnou_animaci(ANIM_MATERIAL *p_anim, int max);
 void lo_zrus_animaci(ANIM_MATERIAL *p_amat);
@@ -229,7 +229,7 @@ int  lo_uloz_materialy(EDIT_MATERIAL **p_mat, int max_mat, char *p_file, char *p
 int  lo_uloz_materialy_pouzite(EDIT_MATERIAL **p_mat, int max_mat, char *p_file, char *p_dir);
 FFILE lo_uloz_kontejner(EDIT_MATERIAL **p_mat, int max_mat, EDIT_KONTEJNER *p_kont_top, char *p_jmeno, int file, FFILE f);
 void lo_vymaz_materialy(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TEXT *p_text, int max_text);
-GAME_MESH * lo_nahraj_mesh(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TEXT *p_text, int max_text, char *p_file, int mat, int extra_light);
+GAME_MESH_OLD * lo_nahraj_mesh(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TEXT *p_text, int max_text, char *p_file, int mat, int extra_light);
 int  lo_najdi_objekt_kont(EDIT_KONTEJNER *p_kont, char *p_jmeno);
 EDIT_OBJEKT * lo_najdi_objekt_kont_poiter(EDIT_KONTEJNER *p_kont, char *p_jmeno);
 EDIT_MESH_POLY * lo_nahraj_poly_list(char *p_file, int *p_polynum, EDIT_TEXT *p_light, EDIT_MATERIAL **p_mat, int matnum);
@@ -238,12 +238,12 @@ void lo_poly_flaguj_materialy(EDIT_MESH_POLY *p_poly, EDIT_MATERIAL **p_mat);
 void lo_poly_oznac_zrcadlo(EDIT_MESH_POLY *p_poly);
 int  lo_velikost_textur(EDIT_TEXT *p_text, int max);
 void lo_kontejner_jedinecne_jmena(EDIT_KONTEJNER *p_kont, int ds3);
-GAME_MESH * lo_kontejner_to_mesh(EDIT_KONTEJNER **p_kont_top, EDIT_MATERIAL **p_mat, int max_mat, int extra_light);
+GAME_MESH_OLD * lo_kontejner_to_mesh(EDIT_KONTEJNER **p_kont_top, EDIT_MATERIAL **p_mat, int max_mat, int extra_light);
 
 int lo_reload_textur(TEXT_DIR *p_dir, EDIT_TEXT *p_text, int num, int save);
 int lo_reload_textur_chyby(EDIT_TEXT *p_text, int num);
 
-int lo_velikost_meshu(GAME_MESH **p_mesh, int num, int *p_facu, int *p_vertexu);
+int lo_velikost_meshu(GAME_MESH_OLD **p_mesh, int num, int *p_facu, int *p_vertexu);
 int lo_velikost_poly(EDIT_MESH_POLY *p_poly, int num, int *p_facu, int *p_vertexu);
 
 void zrus_fleky(FLEK **p_flek);
@@ -293,8 +293,8 @@ void lo_vymaz_svetla(EDIT_KONTEJNER *p_kont);
 void lo_vymaz_svetla_ze_sceny_mesh(GAME_MESH_DATA *p_data);
 void lo_vymaz_svetla_mesh(GAME_MESH_DATA *p_data);
 void lo_premapuj_svetla_kont(EDIT_KONTEJNER *p_src, EDIT_KONTEJNER *p_dest);
-void lo_premapuj_svetla_kont_mesh(EDIT_KONTEJNER *p_src, GAME_MESH *p_dest);
-void lo_premapuj_svetla_mesh(GAME_MESH *p_src, GAME_MESH *p_dest);
+void lo_premapuj_svetla_kont_mesh(EDIT_KONTEJNER *p_src, GAME_MESH_OLD *p_dest);
+void lo_premapuj_svetla_mesh(GAME_MESH_OLD *p_src, GAME_MESH_OLD *p_dest);
 void lo_transformuj_svetla_do_wordspace(EDIT_KONTEJNER *p_src);
 void lo_premapuj_svetla_do_wordspace(EDIT_KONTEJNER *p_src);
 LENS_FLARE * lo_kopiruj_flare(LENS_FLARE *p_flarelist, int max, LENS_FLARE *p_flare);

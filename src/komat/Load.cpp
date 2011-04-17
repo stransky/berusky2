@@ -554,7 +554,7 @@ void updatuj_obalku_kontejner(EDIT_KONTEJNER *p_kont)
   
   for(i = 0; i < p_kont->max_objektu; i++) {
     if(p_kont->p_obj[i]) {
-      //obb_calc_obj_fast(p_kont->p_obj[i]);
+      obb_calc_obj_fast(p_kont->p_obj[i]);
     }
   }
 
@@ -699,7 +699,7 @@ int slep_kontejner_dist(EDIT_KONTEJNER *p_kont, float min_dist)
      i2++;
      continue;
    }
-/*
+
    if(vzdal_bodu_bod(&p_obj1->obb.obb_stred, &p_obj2->obb.obb_stred) < min_dist) {
      p_kont->p_obj[i1] = slep_objekty(p_obj1,p_obj2);
      p_kont->p_obj[i2] = NULL;     
@@ -711,7 +711,6 @@ int slep_kontejner_dist(EDIT_KONTEJNER *p_kont, float min_dist)
      i1++;
      i2++;
    }
- */
  }
 
  preindexuj_kontejner(p_kont);
@@ -795,7 +794,6 @@ EDIT_KONTEJNER * kopiruj_kontejner_indir_vyber(EDIT_KONTEJNER *p_src, EDIT_KONTE
 
 int lo_setrid_kontejner_compare(const int *p_obj1, const int *p_obj2)
 {
-/*
   int   o1 = INT_MAX, o2 = INT_MAX;
   float d1,d2;
 
@@ -830,7 +828,6 @@ int lo_setrid_kontejner_compare(const int *p_obj1, const int *p_obj2)
   }
   else 
     return(1); // o2 je vetsi nez o1
-*/
 }
 
 /* setridi staticky kontejner podle pouzitych materialu 
@@ -841,7 +838,7 @@ int lo_setrid_kontejner(EDIT_KONTEJNER *p_kont)
   GLMATRIX *p_tmp;
   int mat = 0,i,
       am = INT_MAX;
-/*
+
   if(p_kont->kflag&KONT_KEYFRAME)
     return(0);
 
@@ -860,7 +857,7 @@ int lo_setrid_kontejner(EDIT_KONTEJNER *p_kont)
       mat++;
     }
   }
-*/
+
   return(mat);
 }
 
@@ -895,12 +892,10 @@ int lo_setrid_kontejner_materialy_compare(const int *p_obj1, const int *p_obj2)
 */
 void lo_setrid_kontejner_materialy(EDIT_KONTEJNER *p_kont)
 {
-/*
   if(!(p_kont->kflag&KONT_KEYFRAME)) {
     qsort((void *)p_kont->p_obj,(size_t)p_kont->max_objektu,
           (size_t)sizeof(EDIT_OBJEKT *), lo_setrid_kontejner_materialy_compare);
   }
-*/
 }
 
 
@@ -979,9 +974,9 @@ EDIT_MATERIAL * vyrob_material(void)
  p_mat->lesk = 1.0f;
   
  p_mat->flag2 |= (MAT2_DIFFUSE|MAT2_DIFFUSE_RAY|MAT2_MAP1);
-/*
+
  mat_default_stage_bloky(p_mat);
-*/
+
  for(i = 0; i < MAT_TEXTUR; i++) {
    init_matrix(p_mat->ttext+i); 
  }
@@ -1034,10 +1029,8 @@ EDIT_MATERIAL * kopiruj_material_indir(EDIT_MATERIAL *p_src, EDIT_MATERIAL *p_de
 
  // kopie animaci
  if(p_src->flag&MAT_ANIM_FRAME) {
- /*
-   p_dest->anim.p_frame = mmalloc(sizeof(ANIM_FRAME)*p_dest->anim.framenum);
+    p_dest->anim.p_frame = mmalloc(sizeof(ANIM_FRAME)*p_dest->anim.framenum);
    memcpy(p_dest->anim.p_frame,p_src->anim.p_frame,sizeof(ANIM_FRAME)*p_dest->anim.framenum);
- */
  }
 
  // kopie animaci 1
@@ -1056,10 +1049,9 @@ EDIT_MATERIAL * kopiruj_material(EDIT_MATERIAL *p_src)
 {
  EDIT_MATERIAL *p_dest;
  if(!p_src) return(NULL);
-/*
+
  p_dest = mmalloc(sizeof(EDIT_MATERIAL));
  return(kopiruj_material_indir(p_src,p_dest));
-*/
 }
 
 
@@ -1088,10 +1080,9 @@ EDIT_MATERIAL * kopiruj_material(EDIT_MATERIAL *p_src)
 */
 
 
-GAME_MESH * kopiruj_mesh(GAME_MESH *p_src, GAME_MESH_DATA *p_data)
+GAME_MESH_OLD * kopiruj_mesh(GAME_MESH_OLD *p_src, GAME_MESH_DATA *p_data)
 {
-/*
-  GAME_MESH * p_dest = vyrob_mesh(p_src->objektu,p_data);
+  GAME_MESH_OLD * p_dest = vyrob_mesh(p_src->objektu,p_data);
   int i;
 
   if(!p_dest) chyba("Pamet!");
@@ -1132,12 +1123,11 @@ GAME_MESH * kopiruj_mesh(GAME_MESH *p_src, GAME_MESH_DATA *p_data)
   }
 
   return(p_dest);
-  */
 }
 
 /* Kopie Mesh-Dat
 */
-GAME_MESH_DATA * kopiruj_mesh_data(GAME_MESH_DATA *p_src, GAME_MESH *p_mesh_top, GAME_MESH_DATA *p_desc)
+GAME_MESH_DATA * kopiruj_mesh_data(GAME_MESH_DATA *p_src, GAME_MESH_OLD *p_mesh_top, GAME_MESH_DATA *p_desc)
 {  
   struct _STATIC_LIGHT    *p_lss,*p_lsd;
   struct _DYN_LIGHT       *p_lds,*p_ldd;
@@ -1145,7 +1135,7 @@ GAME_MESH_DATA * kopiruj_mesh_data(GAME_MESH_DATA *p_src, GAME_MESH *p_mesh_top,
 
   if(!p_src || !p_desc)
     return(NULL);
-/*
+
   p_desc->p_mesh = p_mesh_top;
   p_desc->kflag  = p_src->kflag;
   p_desc->m1flag = p_src->m1flag;
@@ -1212,7 +1202,7 @@ GAME_MESH_DATA * kopiruj_mesh_data(GAME_MESH_DATA *p_src, GAME_MESH *p_mesh_top,
       p_led = p_led->p_next;
     }
   }
-*/
+
   return(p_desc);
 }
 
@@ -1244,7 +1234,7 @@ void rozsir_objekt_light(EDIT_OBJEKT *p_obj)
       }
     }
   }
-/*
+
   if(num == 2 && vzdal_bodu(p_obj->p_vertex+p[0],p_obj->p_vertex+p[1]) > 2.0f) {
     p_v1 = p_obj->p_vertex+p[0];
     p_v2 = p_obj->p_vertex+p[1];
@@ -1316,7 +1306,6 @@ void rozsir_objekt_light(EDIT_OBJEKT *p_obj)
     p_obj->vertexnum = 5;
     p_obj->facenum = 12;
   }
-  */
 }
 
 // Prida extra-vertex
@@ -1330,9 +1319,8 @@ void kont_extra_light(EDIT_KONTEJNER *p_kont)
   updatuj_kontejner_statistika(p_kont,FALSE);
 }
 
-void mesh_calc_varray(GAME_MESH *p_mesh)
+void mesh_calc_varray(GAME_MESH_OLD *p_mesh)
 {
-/*
   VERTEX_ARRAYS *p_varray = &p_mesh->varray;
   int vertexu = p_mesh->vertexnum;
   int m2flag = p_mesh->p_data->m2flag;
@@ -1374,7 +1362,6 @@ void mesh_calc_varray(GAME_MESH *p_mesh)
     //p_varray->ati_velikost = last+sizeof(p_mesh->p_face[0])*p_mesh->facevel;
     p_varray->ati_velikost = last;
   }
-  */
 }
 
 void mesh_preved_jointy_rec(JOINT *p_joint, int prvni_vertex)
@@ -1392,11 +1379,11 @@ void mesh_preved_jointy_rec(JOINT *p_joint, int prvni_vertex)
 }
 
 // prevede animace
-JOINT_ANIMACE * mesh_preved_jointy(EDIT_OBJEKT *p_obj, int prvni_vertex, int objnum, GAME_MESH *p_mesh)
+JOINT_ANIMACE * mesh_preved_jointy(EDIT_OBJEKT *p_obj, int prvni_vertex, int objnum, GAME_MESH_OLD *p_mesh)
 {
   JOINT_ANIMACE *p_ret = p_obj->p_joit_animace;
   JOINT_ANIMACE *p_tmp = p_ret;
-/*
+
   if(!p_ret) {
     p_mesh->p_data->k2flag &= ~KONT2_JOINT_ANIM;
     return(NULL);
@@ -1418,7 +1405,7 @@ JOINT_ANIMACE * mesh_preved_jointy(EDIT_OBJEKT *p_obj, int prvni_vertex, int obj
   p_ret->p_kkflag = &p_mesh->p_data->kflag;
   p_ret->p_koflag =  p_mesh->p_kflag+objnum;
   p_obj->p_joit_animace = NULL;
-  */
+
   return(p_ret);
 }
 
@@ -1456,7 +1443,7 @@ int * opt_slep(int **p_opt, int *p_optnum, int *p_start, int objnum, int *p_vysn
     vel += p_optnum[i];
   }
  *p_vysnum = vel;
-/*
+
   p_tmp = mmalloc(sizeof(p_tmp[0])*vel);
   start = 0;
   for(i = 0; i < objnum; i++) {
@@ -1466,7 +1453,7 @@ int * opt_slep(int **p_opt, int *p_optnum, int *p_start, int objnum, int *p_vysn
     p_start[i] = start;
     start += num;
   }
-*/
+
   return(p_tmp);
 }
 
@@ -1517,7 +1504,7 @@ void opt_dopln(EDIT_OBJEKT *p_obj)
     kprintf(TRUE,"Stary objekt - calc strip %s...",p_obj->jmeno);
     
     optnum = p_obj->facenum+2;
-/*    
+
     p_opt = mmalloc(sizeof(p_opt[0])*optnum);
     
     p_opt[O_INDEX_POCET] = p_obj->facenum;
@@ -1528,14 +1515,12 @@ void opt_dopln(EDIT_OBJEKT *p_obj)
 
     p_obj->p_opt = p_opt;
     p_obj->optnum = optnum;
-*/
   }
 }
 
-GAME_MESH * edit_to_mesh(GAME_MESH_DATA *p_mesh_data, EDIT_KONTEJNER *p_kont, EDIT_MATERIAL **p_mat, int max_mat, int shadow_volume)
+GAME_MESH_OLD * edit_to_mesh(GAME_MESH_DATA *p_mesh_data, EDIT_KONTEJNER *p_kont, EDIT_MATERIAL **p_mat, int max_mat, int shadow_volume)
 {
-/*
-  GAME_MESH     *p_mesh = vyrob_mesh(p_kont->objektu,p_mesh_data);
+  GAME_MESH_OLD     *p_mesh = vyrob_mesh(p_kont->objektu,p_mesh_data);
   VERTEX_ARRAYS *p_varray = &p_mesh->varray;
   GLMATRIX       tmp;
   BOD           *p_piv;
@@ -1815,19 +1800,18 @@ GAME_MESH * edit_to_mesh(GAME_MESH_DATA *p_mesh_data, EDIT_KONTEJNER *p_kont, ED
       obb_transformuj(p_mesh->p_obb_local+i,&tmp,p_mesh->p_obb_world+i);
   }
   return(p_mesh);
-*/
 }
 
-GAME_MESH * vyrob_mesh(int objektu, GAME_MESH_DATA *p_data)
+GAME_MESH_OLD * vyrob_mesh(int objektu, GAME_MESH_DATA *p_data)
 {
-  GAME_MESH *p_mesh;
+  GAME_MESH_OLD *p_mesh;
   int i;
   
-  if((p_mesh = (GAME_MESH *)mmalloc(sizeof(p_mesh[0]))) == NULL) {
+  if((p_mesh = (GAME_MESH_OLD *)mmalloc(sizeof(p_mesh[0]))) == NULL) {
     chyba("pamet");
   }
   memset(p_mesh,0,sizeof(p_mesh[0]));
-/* 
+
   p_mesh->p_data = (p_data) ? p_data : vyrob_mesh_data();
   p_mesh->objektu = objektu;
   p_mesh->p_data->top_edlight = K_CHYBA;
@@ -1841,24 +1825,21 @@ GAME_MESH * vyrob_mesh(int objektu, GAME_MESH_DATA *p_data)
   p_mesh->siminfo.odkaz = K_CHYBA;
   for(i = 0; i < LANI_FRONTA; i++)
     p_mesh->siminfo.akt[i] = K_CHYBA;
-*/
+
   return(p_mesh);
 }
 
 GAME_MESH_DATA * vyrob_mesh_data(void)
 {
   GAME_MESH_DATA *p_data;
-// TODO
-//  p_data = mmalloc(sizeof(p_data[0]));
+  p_data = mmalloc(sizeof(p_data[0]));
   return(p_data);
 }
 
-void mesh_pridej_vodavertexy(GAME_MESH *p_mesh)
+void mesh_pridej_vodavertexy(GAME_MESH_OLD *p_mesh)
 {
-/*
   vyrob_pole(p_mesh->p_vertex_diff_voda,p_mesh->vertexnum);
   vyrob_pole(p_mesh->p_vertex_spec_voda,p_mesh->vertexnum);
-*/
 }
 
 void zrus_fleky(FLEK **p_flek)
@@ -1888,12 +1869,12 @@ void zrus_mesh_data(GAME_MESH_DATA **p_tmp)
   null_free((void **)p_tmp);
 }
 
-void zrus_mesh(GAME_MESH **p_mesh_top)
+void zrus_mesh(GAME_MESH_OLD **p_mesh_top)
 {
-  GAME_MESH *p_mesh = *p_mesh_top;
-  GAME_MESH *p_tmp;
+  GAME_MESH_OLD *p_mesh = *p_mesh_top;
+  GAME_MESH_OLD *p_tmp;
   int i;
-/*  
+
   zrus_mesh_data(&p_mesh->p_data);
 
   while(p_mesh) {
@@ -1926,7 +1907,7 @@ void zrus_mesh(GAME_MESH **p_mesh_top)
     
     null_free(&p_tmp);
   }
-*/  
+
   *p_mesh_top = NULL;
 }
 
@@ -1939,26 +1920,26 @@ void zrus_mesh(GAME_MESH **p_mesh_top)
 int lo_najdi_texturu(EDIT_TEXT *p_text, int max, char *p_file, int flag)
 { 
   int i;
-/*  
+
   p_file = strlwr(p_file);
   for(i = 0; i < max; i++) {
     if(flag == p_text[i].flag && !strcmp(p_file,strlwr(p_text[i].jmeno)))
       return(i);
   }
-*/
+
   return(K_CHYBA);
 }
 
 int lo_najdi_volnou_texturu(EDIT_TEXT *p_text, int max)
 {
   int i;
-/*
+
   for(i = 0; i < max; i++) {
     if(!p_text[i].jmeno[0]) {
       return(i);
     }
   }
-*/
+
   return(K_CHYBA);
 }
 
@@ -2163,7 +2144,7 @@ EDIT_OBJEKT * lo_najdi_objekt_kont_poiter_ID(EDIT_KONTEJNER *p_kont, int ID)
  return(NULL);
 }
 
-int lo_najdi_volny_mesh(GAME_MESH **p_mesh, int max)
+int lo_najdi_volny_mesh(GAME_MESH_OLD **p_mesh, int max)
 {
   int i = -1;
   while(p_mesh[++i] && i < max);
@@ -2188,7 +2169,7 @@ LENS_FLARE * lo_flare2linear(LENS_FLARE *p_flare_list, int max)
     
     if(!p_flare_list[i].akt)
       continue;
-  /*
+
     p_flare = mmalloc(sizeof(p_flare[0]));
     *p_flare = p_flare_list[i];
     p_flare->p_next = NULL;
@@ -2203,7 +2184,7 @@ LENS_FLARE * lo_flare2linear(LENS_FLARE *p_flare_list, int max)
     if(!i) {
       p_flare_first = p_flare;
     }
-*/
+
     p_prev = p_flare;
   } 
   return(p_flare_first);
@@ -2224,7 +2205,7 @@ int lo_reload_textur_formaty(APAK_HANDLE *pHandle, EDIT_TEXT *p_text, int max, i
 {
   char file[MAX_JMENO];
   int i;
-/*
+
   for(i = 0; i < max; i++) {
     if(p_text[i].jmeno[0] && !p_text[i].load) {
       kprintf(TRUE,"Texture %s...",p_text[i].jmeno);
@@ -2251,7 +2232,7 @@ int lo_reload_textur_formaty(APAK_HANDLE *pHandle, EDIT_TEXT *p_text, int max, i
       }
     }
   }
-  */
+
   return(0);
 }
 
@@ -2314,14 +2295,14 @@ int lo_reload_textur(TEXT_DIR *p_dir, EDIT_TEXT *p_text, int num, int save)
 int lo_reload_textur_chyby(EDIT_TEXT *p_text, int num)
 {  
   int i,n;
-/*
+
   for(i = 0, n = 0; i < num; i++) {
     if(p_text[i].jmeno[0] && !p_text[i].load) {
       kprintf(TRUE,"Chyba loadu textury %s...",p_text[i].jmeno);
       n++;
     }
   }  
-*/
+
   kprintf(TRUE,"Chybne nahrano %d textur",n);
   return(TRUE);
 }
@@ -2329,39 +2310,39 @@ int lo_reload_textur_chyby(EDIT_TEXT *p_text, int num)
 int lo_reload_textur_vypis(EDIT_TEXT *p_text, int num)
 {  
   int i;
-/*
+
   for(i = 0; i < num; i++) {
     if(p_text[i].jmeno[0]) {
       kprintf(TRUE,"%d textura %s %d...",i,p_text[i].jmeno,p_text[i].load);      
     }
   }
-*/
+
   return(TRUE);
 }
 
 int lo_smaz_textury(EDIT_TEXT *p_text, int max)
 {
   int i;
-/* 
+
   for(i = 0; i < max; i++) {
     if(p_text[i].load) {
       txt_zrus_texturu(p_text+i);
     }
   }
-*/
+
   return(0);
 }
 
 int lo_smaz_textury_bmp(EDIT_TEXT *p_text, int max)
 {
   int i; 
-/*
+
   for(i = 0; i < max; i++) {
     if(p_text[i].load && p_text[i].p_bmp) {
       bmp_zrus(&p_text[i].p_bmp);
     }
   }
-*/
+
   return(0);
 }
 
@@ -2370,7 +2351,7 @@ int lo_velikost_textur(EDIT_TEXT *p_text, int max)
 {
   int i,xres,yres,vel = 0;
   int r,g,b,a,l,in;
-/* 
+
   for(i = 0; i < max; i++) {
     if(p_text[i].load) {
       glBindTexture(p_text[i].typ,p_text[i].text);
@@ -2385,7 +2366,7 @@ int lo_velikost_textur(EDIT_TEXT *p_text, int max)
       vel += xres*yres*(r+b+g+a+l+in);
     }
   }
-*/
+
   return(vel);
 }
 
@@ -2394,7 +2375,7 @@ int lo_velikost_textur(EDIT_TEXT *p_text, int max)
 void lo_reload_stage(EDIT_MATERIAL **p_mat, int num)
 {
   int i,t,as;
-  /*
+
   for(i = 0; i < num; i++) {
     if(p_mat[i]) {
       for(t = 0; t < MAT_TEXTUR; t++) {
@@ -2416,11 +2397,11 @@ void lo_reload_stage(EDIT_MATERIAL **p_mat, int num)
       }
     }
   }
-  */
+
 }
 
 int lo_pocet_textur(EDIT_TEXT *p_text, int max)
-{/*
+{
   int i,vel = 0;
   for(i = 0; i < max; i++) {
     if(p_text[i].load) {
@@ -2428,12 +2409,11 @@ int lo_pocet_textur(EDIT_TEXT *p_text, int max)
     }
   }
   return(vel);
-*/
+
 }
 
-int lo_velikost_meshu(GAME_MESH **p_mesh, int num, int *p_facu, int *p_vertexu)
+int lo_velikost_meshu(GAME_MESH_OLD **p_mesh, int num, int *p_facu, int *p_vertexu)
 {
-/*
   int i,vel = 0;
   for(i = 0; i < num; i++) {
     if(p_mesh[i]) {
@@ -2444,7 +2424,6 @@ int lo_velikost_meshu(GAME_MESH **p_mesh, int num, int *p_facu, int *p_vertexu)
     }
   }
   return(vel);
-*/
 }
 
 int lo_velikost_poly(EDIT_MESH_POLY *p_poly, int num, int *p_facu, int *p_vertexu)
@@ -2464,7 +2443,7 @@ int lo_velikost_poly(EDIT_MESH_POLY *p_poly, int num, int *p_facu, int *p_vertex
 void lo_vymaz_materialy(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TEXT *p_text, int max_text)
 {
  int i;
-/*
+
  for(i = 0; i < max_mat; i++) {
    if(p_mat[i])
      zrus_material(p_mat+i);
@@ -2474,7 +2453,6 @@ void lo_vymaz_materialy(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TEXT *p_text, i
      txt_zrus_texturu(p_text+i);
    }
  }
-*/
 }
 
 
@@ -2538,7 +2516,7 @@ void lo_vyrob_animaci_list(EDIT_MATERIAL *p_mat, char *p_list, EDIT_TEXT *p_text
    sscanf(line,"FRAME %d %d %d",&akt,&p_amat->frameakt,&alfa);
    if(akt) {
      p_mat->flag = akt ? p_mat->flag|MAT_ANIM_FRAME : p_mat->flag&~MAT_ANIM_FRAME;
-//     p_mat->flag = alfa ? p_mat->flag|MAT_ALFA_FAKTOR : p_mat->flag&~MAT_ALFA_FAKTOR;
+     //p_mat->flag = alfa ? p_mat->flag|MAT_ALFA_FAKTOR : p_mat->flag&~MAT_ALFA_FAKTOR;
    }
  }
  else
@@ -2589,7 +2567,7 @@ void lo_vyrob_animaci_list(EDIT_MATERIAL *p_mat, char *p_list, EDIT_TEXT *p_text
        */
        // Load textury
        a = tolower((int)p_pom[0]);
-/*       
+
        switch(a) {
          case 'f': // je to texture file
            // pridej do texture listu
@@ -2637,7 +2615,7 @@ void lo_vyrob_animaci_list(EDIT_MATERIAL *p_mat, char *p_list, EDIT_TEXT *p_text
            ddw("Neznamy flag ! (%s)",p_pom);
            break;
        }
-       */
+  
        p_pom = p_next;
      }
    }
@@ -2716,8 +2694,7 @@ void lo_zrus_animaci(ANIM_MATERIAL *p_amat)
 */
 EDIT_MESH_POLY * vyrob_poly(void)
 { 
-// TODO
-// return(mmalloc(sizeof(EDIT_MESH_POLY)));
+  return(mmalloc(sizeof(EDIT_MESH_POLY)));
 }
 
 
@@ -2869,8 +2846,8 @@ EDIT_MESH_POLY * edit_to_poly_indir(EDIT_KONTEJNER *p_kont, EDIT_MESH_POLY *p_po
   }
   
   p_poly->kreslit = TRUE;  
-// TODO
-// obb_calc_poly(p_poly);
+
+  obb_calc_poly(p_poly);
   
   return(p_poly);
 }
@@ -3120,7 +3097,7 @@ void lo_poly_calc_lightmap_face(EDIT_MESH_POLY *p_poly)
       vektor_add(&p_lf->s0,&vv,&p_lf->s1);
       vektor_add(&p_lf->s0,&vu,&p_lf->s2);
       vektor_add(&p_lf->s2,&vv,&p_lf->s3);
-/*
+
       if(p_poly->p_light[l]->p_bmp) {
 
         bmp_u = (float)p_poly->p_light[l]->p_bmp->x;
@@ -3151,7 +3128,6 @@ void lo_poly_calc_lightmap_face(EDIT_MESH_POLY *p_poly)
       } else {
         kprintf(1,"lo_poly_calc_lightmap_face -> p_bmp = NULL!");
       }
-*/      
     }
     last += p_poly->p_lightnum[l];
   }
@@ -3172,14 +3148,14 @@ FFILE lo_uloz_kontejner(EDIT_MATERIAL **p_mat, int max_mat, EDIT_KONTEJNER *p_ko
       return(FALSE);
     }
   }
-/* TODO  
+
   lo_uloz_kontejner_chunk(f,p_mat,max_mat,p_kont_top,FALSE);
   p_kont = p_kont_top->p_next;
   while(p_kont) {
     lo_uloz_kontejner_chunk(f,p_mat,max_mat,p_kont,TRUE);
     p_kont = p_kont->p_next;
   }   
-*/  
+
   if(!file) {
     ffclose(f);
     return(NULL);
@@ -3193,13 +3169,11 @@ FFILE lo_uloz_kontejner(EDIT_MATERIAL **p_mat, int max_mat, EDIT_KONTEJNER *p_ko
 */
 EDIT_KONTEJNER * lo_nahraj_kontejner(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TEXT *p_text, int max_text, char *p_jmeno, int mat)
 {
-/*
   if(!strcmp(cti_koncovku(p_jmeno),KONCOVKA_MESH_OLD)) {
     return(lo_nahraj_kontejner_out(p_mat,max_mat,p_text,max_text,p_jmeno,mat));
   } else {
     return(lo_nahraj_kontejner_chunk(p_mat,max_mat,p_text,max_text,p_jmeno,mat,FALSE));
   }
-*/
 }
 
 /* Nahraje b2t nebo mnt materialy
@@ -3207,13 +3181,12 @@ EDIT_KONTEJNER * lo_nahraj_kontejner(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TE
 int lo_nahraj_materialy(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TEXT *p_text, 
                         int max_text, char *p_file)
 {
-/*
+
  if(!strcmp(cti_koncovku(p_file),KONCOVKA_MATERIAL_OLD)) {
    return(lo_nahraj_materialy_out_jmeno(p_mat,max_mat,p_text,max_text,p_file,TRUE));
  } else {
    return(lo_nahraj_materialy_chunk(p_mat,max_mat,p_text,max_text,p_file,TRUE));
  }
-*/
 }
 
 /*
@@ -3232,12 +3205,12 @@ int lo_uloz_materialy(EDIT_MATERIAL **p_mat, int max_mat, char *p_file, char *p_
  if((f = ffopen(file,"wb")) == NULL) {
    return(FALSE);
  } 
- /*
+
  for(i = 0; i < max_mat; i++) {
    if(p_mat[i])
      lo_uloz_material_chunk(f, p_mat[i]);   
  }
- */
+
  ffclose(f);
  return(TRUE);
 }
@@ -3254,9 +3227,9 @@ int lo_uloz_material(EDIT_MATERIAL *p_mat, char *p_file, char *p_dir)
  if((f = ffopen(file,"wb")) == NULL) {
    return(FALSE);
  } 
- /*
+
  lo_uloz_material_chunk(f, p_mat);
- */
+
  ffclose(f);
  return(TRUE);
 }
@@ -3277,13 +3250,13 @@ int lo_uloz_materialy_pouzite(EDIT_MATERIAL **p_mat, int max_mat, char *p_file, 
   if((f = ffopen(file,"wb")) == NULL) {
     return(FALSE);
   } 
-  /*
+
   for(i = 0; i < max_mat; i++) {
     if(p_mat[i] && p_mat[i]->flag&(MAT_POUZITY|MAT_SYSTEM)) {
       lo_uloz_material_chunk(f, p_mat[i]);
     }
   }
-  */
+
   ffclose(f);  
   return(i);
 }
@@ -3291,18 +3264,18 @@ int lo_uloz_materialy_pouzite(EDIT_MATERIAL **p_mat, int max_mat, char *p_file, 
 /*
   Mesi sekce
 */
-GAME_MESH * lo_nahraj_mesh(EDIT_MATERIAL **p_mat, int max_mat, 
+GAME_MESH_OLD * lo_nahraj_mesh(EDIT_MATERIAL **p_mat, int max_mat, 
                            EDIT_TEXT *p_text, int max_text,
                            char *p_file, int mat,
                            int extra_light)
 {
   EDIT_KONTEJNER *p_kont_top,
                  *p_kont;
-  GAME_MESH *p_mesh_top = NULL,
+  GAME_MESH_OLD *p_mesh_top = NULL,
             *p_mesh = NULL;
 
   p_kont = p_kont_top = lo_nahraj_kontejner(p_mat,max_mat,p_text,max_text,p_file,mat);
-/*
+
   if(p_kont && p_kont->bodu && p_kont->objektu) {
     while(p_kont) {
       if(extra_light)
@@ -3320,21 +3293,21 @@ GAME_MESH * lo_nahraj_mesh(EDIT_MATERIAL **p_mat, int max_mat,
   } else {
     p_mesh_top = NULL;
   }
-*/
+
   zrus_kontejner_rec(&p_kont_top,NULL);
   return(p_mesh_top);
 }
 
 /* Kontejner to mesh
 */
-GAME_MESH * lo_kontejner_to_mesh(EDIT_KONTEJNER **p_kont_top, EDIT_MATERIAL **p_mat, int max_mat, int extra_light)
+GAME_MESH_OLD * lo_kontejner_to_mesh(EDIT_KONTEJNER **p_kont_top, EDIT_MATERIAL **p_mat, int max_mat, int extra_light)
 {
   EDIT_KONTEJNER *p_kont;
-  GAME_MESH      *p_mesh_top = NULL,
+  GAME_MESH_OLD      *p_mesh_top = NULL,
                  *p_mesh = NULL;
   
   p_kont = *p_kont_top;
-/*  
+
   if(p_kont->bodu && p_kont->objektu) {
     while(p_kont) {
       if(extra_light)
@@ -3353,7 +3326,7 @@ GAME_MESH * lo_kontejner_to_mesh(EDIT_KONTEJNER **p_kont_top, EDIT_MATERIAL **p_
   } else {
     p_mesh_top = NULL;
   }
-*/
+
   zrus_kontejner_rec(p_kont_top,NULL);
   return(p_mesh_top);
 }
@@ -3530,7 +3503,7 @@ EXTRA_DYN_LIGHT * lo_najdi_volne_extra_svetlo_point(EXTRA_DYN_LIGHT *p_dlight, i
 void lo_preved_flare_do_sceny(STATIC_LIGHT *p_light, LENS_FLARE *p_flarelist, int flaremax)
 {
   LENS_FLARE      *p_flare;
-/*  
+
   while(p_light) {    
     if(p_light->p_flare) {
       p_flare = lo_kopiruj_flare(p_flarelist,flaremax,p_light->p_flare);
@@ -3540,7 +3513,6 @@ void lo_preved_flare_do_sceny(STATIC_LIGHT *p_light, LENS_FLARE *p_flarelist, in
     }
     p_light = p_light->p_next;
   }
-*/
 }
 
 void lo_preved_svetla_do_sceny(EDIT_KONTEJNER *p_kont, STATIC_LIGHT *p_light, int lightnum, DYN_LIGHT *p_dlist, int dlistnum, EXTRA_DYN_LIGHT *p_elist, int elistnum)
@@ -3707,7 +3679,6 @@ void lo_kopiruj_svetla_do_sceny(EDIT_KONTEJNER *p_kont, STATIC_LIGHT *p_light, i
   int l,p;
 
   // Prevedu staticky svetla
-/*
   if(p_light) {
     p_slight = p_kont->p_slight;
 
@@ -3838,7 +3809,6 @@ void lo_kopiruj_svetla_do_sceny(EDIT_KONTEJNER *p_kont, STATIC_LIGHT *p_light, i
       }
     }
   }
-  */
 }
 
 // skopiruje svetla do sceny a navaze se na nove svetla
@@ -4110,7 +4080,7 @@ void lo_vymaz_svetla_mesh(GAME_MESH_DATA *p_data)
   }  
 }
 
-void lo_premapuj_svetla_kont_mesh(EDIT_KONTEJNER *p_src, GAME_MESH *p_dest)
+void lo_premapuj_svetla_kont_mesh(EDIT_KONTEJNER *p_src, GAME_MESH_OLD *p_dest)
 {
   STATIC_LIGHT    *p_slight = p_src->p_slight;
   DYN_LIGHT       *p_dlight = p_src->p_dlight;
@@ -4118,7 +4088,7 @@ void lo_premapuj_svetla_kont_mesh(EDIT_KONTEJNER *p_src, GAME_MESH *p_dest)
 
   if(!p_src || !p_dest)
     return;
-/*
+
   while(p_slight) {
     p_slight->p_mesh_data = p_dest->p_data;
     p_slight = p_slight->p_next;    
@@ -4139,12 +4109,10 @@ void lo_premapuj_svetla_kont_mesh(EDIT_KONTEJNER *p_src, GAME_MESH *p_dest)
   }
   p_dest->p_data->p_lelight = p_src->p_edlight;
   p_src->p_edlight = NULL;
-  */
 }
 
-void lo_premapuj_svetla_mesh(GAME_MESH *p_src, GAME_MESH *p_dest)
+void lo_premapuj_svetla_mesh(GAME_MESH_OLD *p_src, GAME_MESH_OLD *p_dest)
 {
-/*
   STATIC_LIGHT    *p_slight = p_src->p_data->p_lslight;
   DYN_LIGHT       *p_dlight = p_src->p_data->p_ldlight;
   EXTRA_DYN_LIGHT *p_elight = p_src->p_data->p_lelight;
@@ -4172,7 +4140,6 @@ void lo_premapuj_svetla_mesh(GAME_MESH *p_src, GAME_MESH *p_dest)
   }
   p_dest->p_data->p_lelight = p_src->p_data->p_lelight;
   p_src->p_data->p_lelight = NULL;
-  */
 }
 
 void lo_transformuj_svetla_do_wordspace(EDIT_KONTEJNER *p_src)
@@ -4240,7 +4207,6 @@ void lo_premapuj_svetla_do_wordspace(EDIT_KONTEJNER *p_src)
 
 LENS_FLARE * lo_kopiruj_flare(LENS_FLARE *p_flarelist, int max, LENS_FLARE *p_flare)
 {   
-/*
   int f = lo_najdi_volny_flare(p_flarelist,max);
   p_flarelist[f] = *p_flare;
   if(p_flare->p_sloz) {
@@ -4249,12 +4215,10 @@ LENS_FLARE * lo_kopiruj_flare(LENS_FLARE *p_flarelist, int max, LENS_FLARE *p_fl
   }
   p_flarelist[f].index = f;
   return(p_flarelist+f);
-*/
 }
 
-void mesh_pridej_vertex_array(GAME_MESH *p_mesh)
+void mesh_pridej_vertex_array(GAME_MESH_OLD *p_mesh)
 {
-/*
   int flag,m2flag = p_mesh->p_data->m2flag;
   int norm = 0;
   
@@ -4272,7 +4236,6 @@ void mesh_pridej_vertex_array(GAME_MESH *p_mesh)
 
     mesh_vertex_array_upload(p_mesh);
   }
-*/
 }
 
 void poly_pridej_vertex_array(EDIT_MESH_POLY *p_poly)

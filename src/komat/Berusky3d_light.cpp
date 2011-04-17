@@ -107,11 +107,11 @@ static inline void dl_poly_diff_color_mult(EDIT_MESH_POLY *p_poly, float r, floa
   }
 }
 
-static inline void dl_mesh_diff_color_set(GAME_MESH *p_mesh, float r, float g, float b, float a)
+static inline void dl_mesh_diff_color_set(GAME_MESH_OLD *p_mesh, float r, float g, float b, float a)
 {
   BODRGBA *p_vertex;
   int i,vnum;
-/*
+
   p_vertex = p_mesh->p_vertex_diff;
   vnum = p_mesh->vertexnum;
   for(i = 0; i < vnum; i++) {
@@ -121,14 +121,13 @@ static inline void dl_mesh_diff_color_set(GAME_MESH *p_mesh, float r, float g, f
     p_vertex->b = b;
     p_vertex++;
   }
-*/
 }
 
-static inline void dl_mesh_diff_color_add(GAME_MESH *p_mesh, float r, float g, float b, float a)
+static inline void dl_mesh_diff_color_add(GAME_MESH_OLD *p_mesh, float r, float g, float b, float a)
 {
   BODRGBA *p_vertex;
   int i,vnum;
-/*
+
   p_vertex = p_mesh->p_vertex_diff;
   vnum = p_mesh->vertexnum;
   for(i = 0; i < vnum; i++) {
@@ -138,14 +137,13 @@ static inline void dl_mesh_diff_color_add(GAME_MESH *p_mesh, float r, float g, f
     p_vertex->b += b;    
     p_vertex++;
   }
-*/
 }
 
-inline void ld_mesh_diff_color_mul(GAME_MESH *p_mesh, float r, float g, float b, float a)
+inline void ld_mesh_diff_color_mul(GAME_MESH_OLD *p_mesh, float r, float g, float b, float a)
 {
   BODRGBA *p_vertex;
   int i,vnum;
-/*
+
   p_vertex = p_mesh->p_vertex_diff;
   vnum = p_mesh->vertexnum;
   for(i = 0; i < vnum; i++) {
@@ -155,7 +153,6 @@ inline void ld_mesh_diff_color_mul(GAME_MESH *p_mesh, float r, float g, float b,
     p_vertex->b *= b;
     p_vertex++;
   }
-*/
 }
 
 /* Spekularni
@@ -196,11 +193,11 @@ static inline void dl_poly_spec_color_mult(EDIT_MESH_POLY *p_poly, float r, floa
   }
 }
 
-static inline void dl_mesh_spec_color_set(GAME_MESH *p_mesh, float r, float g, float b, float a)
+static inline void dl_mesh_spec_color_set(GAME_MESH_OLD *p_mesh, float r, float g, float b, float a)
 {
   BODRGB *p_vertex;
   int i,vnum;
-/*
+
   p_vertex = p_mesh->p_vertex_spec;
   vnum = p_mesh->vertexnum;
   for(i = 0; i < vnum; i++) {
@@ -209,14 +206,13 @@ static inline void dl_mesh_spec_color_set(GAME_MESH *p_mesh, float r, float g, f
     p_vertex->b = b; 
     p_vertex++;
   }
-*/
 }
 
-static inline void dl_mesh_spec_color_add(GAME_MESH *p_mesh, float r, float g, float b, float a)
+static inline void dl_mesh_spec_color_add(GAME_MESH_OLD *p_mesh, float r, float g, float b, float a)
 {
   BODRGB *p_vertex;
   int i,vnum;
-/*
+
   p_vertex = p_mesh->p_vertex_spec;
   vnum = p_mesh->vertexnum;
   for(i = 0; i < vnum; i++) {
@@ -225,14 +221,13 @@ static inline void dl_mesh_spec_color_add(GAME_MESH *p_mesh, float r, float g, f
     p_vertex->b += b;
     p_vertex++;
   } 
-*/
 }
 
-static inline void dl_mesh_spec_color_mul(GAME_MESH *p_mesh, float r, float g, float b, float a)
+static inline void dl_mesh_spec_color_mul(GAME_MESH_OLD *p_mesh, float r, float g, float b, float a)
 {
   BODRGB *p_vertex;
   int i,vnum;
-/*
+
   p_vertex = p_mesh->p_vertex_spec;
   vnum = p_mesh->vertexnum;
   for(i = 0; i < vnum; i++) {
@@ -241,7 +236,6 @@ static inline void dl_mesh_spec_color_mul(GAME_MESH *p_mesh, float r, float g, f
     p_vertex->b *= b;
     p_vertex++;
   }  
-*/
 }
 
 /* Aplikuje se na vsechny meshe a poly
@@ -259,7 +253,7 @@ void dl_scena_set_ambient(float r, float g, float b, float a)
 */
 int dl_mesh_modulate_diff(MeshHandle mh, float r, float g, float b, float a)
 {
-  GAME_MESH *p_mesh = p_ber->p_mesh[mh];
+  GAME_MESH_OLD *p_mesh = p_ber->p_mesh[mh];
   if(p_mesh) {
     ld_mesh_diff_color_mul(p_mesh, r, g, b, a);
     return(TRUE);
@@ -269,7 +263,7 @@ int dl_mesh_modulate_diff(MeshHandle mh, float r, float g, float b, float a)
 
 int dl_mesh_set_diff(MeshHandle mh, float r, float g, float b, float a)
 {
-  GAME_MESH *p_mesh = p_ber->p_mesh[p_ber->p_prv_lev[mh]->mesh];
+  GAME_MESH_OLD *p_mesh = p_ber->p_mesh[p_ber->p_prv_lev[mh]->mesh];
   if(p_mesh) {
     dl_mesh_diff_color_set(p_mesh, r, g, b, a);
     return(TRUE);
@@ -279,7 +273,7 @@ int dl_mesh_set_diff(MeshHandle mh, float r, float g, float b, float a)
 
 int dl_mesh_add_diff(MeshHandle mh, float r, float g, float b, float a)
 {
-  GAME_MESH *p_mesh = p_ber->p_mesh[p_ber->p_prv_lev[mh]->mesh];
+  GAME_MESH_OLD *p_mesh = p_ber->p_mesh[p_ber->p_prv_lev[mh]->mesh];
   if(p_mesh) {
     dl_mesh_diff_color_add(p_mesh, r, g, b, a);
     return(TRUE);
@@ -289,37 +283,37 @@ int dl_mesh_add_diff(MeshHandle mh, float r, float g, float b, float a)
 
 int dl_mesh_modulate_spec(MeshHandle mh, float r, float g, float b, float a)
 {
-  GAME_MESH *p_mesh = p_ber->p_mesh[p_ber->p_prv_lev[mh]->mesh];
-/*
+  GAME_MESH_OLD *p_mesh = p_ber->p_mesh[p_ber->p_prv_lev[mh]->mesh];
+
   if(p_mesh && p_mesh->p_data->m2flag&MAT2_SPECULAR) {
     dl_mesh_spec_color_mul(p_mesh, r, g, b, a);
     return(TRUE);
   }
-*/
+
   return(FALSE);
 }
 
 int dl_mesh_set_spec(MeshHandle mh, float r, float g, float b, float a)
 {
-  GAME_MESH *p_mesh = p_ber->p_mesh[p_ber->p_prv_lev[mh]->mesh];
-/*
+  GAME_MESH_OLD *p_mesh = p_ber->p_mesh[p_ber->p_prv_lev[mh]->mesh];
+
   if(p_mesh && p_mesh->p_data->m2flag&MAT2_SPECULAR) {
     dl_mesh_spec_color_set(p_mesh, r, g, b, a);
     return(TRUE);
   }
-*/
+
   return(FALSE);
 }
 
 int dl_mesh_add_spec(MeshHandle mh, float r, float g, float b, float a)
 {
-  GAME_MESH *p_mesh = p_ber->p_mesh[p_ber->p_prv_lev[mh]->mesh];
-/*
+  GAME_MESH_OLD *p_mesh = p_ber->p_mesh[p_ber->p_prv_lev[mh]->mesh];
+
   if(p_mesh && p_mesh->p_data->m2flag&MAT2_SPECULAR) {
     dl_mesh_spec_color_add(p_mesh, r, g, b, a);
     return(TRUE);
   }
-*/
+
   return(FALSE);
 }
 
@@ -330,33 +324,32 @@ int dl_mesh_add_spec(MeshHandle mh, float r, float g, float b, float a)
 inline void sdla_animaci_zrus(DYN_LIGHT_ANIM *p_an)
 {
   p_an->endtime = 0;
-/*
+
   if(p_an->diff_keys) {
-    null_free(&p_an->p_dfkeys);
-    null_free(&p_an->p_diff);
+    null_free((void **)&p_an->p_dfkeys);
+    null_free((void **)&p_an->p_diff);
     p_an->diff_keys = 0;
   }
   if(p_an->alfa_keys) {
-    null_free(&p_an->p_akeys);
-    null_free(&p_an->p_alfa);
+    null_free((void **)&p_an->p_akeys);
+    null_free((void **)&p_an->p_alfa);
     p_an->alfa_keys = 0;
   }
   if(p_an->pos_keys) {
-    null_free(&p_an->p_pkeys);
-    null_free(&p_an->p_pos);
+    null_free((void **)&p_an->p_pkeys);
+    null_free((void **)&p_an->p_pos);
     p_an->pos_keys = 0;
   }
   if(p_an->trg_keys) {
-    null_free(&p_an->p_tkeys);
-    null_free(&p_an->p_trg);
+    null_free((void **)&p_an->p_tkeys);
+    null_free((void **)&p_an->p_trg);
     p_an->trg_keys = 0;
   }
   if(p_an->dos_keys) {
-    null_free(&p_an->p_dskeys);
-    null_free(&p_an->p_dosah);
+    null_free((void **)&p_an->p_dskeys);
+    null_free((void **)&p_an->p_dosah);
     p_an->dos_keys = 0;
   }
-  */
 }
 
 void sdla_animaci_zrus_online(DYN_LIGHT_ANIM *p_an)
@@ -369,38 +362,37 @@ inline void sdla_animaci_vyrob(DYN_LIGHT_ANIM *p_an, int framenum,
                                  int spec_keys, int dos_keys, int alfa_keys)
 {
   p_an->endtime = calc_endtime(framenum);
-/*
+
   p_an->pos_keys = pos_keys;
   if(pos_keys) {
-    p_an->p_pkeys = mmalloc(sizeof(p_an->p_pkeys[0])*pos_keys);
-    p_an->p_pos = mmalloc(sizeof(p_an->p_pos[0])*pos_keys);
+    p_an->p_pkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_an->p_pkeys[0])*pos_keys);
+    p_an->p_pos = (BOD *)mmalloc(sizeof(p_an->p_pos[0])*pos_keys);
   }
   p_an->trg_keys = dir_keys;
   if(dir_keys) {
-    p_an->p_tkeys = mmalloc(sizeof(p_an->p_tkeys[0])*dir_keys);
-    p_an->p_trg = mmalloc(sizeof(p_an->p_trg[0])*dir_keys);
+    p_an->p_tkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_an->p_tkeys[0])*dir_keys);
+    p_an->p_trg = (BOD *)mmalloc(sizeof(p_an->p_trg[0])*dir_keys);
   }
   p_an->dos_keys = dos_keys;
   if(dos_keys) {
-    p_an->p_dskeys = mmalloc(sizeof(p_an->p_dskeys[0])*dos_keys);
-    p_an->p_dosah = mmalloc(sizeof(p_an->p_dosah[0])*dos_keys);
+    p_an->p_dskeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_an->p_dskeys[0])*dos_keys);
+    p_an->p_dosah = (BOD *)mmalloc(sizeof(p_an->p_dosah[0])*dos_keys);
   }  
   p_an->diff_keys = diff_keys;
   if(diff_keys) {
-    p_an->p_dfkeys = mmalloc(sizeof(p_an->p_dfkeys[0])*diff_keys);
-    p_an->p_diff = mmalloc(sizeof(p_an->p_diff[0])*diff_keys);
+    p_an->p_dfkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_an->p_dfkeys[0])*diff_keys);
+    p_an->p_diff = (BARVA_RGBA *)mmalloc(sizeof(p_an->p_diff[0])*diff_keys);
   }    
   p_an->alfa_keys = alfa_keys;
   if(alfa_keys) {
-    p_an->p_akeys = mmalloc(sizeof(p_an->p_akeys[0])*alfa_keys);
-    p_an->p_alfa = mmalloc(sizeof(p_an->p_alfa[0])*alfa_keys);
+    p_an->p_akeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_an->p_akeys[0])*alfa_keys);
+    p_an->p_alfa = (float *)mmalloc(sizeof(p_an->p_alfa[0])*alfa_keys);
   }    
   p_an->spec_keys = spec_keys;
   if(spec_keys) {
-    p_an->p_spkeys = mmalloc(sizeof(p_an->p_spkeys[0])*spec_keys);    
-    p_an->p_spec = mmalloc(sizeof(p_an->p_spec[0])*spec_keys);
+    p_an->p_spkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_an->p_spkeys[0])*spec_keys);
+    p_an->p_spec = (BARVA_RGBA *)mmalloc(sizeof(p_an->p_spec[0])*spec_keys);
   }    
-  */
 }
 
 /* keyframova animace svetel
@@ -793,9 +785,8 @@ void sdla_updatuj(G_KONFIG *p_ber)
 // 1. Update svetel podle meshu
 // 2. Update svetel privazane k meshum -> update specialnima rutinama !!!
 // 3. Update svetel privazane k scene -> update specialnima rutinama !!!
-int dl_mesh_pridej_svetla(G_KONFIG *p_ber, GAME_MESH *p_mesh)
+int dl_mesh_pridej_svetla(G_KONFIG *p_ber, GAME_MESH_OLD *p_mesh)
 {
-/*
   GAME_MESH_DATA *p_data = p_mesh->p_data;
   STATIC_LIGHT   *p_slight = p_ber->p_slight;
   DYN_LIGHT      *p_dlight = p_ber->p_dlight;
@@ -842,7 +833,7 @@ int dl_mesh_pridej_svetla(G_KONFIG *p_ber, GAME_MESH *p_mesh)
         
         null_free((void **)&p_data->p_light);
         i += (i>>1)+10;
-        p_data->p_light = mmalloc(sizeof(p_data->p_light[0])*i);
+        p_data->p_light = (void **)mmalloc(sizeof(p_data->p_light[0])*i);
         p_data->lightmax = i; 
         memcpy(p_data->p_light,p_light_stat,slightnum*sizeof(p_data->p_light[0]));
         memcpy(p_data->p_light+slightnum,p_light_dyn,dlightnum*sizeof(p_data->p_light[0]));
@@ -860,7 +851,6 @@ int dl_mesh_pridej_svetla(G_KONFIG *p_ber, GAME_MESH *p_mesh)
   } else {
     return(FALSE);
   }
-  */
 }
 
 /* Zjisti jestli se nektery dynamicky svetlo meshe zmenilo 
@@ -879,9 +869,8 @@ inline int dl_mesh_svetlo_update(GAME_MESH_DATA *p_data)
 
 /* Pokud je svetlo privazany -> automaticky ho updatuju
 */
-int dl_mesh_pripocitej_svetla(G_KONFIG *p_ber, GAME_MESH *p_mesh, int dyn_light, int extra_light, int full_light, int all)
+int dl_mesh_pripocitej_svetla(G_KONFIG *p_ber, GAME_MESH_OLD *p_mesh, int dyn_light, int extra_light, int full_light, int all)
 {
-/*
   EDIT_MATERIAL  **p_mat = p_ber->p_mat;
   GAME_MESH_DATA  *p_data = p_mesh->p_data;
   STATIC_LIGHT    *p_slight;
@@ -951,7 +940,7 @@ int dl_mesh_pripocitej_svetla(G_KONFIG *p_ber, GAME_MESH *p_mesh, int dyn_light,
 #endif
 
   objektu = p_mesh->objektu;
-  p_kflag = p_mesh->p_kflag;
+  p_kflag = (int *)p_mesh->p_kflag;
   for(o = 0; o < objektu; o++) {
 
     if(all || p_kflag[o]&(KONT_VIDITELNY|KONT_VIDITELNY_ZRC)) {
@@ -1027,7 +1016,7 @@ int dl_mesh_pripocitej_svetla(G_KONFIG *p_ber, GAME_MESH *p_mesh, int dyn_light,
           // Update statickych svetel podle materialu
           if(diffuse && !staticky) {
             for(i = 0; i < p_data->slightnum; i++) {
-              p_slight = p_data->p_light[i];
+              p_slight = (STATIC_LIGHT *)p_data->p_light[i];
               vzdal = vzdal_bodu_bod(&p_slight->p,&p);
               if(vzdal < p_slight->dosah) {
                 if(p_slight->uhel) {
@@ -1076,7 +1065,7 @@ int dl_mesh_pripocitej_svetla(G_KONFIG *p_ber, GAME_MESH *p_mesh, int dyn_light,
           // Update jednoduchych dynamickych svetel
           if(dyn_light) {
             for(i = p_data->slightnum; i < p_data->lightakt; i++) {
-              p_dlight = p_data->p_light[i];
+              p_dlight = (DYN_LIGHT *)p_data->p_light[i];
               dflag = p_dlight->flag;
               vzdal = vzdal_bodu_bod(&p_dlight->tp,&p);
               if(vzdal > p_dlight->dosah)
@@ -1260,7 +1249,7 @@ int dl_mesh_pripocitej_svetla(G_KONFIG *p_ber, GAME_MESH *p_mesh, int dyn_light,
   p_mesh->p_data->k2flag |= KONT2_UPDATE_DIFF;
   if(specular || specular_light)
     p_mesh->p_data->k2flag |= KONT2_UPDATE_SPEC;
-*/
+
   return(TRUE);
 }
 
@@ -1284,22 +1273,21 @@ void dl_reset_svetel(G_KONFIG *p_ber)
   }
 }
 
-inline void dl_updatuj_mesh(G_KONFIG *p_ber, GAME_MESH *p_mesh, int full_light, int all)
+inline void dl_updatuj_mesh(G_KONFIG *p_ber, GAME_MESH_OLD *p_mesh, int full_light, int all)
 {
   int v1,v2;
   
   v1 = dl_mesh_pridej_svetla(p_ber, p_mesh);
   v2 = edl_mesh_pridej_svetla(p_ber, p_mesh);
   if(v1||v2) {
-    dl_mesh_pripocitej_svetla(p_ber, p_mesh, v1, v2, full_light, all);
-    // TODO
-    // p_mesh->p_data->kflag |= KONT_POHYB_ZRUS;
+    dl_mesh_pripocitej_svetla(p_ber, p_mesh, v1, v2, full_light, all);    
+    p_mesh->p_data->kflag |= KONT_POHYB_ZRUS;
   }
 }
 
 inline void dl_updatuj_seznam_meshu(G_KONFIG *p_ber, int all)
 {
-  GAME_MESH *p_mesh;
+  GAME_MESH_OLD *p_mesh;
   int flag = (p_ber->conf_dyn_light_prvky || p_ber->conf_dyn_light_beruska) ? KONT_PRVEK : FALSE;
   int full = p_ber->conf_full_light;
   int m;
@@ -1333,11 +1321,10 @@ int dl_poly_pridej_svetla(G_KONFIG *p_ber, EDIT_MESH_POLY *p_poly)
     
   for(lightakt = 0, i = 0; i < p_ber->dl_lightnum; i++) {
     p_dlight = p_ber->p_dlight+i;
-  /* TODO
+
     if(p_dlight->akt && p_dlight->dosah > obb_vzdal_bod(&p_poly->obb,&p_dlight->tp)) {
       p_light_dyn[lightakt++] = p_dlight;
     }
-  */
   }
   p_poly->lightakt = i = lightakt;
 
@@ -1348,10 +1335,8 @@ int dl_poly_pridej_svetla(G_KONFIG *p_ber, EDIT_MESH_POLY *p_poly)
     if(i >= p_poly->lightmax) {
       null_free((void **)&p_poly->p_dlight);
       i += (i>>1)+10;
-    /* TODO
-      p_poly->p_dlight = mmalloc(sizeof(p_poly->p_dlight[0])*i);
+      p_poly->p_dlight = (void **)mmalloc(sizeof(p_poly->p_dlight[0])*i);
       p_poly->lightmax = i;
-    */
     }
     memcpy(p_poly->p_dlight,p_light_dyn,i*sizeof(p_poly->p_dlight[0]));
   }
@@ -1372,7 +1357,7 @@ int edl_poly_pridej_svetla(G_KONFIG *p_ber, EDIT_MESH_POLY *p_poly)
 
   if(!p_ber->edl_recalc && !p_ber->edl_new)
     return(FALSE);
-/*    
+
   // Zaradim dynamicke svetla  
   lightnum = 0;
   for(i = 0; i < p_ber->edl_lightnum; i++) {
@@ -1432,7 +1417,7 @@ int edl_poly_pridej_svetla(G_KONFIG *p_ber, EDIT_MESH_POLY *p_poly)
     if(lightnum >= p_poly->edlightmax) {
       null_free((void **)&p_poly->p_edlight);
       i += (lightnum>>1)+10;
-      p_poly->p_edlight = mmalloc(sizeof(p_poly->p_edlight[0])*i);
+      p_poly->p_edlight = (void **)mmalloc(sizeof(p_poly->p_edlight[0])*i);
       p_poly->edlightmax = i;
       memcpy(p_poly->p_edlight,p_light_dyn,sizeof(p_poly->p_edlight[0])*lightnum);
     } else {      
@@ -1440,7 +1425,7 @@ int edl_poly_pridej_svetla(G_KONFIG *p_ber, EDIT_MESH_POLY *p_poly)
     }    
     p_poly->edlightakt = lightnum;
   }
-  */
+
   return(TRUE);
 }
 
@@ -1709,13 +1694,13 @@ inline int sdl_poly_pripocitej_svetla_face(G_KONFIG *p_ber, EDIT_MESH_POLY *p_po
     p_lf->upload = TRUE;
     return(TRUE);
   }
-  /*
+
   ddx = p_lf->p_bmp->x;
   p_data = p_lf->p_bmp->data;
  
   // udelam to pro kazde svetlo extra zvlaste
   for(l = 0; l < lnum; l++) {
-    p_dlight = p_poly->p_dlight[l];
+    p_dlight = (DYN_LIGHT *)p_poly->p_dlight[l];
     if(!p_dlight->aup)
       continue;
 
@@ -1815,13 +1800,12 @@ inline int sdl_poly_pripocitej_svetla_face(G_KONFIG *p_ber, EDIT_MESH_POLY *p_po
       nup = (suf2 > dosah2d) ? ftoi((dosah2d/suf2)*nusu) : nusu;
       
       // Leva strana -> su
-      nul = (suf1 > dosah2d) ? ftoi((dosah2d/suf1)*su) : su;
-      */
+      nul = (suf1 > dosah2d) ? ftoi((dosah2d/suf1)*su) : su;      
 /*      
       if(--nul < 0)
         nul = 0;
 */
-/*
+
       sup = su;   // Start prave strany
       sul = su-1;  // Start leve strany
 
@@ -1835,11 +1819,11 @@ inline int sdl_poly_pripocitej_svetla_face(G_KONFIG *p_ber, EDIT_MESH_POLY *p_po
 
       skul = skup = -kup;
     }
-*/
+
     /*
       Strana V lightmapy
     */
-    /*
+    
     if(sv <= 0) {
       if(svf1 > dosah2d)
         continue;
@@ -1895,12 +1879,11 @@ inline int sdl_poly_pripocitej_svetla_face(G_KONFIG *p_ber, EDIT_MESH_POLY *p_po
       
       // Leva strana -> su
       nvl = (svf1 > dosah2d) ? ftoi((dosah2d/svf1)*sv) : sv;
-      */
 /*      
       if(--nvl < 0)
         nvl = 0;
 */
-/*
+
       svp = sv;   // Start prave strany
       svl = sv-1;  // Start leve strany
 
@@ -1921,7 +1904,6 @@ inline int sdl_poly_pripocitej_svetla_face(G_KONFIG *p_ber, EDIT_MESH_POLY *p_po
 
     // Prvne spocitam prave sloupce v lightmape
     // potom leve sloupce    
-    */
 /*
     if(p_dlight->flag&SDL_ADD_SUB) {
     __asm  {
@@ -2732,8 +2714,8 @@ inline int sdl_poly_pripocitej_svetla_face(G_KONFIG *p_ber, EDIT_MESH_POLY *p_po
     }
     }  
 */
-  //}
-  //p_lf->upload = TRUE;
+  }
+  p_lf->upload = TRUE;
 
   return(TRUE);
 }
@@ -2837,7 +2819,7 @@ inline void sdl_updatuj_seznam_poly(G_KONFIG *p_ber, int all)
 void dl_transformuj_svetla(G_KONFIG *p_ber)
 {
   GAME_MESH_DATA  *p_data;
-  GAME_MESH       *p_mesh;
+  GAME_MESH_OLD       *p_mesh;
   DYN_LIGHT       *p_light;
   EXTRA_DYN_LIGHT *p_edlight;
   int              kamera_zmena = p_ber->kamera.zmena||p_ber->kamera.zmena_last;
@@ -2965,7 +2947,7 @@ ExtraLightHandle edl_svetlo_zrus_meshe(ExtraLightHandle lh)
 {
   EXTRA_DYN_LIGHT *p_light = p_ber->p_edlight+lh;
   GAME_MESH_DATA  *p_data;
-  GAME_MESH       *p_mesh;
+  GAME_MESH_OLD       *p_mesh;
   int i;
 /*
   if(!p_light->akt)
@@ -3165,7 +3147,7 @@ ExtraLightHandle edl_svetlo_vyrob_zemni_mlha(dword barva, float v_start, float v
 ExtraLightHandle edl_svetlo_uzavri_meshe(ExtraLightHandle lh)
 {  
   EXTRA_DYN_LIGHT *p_light = p_ber->p_edlight+lh;
-  GAME_MESH       *p_mesh;
+  GAME_MESH_OLD       *p_mesh;
   GAME_MESH_DATA  *p_data;
   int              i,flags;
   
@@ -3469,7 +3451,7 @@ void edla_updatuj(G_KONFIG *p_ber)
 /*
   Prepocitam seznamy svetel -> pouze pri update
 */
-int edl_mesh_pridej_svetla(G_KONFIG *p_ber, GAME_MESH *p_mesh)
+int edl_mesh_pridej_svetla(G_KONFIG *p_ber, GAME_MESH_OLD *p_mesh)
 { /* 
   GAME_MESH_DATA  *p_data = p_mesh->p_data;
   EXTRA_DYN_LIGHT *p_light;

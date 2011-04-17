@@ -12,7 +12,7 @@ typedef struct
 
 typedef struct
 {
-	//EDIT_TEXT_KONFIG	konf;
+	EDIT_TEXT_KONFIG	konf;
 	char				bVLoaded;
 	char				bSLoaded;
 	int					x;
@@ -28,7 +28,6 @@ typedef struct
 	int					 last;
 	char				 bm_dir[256];
 	EDIT_TEXT			 *p_texture;
-	//HWND				 hWnd;
 	_3D_TEXTURE			 *p_sysramtexture;
 	char				 bMenuVRAMLoad;
 } _3D_DATA;

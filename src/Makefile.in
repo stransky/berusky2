@@ -99,7 +99,7 @@ am_berusky2_OBJECTS = 3D_graphic.$(OBJEXT) 3D_menus.$(OBJEXT) \
 	animationk.$(OBJEXT) generator_random.$(OBJEXT) Ddx.$(OBJEXT) \
 	kfile.$(OBJEXT) Berusky3d_animace.$(OBJEXT) 3dmath.$(OBJEXT) \
 	3dproject.$(OBJEXT) Mat3d.$(OBJEXT) Keyframe.$(OBJEXT) \
-	Texture.$(OBJEXT) Texture_import.$(OBJEXT)
+	Texture.$(OBJEXT) Texture_import.$(OBJEXT) obbo.$(OBJEXT)
 berusky2_OBJECTS = $(am_berusky2_OBJECTS)
 berusky2_DEPENDENCIES =
 berusky2_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -600,7 +600,9 @@ berusky2_SOURCES = \
 	komat/Texture.cpp\
 	komat/Texture.h\
 	komat/Texture_import.cpp\
-	komat/Texture_import.h
+	komat/Texture_import.h\
+	komat/obbo.cpp\
+	komat/obbo.h
 
 berusky2_LDFLAGS = 
 berusky2_LDADD = \
@@ -791,6 +793,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mtree.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/normals.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/obb.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/obbo.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/object_base.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/object_box.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/object_geometry.Po@am__quote@
@@ -2739,6 +2742,20 @@ Texture_import.obj: komat/Texture_import.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Texture_import.cpp' object='Texture_import.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Texture_import.obj `if test -f 'komat/Texture_import.cpp'; then $(CYGPATH_W) 'komat/Texture_import.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Texture_import.cpp'; fi`
+
+obbo.o: komat/obbo.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT obbo.o -MD -MP -MF $(DEPDIR)/obbo.Tpo -c -o obbo.o `test -f 'komat/obbo.cpp' || echo '$(srcdir)/'`komat/obbo.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/obbo.Tpo $(DEPDIR)/obbo.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/obbo.cpp' object='obbo.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o obbo.o `test -f 'komat/obbo.cpp' || echo '$(srcdir)/'`komat/obbo.cpp
+
+obbo.obj: komat/obbo.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT obbo.obj -MD -MP -MF $(DEPDIR)/obbo.Tpo -c -o obbo.obj `if test -f 'komat/obbo.cpp'; then $(CYGPATH_W) 'komat/obbo.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/obbo.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/obbo.Tpo $(DEPDIR)/obbo.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/obbo.cpp' object='obbo.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o obbo.obj `if test -f 'komat/obbo.cpp'; then $(CYGPATH_W) 'komat/obbo.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/obbo.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

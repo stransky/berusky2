@@ -1640,7 +1640,7 @@ void key_sim_dopln_matrix_kont(EDIT_KONTEJNER *p_kont, HIERARCHY_SIM *p_src)
 }
 
 
-static void key_sim_dopln_matrix_mesh_rec(GAME_MESH *p_mesh, SIMPLE_TRACK_INFO *p_sim)
+static void key_sim_dopln_matrix_mesh_rec(GAME_MESH_OLD *p_mesh, SIMPLE_TRACK_INFO *p_sim)
 {  
   int i;
 /*
@@ -1660,7 +1660,7 @@ static void key_sim_dopln_matrix_mesh_rec(GAME_MESH *p_mesh, SIMPLE_TRACK_INFO *
   // fuck-ati
 }
 
-void key_sim_dopln_matrix_mesh(GAME_MESH *p_mesh, SIMPLE_TRACK_INFO *p_sim)
+void key_sim_dopln_matrix_mesh(GAME_MESH_OLD *p_mesh, SIMPLE_TRACK_INFO *p_sim)
 {
   int i;
   for(i = 0; i < p_sim->childnum; i++) {
@@ -1795,9 +1795,8 @@ void key_kontejner_retransformuj(EDIT_KONTEJNER *p_kont_top)
   }
 }
 
-void key_mesh_reanimuj(GAME_MESH *p_mesh, int time, GLMATRIX *p_top)
+void key_mesh_reanimuj(GAME_MESH_OLD *p_mesh, int time, GLMATRIX *p_top)
 {
-/*
   SIMPLE_TRACK_INFO *p_sim = p_mesh->p_sim_aktivni;
   int i;
 
@@ -1811,7 +1810,6 @@ void key_mesh_reanimuj(GAME_MESH *p_mesh, int time, GLMATRIX *p_top)
   obb_transformuj(&p_mesh->obb_local,p_top,&p_mesh->obb_world);
 
   key_mesh_recalc_normal_anim(p_mesh);
-*/
 }
 
 /**************************************************************************** 
@@ -3379,7 +3377,7 @@ void key_sim_root_vloz_pivoty_do_animace_kont(EDIT_KONTEJNER *p_kont)
 /* Transformuje lokalni OBB meshe do globalni OBB
    Pri posunu celeho objektu
 */
-void key_mesh_transformuj_obalky(GAME_MESH *p_mesh, GLMATRIX *p_mat)
+void key_mesh_transformuj_obalky(GAME_MESH_OLD *p_mesh, GLMATRIX *p_mat)
 {
 /*
   OBB *p_src = p_mesh->p_obb_local;
@@ -3396,7 +3394,7 @@ void key_mesh_transformuj_obalky(GAME_MESH *p_mesh, GLMATRIX *p_mat)
    updatuji automaticky
 */
 /*
-void key_mesh_calc_global_obalku(GAME_MESH *p_mesh)
+void key_mesh_calc_global_obalku(GAME_MESH_OLD *p_mesh)
 {  
   obb_slep_aabb(&p_mesh->obb_world, p_mesh->p_obb_world, p_mesh->objektu);
 }

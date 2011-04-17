@@ -30,6 +30,7 @@ typedef PLANE           ROVINAD;
 //typedef SURFACE_SW      bitmapa;
 typedef word            FACE;
 
+#include "kfile.h"
 #include "Vektor.h"
 #include "Matrix.h"
 #include "mesh_flags.h"
@@ -38,6 +39,7 @@ typedef word            FACE;
 #include "3dinterface.h"
 #include "3dproject.h"
 #include "3dmath.h"
+#include "obbo.h"
 #include "Quat.h"
 #include "Keyframe.h"
 #include "Load.h"

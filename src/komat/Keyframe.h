@@ -44,7 +44,7 @@ int  key_sim_nahraj(APAK_HANDLE *pHandle, SIMPLE_TRACK_INFO *p_sim, char *p_file
 GLMATRIX * key_sim_to_matrix(SIMPLE_TRACK_INFO *p_sim, int time, GLMATRIX *p_m);
 GLMATRIX * key_sim_to_matrix_param(SIMPLE_TRACK_INFO *p_sim, int time, GLMATRIX *p_m, BOD *p_pos, QUAT *p_quat, BOD *p_scale);
 void key_sim_root_to_matrix(EDIT_KONTEJNER *p_kont, HIERARCHY_SIM *p_sim, int time, GLMATRIX *p_m);
-void key_mesh_reanimuj(GAME_MESH *p_mesh, int time, GLMATRIX *p_top);
+void key_mesh_reanimuj(GAME_MESH_OLD *p_mesh, int time, GLMATRIX *p_top);
 void key_kan_to_kamera(KAMERA *p_kam, KAMERA_TRACK_INFO *p_track, int time);
 int  key_je_frame_klic(KEY_POINT_BRS *p_list, int klicu, dword frame);
 int  key_je_time_klic(KEY_POINT_BRS *p_list, int klicu, dword time);
@@ -96,15 +96,15 @@ void        key_sim_root_to_sim_indir(HIERARCHY_SIM *p_root, SIMPLE_TRACK_INFO *
 
 void        key_kontejner_sim_reanimuj(EDIT_KONTEJNER *p_kont);
 
-void        key_sim_dopln_matrix_mesh(GAME_MESH *p_mesh, SIMPLE_TRACK_INFO *p_sim);
+void        key_sim_dopln_matrix_mesh(GAME_MESH_OLD *p_mesh, SIMPLE_TRACK_INFO *p_sim);
 int         key_sim_nahraj_extended(EDIT_KONTEJNER *p_kont, int cislo_anim, char *p_file, char *p_dir);
 void        key_sim_root_vloz_pivoty_do_animace(EDIT_KONTEJNER *p_kont, HIERARCHY_SIM *p_root);
 void        key_sim_root_vloz_pivoty_do_animace_kont(EDIT_KONTEJNER *p_kont);
 
-void        key_mesh_transformuj_obalky(GAME_MESH *p_mesh, GLMATRIX *p_mat);
-void        key_mesh_transformuj_obalky_keyframe(GAME_MESH *p_mesh, GLMATRIX *p_mat);
-//void        key_mesh_calc_global_obalku(GAME_MESH *p_mesh);
-inline void key_mesh_recalc_normal_anim(GAME_MESH *p_mesh);
+void        key_mesh_transformuj_obalky(GAME_MESH_OLD *p_mesh, GLMATRIX *p_mat);
+void        key_mesh_transformuj_obalky_keyframe(GAME_MESH_OLD *p_mesh, GLMATRIX *p_mat);
+//void        key_mesh_calc_global_obalku(GAME_MESH_OLD *p_mesh);
+inline void key_mesh_recalc_normal_anim(GAME_MESH_OLD *p_mesh);
 
 void        key_sim_calc_absolutne(SIMPLE_TRACK_INFO *p_sim);
 
@@ -247,14 +247,14 @@ inline float time2sec(int time)
   return(time/1000.0f);
 }
 
-inline void key_mesh_recalc_normal_anim(GAME_MESH *p_mesh)
+inline void key_mesh_recalc_normal_anim(GAME_MESH_OLD *p_mesh)
 {
   BOD *p_vertex;
   BOD *p_vertex_norm;
   BOD  n,up(0,1,0);
   int o,i,kflag,vr;
   float last,akt,num;
-/*
+
   kflag = p_mesh->p_data->kflag;
 
   if(kflag&KONT_NORMAL_ANIM) {
@@ -275,7 +275,6 @@ inline void key_mesh_recalc_normal_anim(GAME_MESH *p_mesh)
       p_mesh->p_data->k2flag |= KONT2_UPDATE_POS;
     }
   }
-  */
 }
 
 JOINT_KEYS * key_kost_spline_vyrob(JOINT *p_joint);
@@ -296,7 +295,7 @@ inline void key_kosti_reanimuj_kont(EDIT_KONTEJNER *p_kont)
 {
   EDIT_OBJEKT *p_obj;
   int i;
-/*
+
   if(p_kont->k2flag&KONT2_JOINT_ANIM) {
     for(i = 0; i < MAX_KONT_OBJEKTU; i++) {  
       p_obj = p_kont->p_obj[i];
@@ -306,19 +305,16 @@ inline void key_kosti_reanimuj_kont(EDIT_KONTEJNER *p_kont)
       }
     }
   }
-*/
 }
 
 void kprintf_matrix(GLMATRIX * m);
 
 inline void key_kosti_stream_animuj(JOINT_ANIMACE *p_animace)
 {
-/*
   if(p_animace) {
     key_kosti_stream_animuj_rec(p_animace, p_animace->p_child, NULL, p_animace->time, p_animace->framenum);
     *p_animace->p_k2flag |= KONT2_UPDATE_POS|KONT2_UPDATE_NORM;    
   }
-*/
 }
 
 inline void key_track_quat_zkontroluj(QUAT *p_quat, int keynum)

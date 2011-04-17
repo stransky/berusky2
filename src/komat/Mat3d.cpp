@@ -65,9 +65,8 @@ void transformuj_kontejner(EDIT_KONTEJNER *p_kont)
   }
 }
 
-void transformuj_mesh(GAME_MESH *p_mesh)
+void transformuj_mesh(GAME_MESH_OLD *p_mesh)
 {   
-/*
   dword i;
   if(!(p_mesh->p_data->kflag&KONT_KEYFRAME)) {
     for(i = 0; i < p_mesh->vertexnum; i++) {
@@ -75,12 +74,10 @@ void transformuj_mesh(GAME_MESH *p_mesh)
     }
     init_matrix(&p_mesh->m);
   }
-*/
 }
 
 void calc_norm_vec_inter_object(EDIT_OBJEKT *p_obj)
 {
-/*
  int    j,i,v,v1,k;
  float  p_x,p_y,p_z,p;
  ROVINA r;
@@ -135,7 +132,6 @@ void calc_norm_vec_inter_object(EDIT_OBJEKT *p_obj)
    
  free(p_hv);
  free(p_nasle);
- */
 }
 
 void texturuj_zemi(EDIT_OBJEKT *p_obj, int rect_x, int rect_y, int c_text, 
@@ -2187,7 +2183,7 @@ void transformuj_kontejner_text_coord(EDIT_KONTEJNER *p_kont, GLMATRIX *p_mat, i
 
 /* Spekularni ENV mapping na vybrany 
 */
-void mesh_env_maping_spec(GAME_MESH *p_mesh, GLMATRIX *p_cam, EDIT_MATERIAL **p_mt)
+void mesh_env_maping_spec(GAME_MESH_OLD *p_mesh, GLMATRIX *p_cam, EDIT_MATERIAL **p_mt)
 {
   EDIT_MATERIAL *p_mat,*p_mat_prev = NULL;
   float     tx,ty,tz;
@@ -2204,7 +2200,7 @@ void mesh_env_maping_spec(GAME_MESH *p_mesh, GLMATRIX *p_cam, EDIT_MATERIAL **p_
   int       flag2;
 
   p_mesh->m2flags.flag_set(KONT2_UPDATE_SPEC);
-/*
+
   kframe = p_mesh->mflags.flag_get(KONT_KEYFRAME);
   if(!kframe) 
     p_kw = &p_mesh->m;
@@ -2288,7 +2284,6 @@ void mesh_env_maping_spec(GAME_MESH *p_mesh, GLMATRIX *p_cam, EDIT_MATERIAL **p_
       }
     }
   }
-  */
 }
 
 
@@ -2358,9 +2353,8 @@ int intersect_poly(EDIT_MESH_POLY *p_poly, BOD *p_orig, BOD *p_dir)
  return(FALSE);
 }
 
-int intersect_mesh_objekt(GAME_MESH *p_mesh, int o, BOD *p_orig, BOD *p_dir)
+int intersect_mesh_objekt(GAME_MESH_OLD *p_mesh, int o, BOD *p_orig, BOD *p_dir)
 {
-/*
   BOD        *p_vertex_pos;
   int         j,d,facenum,fnum2;
   int         kflag = p_mesh->p_data->kflag;
@@ -2425,5 +2419,4 @@ int intersect_mesh_objekt(GAME_MESH *p_mesh, int o, BOD *p_orig, BOD *p_dir)
   } else {
     return(TRUE);
   }
-  */
 }

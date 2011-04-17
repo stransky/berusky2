@@ -4748,9 +4748,8 @@ EDIT_KONTEJNER * lo_nahraj_kontejner_chunk(EDIT_MATERIAL **p_mat, int max_mat,
   
   p_kont->k2flag &= ~KONT2_LOADED;  
   p_kont = p_kont_old;  
-    
-  // TODO
-  //lo_chunk_stage_load_korekce(p_matlist, max_mat);
+      
+  lo_chunk_stage_load_korekce(p_matlist, max_mat);
 
   p_kont->k2flag&=~KONT2_LOADED;
   updatuj_kontejner_flag(p_kont,p_matlist);
@@ -4832,9 +4831,8 @@ int lo_nahraj_projekt(EDIT_MATERIAL **p_mat, int max_mat,
 
   lo_load_chunky(f);
   ffclose(f);
-
-  // TODO
-  //lo_chunk_stage_load_korekce(p_matlist, max_mat);
+  
+  lo_chunk_stage_load_korekce(p_matlist, max_mat);
 
   for(i = 0; i < kontnum; i++) {
     if(p_kontls[i] && p_kontls[i]->k2flag&KONT2_LOADED) {
@@ -4927,25 +4925,23 @@ void lo_chunk_stage_load_korekce(EDIT_MATERIAL **p_mat, int num)
       }
 
       /* korekce stagu
-      */
-    /* TODO
+      */    
       for(i = 0; i < MAT_TEXTUR; i++) {
         if(!p_mat[j]->textfile[i][0]) {
           p_mat[j]->text_state[i].text_stage = K_CHYBA;
         }
       }
-    */
+    
       /* Prepocitani textur
       */    
-      p_stg = p_mat[j]->text_state;
-      /* TODO
+      p_stg = p_mat[j]->text_state;    
       for(i = 0, textur = 0; i < MAT_TEXTUR; i++) {
         if((s = p_stg->text_stage) != K_CHYBA) {
           textur += text_stage_edit_blok[s].delka;
         }
         p_stg++;
       }
-    */
+    
       p_mat[j]->textur = textur;
     }
   }

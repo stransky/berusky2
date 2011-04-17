@@ -8,7 +8,7 @@
 /*
   By Miguel Gomez,Gamasutra,October 18, 1999 
 */
-int obb_intersect_obb(OBB *p_obb1, OBB *p_obb2)
+int obb_intersect_obb(OBB_OLD *p_obb1, OBB_OLD *p_obb2)
 {
   BOD *p_a = &p_obb1->obb_len;
   BOD *p_A =  p_obb1->obb;
@@ -158,8 +158,8 @@ int obb_intersect_obb(OBB *p_obb1, OBB *p_obb2)
   return(TRUE);
 }        
 
-// Prusecik obalky OBB a primky
-int obb_intersect_line(OBB *p_obb, BOD *p_orig, BOD *p_dir)
+// Prusecik obalky OBB_OLD a primky
+int obb_intersect_line(OBB_OLD *p_obb, BOD *p_orig, BOD *p_dir)
 {
   BOD *p_a = &p_obb->obb_len;
   BOD *p_A = p_obb->obb;
@@ -180,7 +180,7 @@ int obb_intersect_line(OBB *p_obb, BOD *p_orig, BOD *p_dir)
   return(kd_intersect_kostku(&o,&t,vektor_mult_skalar(p_a,-1.0f,&min),p_a));
 }
 
-int obb_intersect_line_dist(OBB *p_obb, BOD *p_orig, BOD *p_dir)
+int obb_intersect_line_dist(OBB_OLD *p_obb, BOD *p_orig, BOD *p_dir)
 {
   BOD  *p_a = &p_obb->obb_len;
   BOD  *p_A = p_obb->obb;
@@ -205,7 +205,7 @@ int obb_intersect_line_dist(OBB *p_obb, BOD *p_orig, BOD *p_dir)
 }
 
 // prevod kostky na hranicni body
-void obb_body(OBB *p_obbs)
+void obb_body(OBB_OLD *p_obbs)
 {
   BOD *p_len = &p_obbs->obb_len;
   BOD *p_obb = p_obbs->obb;
@@ -237,7 +237,7 @@ void obb_body(OBB *p_obbs)
   vektor_add(p_hran+3,&a22,p_hran+7);
 }
 
-void obb_obalka(GLMATRIX *p_mat, OBB *p_obb, BOD *p_min, BOD *p_max)
+void obb_obalka(GLMATRIX *p_mat, OBB_OLD *p_obb, BOD *p_min, BOD *p_max)
 {
   BOD a;
   int i;
@@ -259,14 +259,14 @@ void obb_obalka(GLMATRIX *p_mat, OBB *p_obb, BOD *p_min, BOD *p_max)
   }
 }
 
-// slepi OBB do vysledneho OBB
-void obb_slep(OBB *p_vys, OBB *p_list, int num)
+// slepi OBB_OLD do vysledneho OBB_OLD
+void obb_slep(OBB_OLD *p_vys, OBB_OLD *p_list, int num)
 {
   GLMATRIX m;
   BOD      bmin,bmax;
   BOD      nmin,nmax;
   BOD      min,max;
-  OBB     *p_obb;
+  OBB_OLD     *p_obb;
   int      i,j;
   float    obsah, bobsah = FLT_MAX;
   int      bi = -1;
@@ -296,12 +296,12 @@ void obb_slep(OBB *p_vys, OBB *p_list, int num)
     nmax = bmax;
   }
 
-  /* 2. Test OBB obalky
+  /* 2. Test OBB_OLD obalky
   */
   for(i = 0; i < num; i++) {
     p_obb = p_list+i;
   
-    // Transformuje World Space -> OBB
+    // Transformuje World Space -> OBB_OLD
     mat_rot(&m,p_obb->obb,p_obb->obb+1,p_obb->obb+2);
     
     vektor_set_all(&bmin, FLT_MAX, FLT_MAX, FLT_MAX);
@@ -353,11 +353,11 @@ void obb_slep(OBB *p_vys, OBB *p_list, int num)
   }
 }
 
-void obb_slep_aabb(OBB *p_vys, OBB *p_list, int num)
+void obb_slep_aabb(OBB_OLD *p_vys, OBB_OLD *p_list, int num)
 {  
   BOD     *p_min,
           *p_max;  
-  OBB     *p_obb;
+  OBB_OLD     *p_obb;
   int      i;
 
   if(num == 1) {
@@ -409,7 +409,7 @@ float obb_calc_obalka_obj(EDIT_OBJEKT *p_obj, BOD *p_vx, BOD *p_vy, BOD *p_vz, B
   return(tmp.x*tmp.x+tmp.y*tmp.y+tmp.z*tmp.z);
 }
 
-void obb_prvek(OBB *p_obb)
+void obb_prvek(OBB_OLD *p_obb)
 {
   memset(p_obb,0,sizeof(p_obb[0]));
   vektor_set_all(p_obb->obb,  1,0,0);
@@ -425,7 +425,7 @@ void obb_calc_obj(EDIT_OBJEKT *p_obj)
 {
   BOD   bnorm,bv1,bv2,bdist,bstred;
   BOD   norm,v1,v2,dist,stred;
-  OBB  *p_obb = &p_obj->obb;
+  OBB_OLD  *p_obb = &p_obj->obb;
   int   f0,f1,f2,f;
   float obsah, bobsah;
 
@@ -529,14 +529,14 @@ void obb_calc_obj_fast(EDIT_OBJEKT *p_obj)
   obb_aabb_obj(p_obj,&p_obj->obb);
 }
 
-/* Vola se pouze pri exportu sceny - pocitam prave OBB
+/* Vola se pouze pri exportu sceny - pocitam prave OBB_OLD
 */
 void obb_calc_kont_keyframe(EDIT_KONTEJNER *p_kont, int num)
 {
   HIERARCHY_SIM *p_sim;
   GLMATRIX m;
-  OBB *p_list;
-  OBB  vysl;
+  OBB_OLD *p_list;
+  OBB_OLD  vysl;
   int  prvni;
   int *p_ind,o;
   int  i,j,k;
@@ -590,9 +590,9 @@ void obb_calc_kont_keyframe(EDIT_KONTEJNER *p_kont, int num)
 }
 
 // Prepocita objekt na tuto animaci
-void obb_calc_obj_kosti_anim(EDIT_OBJEKT *p_obj, JOINT_ANIMACE *p_anim, OBB *p_obb, int precizne)
+void obb_calc_obj_kosti_anim(EDIT_OBJEKT *p_obj, JOINT_ANIMACE *p_anim, OBB_OLD *p_obb, int precizne)
 {
-  OBB *p_list;
+  OBB_OLD *p_list;
   int  k;
 
   p_list = mmalloc(sizeof(p_list[0])*p_anim->framenum);
@@ -615,7 +615,7 @@ void obb_calc_obj_kosti_anim(EDIT_OBJEKT *p_obj, JOINT_ANIMACE *p_anim, OBB *p_o
 void obb_calc_obj_kosti(EDIT_OBJEKT *p_obj, int precizne)
 {
   JOINT_ANIMACE *p_anim;
-  OBB *p_list;
+  OBB_OLD *p_list;
   int  num;
 
   if(!p_obj->p_joit_animace) {
@@ -641,13 +641,13 @@ void obb_calc_obj_kosti(EDIT_OBJEKT *p_obj, int precizne)
   }
 }
 
-/* Vola se pouze pri exportu sceny - pocitam prave OBB
+/* Vola se pouze pri exportu sceny - pocitam prave OBB_OLD
 */
 void obb_calc_kont(EDIT_KONTEJNER *p_kont_top, int precizne)
 {
   EDIT_KONTEJNER *p_kont;
   EDIT_OBJEKT *p_obj;
-  OBB *p_list;
+  OBB_OLD *p_list;
   int  o,num = 0; 
 
   p_kont = p_kont_top;
@@ -701,7 +701,7 @@ void obb_calc_poly(EDIT_MESH_POLY *p_poly)
 {
   BOD   bnorm,bv1,bv2,bdist,bstred;
   BOD   norm,v1,v2,dist,stred;
-  OBB  *p_obb = &p_poly->obb;
+  OBB_OLD  *p_obb = &p_poly->obb;
   int   f;
   BOD   a,b,c;
   float obsah, bobsah = FLT_MAX;
@@ -787,9 +787,9 @@ void obb_calc_poly(EDIT_MESH_POLY *p_poly)
   obb_aabb_poly(p_poly,p_obb);
 }
 
-void obb_calc_item(OBB *p_vys, OBB_TREE_ITEM *p_item, int itemnum)
+void obb_calc_item(OBB_OLD *p_vys, OBB_TREE_ITEM_OLD *p_item, int itemnum)
 { 
-  OBB *p_list = mmalloc(sizeof(OBB)*itemnum);
+  OBB_OLD *p_list = mmalloc(sizeof(OBB_OLD)*itemnum);
   int  i;
 
   for(i = 0; i < itemnum; i++) {
@@ -799,7 +799,7 @@ void obb_calc_item(OBB *p_vys, OBB_TREE_ITEM *p_item, int itemnum)
   free(p_list);
 }
 
-void obb_kresli_obalku(OBB *p_obb, dword barva, GLMATRIX *p_mat)
+void obb_kresli_obalku(OBB_OLD *p_obb, dword barva, GLMATRIX *p_mat)
 {
   BOD     *p_dir =  p_obb->obb;
   BOD      min,max;
@@ -817,7 +817,7 @@ void obb_kresli_obalku(OBB *p_obb, dword barva, GLMATRIX *p_mat)
   }
 }
 
-void obbtree_kresli(OBB_TREE *p_prvni, dword barva)
+void obbtree_kresli(OBB_TREE_OLD *p_prvni, dword barva)
 {
   int i;
   if(p_prvni) {
@@ -827,10 +827,10 @@ void obbtree_kresli(OBB_TREE *p_prvni, dword barva)
   }
 }
 
-void obbtree_calc_obalky(OBB_TREE *p_prvni)
+void obbtree_calc_obalky(OBB_TREE_OLD *p_prvni)
 {
-  OBB_TREE_ITEM *p_itn;
-  OBB *p_list;
+  OBB_TREE_ITEM_OLD *p_itn;
+  OBB_OLD *p_list;
   int  p,i;
   
   p_list = mmalloc(sizeof(p_list[0])*(p_prvni->nextnum+p_prvni->itnum));
@@ -860,7 +860,7 @@ void obbtree_calc_obalky(OBB_TREE *p_prvni)
 */
 static EDIT_MATERIAL **p_mat;
 
-void obbtree_vyrob(OBB_TREE *p_prvni, EDIT_MESH_POLY *p_poly, int polynum, GAME_MESH **p_mesh, int meshnum, int *p_ind, EDIT_MATERIAL **p_matlist)
+void obbtree_vyrob(OBB_TREE_OLD *p_prvni, EDIT_MESH_POLY *p_poly, int polynum, GAME_MESH_OLD **p_mesh, int meshnum, int *p_ind, EDIT_MATERIAL **p_matlist)
 {
   int i,j,itnum = polynum+meshnum;
 
@@ -887,8 +887,8 @@ void obbtree_vyrob(OBB_TREE *p_prvni, EDIT_MESH_POLY *p_poly, int polynum, GAME_
 
 static int obbtree_vyrob_rec_comp(const void *p_1, const void *p_2)
 {
-  OBB_TREE_ITEM *p_it1 = (OBB_TREE_ITEM *)p_1;
-  OBB_TREE_ITEM *p_it2 = (OBB_TREE_ITEM *)p_2;
+  OBB_TREE_ITEM_OLD *p_it1 = (OBB_TREE_ITEM_OLD *)p_1;
+  OBB_TREE_ITEM_OLD *p_it2 = (OBB_TREE_ITEM_OLD *)p_2;
   EDIT_MESH_POLY *p_poly1,*p_poly2;
   
   if(p_it1->p_mesh && p_it2->p_poly)
@@ -909,14 +909,14 @@ static int obbtree_vyrob_rec_comp(const void *p_1, const void *p_2)
 
 
 /*
-typedef struct _OBB_TREE_ITEM {
+typedef struct _OBB_TREE_ITEM_OLD {
 
   OBB              *p_obb;
   EDIT_MESH_POLY   *p_poly;
-  GAME_MESH        *p_mesh;
+  GAME_MESH_OLD        *p_mesh;
   int               mesh;
 
-} OBB_TREE_ITEM;
+} OBB_TREE_ITEM_OLD;
 
 typedef struct _OBB_TREE {
 
@@ -924,7 +924,7 @@ typedef struct _OBB_TREE {
   OBB                obb;
 
   int                itnum;     // polozky bunky - vsechny
-  OBB_TREE_ITEM     *p_item;
+  OBB_TREE_ITEM_OLD     *p_item;
 
   struct _OBB_TREE  *p_up;      // otec stromu
   int                nextnum;   // pocet podobalek
@@ -939,18 +939,18 @@ typedef struct _OBB_TREE {
 /* p_prvni -> pointer na prvni obalku, do ktere se strci vsechny
    globalni poly a ty podobalky se strci do pod_obalek
 */
-void obbtree_vyrob_rec(OBB_TREE *p_prvni, float max_vzdal)
+void obbtree_vyrob_rec(OBB_TREE_OLD *p_prvni, float max_vzdal)
 {
-  OBB_TREE_ITEM *p_item = p_prvni->p_item;
+  OBB_TREE_ITEM_OLD *p_item = p_prvni->p_item;
   int            itemnum = p_prvni->itnum;
   int            itemzbyva = p_prvni->itnum;
-  OBB_TREE_ITEM *p_tmp_item = alloca(sizeof(p_tmp_item[0])*itemnum);
+  OBB_TREE_ITEM_OLD *p_tmp_item = alloca(sizeof(p_tmp_item[0])*itemnum);
   int            tmp_itemnum;
   OBB_TREE      *p_obalky = alloca(sizeof(p_obalky[0])*itemnum);
   int            obalnum = 0;
   int           *p_hits = alloca(sizeof(p_hits[0])*itemnum);   // globalni hity
   int           *p_lhits = alloca(sizeof(p_lhits[0])*itemnum); // lokalni hity
-  OBB            obb;
+  OBB_OLD        obb;
   int            p,i,itemzustava;
 
   if(p_prvni->itnum <= MIN_PODOBALEK_OBJ)
@@ -1049,7 +1049,7 @@ void obbtree_vyrob_rec(OBB_TREE *p_prvni, float max_vzdal)
   }
 }
 
-void obbtree_zrus(OBB_TREE *p_ob)
+void obbtree_zrus(OBB_TREE_OLD *p_ob)
 {  
   int  i;
   if(p_ob->p_item) {
@@ -1067,7 +1067,7 @@ void obbtree_zrus(OBB_TREE *p_ob)
 /*
   Udela strom z poly
 */
-int obb_visibility(OBB *p_obb, GLMATRIX *p_m)
+int obb_visibility(OBB_OLD *p_obb, GLMATRIX *p_m)
 {
  int i,j,xplane,yplane,xa,ya,m;
  float x,y,z,xt,yt,zt,w,fx,fy,fw;

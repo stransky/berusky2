@@ -42,8 +42,8 @@ static float __flare_faktor;
 
 /* Pointery na renderovaci funkce
 */
-void (* ber_kresli_mesh_v1)(GAME_MESH *p_mesh, EDIT_MATERIAL **p_mt);
-void (* ber_kresli_mesh_v2)(GAME_MESH *p_mesh, EDIT_MATERIAL **p_mt);
+void (* ber_kresli_mesh_v1)(GAME_MESH_OLD *p_mesh, EDIT_MATERIAL **p_mt);
+void (* ber_kresli_mesh_v2)(GAME_MESH_OLD *p_mesh, EDIT_MATERIAL **p_mt);
 void (* ber_kresli_poly_v1)(EDIT_MESH_POLY *p_poly, EDIT_MATERIAL **p_mat);
 
 int  (* ber_nastav_material_single)(EDIT_MATERIAL *p_smat, EDIT_MATERIAL *p_mat, dword kflag);
@@ -55,24 +55,23 @@ void ber_nahod_render_funkce(void)
 
   ber_nastav_material_single = ber_nastav_material_single_multi_spec;
   ber_nastav_material_single_poly = ber_nastav_material_single_poly_multi_spec;
-  /*
-  if(extlist_vertex_array) {
+  
+  if(gl_ext::extlist_vertex_array) {
     kprintf(TRUE,"Array-Vertex function ok");
     ber_kresli_poly_v1 = ber_kresli_poly_array;
-    if(extlist_indicie_array) {
+    if(gl_ext::extlist_indicie_array) {
       kprintf(TRUE,"Array-Indices function ok");
       ber_kresli_mesh_v1 = ber_kresli_mesh_array;
       ber_kresli_mesh_v2 = ber_kresli_mesh_array;
     } else {
       ber_kresli_mesh_v1 = ber_kresli_mesh_vertex_multitext;
-      ber_kresli_mesh_v2 = extlist_secondary_color ? ber_kresli_mesh_vertex_multitext_specular : ber_kresli_mesh_vertex_multitext;
+      ber_kresli_mesh_v2 = ber_kresli_mesh_vertex_multitext_specular;
     }      
   } else {
     ber_kresli_mesh_v1 = ber_kresli_mesh_vertex_multitext;
-    ber_kresli_mesh_v2 = extlist_secondary_color ? ber_kresli_mesh_vertex_multitext_specular : ber_kresli_mesh_vertex_multitext;
-    ber_kresli_poly_v1 = extlist_secondary_color ? ber_kresli_poly_vertex_multitext_specular : ber_kresli_poly_vertex_multitext;
-  }
-  */
+    ber_kresli_mesh_v2 = ber_kresli_mesh_vertex_multitext_specular;
+    ber_kresli_poly_v1 = ber_kresli_poly_vertex_multitext_specular;
+  }  
 }
 
 /* Inicializacni funkce
@@ -205,7 +204,7 @@ void ber_kresli_flare(G_KONFIG *p_ber, LENS_FLARE *p_flare)
   int              s,i = 0;
 
   ber_kresli_flare_pre(p_ber);
-  /*
+  
   while(p_flare) {
     if(!p_flare->vid || !p_flare->akt) {
       p_flare = p_flare->p_next;
@@ -271,7 +270,7 @@ void ber_kresli_flare(G_KONFIG *p_ber, LENS_FLARE *p_flare)
     }  
     p_flare = p_flare->p_next;
   } 
-*/  
+
   ber_kresli_flare_po(p_ber);
 }
 
@@ -282,8 +281,8 @@ inline void ber_render_polylistu_start(void)
 
 int ber_nastav_material_single_multi_spec(EDIT_MATERIAL *p_smat, EDIT_MATERIAL *p_mat, dword kflag)
 {
-  MATERIAL_TEXT *p_stg;
-  MATERIAL_TEXT *p_stg_smat;
+  MATERIAL_TEXT_OLD *p_stg;
+  MATERIAL_TEXT_OLD *p_stg_smat;
   int            i,s,t,
                  rezerva_smat,
                  rezerva_mat,
@@ -316,7 +315,6 @@ int ber_nastav_material_single_multi_spec(EDIT_MATERIAL *p_smat, EDIT_MATERIAL *
 
   /* Nahozeni matrose-plazivce
   */
-  /*
   if(!p_smat || !p_smat->p_text[0]->load || p_mat->flag&MAT_NO_SCMT) {
     p_stg = p_mat->text_state;
     t = 0;
@@ -364,7 +362,7 @@ int ber_nastav_material_single_multi_spec(EDIT_MATERIAL *p_smat, EDIT_MATERIAL *
     }  
     text_stage_func_nic(t);  
   }
- */
+
   /* Nastaveni difusni barvy
   */
   if(p_mat->flag2&MAT2_DIFFUSE) {
@@ -392,8 +390,8 @@ int ber_nastav_material_single_multi_spec(EDIT_MATERIAL *p_smat, EDIT_MATERIAL *
 */
 int ber_nastav_material_single_multi(EDIT_MATERIAL *p_smat, EDIT_MATERIAL *p_mat, dword kflag)
 {  
-  MATERIAL_TEXT *p_stg;
-  MATERIAL_TEXT *p_stg_smat;
+  MATERIAL_TEXT_OLD  *p_stg;
+  MATERIAL_TEXT_OLD  *p_stg_smat;
   int            i,s,t,
                  rezerva_smat,
                  rezerva_mat,
@@ -419,7 +417,6 @@ int ber_nastav_material_single_multi(EDIT_MATERIAL *p_smat, EDIT_MATERIAL *p_mat
 
   /* Nahozeni matrose-plazivce
   */
-  /*
   if(!p_smat || !p_smat->p_text[0]->load || p_mat->flag&MAT_NO_SCMT) {
     p_stg = p_mat->text_state;
     t = 0;
@@ -467,7 +464,7 @@ int ber_nastav_material_single_multi(EDIT_MATERIAL *p_smat, EDIT_MATERIAL *p_mat
     }  
     text_stage_func_nic(t);  
   }
-*/
+
   /* Nastaveni difusni barvy
   */
   if(p_mat->flag2&MAT2_DIFFUSE) {
@@ -493,7 +490,7 @@ int ber_nastav_material_single_multi(EDIT_MATERIAL *p_smat, EDIT_MATERIAL *p_mat
 
 int ber_nastav_material_single_nic(EDIT_MATERIAL *p_smat, EDIT_MATERIAL *p_mat, dword kflag)
 {
-  MATERIAL_TEXT *p_stg;
+  MATERIAL_TEXT_OLD *p_stg;
   int s,t;
 
   /* Nastaveni pruhlednosti
@@ -517,13 +514,13 @@ int ber_nastav_material_single_nic(EDIT_MATERIAL *p_smat, EDIT_MATERIAL *p_mat, 
   */
   p_stg = p_mat->text_state;
   t = 0;  
-/*
+
   if((s = p_stg->text_stage) != K_CHYBA) {
     p_text_stage_func[s](p_mat,text_stage_edit_blok+s,p_stg,t,0);
   } else { // defaultni stage - nic
     text_stage_func_nic(t);    
   }
-*/
+
   /* Nastaveni difusni barvy
   */
   if(p_mat->flag2&MAT2_DIFFUSE) {
@@ -551,9 +548,8 @@ int ber_nastav_material_single_nic(EDIT_MATERIAL *p_smat, EDIT_MATERIAL *p_mat, 
 /* Rendering meshe -> verze 1 -> multitexturing bez spekularu
    v poly
 */
-void ber_kresli_mesh_array(GAME_MESH *p_mesh, EDIT_MATERIAL **p_mt)
+void ber_kresli_mesh_array(GAME_MESH_OLD *p_mesh, EDIT_MATERIAL **p_mt)
 {     
-/*
   int         i,j,o,facenum,fnum2;
   int         kflag = p_mesh->p_data->kflag;
   int         key_flag = kflag&KONT_KEYFRAME;
@@ -602,7 +598,7 @@ void ber_kresli_mesh_array(GAME_MESH *p_mesh, EDIT_MATERIAL **p_mt)
         p_ber->debug.facu += fnum2;
 #endif  
 
-        if(extlist_arb_vertex_buffer) {
+        if(gl_ext::extlist_arb_vertex_buffer) {
           glDrawElements(gltyp, fnum2, GL_UNSIGNED_INT,
                          BUFFER_OFFSET(sizeof(p_mesh->p_face[0])*
                                       (p_face-p_mesh->p_face)));
@@ -615,15 +611,13 @@ void ber_kresli_mesh_array(GAME_MESH *p_mesh, EDIT_MATERIAL **p_mt)
       }      
     }
   }
-  */
 }
 
 
 /* Renderig meshe z poly-listu
 */
-void ber_kresli_mesh_vertex_multitext_specular(GAME_MESH *p_mesh, EDIT_MATERIAL **p_mt)
+void ber_kresli_mesh_vertex_multitext_specular(GAME_MESH_OLD *p_mesh, EDIT_MATERIAL **p_mt)
 { 
-/*
   BOD        *p_vertex_pos = NULL;
   BODUV      *p_vertex_text1 = NULL;
   BODUV      *p_vertex_text2 = NULL;
@@ -717,12 +711,10 @@ void ber_kresli_mesh_vertex_multitext_specular(GAME_MESH *p_mesh, EDIT_MATERIAL 
       }      
     }
   } 
-  */
 }
 
-void ber_kresli_mesh_vertex_multitext(GAME_MESH *p_mesh, EDIT_MATERIAL **p_mt)
+void ber_kresli_mesh_vertex_multitext(GAME_MESH_OLD *p_mesh, EDIT_MATERIAL **p_mt)
 {  
-/*
   BOD        *p_vertex_pos = NULL;
   BODUV      *p_vertex_text1 = NULL;
   BODUV      *p_vertex_text2 = NULL;
@@ -807,12 +799,10 @@ void ber_kresli_mesh_vertex_multitext(GAME_MESH *p_mesh, EDIT_MATERIAL **p_mt)
       }    
     }
   } 
-  */
 }
 
-void ber_kresli_mesh_vertex(GAME_MESH *p_mesh, EDIT_MATERIAL **p_mt)
+void ber_kresli_mesh_vertex(GAME_MESH_OLD *p_mesh, EDIT_MATERIAL **p_mt)
 {  
-/*
   BOD        *p_vertex_pos = NULL;
   BOD        *p_vertex_normal = NULL;
   BODUV      *p_vertex_text1 = NULL;
@@ -893,25 +883,23 @@ void ber_kresli_mesh_vertex(GAME_MESH *p_mesh, EDIT_MATERIAL **p_mt)
       }
     }
   } 
-  */
 }
 
 
-void ber_kresli_obalku_mesh(GAME_MESH *p_mesh)
+void ber_kresli_obalku_mesh(GAME_MESH_OLD *p_mesh)
 { 
-  //set_matrix_world_init();
-  //obb_kresli_obalku(&p_mesh->obb_world,DDRGBA(1,1,1,1),NULL);
+  set_matrix_world_init();
+  obb_kresli_obalku(&p_mesh->obb_world,DDRGBA(1,1,1,1),NULL);
 }
 
 void ber_kresli_obalku_poly(EDIT_MESH_POLY *p_poly)
 { 
   set_matrix_world_init();
-  //obb_kresli_obalku(&p_poly->obb,DDRGBA(1,1,1,1),NULL);  
+  obb_kresli_obalku(&p_poly->obb,DDRGBA(1,1,1,1),NULL);  
 }
 
-inline void ber_kresli_mesh(GAME_MESH *p_mesh, EDIT_MATERIAL **p_mat)
+inline void ber_kresli_mesh(GAME_MESH_OLD *p_mesh, EDIT_MATERIAL **p_mat)
 {
-/*
   int kflag = p_mesh->p_data->kflag;
   int m2flag = p_mesh->p_data->m2flag;
   int kamera_zmena = p_ber->kamera.zmena||p_ber->kamera.zmena_last;
@@ -973,13 +961,12 @@ inline void ber_kresli_mesh(GAME_MESH *p_mesh, EDIT_MATERIAL **p_mat)
       }
     }
   }
-  */
 }
 
 int ber_nastav_material_single_poly_multi_spec(EDIT_MATERIAL *p_smat, EDIT_MATERIAL *p_mat, dword kflag)
 { 
-  MATERIAL_TEXT *p_stg;
-  MATERIAL_TEXT *p_stg_smat;
+  MATERIAL_TEXT_OLD *p_stg;
+  MATERIAL_TEXT_OLD *p_stg_smat;
   int            i,s,t,
                  rezerva_smat,
                  rezerva_mat,
@@ -1014,7 +1001,6 @@ int ber_nastav_material_single_poly_multi_spec(EDIT_MATERIAL *p_smat, EDIT_MATER
 
   /* Nahozeni matrose-plazivce
   */
-  /*
   if(!p_smat || !p_smat->p_text[0]->load || p_mat->flag&MAT_NO_SCMT) {
     p_stg = p_mat->text_state;
     t = 0;
@@ -1063,7 +1049,7 @@ int ber_nastav_material_single_poly_multi_spec(EDIT_MATERIAL *p_smat, EDIT_MATER
     }
     text_stage_func_nic_poly(t,poly_text);
   }
-*/
+
   /* Nastaveni difusni barvy
   */
   if(p_mat->flag2&MAT2_DIFFUSE) {
@@ -1089,8 +1075,8 @@ int ber_nastav_material_single_poly_multi_spec(EDIT_MATERIAL *p_smat, EDIT_MATER
 
 int ber_nastav_material_single_poly_multi(EDIT_MATERIAL *p_smat, EDIT_MATERIAL *p_mat, dword kflag)
 { 
-  MATERIAL_TEXT *p_stg;
-  MATERIAL_TEXT *p_stg_smat;
+  MATERIAL_TEXT_OLD *p_stg;
+  MATERIAL_TEXT_OLD *p_stg_smat;
   int            i,s,t,
                  rezerva_smat,
                  rezerva_mat,
@@ -1118,7 +1104,7 @@ int ber_nastav_material_single_poly_multi(EDIT_MATERIAL *p_smat, EDIT_MATERIAL *
 
   /* Nahozeni matrose-plazivce
   */
-  /*
+
   if(!p_smat || !p_smat->p_text[0]->load || p_mat->flag&MAT_NO_SCMT) {
     p_stg = p_mat->text_state;
     t = 0;
@@ -1167,7 +1153,7 @@ int ber_nastav_material_single_poly_multi(EDIT_MATERIAL *p_smat, EDIT_MATERIAL *
     }  
     text_stage_func_nic_poly(t,poly_text);
   }
-*/
+
   /* Nastaveni difusni barvy
   */
   if(p_mat->flag2&MAT2_DIFFUSE) {
@@ -1193,7 +1179,7 @@ int ber_nastav_material_single_poly_multi(EDIT_MATERIAL *p_smat, EDIT_MATERIAL *
 
 int ber_nastav_material_single_poly_nic(EDIT_MATERIAL *p_smat, EDIT_MATERIAL *p_mat, dword kflag)
 { 
-  MATERIAL_TEXT *p_stg;
+  MATERIAL_TEXT_OLD *p_stg;
   int s,t;
 
   /* Nastaveni pruhlednosti
@@ -1218,13 +1204,13 @@ int ber_nastav_material_single_poly_nic(EDIT_MATERIAL *p_smat, EDIT_MATERIAL *p_
   */
   p_stg = p_mat->text_state;
   t = 0;
-  /*
+
   if((s = p_stg->text_stage) != K_CHYBA) {
     p_text_stage_func[s](p_mat,text_stage_edit_blok+s,p_stg,t,1);
   } else { // defaultni stage - nic
     text_stage_func_nic_poly(t+1,t);
   }  
-*/
+
   /* Nastaveni difusni barvy
   */
   if(p_mat->flag2&MAT2_DIFFUSE) {
@@ -1271,13 +1257,12 @@ void ber_kresli_poly_array(EDIT_MESH_POLY *p_poly, EDIT_MATERIAL **p_mat)
     p_ber->debug.facu += p_poly->facenum;
     p_ber->debug.bodu += p_poly->facenum;
   #endif
-/*
+
   for(l = 0; l < p_poly->lightnum; l++) {    
     text_set(p_poly->p_light[l]->text,GL_TEXTURE_2D);
     glDrawArrays(GL_TRIANGLES,last,p_poly->p_lightnum[l]);
     last += p_poly->p_lightnum[l];
   }
-*/
 }
 
 /* Rendering vcetne spekularu
@@ -1300,7 +1285,7 @@ void ber_kresli_poly_vertex_multitext_specular(EDIT_MESH_POLY *p_poly, EDIT_MATE
     p_ber->debug.facu += p_poly->facenum;
     p_ber->debug.bodu += p_poly->facenum;
   #endif
-/*
+
   for(l = 0; l < p_poly->lightnum; l++) {
     text_set(p_poly->p_light[l]->text,GL_TEXTURE_2D);
     glBegin(GL_TRIANGLES);
@@ -1329,7 +1314,6 @@ void ber_kresli_poly_vertex_multitext_specular(EDIT_MESH_POLY *p_poly, EDIT_MATE
     glEnd();
     last += p_poly->p_lightnum[l];
   }
-  */
 }
 
 void ber_kresli_poly_vertex_multitext(EDIT_MESH_POLY *p_poly, EDIT_MATERIAL **p_mat)
@@ -1347,7 +1331,7 @@ void ber_kresli_poly_vertex_multitext(EDIT_MESH_POLY *p_poly, EDIT_MATERIAL **p_
     p_ber->debug.facu += p_poly->facenum;
     p_ber->debug.bodu += p_poly->facenum;
   #endif    
-/*
+
   for(l = 0; l < p_poly->lightnum; l++) {
     text_set(p_poly->p_light[l]->text,GL_TEXTURE_2D);
     glBegin(GL_TRIANGLES);
@@ -1375,7 +1359,6 @@ void ber_kresli_poly_vertex_multitext(EDIT_MESH_POLY *p_poly, EDIT_MATERIAL **p_
     glEnd();
     last += p_poly->p_lightnum[l];
   }
-  */
 }
 
 void ber_kresli_poly_vertex(EDIT_MESH_POLY *p_poly, EDIT_MATERIAL **p_mat)
@@ -1484,12 +1467,12 @@ void ber_kresli_fleky(G_KONFIG *p_ber, FLEK *p_topflek)
   while(p_flek) {
     if(!(p_flek->flag&FLEK_NEKRESLIT)) {
       ber_nastav_material_single(p_ber->p_smat,p_ber->p_mat[p_flek->material],FALSE);      
-  /*    
+
       glColor3f(1.0f,1.0f,1.0f);
       if(p_flek->mesh != K_CHYBA) {
         set_matrix_world(&p_ber->p_mesh[p_flek->mesh]->m);
       }
-*/
+
       p_pos = &p_flek->p;
       p_nx = &p_flek->nx;
       p_nz = &p_flek->nz;
@@ -1546,7 +1529,7 @@ void ber_renderuj_scenu_pruhledne(G_KONFIG *p_ber)
           last = PRUHLEDNY_MESH;
           __p_last_mat = NULL;
         }
-        ber_kresli_mesh((GAME_MESH *)p_ber->prhl[i].p_objekt,p_ber->p_mat);
+        ber_kresli_mesh((GAME_MESH_OLD *)p_ber->prhl[i].p_objekt,p_ber->p_mat);
         break;
       case PRUHLEDNY_POLY:
         if(last != PRUHLEDNY_POLY) {
@@ -1566,7 +1549,7 @@ void ber_renderuj_scenu_pruhledne(G_KONFIG *p_ber)
 void ber_renderuj_scenu_obyc(int zrc)
 {
  EDIT_MESH_POLY *p_poly;
- GAME_MESH      *p_mesh;
+ GAME_MESH_OLD      *p_mesh;
  int             flag = zrc ? KONT_VIDITELNY_ZRC : KONT_VIDITELNY;
 
  /* Vyrobi list pruhlednosti
@@ -1587,7 +1570,7 @@ void ber_renderuj_scenu_obyc(int zrc)
  */ 
  ber_mesh_render_list_reset(p_ber);  
  while(p_mesh = ber_mesh_render_list_next_flag(p_ber,flag,KONT_VIDITELNY_PRUHL)) {
-//   if(p_mesh->p_data->mesh_handle != 0 && p_mesh->p_data->mesh_handle != 2)
+   if(p_mesh->p_data->mesh_handle != 0 && p_mesh->p_data->mesh_handle != 2)
       ber_kresli_mesh(p_mesh,p_ber->p_mat);
  }
 
@@ -2090,7 +2073,6 @@ void pe_kresli_fleky(G_KONFIG *p_ber, PARMETAC *p_par)
 */
 void pe_kresli_kour_stopu(G_KONFIG *p_ber, PARMETAC *p_mt)
 {
-/*
   GLMATRIX        *p_camera_project = get_matrix_camera_project();
   PARMETAC_HNIZDO *p_hnizdo;
   EDIT_MATERIAL   *p_mat;
@@ -2379,7 +2361,6 @@ void pe_kresli_kour_stopu(G_KONFIG *p_ber, PARMETAC *p_mt)
 
   if(p_mt->flag&TPAR_NO_FOG)
     enable_fog_causal();
-*/
 }
 
 void pe_renderuj(G_KONFIG *p_ber)
@@ -2389,7 +2370,7 @@ void pe_renderuj(G_KONFIG *p_ber)
   PARMETAC *p_next = NULL;
 
   set_matrix_world_init();
-  /*
+
   while(p_par) {    
     p_next = p_par->p_next;
     
@@ -2410,7 +2391,6 @@ void pe_renderuj(G_KONFIG *p_ber)
     
     p_par = p_next;
   }
-  */
 }
 
 void ber_renderuj_mlhu(G_KONFIG *p_ber)
@@ -2505,29 +2485,27 @@ void ber_test_render_mysi(void)
  ret_matrix_2d();
 }
 
-GAME_MESH * ber_vyrob_stinove_teleso(GAME_MESH *p_mesh, BOD *p_light)
+GAME_MESH_OLD * ber_vyrob_stinove_teleso(GAME_MESH_OLD *p_mesh, BOD *p_light)
 {
 
 
  return(NULL);
 }
 
-static int mesh_mat_num(GAME_MESH *p_mesh)
+static int mesh_mat_num(GAME_MESH_OLD *p_mesh)
 {
-/*
   int i;
   for(i = 1; i < p_mesh->objektu; i++) {
     if(p_mesh->p_mat[i-1] != p_mesh->p_mat[i])
       return(K_CHYBA);
   }
   return((int)p_mesh->p_mat[0]);
-*/
 }
 
 static int ber_mesh_render_list_setrid_compare(const void *p_m1, const void *p_m2)
 {
-  int mat1 = mesh_mat_num(**(GAME_MESH ***)p_m1),
-      mat2 = mesh_mat_num(**(GAME_MESH ***)p_m2);
+  int mat1 = mesh_mat_num(**(GAME_MESH_OLD ***)p_m1),
+      mat2 = mesh_mat_num(**(GAME_MESH_OLD ***)p_m2);
   if(mat1 == K_CHYBA && mat2 == K_CHYBA)
     return(0);
   else {
@@ -2552,20 +2530,20 @@ void ber_render_list_setrid(G_KONFIG *p_ber)
   qsort(p_ber->p_poly_renderlist,p_ber->poly_rendernum,sizeof(p_ber->p_poly_renderlist[0]),ber_poly_render_list_setrid_compare);
 }
 
-inline int obb_visibility_flag(OBB *p_obb, GLMATRIX *p_mat, int viz, int flag)
+inline int obb_visibility_flag(OBB_OLD *p_obb, GLMATRIX *p_mat, int viz, int flag)
 {
-//  return(viz ? flag : obb_visibility(p_obb,p_mat));
+  return(viz ? flag : obb_visibility(p_obb,p_mat));
 }
 
 // viz = TRUE - automaticky viditelny
-inline int ber_render_list_vyrob_mesh(G_KONFIG *p_ber, int viz, GAME_MESH **p_src, int add, GLMATRIX *p_mat, int viditelny_flag, int zmena_flag, int mail, int kamera_zmena)
+inline int ber_render_list_vyrob_mesh(G_KONFIG *p_ber, int viz, GAME_MESH_OLD **p_src, int add, GLMATRIX *p_mat, int viditelny_flag, int zmena_flag, int mail, int kamera_zmena)
 {
-  GAME_MESH *p_mesh = *p_src;
+  GAME_MESH_OLD *p_mesh = *p_src;
   int *p_flag,kflag;
-  OBB *p_obb;
+  OBB_OLD *p_obb;
   int  j;
   int  viditelny_zmena = FALSE;  
-/*
+
   kflag = p_mesh->p_data->kflag;
   viditelny_zmena = FALSE;
 
@@ -2573,7 +2551,7 @@ inline int ber_render_list_vyrob_mesh(G_KONFIG *p_ber, int viz, GAME_MESH **p_sr
     return(TRUE);
   
   if(viz || obb_visibility(&p_mesh->obb_world, p_mat)) {
-    p_flag = p_mesh->p_kflag;
+    p_flag = (int *)p_mesh->p_kflag;
     if(p_mesh->objektu > 1) {
       int stat = (kflag&KONT_STATIC && !kamera_zmena);
       for(j = 0, p_obb = p_mesh->p_obb_world; j < p_mesh->objektu; j++, p_obb++, p_flag++) {
@@ -2610,14 +2588,13 @@ inline int ber_render_list_vyrob_mesh(G_KONFIG *p_ber, int viz, GAME_MESH **p_sr
   } else {
     p_mesh->p_data->kflag &= ~viditelny_flag;
     
-    p_flag = p_mesh->p_kflag;    
+    p_flag = (int *)p_mesh->p_kflag;    
     for(j = 0; j < p_mesh->objektu; j++, p_flag++) {
       *p_flag &= ~viditelny_flag;
     }
     
     return(FALSE);
   }
-  */
 }
 
 inline void ber_render_list_vyrob_poly(G_KONFIG *p_ber, EDIT_MESH_POLY *p_poly, int add, GLMATRIX *p_mat, int viditelny_flag, int zmena_flag, int mail)
@@ -2645,13 +2622,13 @@ inline void ber_render_list_vyrob_poly(G_KONFIG *p_ber, EDIT_MESH_POLY *p_poly, 
   }
 }
 
-void ber_render_list_vyrob_rec(G_KONFIG *p_ber, OBB_TREE *p_prvni, GLMATRIX *p_m, GLMATRIX *p_zrc, int kamera_zmena, int mail)
+void ber_render_list_vyrob_rec(G_KONFIG *p_ber, OBB_TREE_OLD *p_prvni, GLMATRIX *p_m, GLMATRIX *p_zrc, int kamera_zmena, int mail)
 {  
-  EDIT_MESH_POLY   *p_poly;
-  OBB_TREE_ITEM    *p_item;
-  OBB_TREE         *p_next;
+  EDIT_MESH_POLY    *p_poly;
+  OBB_TREE_ITEM_OLD *p_item;
+  OBB_TREE_OLD      *p_next;
   int               i;
-  /*
+
   p_item = p_prvni->p_item;
   for(i = 0; i < p_prvni->itnum; i++, p_item++) {
     if(kamera_zmena) {
@@ -2686,40 +2663,39 @@ void ber_render_list_vyrob_rec(G_KONFIG *p_ber, OBB_TREE *p_prvni, GLMATRIX *p_m
     if(obb_visibility(&p_next->obb, p_m) || (p_zrc && obb_visibility(&p_next->obb, p_zrc)))
       ber_render_list_vyrob_rec(p_ber,p_next,p_m,p_zrc,kamera_zmena, mail);
   }
-  */
 }
 
 void ber_render_list_vyrob(G_KONFIG *p_ber, int zrcadlo, int kamera_zmena)
 {
   GLMATRIX         *p_zrc,camera_project_zrc;
   GLMATRIX         *p_camera_project = get_matrix_camera_project();
-  GAME_MESH      ***p_src;
+  GAME_MESH_OLD      ***p_src;
   int               i,viditelny, zmena;
   int               mail = ++p_ber->mail;
 
   /* Nastavi pocet pruhlednych objektu
   */  
   p_zrc = zrcadlo ? mat_mult_dir(__mat_top_matrix+__mat_top_matrix_akt,p_camera_project,&camera_project_zrc) : NULL;
-/*
+
   if(!p_ber->p_poly_renderlist) {
-    p_ber->p_poly_renderlist = mmalloc(sizeof(p_ber->p_poly_renderlist[0])*p_ber->polynum);
+    p_ber->p_poly_renderlist = (EDIT_MESH_POLY **)mmalloc(sizeof(p_ber->p_poly_renderlist[0])*p_ber->polynum);
     p_ber->poly_rendernum = 0;
     p_ber->poly_renderakt = 0;
   }
-*/
+
   p_ber->mesh_rendernum = 0;
   p_ber->poly_rendernum = 0;
 
   /* Prihozeni statickych veci z obbtree render-listu
   */
-  /*
+
   if(obb_visibility(&p_ber->obbtree.obb, p_camera_project) || (p_zrc && obb_visibility(&p_ber->obbtree.obb, p_zrc))) {
     ber_render_list_vyrob_rec(p_ber, &p_ber->obbtree, p_camera_project, p_zrc, kamera_zmena, mail);
   }
-    */
+
   /* Prihozeni dynamickych veci z dynamickeho render-listu
   */
-  /*
+
   p_src = p_ber->p_dyn_meshlist;
   for(i = 0; i < p_ber->dyn_meshlistnum; i++, p_src++) {
     if(**p_src && !((**p_src)->nekreslit)) {
@@ -2729,7 +2705,7 @@ void ber_render_list_vyrob(G_KONFIG *p_ber, int zrcadlo, int kamera_zmena)
         ber_render_list_vyrob_mesh(p_ber, FALSE, *p_src, !viditelny, p_zrc, KONT_VIDITELNY_ZRC, KONT_VIDITELNY_ZMENA, mail, zmena);
     }
   }
-*/
+
   /* Setrideni podle materialu
   */
   ber_render_list_setrid(p_ber);
@@ -2739,7 +2715,7 @@ void ber_render_list_vyrob_pruhlist(G_KONFIG *p_ber)
 {
  GLMATRIX       *p_mat = get_matrix_camera_project();
  EDIT_MESH_POLY *p_poly;
- GAME_MESH      *p_mesh;
+ GAME_MESH_OLD      *p_mesh;
 
  /* A zaciname!
  */
@@ -2747,8 +2723,7 @@ void ber_render_list_vyrob_pruhlist(G_KONFIG *p_ber)
 
  /*
    Render Mesh-listu
- */   
-/*
+ */
  ber_mesh_render_list_reset(p_ber);
  while(p_mesh = ber_mesh_render_list_next(p_ber)) {
    if(p_mesh->p_data->m1flag&MAT_PRUHLEDNY || p_mesh->p_data->kflag&(KONT_DRAW_PRUHL|KONT_DRAW_CAMERA)) {
@@ -2762,11 +2737,10 @@ void ber_render_list_vyrob_pruhlist(G_KONFIG *p_ber)
      p_mesh->p_data->kflag &= ~KONT_VIDITELNY_PRUHL;
    }
  }  
-*/
+
  /*
    Render poly-listu
- */   
- /*
+ */
  ber_poly_render_list_reset(p_ber);
  while(p_poly = ber_poly_render_list_next(p_ber)) {
    if(p_poly->m1flag&MAT_PRUHLEDNY || p_poly->kflag&(KONT_DRAW_PRUHL|KONT_DRAW_CAMERA)) {
@@ -2780,5 +2754,4 @@ void ber_render_list_vyrob_pruhlist(G_KONFIG *p_ber)
      p_poly->kflag &= ~KONT_VIDITELNY_PRUHL;
    }   
  }
- */
 }

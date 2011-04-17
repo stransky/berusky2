@@ -1113,11 +1113,11 @@ inline void text_stage_func_nic_poly(int last_text, int poly_text)
 */
 void vertex_array_ini(void);
 
-extern void (* mesh_vertex_array_init)(GAME_MESH *p_mesh);
-extern void (* mesh_vertex_array_zrus)(GAME_MESH *p_mesh);
-extern void (* mesh_vertex_array_upload)(GAME_MESH *p_mesh);
-extern void (* mesh_vertex_array_set)(GAME_MESH *p_mesh);
-extern void (* mesh_vertex_array_set_koord)(GAME_MESH *p_mesh);
+extern void (* mesh_vertex_array_init)(GAME_MESH_OLD *p_mesh);
+extern void (* mesh_vertex_array_zrus)(GAME_MESH_OLD *p_mesh);
+extern void (* mesh_vertex_array_upload)(GAME_MESH_OLD *p_mesh);
+extern void (* mesh_vertex_array_set)(GAME_MESH_OLD *p_mesh);
+extern void (* mesh_vertex_array_set_koord)(GAME_MESH_OLD *p_mesh);
 
 extern void (* poly_vertex_array_init)(EDIT_MESH_POLY *p_poly);
 extern void (* poly_vertex_array_zrus)(EDIT_MESH_POLY *p_poly);

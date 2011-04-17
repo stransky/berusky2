@@ -46,14 +46,14 @@ inline int bod_mezi(BOD *p, BOD *t, BOD *i)
 
 #define PRUHL_ALFA 0.35f
 
-void ber_kamera_zpruhledni_mesh(GAME_MESH *p_mesh, BOD *p_cam, BOD *p_stred)
+void ber_kamera_zpruhledni_mesh(GAME_MESH_OLD *p_mesh, BOD *p_cam, BOD *p_stred)
 {
   BODRGBA *p_d,*p_dm;
-  OBB     *p_obb;
+  OBB_OLD  *p_obb;
   int      v,vn,o,in;
   int      pruhlednych;
   BOD      dir;
-  /*
+
   vektor_sub(p_stred,p_cam,&dir);
   in = obb_intersect_line_dist(&p_mesh->obb_world,p_cam,&dir);
   if(in) {    
@@ -89,7 +89,7 @@ void ber_kamera_zpruhledni_mesh(GAME_MESH *p_mesh, BOD *p_cam, BOD *p_stred)
       p_mesh->p_data->k2flag |= KONT2_UPDATE_DIFF;
     }    
   }
-  */
+
 }
 
 void ber_kamera_zpruhledni_poly(EDIT_MESH_POLY *p_poly, BOD *p_cam, BOD *p_stred)
@@ -97,7 +97,7 @@ void ber_kamera_zpruhledni_poly(EDIT_MESH_POLY *p_poly, BOD *p_cam, BOD *p_stred
   TEXT_KOORD *p_koord;
   BOD         dir;
   int         v,in;
-/*
+
   vektor_sub(p_stred,p_cam,&dir);
   in = obb_intersect_line_dist(&p_poly->obb,p_cam,&dir);
   if(in && intersect_poly(p_poly, p_cam, &dir)) {
@@ -116,7 +116,7 @@ void ber_kamera_zpruhledni_poly(EDIT_MESH_POLY *p_poly, BOD *p_cam, BOD *p_stred
       p_poly->k2flag |= KONT_UPLOAD;
     }
   }
-  */
+
 }
 
 /* viditelny objekt/poly
@@ -126,7 +126,7 @@ void ber_kamera_zpruhledni_poly(EDIT_MESH_POLY *p_poly, BOD *p_cam, BOD *p_stred
 void ber_kamera_zpruhledni_objekty(G_KONFIG *p_ber)
 {
   EDIT_MESH_POLY *p_poly;
-  GAME_MESH      *p_mesh;
+  GAME_MESH_OLD      *p_mesh;
   GLMATRIX       *p_inv = p_ber->p_invcam;
   int             mh;
   static BOD      lt(FLT_MAX,FLT_MAX,FLT_MAX);
@@ -157,31 +157,29 @@ void ber_kamera_zpruhledni_objekty(G_KONFIG *p_ber)
 
   /* Projedu seznam viditelnych meshu
   */
-/* TODO
   ber_mesh_render_list_reset(p_ber);
   while(p_mesh = ber_mesh_render_list_next_flag(p_ber,KONT_VIDITELNY,KONT_PRVEK)) {
     if(p_mesh->p_vertex_diff && (pohyb_kamery || p_mesh->p_data->kflag&KONT_POHYB))
       ber_kamera_zpruhledni_mesh(p_mesh,&p,&t);
   }
-*/  
+
   /* Projedu seznam viditelnych poly
   */
-/* TODO
   if(pohyb_kamery) {
     ber_poly_render_list_reset(p_ber);
     while(p_poly = ber_poly_render_list_next_flag(p_ber,KONT_VIDITELNY,KONT_PRVEK)) {
       ber_kamera_zpruhledni_poly(p_poly,&p,&t);
     }
   }
-  */
+
 }
 
 void ber_kamera_zpruhledni_objekty_reset(G_KONFIG *p_ber)
 {
   EDIT_MESH_POLY *p_poly;
-  GAME_MESH *p_mesh;
+  GAME_MESH_OLD *p_mesh;
   int i,kflag;
-/*
+
   for(i = 0; i < p_ber->meshnum; i++) {
     p_mesh = p_ber->p_mesh[i];
     if(p_mesh && !(p_mesh->p_data->kflag&KONT_PRVEK)) {
@@ -205,7 +203,6 @@ void ber_kamera_zpruhledni_objekty_reset(G_KONFIG *p_ber)
     }
     p_poly++;
   }
-  */
 }
 
 int ber_kamera_korekce_vzdalenosti(G_KONFIG *p_ber, int korekce, int korekce_vzdal)
@@ -252,8 +249,8 @@ int ber_kamera_korekce_vzdalenosti(G_KONFIG *p_ber, int korekce, int korekce_vzd
       pos.y += p_ber->p_target->y;
       pos.z += p_ber->p_target->z;
       
-      //TODO
-      //kd_intersect_kostku_bod_inter(p_ber->p_target, &pos, &p_kam->min, &p_kam->max, &p, &t);
+
+      kd_intersect_kostku_bod_inter(p_ber->p_target, &pos, &p_kam->min, &p_kam->max, &p, &t);
       t = vzdal_bodu_bod(p_ber->p_target,&p)+p_ber->kam.near_plane;
       
       // vyberu ten blizsi bod
@@ -1153,9 +1150,9 @@ int kam_pol_cti_klic(AnimHandle handle, float time, BOD *p_t, float *p_r, float 
 void ber_zpruhledni_prvky_reset(G_KONFIG *p_ber)
 {   
   EDIT_MESH_POLY *p_poly;
-  GAME_MESH      *p_mesh;
+  GAME_MESH_OLD      *p_mesh;
   int             i;
-/*
+
   for(i = 0; i < p_ber->meshnum; i++) {
     p_mesh = p_ber->p_mesh[i];
     if(p_mesh) {      
@@ -1180,7 +1177,6 @@ void ber_zpruhledni_prvky_reset(G_KONFIG *p_ber)
     }
     p_poly++;
   }
-  */
 }
 
 void ber_zpruhledni_prvky(G_KONFIG *p_ber)
@@ -1192,8 +1188,8 @@ void ber_zpruhledni_prvky(G_KONFIG *p_ber)
   float           ra,radius = p_ber->conf_pruhledna_kamera_radius;
   float           vzdal,alfa;
   static BOD      lt(FLT_MAX,FLT_MAX,FLT_MAX);
-  OBB_TREE       *p_prvni = &p_ber->obbtree;
-  GAME_MESH      *p_mesh,*p_beruska;
+  OBB_TREE_OLD   *p_prvni = &p_ber->obbtree;
+  GAME_MESH_OLD      *p_mesh,*p_beruska;
   BOD             t,p,i,*p_vrt,vr;
   BODRGBA        *p_d;
   BODRGBA        *p_dm;
@@ -1204,9 +1200,9 @@ void ber_zpruhledni_prvky(G_KONFIG *p_ber)
   BODRGBA        *p_vertex_diff;
   BODRGBA        *p_vertex_diff_material;
   BOD            *p_vertex_pos;
-  OBB            *p_obb;  
+  OBB_OLD        *p_obb;  
   int             kamera_zmena = p_ber->kamera.zmena||p_ber->kamera.zmena_last;
-/*
+
   if(!p_ber->conf_pruhledna_kamera)
     return;
 
@@ -1339,8 +1335,7 @@ void ber_zpruhledni_prvky(G_KONFIG *p_ber)
       }
     }
     p_poly->kflag |= (KONT_UPLOAD|KONT_DRAW_CAMERA);
-  }
-  */
+  }  
 }
 
 #define KINO_POMER (6.0f/12.0f)

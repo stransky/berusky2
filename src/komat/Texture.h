@@ -93,7 +93,7 @@ int       txt_reload_lightmap(EDIT_TEXT_OLD *p_text, bitmapa *p_bmp);
 
 int  txt_nahraj_texturu_do_vram(EDIT_TEXT_OLD *p_text, EDIT_TEXT_KONFIG *p_konf);
 int  txt_zrus_texturu_z_vram(EDIT_TEXT_OLD *p_text);
-int  txt_nahraj_lightmapu_z_bmp(char *p_file, FILE *f, EDIT_TEXT_OLD *p_text, int save);
+int  txt_nahraj_lightmapu_z_bmp(char *p_file, KFILE *f, EDIT_TEXT_OLD *p_text, int save);
 
 int  txt_nahraj_texturu_z_func(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT_OLD *p_text, int save, int load, EDIT_TEXT_KONFIG *p_konf, AUX_RGBImageRec * (*p_load)(APAK_HANDLE *pAHandle, char *p_file));
 int  txt_nahraj_texturu_z_dds(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT_OLD *p_text, int save);

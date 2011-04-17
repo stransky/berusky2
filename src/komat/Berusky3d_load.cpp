@@ -64,14 +64,12 @@ PRVEK_LEVELU_GAME * ber_vyrob_prvek_levelu(void)
 
 /* Load meshe
 */
-int ber_najdi_mesh_id(GAME_MESH **p_mesh, int max, int id)
+int ber_najdi_mesh_id(GAME_MESH_OLD **p_mesh, int max, int id)
 {
   int i;
   for(i = 0; i < max; i++) {
-  /* TODO
     if(p_mesh[i] && p_mesh[i]->p_data->mesh_ID == id)
       return(i);
-  */
   }
   return(K_CHYBA);
 }
@@ -81,7 +79,7 @@ int ber_najdi_mesh_id(GAME_MESH **p_mesh, int max, int id)
 int ber_prvek_disk_do_bunky(G_KONFIG *p_ber, BUNKA_LEVELU_DISK *p_disk, int *p_handle, int ID, int x, int y, int z)
 {
   PRVEK_LEVELU_GAME *p_lev;
-  GAME_MESH *p_mesh;
+  GAME_MESH_OLD *p_mesh;
   GLMATRIX  *p_m,tmp1;
   int guid = p_disk->guid;
   int mesh;
@@ -115,7 +113,6 @@ int ber_prvek_disk_do_bunky(G_KONFIG *p_ber, BUNKA_LEVELU_DISK *p_disk, int *p_h
       p_lev->mesh = mesh;
       
       if(mesh != K_CHYBA && p_ber->p_mesh[mesh]) {
-      /*
         p_mesh = p_ber->p_mesh[mesh];
         p_lev->p_mesh_data = p_mesh->p_data;
         p_lev->mp = p_mesh->m;
@@ -142,7 +139,6 @@ int ber_prvek_disk_do_bunky(G_KONFIG *p_ber, BUNKA_LEVELU_DISK *p_disk, int *p_h
         
         p_mesh->p_data->kflag |= KONT_POHYB;
         p_mesh->p_data->mesh_handle = p_disk->mesh;
-        */
       } else {
         p_lev->mesh = K_CHYBA;
       }      
@@ -164,7 +160,7 @@ int ber_prvek_disk_do_bunky(G_KONFIG *p_ber, BUNKA_LEVELU_DISK *p_disk, int *p_h
 int ber_mesh_do_bunky(G_KONFIG *p_ber, int mesh, int *p_handle)
 {
   PRVEK_LEVELU_GAME *p_lev;
-  GAME_MESH *p_mesh = p_ber->p_mesh[mesh];
+  GAME_MESH_OLD *p_mesh = p_ber->p_mesh[mesh];
   GLMATRIX  *p_m,tmp1;  
   int i; 
   
@@ -174,7 +170,6 @@ int ber_mesh_do_bunky(G_KONFIG *p_ber, int mesh, int *p_handle)
   
   for(i = 0; i < MAX_PRVKU_LEVEL; i++) {
     if(!p_ber->p_prv_lev[i]) {
-    /*
       p_lev = p_ber->p_prv_lev[i] = ber_vyrob_prvek_levelu();
       p_lev->mesh = mesh;
       p_mesh = p_ber->p_mesh[mesh];
@@ -195,7 +190,6 @@ int ber_mesh_do_bunky(G_KONFIG *p_ber, int mesh, int *p_handle)
       p_mesh->p_data->mesh_handle = mesh;
       *p_handle = i;
       p_ber->prvnum++;
-      */
       return(TRUE);
     }
   }
@@ -205,7 +199,7 @@ int ber_mesh_do_bunky(G_KONFIG *p_ber, int mesh, int *p_handle)
 void ber_umisti_prvek(MeshHandle handle, int x, int y, int z, int rotace)
 {
   PRVEK_LEVELU_GAME *p_lev = p_ber->p_prv_lev[handle];
-  GAME_MESH *p_mesh;
+  GAME_MESH_OLD *p_mesh;
   GLMATRIX *p_m,tmp1;
 
   if(p_lev) {
@@ -222,11 +216,9 @@ void ber_umisti_prvek(MeshHandle handle, int x, int y, int z, int rotace)
       init_matrix(&p_lev->mg);
       
       if(p_lev->mesh != K_CHYBA) {
-      /*
         p_mesh = p_ber->p_mesh[p_lev->mesh];
         init_matrix(&p_mesh->m);
         key_mesh_transformuj_obalky(p_mesh, &p_mesh->m);
-      */
       }
     } else {
       
@@ -235,7 +227,7 @@ void ber_umisti_prvek(MeshHandle handle, int x, int y, int z, int rotace)
       
       if(p_lev->mesh != K_CHYBA) {
         p_mesh = p_ber->p_mesh[p_lev->mesh];
-        /*
+      
         p_mesh->m = p_lev->mp;
         init_matrix(&p_lev->mg);
                 
@@ -247,7 +239,6 @@ void ber_umisti_prvek(MeshHandle handle, int x, int y, int z, int rotace)
         } else {
           key_mesh_transformuj_obalky(p_mesh, &p_mesh->m);
         }
-      */
       }
     }
   }
@@ -255,7 +246,7 @@ void ber_umisti_prvek(MeshHandle handle, int x, int y, int z, int rotace)
 
 void ber_umisti_prvek_abs(PRVEK_LEVELU_GAME *p_lev, float x, float y, float z, int rotace)
 {
-  GAME_MESH *p_mesh;
+  GAME_MESH_OLD *p_mesh;
   GLMATRIX *p_m,tmp1;
 
   if(p_lev) {         
@@ -266,7 +257,7 @@ void ber_umisti_prvek_abs(PRVEK_LEVELU_GAME *p_lev, float x, float y, float z, i
     
     if(p_lev->mesh != K_CHYBA) {
       p_mesh = p_ber->p_mesh[p_lev->mesh];
-/*    
+    
       p_mesh->m = p_lev->mp;
       init_matrix(&p_lev->mg);
             
@@ -278,7 +269,6 @@ void ber_umisti_prvek_abs(PRVEK_LEVELU_GAME *p_lev, float x, float y, float z, i
       } else {
         key_mesh_transformuj_obalky(p_mesh, &p_mesh->m);
       }
-*/    
     }
   }
 }
@@ -309,27 +299,26 @@ int ber_nahraj_materialy(G_KONFIG *p_ber, char *p_jmeno, char *p_dir)
 
   strcpy(pom,p_jmeno);
   zamen_koncovku(pom,KONCOVKA_MATERIAL);
-/*
+
   chdir(p_dir);  
   if(!lo_nahraj_materialy(p_ber->p_mat,MAX_CELKEM_MATERIALU,p_ber->p_text,MAX_CELKEM_TEXTUR,pom)) {
     kprintf(1,"Unable to load materials %s",p_jmeno);
     return(FALSE);
   } else  
     return(TRUE);
-*/
 }
 
 /*
   Rozkopiruje materialy -> pouze prvni material!!!
 */
-void ber_materialy_rozkopiruj(G_KONFIG *p_ber, GAME_MESH *p_mesh, int restart)
+void ber_materialy_rozkopiruj(G_KONFIG *p_ber, GAME_MESH_OLD *p_mesh, int restart)
 {
   EDIT_MATERIAL **p_imat = p_ber->p_mat;
   EDIT_MATERIAL *p_mat;
   char pom[MAX_JMENO];
   int  mat,mnew = K_CHYBA;
   int  i;
-/*
+
   if(p_mesh->p_data->m1flag&MAT_ANIM_FRAME) {
     for(i = 0; i < p_mesh->objektu; i++) {
       mat = p_mesh->p_mat[i];
@@ -351,16 +340,14 @@ void ber_materialy_rozkopiruj(G_KONFIG *p_ber, GAME_MESH *p_mesh, int restart)
       }      
     }
   }
-  */
 }
 
 /* Nahraje jeden mesh
 */
-int ber_nahraj_mesh(G_KONFIG *p_ber, char *p_jmeno, GAME_MESH **p_mesh)
+int ber_nahraj_mesh(G_KONFIG *p_ber, char *p_jmeno, GAME_MESH_OLD **p_mesh)
 {
  chdir(p_ber->dir.out_dir);
- // TODO
- //p_mesh[0] = lo_nahraj_mesh(p_ber->p_mat, MAX_CELKEM_MATERIALU, p_ber->p_text, MAX_CELKEM_TEXTUR, p_jmeno, TRUE, p_ber->conf_extra_light_vertex);
+ p_mesh[0] = lo_nahraj_mesh(p_ber->p_mat, MAX_CELKEM_MATERIALU, p_ber->p_text, MAX_CELKEM_TEXTUR, p_jmeno, TRUE, p_ber->conf_extra_light_vertex);
  return((int)p_mesh[0]);
 }
 
@@ -379,8 +366,7 @@ inline int najdi_volnou_texturu_mat(EDIT_MATERIAL *p_mat)
 
 int ber_mat_vloz_dot3(EDIT_TEXT *p_text, int textnum, EDIT_MATERIAL *p_mat)
 {
-/*
-  MATERIAL_TEXT state_stary;
+  MATERIAL_TEXT_OLD state_stary;
   int btext,t,mat_text;
 
   // Nahradim prvni blok dot-3 a skopiruju operaci    
@@ -413,7 +399,7 @@ int ber_mat_vloz_dot3(EDIT_TEXT *p_text, int textnum, EDIT_MATERIAL *p_mat)
   strcpy(p_mat->textfile[t], p_mat->textfile[mat_text]);
   
   p_mat->flag2 |= MAT2_BUMP;
-*/  
+
   return(TRUE);
 }
 
@@ -421,12 +407,11 @@ int ber_mat_vloz_dot3(EDIT_TEXT *p_text, int textnum, EDIT_MATERIAL *p_mat)
 
 int ber_mat_vloz_dot3_env(EDIT_TEXT *p_text, int textnum, EDIT_MATERIAL *p_mat)
 {
-  //MATERIAL_TEXT state_stary;
+  MATERIAL_TEXT_OLD state_stary;
   int btext,t,mat_text;
 
   /* Nahradim prvni blok dot-3 a skopiruju operaci    
   */
-/*
   state_stary = p_mat->text_state[AUTO_STAGE];
   if(text_stage_edit_blok[state_stary.text_stage].textur > 1)
     return(FALSE);
@@ -483,7 +468,7 @@ int ber_mat_vloz_dot3_env(EDIT_TEXT *p_text, int textnum, EDIT_MATERIAL *p_mat)
   strcpy(p_mat->textfile[t], BUMP_ENV_TEXT);
 
   p_mat->flag2 |= MAT2_BUMP;
-*/
+
   return(TRUE);
 }
 
@@ -552,8 +537,7 @@ int ber_nahraj_kurzor(G_KONFIG *p_ber)
   if(ber_nahraj_mesh(p_ber, JMENO_KURZOR, p_ber->p_mesh+l)) {
     if(l >= p_ber->meshnum)
       p_ber->meshnum = l+1;
-    // TODO
-    //p_ber->p_mesh[l]->p_data->k2flag |= KONT2_BERUSKA;
+    p_ber->p_mesh[l]->p_data->k2flag |= KONT2_BERUSKA;
     return(TRUE);
   } else {
     return(FALSE);
@@ -728,7 +712,6 @@ void ber_nahraj_poly(G_KONFIG *p_ber, char *p_jmeno, char *p_dir)
   zamen_koncovku(file,".ply");
 
   // Load poly
-/*  
   p_ber->p_poly = lo_nahraj_poly_list(file,&p_ber->polynum,p_ber->p_lightmap,
                                       p_ber->p_mat,MAX_CELKEM_MATERIALU);
   for(i = 0; i < p_ber->polynum; i++) {
@@ -736,7 +719,7 @@ void ber_nahraj_poly(G_KONFIG *p_ber, char *p_jmeno, char *p_dir)
     amat_pridej_poly(p_ber, i);
     lo_poly_flaguj_materialy(p_ber->p_poly+i,p_ber->p_mat);
   }
-*/
+
   /* Flagovani zrcadla
   */
   {
@@ -785,25 +768,21 @@ void ber_nahraj_lightmap(G_KONFIG *p_ber, char *p_jmeno, char *p_dir)
   
   if((f = kopen(NULL,pom,"rb"))) {
     while(!keof(f)) {
-    /*
       if(kread(&i,sizeof(i),1,f)) {
         assert(i >= 0 && i < MAX_RAY_TEXTUR);
         sprintf(p_ber->p_lightmap[i].jmeno,"%s_lp%.3d.bmp",pom,i);
         r = txt_nahraj_lightmapu_z_bmp(NULL,f,p_ber->p_lightmap+i,TRUE);
         assert(r);
       }
-    */
     }
     kclose(f);
   } else { // stara verze lightmap
     for(i = 0; i < MAX_RAY_TEXTUR; i++) {
-    /*
       sprintf(p_ber->p_lightmap[i].jmeno,"%s\\%s_lp%.3d.bmp",p_dir,pom,i);
       if(efile(p_ber->p_lightmap[i].jmeno)) {
         kprintfl(TRUE,"Lightmap %s...",p_ber->p_lightmap[i].jmeno);
         txt_nahraj_lightmapu_z_bmp(p_ber->p_lightmap[i].jmeno,NULL,p_ber->p_lightmap+i,TRUE);
       }
-    */
     }
   }
   
@@ -817,12 +796,10 @@ void ber_nahraj_lightmap(G_KONFIG *p_ber, char *p_jmeno, char *p_dir)
 
   /* Zrus prebytecne bitmapy
   */
-/*
   for(i = 0; i < MAX_RAY_TEXTUR; i++) {
     if(p_ber->p_lightmap[i].p_bmp)
       bmp_zrus(&p_ber->p_lightmap[i].p_bmp);
   }
-*/
 }
 
 inline void bod_min_max(BOD *p_ref, BOD *p_min, BOD *p_max)
@@ -838,7 +815,7 @@ inline void bod_min_max(BOD *p_ref, BOD *p_min, BOD *p_max)
 
 void ber_velikost_sceny(G_KONFIG *p_ber)
 {
-  GAME_MESH *p_mesh;
+  GAME_MESH_OLD *p_mesh;
   BOD   min,max;
   int   i;
   float vzdal;
@@ -850,18 +827,14 @@ void ber_velikost_sceny(G_KONFIG *p_ber)
   for(i = 0; i < p_ber->meshnum; i++) {
     p_mesh = p_ber->p_mesh[i];
     if(p_mesh) {
-    /*
       bod_min_max(&p_mesh->obb_world.aabb_min,&min,&max);
       bod_min_max(&p_mesh->obb_world.aabb_max,&min,&max);
-    */
     }
   }
 
   for(i = 0; i < p_ber->polynum; i++) {
-  /*
     bod_min_max(&p_ber->p_poly[i].obb.aabb_min, &min, &max);
     bod_min_max(&p_ber->p_poly[i].obb.aabb_max, &min, &max);
-  */
   }
 
   vzdal = vzdal_bodu_bod(&min,&max)*1.3f;
@@ -871,14 +844,14 @@ void ber_velikost_sceny(G_KONFIG *p_ber)
   kprintf(TRUE,"Z-Buffer range %.3f",p_ber->kam.far_plane);
 }
 
-GAME_MESH ** ber_mesh_vyber_staticke(G_KONFIG *p_ber, int *p_snum, int **p_indexy)
+GAME_MESH_OLD ** ber_mesh_vyber_staticke(G_KONFIG *p_ber, int *p_snum, int **p_indexy)
 {
-  GAME_MESH **p_list = p_ber->p_mesh;
+  GAME_MESH_OLD **p_list = p_ber->p_mesh;
   int listnum = p_ber->meshnum;
-  GAME_MESH **p_stat;
+  GAME_MESH_OLD **p_stat;
   int  i,snum;
   int *p_ind;
-  /*
+
   snum = 0;
   for(i = 0; i < listnum; i++) {
     if(p_list[i] && p_list[i]->p_data->kflag&KONT_STATIC)
@@ -891,8 +864,8 @@ GAME_MESH ** ber_mesh_vyber_staticke(G_KONFIG *p_ber, int *p_snum, int **p_index
     return(NULL);
   }
 
-  p_stat = mmalloc(sizeof(p_stat[0])*snum);
-  p_ind = mmalloc(sizeof(p_ind[0])*snum);
+  p_stat = (GAME_MESH_OLD **)mmalloc(sizeof(p_stat[0])*snum);
+  p_ind = (int *)mmalloc(sizeof(p_ind[0])*snum);
   snum = 0;
   for(i = 0; i < listnum; i++) {
     if(p_list[i] && p_list[i]->p_data->kflag&KONT_STATIC) {
@@ -903,6 +876,6 @@ GAME_MESH ** ber_mesh_vyber_staticke(G_KONFIG *p_ber, int *p_snum, int **p_index
   }
   *p_snum = snum;
   *p_indexy = p_ind;
-  */
+
   return(p_stat);
 }

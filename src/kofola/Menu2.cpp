@@ -3852,7 +3852,7 @@ void RunMenuTutorial2(char *p_File_Name, void *p_ad, LEVELINFO *p_Level, ANIMATI
 	int		bind;
 	int		dh = 0;
 	int		ycorrection = 0;
-	//EDIT_TEXT	ttext;
+	EDIT_TEXT	ttext;
 	//int		sh = K_CHYBA;
 /*
 	ZeroMemory(&ttext, sizeof(EDIT_TEXT));

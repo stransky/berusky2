@@ -26,27 +26,25 @@ int  ber_nahraj_scenu(G_KONFIG *p_ber, char *p_jmeno, char *p_dir, int reload, B
 void ber_nahraj_poly(G_KONFIG *p_ber, char *p_jmeno, char *p_dir);
 int  ber_nahraj_materialy_frame_animace(G_KONFIG *p_ber, char *p_jmeno, char *p_dir);
 void ber_nahraj_lightmap(G_KONFIG *p_ber, char *p_jmeno, char *p_dir);
-int  ber_nahraj_mesh(G_KONFIG *p_ber, char *p_jmeno, GAME_MESH **p_mesh);
+int  ber_nahraj_mesh(G_KONFIG *p_ber, char *p_jmeno, GAME_MESH_OLD **p_mesh);
 void ber_velikost_sceny(G_KONFIG *p_ber);
 
 void ber_umisti_prvek(MeshHandle handle, int x, int y, int z, int rotace);
 void ber_umisti_prvek_abs(PRVEK_LEVELU_GAME *p_lev, float x, float y, float z, int rotace);
 int  ber_mesh_do_bunky(G_KONFIG *p_ber, int mesh, int *p_handle);
 
-GAME_MESH ** ber_mesh_vyber_staticke(G_KONFIG *p_ber, int *p_snum, int **p_indexy);
+GAME_MESH_OLD ** ber_mesh_vyber_staticke(G_KONFIG *p_ber, int *p_snum, int **p_indexy);
 
 int  ber_uprava_materialu_bump_mapping(G_KONFIG *p_ber);
 
-inline int ber_je_mesh_beruska_fast(GAME_MESH *p_mesh)
-{   
-  // TODO
-  //return(p_mesh->p_data->k2flag&KONT2_BERUSKA);
+inline int ber_je_mesh_beruska_fast(GAME_MESH_OLD *p_mesh)
+{     
+  return(p_mesh->p_data->k2flag&KONT2_BERUSKA);
 }
 
-inline int ber_je_mesh_prvek_fast(GAME_MESH *p_mesh)
-{    
-  // TODO
-  //return((p_mesh->p_data->kflag)&KONT_PRVEK);
+inline int ber_je_mesh_prvek_fast(GAME_MESH_OLD *p_mesh)
+{      
+  return((p_mesh->p_data->kflag)&KONT_PRVEK);
 }
 
 #define JMENO_KURZOR "sv2.b2m"

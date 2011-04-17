@@ -331,7 +331,9 @@ berusky2_SOURCES = \
 	komat/Texture.cpp\
 	komat/Texture.h\
 	komat/Texture_import.cpp\
-	komat/Texture_import.h
+	komat/Texture_import.h\
+	komat/obbo.cpp\
+	komat/obbo.h
 
 berusky2_LDFLAGS = 
 
