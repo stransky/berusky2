@@ -553,34 +553,33 @@ void fn2_Draw_MessageA(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, TRIG
 					}
 		}
 }
-/*
-void fn2_Set_Char(unsigned __int32 *pTexture, int iXSize, int iYSize, int iXpos, int iYpos, 
-				 unsigned __int32 *pSource, int iXSSize, int iYSSize,
+
+void fn2_Set_Char(unsigned int *pTexture, int iXSize, int iYSize, int iXpos, int iYpos, 
+				 unsigned int *pSource, int iXSSize, int iYSSize,
 				 int iCXSize, int iCYSize, int iXCpos, int iYCpos)
 {
-	unsigned __int32 *pT = &pTexture[(iXSize * (iYSize - iYpos)) - (iXSize - iXpos)];
-	unsigned __int32 *pS = &pSource[(iXSSize * (iYSSize - iYCpos)) - (iXSSize - iXCpos)];
+	unsigned int *pT = &pTexture[(iXSize * (iYSize - iYpos)) - (iXSize - iXpos)];
+	unsigned int *pS = &pSource[(iXSSize * (iYSSize - iYCpos)) - (iXSSize - iXCpos)];
 
 	int y;
 
 	for(y = iYCpos; y < iYCpos + iCYSize;y++)
 	{
-		memcpy((void *) pT, (void *) pS, iCXSize * sizeof(unsigned __int32));
+		memcpy((void *) pT, (void *) pS, iCXSize * sizeof(unsigned int));
 
 		pT -= iXSize;
 		pS -= iXSSize;
 	}
 }
-*/
-/*
-void fn2_Gen_Texture(BYTE **lpTexture, int iXSize, int iYSize, int iXpos, int iYpos, GAME_TRIGER *gt, 
+
+void fn2_Gen_Texture(byte **lpTexture, int iXSize, int iYSize, int iXpos, int iYpos, GAME_TRIGER *gt, 
 					TRIGER_STRUCTURE *ts, WCHAR *cFile, WCHAR *cStop, int iSection, int *iXres,
 					int *iYres)
 {
 	WCHAR	wtext[1024];
 	int		i;
 	int		top, bottom, left, right, ycor;
-	BYTE	*pT = NULL;
+	byte	*pT = NULL;
 
 	int		x = iXpos, y = iYpos - b2_font.iYPlus;
 
@@ -602,14 +601,14 @@ void fn2_Gen_Texture(BYTE **lpTexture, int iXSize, int iYSize, int iXpos, int iY
 	ZeroMemory(wtext, 1024 * sizeof(WCHAR));
 	wcsncpy(wtext, cFile + i,  cStop - cFile - i);
 
-	pT = (BYTE	*) malloc(iXSize * iYSize * sizeof(unsigned __int32));
+	pT = (byte	*) malloc(iXSize * iYSize * sizeof(unsigned int));
 
 	if(!pT)
 		return;
 	
 	*lpTexture = pT;
 
-	ZeroMemory(pT, iXSize * iYSize * sizeof(unsigned __int32));
+	ZeroMemory(pT, iXSize * iYSize * sizeof(unsigned int));
 
 		for(i=0;i<(int)wcslen(wtext);i++)
 		{
@@ -627,15 +626,15 @@ void fn2_Gen_Texture(BYTE **lpTexture, int iXSize, int iYSize, int iXpos, int iY
 					x = iXpos;
 					continue;
 				}
-				else
-					if(fn2_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor, wtext[i],
+          /*
+				else if(fn2_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor, wtext[i],
 									(float)b2_font.tex[iSection].p_bmp->x,
 									(float)b2_font.tex[iSection].p_bmp->y))
-					{
+					{          
 						if(b2_font.tex[iSection].p_bmp)
 						{
-							fn2_Set_Char((unsigned __int32 *)pT, iXSize, iYSize, x, y + ycor, 
-									    (unsigned __int32 *)b2_font.tex[iSection].p_bmp->data, 
+							fn2_Set_Char((unsigned int *)pT, iXSize, iYSize, x, y + ycor, 
+									    (unsigned int *)b2_font.tex[iSection].p_bmp->data, 
 										b2_font.tex[iSection].p_bmp->x, b2_font.tex[iSection].p_bmp->y,
 										right - left, bottom - top, left, top);
 						}
@@ -648,9 +647,10 @@ void fn2_Gen_Texture(BYTE **lpTexture, int iXSize, int iYSize, int iXpos, int iY
 						if(bottom - top > *iYres)
 							*iYres = bottom - top;
 					}
+          */
 		}
 }
-*/
+
 int fn2_Open_Archive(char *cFile, APAK_HANDLE **pAHandle, char *cAppName, char *cKeyName)
 {
 	int	e;
@@ -659,6 +659,7 @@ int fn2_Open_Archive(char *cFile, APAK_HANDLE **pAHandle, char *cAppName, char *
 	GetPrivateProfileString(cAppName,cKeyName,"c:\\",text,256,ini_file);
 	chdir(text);
 
+  apak_dir_correction(text);
 	(*pAHandle) = apakopen(cFile, text, &e);
 
 	if(!(*pAHandle))
@@ -692,9 +693,9 @@ int fn2_Open_Archive(char *cFile, APAK_HANDLE **pAHandle, char *cAppName, char *
 	kprintf(1, "APAK: %s", cFile);
 	kprintf(1, "Velikost AFAT: %.1fKB", (*pAHandle)->FileHeader.apuISizeofFAT / 1000.0f);
 	kprintf(1, "Velikost Archivu: %.1fMB", (*pAHandle)->FileHeader.apuLSizeofPAK / 1000000.0f);
-	kprintf(1, "Souborù: %d", (*pAHandle)->FileHeader.apuICountofFiles);
-	kprintf(1, "Adresáøù: %d", (*pAHandle)->FileHeader.apuICountofDirectiories);
-	kprintf(1, "Uzlù: %d", (*pAHandle)->FileHeader.apuICountofNodes);
+	kprintf(1, "Souboru: %d", (*pAHandle)->FileHeader.apuICountofFiles);
+	kprintf(1, "Adresaru: %d", (*pAHandle)->FileHeader.apuICountofDirectiories);
+	kprintf(1, "Uzlu: %d", (*pAHandle)->FileHeader.apuICountofNodes);
 
 	return 1;
 }
@@ -1038,25 +1039,25 @@ int fn2_Up(int iValue)
 	return FONT_X_MAX;
 }
 /*
-int fn2_Blt(BYTE *pT, BYTE **pD, int ix, int iy)
+int fn2_Blt(byte *pT, byte **pD, int ix, int iy)
 {
 	int y;
-	unsigned __int32 *puT = (unsigned __int32 *)pT+(FONT_X_MAX * (FONT_Y_MAX - 1));
-	unsigned __int32 *puD;
+	unsigned int *puT = (unsigned int *)pT+(FONT_X_MAX * (FONT_Y_MAX - 1));
+	unsigned int *puD;
 
-	*pD = (BYTE *) malloc(ix * iy * sizeof(unsigned __int32));
+	*pD = (byte *) malloc(ix * iy * sizeof(unsigned int));
 
 	if(!(*pD))
 		return 0;
 
-	memset((*pD), 0, ix * iy * sizeof(unsigned __int32));
+	memset((*pD), 0, ix * iy * sizeof(unsigned int));
 
-	puD = (unsigned __int32 *)(*pD)+(ix * (iy - 1));
+	puD = (unsigned int *)(*pD)+(ix * (iy - 1));
 
 	for(y = 0; y<iy;y++)
 	{
 		
-		memcpy((void *) puD, (void *) puT, ix * sizeof(unsigned __int32));
+		memcpy((void *) puD, (void *) puT, ix * sizeof(unsigned int));
 
 		puT -= FONT_X_MAX;
 		puD -= ix;
@@ -1099,8 +1100,8 @@ int fn2_Get_Font_Texture(int iSection, char *cText)
 	int	tx, ty;
 	int Xmax, Ymax;
 /*
-	BYTE *pT = NULL;
-	BYTE *pnT = NULL;
+	byte *pT = NULL;
+	byte *pnT = NULL;
 
 	WCHAR wc[64];
 	WCHAR ws[64];

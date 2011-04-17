@@ -33,6 +33,36 @@
 #define __AGE_MAIN_H__
 
 /*
+  Basic age scheme:
+
+  // Age callback (is called from p_age->run())
+  bool main_callback(AGE_MAIN *p_age)
+  {
+    // Draw single frame
+    p_age->graph_draw();
+    return(TRUE);
+  }
+  
+  int main(int argc, char **argv)
+  {
+    // Create main age class and register the callback
+    AGE_MAIN *p_age = new AGE_MAIN(main_callback);
+    
+    // Set up graphics and create rendering screen
+    p_age->graph_set(XRES_MENU,YRES_MENU);
+    if(!p_age->graph_screen_create())
+      return(FALSE);
+    
+    // Set up active 3D scene
+    SCENE *p_scene = p_age->scene_new();
+    p_age->scene_active_set(p_scene);
+    
+    // Run the whole circus
+    p_age->run();
+  }
+*/
+
+/*
   Main AGE class, it runs and owes whole graphics interface.
   
   AGE_CONFIG      config        - some configuration
@@ -164,7 +194,7 @@ public:
   
 #ifdef ENABLE_GTK_BACKEND
 
-  GRAPH3D_GTK * graph_gtk_set(tpos width, tpos height)
+  GRAPH3D_GTK * graph_set(tpos width, tpos height)
   {
     if(p_graph)
       delete p_graph;
@@ -187,7 +217,7 @@ public:
   
 #ifdef ENABLE_SDL_BACKEND  
   
-  GRAPH3D_SDL * graph_sdl_set(tpos width, tpos height, int screen_depth = BPP_DEFAULT, int fullscreen = FALSE)
+  GRAPH3D_SDL * graph_set(tpos width, tpos height, int screen_depth = BPP_DEFAULT, int fullscreen = FALSE)
   {
     if(p_graph)
       delete p_graph;

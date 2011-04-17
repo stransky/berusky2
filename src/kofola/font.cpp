@@ -431,6 +431,7 @@ int fn_Open_Archive(char *cFile, APAK_HANDLE **pAHandle, char *cAppName, char *c
 	GetPrivateProfileString(cAppName,cKeyName,"c:\\",text,256,ini_file);
 	chdir(text);
 
+  apak_dir_correction(text);
 	(*pAHandle) = apakopen(cFile, text, &e);
 
 	if(!(*pAHandle))
@@ -453,7 +454,7 @@ int fn_Open_Archive(char *cFile, APAK_HANDLE **pAHandle, char *cAppName, char *c
 			break;
 		}
 
-		sprintf(text, "Unable to open archive %s", cFile);
+		kprintf(1, "Unable to open archive %s", cFile);
 		//MessageBox(NULL,text,"Error",MB_OK);
 
 		return 0;
@@ -461,12 +462,12 @@ int fn_Open_Archive(char *cFile, APAK_HANDLE **pAHandle, char *cAppName, char *c
 
 	achdir((*pAHandle), text);
 
-	/*kprintf(1, "APAK: %s", cFile);
+	kprintf(1, "APAK: %s", cFile);
 	kprintf(1, "Velikost AFAT: %.1fKB", (*pAHandle)->FileHeader.apuISizeofFAT / 1000.0f);
 	kprintf(1, "Velikost Archivu: %.1fMB", (*pAHandle)->FileHeader.apuLSizeofPAK / 1000000.0f);
-	kprintf(1, "Souborù: %d", (*pAHandle)->FileHeader.apuICountofFiles);
-	kprintf(1, "Adresáøù: %d", (*pAHandle)->FileHeader.apuICountofDirectiories);
-	kprintf(1, "Uzlù: %d", (*pAHandle)->FileHeader.apuICountofNodes);*/
+	kprintf(1, "Souboru: %d", (*pAHandle)->FileHeader.apuICountofFiles);
+	kprintf(1, "Adresaru: %d", (*pAHandle)->FileHeader.apuICountofDirectiories);
+	kprintf(1, "Uzlu: %d", (*pAHandle)->FileHeader.apuICountofNodes);
 
 	return 1;
 }

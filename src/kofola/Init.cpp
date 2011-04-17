@@ -15,24 +15,24 @@
 //------------------------------------------------------------------------------------------------
 int lsi_Load_Items(LEVELINFO *p_Level)
 {
-/*
 	char	text[256], dir[256], odir[256];
 	int		Count,m;
 	struct	_finddata_t Data;
-	long	Done,error;
+	int   Done,error;
 	FILE	*file;
 	SECONDDATADESC sec;
 	APAK_HANDLE	*aHandle;
 
 	GetPrivateProfileString("game","prvky_dir","c:\\",dir,256,ini_file);
 
-	_getcwd(odir, 255);
+	getcwd(odir, 255);
 
 	chdir(dir);
 
 	strcpy(text,"*.itm");
 	Count = 0;
 	
+  apak_dir_correction(dir);
 	aHandle = apakopen("items.pak", dir, &error);
 
 	if(!aHandle)
@@ -104,7 +104,7 @@ int lsi_Load_Items(LEVELINFO *p_Level)
 	chdir(odir);
 
 	apakclose(aHandle);
-*/  
+
 	return 1;
 }
 

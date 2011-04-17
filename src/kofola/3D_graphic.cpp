@@ -421,7 +421,7 @@ void _3d_Gen_Hints(HINT_TEXTURE *bTexture, int tsize)
 {
 	char text[256];
 	int i;
-/*
+
 	ZeroMemory(bTexture, sizeof(EDIT_TEXT) * tsize);
 	
 	if(!fn_Set_Font(cFontFile[4]))
@@ -435,7 +435,7 @@ void _3d_Gen_Hints(HINT_TEXTURE *bTexture, int tsize)
 		kprintf(1,"Unable to load font bitmaps");
 		return;
 	}
-
+/* TODO
 	kom_set_default_text_config(0,0,1,0,0,1);
 	txt_nahraj_texturu_z_func(p3DMArchive,"hint_frame.bmp", &bTexture[0].text, 0, 1, NULL,nahraj_aux);
 	kom_ret_default_text_config();
@@ -472,9 +472,8 @@ void _3d_Gen_Hints(HINT_TEXTURE *bTexture, int tsize)
 	sprintf(text, "##message_demo");
 	_3d_Load_Hint(pMessageTexture, text, 7, 0);
 	kprintf(1, "Load Message: %s", text);
-
+*/
 	fn_Release_Font(1);
-  */
 }
 
 void _3d_Release_Hints(HINT_TEXTURE *bTexture, int tsize)

@@ -191,6 +191,7 @@ void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
 	GetPrivateProfileString("game","bitmap_dir","c:\\",dir,MAX_PATH,ini_file);
 	chdir(dir);
 
+  apak_dir_correction(dir);
 	hArchive = apakopen(cFontFile[2], dir, &error);
 
 	if(!hArchive)

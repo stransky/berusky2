@@ -36,7 +36,7 @@ void gi_Set_Win_Version(void)
 */
 }
 
-int gi_Open_Archive(HWND hWnd, char *cFile, APAK_HANDLE **pAHandle, char *cAppName, char *cKeyName)
+int gi_Open_Archive(char *cFile, APAK_HANDLE **pAHandle, char *cAppName, char *cKeyName)
 {
 	int	e;
 	char text[256];
@@ -44,7 +44,8 @@ int gi_Open_Archive(HWND hWnd, char *cFile, APAK_HANDLE **pAHandle, char *cAppNa
 	GetPrivateProfileString(cAppName,cKeyName,"c:\\",text,256,ini_file);
 	chdir(text);
 
-	(*pAHandle) = apakopen(cFile, text, &e);
+  apak_dir_correction(text);
+  (*pAHandle) = apakopen(cFile, text, &e);
 	
 	if(!(*pAHandle))
 	{
@@ -66,20 +67,16 @@ int gi_Open_Archive(HWND hWnd, char *cFile, APAK_HANDLE **pAHandle, char *cAppNa
 			break;
 		}
 
-		//sprintf(text, "Unable to open archive %s", cFile);
-		//MessageBox(hwnd_hry,text,"Error",MB_OK);
-
-		//MyMessageBox(hwnd_hry, "##error_title", "##error_open_archive", cFile);
-
+		kprintf(1,"Unable to open archive %s", cFile);
 		return 0;
 	}
 
 	kprintf(1, "APAK: %s", cFile);
 	kprintf(1, "Velikost AFAT: %.1fKB", (*pAHandle)->FileHeader.apuISizeofFAT / 1000.0f);
 	kprintf(1, "Velikost Archivu: %.1fMB", (*pAHandle)->FileHeader.apuLSizeofPAK / 1000000.0f);
-	kprintf(1, "Souborù: %d", (*pAHandle)->FileHeader.apuICountofFiles);
-	kprintf(1, "Adresáøù: %d", (*pAHandle)->FileHeader.apuICountofDirectiories);
-	kprintf(1, "Uzlù: %d", (*pAHandle)->FileHeader.apuICountofNodes);
+	kprintf(1, "Souboru: %d", (*pAHandle)->FileHeader.apuICountofFiles);
+	kprintf(1, "Adresaru: %d", (*pAHandle)->FileHeader.apuICountofDirectiories);
+	kprintf(1, "Uzlu: %d", (*pAHandle)->FileHeader.apuICountofNodes);
 
 	return 1;
 }
@@ -286,11 +283,12 @@ int gi_EnumDisplaySettings(DEVMODE *pdevmode)
 	return EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, pdevmode);
 }
 */
-/*
+
 void gi_APAK_Load(unsigned long mem, struct _finddata_t* pData)
 {
+/*
 	char *pMem;
-	long size;
+	apuLong size;
 	FILE *file;
 	
 	if(!pData)
@@ -312,8 +310,8 @@ void gi_APAK_Load(unsigned long mem, struct _finddata_t* pData)
 		adas_Load_NextMemory(pMem, pData->name);
 
 	aclose(file);
-}
 */
+}
 
 //------------------------------------------------------------------------------------------------
 // nahodi sound engine

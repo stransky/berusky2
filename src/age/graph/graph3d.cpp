@@ -618,7 +618,11 @@ bool graph3d_sdl::screen_create(void)
   p_screen_surface = new SURFACE_SDL(p_hwscreen);
     
   camera_interface::screen_size_set(graphics_width, graphics_height);
-  
+ 
+#ifdef ENABLE_GL
+  create_GL();
+#endif
+
   return(TRUE);
 }
 

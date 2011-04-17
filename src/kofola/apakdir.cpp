@@ -69,7 +69,7 @@ int apakParsechdir(unsigned int iIndex, char *cDir, char *cExpression)
 		return -1;
 
 	for(i=iIndex;(unsigned)i<strlen(cDir);i++)
-		if(cDir[i] == '\\')
+		if(cDir[i] == '\\' || cDir[i] == '/')
 			break;
 
 	strncpy(cExpression, &cDir[iIndex], i-iIndex);

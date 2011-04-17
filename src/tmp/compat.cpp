@@ -196,7 +196,8 @@ int MultiByteToWideChar(
   WCHAR * lpWideCharStr,
   int cchWideChar
 )
-{
+{  
+  mbtowc(lpWideCharStr, lpMultiByteStr, cbMultiByte);	
 }
 
 // Audio interface
@@ -350,4 +351,12 @@ int  txt_vyrob_2D_texturu(int x, int y, int filtr, int format)
 }
 int  txt_zrus_2D_texturu(int *p_text)
 {
+}
+
+void apak_dir_correction(char *dir)
+{
+  char tmp[256] = "c:";
+  assert(strlen(dir) < 254);
+  strcat(tmp,dir);
+  strcpy(dir,tmp);
 }

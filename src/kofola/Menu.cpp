@@ -1257,7 +1257,6 @@ void CharMenuCheckMultyKyes(LIST_VIEW_CONTROL *p_li, int iKey)
 
 void SetCharMenu(LIST_VIEW_CONTROL *p_li)
 {
-/*
 	char text[128];
 	int y = p_li->cSelected * 30;
 	int xs = p_li->rectList.top + TAB_Y + y - p_li->dx;
@@ -1353,7 +1352,6 @@ void SetCharMenu(LIST_VIEW_CONTROL *p_li)
 		      ddxGetWidth(p_li->bDCs), 30 - xp - xt, p_li->bDCs, 0, y + xp);
 
 	DisplayFrame();
-  */
 }
 
 void SetMenuSettings(ROZLISENI *roz, CONTROL_LIST_ITEM *citem, int *hdcTabUse)
@@ -1524,7 +1522,6 @@ void SetMenuSettingsS(ROZLISENI *roz, CONTROL_LIST_ITEM *citem, int *hdcTabUse)
 
 void InitTab3d(CONTROL_LIST_ITEM *citem, int *hdcTab, ROZLISENI	*roz, int roz_size)
 {
-/*
 	int i;
 	int count = 0;
 	int iClock;
@@ -1771,7 +1768,6 @@ void InitTab3d(CONTROL_LIST_ITEM *citem, int *hdcTab, ROZLISENI	*roz, int roz_si
 		DisplayFrame();
 		DisplayFrame();
 		ddxReleaseBitmap(iClock);
-*/    
 }
 
 void InitTabSound(CONTROL_LIST_ITEM *citem, int *hdcTab)
@@ -1794,7 +1790,6 @@ void InitTabSound(CONTROL_LIST_ITEM *citem, int *hdcTab)
 
 void InitTabControls(CONTROL_LIST_ITEM *citem, int *hdcTab)
 {
-/*
 		char ctext[256];
 		int iClock;
 
@@ -1910,12 +1905,11 @@ void InitTabControls(CONTROL_LIST_ITEM *citem, int *hdcTab)
 		DisplayFrame();
 		DisplayFrame();
 		ddxReleaseBitmap(iClock);
-*/    
 }
 
 void RunMenuSetGeneralSettings(CONTROL_LIST_ITEM *citem, int iset)
 {
-/*
+
 	int i;
 
 	ddxSetFlip(0);
@@ -2031,12 +2025,11 @@ void RunMenuSetGeneralSettings(CONTROL_LIST_ITEM *citem, int iset)
 	}
 
 	ddxSetFlip(1);
-  */
+
 }
 
 void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 {
-/*
 	DWORD	dwEplased = 0, dwStart, dwStop;
 
 	ROZLISENI	*roz;
@@ -2463,12 +2456,12 @@ MENU_SETTING_BRUTAL_RESTART:
 		}
 
 		co_Handle_Controls(citem, CLIST_ITEMC, dim.x - TAB_X, dim.y - TAB_Y, HDC2DD, TAB_X, TAB_Y);
-    */
+
 /*
 		if(co_Progres_Changed(citem, CLIST_ITEMC, 4))
 			p_ad->Sound_Gain = co_Progres_Get(citem, CLIST_ITEMC, 4) / 100.0f;
 */
-/*
+
 		if(co_Progres_Changed(citem, CLIST_ITEMC, 6))
 		{
 			float f = co_Progres_Get(citem, CLIST_ITEMC, 6) / 100.0f;
@@ -2483,8 +2476,7 @@ MENU_SETTING_BRUTAL_RESTART:
 			}
 
 		}
-*/
-/*
+    
 		if(ActiveTab == 1)
 		{
 			iComboActSel = co_Combo_Get_Sel_Not_Opend(citem, CLIST_ITEMC, 1);
@@ -2511,7 +2503,7 @@ MENU_SETTING_BRUTAL_RESTART:
 
 				SetCharMenu(p_li);
 			}
-*/
+
 			/*iCheck = co_Check_Get_State_Change(citem, CLIST_ITEMC, 1);
 
 			if(iCheck != -1)
@@ -2524,7 +2516,7 @@ MENU_SETTING_BRUTAL_RESTART:
 				else
 					co_Check_Enable(HDC2DD, TAB_X, TAB_Y, citem, CLIST_ITEMC, 0);
 			}*/
-/*
+
 			iCheck = co_Check_Get_State_Change(citem, CLIST_ITEMC, 12);
 
 			if(iCheck != -1)
@@ -2667,11 +2659,11 @@ MENU_SETTING_BRUTAL_RESTART:
 				ActiveTab = 3;
 				hdcTabUse[3]++;
 			}
-*/
+
 /*			if(!strcmp(res[resid].cParam[1], "NEW_GAME"))
 				NewGame(hWnd, p_ad, cpu);*/
-	
-/*			for(i=0;i<lastcmd;i++)
+/*	
+			for(i=0;i<lastcmd;i++)
 			{
 				switch(res[i].iParam[0])
 				{
@@ -2685,8 +2677,8 @@ MENU_SETTING_BRUTAL_RESTART:
 					}
 					break;
 				}
-			}*/
-
+			}
+*/
 			//resid = -1;
 /*
 			if(key[K_ESC])
@@ -2702,8 +2694,7 @@ MENU_SETTING_BRUTAL_RESTART:
 			}
 */
 			/*else
-				goto BEGIN_MENU;*/
-        /*
+				goto BEGIN_MENU;*/     
 		}
 
 		//pokud prisel cas, tak provedu nahodne animace (podle jejich pravdepodobnosti)
@@ -2720,13 +2711,13 @@ MENU_SETTING_BRUTAL_RESTART:
 					AddAnimation(&res[i], p_ad, 0, 0);
 				}
 		}
-*/
+
 /*		spracuj_spravy(0);
 		ddxUpdateMouse();
 
 		if(dim.dx || dim.dy)
 			DisplayFrame();*/
-/*
+
 		dwStop = timeGetTime();
 
 		dwEplased += dwStop - dwStart;
@@ -2770,7 +2761,6 @@ __QUIT:
 	FreeAnimations(res, RES_NUM);
 	free((void *) res);
 	free((void *) roz);
-*/  
 }
 
 void RunStretchAnimation(char *cScene, int x, int y, AUDIO_DATA *p_ad)
@@ -2787,6 +2777,7 @@ void RunStretchAnimation(char *cScene, int x, int y, AUDIO_DATA *p_ad)
 	{
 		GetPrivateProfileString("game","bitmap_dir","c:\\",cDir,MAX_PATH,ini_file);
 		sprintf(cFile, "%s\\scene%d.pak", cDir, iActualScene);
+    apak_dir_correction(cDir);
 		hArchive = apakopen(cFile, cDir, &idx);
 
 		if(!hArchive)
@@ -3679,6 +3670,7 @@ void LoadSceneMap(int *pBmp, char *cSceneBmp, char *cSceneAnim, int iScene, int 
 	{
 		GetPrivateProfileString("game","bitmap_dir","c:\\",cDir,MAX_PATH,ini_file);
 		sprintf(cFile, "%s\\scene%d.pak", cDir, iScene);
+    apak_dir_correction(cDir);
 		hArchive = apakopen(cFile, cDir, &i);
 
 		if(!hArchive)
@@ -5265,7 +5257,7 @@ char check_profile(char *p_name)
 {
 	WCHAR	wc[128];
 
-//	MultiByteToWideChar( CP_ACP, 0, p_name, strlen(p_name)+1, wc, sizeof(wc)/sizeof(wc[0]));
+	MultiByteToWideChar( CP_ACP, 0, p_name, strlen(p_name)+1, wc, sizeof(wc)/sizeof(wc[0]));
 
 	if(!wcscmp(pPlayerProfile.cName, wc))
 		return 1;
@@ -5889,8 +5881,8 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu
 						//fn_Release_Font(1);
 						StopAll();
 						RunMenuNewGameScene("Mmnew_game_scene.txt", NULL, p_ad, cpu, 1, p_li->piValue[p_li->cSelected].cValue, 0);
-						//fn_Set_Font("font_system.pak");
-						//fn_Load_Bitmaps();
+						fn_Set_Font("font_system.pak");
+						fn_Load_Bitmaps();
 						key[K_ESC] = 1;
 					}
 					else	//LOAD DEMO
@@ -8884,6 +8876,7 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 	{
 		GetPrivateProfileString("game","bitmap_dir","c:\\",cDir,MAX_PATH,ini_file);
 		sprintf(cFile, "%s\\scene%d.pak", cDir, iScene);
+    apak_dir_correction(cDir);
 		hArchive = apakopen(cFile, cDir, &idx);
 
 		if(!hArchive)

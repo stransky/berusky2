@@ -62,12 +62,12 @@ int cr_Set_Text_CenterW(int hdc, WCHAR *text, int isection, RECT r)
 {
 	int xp, yp;
 	int tx, ty;
-	//WCHAR wc[128];
+	WCHAR wc[128];
 	int h;
 
 	h = ddxCreateSurface(1024, 110, ddxFindFreeSurface());
 
-	//MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
+	MultiByteToWideChar( CP_ACP, 0, (char *)text, strlen((char *)text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
 
 	fn_Draw_MessageA(h, 0, 0, &b2_font.gt, &b2_font.ts, text, isection, &tx, &ty);
 
@@ -232,6 +232,7 @@ int cr_Credits(HWND hWnd, AUDIO_DATA *p_ad)
 	GetPrivateProfileString("game","bitmap_dir","c:\\",text,255,ini_file);
 	chdir(text);
 
+  apak_dir_correction(text);
 	hArchive = apakopen(cFontFile[2], text, &error);
 
 	if(!hArchive)
@@ -493,6 +494,7 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA *p_ad)
 	GetPrivateProfileString("game","bitmap_dir","c:\\",text,255,ini_file);
 	chdir(text);
 
+  apak_dir_correction(text);
 	hArchive = apakopen(cFontFile[2], text, &error);
 	
 	if(!hArchive)

@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -5,6 +6,20 @@
 
 #define APAK_VERSION_HI		1
 #define APAK_VERSION_LOW	1
+
+void apakCheck(void)
+{
+  assert(sizeof(APAKFILEHEADER) == 428);
+  assert(sizeof(APAKFILE) == 284);
+  assert(sizeof(APAKDIRECTORY) == 272);
+  assert(sizeof(APAKNODE) == 280);
+  assert(sizeof(APAKFILENODE) == 8);
+  assert(sizeof(APAK_HANDLE) == 700);
+  assert(sizeof(APAK_FILE_HANDLE) == 28);
+  assert(sizeof(APAK_STREAM_TYPE) == 8);
+  assert(sizeof(APAK_FIND) == 272);
+  assert(sizeof(APAK_FIND_SWITCH) == 8);
+}
 
 inline void ZeroMemory(void *mem, int size)
 {
@@ -15,6 +30,7 @@ void apakError(APAK_HANDLE *pHandle, char *cError)
 {
 	pHandle->bError = 1;
 	strcpy(pHandle->cError, cError);
+  fprintf(stderr,"apakError: %s\n", cError);
 }
 
 int apakReadError(int iError, APAK_HANDLE	*pHandle)
@@ -240,6 +256,8 @@ APAK_HANDLE *apakopen(char *cArchive, char *cDir, int *pError)
 	APAK_HANDLE		*pHandle;
 	FILE			*pFile;
 
+  apakCheck();
+
 	pFile = fopen(cArchive, "rb");
 
 	if(!pFile)
@@ -298,9 +316,8 @@ void apakReleaseNode(APAKNODE *pNode)
 
 	if(pNode->apuLSizeofDirectory)
 	{
-// TODO
-//		for(i=0;(unsigned)i<pNode->apuLSizeofDirectory;i++)
-//			apakReleaseNode(pNode->apakDirectory[i].papakNode);
+		for(i=0;(unsigned)i<pNode->apuLSizeofDirectory;i++)
+			apakReleaseNode(pNode->apakDirectory[i].papakNode);
 
 		free((void *) pNode->apakDirectory);
 	}

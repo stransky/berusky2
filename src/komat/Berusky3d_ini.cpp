@@ -22,8 +22,6 @@
 #include "Berusky3d_animace.h"
 #include "Berusky3d_kofola_interface.h"
 
-#define  BERUSKY_NAME   "Berusky 2"
-
 dword      system_timer = 0;
 dword      system_kurzor = 0;
 dword      karmin_aktivni = 1;
@@ -268,6 +266,75 @@ void konec(int konec)
   }
 }
 
+
+/* 
+ * Camera commands
+ */
+#define CAMERA_POLAR_NAME "CONTROL_CAMERA"
+
+static CAMERA_POLAR * camera_control_get(AGE_MAIN *p_age)
+{
+  SCENE *p_scene = p_age->scene_get();
+  
+  CAMERA_POLAR *p_camera = (CAMERA_POLAR *)p_scene->camera_get(CAMERA_POLAR_NAME);
+  if(!p_camera) {
+    p_camera = p_scene->camera_polar_create(CAMERA_POLAR_NAME);
+    p_camera->target_set(0,0,0);
+    p_camera->distance_set(20);
+    p_camera->elevation_set(DEG2RAD(60));
+    p_camera->plane_auto_adjust_set(TRUE);    
+  }
+  
+  p_scene->camera_active_set(p_camera);
+  
+  assert(p_camera);
+  return(p_camera);
+}
+
+static CAMERA_POLAR * camera_control_center_get(AGE_MAIN *p_age)
+{
+  CAMERA_POLAR *p_camera = camera_control_get(p_age);
+  SCENE   *p_scene = p_age->scene_get();
+  int     sx,sy,sdx,sdy;
+  
+  p_camera->view_get(&sx,&sy,&sdx,&sdy);
+  float depth = p_scene->scene_box_depth_get();
+  VECT v1((float)(sx+sdx/2),(float)(sy+sdy/2),depth);
+  
+  p_camera->screen_to_world(&v1);
+  p_camera->target_set(&v1);
+  p_camera->distance_set(depth);
+  
+  return(p_camera);
+}
+
+bool scene_reset(AGE_MAIN *p_age)
+{
+  CAMERA_POLAR *p_camera = camera_control_get(p_age);
+  SCENE *p_scene = p_age->scene_get();
+  
+  VECT  s_center;
+  VECT  s_length;
+  
+  p_scene->scene_box_center_get(&s_center);  // Return center of the scene
+  p_scene->scene_box_length_get(&s_length);  // Return size of the scene
+    
+  p_camera->target_set(&s_center);
+  p_camera->elevation_set(DEG2RAD(60));
+  p_camera->rotation_set(DEG2RAD(0));
+  p_camera->distance_set(s_length.size()*2);
+    
+  return(TRUE);
+}
+
+
+bool main_callback(AGE_MAIN *p_age)
+{
+  // Draw frame
+  p_age->graph_draw();
+  return(TRUE);
+}
+
 int main(int argc, char **argv)
 {
   char *p_level;
@@ -281,8 +348,6 @@ int main(int argc, char **argv)
   
   nahraj_konfig();
   
-  //hwnd_hry = otevri_okno(hinst,hwconf.fullscreen,XRES_MENU,YRES_MENU,&hwconf); 
-  
   if(GetPrivateProfileInt("debug","debug_file",0,ini_file)) {
    GetPrivateProfileString("hra","log_file","c:\\berusky2log.txt",pom,500,ini_file);
    p_ber->debug_file = fopen(pom,"a");   
@@ -290,9 +355,39 @@ int main(int argc, char **argv)
   
   ber_konfiguruj_berusky(&ber);
 
-  p_level = (argc > 1) ? argv[1] : (char *)"a";
-  winmain_Game_Run(hwnd_hry,p_level);
+  AGE_MAIN *p_age = p_ber->p_age = new AGE_MAIN(main_callback);
+
+  //p_age->graph_set(XRES_MENU,YRES_MENU,BPP_DEFAULT,hwconf.fullscreen);
+  p_age->graph_set(XRES_MENU,YRES_MENU);
+  if(!p_age->graph_screen_create())
+    return(FALSE);
   
+  SCENE *p_scene = p_age->scene_new();
+  p_age->scene_active_set(p_scene);
+  
+  GRAPH3D *p_grf = p_age->graph_get();
+  if(p_grf) {
+    p_grf->config_draw_grid(TRUE);
+    p_grf->config_draw_mouse_cursor(FALSE);
+    p_grf->config_draw_boxes(FALSE);
+    p_grf->config_draw_console(FALSE);
+    p_grf->config_draw_fps(FALSE);
+    p_grf->config_draw_normals(FALSE);
+    p_grf->config_opengl_lighting(FALSE);
+    p_grf->config_draw_all_objects(TRUE);
+    p_grf->config_draw_pivots(TRUE);
+    p_grf->config_draw_selection(TRUE);    
+  }
+
+  p_scene->load(NULL, "/home/komat/auto.b2m");  
+
+  scene_reset(p_age);
+
+  //p_age->run();
+
+  p_level = (argc > 1) ? argv[1] : (char *)"a";
+  winmain_Game_Run(p_level);
+
   return(TRUE);
 }
 

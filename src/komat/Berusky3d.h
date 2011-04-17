@@ -274,7 +274,7 @@ typedef struct _EDIT_OKNO {
 typedef struct _G_KONFIG {
 
   // Interface to 3D engine
-  AGE_MAIN  *p_age;
+  AGE_MAIN            *p_age;
 
   GLMATRIX            *p_project,
                       *p_word,

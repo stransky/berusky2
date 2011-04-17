@@ -48,7 +48,7 @@ int apakCheckFile(char *cFile, char *cMask)
 
 	return 1;
 }
-/*
+
 int apakFindFile(APAK_FIND *pFind, struct _finddata_t *fileinfo)
 {
 	int iRet = 0;
@@ -99,8 +99,7 @@ int apakFindFile(APAK_FIND *pFind, struct _finddata_t *fileinfo)
 
 	return 0;
 }
-*/
-/*
+
 long afindfirst(APAK_HANDLE *pHandle, char *filespec, struct _finddata_t *fileinfo)
 {
 	int				 iRet;
@@ -116,6 +115,8 @@ long afindfirst(APAK_HANDLE *pHandle, char *filespec, struct _finddata_t *filein
 
 	memset(pFSwitch, 0, sizeof(APAK_FIND_SWITCH));
 
+  assert(pHandle);
+  /*
 	if(!pHandle)
 	{
 		 pFSwitch->find = _findfirst(filespec, fileinfo);
@@ -128,6 +129,7 @@ long afindfirst(APAK_HANDLE *pHandle, char *filespec, struct _finddata_t *filein
 
 		 return (long) pFSwitch;
 	}
+  */
 
 	if(!filespec)
 	{
@@ -201,10 +203,13 @@ int afindnext(long handle, struct _finddata_t *fileinfo)
 
 	if(!pFSwitch)
 		return -1;
-
+  
+  assert(!pFSwitch->find);
+/*
 	if(pFSwitch->find)
 		return _findnext(pFSwitch->find, fileinfo);
-
+*/
+  
 	pFind = pFSwitch->pAFind;
 
 	if(!pFind)
@@ -218,11 +223,10 @@ int afindnext(long handle, struct _finddata_t *fileinfo)
 
 	return iRet;
 }
-*/
+
 
 int afindclose(long handle)
 {
-/*
 	APAK_FIND		 *pFind;
 	APAK_FIND_SWITCH *pFSwitch = (APAK_FIND_SWITCH *)handle;
 
@@ -232,9 +236,11 @@ int afindclose(long handle)
 	if(pFSwitch->find < 0)
 		return 0;
 
-	if(pFSwitch->find)
+	assert(!pFSwitch->find);
+/*
+  if(pFSwitch->find)
 		return _findclose(pFSwitch->find);
-
+*/
 	pFind = pFSwitch->pAFind;
 
 	if(!pFind)
@@ -242,6 +248,6 @@ int afindclose(long handle)
 
 	free((void *) pFind);
 	free((void *) pFSwitch);
-*/
+
 	return 0;
 }

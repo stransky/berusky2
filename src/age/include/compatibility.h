@@ -63,15 +63,19 @@
 #include <unistd.h>
 
 // Enable GTK backend
-#define ENABLE_GTK_BACKEND  1
-#undef  ENABLE_SDL_BACKEND
+//#define ENABLE_GTK_BACKEND  1
+//#undef  ENABLE_SDL_BACKEND
 
 // Enable SDL backend
 #undef  ENABLE_GTK_BACKEND
 #define ENABLE_SDL_BACKEND 1
 
+// Disable/Enable GUI
 #undef ENABLE_GUI
 //#define ENABLE_GUI          1
+
+// GL support
+//#undef ENABLE_GL
 #define ENABLE_GL           1
 
 #endif // ! _WIN32

@@ -110,7 +110,7 @@ int winmain_Check_Window_Menu(void)
 //------------------------------------------------------------------------------------------------
 // kostra behu hry
 //------------------------------------------------------------------------------------------------
-int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
+int	winmain_Game_Run(char *p_Level_Name)
 {
 	char	dir[256];
 	unsigned int Timer_ID;
@@ -119,11 +119,6 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 	char	bConsole = GetPrivateProfileInt("debug","start-konzole",0,ini_file);
 
 	cpu = sizeof(AUDIO_DATA);
-
-	//MSS_ENABLE_LOG_OUTPUT;
-
-	/*if(!bConsole)
-		schovej_konzoli();*/
 
 	kprintf(1,"Kofola - verze zdrojaku: MASTER %d.%d", VERZEHI, VERZELO);
 
@@ -156,35 +151,34 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 
 	iLanguageVersion = GetPrivateProfileInt("game","languageid", 0, ini_file);
 	kprintf(1, "Language ID = %d", iLanguageVersion);
-/*
-	if(!gi_Open_Archive(hwnd_hry, dir, &pBmpArchive,"game","bitmap_dir"))
+
+	if(!gi_Open_Archive(dir, &pBmpArchive,"game","bitmap_dir"))
 	{
 		return 0;
 	}
-*/
-/*#ifndef __DEMO
-	if(!gi_Open_Archive(hwnd_hry, "bitmap.pak", &pBmpArchive,"game","bitmap_dir"))
+
+#ifndef __DEMO
+	if(!gi_Open_Archive("bitmap.pak", &pBmpArchive,"game","bitmap_dir"))
 	{
 		return 0;
 	}
 #endif
 
 #ifdef __DEMO
-	if(!gi_Open_Archive(hwnd_hry, "bitmap_demo.pak", &pBmpArchive,"game","bitmap_dir"))
+	if(!gi_Open_Archive("bitmap_demo.pak", &pBmpArchive,"game","bitmap_dir"))
 	{
 		return 0;
 	}
 #endif*/
-/*
-	if(!gi_Open_Archive(hwnd_hry, "controls.pak", &pControlsArchive,"game","bitmap_dir"))
+
+	if(!gi_Open_Archive("controls.pak", &pControlsArchive,"game","bitmap_dir"))
 	{
 		apakclose(pBmpArchive);
 		return 0;
 	}
-*/
 /*
 #ifndef __DEMO
-	if(!gi_Open_Archive(hwnd_hry, "sound.pak", &pSndArchive,"soundengine","sound_dir"))
+	if(!gi_Open_Archive("sound.pak", &pSndArchive,"soundengine","sound_dir"))
 	{
 		apakclose(pBmpArchive);
 		apakclose(pControlsArchive);
@@ -193,7 +187,7 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 #endif
 
 #ifdef __DEMO
-	if(!gi_Open_Archive(hwnd_hry, "sound_demo.pak", &pSndArchive,"soundengine","sound_dir"))
+	if(!gi_Open_Archive("sound_demo.pak", &pSndArchive,"soundengine","sound_dir"))
 	{
 		apakclose(pBmpArchive);
 		apakclose(pControlsArchive);
@@ -202,8 +196,8 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 #endif
 */
 	GetPrivateProfileString("game","3dmenu_pak","c:\\",dir,256,ini_file);
-/*	
-	if(!gi_Open_Archive(hwnd_hry, dir, &p3DMArchive,"game","bitmap_dir"))
+
+	if(!gi_Open_Archive(dir, &p3DMArchive,"game","bitmap_dir"))
 	{
 		apakclose(pControlsArchive);
 		apakclose(pBmpArchive);
@@ -213,7 +207,7 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 
 	GetPrivateProfileString("game","data_pak","c:\\",dir,256,ini_file);
 
-	if(!gi_Open_Archive(hwnd_hry, dir, &pDataArchive,"game","data_dir"))
+	if(!gi_Open_Archive(dir, &pDataArchive,"game","data_dir"))
 	{
 		apakclose(p3DMArchive);
 		apakclose(pControlsArchive);
@@ -221,9 +215,9 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 		apakclose(pSndArchive);
 		return 0;
 	}
-*/
-/*#ifndef __DEMO
-	if(!gi_Open_Archive(hwnd_hry, "data.pak", &pDataArchive,"game","data_dir"))
+
+#ifndef __DEMO
+	if(!gi_Open_Archive("data.pak", &pDataArchive,"game","data_dir"))
 	{
 		apakclose(p3DMArchive);
 		apakclose(pControlsArchive);
@@ -234,7 +228,7 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 #endif
 
 #ifdef __DEMO
-	if(!gi_Open_Archive(hwnd_hry, "data_demo.pak", &pDataArchive,"game","data_dir"))
+	if(!gi_Open_Archive("data_demo.pak", &pDataArchive,"game","data_dir"))
 	{
 		apakclose(p3DMArchive);
 		apakclose(pControlsArchive);
@@ -243,9 +237,9 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 		return 0;
 	}
 #endif*/
-/*
+
 #ifndef __DEMO
-	if(!gi_Open_Archive(hwnd_hry, "game_data.pak", &pGDataArchive,"game","game_data_dir"))
+	if(!gi_Open_Archive("game_data.pak", &pGDataArchive,"game","game_data_dir"))
 	{
 		apakclose(pDataArchive);
 		apakclose(p3DMArchive);
@@ -255,10 +249,9 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 		return 0;
 	}
 #endif
-*/
-/*
+
 #ifdef __DEMO
-	if(!gi_Open_Archive(hwnd_hry, "game_data_demo.pak", &pGDataArchive,"game","game_data_dir"))
+	if(!gi_Open_Archive("game_data_demo.pak", &pGDataArchive,"game","game_data_dir"))
 	{
 		apakclose(pDataArchive);
 		apakclose(p3DMArchive);
@@ -268,17 +261,17 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 		return 0;
 	}
 #endif
-*/
+
 //	cpu = (int)ceil(tools_Base_Priority(tools_Get_CPU_Speed()));
 
 	kprintf(1,"OGG Decompression Thread Priority: %d",cpu);
 /*
-	gi_Init_Sound_Engine(hwnd_hry, &ad);
+	gi_Init_Sound_Engine(&ad);
 	chdir(ad.Music_Dir);
 	ap_Load_Play_List("Play_List.dat",&ad);
 	chdir(ad.Sound_Dir);
-	ap_Load_Material_List("Material.dat",&ad);
 */
+	ap_Load_Material_List("Material.dat",&ad);
 	//ap_Play_Song(22,0,&ad);
 
 	/*ogg_open("c:\\AnakreoN\\Berusky II\\Music\\Freemind.ogg");
@@ -293,9 +286,6 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
                     
 	ogg_release();*/
 
-	//adas_OGG_Analyze_Stream("c:\\AnakreoN\\Berusky II\\Music\\comix10.ogg", "c:\\comix10.dat", "c:\\comix10.cyc");
-	//adas_OGG_Analyze_Stream("d:\\Berušky 2\\Music\\Emotion.ogg", "c:\\Emotion.dat", "c:\\Emotion.cyc");
-
 	iMaxBpp = gi_Get_Max_Resolution_Bpp(1024,768);
 	iMaxFreq = gi_Get_Max_Freq(1024,768, iMaxBpp);
 
@@ -307,21 +297,21 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 
 		if(GetPrivateProfileInt("hra","logo",1,ini_file) && !bWindowMenu && iLanguageVersion != 4)
 		{
-			cmcs_Game_Down(hWnd);
-			cmcs_Play_Video("AnakreoN.mpg", hWnd, 16000, &ad);
-			cmcs_Game_Up(hWnd);
+			cmcs_Game_Down();
+			cmcs_Play_Video("AnakreoN.mpg", 16000, &ad);
+			cmcs_Game_Up();
 		}
 #endif
 /*
-		if(FAILED(InitDirectDraw(hwnd_hry, 1024, 768, GetPrivateProfileInt("hra", "menu_bpp", 16, ini_file))))
+		if(FAILED(InitDirectDraw(1024, 768, GetPrivateProfileInt("hra", "menu_bpp", 16, ini_file))))
 			return 0;
 */		
 		spracuj_spravy(0);
 /*
 		if(!bWindowMenu)
-			ShowWindow(hwnd_hry, SW_MAXIMIZE);
+			ShowWindow(SW_MAXIMIZE);
 		else		
-			ShowWindow(hwnd_hry, SW_SHOWNORMAL);
+			ShowWindow(SW_SHOWNORMAL);
 */  
 		//maximalizuj_okno(hwnd_hry);
 	}
@@ -352,14 +342,14 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 
 		//_3d_Gen_Hints(pHintTexture, 26);
 
-/*		if(!fn_Set_Font("font3d.pak"))
+		if(!fn_Set_Font("font3d.pak"))
 		{
-			MessageBox(hWnd, "Unable to set font!", "Error", MB_OK);
+			kprintf(1, "Unable to set font!");
 			return 0;
 		}
 
 		if(!fn_Load_Bitmaps())
-			kprintf(1,"Unable to load font bitmaps");*/
+			kprintf(1,"Unable to load font bitmaps");
 
 		RunMenuLoadScreenAddProgress(-1);
 		RunMenuLoadScreenDrawProgress(-1,-1);
@@ -380,7 +370,7 @@ int	winmain_Game_Run(HWND hWnd, char *p_Level_Name)
 		
 		if(!fn_Set_Font(cFontFile[0]))
 		{
-			//MessageBox(hwnd_hry, "Unable to set font!", "Error", MB_OK);
+			//MessageBox("Unable to set font!", "Error", MB_OK);
 			return 0;
 		}
 

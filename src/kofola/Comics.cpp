@@ -201,7 +201,7 @@ void cmcs_Play_Intro(char *cFile, HWND hWnd, AUDIO_DATA *p_ad)
     mciSendCommand(wDeviceID, MCI_CLOSE, 0, 0);
 }*/
 
-void cmcs_Game_Down(HWND hWnd)
+void cmcs_Game_Down(void)
 {
 /*
 	ShowCursor(FALSE);
@@ -217,7 +217,7 @@ void cmcs_Game_Down(HWND hWnd)
 */
 }
 
-void cmcs_Game_Up(HWND hWnd)
+void cmcs_Game_Up(void)
 {
 /*
 	mciSendString("close digitalvideo", NULL, 0, NULL); 
@@ -231,7 +231,7 @@ void cmcs_Game_Up(HWND hWnd)
 */
 }
 
-void cmcs_Play_Video(char *pFile, HWND hWnd, long dwVideoTime, AUDIO_DATA *p_ad)
+void cmcs_Play_Video(char *pFile, long dwVideoTime, AUDIO_DATA *p_ad)
 {
 /*
 	int done = 0;
@@ -289,7 +289,7 @@ void cmcs_Play_Video(char *pFile, HWND hWnd, long dwVideoTime, AUDIO_DATA *p_ad)
 */
 }
 
-void cmcs_Start_Picture(int Index, long time, HWND hWnd, AUDIO_DATA *p_ad, char bMusic)
+void cmcs_Start_Picture(int Index, long time, AUDIO_DATA *p_ad, char bMusic)
 {
 	long timecnt = 0;
 	char bCimicsEnd = 0;

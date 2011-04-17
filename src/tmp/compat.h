@@ -235,6 +235,8 @@ void dbgprintf(char *p_tmp, ...);
 
 #define MAKEWORD(a, b)      ((unsigned short)(((unsigned char)(a)) | ((unsigned short)((unsigned char)(b))) << 8))
 
+#define CP_ACP 0
+
 int MultiByteToWideChar(
   int CodePage,
   int dwFlags,
@@ -351,3 +353,14 @@ inline void null_free(void **p_mem)
 
 int  txt_vyrob_2D_texturu(int x, int y, int filtr, int format);
 int  txt_zrus_2D_texturu(int *p_text);
+
+struct _finddata_t {
+    unsigned  attrib;
+    time_t    time_create; /*-1forFATfilesystems*/
+    time_t    time_access; /*-1forFATfilesystems */
+    time_t    time_write;
+    int       size;
+    char      name[260];
+};
+
+void apak_dir_correction(char *dir);

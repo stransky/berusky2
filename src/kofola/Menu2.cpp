@@ -2379,7 +2379,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level
 					char	ccheck[] = "profiles";
 					WCHAR	wcheck[64];
 
-					//MultiByteToWideChar( CP_ACP, 0, ccheck, strlen(ccheck)+1, wcheck, sizeof(wcheck)/sizeof(wcheck[0]) );
+					MultiByteToWideChar( CP_ACP, 0, ccheck, strlen(ccheck)+1, wcheck, sizeof(wcheck)/sizeof(wcheck[0]) );
 					
 					if(wcsicmp(cText, wcheck))
 					{
@@ -4314,6 +4314,7 @@ void RunMenuLoadScreen2(void)
 		{
 			GetPrivateProfileString("game","bitmap_dir","c:\\",cDir,MAX_PATH,ini_file);
 			sprintf(cFile, "%s\\scene%d.pak", cDir, iActualScene);
+      apak_dir_correction(cDir);
 			hArchive = apakopen(cFile, cDir, &sh);
 
 			if(!hArchive)
