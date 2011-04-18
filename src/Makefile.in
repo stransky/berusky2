@@ -99,7 +99,8 @@ am_berusky2_OBJECTS = 3D_graphic.$(OBJEXT) 3D_menus.$(OBJEXT) \
 	animationk.$(OBJEXT) generator_random.$(OBJEXT) Ddx.$(OBJEXT) \
 	kfile.$(OBJEXT) Berusky3d_animace.$(OBJEXT) 3dmath.$(OBJEXT) \
 	3dproject.$(OBJEXT) Mat3d.$(OBJEXT) Keyframe.$(OBJEXT) \
-	Texture.$(OBJEXT) Texture_import.$(OBJEXT) obbo.$(OBJEXT)
+	Texture.$(OBJEXT) Texture_import.$(OBJEXT) obbo.$(OBJEXT) \
+	Kdtree.$(OBJEXT)
 berusky2_OBJECTS = $(am_berusky2_OBJECTS)
 berusky2_DEPENDENCIES =
 berusky2_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -602,7 +603,9 @@ berusky2_SOURCES = \
 	komat/Texture_import.cpp\
 	komat/Texture_import.h\
 	komat/obbo.cpp\
-	komat/obbo.h
+	komat/obbo.h\
+	komat/Kdtree.cpp\
+	komat/Kdtree.h
 
 berusky2_LDFLAGS = 
 berusky2_LDADD = \
@@ -724,6 +727,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Demo.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Di.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Init.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Kdtree.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Keyframe.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Load.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Load_chunks.Po@am__quote@
@@ -2756,6 +2760,20 @@ obbo.obj: komat/obbo.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/obbo.cpp' object='obbo.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o obbo.obj `if test -f 'komat/obbo.cpp'; then $(CYGPATH_W) 'komat/obbo.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/obbo.cpp'; fi`
+
+Kdtree.o: komat/Kdtree.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Kdtree.o -MD -MP -MF $(DEPDIR)/Kdtree.Tpo -c -o Kdtree.o `test -f 'komat/Kdtree.cpp' || echo '$(srcdir)/'`komat/Kdtree.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Kdtree.Tpo $(DEPDIR)/Kdtree.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Kdtree.cpp' object='Kdtree.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Kdtree.o `test -f 'komat/Kdtree.cpp' || echo '$(srcdir)/'`komat/Kdtree.cpp
+
+Kdtree.obj: komat/Kdtree.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Kdtree.obj -MD -MP -MF $(DEPDIR)/Kdtree.Tpo -c -o Kdtree.obj `if test -f 'komat/Kdtree.cpp'; then $(CYGPATH_W) 'komat/Kdtree.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Kdtree.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Kdtree.Tpo $(DEPDIR)/Kdtree.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Kdtree.cpp' object='Kdtree.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Kdtree.obj `if test -f 'komat/Kdtree.cpp'; then $(CYGPATH_W) 'komat/Kdtree.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Kdtree.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

@@ -19,7 +19,31 @@ The code in this file is subject to the RunicSoft source code licence
 
 **************************************************************************/
 
-byte* ConvertRGBToBMPBuffer ( byte* Buffer, int width, int height, long* newsize);
+typedef struct tagBITMAPFILEHEADER {
+	WORD    bfType;
+	DWORD   bfSize;
+	WORD    bfReserved1;
+	WORD    bfReserved2;
+	DWORD   bfOffBits;
+} BITMAPFILEHEADER;
+
+typedef struct tagBITMAPINFOHEADER{
+	DWORD  biSize;
+	LONG   biWidth;
+	LONG   biHeight;
+	WORD   biPlanes;
+	WORD   biBitCount;
+	DWORD  biCompression;
+	DWORD  biSizeImage;
+	LONG   biXPelsPerMeter;
+	LONG   biYPelsPerMeter;
+	DWORD  biClrUsed;
+	DWORD  biClrImportant;
+} BITMAPINFOHEADER;
+
+#define BI_RGB 0
+
+byte* ConvertRGBToBMPBuffer ( byte* Buffer, int width, int height, int* newsize);
 byte* ConvertBMPToRGBBuffer ( byte* Buffer, int width, int height );
-int   SaveBMP(FILE *file, byte* Buffer, int width, int height, long paddedsize );
-byte* LoadBMP(KFILE *file, int* width, int* height, long* size);
+int   SaveBMP(FILE *file, byte* Buffer, int width, int height, int paddedsize );
+byte* LoadBMP(KFILE *file, int* width, int* height, int* size);

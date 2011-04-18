@@ -281,6 +281,29 @@ char * cti_za_znak(char *p_string, char znak);
  vertexnum--;                                   \
 }                                               
 
+inline void mat_default_stage_bloky(EDIT_MATERIAL *p_mat)
+{
+  MATERIAL_TEXT_OLD *p_stg;
+  int i,j;
+
+  p_mat->alfa_state = 0;
+  memset(p_mat->text_state,0,sizeof(p_mat->text_state[0])*MAT_TEXTUR);
+
+  for(i = 0; i < MAT_TEXTUR; i++) {
+    p_stg = p_mat->text_state+i;
+    p_stg->text_stage = !i ? 0 : K_CHYBA;
+    for(j = 0; j < MAT_TEXTUR; j++)
+      p_stg->textury[j] = j;
+
+    /* Defaultni bump-mapping
+    */
+    p_stg->text_ati_bump_matrix[0] = 2.0f/256.0f;
+    p_stg->text_ati_bump_matrix[1] = 0.0f;
+    p_stg->text_ati_bump_matrix[2] = 2.0f/256.0f;
+    p_stg->text_ati_bump_matrix[3] = 0.0f;
+  }
+}
+
 /* Prevod svetel do sceny
 */
 void lo_preved_svetla_do_sceny(EDIT_KONTEJNER *p_kont, STATIC_LIGHT *p_light, int lightnum, DYN_LIGHT *p_dlist, int dlistnum, EXTRA_DYN_LIGHT *p_elist, int elistnum);

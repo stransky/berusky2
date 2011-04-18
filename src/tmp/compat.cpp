@@ -308,7 +308,7 @@ int GetPrivateProfileInt(
   // lpAppName -> unused
   return(ini_read_int(lpFileName, lpKeyName, nDefault));
 }
-
+/*
 bitmapa * bmp_vyrob(int x, int y)
 {
 }
@@ -345,6 +345,7 @@ void      bmp_putpixel(bitmapa *p_bmp, int x, int y, dword barva)
 void      bmp_smaz(bitmapa *p_text, dword barva)
 {
 }
+*/
 
 int  txt_vyrob_2D_texturu(int x, int y, int filtr, int format)
 {

@@ -52,7 +52,7 @@ padded with 0x00 chars up to the next DWORD boundary
 
 *******************************************************************/
 
-byte* ConvertRGBToBMPBuffer ( byte* Buffer, int width, int height, long* newsize)
+byte* ConvertRGBToBMPBuffer ( byte* Buffer, int width, int height, int* newsize)
 {
 	int padding = 0;
 	int scanlinebytes = width * 3;
@@ -177,9 +177,8 @@ On error the return value is FALSE.
 
 ***************************************************************/
 
-int SaveBMP(FILE *file, byte* Buffer, int width, int height, long paddedsize )
+int SaveBMP(FILE *file, byte* Buffer, int width, int height, int paddedsize )
 {
-/*
 	// declare bmp structures 
 	BITMAPFILEHEADER bmfh;
 	BITMAPINFOHEADER info;
@@ -226,7 +225,7 @@ int SaveBMP(FILE *file, byte* Buffer, int width, int height, long paddedsize )
 	{	
 		return FALSE;
 	}
-*/	
+
 	return TRUE;
 }
 
@@ -244,9 +243,8 @@ On error the return value is NULL.
   NOTE: make sure you [] delete the returned array at end of 
 		program!!!
 *******************************************************************/
-byte* LoadBMP(KFILE *file, int* width, int* height, long* size)
+byte* LoadBMP(KFILE *file, int* width, int* height, int* size)
 {
-/*
 	// declare bitmap structures
 	BITMAPFILEHEADER bmpheader;
 	BITMAPINFOHEADER bmpinfo;
@@ -279,7 +277,7 @@ byte* LoadBMP(KFILE *file, int* width, int* height, long* size)
 	
 	// create buffer to hold the data
 	*size = bmpheader.bfSize - bmpheader.bfOffBits;
-	Buffer = mmalloc(sizeof(byte)*(*size));  
+	Buffer = (byte *)mmalloc(sizeof(byte)*(*size));  
 
 	// move file pointer to start of bitmap data
 	//aseek(1,file, start+bmpheader.bfOffBits, SEEK_SET);
@@ -292,5 +290,4 @@ byte* LoadBMP(KFILE *file, int* width, int* height, long* size)
 
 	// everything successful here: close file and return buffer
 	return(Buffer);
-  */
 }

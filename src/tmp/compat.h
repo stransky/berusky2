@@ -7,8 +7,10 @@
 
 typedef unsigned char   byte;
 typedef unsigned short  word;
+typedef unsigned short  WORD;
 typedef unsigned int    dword;
 typedef unsigned int    COLORREF;
+typedef long            LONG;
 typedef dword           DWORD;
 typedef float           FLOAT;
 typedef wchar_t         WCHAR;
@@ -31,11 +33,12 @@ typedef PLANE           ROVINAD;
 typedef word            FACE;
 
 #include "kfile.h"
-#include "Vektor.h"
+#include "Bmp.h"
+#include "Texture.h"
 #include "Matrix.h"
 #include "mesh_flags.h"
-#include "Texture.h"
 #include "Mat3d.h"
+#include "Vektor.h"
 #include "3dinterface.h"
 #include "3dproject.h"
 #include "3dmath.h"
@@ -43,9 +46,11 @@ typedef word            FACE;
 #include "Quat.h"
 #include "Keyframe.h"
 #include "Load.h"
+#include "Load_out.h"
 #include "Di.h"
 #include "Ddx.h"
 #include "Load_chunks.h"
+#include "Kdtree.h"
 
 typedef void (* END_FUNKCE)(int param, int param2, void *p_param);
 

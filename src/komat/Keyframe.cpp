@@ -1643,7 +1643,7 @@ void key_sim_dopln_matrix_kont(EDIT_KONTEJNER *p_kont, HIERARCHY_SIM *p_src)
 static void key_sim_dopln_matrix_mesh_rec(GAME_MESH_OLD *p_mesh, SIMPLE_TRACK_INFO *p_sim)
 {  
   int i;
-/*
+
   for(i = 0; i < p_mesh->objektu; i++) {
     if(p_mesh->p_Objekt_ID[i] == p_sim->Objekt_ID) {
       p_sim->p_m = p_mesh->p_key+i;
@@ -1656,7 +1656,7 @@ static void key_sim_dopln_matrix_mesh_rec(GAME_MESH_OLD *p_mesh, SIMPLE_TRACK_IN
       return;
     }
   }
-*/
+
   // fuck-ati
 }
 
@@ -1857,7 +1857,7 @@ void key_sim_to_sim_indir(SIMPLE_TRACK_INFO *p_dest, SIMPLE_TRACK_INFO *p_src)
 */
 void key_sim_animuj_strom(SIMPLE_TRACK_INFO *p_sim, int time, GLMATRIX *p_otec)
 {  
-  OBB *p_src,
+  OBB_OLD *p_src,
       *p_dest;
   GLMATRIX m, *p_top = p_otec;
   int i;
@@ -1868,7 +1868,7 @@ void key_sim_animuj_strom(SIMPLE_TRACK_INFO *p_sim, int time, GLMATRIX *p_otec)
     p_src = p_sim->p_obb_local;
     p_dest = p_sim->p_obb_world;
     if(p_src && p_dest) {
-      //obb_transformuj(p_src,p_top,p_dest);
+      obb_transformuj(p_src,p_top,p_dest);
     }
   } 
 
@@ -3379,15 +3379,13 @@ void key_sim_root_vloz_pivoty_do_animace_kont(EDIT_KONTEJNER *p_kont)
 */
 void key_mesh_transformuj_obalky(GAME_MESH_OLD *p_mesh, GLMATRIX *p_mat)
 {
-/*
-  OBB *p_src = p_mesh->p_obb_local;
-  OBB *p_dst = p_mesh->p_obb_world;
+  OBB_OLD *p_src = p_mesh->p_obb_local;
+  OBB_OLD *p_dst = p_mesh->p_obb_world;
   int  i;  
   for(i = 0; i < p_mesh->objektu; i++) {
     obb_transformuj(p_src+i,p_mat,p_dst+i);
   }
   obb_transformuj(&p_mesh->obb_local,p_mat,&p_mesh->obb_world);
-*/
 }
 
 /* Spocita pozuze obalku kontejneru - pri key-animaci kdy se obalky

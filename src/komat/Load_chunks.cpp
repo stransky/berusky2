@@ -4902,7 +4902,7 @@ int lo_nahraj_materialy_chunk(EDIT_MATERIAL **p_mat, int max_mat, EDIT_TEXT *p_t
 
 void lo_chunk_stage_load_korekce(EDIT_MATERIAL **p_mat, int num)
 {
-  MATERIAL_TEXT *p_stg; 
+  MATERIAL_TEXT_OLD *p_stg; 
   int textur,i,j,s;
 
   for(j = 0; j < num; j++) {

@@ -81,8 +81,8 @@ void calc_norm_vec_inter_object(EDIT_OBJEKT *p_obj)
  int    j,i,v,v1,k;
  float  p_x,p_y,p_z,p;
  ROVINA r;
- byte   *p_hv = mmalloc(p_obj->vertexnum);
- word   *p_nasle = mmalloc(p_obj->vertexnum * sizeof(word));
+ byte   *p_hv = (byte *)mmalloc(p_obj->vertexnum);
+ word   *p_nasle = (word *)mmalloc(p_obj->vertexnum * sizeof(word));
  word   naslych = 0;
  
  for(v = 0; v < p_obj->vertexnum; v++) {
@@ -1376,11 +1376,11 @@ void poly_obalka(EDIT_MESH_POLY *p_poly, GLMATRIX *p_mat, BOD *p_min, BOD *p_max
 void kontejner_obalka(EDIT_KONTEJNER *p_kont)
 {
   EDIT_OBJEKT *p_obj;
-  OBB *p_obb = &p_kont->obb;
+  OBB_OLD *p_obb = &p_kont->obb;
   BOD   max(-FLT_MAX,-FLT_MAX,-FLT_MAX),
         min( FLT_MAX, FLT_MAX, FLT_MAX);
   int   k;
-/*
+
   for(k = 0; k < MAX_KONT_OBJEKTU; k++) {
     p_obj = p_kont->p_obj[k];
     if(p_obj) {
@@ -1395,7 +1395,6 @@ void kontejner_obalka(EDIT_KONTEJNER *p_kont)
   
   kd_stred_bunky(&min,&max,&p_kont->obb.obb_stred);
   kd_len_bunky(&min,&max,&p_kont->obb.obb_len); 
-*/
 }
 
 void kontejner_obalka_aabb(EDIT_KONTEJNER *p_kont, BOD *p_min, BOD *p_max)
@@ -1405,7 +1404,7 @@ void kontejner_obalka_aabb(EDIT_KONTEJNER *p_kont, BOD *p_min, BOD *p_max)
 
   vektor_set(p_min, FLT_MAX);
   vektor_set(p_max,-FLT_MAX);
-/*
+
   for(k = 0; k < MAX_KONT_OBJEKTU; k++) {
     p_obj = p_kont->p_obj[k];
     if(p_obj) {
@@ -1413,7 +1412,6 @@ void kontejner_obalka_aabb(EDIT_KONTEJNER *p_kont, BOD *p_min, BOD *p_max)
       kd_min_max_bod(&p_obj->obb.aabb_max,p_min,p_max);
     }
   }
-*/
 }
 
 // cte velikost objektu v bytech
@@ -2199,10 +2197,10 @@ void mesh_env_maping_spec(GAME_MESH_OLD *p_mesh, GLMATRIX *p_cam, EDIT_MATERIAL 
   GLMATRIX *p_kw;
   int       flag2;
 
-  p_mesh->m2flags.flag_set(KONT2_UPDATE_SPEC);
+  p_mesh->p_data->k2flag |= KONT2_UPDATE_SPEC;
 
-  kframe = p_mesh->mflags.flag_get(KONT_KEYFRAME);
-  if(!kframe) 
+  kframe = p_mesh->p_data->kflag&KONT_KEYFRAME;
+  if(!kframe)
     p_kw = &p_mesh->m;
 
   v1 = p_cam->_13;

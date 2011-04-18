@@ -301,6 +301,11 @@ inline BOD * vektor_inv(BOD *v)
   return(v);
 }
 
+inline float vzdal_bodu(OBJ_VERTEX *a, OBJ_VERTEX *b)
+{
+  return((float)sqrt((b->x-a->x)*(b->x-a->x)+(b->y-a->y)*(b->y-a->y)+(b->z-a->z)*(b->z-a->z)));
+}
+
 inline float vzdal_bodu_bod(BOD *a, BOD *b)
 {
   float v = (b->x-a->x)*(b->x-a->x)+(b->y-a->y)*(b->y-a->y)+(b->z-a->z)*(b->z-a->z);

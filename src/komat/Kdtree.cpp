@@ -9,8 +9,8 @@ void kd_analizuj_scenu(EDIT_MESH_POLY *p_upoly, int polynum,
 {
   EDIT_MESH_POLY *p_poly;
   EDIT_KONTEJNER *p_kont;
-  BOD kon = { -FLT_MAX, -FLT_MAX, -FLT_MAX}, 
-      zac = { FLT_MAX, FLT_MAX, FLT_MAX}, 
+  BOD kon(-FLT_MAX, -FLT_MAX, -FLT_MAX),
+      zac(FLT_MAX, FLT_MAX, FLT_MAX),
       a;
   GLMATRIX *p_mat;
   int p,f;

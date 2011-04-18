@@ -541,8 +541,8 @@ void obb_calc_kont_keyframe(EDIT_KONTEJNER *p_kont, int num)
   int *p_ind,o;
   int  i,j,k;
 
-  p_list = mmalloc(sizeof(p_list[0])*(num+1));
-  p_ind = mmalloc(sizeof(p_ind[0])*num);
+  p_list = (OBB_OLD *)mmalloc(sizeof(p_list[0])*(num+1));
+  p_ind = (int *)mmalloc(sizeof(p_ind[0])*num);
   num = 0;
   oe_olist_reset(&o);
   while(oe_olist_next(p_kont,&o)) {
@@ -595,7 +595,7 @@ void obb_calc_obj_kosti_anim(EDIT_OBJEKT *p_obj, JOINT_ANIMACE *p_anim, OBB_OLD 
   OBB_OLD *p_list;
   int  k;
 
-  p_list = mmalloc(sizeof(p_list[0])*p_anim->framenum);
+  p_list = (OBB_OLD *)mmalloc(sizeof(p_list[0])*p_anim->framenum);
 
   for(k = 0; k < p_anim->framenum; k++) {
     p_anim->time = frame2time(k);
@@ -628,7 +628,7 @@ void obb_calc_obj_kosti(EDIT_OBJEKT *p_obj, int precizne)
       num++;
     }
 
-    p_list = mmalloc(sizeof(p_list[0])*num);
+    p_list = (OBB_OLD *)mmalloc(sizeof(p_list[0])*num);
 
     num = 0;
     p_anim = p_obj->p_joit_animace;
@@ -663,7 +663,7 @@ void obb_calc_kont(EDIT_KONTEJNER *p_kont_top, int precizne)
     if(p_kont->kflag&KONT_KEYFRAME) {
       obb_calc_kont_keyframe(p_kont,num);
     } else {
-      p_list = mmalloc(sizeof(p_list[0])*num);
+      p_list = (OBB_OLD *)mmalloc(sizeof(p_list[0])*num);
       
       num = 0;
       oe_olist_reset(&o);
@@ -789,7 +789,7 @@ void obb_calc_poly(EDIT_MESH_POLY *p_poly)
 
 void obb_calc_item(OBB_OLD *p_vys, OBB_TREE_ITEM_OLD *p_item, int itemnum)
 { 
-  OBB_OLD *p_list = mmalloc(sizeof(OBB_OLD)*itemnum);
+  OBB_OLD *p_list = (OBB_OLD *)mmalloc(sizeof(OBB_OLD)*itemnum);
   int  i;
 
   for(i = 0; i < itemnum; i++) {
@@ -833,7 +833,7 @@ void obbtree_calc_obalky(OBB_TREE_OLD *p_prvni)
   OBB_OLD *p_list;
   int  p,i;
   
-  p_list = mmalloc(sizeof(p_list[0])*(p_prvni->nextnum+p_prvni->itnum));
+  p_list = (OBB_OLD *)mmalloc(sizeof(p_list[0])*(p_prvni->nextnum+p_prvni->itnum));
   for(i = 0; i < p_prvni->nextnum; i++) {
     obbtree_calc_obalky(p_prvni->p_next+i);
     p_list[i] = p_prvni->p_next[i].obb;
@@ -867,7 +867,7 @@ void obbtree_vyrob(OBB_TREE_OLD *p_prvni, EDIT_MESH_POLY *p_poly, int polynum, G
   p_mat = p_matlist;
 
   memset(p_prvni,0,sizeof(p_prvni[0]));
-  p_prvni->p_item = mmalloc(sizeof(p_prvni->p_item[0])*itnum);
+  p_prvni->p_item = (OBB_TREE_ITEM_OLD *)mmalloc(sizeof(p_prvni->p_item[0])*itnum);
   p_prvni->itnum = itnum;
 
   for(i = 0; i < polynum; i++) {
@@ -944,12 +944,12 @@ void obbtree_vyrob_rec(OBB_TREE_OLD *p_prvni, float max_vzdal)
   OBB_TREE_ITEM_OLD *p_item = p_prvni->p_item;
   int            itemnum = p_prvni->itnum;
   int            itemzbyva = p_prvni->itnum;
-  OBB_TREE_ITEM_OLD *p_tmp_item = alloca(sizeof(p_tmp_item[0])*itemnum);
+  OBB_TREE_ITEM_OLD *p_tmp_item = (OBB_TREE_ITEM_OLD *)alloca(sizeof(p_tmp_item[0])*itemnum);
   int            tmp_itemnum;
-  OBB_TREE      *p_obalky = alloca(sizeof(p_obalky[0])*itemnum);
+  OBB_TREE_OLD  *p_obalky = (OBB_TREE_OLD *)alloca(sizeof(p_obalky[0])*itemnum);
   int            obalnum = 0;
-  int           *p_hits = alloca(sizeof(p_hits[0])*itemnum);   // globalni hity
-  int           *p_lhits = alloca(sizeof(p_lhits[0])*itemnum); // lokalni hity
+  int           *p_hits = (int *)alloca(sizeof(p_hits[0])*itemnum);   // globalni hity
+  int           *p_lhits = (int *)alloca(sizeof(p_lhits[0])*itemnum); // lokalni hity
   OBB_OLD        obb;
   int            p,i,itemzustava;
 
@@ -998,7 +998,7 @@ void obbtree_vyrob_rec(OBB_TREE_OLD *p_prvni, float max_vzdal)
     if(tmp_itemnum >= MIN_PODOBALEK_OBJ && itemzbyva-tmp_itemnum >= MIN_PODOBALEK_OBJ_ZBYTEK) {
       itemzbyva -= tmp_itemnum;
       p_obalky[obalnum].obb = obb;
-      p_obalky[obalnum].p_item = kopiruj_pole(p_tmp_item,sizeof(p_tmp_item[0])*tmp_itemnum);
+      p_obalky[obalnum].p_item = (OBB_TREE_ITEM_OLD *)kopiruj_pole(p_tmp_item,sizeof(p_tmp_item[0])*tmp_itemnum);
       p_obalky[obalnum].itnum = tmp_itemnum;
       p_obalky[obalnum].p_up = p_prvni;
       obalnum++;
@@ -1019,7 +1019,7 @@ void obbtree_vyrob_rec(OBB_TREE_OLD *p_prvni, float max_vzdal)
   
   free(p_prvni->p_item);
 
-  p_prvni->p_item = mmalloc(sizeof(p_prvni->p_item[0])*itemzustava);
+  p_prvni->p_item = (OBB_TREE_ITEM_OLD *)mmalloc(sizeof(p_prvni->p_item[0])*itemzustava);
   p_prvni->itnum = itemzustava;
   
   /* Skopiruju neumistene polozky
@@ -1038,7 +1038,7 @@ void obbtree_vyrob_rec(OBB_TREE_OLD *p_prvni, float max_vzdal)
   */
   p_prvni->nextnum = obalnum;
   if(obalnum) {
-    p_prvni->p_next = kopiruj_pole(p_obalky,sizeof(p_prvni->p_next[0])*obalnum);
+    p_prvni->p_next = (OBB_TREE_OLD *)kopiruj_pole(p_obalky,sizeof(p_prvni->p_next[0])*obalnum);
 
     /* Pro kazdou pod-obalku zavolej delicku...
     */

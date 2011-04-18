@@ -8,10 +8,10 @@
 AUX_RGBImageRec * vyrob_aux(int x, int y)
 {
     AUX_RGBImageRec *p_tmp;
-    p_tmp = mmalloc(sizeof(AUX_RGBImageRec));
+    p_tmp = (AUX_RGBImageRec *)mmalloc(sizeof(AUX_RGBImageRec));
     p_tmp->sizeX = x;
     p_tmp->sizeY = y;
-    p_tmp->data = mmalloc(sizeof(p_tmp->data[0])*3*x*y);
+    p_tmp->data = (byte *)mmalloc(sizeof(p_tmp->data[0])*3*x*y);
     return(p_tmp);
 }
 
@@ -24,10 +24,10 @@ AUX_RGBImageRec * nahraj_aux_file(KFILE *f)
   byte *p_bmp = LoadBMP(f, &dx, &dy, &size);
   byte *p_rec = ConvertBMPToRGBBuffer(p_bmp, dx, dy);
  
-  null_free(&p_bmp);
+  null_free((void **)&p_bmp);
   if(p_rec) {
     AUX_RGBImageRec *p_tmp;
-    p_tmp = mmalloc(sizeof(AUX_RGBImageRec));
+    p_tmp = (AUX_RGBImageRec *)mmalloc(sizeof(AUX_RGBImageRec));
     p_tmp->sizeX = dx;
     p_tmp->sizeY = dy;
     p_tmp->data = p_rec;
@@ -55,8 +55,8 @@ AUX_RGBImageRec * nahraj_aux(APAK_HANDLE *pAHandle, char *p_file)
 void zrus_aux(AUX_RGBImageRec **p_aux)
 {
   if(p_aux && *p_aux) {
-    null_free(&(*p_aux)->data);
-    null_free(p_aux);
+    null_free((void **)&(*p_aux)->data);
+    null_free((void **)p_aux);
   }
 }
 
@@ -355,7 +355,7 @@ bitmapa * txt_bmp2textura(bitmapa *p_bmp, EDIT_TEXT_OLD *p_text, EDIT_TEXT_KONFI
 
   switch(p_text->wrap_x) {
   case 0:
-    if(extlist_text_edge_clamp) {
+    if(gl_ext::extlist_text_edge_clamp) {
       wrap = GL_CLAMP_TO_EDGE;
     } else {
       wrap = GL_CLAMP;
@@ -369,7 +369,7 @@ bitmapa * txt_bmp2textura(bitmapa *p_bmp, EDIT_TEXT_OLD *p_text, EDIT_TEXT_KONFI
   
   switch(p_text->wrap_y) {
   case 0:
-    if(extlist_text_edge_clamp) {
+    if(gl_ext::extlist_text_edge_clamp) {
       wrap = GL_CLAMP_TO_EDGE;
     } else {
       wrap = GL_CLAMP;
@@ -391,7 +391,7 @@ int txt_vyrob_2D_texturu(int x, int y, int filtr, int format)
   int      wrap,text;
   bitmapa *p_bmp;
   
-  glGenTextures(1,&text);
+  glGenTextures(1,(GLuint*)&text);
   glBindTexture(GL_TEXTURE_2D,text);
   
   p_bmp = bmp_vyrob(x,y);
@@ -408,7 +408,7 @@ int txt_vyrob_2D_texturu(int x, int y, int filtr, int format)
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
   }
 
-  if(extlist_text_edge_clamp) {
+  if(gl_ext::extlist_text_edge_clamp) {
     wrap = GL_CLAMP_TO_EDGE;
   } else {
     wrap = GL_CLAMP;
@@ -689,12 +689,12 @@ int txt_nahraj_texturu_z_dds(APAK_HANDLE *pHandle, char *p_file,  EDIT_TEXT_OLD 
     konf.wrap_y = GL_REPEAT;
     if(ret == 3) {
       konf.format = txconf.format2d[FORMAT_RGB];
-      p_tmp = p_vysl;
+      p_tmp = (AUX_RGBImageRec *)p_vysl;
       p_text->p_bmp = txt_aux2bmp(p_tmp,FALSE);
       zrus_aux(&p_tmp);
     } else {
       konf.format = txconf.format2d[FORMAT_RGBA4];  
-      p_text->p_bmp = p_vysl;
+      p_text->p_bmp = (bitmapa *)p_vysl;
     }
     p_text->p_bmp = txt_bmp2textura(p_text->p_bmp, p_text, &konf, FALSE);
     p_text->load = TRUE;
@@ -726,7 +726,7 @@ int txt_nahraj_texturu_z_tga(APAK_HANDLE *pHandle, char *p_file,  EDIT_TEXT_OLD 
 int txt_zrus_2D_texturu(int *p_text)
 {
   if(glIsTexture(*p_text)) {
-    glDeleteTextures(1,p_text);
+    glDeleteTextures(1,(GLuint *)p_text);
     *p_text = 0;
     return(TRUE);
   } else {
@@ -784,11 +784,11 @@ bitmapa * bmp_vyrob(int x, int y)
 {
   bitmapa *p_bmp;
   
-  p_bmp = mmalloc(sizeof(*p_bmp));
+  p_bmp = (bitmapa*)mmalloc(sizeof(*p_bmp));
   p_bmp->x = x;
   p_bmp->y = y;
   
-  p_bmp->data = mmalloc(sizeof(dword)*x*y);
+  p_bmp->data = (dword*)mmalloc(sizeof(dword)*x*y);
   return(p_bmp);
 }
 
@@ -799,11 +799,11 @@ AUX_RGBImageRec * bmp2aux(bitmapa *p_bmp)
   int   i,n,s;
   dword barva;
 
-  p_vys = mmalloc(sizeof(*p_vys));    
+  p_vys = (AUX_RGBImageRec *)mmalloc(sizeof(*p_vys));    
   p_vys->sizeX = p_bmp->x;
   p_vys->sizeY = p_bmp->y;
   
-  p_vys->data = mmalloc(sizeof(char)*3*p_bmp->x*p_bmp->y);
+  p_vys->data = (byte *)mmalloc(sizeof(char)*3*p_bmp->x*p_bmp->y);
 
   n = p_bmp->x*p_bmp->y;
   for(i = 0; i < n; i++) {
@@ -1047,10 +1047,10 @@ byte * file_read(APAK_HANDLE *pHandle, char *p_file, int *p_read)
       return(NULL);
     agetbuffer(f, &pBuffer, &psize);
     *p_read = psize;
-    p_buffer = mmalloc(sizeof(byte)*psize);
+    p_buffer = (char *)mmalloc(sizeof(byte)*psize);
     memmove(p_buffer,pBuffer,sizeof(byte)*psize);
     aclose(f);
-    return(p_buffer);
+    return((byte *)p_buffer);
   } else {
     f = fopen(p_file,"rb");
     if(!f)
@@ -1058,10 +1058,10 @@ byte * file_read(APAK_HANDLE *pHandle, char *p_file, int *p_read)
     fseek(f,0,SEEK_END);
     v = ftell(f);
     fseek(f,0,SEEK_SET);
-    p_buffer = mmalloc(sizeof(byte)*v);
+    p_buffer = (char *)mmalloc(sizeof(byte)*v);
     *p_read = fread(p_buffer,sizeof(byte),v,f);
     fclose(f);
-    return(p_buffer);
+    return((byte *)p_buffer);
   }
 }
 

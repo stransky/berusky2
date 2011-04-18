@@ -1,15 +1,6 @@
 /* Import textur
 */
-
-#include <math.h>
-
-#include <fcntl.h>
-#include <GL/gl.h>
-
-#include <assert.h>
-
 #include "3d_all.h"
-//#include "dxtlib.h"
 
 static KFILE *file_load;
 
