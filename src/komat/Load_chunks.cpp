@@ -4681,7 +4681,7 @@ int lo_load_chunky(FFILE f)
       lo_chunk_load_neznamy(f, &ch);
     }
 
-    j++;
+    j++;  
   }
 
   if(ret < 0) {

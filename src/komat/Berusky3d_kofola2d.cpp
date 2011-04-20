@@ -585,7 +585,7 @@ SurfaceHandle ddx2LoadBitmapPosDisk(SurfaceHandle handle, char *pFileName)
   }
   
   kprintf(TRUE,"FILE %s LINE %d Chyba loadu bmp %s...",__FILE__,__LINE__,pFileName);
-  konec(TRUE);
+  assert(0);
   
   return(K_CHYBA);
 }

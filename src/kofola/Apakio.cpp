@@ -65,10 +65,6 @@ int fillbuffer(APAK_FILE_HANDLE *pFHandle)
 	fseek(pFHandle->pArchive->pFILE, pFHandle->apuLfStartofFile, SEEK_SET);
 	fread(pTmp, size, 1, pFHandle->pArchive->pFILE);
 
-/*
-ZEXTERN int ZEXPORT compress OF((Bytef *dest,   uLongf *destLen,
-                                 const Bytef *source, uLong sourceLen));
-*/
 	if(pFHandle->pFileInfo->bNotCompressed)
 		memcpy(pFHandle->pBuffer, pTmp, size);  
 	else
