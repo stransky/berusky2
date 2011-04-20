@@ -724,7 +724,7 @@ int lo_chunk_save_static_light(FFILE f, STATIC_LIGHT *p_light, EDIT_MATERIAL **p
   ffwrite(&p_light->utlum,sizeof(p_light->utlum),1,f);
   ffwrite(&p_light->flag,sizeof(p_light->flag),1,f);
   ffwrite(&p_light->flag2,sizeof(p_light->flag2),1,f);
-/*
+
   p_flare = (LENS_FLARE *)p_light->p_flare;
   if(p_flare && p_flare->akt) {      
     lo_uloz_material_chunk(f, p_flare->p_mat);
@@ -737,7 +737,7 @@ int lo_chunk_save_static_light(FFILE f, STATIC_LIGHT *p_light, EDIT_MATERIAL **p
       lo_chunk_save_flare_slozeny(f,p_flare,p_mat);
     }
   }
-*/
+
   return(TRUE);
 }
 
@@ -774,7 +774,7 @@ int lo_chunk_save_static_light_mesh(FFILE f, STATIC_LIGHT *p_light, EDIT_MATERIA
     
     /* Ulozeni flaru ke statickemu svetlu
     */
-    /*
+
     p_flare = (LENS_FLARE *)p_light->p_flare;
     if(p_flare && p_flare->akt) {      
       lo_uloz_material_chunk(f, p_flare->p_mat);
@@ -787,7 +787,7 @@ int lo_chunk_save_static_light_mesh(FFILE f, STATIC_LIGHT *p_light, EDIT_MATERIA
         lo_chunk_save_flare_slozeny(f,p_flare,p_mat);
       }
     }
-      */  
+
     /* Dalsi svetlo
     */
     p_light = p_light->p_next;
@@ -881,7 +881,7 @@ int lo_chunk_save_mat_matanim_frame(FFILE f, ANIM_FRAME *p_fram, int frame)
   EDIT_TEXT *p_text;
   OUT_CHUNK  ch;
   int        flag;
-/*
+
   if(p_fram) {
     p_text = p_fram->p_text;
     ch.typ = CHUNK_MATANIM_EFRAME;
@@ -905,7 +905,6 @@ int lo_chunk_save_mat_matanim_frame(FFILE f, ANIM_FRAME *p_fram, int frame)
     return(TRUE);
   } else
     return(FALSE);
-  */  
 }
 
 int lo_chunk_save_mat_matanim(FFILE f, EDIT_MATERIAL *p_mat)
@@ -1055,7 +1054,6 @@ int lo_chunk_save_mat_env_spec(FFILE f, EDIT_MATERIAL *p_mat)
 
 int lo_chunk_save_mat_text_blend_ext(FFILE f, EDIT_MATERIAL *p_mat, int num)
 {
-/*
   OUT_CHUNK ch;  
   ch.typ = CHUNK_TEXT_STAGE_AD_1+num;
   ch.velikost = sizeof(ch)+sizeof(int)*1+sizeof(int)*4+sizeof(int)*4+
@@ -1067,7 +1065,7 @@ int lo_chunk_save_mat_text_blend_ext(FFILE f, EDIT_MATERIAL *p_mat, int num)
   ffwrite(&p_mat->text_state[num].text_funkce,sizeof(int),4,f);
   ffwrite(&p_mat->text_state[num].text_ati_bump_matrix,
           sizeof(p_mat->text_state[num].text_ati_bump_matrix[0]),4,f);
-*/
+
   return(TRUE);
 }
 
@@ -1898,7 +1896,7 @@ int lo_chunk_save_obj_barvy_ext(FFILE f, EDIT_OBJEKT *p_obj)
     return(FALSE);
 }
 
-int lo_chunk_save_obj_joint_spline(FILE *f, JOINT_KEYS *p_keys)
+int lo_chunk_save_obj_joint_spline(FFILE f, JOINT_KEYS *p_keys)
 {
   OUT_CHUNK ch;
   
@@ -1937,7 +1935,7 @@ int lo_chunk_save_obj_joint_spline(FILE *f, JOINT_KEYS *p_keys)
 
 #define ROOT_ID 0
 
-int lo_chunk_save_obj_joint(FILE *f, JOINT *p_joint, int id_prev)
+int lo_chunk_save_obj_joint(FFILE f, JOINT *p_joint, int id_prev)
 {
   OUT_CHUNK ch;
   
@@ -2001,7 +1999,7 @@ int lo_chunk_save_obj_joint(FILE *f, JOINT *p_joint, int id_prev)
   return(TRUE);
 }
 
-int lo_chunk_save_obj_joint_animaci(FILE *f, JOINT_ANIMACE *p_jani)
+int lo_chunk_save_obj_joint_animaci(FFILE f, JOINT_ANIMACE *p_jani)
 {
   OUT_CHUNK ch;
   
@@ -2030,7 +2028,7 @@ void lo_kost_ocisluj_rec(JOINT *p_joint, int *p_cislo)
   p_joint->joint_ID = (*p_cislo)++;
 }
 
-int lo_chunk_save_obj_joint_animace(FILE *f, EDIT_OBJEKT *p_obj)
+int lo_chunk_save_obj_joint_animace(FFILE f, EDIT_OBJEKT *p_obj)
 {
   JOINT_ANIMACE *p_akt = p_obj->p_joit_animace;
   int ID;
@@ -2100,12 +2098,10 @@ int lo_chunk_save_kont_mesh(FFILE f, EDIT_KONTEJNER *p_kont, EDIT_MATERIAL **p_m
         lo_chunk_save_obj_matrix(f,&p_kont->p_obj[i]->m);
 
       /* Single - mesh animace      
-      */
-      /* TODO
+      */      
       if(p_kont->p_obj[i]->p_joit_animace) {
         lo_chunk_save_obj_joint_animace(f,p_kont->p_obj[i]);
-      }
-      */
+      }      
     }
     return(j);
   } else
@@ -2464,14 +2460,13 @@ int lo_chunk_load_kamset_2(FFILE f, OUT_CHUNK *p_ch)
    Loading dynamickeho svetla
 */
 int lo_chunk_load_dyn_light_anim(FFILE f, DYN_LIGHT_ANIM *p_an, int extra)
-{  
-  /*
+{
   ffread(&p_an->pos_keys,sizeof(p_an->pos_keys),1,f);
   if(p_an->pos_keys) {
-    p_an->p_pkeys = mmalloc(sizeof(p_an->p_pkeys[0])*p_an->pos_keys);
+    p_an->p_pkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_an->p_pkeys[0])*p_an->pos_keys);
     ffread(p_an->p_pkeys,sizeof(p_an->p_pkeys[0]),p_an->pos_keys,f);    
 
-    p_an->p_pos = mmalloc(sizeof(p_an->p_pos[0])*p_an->pos_keys);
+    p_an->p_pos = (BOD *)mmalloc(sizeof(p_an->p_pos[0])*p_an->pos_keys);
     ffread(p_an->p_pos,sizeof(p_an->p_pos[0]),p_an->pos_keys,f);
   } else {
     p_an->p_pkeys = NULL;
@@ -2480,10 +2475,10 @@ int lo_chunk_load_dyn_light_anim(FFILE f, DYN_LIGHT_ANIM *p_an, int extra)
     
   ffread(&p_an->trg_keys,sizeof(p_an->trg_keys),1,f);
   if(p_an->trg_keys) {
-    p_an->p_tkeys = mmalloc(sizeof(p_an->p_tkeys[0])*p_an->trg_keys);
+    p_an->p_tkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_an->p_tkeys[0])*p_an->trg_keys);
     ffread(p_an->p_tkeys,sizeof(p_an->p_tkeys[0]),p_an->trg_keys,f);
 
-    p_an->p_trg = mmalloc(sizeof(p_an->p_trg[0])*p_an->trg_keys);
+    p_an->p_trg = (BOD *)mmalloc(sizeof(p_an->p_trg[0])*p_an->trg_keys);
     ffread(p_an->p_trg,sizeof(p_an->p_trg[0]),p_an->trg_keys,f);
   } else {
     p_an->p_tkeys = NULL;
@@ -2492,10 +2487,10 @@ int lo_chunk_load_dyn_light_anim(FFILE f, DYN_LIGHT_ANIM *p_an, int extra)
   
   ffread(&p_an->dos_keys,sizeof(p_an->dos_keys),1,f);
   if(p_an->dos_keys) {
-    p_an->p_dskeys = mmalloc(sizeof(p_an->p_dskeys[0])*p_an->dos_keys);
+    p_an->p_dskeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_an->p_dskeys[0])*p_an->dos_keys);
     ffread(p_an->p_dskeys,sizeof(p_an->p_dskeys[0]),p_an->dos_keys,f);
 
-    p_an->p_dosah = mmalloc(sizeof(p_an->p_dosah[0])*p_an->dos_keys);
+    p_an->p_dosah = (BOD *)mmalloc(sizeof(p_an->p_dosah[0])*p_an->dos_keys);
     ffread(p_an->p_dosah,sizeof(p_an->p_dosah[0]),p_an->dos_keys,f);
   } else {
     p_an->p_dskeys = NULL;
@@ -2512,18 +2507,18 @@ int lo_chunk_load_dyn_light_anim(FFILE f, DYN_LIGHT_ANIM *p_an, int extra)
     if(p_an->alfa_keys) {
       int i;
 
-      p_an->p_akeys = mmalloc(sizeof(p_an->p_akeys[0])*p_an->alfa_keys);
+      p_an->p_akeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_an->p_akeys[0])*p_an->alfa_keys);
       ffread(p_an->p_akeys,sizeof(p_an->p_akeys[0]),p_an->alfa_keys,f);
       
-      p_an->p_diff = mmalloc(sizeof(p_an->p_diff[0])*p_an->alfa_keys);
+      p_an->p_diff = (BARVA_RGBA *)mmalloc(sizeof(p_an->p_diff[0])*p_an->alfa_keys);
       ffread(p_an->p_diff,sizeof(p_an->p_diff[0]),p_an->alfa_keys,f);
 
-      p_an->p_alfa = mmalloc(sizeof(p_an->p_alfa[0])*p_an->alfa_keys);
+      p_an->p_alfa = (float *)mmalloc(sizeof(p_an->p_alfa[0])*p_an->alfa_keys);
       for(i = 0; i < p_an->alfa_keys; i++) {
         p_an->p_alfa[i] = p_an->p_diff[i].a;
       } 
       
-      null_free(&p_an->p_diff);
+      null_free((void **)&p_an->p_diff);
     } else {
       p_an->p_akeys = NULL;
       p_an->p_alfa = NULL;
@@ -2536,10 +2531,10 @@ int lo_chunk_load_dyn_light_anim(FFILE f, DYN_LIGHT_ANIM *p_an, int extra)
     p_an->p_alfa = NULL;    
     
     if(p_an->diff_keys) {
-      p_an->p_dfkeys = mmalloc(sizeof(p_an->p_dfkeys[0])*p_an->diff_keys);
+      p_an->p_dfkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_an->p_dfkeys[0])*p_an->diff_keys);
       ffread(p_an->p_dfkeys,sizeof(p_an->p_dfkeys[0]),p_an->diff_keys,f);
       
-      p_an->p_diff = mmalloc(sizeof(p_an->p_diff[0])*p_an->diff_keys);
+      p_an->p_diff = (BARVA_RGBA *)mmalloc(sizeof(p_an->p_diff[0])*p_an->diff_keys);
       ffread(p_an->p_diff,sizeof(p_an->p_diff[0]),p_an->diff_keys,f);
     } else {
       p_an->p_dfkeys = NULL;
@@ -2549,16 +2544,16 @@ int lo_chunk_load_dyn_light_anim(FFILE f, DYN_LIGHT_ANIM *p_an, int extra)
   
   ffread(&p_an->spec_keys,sizeof(p_an->spec_keys),1,f);
   if(p_an->spec_keys) {
-    p_an->p_spkeys = mmalloc(sizeof(p_an->p_spkeys[0])*p_an->spec_keys);
+    p_an->p_spkeys = (KEY_POINT_BRS *)mmalloc(sizeof(p_an->p_spkeys[0])*p_an->spec_keys);
     ffread(p_an->p_spkeys,sizeof(p_an->p_spkeys[0]),p_an->spec_keys,f);
 
-    p_an->p_spec = mmalloc(sizeof(p_an->p_spec[0])*p_an->spec_keys);
+    p_an->p_spec = (BARVA_RGBA *)mmalloc(sizeof(p_an->p_spec[0])*p_an->spec_keys);
     ffread(p_an->p_spec,sizeof(p_an->p_spec[0]),p_an->spec_keys,f);
   } else {
     p_an->p_spkeys = NULL;
     p_an->p_spec = NULL;
   }
-  */
+
   return(TRUE);
 }
 
@@ -2602,9 +2597,9 @@ int lo_chunk_load_dyn_light(FFILE f, OUT_CHUNK *p_ch)
 int lo_chunk_load_dyn_light_mesh(FFILE f, OUT_CHUNK *p_ch)
 {
   DYN_LIGHT *p_light;
-  /*
+  
   if(p_kont && p_ch->typ == CHUNK_DYNAMIC_LIGHT_MESH) {
-    p_light = mmalloc(sizeof(p_light[0]));
+    p_light = (DYN_LIGHT *)mmalloc(sizeof(p_light[0]));
     ffread(&p_light->akt,sizeof(p_light->akt),1,f);
     str_read(p_light->jmeno,f);
     ffread(&p_light->np,sizeof(p_light->np),1,f);
@@ -2642,7 +2637,6 @@ int lo_chunk_load_dyn_light_mesh(FFILE f, OUT_CHUNK *p_ch)
     return(TRUE);
   } else
     return(FALSE);
-*/
 }
 
 /* **************************************************************
@@ -2690,9 +2684,9 @@ int lo_chunk_load_extra_light(FFILE f, OUT_CHUNK *p_ch)
 int lo_chunk_load_extra_light_mesh(FFILE f, OUT_CHUNK *p_ch)
 {
   EXTRA_DYN_LIGHT *p_light;
-/*  
+
   if(p_kont && p_ch->typ == CHUNK_EXTRA_LIGHT_MESH) {
-    p_light = mmalloc(sizeof(p_light[0]));
+    p_light = (EXTRA_DYN_LIGHT *)mmalloc(sizeof(p_light[0]));
     ffread(&p_light->akt,sizeof(p_light->akt),1,f);
     str_read(p_light->jmeno,f);
     ffread(&p_light->flag,sizeof(p_light->flag),1,f);
@@ -2730,7 +2724,6 @@ int lo_chunk_load_extra_light_mesh(FFILE f, OUT_CHUNK *p_ch)
     return(TRUE);
   } else
     return(FALSE);
-    */
 }
 
 /* ***********************************************************************
@@ -3366,14 +3359,14 @@ int lo_chunk_load_matanim_frame(FFILE f, OUT_CHUNK *p_ch)
     ffread(&p_fram->u,sizeof(p_fram->u),1,f);
     ffread(&p_fram->v,sizeof(p_fram->v),1,f);
     ffread(&p_fram->flag,sizeof(p_fram->flag),1,f);
-    /* TODO
+    
     if((t = lo_najdi_texturu(p_textlist,textlistnum,p_fram->file,flag))==K_CHYBA) {
       if((t = lo_najdi_volnou_texturu(p_textlist,textlistnum)) == K_CHYBA)
         chyba("Neni volna textura !");      
       strcpy(p_textlist[t].jmeno, p_fram->file);
       p_textlist[t].flag = flag;
     }
-    */
+    
     p_fram->p_text = p_textlist+t;
 
     return(TRUE);
@@ -3400,14 +3393,14 @@ int lo_chunk_load_matanim_frame_ext(FFILE f, OUT_CHUNK *p_ch)
     // Load jmeno a flag textury
     str_read(p_fram->file,f);
     ffread(&flag,sizeof(flag),1,f);
-    /* TODO
+  
     if((t = lo_najdi_texturu(p_textlist,textlistnum,p_fram->file,flag))==K_CHYBA) {
       if((t = lo_najdi_volnou_texturu(p_textlist,textlistnum)) == K_CHYBA)
         chyba("Neni volna textura !");
       strcpy(p_textlist[t].jmeno, p_fram->file);
       p_textlist[t].flag = flag;
     }
-  */
+  
     p_fram->p_text = p_textlist+t;
 
     return(TRUE);
@@ -3641,12 +3634,10 @@ int lo_chunk_load_mat_lesk(FFILE f, OUT_CHUNK *p_ch)
 
 int lo_chunk_load_stage(FFILE f, OUT_CHUNK *p_ch)
 {
-  if(p_mat && p_ch->typ == CHUNK_STAG_TAG) {
-  /* TODO
+  if(p_mat && p_ch->typ == CHUNK_STAG_TAG) {  
     ffread(&p_mat->alfa_state,sizeof(p_mat->alfa_state),1,f);
     ffread(&p_mat->text_state[0].text_stage,sizeof(int),1,f);
-    ffread(&p_mat->text_state[1].text_stage,sizeof(int),1,f);
-  */
+    ffread(&p_mat->text_state[1].text_stage,sizeof(int),1,f);  
     return(TRUE);
   } else {    
     return(FALSE);
@@ -3664,51 +3655,47 @@ int lo_chunk_load_mat_alfa_stage(FFILE f, OUT_CHUNK *p_ch)
 }
 
 int lo_chunk_load_mat_text_stage_1(FFILE f, OUT_CHUNK *p_ch)
-{/*
+{
   if(p_mat && p_ch->typ == CHUNK_TEXT_STAGE_1) {
     ffread(&p_mat->text_state[0].text_stage,sizeof(int),1,f);
     return(TRUE);
   } else {    
     return(FALSE);
   }
-*/
 }
 
 int lo_chunk_load_mat_text_stage_2(FFILE f, OUT_CHUNK *p_ch)
 {
-/*
   if(p_mat && p_ch->typ == CHUNK_TEXT_STAGE_2) {
     ffread(&p_mat->text_state[1].text_stage,sizeof(int),1,f);
     return(TRUE);
   } else {    
     return(FALSE);
   }
-*/
 }
 
 int lo_chunk_load_mat_text_stage_3(FFILE f, OUT_CHUNK *p_ch)
-{/*
+{
   if(p_mat && p_ch->typ == CHUNK_TEXT_STAGE_3) {
     ffread(&p_mat->text_state[2].text_stage,sizeof(int),1,f);
     return(TRUE);
   } else {    
     return(FALSE);
   }
-*/
 }
 
 int lo_chunk_load_mat_text_stage_4(FFILE f, OUT_CHUNK *p_ch)
-{/*
+{
   if(p_mat && p_ch->typ == CHUNK_TEXT_STAGE_4) {
     ffread(&p_mat->text_state[3].text_stage,sizeof(int),1,f);
     return(TRUE);
   } else {    
     return(FALSE);
-  }*/
+  }
 }
 
 int lo_chunk_load_mat_text_stage_advaced(FFILE f, OUT_CHUNK *p_ch)
-{/*
+{
   if(p_mat) {
     int num = p_ch->typ-CHUNK_TEXT_STAGE_AD_1;
     ffread(&p_mat->text_state[num].text_stage,sizeof(int),1,f);
@@ -3720,7 +3707,7 @@ int lo_chunk_load_mat_text_stage_advaced(FFILE f, OUT_CHUNK *p_ch)
     return(TRUE);
   } else {
     return(FALSE);
-  }*/
+  }
 }
 
 int lo_chunk_load_mat_env_spec(FFILE f, OUT_CHUNK *p_ch)
@@ -3771,10 +3758,9 @@ int lo_chunk_load_text(FFILE f, OUT_CHUNK *p_ch)
     if((t=lo_najdi_texturu(p_textlist,textlistnum,p_mat->textfile[num],p_mat->textflag[num]))==K_CHYBA) {
       if((t=lo_najdi_volnou_texturu(p_textlist,textlistnum)) == K_CHYBA)
         chyba("Neni volna textura !");      
-      // Zaloz novou texturu
-      // TODO
-      //strcpy(p_textlist[t].jmeno, p_mat->textfile[num]);
-      //p_textlist[t].flag = p_mat->textflag[num];
+      // Zaloz novou texturu      
+      strcpy(p_textlist[t].jmeno, p_mat->textfile[num]);
+      p_textlist[t].flag = p_mat->textflag[num];
     }
     p_mat->p_text[num] = p_textlist+t;
     return(TRUE);
