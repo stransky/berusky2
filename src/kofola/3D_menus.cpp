@@ -102,8 +102,8 @@ _3D_ANIMATION_STRUCTURE	_3DAnimationStruct;
 //extern AUDIO_DATA		ad;
 int	iTopLedgeDL;
 int	iInventoryDL;
-//HINT_TEXTURE	pHintTexture[26];
-//HINT_TEXTURE	pMessageTexture[8];
+HINT_TEXTURE	pHintTexture[26];
+HINT_TEXTURE	pMessageTexture[8];
 
 #define HINT_SCALE	1.0f
 

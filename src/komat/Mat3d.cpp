@@ -3,6 +3,8 @@
 */
 #include "3d_all.h"
 
+GLMATRIX __kont_world_matrix;
+
 void transformuj_kontejner_matici(EDIT_KONTEJNER *p_kont, GLMATRIX *p_m)
 {
  OBJ_VERTEX *p_vert;

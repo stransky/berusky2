@@ -30,7 +30,7 @@ void apakError(APAK_HANDLE *pHandle, char *cError)
 {
 	pHandle->bError = 1;
 	strcpy(pHandle->cError, cError);
-  fprintf(stderr,"apakError: %s\n", cError);
+  fprintf(stderr,"apakError: %s\n", cError);  
 }
 
 int apakReadError(int iError, APAK_HANDLE	*pHandle)

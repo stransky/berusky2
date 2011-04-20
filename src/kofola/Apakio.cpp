@@ -52,7 +52,7 @@ int fillbuffer(APAK_FILE_HANDLE *pFHandle)
 {
 	int err = 0;
 	char *pTmp;
-	unsigned int rsize, size;
+	uLongf rsize, size;
 
 	rsize = pFHandle->pFileInfo->apuLRealSizeofFile;
 	size = pFHandle->pFileInfo->apuLSizeofFile;
@@ -70,11 +70,10 @@ ZEXTERN int ZEXPORT compress OF((Bytef *dest,   uLongf *destLen,
                                  const Bytef *source, uLong sourceLen));
 */
 	if(pFHandle->pFileInfo->bNotCompressed)
-		memcpy(pFHandle->pBuffer, pTmp, size);
-  /*
-	else TODO
-		err = uncompress(pFHandle->pBuffer, &rsize, pTmp, size);
-    */
+		memcpy(pFHandle->pBuffer, pTmp, size);  
+	else
+		err = uncompress((Bytef *)pFHandle->pBuffer, &rsize, (Bytef *)pTmp, size);
+    
 	free((void *) pTmp);
 
 	if(err == Z_MEM_ERROR ||

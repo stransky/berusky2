@@ -20,23 +20,23 @@ The code in this file is subject to the RunicSoft source code licence
 **************************************************************************/
 
 typedef struct tagBITMAPFILEHEADER {
-	WORD    bfType;
-	DWORD   bfSize;
-	WORD    bfReserved1;
-	WORD    bfReserved2;
-	DWORD   bfOffBits;
-} BITMAPFILEHEADER;
+	WORD    bfType __attribute__ ((packed));
+	DWORD   bfSize __attribute__ ((packed));
+	WORD    bfReserved1 __attribute__ ((packed));
+	WORD    bfReserved2 __attribute__ ((packed));
+	DWORD   bfOffBits __attribute__ ((packed));
+} BITMAPFILEHEADER ;
 
 typedef struct tagBITMAPINFOHEADER{
 	DWORD  biSize;
-	LONG   biWidth;
-	LONG   biHeight;
+	DWORD  biWidth;
+	DWORD  biHeight;
 	WORD   biPlanes;
 	WORD   biBitCount;
 	DWORD  biCompression;
 	DWORD  biSizeImage;
-	LONG   biXPelsPerMeter;
-	LONG   biYPelsPerMeter;
+	DWORD  biXPelsPerMeter;
+	DWORD  biYPelsPerMeter;
 	DWORD  biClrUsed;
 	DWORD  biClrImportant;
 } BITMAPINFOHEADER;

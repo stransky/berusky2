@@ -308,51 +308,6 @@ int GetPrivateProfileInt(
   // lpAppName -> unused
   return(ini_read_int(lpFileName, lpKeyName, nDefault));
 }
-/*
-bitmapa * bmp_vyrob(int x, int y)
-{
-}
-bitmapa * bmp_nahraj(char *p_file, int flip)
-{
-}
-bitmapa * bmp_nahraj_pack(char *p_file, APAK_HANDLE *pAHandle)
-{
-}
-int       bmp_uloz(char *p_file, bitmapa *p_bmp)
-{
-}
-int       bmp_uloz_pack(FFILE f, bitmapa *p_bmp)
-{
-}
-void      bmp_zrus(bitmapa **p_bmp)
-{
-}
-bitmapa * bmp_kopituj(bitmapa *p_bmp)
-{
-}
-void      bmp_kopiruj(bitmapa *p_src, bitmapa *p_desc)
-{
-}
-void      bmp_cti_rozmery(bitmapa *p_bmp, int *p_x, int *p_y)
-{
-}
-int       bmp_velikost(bitmapa *p_bmp)
-{
-}
-void      bmp_putpixel(bitmapa *p_bmp, int x, int y, dword barva)
-{
-}
-void      bmp_smaz(bitmapa *p_text, dword barva)
-{
-}
-*/
-
-int  txt_vyrob_2D_texturu(int x, int y, int filtr, int format)
-{
-}
-int  txt_zrus_2D_texturu(int *p_text)
-{
-}
 
 void apak_dir_correction(char *dir)
 {

@@ -165,7 +165,7 @@ void kd_strom_vyrob_rec(EDIT_MESH_POLY **p_poly, int polynum,
                         KD_BUNKA *p_prvni, int hloubka)
 { 
   int   objnum = polynum+kontnum;
-  MIN_MAX *p_hran = alloca(sizeof(MIN_MAX)*objnum);
+  MIN_MAX *p_hran = (MIN_MAX *)alloca(sizeof(MIN_MAX)*objnum);
   EDIT_MESH_POLY **p_poly1;
   EDIT_KONTEJNER **p_kont1;
   float dx,dy,dz,h1,h2,koeficient;
@@ -188,8 +188,8 @@ void kd_strom_vyrob_rec(EDIT_MESH_POLY **p_poly, int polynum,
     assert(objnum);
     
     p_prvni->polozek = objnum;
-    p_prvni->p_polozka = mmalloc(sizeof(p_prvni->p_polozka[0])*objnum);
-    p_prvni->p_polozka_typ = mmalloc(sizeof(p_prvni->p_polozka_typ[0])*objnum);
+    p_prvni->p_polozka = (void **)mmalloc(sizeof(p_prvni->p_polozka[0])*objnum);
+    p_prvni->p_polozka_typ = (int *)mmalloc(sizeof(p_prvni->p_polozka_typ[0])*objnum);
     p_prvni->rovina = 0;
     p_prvni->vzdal = 0.0f;
     p_prvni->p_next = NULL;
@@ -335,8 +335,8 @@ void kd_strom_vyrob_rec(EDIT_MESH_POLY **p_poly, int polynum,
       // nepodarilo se najit vhodne rozdeleni - strcim to do jedne a hotovo
 
       p_prvni->polozek = objnum;
-      p_prvni->p_polozka = mmalloc(sizeof(p_prvni->p_polozka[0])*objnum);
-      p_prvni->p_polozka_typ = mmalloc(sizeof(p_prvni->p_polozka_typ[0])*objnum);
+      p_prvni->p_polozka = (void **)mmalloc(sizeof(p_prvni->p_polozka[0])*objnum);
+      p_prvni->p_polozka_typ = (int *)mmalloc(sizeof(p_prvni->p_polozka_typ[0])*objnum);
       p_prvni->rovina = 0;
       p_prvni->vzdal = 0.0f;
       p_prvni->p_next = NULL;
@@ -366,7 +366,7 @@ void kd_strom_vyrob_rec(EDIT_MESH_POLY **p_poly, int polynum,
       } else {
         p_prvni->vzdal = (best_strana) ? p_hran[best_p].max : p_hran[best_p].min;
       }
-      p_prvni->p_next = mmalloc(sizeof(p_prvni->p_next[0])*2);
+      p_prvni->p_next = (KD_BUNKA *)mmalloc(sizeof(p_prvni->p_next[0])*2);
       
       p_prvni->p_next[0].p_up = p_prvni;
       p_prvni->p_next[1].p_up = p_prvni;
@@ -392,8 +392,8 @@ void kd_strom_vyrob_rec(EDIT_MESH_POLY **p_poly, int polynum,
       }
       
       // Poly-list 1
-      p_poly1 = mmalloc(sizeof(p_poly1[0])*polynum);
-      p_kont1 = mmalloc(sizeof(p_kont1[0])*kontnum);
+      p_poly1 = (EDIT_MESH_POLY **)mmalloc(sizeof(p_poly1[0])*polynum);
+      p_kont1 = (EDIT_KONTEJNER **)mmalloc(sizeof(p_kont1[0])*kontnum);
 
       for(z1 = 0, z2 = 0, p = 0; p < objnum; p++) {
         if(p_hran[p].min < p_prvni->vzdal) {
@@ -429,7 +429,7 @@ void kd_strom_vyrob(EDIT_MESH_POLY *p_upoly, int polynum,
                     EDIT_KONTEJNER **p_kont, int kontnum, 
                     KD_BUNKA *p_prvni)
 {
-  EDIT_MESH_POLY **p_poly = alloca(sizeof(p_poly[0])*polynum);
+  EDIT_MESH_POLY **p_poly = (EDIT_MESH_POLY **)alloca(sizeof(p_poly[0])*polynum);
   BOD min,max;
   int i,num;
 

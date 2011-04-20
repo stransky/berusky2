@@ -63,7 +63,6 @@ void zrus_aux(AUX_RGBImageRec **p_aux)
 
 int uloz_aux(FILE *f, AUX_RGBImageRec *p_bmp)
 {
-/*
   BITMAPFILEHEADER head;
   BITMAPINFOHEADER info;
   dword sirka,sirka_q,vyska,bpp = 3;
@@ -96,13 +95,13 @@ int uloz_aux(FILE *f, AUX_RGBImageRec *p_bmp)
   fwrite(&head,sizeof(head),1,f);
   fwrite(&info,sizeof(info),1,f);
   fwrite(p_bmp->data,sizeof(byte),n,f);
-*/  
+
   return(TRUE);
 }
 
 int uloz_aux_pack(FFILE f, AUX_RGBImageRec *p_bmp)
 {
-/*
+
   BITMAPFILEHEADER head;
   BITMAPINFOHEADER info;
   dword sirka,sirka_q,vyska,bpp = 3;
@@ -136,7 +135,7 @@ int uloz_aux_pack(FFILE f, AUX_RGBImageRec *p_bmp)
   ffwrite(&head,sizeof(head),1,f);
   ffwrite(&info,sizeof(info),1,f);
   ffwrite(p_bmp->data,sizeof(byte),n,f);
-*/  
+
   return(TRUE);
 }
 
@@ -1100,7 +1099,7 @@ AUX_RGBImageRec * txt_lib_to_aux(APAK_HANDLE *pHandle, char *p_file)
   
   free(p_mem);
   return(p_aux);
-*/
+  */
 }
 
 int txt_uloz_btx(char *p_file, int typ, int wrap_x, int wrap_y)

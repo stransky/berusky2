@@ -8,7 +8,7 @@ static KFILE *file_load;
   Importni interface soubory pro textury DDS
   vraci pocet plan -> 3/4
 */
-extern "C" int txt_dds_to_bmp(APAK_HANDLE *pHandle, char *p_file, void **p_return)
+int txt_dds_to_bmp(APAK_HANDLE *pHandle, char *p_file, void **p_return)
 {
   unsigned char   *p_data;
   unsigned char   *p_rd;
@@ -66,7 +66,7 @@ extern "C" int txt_dds_to_bmp(APAK_HANDLE *pHandle, char *p_file, void **p_retur
   kclose(file_load);
   return(planes);
 }
-        
+       
 
 void WriteDTXnFile (DWORD count, void *buffer)
 {
