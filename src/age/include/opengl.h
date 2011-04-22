@@ -28,10 +28,6 @@
 #ifndef __OPENGL_H__
 #define __OPENGL_H__
 
-#ifndef GL_GLEXT_DECLARE_INTERFACE
-#define  GL_GLEXT_PROTOTYPES 1
-#endif
-
 #include <GL/gl.h>
 
 #ifdef LINUX

@@ -10333,9 +10333,7 @@ int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, AUDIO_DATA *p_ad, int iCP
 
 	Level.iNSrart = 0;
 
-//	Xresolution = GetPrivateProfileInt("hra","xres",0,ini_file);
 	Xresolution = hwconf.xres;
-	//Yresolution = GetPrivateProfileInt("hra","yres",0,ini_file);
 	Yresolution = hwconf.yres;
 	
 	//	camera.last_move = -1;

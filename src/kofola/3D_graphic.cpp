@@ -11,7 +11,7 @@
 #include "font.h"
 
 _3D_DATA			_3dd;
-_3D_CURSOR			_3dCur;
+_3D_CURSOR		_3dCur;
 extern APAK_HANDLE		*p3DMArchive;
 extern EDIT_TEXT	sIndikace[3];
 extern char cFontFile[5][64];

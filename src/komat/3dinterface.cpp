@@ -1541,5 +1541,6 @@ void vertex_array_ini(void)
   } else {
     vertex_array_start_render = vertex_array_start_render_nic;
     vertex_array_stop_render = vertex_array_stop_render_nic;
+    assert(0);
   }
 }

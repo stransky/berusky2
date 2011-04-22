@@ -3408,7 +3408,6 @@ int lo_chunk_load_matanim_frame_ext(FFILE f, OUT_CHUNK *p_ch)
     return(FALSE);
 }
 
-
 int lo_chunk_load_matanim(FFILE f, OUT_CHUNK *p_ch)
 {
   if(p_mat && p_ch->typ == CHUNK_MATANIM_EXT) {
@@ -4656,6 +4655,9 @@ int lo_load_chunky(FFILE f)
   while((ret = ffread(&ch,sizeof(ch),1,f)) && ret > 0) {
     load = 0;
 
+    //kprintf(1,"Chunk %d, size %d",ch.typ, ch.velikost);
+    assert(ch.typ >= 0 && ch.typ <= CHUNK_KAMSET_2);
+  
     for(i = 0; i < (sizeof(chload)/sizeof(chload[0])); i++) {
       if(chload[i].chunk == ch.typ) {        
         load = chload[i].p_fce(f,&ch);

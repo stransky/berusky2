@@ -841,7 +841,7 @@ int RunLevel(HWND hWnd, AUDIO_DATA *p_ad, int cpu, char *lvl, char *env)
 		_3d_Init();
 		_3d_Load_List("3D_load.dat");
 
-		_3d_Gen_Hints(pHintTexture, 26);
+		//_3d_Gen_Hints(pHintTexture, 26);
 
 		RunMenuLoadScreenAddProgress(-1);
 
@@ -864,7 +864,7 @@ int RunLevel(HWND hWnd, AUDIO_DATA *p_ad, int cpu, char *lvl, char *env)
 		//KillTimer(NULL,Timer_ID);
 
 		kprintf(1, "_3d_Release_Hints");
-		_3d_Release_Hints(pHintTexture, 26);
+		//_3d_Release_Hints(pHintTexture, 26);
 	
 		kprintf(1, "_3d_Release");
 		_3d_Release();

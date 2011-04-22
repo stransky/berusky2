@@ -27,10 +27,13 @@ typedef RGBAF           BODRGBA;
 typedef RGBF            RGB_M;
 typedef RGBAF           BARVA_RGBA;
 typedef PLANE           ROVINA;
-typedef PLANE           ROVINAD;
 //typedef MATERIAL_TEXT   EDIT_TEXT;
 //typedef SURFACE_SW      bitmapa;
 typedef word            FACE;
+
+typedef struct _ROVINAD {
+  double x,y,z,e;
+} ROVINAD;
 
 #include "kfile.h"
 #include "Bmp.h"
@@ -296,25 +299,6 @@ void SetCursor(void *tmp);
 
 char * strupr(char * string);
 
-GLAPI void APIENTRY glArrayObjectATI (GLenum t1, GLint t2, GLenum t3, GLsizei t4, GLuint t5, GLuint t6);
-GLAPI GLuint APIENTRY glNewObjectBufferATI (GLsizei, const GLvoid *, GLenum);
-GLAPI GLboolean APIENTRY glIsObjectBufferATI (GLuint);
-GLAPI void APIENTRY glUpdateObjectBufferATI (GLuint, GLuint, GLsizei, const GLvoid *, GLenum);
-GLAPI void APIENTRY glGetObjectBufferfvATI (GLuint, GLenum, GLfloat *);
-GLAPI void APIENTRY glGetObjectBufferivATI (GLuint, GLenum, GLint *);
-GLAPI void APIENTRY glFreeObjectBufferATI (GLuint);
-GLAPI void APIENTRY glArrayObjectATI (GLenum, GLint, GLenum, GLsizei, GLuint, GLuint);
-GLAPI void APIENTRY glGetArrayObjectfvATI (GLenum, GLenum, GLfloat *);
-GLAPI void APIENTRY glGetArrayObjectivATI (GLenum, GLenum, GLint *);
-GLAPI void APIENTRY glVariantArrayObjectATI (GLuint, GLenum, GLsizei, GLuint, GLuint);
-GLAPI void APIENTRY glGetVariantArrayObjectfvATI (GLuint, GLenum, GLfloat *);
-GLAPI void APIENTRY glGetVariantArrayObjectivATI (GLuint, GLenum, GLint *);
-
-GLAPI void APIENTRY glElementPointerATI (GLenum, const GLvoid *);
-GLAPI void APIENTRY glDrawElementArrayATI (GLenum, GLsizei);
-GLAPI void APIENTRY glDrawRangeElementArrayATI (GLenum, GLuint, GLuint, GLsizei);
-
-
 void GetPrivateProfileString(
   char * lpAppName,
   char * lpKeyName,
@@ -358,9 +342,6 @@ inline void null_free(void **p_mem)
    *p_mem = NULL;
  }
 }
-
-int  txt_vyrob_2D_texturu(int x, int y, int filtr, int format);
-int  txt_zrus_2D_texturu(int *p_text);
 
 struct _finddata_t {
     unsigned  attrib;

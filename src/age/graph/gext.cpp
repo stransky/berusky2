@@ -30,8 +30,6 @@
 #include <float.h>
 #include <math.h>
 
-#define  GL_GLEXT_DECLARE_INTERFACE 1
-
 // Constants and types
 #include "defs.h"
 #include "typ.h"
@@ -697,22 +695,15 @@ void gl_ext::init_extension(void)
   extlist_vertex_array_packed = gl_init_vertex_array_packed();
   extlist_ati_pn_triangles = gl_init_ati_pn_triangles();
   extlist_ati_draw_buffers = gl_init_ati_draw_buffers();  
-/*
-  if(vertex_arrays) {
-    extlist_arb_vertex_buffer = gl_init_arb_vertex_buffer();
-    if(!extlist_arb_vertex_buffer) {
-      extlist_ati_vertex_array_object = gl_init_vertex_array_object();
-      extlist_ati_element_array = gl_init_element_array();
-    }
+
+  extlist_arb_vertex_buffer = gl_init_arb_vertex_buffer();
+  if(!extlist_arb_vertex_buffer) {
+    extlist_ati_vertex_array_object = gl_init_vertex_array_object();
+    extlist_ati_element_array = gl_init_element_array();
   }
-  
-  // pouze pokud je vic jak 2 texturovaci jednotky
-  if(bump_mapping && opengl_text::gl_multitext_units > 2) {
-    extlist_text_env_dot3 = gl_init_text_env_dot3();
-    extlist_ati_env_bump = gl_init_ati_env_bump();
-    bump_mapping = extlist_text_env_dot3|extlist_ati_env_bump;
-  }
-*/
+    
+  extlist_text_env_dot3 = gl_init_text_env_dot3();
+  extlist_ati_env_bump = gl_init_ati_env_bump();  
 }
 
 /* 
@@ -748,7 +739,7 @@ void gl_ext::load_extension(void)
 
   p_ext = (char **)mmalloc(sizeof(char *)*extnum);
 
-  //pprintf("\nAvailabile extensions:");
+  pprintf("\nAvailabile extensions:");
 
   i = 0;
   p_start = _p_ext;
@@ -757,7 +748,7 @@ void gl_ext::load_extension(void)
     assert(i < extnum);
     p_ext[i] = (char *)mmalloc(sizeof(char)*(strlen(p_start)+5));
     strcpy(p_ext[i],p_start);
-    //pprintf(p_ext[i]);
+    pprintf(p_ext[i]);
     i++;
     p_start = p_pom+1;
   }

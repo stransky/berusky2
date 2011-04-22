@@ -261,12 +261,10 @@ void mesh_vertex::set(int indice)
       glMultiTexCoord2fvARB(gl_ext::ext_multitexture_text_index[i],(float *)(p_uv[i]+indice));
     }
   }
-  /*
   if(specular_num && p_specular[0]) {
-    pprintf("[%d] glSecondaryColor3fvEXT(%f,%f,%f)",indice,p_specular[0][indice].r,p_specular[0][indice].g,p_specular[0][indice].b);
+    //pprintf("[%d] glSecondaryColor3fvEXT(%f,%f,%f)",indice,p_specular[0][indice].r,p_specular[0][indice].g,p_specular[0][indice].b);
     glSecondaryColor3fvEXT((float *)(p_specular[0]+indice));
   }
-  */
   if(diffuse_num && p_diffuse[0]) {
     //pprintf("[%d] glColor4fv(%f,%f,%f,%f)",indice,p_diffuse[0][indice].r,p_diffuse[0][indice].g,p_diffuse[0][indice].b,p_diffuse[0][indice].a);
     glColor4fv((float *)(p_diffuse[0]+indice));

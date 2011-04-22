@@ -13,19 +13,19 @@
 int hlasit_kolize = 0;
 
 template <class T> 
-void vyrob_pole(T *p_dst, int num)
+void vyrob_pole(T **p_dst, int num)
 {
-  if(!(p_dst = (T *)mmalloc(sizeof(p_dst[0])*num)))
+  if(!(*p_dst = (T *)mmalloc(sizeof(*p_dst[0])*num)))
     chyba("Pamet");
-  memset(p_dst,0,sizeof(p_dst[0])*num);
+  memset(*p_dst,0,sizeof(*p_dst[0])*num);
 }
 
 template <class T> 
-void vyrob_pole_abs(T *p_dst,int num)
+void vyrob_pole_abs(T **p_dst,int num)
 {
-  if(!(p_dst = (T *)mmalloc(sizeof(byte)*num)))
+  if(!(*p_dst = (T *)mmalloc(sizeof(byte)*num)))
     chyba("Pamet");
-  memset(p_dst,0,sizeof(byte)*num);
+  memset(*p_dst,0,sizeof(byte)*num);
 }
 
 /*
@@ -1581,12 +1581,12 @@ GAME_MESH_OLD * edit_to_mesh(GAME_MESH_DATA *p_mesh_data, EDIT_KONTEJNER *p_kont
   }
 
   if(p_kont->kflag&KONT_NORMAL_ANIM) {
-    vyrob_pole(p_mesh->p_normal_scale,p_mesh->objektu);
-    vyrob_pole(p_mesh->p_normal_scale_last,p_mesh->objektu);
+    vyrob_pole(&p_mesh->p_normal_scale,p_mesh->objektu);
+    vyrob_pole(&p_mesh->p_normal_scale_last,p_mesh->objektu);
   }    
 
   
-  vyrob_pole(p_mesh->p_Objekt_ID,p_mesh->objektu);
+  vyrob_pole(&p_mesh->p_Objekt_ID,p_mesh->objektu);
 
   vel = sizeof(p_mesh->p_vertex_pos[0])+
         sizeof(p_mesh->p_vertex_norm[0]);
@@ -1614,7 +1614,7 @@ GAME_MESH_OLD * edit_to_mesh(GAME_MESH_DATA *p_mesh_data, EDIT_KONTEJNER *p_kont
   }
 
   
-  vyrob_pole_abs(p_mesh->p_vertex_pos,vel*bodu);
+  vyrob_pole_abs(&p_mesh->p_vertex_pos,vel*bodu);
   
   p_mesh->p_vertex_norm = p_mesh->p_vertex_pos+bodu;
 
@@ -1847,8 +1847,8 @@ GAME_MESH_DATA * vyrob_mesh_data(void)
 
 void mesh_pridej_vodavertexy(GAME_MESH_OLD *p_mesh)
 {
-  vyrob_pole(p_mesh->p_vertex_diff_voda,p_mesh->vertexnum);
-  vyrob_pole(p_mesh->p_vertex_spec_voda,p_mesh->vertexnum);
+  vyrob_pole(&p_mesh->p_vertex_diff_voda,p_mesh->vertexnum);
+  vyrob_pole(&p_mesh->p_vertex_spec_voda,p_mesh->vertexnum);
 }
 
 void zrus_fleky(FLEK **p_flek)

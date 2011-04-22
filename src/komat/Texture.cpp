@@ -961,77 +961,6 @@ bitmapa * txt_bmp2dot3(bitmapa *p_bmp)
   return(p_dot);
 }
 
-/*
-typ
-IL_COLOUR_INDEX
-IL_RGB
-IL_RGBA
-IL_BGR
-IL_BGRA
-IL_LUMINANCE
-
-format:  
-IL_BYTE
-IL_UNSIGNED_BYTE
-IL_SHORT
-IL_UNSIGNED_SHORT
-IL_INT
-IL_UNSIGNED_INT
-IL_FLOAT
-IL_DOUBLE
-*/
-/*
-typedef struct _IL_ERROR_LIST {
-
-  int    err_code;
-  byte   err_string[100];
-
-} IL_ERROR_LIST;
-
-IL_ERROR_LIST il_err_list[] = 
-{
-  {IL_NO_ERROR,            "IL_NO_ERROR"},
-  {IL_INVALID_ENUM,        "IL_INVALID_ENUM"},
-  {IL_OUT_OF_MEMORY,       "IL_OUT_OF_MEMORY"},
-  {IL_FORMAT_NOT_SUPPORTED,"IL_FORMAT_NOT_SUPPORTED"},
-  {IL_INTERNAL_ERROR,      "IL_INTERNAL_ERROR"},
-  {IL_INVALID_VALUE,       "IL_INVALID_VALUE"},
-  {IL_ILLEGAL_OPERATION,   "IL_ILLEGAL_OPERATION"},
-  {IL_ILLEGAL_FILE_VALUE,  "IL_ILLEGAL_FILE_VALUE"},
-  {IL_INVALID_FILE_HEADER, "IL_INVALID_FILE_HEADER"},
-  {IL_INVALID_PARAM,       "IL_INVALID_PARAM"},
-  {IL_COULD_NOT_OPEN_FILE, "IL_COULD_NOT_OPEN_FILE"},
-  {IL_INVALID_EXTENSION,   "IL_INVALID_EXTENSION"},
-  {IL_FILE_ALREADY_EXISTS, "IL_FILE_ALREADY_EXISTS"},
-  {IL_OUT_FORMAT_SAME,     "IL_OUT_FORMAT_SAME"},
-  {IL_STACK_OVERFLOW,      "IL_STACK_OVERFLOW"},
-  {IL_STACK_UNDERFLOW,     "IL_STACK_UNDERFLOW"},
-  {IL_INVALID_CONVERSION,  "IL_INVALID_CONVERSION"},
-  {IL_LIB_JPEG_ERROR,      "IL_LIB_JPEG_ERROR"},
-  {IL_LIB_PNG_ERROR,       "IL_LIB_PNG_ERROR"},
-  {IL_UNKNOWN_ERROR,       "IL_UNKNOWN_ERROR"}
-};
-*/
-int il_error(char *p_file)
-{
-/*
-  ILenum  il_err;
-  int     err = 0;
-  int     kod;
-
-  while((il_err = ilGetError()) != IL_NO_ERROR) {
-    for(kod = 0; kod < sizeof(il_err_list)/sizeof(il_err_list[0]); kod++) {
-      if(il_err_list[kod].err_code == il_err) {
-        kprintf(TRUE,"file = %s ilGetError = %s",p_file,il_err_list[kod].err_string);
-        break;
-      }
-    }
-    err++;
-  }
-  return(err);
-*/
-}
-
 byte * file_read(APAK_HANDLE *pHandle, char *p_file, int *p_read)
 {
   char   *p_buffer;
@@ -1065,41 +994,53 @@ byte * file_read(APAK_HANDLE *pHandle, char *p_file, int *p_read)
 }
 
 
+AUX_RGBImageRec * surface2aux(SURFACE_SDL *p_surf)
+{
+  int   n,s;
+  dword barva;
+  int   dx = p_surf->width_get(),
+        dy = p_surf->height_get();
+  int   x,y;
+
+  AUX_RGBImageRec *p_vys = vyrob_aux(dx,dy);
+  p_vys->data = (byte *)mmalloc(sizeof(char)*3*dx*dy);
+
+  p_surf->lock();
+
+  int i = 0;
+  for(y = 0; y < dy; y++) {
+    for(x = 0; x < dx; x++) {  
+      barva = p_surf->pixel_get(x, y);
+      s = i*3;
+      p_vys->data[s+2] = (byte)(barva&0xff);
+      p_vys->data[s+1] = (byte)((barva&0xff00)>>8);
+      p_vys->data[s]   = (byte)((barva&0xff0000)>>16);
+      i++;
+    }
+  }
+
+  p_surf->unlock();
+
+  return(p_vys);
+}
+
 AUX_RGBImageRec * txt_lib_to_aux(APAK_HANDLE *pHandle, char *p_file)
 {
-/*
-  AUX_RGBImageRec *p_aux;
-  ILuint	ImgId;
   byte   *p_mem;
   int     vel,ret;
-
-  ilGenImages(1, &ImgId);
-  ilBindImage(ImgId);
 
   p_mem = file_read(pHandle,p_file,&vel);
   if(!p_mem)
     return(NULL);
-
-  ret = ilLoadL(IL_TYPE_UNKNOWN,p_mem,vel);
   
-  if(!ret) {
-    il_error(p_file);
-    free(p_mem);
-    return(NULL);
-  }
+  // TODO - mem leak?
+  SDL_Surface *s = IMG_Load_RW(SDL_RWFromMem((void *)p_mem, vel), TRUE);
+  SURFACE_SDL srf(s);
 
-  p_aux = vyrob_aux(ilGetInteger(IL_IMAGE_WIDTH),ilGetInteger(IL_IMAGE_HEIGHT));
-  
-  ilCopyPixels(0,0,0,p_aux->sizeX,p_aux->sizeY,1,IL_RGB,IL_UNSIGNED_BYTE,p_aux->data);
-  ilDeleteImages(1, &ImgId);
-    
-  if(il_error(p_file)) {
-    zrus_aux(&p_aux);
-  }
+  AUX_RGBImageRec *p_aux = surface2aux(&srf);
   
   free(p_mem);
   return(p_aux);
-  */
 }
 
 int txt_uloz_btx(char *p_file, int typ, int wrap_x, int wrap_y)

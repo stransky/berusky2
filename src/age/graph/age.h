@@ -33,6 +33,7 @@
 #define __AGE_H__
 
 #include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 #include <limits.h>
 #include <float.h>
 #include <math.h>
@@ -74,8 +75,8 @@
 
 // OpenGL includes
 #include "opengl.h"
-#include "vertex_arrays.h"
 #include "gext.h"
+#include "vertex_arrays.h"
 #include "glwrapper.h"
 #include "texture_unit.h"
 
