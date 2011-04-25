@@ -8,12 +8,12 @@ INCLUDES =\
 	 -Ikomat -Ikofola -Itmp -Iage/graph -Iage/include -Iage/support -Iage/utils -Igenerator
 
 AM_CFLAGS =\
-	-w\
+	-w -D_DEBUG\
 	 -Wall\
 	 -g
 
 AM_CXXFLAGS =\
-	-w\
+	-w -D_DEBUG\
 	 -Wall\
 	 -g
 
@@ -340,5 +340,5 @@ berusky2_SOURCES = \
 berusky2_LDFLAGS = 
 
 berusky2_LDADD = \
-	 -lGL -lz -lGLU -lSDL -lSDL_image
+	 -lGL -lz -lGLU -lSDL -lSDL_image -lX11
 

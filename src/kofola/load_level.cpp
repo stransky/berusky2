@@ -1379,7 +1379,7 @@ void lsi_copy_save(char *cMask, LEVELINFO *p_Level)
 
 	GetPrivateProfileString("game","game_level_dir","c:\\",dir,MAX_PATH,ini_file);
 	lsi_Get_Dir_Name(cLevelMask, p_Level->cLoadedFrom);
-
+/* DIR?
 	sprintf(cout,"%s%s", cMask, ".b2l");
 	sprintf(csrc,"%s\\%s\\%s%s", dir, cLevelMask, cLevelMask, ".b2l");
 	lsi_file_copy(csrc, cout);
@@ -1398,6 +1398,26 @@ void lsi_copy_save(char *cMask, LEVELINFO *p_Level)
 
 	sprintf(cout,"%s%s", cMask, ".ply");
 	sprintf(csrc,"%s\\%s\\%s%s", dir, cLevelMask, cLevelMask, ".ply");
+	lsi_file_copy(csrc, cout);
+*/
+	sprintf(cout,"%s%s", cMask, ".b2l");
+	sprintf(csrc,"%s/%s/%s%s", dir, cLevelMask, cLevelMask, ".b2l");
+	lsi_file_copy(csrc, cout);
+
+	sprintf(cout,"%s%s", cMask, ".b2t");
+	sprintf(csrc,"%s/%s/%s%s", dir, cLevelMask, cLevelMask, ".b2t");
+	lsi_file_copy(csrc, cout);
+
+	sprintf(cout,"%s%s", cMask, ".bpr");
+	sprintf(csrc,"%s/%s/%s%s", dir, cLevelMask, cLevelMask, ".bpr");
+	lsi_file_copy(csrc, cout);
+
+	sprintf(cout,"%s%s", cMask, ".lv6");
+	sprintf(csrc,"%s/%s/%s%s", dir, cLevelMask, cLevelMask, ".lv6");
+	lsi_file_copy(csrc, cout);
+
+	sprintf(cout,"%s%s", cMask, ".ply");
+	sprintf(csrc,"%s/%s/%s%s", dir, cLevelMask, cLevelMask, ".ply");
 	lsi_file_copy(csrc, cout);
 }
 

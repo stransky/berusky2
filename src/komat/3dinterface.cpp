@@ -92,6 +92,8 @@ void glstav_reset(void)
 {
  int i;
 
+ glGetIntegerv(GL_MAX_TEXTURE_UNITS_ARB, &glstav_multitext_units);
+
  glstav_bump_mapping = TRUE;
  
  glstav_cull = FALSE;

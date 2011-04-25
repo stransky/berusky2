@@ -1,3 +1,5 @@
+#include<sys/time.h>
+
 #include "3d_all.h"
 #include "ini.h"
 
@@ -12,6 +14,9 @@ int ftoi(float t)
 
 unsigned int timeGetTime(void)
 {
+  struct timeval tv;
+  gettimeofday(&tv,NULL);
+  return(tv.tv_usec/1000);
 }
 
 //-----------------------------------------------------------------------------

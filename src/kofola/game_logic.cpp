@@ -9492,7 +9492,8 @@ int gl_Screen_Shot(int i)
 	do
 	{
 		strcpy(text, CurrentWorkingDirectory);
-		strcat(text,"\\screenshot");
+		//strcat(text,"\\screenshot"); - DIR
+    strcat(text,"/screenshot");
 
 		itoa(i,t,10);
 
@@ -10449,7 +10450,8 @@ PLAY_LEVEL_START:
 
 		GetPrivateProfileString("game","save_dir","c:\\",Demo_File,255,ini_file);
 
-		strcat(Demo_File,"\\");
+		//strcat(Demo_File,"\\"); - DIR?
+		strcat(Demo_File,"/");
 		strcat(Demo_File, cDemoName);
 
 		if(!demo_Load(&Demo,Demo_File, &bOvladaniBerusek1, cLevelName, p_Env_Name))
@@ -10809,7 +10811,8 @@ PLAY_LEVEL_START:
 		pEnv = kom_get_level_environment();
 		if(pEnv)
 		{
-			strcat(file,"\\");
+			//strcat(file,"\\"); - DIR?
+      strcat(file,"/");
 			strcat(file, pEnv->cCam);
 
 			cameraanim = kam_3ds_nahraj_animaci(pGDataArchive, file);

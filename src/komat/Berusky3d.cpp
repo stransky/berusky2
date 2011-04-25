@@ -451,9 +451,9 @@ void ber_init_level(G_KONFIG *p_ber)
 #ifdef DEBUG_MOD
 void ber_tiskni_statistiku(G_KONFIG *p_ber)
 {
-  PARMETAC  *p_par;
-  GAME_MESH *p_mesh;
-  GK_ANIM   *p_gk;
+  PARMETAC      *p_par;
+  GAME_MESH_OLD *p_mesh;
+  GK_ANIM       *p_gk;
   float      dir[6];
   BOD        pos;
   int        start = 0;

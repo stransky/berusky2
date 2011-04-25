@@ -2249,7 +2249,7 @@ int lo_reload_textur_formaty(APAK_HANDLE *pHandle, EDIT_TEXT *p_text, int max, i
 int lo_reload_textur_dir(EDIT_TEXT *p_text, int max, char *p_dir, int save)
 {
   if(chdir(p_dir)) {
-    kprintfl(TRUE,"Chyba dir %s...",p_dir);
+    kprintf(TRUE,"Chyba dir %s...",p_dir);
     return(FALSE);
   }
   lo_reload_textur_formaty(NULL, p_text, max, save);
@@ -2303,15 +2303,19 @@ int lo_reload_textur(TEXT_DIR *p_dir, EDIT_TEXT *p_text, int num, int save)
 
 int lo_reload_textur_chyby(EDIT_TEXT *p_text, int num)
 {  
-  int i,n;
+  int i,ok,n;
 
-  for(i = 0, n = 0; i < num; i++) {
+  for(i = 0, n = 0, ok = 0; i < num; i++) {
     if(p_text[i].jmeno[0] && !p_text[i].load) {
       kprintf(TRUE,"Chyba loadu textury %s...",p_text[i].jmeno);
       n++;
     }
+    else {
+      ok++;
+    }
   }  
 
+  kprintf(TRUE,"Nahrano %d textur",ok);
   kprintf(TRUE,"Chybne nahrano %d textur",n);
   return(TRUE);
 }

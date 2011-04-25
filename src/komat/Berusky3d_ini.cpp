@@ -37,6 +37,15 @@ int        mouse_move = FALSE;
 #endif
 
 char work_dir[200] = ".";
+
+void flip(void)
+{
+  AGE_MAIN *p_age = p_ber->p_age;
+  GRAPH3D *p_grf = p_age->graph_get();
+  p_grf->flip();
+}
+
+
 /*
 inline void nacti_polohu_mysi(WPARAM wParam, LPARAM lParam)
 {    
@@ -367,7 +376,7 @@ int main(int argc, char **argv)
   
   GRAPH3D *p_grf = p_age->graph_get();
   if(p_grf) {
-    p_grf->config_draw_grid(TRUE);
+    p_grf->config_draw_grid(FALSE);
     p_grf->config_draw_mouse_cursor(FALSE);
     p_grf->config_draw_boxes(FALSE);
     p_grf->config_draw_console(FALSE);
@@ -379,7 +388,7 @@ int main(int argc, char **argv)
     p_grf->config_draw_selection(TRUE);    
   }
 
-  p_scene->load(NULL, "/home/komat/auto.b2m");  
+  //p_scene->load(NULL, "/home/komat/auto.b2m");  
 
   scene_reset(p_age);
 

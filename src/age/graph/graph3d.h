@@ -256,12 +256,15 @@ public:
   void draw_start(void);
   void draw_end(void);
 
+public:
+  
+  // Flip GL buffers
+  virtual void flip(void) = 0;
+
 private:
 
   // Clear buffers
   void clear(void);
-  // Flip GL buffers
-  virtual void flip(void) = 0;
 
   void grid_draw(void);
   void fps_draw(void);

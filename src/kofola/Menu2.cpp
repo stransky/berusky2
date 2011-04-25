@@ -4313,7 +4313,8 @@ void RunMenuLoadScreen2(void)
 		if(iLanguageVersion == 4)
 		{
 			GetPrivateProfileString("game","bitmap_dir","c:\\",cDir,MAX_PATH,ini_file);
-			sprintf(cFile, "%s\\scene%d.pak", cDir, iActualScene);
+			//sprintf(cFile, "%s\\scene%d.pak", cDir, iActualScene); - DIR?
+      sprintf(cFile, "%s/scene%d.pak", cDir, iActualScene);
       apak_dir_correction(cDir);
 			hArchive = apakopen(cFile, cDir, &sh);
 

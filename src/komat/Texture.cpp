@@ -590,7 +590,13 @@ int txt_nahraj_texturu_z_func(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT_OLD 
   } else {
     p_tmp = p_load(pHandle,konf.bitmapa);
     p_alf = p_load(pHandle,konf.alfamap);
-    if(!p_tmp || !p_alf) {
+    if(!p_tmp || !p_alf) {      
+    /*
+      if(!p_tmp)
+        kprintf(TRUE,"txt_nahraj_texturu_z_func(): Error, unable to load %s",konf.bitmapa);
+      if(!p_alf)
+        kprintf(TRUE,"txt_nahraj_texturu_z_func(): Error, unable to load %s",konf.alfamap);
+    */
       zrus_aux(&p_tmp);
       zrus_aux(&p_alf);
       p_text->load = FALSE;

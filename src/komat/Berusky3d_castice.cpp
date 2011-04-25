@@ -202,9 +202,8 @@ void par_vloz_fleky(ParHandle ph, PAR_FLEK *p_part, int pocet)
 
 int pe_updatuj_strepiny(G_KONFIG *p_ber, PARMETAC *p_par)
 {
-/*
-  GAME_MESH    *p_mesh;
-  PAR_STREPINA *p_part;
+  GAME_MESH_OLD *p_mesh;
+  PAR_STREPINA  *p_part;
   BOD           t;
   BOD          *p_str;
   BOD          *p_max;
@@ -343,7 +342,6 @@ int pe_updatuj_strepiny(G_KONFIG *p_ber, PARMETAC *p_par)
     return(FALSE);
   }
   return(p_par->pnum);
-  */
 }
 
 
@@ -771,7 +769,7 @@ void par_zrus_hnizdo(ParHandle ph, HnizdoHandle hh)
 */
 int pe_updatuj_kour_stopa(G_KONFIG *p_ber, PARMETAC *p_mt)
 {  
-  GAME_MESH       *p_mesh;
+  GAME_MESH_OLD   *p_mesh;
   GLMATRIX        *p_cam = p_ber->p_camera;
   GLMATRIX        *p_inv = p_ber->p_invcam;
   PARMETAC_HNIZDO *p_hnizdo,*p_tmp;
@@ -1010,13 +1008,12 @@ int pe_updatuj_kour_stopa(G_KONFIG *p_ber, PARMETAC *p_mt)
                 goto vyrad_castici;
               else {
                 ber_mesh_render_list_reset(p_ber);
-              /* TODO
-                while(p_mesh = ber_mesh_render_list_next_flag(p_ber,KONT_PRVEK,KONT_DRAW_NOBALKA)) {
+
+                while(p_mesh = (GAME_MESH_OLD *)ber_mesh_render_list_next_flag(p_ber,KONT_PRVEK,KONT_DRAW_NOBALKA)) {
                   if(obb_je_bod_v_kostce_aabb(&p_mesh->obb_world,p_pos)) {
                     goto vyrad_castici;
                   }
                 }
-              */
               }
             }
           }
@@ -1088,8 +1085,8 @@ VodaHandle vod_vyrob(int meshu)
   VODA2 *p_voda;
 
   p_voda = (VODA2 *)mmalloc(sizeof(p_voda[0]));
-/*
-  p_voda->p_mesh = mmalloc(sizeof(p_voda->p_mesh[0])*meshu);
+
+  p_voda->p_mesh = (GAME_MESH_OLD **)mmalloc(sizeof(p_voda->p_mesh[0])*meshu);
 
   p_voda->meshmax = meshu;
 
@@ -1098,7 +1095,7 @@ VodaHandle vod_vyrob(int meshu)
     p_voda->p_next->p_prev = p_voda;
   }
   p_ber->p_voda = p_voda;
-*/
+
   return((int)p_voda);
 }
 
@@ -1452,7 +1449,7 @@ void vod_updatuj(VODA2 *p_voda)
 {
   VODOVERTEX *p_vert;
   int i,m;
-/* TODO
+
   while(p_voda) { // reset vody
     for(i = 0; i < p_voda->vertexu; i++) {
       p_vert = p_voda->p_vertexy+i;
@@ -1468,5 +1465,4 @@ void vod_updatuj(VODA2 *p_voda)
     }
     p_voda = p_voda->p_next;
   }
-*/
 }

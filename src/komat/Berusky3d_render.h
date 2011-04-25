@@ -16,7 +16,7 @@ void ber_zrcadlo_zrus(void);
    Postaveni dynamickeho render-listu
   ******************************************************************
 */
-__inline void ber_dynamic_mesh_list_vyrob(G_KONFIG *p_ber)
+inline void ber_dynamic_mesh_list_vyrob(G_KONFIG *p_ber)
 {
   int i;
 

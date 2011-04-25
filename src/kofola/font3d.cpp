@@ -151,9 +151,9 @@ int fn2_Set_Font_Bmps(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts)
 {
 	char text[256];
 	int i;
-/*
+
 	txt_trida(TEXT_MENU);
-*/
+
 	for(i=0;i<gt->lastcommand;i++)
 		switch(gt->command[i].iCommand)
 		{

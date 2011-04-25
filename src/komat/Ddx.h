@@ -135,11 +135,7 @@ void mfree(void **p_mem);
 
 void gl_texture_scan(void);
 
-inline void flip(void)
-{
-  // TODO
-  //SwapBuffers(hwconf.hDC);
-}
+void flip(void);
 
 inline int fgets_korekce(char *p_kor)
 {

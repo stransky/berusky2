@@ -782,34 +782,59 @@ void rozeber_chybu(void)
   
 }
 
+
+/* Taken from NeHe tutorials:
+*/
+/*
+ * This code was created by Jeff Molofee '99 
+ * (ported to Linux/SDL by Ti Leggett '01)
+ *
+ * If you've found this code useful, please let me know.
+ *
+ * Visit Jeff at http://nehe.gamedev.net/
+ * 
+ * or for port-specific comments, questions, bugreports etc. 
+ * email to leggett@eecs.tulane.edu
+ */
 void BuildFont(void)		// Build Our Bitmap Font
 {
-/*
-	HFONT	font;								// Windows Font ID
-	hwconf.font_baze = glGenLists(96);		// Storage For 96 Characters
-	font = CreateFont(-14,		// Height Of Font
-						0,							// Width Of Font
-						0,							// Angle Of Escapement
-						0,							// Orientation Angle
-						FW_BOLD,		  	// Font Weight
-						FALSE,					// Italic
-						FALSE,					// Underline
-						FALSE,					// Strikeout
-						ANSI_CHARSET,		// Character Set Identifier
-						OUT_TT_PRECIS,	// Output Precision
-						CLIP_DEFAULT_PRECIS,// Clipping Precision
-						ANTIALIASED_QUALITY,// Output Quality
-						FF_DONTCARE|DEFAULT_PITCH,// Family And Pitch
-						//"Courier New");					  // Font Name
-            "Arial");					   // Font Name
-	SelectObject(hwconf.hDC, font);// Selects The Font We Want
-	wglUseFontBitmaps(hwconf.hDC, 32, 96, hwconf.font_baze);// Builds 96 Characters Starting At Character 32
-*/
+  Display *dpy;          /* Our current X display */
+  XFontStruct *fontInfo; /* Our font info */
+  
+  /* Sotrage for 96 characters */
+  hwconf.font_baze = glGenLists( 96 );
+  
+  /* Get our current display long enough to get the fonts */
+  dpy = XOpenDisplay( NULL );
+  
+  /* Get the font information */
+  fontInfo = XLoadQueryFont( dpy, "-adobe-helvetica-medium-r-normal--18-*-*-*-p-*-iso8859-1" );
+  
+  /* If the above font didn't exist try one that should */
+  if ( fontInfo == NULL )
+  {
+      fontInfo = XLoadQueryFont( dpy, "fixed" );
+      /* If that font doesn't exist, something is wrong */
+      if ( fontInfo == NULL )
+      {
+          fprintf( stderr, "no X font available?\n" );
+          return;
+      }
+  }
+  
+  /* generate the list */
+  glXUseXFont( fontInfo->fid, 32, 96, hwconf.font_baze);
+  
+  /* Recover some memory */
+  XFreeFont( dpy, fontInfo );
+  
+  /* close the display now that we're done with it */
+  XCloseDisplay( dpy );
 }
 
 void KillFont(void)									// Delete The Font
 {
-//	glDeleteLists(hwconf.font_baze, 96);	// Delete All 96 Characters
+	glDeleteLists(hwconf.font_baze, 96);	// Delete All 96 Characters
 }
 
 void glChyba(void)

@@ -13,7 +13,8 @@ int apakDir(APAK_HANDLE *pHandle, char *cFileName)
 	int		j, i = strlen(cFileName);
 
 	for(j = i; j >= 0; j--)
-		if(cFileName[j] == '\\')
+		// if(cFileName[j] == '\\') - DIR?
+    if(cFileName[j] == '/')
 			break;
 
 	if(j <= 0)
