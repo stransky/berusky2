@@ -439,7 +439,7 @@ void am_Play_Beatle_Sound(BEETLEANIMATION *p_anim, int mesh, int idx)
 	kom_mesh_get_float(mesh, &pos[0], &pos[1], &pos[2], &rot);
 
 //	p_anim->iSound = ap_Play_Sound(0, 0, 0, pos, idx + (rand()%3), NULL, &ad);
-//	p_anim->dwTime = timeGetTime();
+	p_anim->dwTime = timeGetTime();
 }
 
 void am_Do_Beatle_Cakanec(int mesh, LEVELINFO *p_Level, int id)

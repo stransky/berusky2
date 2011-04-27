@@ -14,9 +14,7 @@ int ftoi(float t)
 
 unsigned int timeGetTime(void)
 {
-  struct timeval tv;
-  gettimeofday(&tv,NULL);
-  return(tv.tv_usec/1000);
+  return(current_time_get());
 }
 
 //-----------------------------------------------------------------------------

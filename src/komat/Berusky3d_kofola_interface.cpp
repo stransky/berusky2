@@ -689,7 +689,7 @@ void kom_load_level(char *p_file, int zmen_dir, int restart, BUNKA_LEVELU_DISK *
 
  kprintf(1,"Load scene - dynamic items....");
  ret = ber_nahraj_scenu(p_ber,file,dir,restart,berusky,berusek); // scena (dynamicke veci)
- kprintfl(TRUE,"Scene load ret %d",ret);
+ kprintf(TRUE,"Scene load ret %d",ret);
  if(!ret) {
    kprintf(TRUE,"Error loading scene %s from directory %s, stop loading...",file,dir);
    konec(TRUE);
@@ -697,7 +697,7 @@ void kom_load_level(char *p_file, int zmen_dir, int restart, BUNKA_LEVELU_DISK *
    ber_dynamic_mesh_list_vyrob(p_ber);
  }
 
- kprintf(TRUE,"time %d",timeGetTime()-time);
+ kprintf(TRUE,"Loaded in %dms",timeGetTime()-time);
 
  kom_posun_slider();
 

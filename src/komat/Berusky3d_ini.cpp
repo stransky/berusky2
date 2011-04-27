@@ -361,7 +361,9 @@ int main(int argc, char **argv)
    GetPrivateProfileString("hra","log_file","c:\\berusky2log.txt",pom,500,ini_file);
    p_ber->debug_file = fopen(pom,"a");   
   } 
-  
+
+  kprintf(TRUE,"time = %d",timeGetTime());
+
   ber_konfiguruj_berusky(&ber);
 
   AGE_MAIN *p_age = p_ber->p_age = new AGE_MAIN(main_callback);

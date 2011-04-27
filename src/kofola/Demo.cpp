@@ -152,7 +152,7 @@ DEMOKEYFRAME* demo_Create_Frame(DEMOSTRUCTURE *p_Demo)
 		p_Demo->Frame_Counter++;
 		p_Demo->p_Last = p_Demo->p_Last->p_Next;
 		p_Demo->p_Last->p_Next = NULL;
-		//p_Demo->Start = timeGetTime();
+		p_Demo->Start = timeGetTime();
 		return p_Demo->p_Last;
 	}
 }

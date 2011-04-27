@@ -649,14 +649,14 @@ void StretchAnimation(RECT *rStart, RECT *rFinish, int iSurface, int iSpeed, AUD
 
 	memcpy(&rDraw, rStart, sizeof(RECT));
 
-	//dwS = timeGetTime();
+	dwS = timeGetTime();
 
 	while(!done)
 	{
 		//ddxStretchBltDisplay(&rDraw, iSurface, &rBmp);
 		//DisplayFrame();
 
-//		dwF = timeGetTime();
+		dwF = timeGetTime();
 
 		dwE = dwF - dwS;
 
