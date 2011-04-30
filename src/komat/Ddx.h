@@ -98,7 +98,7 @@ int gl_stop(HW_KONFIG *p_conf);
 int grf_prehod_mod_hra(HW_KONFIG *p_conf);
 int grf_prehod_mod_zpet(HW_KONFIG *p_conf);
 int grf_prehod_mod_menu(void);
-int grf_start(char *p_file, char *p_sekce, int extension);
+int grf_start(char *p_file);
 int grf_stop();
 
 void nastav_konfig(HW_KONFIG  *p_hwconf, TXT_KONFIG *p_txt);
@@ -125,7 +125,6 @@ void glChyba(void);
 #define printfs   ddw_surf
 #define printfsx  ddw_surf_xy
 
-void pn_triangles_init(HW_KONFIG *p_hwconf);
 void anisotropic_filtr_init(TXT_KONFIG *p_txt);
 
 #define VYSKA_FONTU 15

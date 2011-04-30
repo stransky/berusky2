@@ -203,14 +203,11 @@ int kom_graf_init(void)
 //    hwnd_hry = otevri_okno(hinst,hwconf.fullscreen,0,0,&hwconf);
   }
   
-  kprintf(1,"Screen mode %d ok",full);
-  
   /* Nahodi grafiku
   */
-/*
-  if(!grf_start(hinst,hwnd_hry,ini_file,NULL,TRUE))
+  if(!grf_start(ini_file))
     chyba("Inicializace");
-*/
+  
   /* Nahozeni renderovacich funkci
   */ 
   ber_nahod_render_funkce();

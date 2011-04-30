@@ -307,9 +307,8 @@ void anisotropic_filtr_init(TXT_KONFIG *p_txt)
   }
 }
 
-int grf_start(char *p_file, char *p_sekce, int extension)
+int grf_start(char *p_file)
 {
-
  nahraj_texture_config(p_file,&txconf);
 
  if(!gl_init(&hwconf)) {
@@ -317,20 +316,9 @@ int grf_start(char *p_file, char *p_sekce, int extension)
    return(FALSE);
  }
 
- //gl_ext_default();
- if(extension) {
-   //gl_load_extension(&hwconf);
-   //gl_init_extension(&hwconf);
-   //gl_free_extension(&hwconf);
- ;
- } else {
-   kprintf(TRUE,"All extensions off!");
- }
-
  /* Nahozeni stavu OpenGL
  */
  nastav_konfig(&hwconf,&txconf);
- pn_triangles_init(&hwconf);
  anisotropic_filtr_init(&txconf);
  
  BuildFont();
@@ -340,28 +328,7 @@ int grf_start(char *p_file, char *p_sekce, int extension)
 int grf_stop(void)
 {
  KillFont();
- gl_stop(&hwconf);
  return(1);
-}
-
-#define MAX_PN_TESELATION 7
-
-void pn_triangles_init(HW_KONFIG *p_hwconf)
-{
-  p_hwconf->pn_triangles = FALSE;
-
-  if(p_hwconf->pn_triangles && gl_ext::extlist_ati_pn_triangles) {
-    glEnable(GL_PN_TRIANGLES_ATI);
-    glPNTrianglesiATI( GL_PN_TRIANGLES_POINT_MODE_ATI, GL_PN_TRIANGLES_POINT_MODE_LINEAR_ATI);
-    glPNTrianglesiATI( GL_PN_TRIANGLES_NORMAL_MODE_ATI, GL_PN_TRIANGLES_NORMAL_MODE_LINEAR_ATI);
-    if(p_hwconf->pn_triangles_detail >= MAX_PN_TESELATION)
-      p_hwconf->pn_triangles_detail = MAX_PN_TESELATION;
-    glPNTrianglesiATI( GL_PN_TRIANGLES_TESSELATION_LEVEL_ATI, p_hwconf->pn_triangles_detail);
-    kprintf(TRUE,"PN Triangles tesselation level %d",p_hwconf->pn_triangles_detail);
-    glstav_pn_triangles = TRUE;
-  } else {
-    glstav_pn_triangles = FALSE;
-  }
 }
 
 int rozeber_switch(long shit)
@@ -625,29 +592,6 @@ int gl_init(HW_KONFIG *p_conf)
 }
 
 
-int gl_stop(HW_KONFIG *p_conf)
-{
-/*
-  if(p_conf->hRC) {
-    if(!wglMakeCurrent(NULL,NULL)) {
-      kprintf(1,"gl_wglMakeCurrent fail!!!");
-      return(FALSE);
-    }
-    if(!wglDeleteContext(p_conf->hRC)) {
-      kprintf(1,"gl_wglDeleteContext fail!!!");
-      return(FALSE);      
-    }
-    p_conf->hRC=NULL;
-  }
-  
-  if(p_conf->hDC && !ReleaseDC(hwnd,p_conf->hDC)) {
-    kprintf(1,"gl_ReleaseDC fail!!!");
-    p_conf->hDC=NULL;
-  }
-*/  
-  return(TRUE);
-}
-
 #define KONZOLE_POZADI  0xffffffff
 #define KONZOLE_TEXT    0x0
 
@@ -659,8 +603,8 @@ void ddw_surf(int x, int y, char *fmt,...)
  if(fmt == NULL)									// If There's No Text
    return;									   		  // Do Nothing
 
- //glColor3f(0.0f,0.0f,0.0f);
- glColor3f(1.0f,1.0f,1.0f);
+ glColor3f(0.0f,0.0f,0.0f);
+ //glColor3f(1.0f,1.0f,1.0f);
  glRasterPos2i(x*SIRKA_FONTU,y*VYSKA_FONTU);
 
  va_start(ap, fmt);								// Parses The String For Variables
@@ -681,7 +625,8 @@ void ddw_surf_xy(int x, int y, char *fmt,...)
  if(fmt == NULL)									// If There's No Text
    return;									   		  // Do Nothing
 
- glColor3f(1.0f,1.0f,1.0f);
+ glColor3f(0.0f,0.0f,0.0f);
+ //glColor3f(1.0f,1.0f,1.0f);
  glRasterPos2i(x,y);
 
  va_start(ap, fmt);								// Parses The String For Variables

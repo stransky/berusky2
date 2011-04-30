@@ -47,13 +47,13 @@ inline tcolor rb_switch(tcolor color)
 
 inline tcolor int_rgb(int r, int g, int b)
 {
-  tcolor color = 0xff000000;
+  tcolor color;
 
   if(r > MAX_BYTE) r = MAX_BYTE;
   if(g > MAX_BYTE) g = MAX_BYTE;
   if(b > MAX_BYTE) b = MAX_BYTE;
 
-  color |=  r;
+  color =  r;
   color |=  g<<8;
   color |=  b<<16;
 
@@ -62,8 +62,8 @@ inline tcolor int_rgb(int r, int g, int b)
 
 inline tcolor byte_rgb(byte r, byte g, byte b)
 {
-  tcolor color = 0xff000000;
-  color |=  r;
+  tcolor color;
+  color =  r;
   color |=  g<<8;
   color |=  b<<16;
   return(color);

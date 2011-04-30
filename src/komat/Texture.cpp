@@ -115,7 +115,6 @@ int uloz_aux_pack(FFILE f, AUX_RGBImageRec *p_bmp)
   sirka_q = sirka*bpp + ((sirka*bpp%4) ? sirka*bpp%4 : 0);
   n = sirka_q*vyska;
 
-  
   // Ulozeni bitmapy
   memset(&head,0,sizeof(head));
   memset(&info,0,sizeof(info));

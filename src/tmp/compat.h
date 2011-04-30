@@ -90,9 +90,9 @@ typedef struct _MOUSE_INFO {
         
 } MOUSE_INFO;
 
-#define RGB(a,b,c) a
+#define RGB(r,g,b) int_rgb(r,g,b)
 #define CP_ACP     0
-#define TRANSCOLOR 0
+#define TRANSCOLOR int_rgb(255, 0, 255)
 #define HDC2DD     -1
 
 void kprintf(char log, char *p_text,...);
