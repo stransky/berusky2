@@ -45,107 +45,10 @@ void flip(void)
   p_grf->flip();
 }
 
-
-/*
-inline void nacti_polohu_mysi(WPARAM wParam, LPARAM lParam)
-{    
-  mi.dx = LOWORD(lParam)- mi.x;
-  mi.dy = HIWORD(lParam)- mi.y;
-  mi.x = LOWORD(lParam);
-  mi.y = HIWORD(lParam);
-}                                     
-
-inline void nacti_tlacitka_mysi(WPARAM wParam, LPARAM lParam)
-{                                     
-  mi.ot1 = mi.dt1 = mi.t1 = LOWORD(wParam) & MK_LBUTTON;
-  mi.ot2 = mi.dt2 = mi.t2 = LOWORD(wParam) & MK_RBUTTON;  
-}                                     
-*/
 inline int filtr_klaves(int scancode)
 {   
   return(gl_Allow_Key(scancode) ? scancode : 0);
 }
-
-/*
-long CALLBACK WindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
-{  
-  switch(message) {
-  case WM_MOUSEWHEEL:
-    
-    if(!PRCameraFlag)
-      break;
-    
-    PRCameraFlagChange = FALSE;
-    
-    if((signed short)HIWORD(wParam) > 0)
-      key[K_PLUS] = TRUE;
-    else
-      key[K_MINUS] = TRUE;
-    break;                     
-
-  case WM_ACTIVATEAPP:   
-    if(wParam) {
-      karmin_aktivni = TRUE;
-      system_kurzor = FALSE;
-      if(obsluha_okna)
-        maximalizuj_hru();
-    } else {
-      karmin_aktivni = FALSE;
-      system_kurzor = TRUE;
-      if(obsluha_okna)
-        minimalizuj_hru();
-    }
-    break;
-  case WM_CLOSE:
-    PostQuitMessage(0);
-    return(FALSE);
-  case WM_QUIT: // ukonceni aplikace - hodit sem konec!
-    break;  
-  case WM_KEYDOWN:
-    {
-      int scan = filtr_klaves(MapVirtualKey(wParam,0));
-      if(scan) {
-        key[scan] = TRUE;
-        key[0] = TRUE;
-      }           
-      break;
-    } 
-  case WM_KEYUP:
-    {
-      int scan = filtr_klaves(MapVirtualKey(wParam,0));
-      if(scan) {
-        key[scan] = FALSE;
-        key[0] = FALSE;
-      }         
-      break;
-    }
-  case WM_CHAR:
-    key_pressed = (TCHAR) wParam;
-    break;
-  case WM_MOUSEMOVE:    
-    nacti_polohu_mysi(wParam, lParam);
-    break;
-  case WM_LBUTTONUP:
-    nacti_tlacitka_mysi(wParam, lParam);
-    break;
-  case WM_RBUTTONUP:
-    nacti_tlacitka_mysi(wParam, lParam);
-    break;
-  case WM_LBUTTONDOWN: 
-    nacti_tlacitka_mysi(wParam, lParam);
-    break;
-  case WM_RBUTTONDOWN:
-    nacti_tlacitka_mysi(wParam, lParam);
-    break;
-  case WM_SETCURSOR:
-    if(!mouse_move)
-      mouse_move = FALSE;
-    break;    
-    
-  }  
-  return DefWindowProc( hwnd, message, wParam, lParam );
-}
-*/
 
 void minimalizuj_hru(void)
 {
@@ -272,68 +175,6 @@ void konec(int konec)
   }
 }
 
-
-/* 
- * Camera commands
- */
-#define CAMERA_POLAR_NAME "CONTROL_CAMERA"
-
-static CAMERA_POLAR * camera_control_get(AGE_MAIN *p_age)
-{
-  SCENE *p_scene = p_age->scene_get();
-  
-  CAMERA_POLAR *p_camera = (CAMERA_POLAR *)p_scene->camera_get(CAMERA_POLAR_NAME);
-  if(!p_camera) {
-    p_camera = p_scene->camera_polar_create(CAMERA_POLAR_NAME);
-    p_camera->target_set(0,0,0);
-    p_camera->distance_set(20);
-    p_camera->elevation_set(DEG2RAD(60));
-    p_camera->plane_auto_adjust_set(TRUE);    
-  }
-  
-  p_scene->camera_active_set(p_camera);
-  
-  assert(p_camera);
-  return(p_camera);
-}
-
-static CAMERA_POLAR * camera_control_center_get(AGE_MAIN *p_age)
-{
-  CAMERA_POLAR *p_camera = camera_control_get(p_age);
-  SCENE   *p_scene = p_age->scene_get();
-  int     sx,sy,sdx,sdy;
-  
-  p_camera->view_get(&sx,&sy,&sdx,&sdy);
-  float depth = p_scene->scene_box_depth_get();
-  VECT v1((float)(sx+sdx/2),(float)(sy+sdy/2),depth);
-  
-  p_camera->screen_to_world(&v1);
-  p_camera->target_set(&v1);
-  p_camera->distance_set(depth);
-  
-  return(p_camera);
-}
-
-bool scene_reset(AGE_MAIN *p_age)
-{
-  CAMERA_POLAR *p_camera = camera_control_get(p_age);
-  SCENE *p_scene = p_age->scene_get();
-  
-  VECT  s_center;
-  VECT  s_length;
-  
-  p_scene->scene_box_center_get(&s_center);  // Return center of the scene
-  p_scene->scene_box_length_get(&s_length);  // Return size of the scene
-    
-  p_camera->target_set(&s_center);
-  p_camera->elevation_set(DEG2RAD(60));
-  p_camera->rotation_set(DEG2RAD(0));
-  p_camera->distance_set(s_length.size()*2);
-    
-  return(TRUE);
-}
-
-
 bool main_callback(AGE_MAIN *p_age)
 {
   // Draw frame
@@ -357,9 +198,7 @@ int main(int argc, char **argv)
   if(GetPrivateProfileInt("debug","debug_file",0,ini_file)) {
    GetPrivateProfileString("hra","log_file","c:\\berusky2log.txt",pom,500,ini_file);
    p_ber->debug_file = fopen(pom,"a");   
-  } 
-
-  kprintf(TRUE,"time = %d",timeGetTime());
+  }  
 
   ber_konfiguruj_berusky(&ber);
 
@@ -369,6 +208,8 @@ int main(int argc, char **argv)
   p_age->graph_set(XRES_MENU,YRES_MENU);
   if(!p_age->graph_screen_create())
     return(FALSE);
+  
+  timeGetTimeInit();
   
   SCENE *p_scene = p_age->scene_new();
   p_age->scene_active_set(p_scene);
@@ -384,14 +225,8 @@ int main(int argc, char **argv)
     p_grf->config_opengl_lighting(FALSE);
     p_grf->config_draw_all_objects(TRUE);
     p_grf->config_draw_pivots(TRUE);
-    p_grf->config_draw_selection(TRUE);    
-  }
-
-  //p_scene->load(NULL, "/home/komat/auto.b2m");  
-
-  scene_reset(p_age);
-
-  //p_age->run();
+    p_grf->config_draw_selection(TRUE);
+  }  
 
   p_level = (argc > 1) ? argv[1] : (char *)"a";
   winmain_Game_Run(p_level);
@@ -399,18 +234,162 @@ int main(int argc, char **argv)
   return(TRUE);
 }
 
+inline void nacti_polohu_mysi(int nx, int ny)
+{    
+  mi.dx = nx - mi.x;
+  mi.dy = ny - mi.y;
+  mi.x = nx;
+  mi.y = ny;
+}                                     
+
+inline void nacti_tlacitka_mysi(int num, bool state)
+{                                    
+  switch(num) {
+    case 0:
+      mi.ot1 = mi.dt1 = mi.t1 = state;
+      break;
+    case 1:
+      mi.ot2 = mi.dt2 = mi.t2 = state;
+      break;
+    default:
+      break;
+  }
+}                                     
+
+/*
+long CALLBACK WindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{  
+  switch(message) {
+  case WM_MOUSEWHEEL:
+    
+    if(!PRCameraFlag)
+      break;
+    
+    PRCameraFlagChange = FALSE;
+    
+    if((signed short)HIWORD(wParam) > 0)
+      key[K_PLUS] = TRUE;
+    else
+      key[K_MINUS] = TRUE;
+    break;                     
+
+  case WM_ACTIVATEAPP:   
+  case WM_CLOSE:
+    PostQuitMessage(0);
+    return(FALSE);
+  case WM_QUIT: // ukonceni aplikace - hodit sem konec!
+    break;  
+  case WM_KEYDOWN:
+    {
+      int scan = filtr_klaves(MapVirtualKey(wParam,0));
+      if(scan) {
+        key[scan] = TRUE;
+        key[0] = TRUE;
+      }           
+      break;
+    } 
+  case WM_KEYUP:
+    {
+      int scan = filtr_klaves(MapVirtualKey(wParam,0));
+      if(scan) {
+        key[scan] = FALSE;
+        key[0] = FALSE;
+      }         
+      break;
+    }
+  case WM_CHAR:
+    key_pressed = (TCHAR) wParam;
+    break;
+  case WM_MOUSEMOVE:    
+    nacti_polohu_mysi(wParam, lParam);
+    break;
+  case WM_LBUTTONUP:
+    nacti_tlacitka_mysi(wParam, lParam);
+    break;
+  case WM_RBUTTONUP:
+    nacti_tlacitka_mysi(wParam, lParam);
+    break;
+  case WM_LBUTTONDOWN: 
+    nacti_tlacitka_mysi(wParam, lParam);
+    break;
+  case WM_RBUTTONDOWN:
+    nacti_tlacitka_mysi(wParam, lParam);
+    break;
+  case WM_SETCURSOR:
+    if(!mouse_move)
+      mouse_move = FALSE;
+    break;    
+    
+  }  
+  return DefWindowProc( hwnd, message, wParam, lParam );
+}
+*/
+
 int spracuj_spravy(int param)
 {
-/*
- MSG  msg;
- 
- while(PeekMessage( &msg, NULL, 0, 0, PM_REMOVE )) {
-   TranslateMessage(&msg);
-   DispatchMessage(&msg);
-   if(msg.message == WM_QUIT) {
-     gl_Kofola_End(bDXAktivni);
-   }
- }
- return(1);
-*/
+  SDL_Event event; /* Event structure */
+
+  while(SDL_PollEvent(&event)) {
+    switch(event.type) {
+      case SDL_KEYDOWN:
+        {        
+          int keycode = event.key.keysym.sym;
+          int mod = event.key.keysym.mod;        
+          key[keycode] = TRUE;
+          key[K_SHIFT] = mod&KMOD_SHIFT;
+          key[K_CTRL] = mod&KMOD_CTRL;
+          key[K_ALT] = mod&KMOD_ALT;
+        }
+        break;
+      case SDL_KEYUP:
+        {        
+          int keycode = event.key.keysym.sym;
+          int mod = event.key.keysym.mod;        
+          key[keycode] = FALSE;
+          key[K_SHIFT] = mod&KMOD_SHIFT;
+          key[K_CTRL] = mod&KMOD_CTRL;
+          key[K_ALT] = mod&KMOD_ALT;
+        }
+        break;
+        break;
+      case SDL_MOUSEMOTION:
+        {
+          nacti_polohu_mysi(event.motion.x, event.motion.y);
+          bool pressed = FALSE;
+          int  i;
+          for(i = 0; i < MOUSE_BUTTONS; i++) {
+            bool state = event.motion.state&SDL_BUTTON(i);
+            if(state) {
+              nacti_tlacitka_mysi(i, 1);
+              pressed = TRUE;
+            }
+          }
+        }
+        break;
+      case SDL_MOUSEBUTTONDOWN:
+        nacti_polohu_mysi(event.motion.x, event.motion.y);
+        nacti_tlacitka_mysi(event.button.button, 1);
+        break;
+      case SDL_MOUSEBUTTONUP:        
+        nacti_polohu_mysi(event.motion.x, event.motion.y);
+        nacti_tlacitka_mysi(event.button.button, 0);
+        break;
+      case SDL_ACTIVEEVENT:
+        if(event.active.state&SDL_APPACTIVE) {
+          if(event.active.gain) {
+            karmin_aktivni = TRUE;
+            system_kurzor = FALSE;
+          } else {
+            karmin_aktivni = FALSE;
+            system_kurzor = TRUE;
+          }
+        }
+        break;
+      case SDL_QUIT:
+        gl_Kofola_End(bDXAktivni);
+        break;
+      default:
+        printf("I don't know what this event is!\n");
+    }
+  }
 }

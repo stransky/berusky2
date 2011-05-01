@@ -430,7 +430,7 @@ compiler.options.defines.selected=1 1 1 1 1 1
 compiler.options.warning.buttons=0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 
 compiler.options.optimize.buttons=1 0 0 0 
 compiler.options.other.buttons=1 0 
-compiler.options.other.c.flags=-w -D_DEBUG
+compiler.options.other.c.flags=-D_DEBUG -fpermissive
 compiler.options.other.l.flags=
 compiler.options.other.l.libs=
 

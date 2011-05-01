@@ -2096,7 +2096,7 @@ int lo_load_chunky(FHANDLE f)
   int load, i, j = 0, ret;
   
   while((ret = file_read(&ch,sizeof(ch),1,f)) && ret > 0) {
-//    spracuj_spravy(TRUE);
+    spracuj_spravy(TRUE);
     load = 0;
 
     for(i = 0; i < (sizeof(chload)/sizeof(chload[0])); i++) {

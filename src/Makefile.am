@@ -8,12 +8,12 @@ INCLUDES =\
 	 -Ikomat -Ikofola -Itmp -Iage/graph -Iage/include -Iage/support -Iage/utils -Igenerator
 
 AM_CFLAGS =\
-	-w -D_DEBUG\
+	-D_DEBUG -fpermissive\
 	 -Wall\
 	 -g
 
 AM_CXXFLAGS =\
-	-w -D_DEBUG\
+	-D_DEBUG -fpermissive\
 	 -Wall\
 	 -g
 

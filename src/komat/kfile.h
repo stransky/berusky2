@@ -32,6 +32,7 @@ inline int efileAPAK(APAK_HANDLE *pAHandle, char *p_file)
     return(FALSE);
   }
 */
+  return(FALSE);
 }
 
 inline int kefile(APAK_HANDLE *pAHandle, char *p_file)

@@ -147,6 +147,7 @@ inline int kom_mesh_reset(MeshHandle prvek_handle)
   int x,y,z,rotace; 
   kom_mesh_get_int(prvek_handle,&x,&y,&z,&rotace);
   kom_mesh_reset_pr(prvek_handle,x,y,z,rotace);
+  return(TRUE);
 }
 
 /* Premisteni prvku - Presune prvek na zadanou pozici

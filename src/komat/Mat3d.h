@@ -1792,18 +1792,6 @@ inline void nastav_barvu_bodu_kont(EDIT_KONTEJNER *p_kont, float r, float g, flo
   }
 }
 
-inline void nastav_barvu_bodu_kont_alfa(EDIT_KONTEJNER *p_kont, float a)
-{
-  int o;
-/*
-  for(o = 0; o < p_kont->max_objektu; o++) {    
-    if(p_kont->p_obj[o]) {
-      oe_set_barva_objekt_maska(p_kont->p_obj[o],1,1,1,a,0,COLOR_SET,0,0,0,1);
-    }
-  }
-*/
-}
-
 inline void nastav_barvu_bodu_kont_dword(EDIT_KONTEJNER *p_kont, dword barva, char op)
 {
   int o,mo;

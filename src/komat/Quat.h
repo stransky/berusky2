@@ -70,7 +70,7 @@ inline GLMATRIX * quat_to_matrix(GLMATRIX *p_mat, QUAT *p_q)
 }
 
 /* y rotace
-  //*p_r = acosf(1.0f-(2*p_q->x*p_q->x)-(2*p_q->y*p_q->y));
+  // *p_r = acosf(1.0f-(2*p_q->x*p_q->x)-(2*p_q->y*p_q->y));
   temp._11 = cosinus;
   temp._13 = sinus;
   temp._33 = cosinus;

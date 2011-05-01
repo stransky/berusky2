@@ -9,8 +9,6 @@
 
 #define  TVRDE_CHYBY 0
 
-#define  MAX_BYTE 0xff
-
 #define  S_NIC            "nic"
 
 #define  MTRL_TAG         "MTRL"

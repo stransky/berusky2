@@ -69,7 +69,6 @@ inline void ZeroMemory(void *mem, int size)
   memset(mem,0,size);
 }
 
-#define MAX_BYTE 0xff
 #define MAX_PATH 128
 
 typedef struct _MOUSE_INFO {
@@ -111,6 +110,7 @@ int ftoi(float t);
 
 char * itoa(int base, char *buf, int d);
 
+void timeGetTimeInit(void);
 unsigned int timeGetTime(void);
 
 //-----------------------------------------------------------------------------

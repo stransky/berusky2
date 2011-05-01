@@ -9,9 +9,6 @@ extern dword system_timer;
 extern dword system_kurzor;
 extern dword obsluha_okna;
 extern dword play_demo;
-// TODO
-//extern HWND  hwnd_hry;
-//extern HINSTANCE hinst;
 extern char  ini_file[300];
 extern int   mouse_move;
 
@@ -23,7 +20,6 @@ int  nahraj_konfig(void);
 
 void minimalizuj_hru(void);
 void maximalizuj_hru(void);
-
 
 //HWND zavri_okno(HWND hwnd);
 

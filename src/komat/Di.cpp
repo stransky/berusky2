@@ -4,9 +4,8 @@
 
 #include "3d_all.h"
 
-byte      key[POCET_KLAVES];
-byte      _a_klavesa;
-byte		  key_pressed;
+int  key[POCET_KLAVES];
+int  key_pressed;
 MYSI_INFO mi;
 
 int zapni_kurzor(void)

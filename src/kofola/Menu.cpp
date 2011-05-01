@@ -6530,7 +6530,7 @@ BEGIN_MENU_LOAD:
 				}
 		}
 
-/*		spracuj_spravy(0);
+		/*spracuj_spravy(0);  
 		ddxUpdateMouse();
 
 		if(dim.dx || dim.dy)

@@ -457,7 +457,9 @@ void ber_tiskni_statistiku(G_KONFIG *p_ber)
   float      dir[6];
   BOD        pos;
   int        start = 0;
-  int        i,posun = 12;
+  int        i;
+  //int        posun = 12;
+  int        posun = 20;
   int        ppart, psystemu;
   int        dlnum = 0;
   int        edlnum = 0;
@@ -522,6 +524,7 @@ void ber_tiskni_statistiku(G_KONFIG *p_ber)
         printfs(start,posun++, "L slot %d time %f",i,time);
       }
     }
+    printfs(start,posun++, "time = %d",timeGetTime());
   }
 }
 #endif

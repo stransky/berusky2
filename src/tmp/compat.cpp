@@ -12,8 +12,16 @@ int ftoi(float t)
   return((int)t);
 }
 
+static int timeGetTimeSet = 0;
+
+void timeGetTimeInit(void)
+{
+  timeGetTimeSet = 1;
+}
+
 unsigned int timeGetTime(void)
 {
+  assert(timeGetTimeSet);
   return(current_time_get());
 }
 

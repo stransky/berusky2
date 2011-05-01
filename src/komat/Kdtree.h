@@ -50,8 +50,13 @@ int   kd_intersect_kostku_bod_inter(BOD *p_a, BOD *p_b, BOD *p_min, BOD *p_max, 
 void  kresli_obalku(BOD min, BOD max, dword barva, GLMATRIX *p_tr);
 
 #define RIF(min,max) (((max)+(min))*0.5f)
+#ifndef MAX
 #define MAX(a,b)     (((a) > (b)) ? (a) : (b))
+#endif
+
+#ifndef MIN
 #define MIN(a,b)     (((a) < (b)) ? (a) : (b))
+#endif
 
 inline void kd_korekce_bunky(BOD *p_min, BOD *p_max)
 {

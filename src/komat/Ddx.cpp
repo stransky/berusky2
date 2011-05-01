@@ -603,8 +603,8 @@ void ddw_surf(int x, int y, char *fmt,...)
  if(fmt == NULL)									// If There's No Text
    return;									   		  // Do Nothing
 
- glColor3f(0.0f,0.0f,0.0f);
- //glColor3f(1.0f,1.0f,1.0f);
+ //glColor3f(0.0f,0.0f,0.0f);
+ glColor3f(1.0f,1.0f,1.0f);
  glRasterPos2i(x*SIRKA_FONTU,y*VYSKA_FONTU);
 
  va_start(ap, fmt);								// Parses The String For Variables
@@ -625,8 +625,8 @@ void ddw_surf_xy(int x, int y, char *fmt,...)
  if(fmt == NULL)									// If There's No Text
    return;									   		  // Do Nothing
 
- glColor3f(0.0f,0.0f,0.0f);
- //glColor3f(1.0f,1.0f,1.0f);
+ //glColor3f(0.0f,0.0f,0.0f);
+ glColor3f(1.0f,1.0f,1.0f);
  glRasterPos2i(x,y);
 
  va_start(ap, fmt);								// Parses The String For Variables
@@ -753,7 +753,7 @@ void BuildFont(void)		// Build Our Bitmap Font
   dpy = XOpenDisplay( NULL );
   
   /* Get the font information */
-  fontInfo = XLoadQueryFont( dpy, "-adobe-helvetica-medium-r-normal--18-*-*-*-p-*-iso8859-1" );
+  fontInfo = XLoadQueryFont( dpy, "-adobe-helvetica-medium-r-normal--18-*-*-*-p-*-iso8859-1" );  
   
   /* If the above font didn't exist try one that should */
   if ( fontInfo == NULL )

@@ -134,8 +134,6 @@ byte* ConvertBMPToRGBBuffer ( byte* Buffer, int width, int height )
   int  psw;
   byte *newbuf;
   byte *p_p1, *p_p2;
-	long bufpos = 0;
-	long newpos = 0;
   int  x,y;
 
   // first make sure the parameters are valid
