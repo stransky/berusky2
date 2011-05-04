@@ -627,7 +627,6 @@ MatrixHandle rani_privaz_mesh(RunHandle a_handle, MeshHandle m_handle, int trans
   GKA_MATICE *p_mat;
   MatrixHandle matice;
 
-
   if(!p_ber->p_prv_lev[m_handle]) {
     ddw("Chybne privazani mesh-handle %d",m_handle);
     kprintfe(TRUE,"K_CHYBA - FILE %s LINE %d",__FILE__,__LINE__);

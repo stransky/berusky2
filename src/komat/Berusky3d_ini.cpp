@@ -245,10 +245,10 @@ inline void nacti_polohu_mysi(int nx, int ny)
 inline void nacti_tlacitka_mysi(int num, bool state)
 {                                    
   switch(num) {
-    case 0:
+    case 1:
       mi.ot1 = mi.dt1 = mi.t1 = state;
       break;
-    case 1:
+    case 3:
       mi.ot2 = mi.dt2 = mi.t2 = state;
       break;
     default:
@@ -366,6 +366,13 @@ int spracuj_spravy(int param)
           }
         }
         break;
+      /*
+        #define BUTTON_LEFT           1
+        #define BUTTON_MIDDLE         2
+        #define BUTTON_RIGHT          3
+        #define WHEEL_UP              4
+        #define WHEEL_DOWN            5
+      */
       case SDL_MOUSEBUTTONDOWN:
         nacti_polohu_mysi(event.motion.x, event.motion.y);
         nacti_tlacitka_mysi(event.button.button, 1);

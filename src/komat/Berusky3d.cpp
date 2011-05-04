@@ -456,7 +456,7 @@ void ber_tiskni_statistiku(G_KONFIG *p_ber)
   GK_ANIM       *p_gk;
   float      dir[6];
   BOD        pos;
-  int        start = 0;
+  int        start = 2;
   int        i;
   //int        posun = 12;
   int        posun = 20;
@@ -470,6 +470,8 @@ void ber_tiskni_statistiku(G_KONFIG *p_ber)
   }
 
   kam_get_float_ext(dir, (float *)&pos);
+
+  assert(*p_ber->p_rfi < 100000000 && *p_ber->p_fi < 100000000000);
 
   if(p_ber->debug_vypisy) {
     printfs(start,posun++, "bodu %d",p_ber->debug.bodu);

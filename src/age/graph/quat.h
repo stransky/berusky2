@@ -130,10 +130,10 @@ public:
     float p1 = 2*y*z - 2*w*x,
           p2 = 2*x*z - 2*w*y,
           p3;
-    
-    p3    = -asinf((fabsf(p1) > 1.0f) ? (int)(p1) : p1);
+
+    p3    = -asinf((fabsf(p1) > 1.0f) ? copysignf(1,p1) : p1);
    *p_fi  = (fabsf(w) < fabsf(x)) ? copysignf(DEG2RAD(180.0f)-fabsf(p3),p3) : p3;
-    p3    = asinf((fabsf(p2) > 1.0f) ? (int)(p2) : p2);
+    p3    = asinf((fabsf(p2) > 1.0f) ? copysignf(1,p2) : p2);
    *p_r   = (fabsf(w) < fabsf(y)) ? copysignf(DEG2RAD(180.0f)-fabsf(p3),p3) : p3;
   }
   

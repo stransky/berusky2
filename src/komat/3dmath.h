@@ -177,12 +177,14 @@ inline void stred_to_obalka(BOD *p_prv, BOD *p_min, BOD *p_max, float dx, float 
 #define RAD2DEG(fi)          (((fi)/PI)*180.0f)
 
 #define atoff(s)             ((float)atof(s))
+/*
 #define sqrtf(s)             ((float)sqrt((float)(s)))
 #define sinf(s)              ((float)sin((float)(s)))
 #define cosf(s)              ((float)cos((float)(s)))
 #define asinf(s)             ((float)asin((float)(s)))
 #define acosf(s)             ((float)acos((float)(s)))
 #define fabsf(s)             ((float)fabs((float)(s)))
+*/
 
 #define EPSILON 0.000001f
 
