@@ -284,7 +284,7 @@ BOOL CALLBACK doe_callback_konzole(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 }
 */
 
-void kprintf(char log, char *p_text,...)
+void kprintf(char log, const char *p_text,...)
 {
   char      text[2000];  
   va_list   argumenty;
@@ -305,7 +305,7 @@ void kprintf(char log, char *p_text,...)
   }
 }
 
-void kprintfe(char log, char *p_text,...)
+void kprintfe(char log, const char *p_text,...)
 {
   char      text[2000];  
   va_list   argumenty;
@@ -325,7 +325,7 @@ void kprintfe(char log, char *p_text,...)
   exit(1);
 }
 
-void kprintfl(char log, char *p_text,...)
+void kprintfl(char log, const char *p_text,...)
 {    
   char      text[2000];  
   va_list   argumenty;
@@ -470,8 +470,6 @@ void ber_tiskni_statistiku(G_KONFIG *p_ber)
   }
 
   kam_get_float_ext(dir, (float *)&pos);
-
-  assert(*p_ber->p_rfi < 100000000 && *p_ber->p_fi < 100000000000);
 
   if(p_ber->debug_vypisy) {
     printfs(start,posun++, "bodu %d",p_ber->debug.bodu);

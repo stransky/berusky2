@@ -11027,12 +11027,12 @@ PLAY_LEVEL_START:
 	}
 	
 //-------------------------------------------------------------------------------------------
-	// TODO if ((Level.status == 5) || (Level.status == 3) || (Level.status == 1))
+	if ((Level.status == 5) || (Level.status == 3) || (Level.status == 1))
 	{
 		if(gl_Are_Animations_Done(&Level))
 			Level.status--;
 
-		if(Level.status < 3)
+		//if(Level.status < 3)
       if(!Level.status)
         Level.bAllow_Key = 1;
 	}
@@ -11565,7 +11565,7 @@ PLAY_LEVEL_START:
 					gl_Throw_Detonation_Pack(Level.Actual_Item,&Level);
 		}
 		
-		// TODO if (key[control.restart] && !Level.Flip && !Level.status)
+		if (key[control.restart] && !Level.Flip && !Level.status)
 		{
 			Level.bRestart = 1;
 			Level.iMessageBoxReturn = -1;
@@ -11738,7 +11738,7 @@ PLAY_LEVEL_START:
 						Level.bAllow_Key = 0;
 						Level.Flip++;
 						Level.Actual_Item = _new;
-						// TODO Level.status = 5;
+						Level.status = 5;
 
 						/*if (!demo)
 							gl_Next_Demo_Frame(control.move_forward, &control, bOvladaniBerusek1);*/
@@ -11851,8 +11851,8 @@ PLAY_LEVEL_START:
 					
 						if(Level.Flip == 1)
 							gl_Go_Animations();
-						// TODO else
-							// TODO Level.status = 5;
+						else
+							Level.status = 5;
 
 						if(!Level.Throw_off)
 						{
@@ -11892,7 +11892,7 @@ PLAY_LEVEL_START:
 
 						if(Level.Throw_off)
 						{
-							// TODO Level.status = 1;
+							Level.status = 1;
 							Level.Flip++;
 							gl_Next_Queue_Set(&Level);
 
@@ -11907,8 +11907,8 @@ PLAY_LEVEL_START:
 							p_set->last=0;
 						}
 
-						// TODO if(Level.bCheckDependencesNeeded)
-							// TODO Level.status = 5;
+						if(Level.bCheckDependencesNeeded)
+							Level.status = 5;
 
 					}
 				}
@@ -12040,7 +12040,7 @@ PLAY_LEVEL_START:
 										  Level.Level[Level.Actual_Item]->Pos[1], pS, 0);
 				}
 			
-				// TODO Level.status = 5;
+				Level.status = 5;
 				Level.bAllow_Key = 0;
 				Level.bCheck_Result = 0;
 
@@ -12163,7 +12163,7 @@ PLAY_LEVEL_START:
 				}	
 
 				p_set->last++;
-				// TODO Level.status = 5;
+				Level.status = 5;
 				Level.bAllow_Key = 0;
 				Level.bCheck_Result = 0;
 
@@ -12288,7 +12288,7 @@ PLAY_LEVEL_START:
 				}
 
 				p_set->last++;
-				// TODO Level.status = 5;
+				Level.status = 5;
 				Level.bAllow_Key = 0;
 				Level.bCheck_Result = 0;
 
@@ -12406,13 +12406,14 @@ PLAY_LEVEL_START:
 		
 			btl = _3d_Check_Beatle_Select(_3d_Scale_Factor);
 		
-			// TODO if(btl != -1 && Level.bTopLedge && !Level.Flip && !Level.status)
+			if(btl != -1 && Level.bTopLedge && !Level.Flip && !Level.status)
 			{
 				if (!demo)
 					gl_Next_Demo_Frame(gl_Beetle2VirtualKey(btl, &control), &control, 0, NULL, NULL, Level.Actual_Item);
 			
 				kom_zpruhlednovat_prvky_zmena_berusky();
 
+        gl_Moveto_Beatle(btl, &Level);
 /*			
 				if(gl_Moveto_Beatle(btl, &Level))
 					ap_Play_Sound(0,1,0, fpos, gl_Choose_Wave_Index(23), NULL, p_ad);
@@ -12420,8 +12421,8 @@ PLAY_LEVEL_START:
 				btlchange = 1;
 			}
 
-			// TODO if(!btlchange && !Level.Flip && !Level.status)
-				// TODO gl_Mesh_Click(&Level, demo, p_ad);
+			if(!btlchange && !Level.Flip && !Level.status)
+				gl_Mesh_Click(&Level, demo, p_ad);
 
 	
 			cx = (float)mi.x + _3dCur.iaddx;
@@ -12508,8 +12509,8 @@ PLAY_LEVEL_START:
 	if(PRCameraFlagChange == 2)
 		PRCameraFlagChange = 0;
 
-	// TODO if(!Level.status)
-		// TODO NoKeyCounter++;
+	if(!Level.status)
+		NoKeyCounter++;
 
 	if(Level.bResetini)
 	{

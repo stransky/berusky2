@@ -101,10 +101,8 @@ void nahraj_texturu_fc(FFILE f, EDIT_MATERIAL *p_mat, EDIT_TEXT *p_text, int max
      if(save) {
        if((t = lo_najdi_texturu(p_text,max,string,FALSE)) == K_CHYBA) {
          if((t = lo_najdi_volnou_texturu(p_text,max)) == K_CHYBA)
-           chyba("Textury");
-         /*TODO
+           chyba("Textury");         
          strcpy(p_text[t].jmeno,string);
-         */
        }
        p_mat->p_text[cislo_text] = p_text+t;
        strcpy(p_mat->textfile[cislo_text],string);       
@@ -172,10 +170,9 @@ EDIT_MATERIAL * lo_nahraj_material_out(FFILE f, EDIT_TEXT *p_text, int max, int 
    ffread(&tmp,sizeof(dword),1,f);
    ffread(&tmp,sizeof(dword),1,f);
    
-   p_mat->alfa_state = 0;
-   //TODO
-   //p_mat->text_state[0].text_stage = 0;
-   //p_mat->text_state[1].text_stage = 0;
+   p_mat->alfa_state = 0;   
+   p_mat->text_state[0].text_stage = 0;
+   p_mat->text_state[1].text_stage = 0;
  }
 
  // nacteni nuloveho blendu

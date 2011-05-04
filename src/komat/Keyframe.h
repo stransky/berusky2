@@ -110,7 +110,7 @@ void        key_sim_calc_absolutne(SIMPLE_TRACK_INFO *p_sim);
 
 #define SIM_KONST  50.0f //delici kostanta casu pro sim animace
 #define SIM_KONSTI 50    //delici kostanta casu pro sim animace
-#define ROOT_NODE 0xffff
+#define ROOT_NODE  0xffff
 
 // 20 framu/sec, 1 frame = 1 klic
 // framenum = keynum
@@ -171,7 +171,6 @@ inline void calc_time_end(dword endtime,
                   p_kam->time_delka,
                   p_kam->time);
 */
-
 /* Vypocet casu do dalsi smycky
    start     - start cas animace
    next_time - 

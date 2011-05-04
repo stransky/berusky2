@@ -94,8 +94,8 @@ typedef struct _MOUSE_INFO {
 #define TRANSCOLOR int_rgb(255, 0, 255)
 #define HDC2DD     -1
 
-void kprintf(char log, char *p_text,...);
-void kprintfl(char log, char *p_text,...);
+void kprintf(char log, const char *p_text,...);
+void kprintfl(char log, const char *p_text,...);
 void ddw(char *p_text,...);
 
 extern char ini_file[300];
@@ -300,26 +300,26 @@ void SetCursor(void *tmp);
 char * strupr(char * string);
 
 void GetPrivateProfileString(
-  char * lpAppName,
-  char * lpKeyName,
-  char * lpDefault,
+  const char * lpAppName,
+  const char * lpKeyName,
+  const char * lpDefault,
   char * lpReturnedString,
   int nSize,
-  char * lpFileName
+  const char * lpFileName
 );
 
 int WritePrivateProfileString(
-  char * lpAppName,
-  char * lpKeyName,
-  char * lpString,
-  char * lpFileName
+  const char * lpAppName,
+  const char * lpKeyName,
+  const char * lpString,
+  const char * lpFileName
 );
 
 int GetPrivateProfileInt(
-  char * lpAppName,
-  char * lpKeyName,
+  const char * lpAppName,
+  const char * lpKeyName,
   int nDefault,
-  char * lpFileName
+  const char * lpFileName
 );
 
 bitmapa * bmp_vyrob(int x, int y);

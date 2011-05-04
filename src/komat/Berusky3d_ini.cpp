@@ -329,29 +329,29 @@ int spracuj_spravy(int param)
 {
   SDL_Event event; /* Event structure */
 
-  while(SDL_PollEvent(&event)) {
+  while(SDL_PollEvent(&event)) {    
     switch(event.type) {
       case SDL_KEYDOWN:
         {        
           int keycode = event.key.keysym.sym;
-          int mod = event.key.keysym.mod;        
+          int mod = event.key.keysym.mod;
           key[keycode] = TRUE;
           key[K_SHIFT] = mod&KMOD_SHIFT;
           key[K_CTRL] = mod&KMOD_CTRL;
           key[K_ALT] = mod&KMOD_ALT;
+          kprintf(TRUE,"key = %d\n",keycode);
         }
         break;
       case SDL_KEYUP:
         {        
           int keycode = event.key.keysym.sym;
-          int mod = event.key.keysym.mod;        
+          int mod = event.key.keysym.mod;
           key[keycode] = FALSE;
           key[K_SHIFT] = mod&KMOD_SHIFT;
           key[K_CTRL] = mod&KMOD_CTRL;
           key[K_ALT] = mod&KMOD_ALT;
         }
-        break;
-        break;
+        break;        
       case SDL_MOUSEMOTION:
         {
           nacti_polohu_mysi(event.motion.x, event.motion.y);

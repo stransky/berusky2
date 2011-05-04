@@ -287,12 +287,12 @@ char * strupr(char * string)
 }
 
 void GetPrivateProfileString(
-  char * lpAppName, // section name
-  char * lpKeyName, // key name
-  char * lpDefault, // default key value
+  const char * lpAppName, // section name
+  const char * lpKeyName, // key name
+  const char * lpDefault, // default key value
   char * lpReturnedString, 
   int nSize,
-  char * lpFileName // ini file name
+  const char * lpFileName // ini file name
 )
 {
   // lpAppName -> unused
@@ -300,20 +300,20 @@ void GetPrivateProfileString(
 }
 
 int WritePrivateProfileString(
-  char * lpAppName, // section name
-  char * lpKeyName,
-  char * lpString,
-  char * lpFileName
+  const char * lpAppName, // section name
+  const char * lpKeyName,
+  const char * lpString,
+  const char * lpFileName
 )
 {
 
 }
 
 int GetPrivateProfileInt(
-  char * lpAppName, // section name
-  char * lpKeyName,
+  const char * lpAppName, // section name
+  const char * lpKeyName,
   int nDefault,
-  char * lpFileName
+  const char * lpFileName
 )
 {
   // lpAppName -> unused

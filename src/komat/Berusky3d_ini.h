@@ -13,7 +13,6 @@ extern char  ini_file[300];
 extern int   mouse_move;
 
 void konec(int konec);
-void kprintf(char log, char *p_text,...);
 int  spracuj_spravy(int param);
 //void nastav_okno(HW_KONFIG *p_conf, int menu);
 int  nahraj_konfig(void);

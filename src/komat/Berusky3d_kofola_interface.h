@@ -726,8 +726,8 @@ float kom_get_framerate(void);
 
 /* Debug-soubor
 */
-void kprintf(char log, char *p_text,...);
-void kprintfe(char log, char *p_text,...);
+void kprintf(char log, const char *p_text,...);
+void kprintfe(char log, const char *p_text,...);
 
 /* Nacte level environment levelu
 */

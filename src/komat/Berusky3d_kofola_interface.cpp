@@ -152,9 +152,8 @@ int kom_mesh_set_pivot_bod(MeshHandle prvek_handle, BOD *p_bod)
   PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[prvek_handle];
   if(p_prv) {
     BOD p = *p_bod;
-    GLMATRIX m;
-    // TODO
-    // memcpy(&m,&p_ber->p_mesh[p_prv->mesh]->m,sizeof(m));
+    GLMATRIX m;    
+    memcpy(&m,&p_ber->p_mesh[p_prv->mesh]->m,sizeof(m));
     m._41 = m._42 = m._43 = 0.0f;
     transformuj_bod_matici(&p.x,&p.y,&p.z,&m);
     p_prv->pivot = p;

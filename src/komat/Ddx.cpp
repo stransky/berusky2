@@ -158,9 +158,8 @@ void nastav_konfig(HW_KONFIG *p_hwconf, TXT_KONFIG *p_txt)
 
   if(p_txt->text_bpp != TEXT_DTX) {
     if(p_txt->text_bpp_plocha) {
-      kprintf(1,"Text automatic texture depth");
-      // TODO
-      //p_txt->text_bpp = p_hwconf->pfd.cColorBits;
+      kprintf(1,"Text automatic texture depth");      
+      p_txt->text_bpp = p_hwconf->bpp;
     }
     kprintf(1,"Text depth %d bpp",p_txt->text_bpp);
   } else {
