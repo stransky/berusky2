@@ -251,69 +251,28 @@ inline void nacti_tlacitka_mysi(int num, bool state)
     case 3:
       mi.ot2 = mi.dt2 = mi.t2 = state;
       break;
+    case 4:
+    case 5:
+      {        
+        if(!PRCameraFlag)
+          break;
+        
+        PRCameraFlagChange = FALSE;
+        
+        if(num == 4)
+          key[K_PLUS] = TRUE;
+        else
+          key[K_MINUS] = TRUE;      
+      }
+      break;
     default:
       break;
   }
 }                                     
 
 /*
-long CALLBACK WindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
-{  
-  switch(message) {
-  case WM_MOUSEWHEEL:
-    
-    if(!PRCameraFlag)
-      break;
-    
-    PRCameraFlagChange = FALSE;
-    
-    if((signed short)HIWORD(wParam) > 0)
-      key[K_PLUS] = TRUE;
-    else
-      key[K_MINUS] = TRUE;
-    break;                     
-
-  case WM_ACTIVATEAPP:   
-  case WM_CLOSE:
-    PostQuitMessage(0);
-    return(FALSE);
-  case WM_QUIT: // ukonceni aplikace - hodit sem konec!
-    break;  
-  case WM_KEYDOWN:
-    {
-      int scan = filtr_klaves(MapVirtualKey(wParam,0));
-      if(scan) {
-        key[scan] = TRUE;
-        key[0] = TRUE;
-      }           
-      break;
-    } 
-  case WM_KEYUP:
-    {
-      int scan = filtr_klaves(MapVirtualKey(wParam,0));
-      if(scan) {
-        key[scan] = FALSE;
-        key[0] = FALSE;
-      }         
-      break;
-    }
   case WM_CHAR:
     key_pressed = (TCHAR) wParam;
-    break;
-  case WM_MOUSEMOVE:    
-    nacti_polohu_mysi(wParam, lParam);
-    break;
-  case WM_LBUTTONUP:
-    nacti_tlacitka_mysi(wParam, lParam);
-    break;
-  case WM_RBUTTONUP:
-    nacti_tlacitka_mysi(wParam, lParam);
-    break;
-  case WM_LBUTTONDOWN: 
-    nacti_tlacitka_mysi(wParam, lParam);
-    break;
-  case WM_RBUTTONDOWN:
-    nacti_tlacitka_mysi(wParam, lParam);
     break;
   case WM_SETCURSOR:
     if(!mouse_move)
@@ -321,10 +280,7 @@ long CALLBACK WindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
     break;    
     
   }  
-  return DefWindowProc( hwnd, message, wParam, lParam );
-}
 */
-
 int spracuj_spravy(int param)
 {
   SDL_Event event; /* Event structure */
@@ -334,22 +290,25 @@ int spracuj_spravy(int param)
       case SDL_KEYDOWN:
         {        
           int keycode = event.key.keysym.sym;
-          int mod = event.key.keysym.mod;
           key[keycode] = TRUE;
+        
+          SDLMod mod = SDL_GetModState();
           key[K_SHIFT] = mod&KMOD_SHIFT;
           key[K_CTRL] = mod&KMOD_CTRL;
           key[K_ALT] = mod&KMOD_ALT;
-          kprintf(TRUE,"key = %d\n",keycode);
+          kprintf(TRUE,"key = %d, shift = %d, ctrl = %d, alt = %d",keycode, key[K_SHIFT], key[K_CTRL], key[K_ALT]);
         }
         break;
       case SDL_KEYUP:
         {        
           int keycode = event.key.keysym.sym;
-          int mod = event.key.keysym.mod;
           key[keycode] = FALSE;
+        
+          SDLMod mod = SDL_GetModState();
           key[K_SHIFT] = mod&KMOD_SHIFT;
           key[K_CTRL] = mod&KMOD_CTRL;
           key[K_ALT] = mod&KMOD_ALT;
+          kprintf(TRUE,"key = %d, shift = %d, ctrl = %d, alt = %d",keycode, key[K_SHIFT], key[K_CTRL], key[K_ALT]);
         }
         break;        
       case SDL_MOUSEMOTION:
@@ -363,23 +322,16 @@ int spracuj_spravy(int param)
               nacti_tlacitka_mysi(i, 1);
               pressed = TRUE;
             }
-          }
+          }        
         }
         break;
-      /*
-        #define BUTTON_LEFT           1
-        #define BUTTON_MIDDLE         2
-        #define BUTTON_RIGHT          3
-        #define WHEEL_UP              4
-        #define WHEEL_DOWN            5
-      */
       case SDL_MOUSEBUTTONDOWN:
         nacti_polohu_mysi(event.motion.x, event.motion.y);
-        nacti_tlacitka_mysi(event.button.button, 1);
+        nacti_tlacitka_mysi(event.button.button, 1);        
         break;
       case SDL_MOUSEBUTTONUP:        
         nacti_polohu_mysi(event.motion.x, event.motion.y);
-        nacti_tlacitka_mysi(event.button.button, 0);
+        nacti_tlacitka_mysi(event.button.button, 0);        
         break;
       case SDL_ACTIVEEVENT:
         if(event.active.state&SDL_APPACTIVE) {
