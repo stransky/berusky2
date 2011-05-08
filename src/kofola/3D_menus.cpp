@@ -1855,7 +1855,7 @@ void _3d_Nahraj_Kuk(void)
 {
 	txt_trida(TEXT_MENU);
 	kom_set_default_text_config(0,0,1,0,0,1);
-	txt_nahraj_texturu_z_func(p3DMArchive,"brouk1.bmp", &sKuk.text, 0, 1, NULL,nahraj_aux);
+	txt_nahraj_texturu_z_func(p3DMArchive,"brouk1.bmp", &sKuk.text, 0, 1, NULL,bmp_nahraj);
 	kom_ret_default_text_config();
 }
 

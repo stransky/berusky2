@@ -7,14 +7,6 @@
 
 #define DEF_MIP_LEVEL 9
  
-/* 
-** RGB Image Structure 
-*/ 
-typedef struct _AUX_RGBImageRec { 
-    GLint sizeX, sizeY; 
-    unsigned char *data; 
-} AUX_RGBImageRec; 
-
 // ABGR poradi slozek
 typedef struct _RBITMAP {
     int    x, y;
@@ -94,19 +86,16 @@ int  txt_nahraj_texturu_do_vram(EDIT_TEXT_OLD *p_text, EDIT_TEXT_KONFIG *p_konf)
 int  txt_zrus_texturu_z_vram(EDIT_TEXT_OLD *p_text);
 int  txt_nahraj_lightmapu_z_bmp(char *p_file, KFILE *f, EDIT_TEXT_OLD *p_text, int save);
 
-int  txt_nahraj_texturu_z_func(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT_OLD *p_text, int save, int load, EDIT_TEXT_KONFIG *p_konf, AUX_RGBImageRec * (*p_load)(APAK_HANDLE *pAHandle, char *p_file));
+int  txt_nahraj_texturu_z_func(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT_OLD *p_text, int save, int load, EDIT_TEXT_KONFIG *p_konf, bitmapa * (*p_load)(APAK_HANDLE *pAHandle, char *p_file));
 int  txt_nahraj_texturu_z_dds(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT_OLD *p_text, int save);
 int  txt_nahraj_texturu_z_lib(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT_OLD *p_text, int save);
 int  txt_nahraj_texturu_z_tga(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT_OLD *p_text);
 int  txt_nahraj_texturu_dot3(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT_OLD *p_text, int save);
 int  txt_to_dot3(EDIT_TEXT_OLD *p_text, int save);
-AUX_RGBImageRec * txt_lib_to_aux(APAK_HANDLE *pHandle, char *p_file);
 
 int  txt_uvolni_texturu(EDIT_TEXT_OLD *p_text);
 int  txt_zrus_texturu(EDIT_TEXT_OLD *p_text);
 int  txt_zrus_texturu_ram(EDIT_TEXT_OLD *p_text);
-AUX_RGBImageRec * nahraj_aux(APAK_HANDLE *pAHandle, char *p_file);
-AUX_RGBImageRec * nahraj_aux_file(FILE *f);
 bitmapa * txt_bmp2dot3(bitmapa *p_bmp);
 void txt_default_konfig(char *p_file, EDIT_TEXT_KONFIG *p_konf, char *p_koncovka);
 int  txt_uloz_btx(char *p_file, int typ, int wrap_x, int wrap_y);
@@ -120,19 +109,20 @@ int  txt_zrus_lightmapu(EDIT_TEXT_OLD *p_text);
 byte * file_read(APAK_HANDLE *pHandle, char *p_file, int *p_read);
 
 bitmapa * bmp_vyrob(int x, int y);
-bitmapa * bmp_nahraj(char *p_file, int flip);
-bitmapa * bmp_nahraj_pack(char *p_file, APAK_HANDLE *pAHandle);
+bitmapa * bmp_nahraj(char *p_file);
+bitmapa * bmp_nahraj(APAK_HANDLE *pAHandle, char *p_file);
 int       bmp_uloz(char *p_file, bitmapa *p_bmp);
 int       bmp_uloz_pack(FFILE f, bitmapa *p_bmp);
 void      bmp_zrus(bitmapa **p_bmp);
 bitmapa * bmp_kopituj(bitmapa *p_bmp);
-inline void      bmp_cti_rozmery(bitmapa *p_bmp, int *p_x, int *p_y);
-inline int       bmp_velikost(bitmapa *p_bmp);
+inline void bmp_cti_rozmery(bitmapa *p_bmp, int *p_x, int *p_y);
+inline int  bmp_velikost(bitmapa *p_bmp);
 
 
 typedef struct _bitmapa_pixel {
   byte r,g,b,a;
 } bitmapa_pixel;
+
 /*
 inline dword barva_to_bmp(dword barva)
 {

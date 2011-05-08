@@ -5,61 +5,7 @@
 #include "Texture_import.h"
 #include "Tga.h"
 
-AUX_RGBImageRec * vyrob_aux(int x, int y)
-{
-    AUX_RGBImageRec *p_tmp;
-    p_tmp = (AUX_RGBImageRec *)mmalloc(sizeof(AUX_RGBImageRec));
-    p_tmp->sizeX = x;
-    p_tmp->sizeY = y;
-    p_tmp->data = (byte *)mmalloc(sizeof(p_tmp->data[0])*3*x*y);
-    return(p_tmp);
-}
-
-/* Bitmapova cast
-*/
-AUX_RGBImageRec * nahraj_aux_file(KFILE *f)
-{
-  int dx,dy,size;
-  byte *p_bmp = LoadBMP(f, &dx, &dy, &size);
-  byte *p_rec = ConvertBMPToRGBBuffer(p_bmp, dx, dy);
- 
-  null_free((void **)&p_bmp);
-  if(p_rec) {
-    AUX_RGBImageRec *p_tmp;
-    p_tmp = (AUX_RGBImageRec *)mmalloc(sizeof(AUX_RGBImageRec));
-    p_tmp->sizeX = dx;
-    p_tmp->sizeY = dy;
-    p_tmp->data = p_rec;
-    return(p_tmp);
-  } else
-    return(NULL);
-}
-
-AUX_RGBImageRec * nahraj_aux(APAK_HANDLE *pAHandle, char *p_file)
-{
-  KFILE *f;
-
-	if(!p_file)
-		return(NULL);
-      
-  if((f = kopen(pAHandle, p_file,"rb"))) {
-    AUX_RGBImageRec *p_tmp = nahraj_aux_file(f);
-    kclose(f);
-    return(p_tmp);
-  } else {
-    return(NULL);
-  }
-}
-
-void zrus_aux(AUX_RGBImageRec **p_aux)
-{
-  if(p_aux && *p_aux) {
-    null_free((void **)&(*p_aux)->data);
-    null_free((void **)p_aux);
-  }
-}
-
-
+/*
 int uloz_aux(FILE *f, AUX_RGBImageRec *p_bmp)
 {
   BITMAPFILEHEADER head;
@@ -136,70 +82,26 @@ int uloz_aux_pack(FFILE f, AUX_RGBImageRec *p_bmp)
 
   return(TRUE);
 }
-
-/*
-  Prevod aux do bmp mapy
-  flip - prehodi radky/sloupce
 */
-bitmapa * txt_aux2bmp(AUX_RGBImageRec *p_src, int flip)
-{
-  byte    *p_s;
-  dword   *p_d;
-  bitmapa *p_bmp;
-  int      x,y,dx,dy;
 
-  dx = p_src->sizeX;
-  dy = p_src->sizeY;
-  p_bmp = bmp_vyrob(dx,dy);
-  
-  if(!flip) {
-    p_s = p_src->data;
-    p_d = p_bmp->data;
-    for(x = 0; x < dx*dy; x++, p_d++, p_s += 3) {
-      *p_d = RGB(p_s[0],p_s[1],p_s[2]);
-    }
-  } else {
-    for(y = 0; y < p_bmp->y; y++) {
-      p_s = p_src->data+(dy-y-1)*p_bmp->x*3;
-      p_d = p_bmp->data+y*p_bmp->x;
-      for(x = 0; x < dx; x++, p_d++, p_s += 3) {
-        *p_d = RGB(p_s[0],p_s[1],p_s[2]);
-      }
-    }
-  }
-  return(p_bmp);
-}
-
-bitmapa * txt_alfa2bmp(bitmapa *p_bmp, AUX_RGBImageRec *p_alfa, int flip)
+bitmapa * txt_alfa2bmp(bitmapa *p_bmp, bitmapa *p_alfa)
 {  
-  byte    *p_s;
-  dword   *p_d;
-  int      x,y,dx,dy;
-
-  float a;
-  int   i,n,j;
-
-  n = p_bmp->x*p_bmp->y*3;
-  assert(p_bmp->x == p_alfa->sizeX && p_bmp->y == p_alfa->sizeY);
-  dx = p_alfa->sizeX;
-  dy = p_alfa->sizeY;
-
-  if(flip) {
-	for(y = 0; y < p_bmp->y; y++) {
-      p_s = p_alfa->data+(dy-y-1)*p_bmp->x*3;
-      p_d = p_bmp->data+y*p_bmp->x;
-      for(x = 0; x < dx; x++, p_d++, p_s += 3) {
-          a = (float)p_s[0]+(float)p_s[1]+(float)p_s[2];
-          a /= 3.0f;        
-		  *p_d = byte_a(*p_d,(int)a);
-      }
-    }
-  } else {
-  for(i = 0,j = 0; i < n; i += 3, j++) {
-    a = (float)p_alfa->data[i]+(float)p_alfa->data[i+1]+(float)p_alfa->data[i+2];
-    a /= 3.0f;
-    p_bmp->data[j] = byte_a(p_bmp->data[j],(int)a);
+  int       x,y,dx,dy;  
+  
+  if(p_bmp->x != p_alfa->x || p_bmp->y != p_alfa->y) {
+    kprintf(TRUE,"txt_alfa2bmp: wrong alpha texture size! (%dx%d)",p_alfa->x,p_alfa->y);
+    abort();
   }
+    
+  dx = p_alfa->x;
+  dy = p_alfa->y;
+
+  for(y = 0; y < dy; y++) {
+    for(x = 0; x < dx; x++) {
+      dword src_a = bmp_getpixel(p_alfa,x,y);
+      dword src_b = bmp_getpixel(p_bmp,x,y);
+      bmp_putpixel(p_bmp, x, y, byte_a(src_b,(int)(rgb_intensity(src_a)*255)));
+    }
   }
   return(p_bmp);
 }
@@ -567,30 +469,23 @@ void txt_lightmap_konfig(EDIT_TEXT_KONFIG *p_konf)
 /* Textury
   +scale textur, je-li to potreba
 */
-int txt_nahraj_texturu_z_func(APAK_HANDLE *pHandle, char *p_file, 
-                              EDIT_TEXT_OLD *p_text, int save, int load, 
-                              EDIT_TEXT_KONFIG *p_konf, 
-                              AUX_RGBImageRec * (*p_load)(APAK_HANDLE *pAHandle, char *p_file))
+int txt_nahraj_texturu_z_func(APAK_HANDLE *pHandle, char *p_file,
+                              EDIT_TEXT_OLD *p_text, int save, int load,
+                              EDIT_TEXT_KONFIG *p_konf,
+                              bitmapa * (*p_load)(APAK_HANDLE *pAHandle, char *p_file))
 {
-  AUX_RGBImageRec *p_tmp = NULL;
-  AUX_RGBImageRec *p_alf = NULL;
   EDIT_TEXT_KONFIG konf;
-  int flip;
   
   txt_default_konfig(p_file,&konf,cti_koncovku(p_file));
-  txt_nahraj_format(pHandle,p_file,&konf);
-
-  flip = !strcasecmp(cti_koncovku(p_file),".bmp");
+  txt_nahraj_format(pHandle,p_file,&konf);  
 
   if(!konf.alfa) {
-    if(!(p_tmp = p_load(pHandle,konf.bitmapa)))
+    if(!(p_text->p_bmp = p_load(pHandle,konf.bitmapa)))
       return(FALSE);
     p_text->load = TRUE;
-    p_text->p_bmp = txt_aux2bmp(p_tmp,flip);
-    zrus_aux(&p_tmp);
   } else {
-    p_tmp = p_load(pHandle,konf.bitmapa);
-    p_alf = p_load(pHandle,konf.alfamap);
+    bitmapa *p_tmp = p_load(pHandle,konf.bitmapa);
+    bitmapa *p_alf = p_load(pHandle,konf.alfamap);
     if(!p_tmp || !p_alf) {      
     /*
       if(!p_tmp)
@@ -598,16 +493,15 @@ int txt_nahraj_texturu_z_func(APAK_HANDLE *pHandle, char *p_file,
       if(!p_alf)
         kprintf(TRUE,"txt_nahraj_texturu_z_func(): Error, unable to load %s",konf.alfamap);
     */
-      zrus_aux(&p_tmp);
-      zrus_aux(&p_alf);
+      bmp_zrus(&p_tmp);
+      bmp_zrus(&p_alf);
       p_text->load = FALSE;
       return(FALSE);
     }
     p_text->load = TRUE;
-    p_text->p_bmp = txt_aux2bmp(p_tmp, flip);
-    p_text->p_bmp = txt_alfa2bmp(p_text->p_bmp, p_alf, flip);
-    zrus_aux(&p_tmp);
-    zrus_aux(&p_alf);
+    p_text->p_bmp = p_tmp;    
+    p_text->p_bmp = txt_alfa2bmp(p_text->p_bmp, p_alf);
+    bmp_zrus(&p_alf);
   }
   
   if(p_text->flag&TEXT_GEN_DOT3) {
@@ -669,9 +563,9 @@ int txt_nahraj_lightmapu_z_bmp(char *p_file, KFILE *f, EDIT_TEXT_OLD *p_text, in
     if(!(p_tmp = nahraj_aux_file(f)))
       return(FALSE);
   }
-  p_text->load = TRUE;
   p_text->p_bmp = txt_aux2bmp(p_tmp,FALSE);
   zrus_aux(&p_tmp);
+  p_text->load = TRUE;
   
   p_text->p_bmp = txt_bmp2textura(p_text->p_bmp, p_text, &konf, FALSE);
   
@@ -683,6 +577,7 @@ int txt_nahraj_lightmapu_z_bmp(char *p_file, KFILE *f, EDIT_TEXT_OLD *p_text, in
 
 int txt_nahraj_texturu_z_dds(APAK_HANDLE *pHandle, char *p_file,  EDIT_TEXT_OLD *p_text, int save)
 {
+  /*
   EDIT_TEXT_KONFIG konf;  
   AUX_RGBImageRec *p_tmp = NULL;
   void            *p_vysl;
@@ -708,6 +603,8 @@ int txt_nahraj_texturu_z_dds(APAK_HANDLE *pHandle, char *p_file,  EDIT_TEXT_OLD 
       bmp_zrus(&p_text->p_bmp);
     }
   }
+  */
+  assert(0);
   return(p_text->load);
 }
 
@@ -798,32 +695,6 @@ bitmapa * bmp_vyrob(int x, int y)
   return(p_bmp);
 }
 
-// Musi se prehodit R/G/B
-AUX_RGBImageRec * bmp2aux(bitmapa *p_bmp)
-{
-  AUX_RGBImageRec *p_vys;
-  int   i,n,s;
-  dword barva;
-
-  p_vys = (AUX_RGBImageRec *)mmalloc(sizeof(*p_vys));    
-  p_vys->sizeX = p_bmp->x;
-  p_vys->sizeY = p_bmp->y;
-  
-  p_vys->data = (byte *)mmalloc(sizeof(char)*3*p_bmp->x*p_bmp->y);
-
-  n = p_bmp->x*p_bmp->y;
-  for(i = 0; i < n; i++) {
-    barva = p_bmp->data[i];
-    s = i*3;
-    p_vys->data[s+2] = (byte)(barva&0xff);
-    p_vys->data[s+1] = (byte)((barva&0xff00)>>8);
-    p_vys->data[s]   = (byte)((barva&0xff0000)>>16);
-  }
-
-  return(p_vys);
-}
-
-
 void bmp_zrus(bitmapa **p_bmp)
 {  
   if(*p_bmp) {
@@ -867,34 +738,33 @@ int bmp_uloz_pack(FFILE f, bitmapa *p_bmp)
  return(TRUE);
 }
 
-bitmapa * bmp_nahraj_pack(char *p_file, APAK_HANDLE *pAHandle)
+bitmapa * bmp_nahraj(APAK_HANDLE *pAHandle, char *p_file)
 {
-  AUX_RGBImageRec *p_tmp = nahraj_aux(pAHandle,p_file);
-  //AUX_RGBImageRec *p_tmp = txt_lib_to_aux(pAHandle, p_file);
-  if(p_tmp) {
-    bitmapa *p_bmp;
-    p_bmp = txt_aux2bmp(p_tmp,TRUE);
-    zrus_aux(&p_tmp);    
-    return(p_bmp);
-  } else {
+  byte   *p_mem;
+  int     vel;
+
+  p_mem = file_read(pHandle,p_file,&vel);
+  if(!p_mem)
     return(NULL);
-  }
+      
+  SURFACE_SDL srf(IMG_Load_RW(SDL_RWFromMem((void *)p_mem, vel), TRUE),SURFACE_TEXTURE,TRUE);
+  bitmapa *p_bmp = surface2bmp(&srf);
+  
+  free(p_mem);
+  return(p_bmp);
 }
 
-bitmapa * bmp_nahraj(char *p_file, int flip)
+bitmapa * bmp_nahraj(char *p_file)
 {
-  AUX_RGBImageRec *p_tmp = nahraj_aux(NULL,p_file);
-  //AUX_RGBImageRec *p_tmp = txt_lib_to_aux(NULL, p_file);
-  if(p_tmp) {
-    bitmapa *p_bmp;
-    p_bmp = txt_aux2bmp(p_tmp,flip);
-    zrus_aux(&p_tmp);    
-    return(p_bmp);
-  } else {
-    return(NULL);
-  }
+  byte   *p_mem;
+  int     vel;
+      
+  SURFACE_SDL srf(IMG_Load(p_file),SURFACE_TEXTURE,TRUE);
+  bitmapa *p_bmp = surface2bmp(&srf);
+  
+  free(p_mem);
+  return(p_bmp);
 }
-
 
 /* Prevede standartni lightmapu na dot3 lightmapu
 */
@@ -1001,53 +871,25 @@ byte * file_read(APAK_HANDLE *pHandle, char *p_file, int *p_read)
 }
 
 
-AUX_RGBImageRec * surface2aux(SURFACE_SDL *p_surf)
+bitmapa * surface2bmp(SURFACE_SDL *p_surf)
 {
-  int   n,s;
-  dword barva;
   int   dx = p_surf->width_get(),
         dy = p_surf->height_get();
   int   x,y;
 
-  AUX_RGBImageRec *p_vys = vyrob_aux(dx,dy);
-  p_vys->data = (byte *)mmalloc(sizeof(char)*3*dx*dy);
+  bitmapa *p_vysl = bmp_vyrob(dx, dy);
 
   p_surf->lock();
-
-  int i = 0;
+  
   for(y = 0; y < dy; y++) {
-    for(x = 0; x < dx; x++) {  
-      barva = p_surf->pixel_get(x, y);
-      s = i*3;
-      p_vys->data[s+2] = (byte)(barva&0xff);
-      p_vys->data[s+1] = (byte)((barva&0xff00)>>8);
-      p_vys->data[s]   = (byte)((barva&0xff0000)>>16);
-      i++;
+    for(x = 0; x < dx; x++) {
+      bmp_putpixel(p_vysl, x, y, p_surf->pixel_get(x, y));
     }
   }
 
   p_surf->unlock();
 
-  return(p_vys);
-}
-
-AUX_RGBImageRec * txt_lib_to_aux(APAK_HANDLE *pHandle, char *p_file)
-{
-  byte   *p_mem;
-  int     vel,ret;
-
-  p_mem = file_read(pHandle,p_file,&vel);
-  if(!p_mem)
-    return(NULL);
-  
-  // TODO - mem leak?
-  SDL_Surface *s = IMG_Load_RW(SDL_RWFromMem((void *)p_mem, vel), TRUE);
-  SURFACE_SDL srf(s,SURFACE_TEXTURE,TRUE);
-
-  AUX_RGBImageRec *p_aux = surface2aux(&srf);
-  
-  free(p_mem);
-  return(p_aux);
+  return(p_vysl);
 }
 
 int txt_uloz_btx(char *p_file, int typ, int wrap_x, int wrap_y)

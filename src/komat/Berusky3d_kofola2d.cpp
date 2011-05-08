@@ -560,7 +560,7 @@ SurfaceHandle ddx2LoadBitmapPos(SurfaceHandle handle, char *pFileName, APAK_HAND
 {
   if(handle != K_CHYBA) {
     ddx2ReleaseBitmap(handle);
-    if((slist.p_slist[handle].p_bmp = bmp_nahraj_pack(pFileName, pHandle))) {
+    if((slist.p_slist[handle].p_bmp = bmp_nahraj(pHandle, pFileName))) {
       return(handle);
     }
   }
@@ -578,7 +578,7 @@ SurfaceHandle ddx2LoadBitmapPosDisk(SurfaceHandle handle, char *pFileName)
 {
   if(handle != K_CHYBA) {
     ddx2ReleaseBitmap(handle);      
-    if((slist.p_slist[handle].p_bmp = bmp_nahraj(pFileName,TRUE))) {
+    if((slist.p_slist[handle].p_bmp = bmp_nahraj(pFileName))) {
       return(handle);
     }    
   }

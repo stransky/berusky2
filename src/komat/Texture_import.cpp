@@ -10,6 +10,7 @@ static KFILE *file_load;
 */
 int txt_dds_to_bmp(APAK_HANDLE *pHandle, char *p_file, void **p_return)
 {
+/*
   unsigned char   *p_data;
   unsigned char   *p_rd;
   AUX_RGBImageRec *p_rec;
@@ -25,7 +26,8 @@ int txt_dds_to_bmp(APAK_HANDLE *pHandle, char *p_file, void **p_return)
   if((file_load = kopen(pHandle,p_file,"rb")) == NULL) {
     return(FALSE);
   }
-  //p_data = nvDXTdecompress(width, height, planes, lTotalWidth, rowBytes);
+
+  p_data = nvDXTdecompress(width, height, planes, lTotalWidth, rowBytes);
 
   assert(width == lTotalWidth);
   
@@ -65,6 +67,9 @@ int txt_dds_to_bmp(APAK_HANDLE *pHandle, char *p_file, void **p_return)
   free(p_rd);
   kclose(file_load);
   return(planes);
+  */
+  *p_return = NULL;
+  return(0);
 }
        
 

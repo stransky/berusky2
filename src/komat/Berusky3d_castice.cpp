@@ -1009,7 +1009,7 @@ int pe_updatuj_kour_stopa(G_KONFIG *p_ber, PARMETAC *p_mt)
               else {
                 ber_mesh_render_list_reset(p_ber);
 
-                while(p_mesh = (GAME_MESH_OLD *)ber_mesh_render_list_next_flag(p_ber,KONT_PRVEK,KONT_DRAW_NOBALKA)) {
+                while((p_mesh = (GAME_MESH_OLD *)ber_mesh_render_list_next_flag(p_ber,KONT_PRVEK,KONT_DRAW_NOBALKA))) {
                   if(obb_je_bod_v_kostce_aabb(&p_mesh->obb_world,p_pos)) {
                     goto vyrad_castici;
                   }
@@ -1163,7 +1163,7 @@ VodaHandle vod_uzavri_meshe(VodaHandle vh)
   BODRGB  *p_spec_mat;
   int    vert = 0,vnum;
   int    i,j;
-/*
+
   for(i = 0; i < p_voda->meshnum; i++) {
     vert += p_voda->p_mesh[i]->vertexnum;
   } 
@@ -1193,7 +1193,7 @@ VodaHandle vod_uzavri_meshe(VodaHandle vh)
       vert++;
     }
   }
-  */
+  
   assert(p_voda->vertexu == vert);
   return(vh);
 }
@@ -1207,7 +1207,7 @@ VodnikHandle vod_vloz_vodnika(VodaHandle vh, BOD *p_pos, int flag,
   float *p_vzdal;
   VODNIK *p_vodnik;
   int i;
-/*
+
   p_vodnik = mmalloc(sizeof(p_vodnik[0]));
 
   p_vodnik->p = *p_pos;
@@ -1241,7 +1241,7 @@ VodnikHandle vod_vloz_vodnika(VodaHandle vh, BOD *p_pos, int flag,
   
   p_vodnik->p_next = p_voda->p_vodnik;
   p_voda->p_vodnik = p_vodnik;
-*/
+
   return((int)p_vodnik);
 }
 

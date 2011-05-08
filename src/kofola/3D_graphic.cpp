@@ -140,12 +140,12 @@ int _3d_Load_Texture(char *p_File_Name, int Index, char bVideoRAM, char bSeek)
 	if(bVideoRAM)
 	{
 		//txt_nahraj_texturu_z_bmp(p_File_Name, &_3dd.p_texture[Index], 0, bVideoRAM, NULL);
-		txt_nahraj_texturu_z_func(p3DMArchive,p_File_Name, &_3dd.p_texture[Index], 0, bVideoRAM, NULL,nahraj_aux);
+		txt_nahraj_texturu_z_func(p3DMArchive,p_File_Name, &_3dd.p_texture[Index], 0, bVideoRAM, NULL,bmp_nahraj);
 	}
 	else
 	{
 		//txt_nahraj_texturu_z_bmp(p_File_Name, &_3dd.p_texture[Index], 1, bVideoRAM, &_3dd.p_sysramtexture[Index].konf);
-		txt_nahraj_texturu_z_func(p3DMArchive,p_File_Name, &_3dd.p_texture[Index], 1, bVideoRAM, &_3dd.p_sysramtexture[Index].konf,nahraj_aux);
+		txt_nahraj_texturu_z_func(p3DMArchive,p_File_Name, &_3dd.p_texture[Index], 1, bVideoRAM, &_3dd.p_sysramtexture[Index].konf,bmp_nahraj);
 	}
 
 	if(!_3dd.p_texture[Index].load)
@@ -399,9 +399,9 @@ void _3d_Load_Indikace(void)
 
 	txt_trida(TEXT_MENU);
 	kom_set_default_text_config(0,0,1,0,0,1);
-	txt_nahraj_texturu_z_func(p3DMArchive,"camera1.bmp", &sIndikace[0], 0, 1, NULL, nahraj_aux);
-	txt_nahraj_texturu_z_func(p3DMArchive,"vitamin1.bmp", &sIndikace[1], 0, 1, NULL, nahraj_aux);
-	txt_nahraj_texturu_z_func(p3DMArchive,"lock1.bmp", &sIndikace[2], 0, 1, NULL, nahraj_aux);
+	txt_nahraj_texturu_z_func(p3DMArchive,"camera1.bmp", &sIndikace[0], 0, 1, NULL, bmp_nahraj);
+	txt_nahraj_texturu_z_func(p3DMArchive,"vitamin1.bmp", &sIndikace[1], 0, 1, NULL, bmp_nahraj);
+	txt_nahraj_texturu_z_func(p3DMArchive,"lock1.bmp", &sIndikace[2], 0, 1, NULL, bmp_nahraj);
 	kom_ret_default_text_config();
 }
 
@@ -425,7 +425,7 @@ void _3d_Gen_Hints(HINT_TEXTURE *bTexture, int tsize)
 	}
 
 	kom_set_default_text_config(0,0,1,0,0,1);
-	txt_nahraj_texturu_z_func(p3DMArchive,"hint_frame.bmp", &bTexture[0].text, 0, 1, NULL,nahraj_aux);
+	txt_nahraj_texturu_z_func(p3DMArchive,"hint_frame.bmp", &bTexture[0].text, 0, 1, NULL,bmp_nahraj);
 	kom_ret_default_text_config();
 
 	for(i=1;i<26;i++)
