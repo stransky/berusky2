@@ -1929,10 +1929,9 @@ void zrus_mesh(GAME_MESH_OLD **p_mesh_top)
 int lo_najdi_texturu(EDIT_TEXT *p_text, int max, char *p_file, int flag)
 { 
   int i;
-
-  p_file = strlwr(p_file);
+  
   for(i = 0; i < max; i++) {
-    if(flag == p_text[i].flag && !strcmp(p_file,strlwr(p_text[i].jmeno)))
+    if(flag == p_text[i].flag && !strcasecmp(p_file,p_text[i].jmeno))
       return(i);
   }
 
@@ -1957,9 +1956,8 @@ int lo_najdi_material(EDIT_MATERIAL **p_mat, int max, char *p_text)
 { 
   int i;
   
-  p_text = strlwr(p_text);
   for(i = 0; i < max; i++) {
-    if(p_mat[i] && !strcmp(p_text,strlwr(p_mat[i]->jmeno)))
+    if(p_mat[i] && !strcasecmp(p_text,p_mat[i]->jmeno))
       return(i);
   }
   return(K_CHYBA);
@@ -1999,9 +1997,8 @@ int lo_pocet_materialu(EDIT_MATERIAL **p_mat, int max)
 int lo_najdi_kameru(KAMERA *p_kam, int max, char *p_jmeno)
 {
  int i;
- strlwr(p_jmeno);
  for(i = 0; i < max; i++) {
-   if(p_kam[i].cislo != K_CHYBA && !strcmp(p_kam[i].jmeno,p_jmeno))
+   if(p_kam[i].cislo != K_CHYBA && !strcasecmp(p_kam[i].jmeno,p_jmeno))
      return(i);
  }
  return(K_CHYBA);
@@ -2060,11 +2057,10 @@ int lo_najdi_kontejner(EDIT_KONTEJNER **p_kont, int max, char *p_jmeno)
 {
  int i;
 
- strlwr(p_jmeno);
  for(i = 0; i < max; i++) {
    if(!p_kont[i])
      continue;
-   if(!strcmp(p_kont[i]->jmeno,p_jmeno))
+   if(!strcasecmp(p_kont[i]->jmeno,p_jmeno))
      return(i);
  }
  return(K_CHYBA);
@@ -2090,11 +2086,9 @@ int lo_najdi_objekt_kont(EDIT_KONTEJNER *p_kont, char *p_jmeno)
 
  if(!p_kont)
    return(K_CHYBA);
- strlwr(p_jmeno);
  for(i = 0; i < p_kont->max_objektu; i++) {
    if(p_kont->p_obj[i]) {
-     strlwr(p_kont->p_obj[i]->jmeno);
-     if(!strcmp(p_kont->p_obj[i]->jmeno,p_jmeno))
+     if(!strcasecmp(p_kont->p_obj[i]->jmeno,p_jmeno))
      return(i);
    }
  }
@@ -2218,13 +2212,13 @@ int lo_reload_textur_formaty(APAK_HANDLE *pHandle, EDIT_TEXT *p_text, int max, i
   for(i = 0; i < max; i++) {
     if(p_text[i].jmeno[0] && !p_text[i].load) {
       kprintf(TRUE,"Texture %s...",p_text[i].jmeno);
-      if(strstr(strlwr(p_text[i].jmeno),".bmp") || strstr(p_text[i].jmeno,".btx")) {
-		  if(!txt_nahraj_texturu_z_func(pHandle,p_text[i].jmeno,p_text+i,save,TRUE,NULL,txt_lib_to_aux)) {     
-             zamen_koncovku(strcpy(file,p_text[i].jmeno),".jpg");
-             if(txt_nahraj_texturu_z_func(pHandle,file,p_text+i,save,TRUE,NULL,txt_lib_to_aux)) {
-               strcpy(p_text[i].jmeno,file);
-			 }
-		  }
+      if(strcasestr(p_text[i].jmeno,".bmp") || strcasestr(p_text[i].jmeno,".btx")) {
+        if(!txt_nahraj_texturu_z_func(pHandle,p_text[i].jmeno,p_text+i,save,TRUE,NULL,txt_lib_to_aux)) {     
+          zamen_koncovku(strcpy(file,p_text[i].jmeno),".jpg");
+          if(txt_nahraj_texturu_z_func(pHandle,file,p_text+i,save,TRUE,NULL,txt_lib_to_aux)) {
+            strcpy(p_text[i].jmeno,file);
+          }
+        }
       }
       else if(strstr(p_text[i].jmeno,".dds")) {
         txt_nahraj_texturu_z_dds(pHandle,p_text[i].jmeno,p_text+i,save);

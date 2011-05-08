@@ -15,7 +15,6 @@ typedef struct _AUX_RGBImageRec {
     unsigned char *data; 
 } AUX_RGBImageRec; 
 
-
 // ABGR poradi slozek
 typedef struct _RBITMAP {
     int    x, y;

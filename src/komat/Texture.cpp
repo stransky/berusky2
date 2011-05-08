@@ -17,7 +17,6 @@ AUX_RGBImageRec * vyrob_aux(int x, int y)
 
 /* Bitmapova cast
 */
-
 AUX_RGBImageRec * nahraj_aux_file(KFILE *f)
 {
   int dx,dy,size;
@@ -568,7 +567,10 @@ void txt_lightmap_konfig(EDIT_TEXT_KONFIG *p_konf)
 /* Textury
   +scale textur, je-li to potreba
 */
-int txt_nahraj_texturu_z_func(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT_OLD *p_text, int save, int load, EDIT_TEXT_KONFIG *p_konf, AUX_RGBImageRec * (*p_load)(APAK_HANDLE *pAHandle, char *p_file))
+int txt_nahraj_texturu_z_func(APAK_HANDLE *pHandle, char *p_file, 
+                              EDIT_TEXT_OLD *p_text, int save, int load, 
+                              EDIT_TEXT_KONFIG *p_konf, 
+                              AUX_RGBImageRec * (*p_load)(APAK_HANDLE *pAHandle, char *p_file))
 {
   AUX_RGBImageRec *p_tmp = NULL;
   AUX_RGBImageRec *p_alf = NULL;
@@ -578,7 +580,7 @@ int txt_nahraj_texturu_z_func(APAK_HANDLE *pHandle, char *p_file, EDIT_TEXT_OLD 
   txt_default_konfig(p_file,&konf,cti_koncovku(p_file));
   txt_nahraj_format(pHandle,p_file,&konf);
 
-  flip = strcmp(strlwr(cti_koncovku(p_file)),".bmp");
+  flip = !strcasecmp(cti_koncovku(p_file),".bmp");
 
   if(!konf.alfa) {
     if(!(p_tmp = p_load(pHandle,konf.bitmapa)))
@@ -1040,7 +1042,7 @@ AUX_RGBImageRec * txt_lib_to_aux(APAK_HANDLE *pHandle, char *p_file)
   
   // TODO - mem leak?
   SDL_Surface *s = IMG_Load_RW(SDL_RWFromMem((void *)p_mem, vel), TRUE);
-  SURFACE_SDL srf(s);
+  SURFACE_SDL srf(s,SURFACE_TEXTURE,TRUE);
 
   AUX_RGBImageRec *p_aux = surface2aux(&srf);
   

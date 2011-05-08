@@ -189,7 +189,7 @@ public:
   
   surface_sdl(void);
   surface_sdl(char *p_file, SURFACE_FORMAT format_ = SURFACE_TEXTURE);
-  surface_sdl(SDL_Surface *p_surf_, SURFACE_FORMAT format_ = SURFACE_TEXTURE);
+  surface_sdl(SDL_Surface *p_surf_, SURFACE_FORMAT format_ = SURFACE_TEXTURE, int convert = FALSE);
   surface_sdl(tpos width, tpos height, SURFACE_FORMAT format_ = SURFACE_TEXTURE);
 
 } SURFACE_SDL;

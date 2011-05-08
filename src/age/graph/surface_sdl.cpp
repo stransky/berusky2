@@ -285,11 +285,18 @@ surface_sdl::surface_sdl(char *p_file, SURFACE_FORMAT format_)
   load(p_file, format_);
 }
 
-surface_sdl::surface_sdl(SDL_Surface *p_surf_, SURFACE_FORMAT format_)
+surface_sdl::surface_sdl(SDL_Surface *p_surf_, SURFACE_FORMAT format_, int convert)
 : surface(SDL_SURFACE, PIXEL_TCOLOR),
   p_surf(p_surf_)
-{
-  surface_format = format_;
+{  
+  if(convert && p_surf) {
+    if(format_ == SURFACE_TEXTURE) {
+      convert_to_texture();
+    }
+    else {
+      convert_to_display_format();
+    }
+  }
 }
 
 surface_sdl::surface_sdl(tpos width, tpos height, SURFACE_FORMAT format_)

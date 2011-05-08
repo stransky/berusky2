@@ -254,6 +254,7 @@ void ber_konfiguruj_berusky(G_KONFIG *p_ber)
  
  kprintf(TRUE,"Configuration done"); 
 }
+
 /*
 BOOL CALLBACK doe_callback_konzole(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {

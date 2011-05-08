@@ -155,9 +155,9 @@ byte* ConvertBMPToRGBBuffer ( byte* Buffer, int width, int height )
     p_p1 = newbuf+y*scanlinebytes;
     p_p2 = Buffer+y*psw;
     for (x = 0; x < width; x++, p_p1+=3, p_p2+=3) {
-      p_p1[0] = p_p2[2];
+      p_p1[0] = p_p2[0];
       p_p1[1] = p_p2[1];
-      p_p1[2] = p_p2[0];
+      p_p1[2] = p_p2[2];
 		}
   }
 

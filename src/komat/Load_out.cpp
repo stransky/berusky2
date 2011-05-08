@@ -486,8 +486,7 @@ int lo_nahraj_objekty_out(EDIT_MATERIAL **p_mat, int max_mat, FFILE f, EDIT_KONT
 
      if(mat) {
        if(!k) {
-         strlwr(string);
-         if(!strcmp(string,S_NIC)) {
+         if(!strcasecmp(string,S_NIC)) {
            p_kont->p_obj[i]->material = 0;
            p_kont->p_obj[i]->m1flag = 0;
            p_kont->p_obj[i]->m2flag = 0;
@@ -495,7 +494,7 @@ int lo_nahraj_objekty_out(EDIT_MATERIAL **p_mat, int max_mat, FFILE f, EDIT_KONT
          }
          else {
            for(j = 0; j < max_mat; j++) {
-             if(p_mat[j] && !strcmp(string,p_mat[j]->jmeno)) {
+             if(p_mat[j] && !strcasecmp(string,p_mat[j]->jmeno)) {
                p_kont->p_obj[i]->material = (word)j;
                p_kont->p_obj[i]->m1flag = p_mat[j]->flag;
                p_kont->p_obj[i]->m2flag = p_mat[j]->flag2;

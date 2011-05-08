@@ -193,6 +193,12 @@ int ogg_playing(void)
 
 char * strlwr(char *cFile)
 {
+  char *tmp = cFile;
+  while(*tmp) {
+    *tmp = tolower(*tmp);
+    tmp++;
+  }
+  return(cFile);
 }
 
 void dbgprintf(char *p_tmp, ...)
