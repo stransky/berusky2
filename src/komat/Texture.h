@@ -111,6 +111,7 @@ byte * file_read(APAK_HANDLE *pHandle, char *p_file, int *p_read);
 bitmapa * bmp_vyrob(int x, int y);
 bitmapa * bmp_nahraj(char *p_file);
 bitmapa * bmp_nahraj(APAK_HANDLE *pAHandle, char *p_file);
+bitmapa * bmp_nahraj(KFILE *f);
 int       bmp_uloz(char *p_file, bitmapa *p_bmp);
 int       bmp_uloz_pack(FFILE f, bitmapa *p_bmp);
 void      bmp_zrus(bitmapa **p_bmp);

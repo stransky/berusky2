@@ -1,11 +1,11 @@
 /*
   Stdio->zlib interface
 */
-
+/*
 #define  ZLIB_FILES
 
 #ifdef  ZLIB_FILES
-
+*/
 #define FFILE gzFile
 
 #define ffopen                  gzopen
@@ -19,7 +19,7 @@
 #define ffputc(c,f)             gzputc(f,c)
 #define ffgetc                  gzgetc
 #define ffeof                   gzeof
-
+/*
 #else
 
 #define FFILE                   FILE *
@@ -37,3 +37,4 @@
 #define ffeof                   feof
 
 #endif
+*/

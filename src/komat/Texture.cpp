@@ -5,6 +5,8 @@
 #include "Texture_import.h"
 #include "Tga.h"
 
+bitmapa * surface2bmp(SURFACE_SDL *p_surf);
+
 /*
 int uloz_aux(FILE *f, AUX_RGBImageRec *p_bmp)
 {
@@ -122,8 +124,6 @@ bitmapa * bmp_scale(bitmapa *p_bmp, int nx, int ny)
       float  px,py,dx,dy;
       int    x,y,ys;
       
-//      MSS_SET_BLOCK_LABEL(p_new, "bmp_scale");
-
       dx = (float)p_bmp->x/(float)nx;
       dy = (float)p_bmp->y/(float)ny;
       p_src = p_bmp->data;
@@ -294,7 +294,6 @@ int txt_vyrob_2D_texturu(int x, int y, int filtr, int format)
   glBindTexture(GL_TEXTURE_2D,text);
   
   p_bmp = bmp_vyrob(x,y);
-//  MSS_SET_BLOCK_LABEL(p_bmp, "txt_vyrob_2D_texturu");
 
   glTexImage2D(GL_TEXTURE_2D, 0, format, p_bmp->x, p_bmp->y, 0, GL_RGBA, GL_UNSIGNED_BYTE, p_bmp->data);
   bmp_zrus(&p_bmp);
@@ -351,7 +350,7 @@ int txt_nahraj_format(APAK_HANDLE *pAHandle, const char *p_file, EDIT_TEXT_KONFI
   p_text->alfa = kefile(pAHandle, p_text->alfamap);
   p_text->alfa_stage = K_CHYBA;
     
-  if((f = kopen(pAHandle,jmeno,"r"))) {
+  if((f = kopen(pAHandle,jmeno,(char *)"r"))) {
     while(kgets(jmeno,200,f)) {
       fgets_korekce(jmeno);
       if(jmeno[0] == ';')
@@ -551,22 +550,18 @@ int txt_zrus_texturu_ram(EDIT_TEXT_OLD *p_text)
 
 int txt_nahraj_lightmapu_z_bmp(char *p_file, KFILE *f, EDIT_TEXT_OLD *p_text, int save)
 {
-  AUX_RGBImageRec *p_tmp = NULL;
   EDIT_TEXT_KONFIG konf;
       
   txt_lightmap_konfig(&konf);
 
   if(p_file) {
-    if(!(p_tmp = nahraj_aux(NULL,p_file)))
+    if(!(p_text->p_bmp = bmp_nahraj(NULL, p_file)))
       return(FALSE);
   } else {
-    if(!(p_tmp = nahraj_aux_file(f)))
+    if(!(p_text->p_bmp = bmp_nahraj(f)))
       return(FALSE);
   }
-  p_text->p_bmp = txt_aux2bmp(p_tmp,FALSE);
-  zrus_aux(&p_tmp);
   p_text->load = TRUE;
-  
   p_text->p_bmp = txt_bmp2textura(p_text->p_bmp, p_text, &konf, FALSE);
   
   if(!save) {
@@ -717,6 +712,7 @@ bitmapa * bmp_kopituj(bitmapa *p_bmp)
 
 int bmp_uloz(char *p_file, bitmapa *p_bmp)
 {
+/*
  FILE *f = fopen(p_file,"wb");
  if(f) {
    int vel;
@@ -727,14 +723,19 @@ int bmp_uloz(char *p_file, bitmapa *p_bmp)
    free(p_buffer);
    zrus_aux(&p_aux);
  }
+*/
+ assert(0);
  return(TRUE);
 }
 
 int bmp_uloz_pack(FFILE f, bitmapa *p_bmp)
 {
+/*
  AUX_RGBImageRec *p_aux = bmp2aux(p_bmp);
  uloz_aux_pack(f,p_aux);
  zrus_aux(&p_aux);   
+*/
+ assert(0);
  return(TRUE);
 }
 
@@ -743,7 +744,7 @@ bitmapa * bmp_nahraj(APAK_HANDLE *pAHandle, char *p_file)
   byte   *p_mem;
   int     vel;
 
-  p_mem = file_read(pHandle,p_file,&vel);
+  p_mem = file_read(pAHandle,p_file,&vel);
   if(!p_mem)
     return(NULL);
       
@@ -754,15 +755,46 @@ bitmapa * bmp_nahraj(APAK_HANDLE *pAHandle, char *p_file)
   return(p_bmp);
 }
 
-bitmapa * bmp_nahraj(char *p_file)
+int rwseek(struct SDL_RWops *context, int offset, int whence)
 {
-  byte   *p_mem;
-  int     vel;
-      
+  return(kseek((KFILE *)context->hidden.unknown.data1, offset, whence));
+}
+
+int rwread(struct SDL_RWops *context, void *ptr, int size, int maxnum)
+{
+  return(kread(ptr,size,maxnum,(KFILE *)context->hidden.unknown.data1));
+}
+
+int rwwrite(struct SDL_RWops *context, const void *ptr, int size, int num)
+{
+  return(kwrite((void *)ptr,size,num,(KFILE *)context->hidden.unknown.data1));
+}
+
+int rwclose(struct SDL_RWops *context)
+{
+  assert(0);
+}
+
+bitmapa * bmp_nahraj(KFILE *f)
+{
+  SDL_RWops *rw_ops = SDL_AllocRW();
+  rw_ops->hidden.unknown.data1 = (void *)f;
+  rw_ops->seek = rwseek;
+  rw_ops->read = rwread;
+  rw_ops->write = rwwrite;
+  rw_ops->close = rwclose;
+
+  SURFACE_SDL srf(IMG_Load_RW(rw_ops, FALSE),SURFACE_TEXTURE,TRUE);
+  bitmapa *p_bmp = surface2bmp(&srf);
+  SDL_FreeRW(rw_ops);
+
+  return(p_bmp);
+}
+
+bitmapa * bmp_nahraj(char *p_file)
+{     
   SURFACE_SDL srf(IMG_Load(p_file),SURFACE_TEXTURE,TRUE);
   bitmapa *p_bmp = surface2bmp(&srf);
-  
-  free(p_mem);
   return(p_bmp);
 }
 
@@ -870,7 +902,6 @@ byte * file_read(APAK_HANDLE *pHandle, char *p_file, int *p_read)
   }
 }
 
-
 bitmapa * surface2bmp(SURFACE_SDL *p_surf)
 {
   int   dx = p_surf->width_get(),
@@ -883,7 +914,7 @@ bitmapa * surface2bmp(SURFACE_SDL *p_surf)
   
   for(y = 0; y < dy; y++) {
     for(x = 0; x < dx; x++) {
-      bmp_putpixel(p_vysl, x, y, p_surf->pixel_get(x, y));
+      bmp_putpixel(p_vysl, x, y, p_surf->pixel_get(x, dy-y-1));
     }
   }
 

@@ -72,8 +72,8 @@ inline void str_read(char *p_string, FFILE f)
 /*
   Koncovky
 */
-char * zamen_koncovku(char *p_file, char *p_koncovka);
-char * zamen_koncovku_znak(char *p_file, char znak, char *p_koncovka);
+char * zamen_koncovku(char *p_file, const char *p_koncovka);
+char * zamen_koncovku_znak(char *p_file, char znak, const char *p_koncovka);
 char * cti_koncovku(char *p_file);
 
 /*

@@ -33,7 +33,7 @@ void vyrob_pole_abs(T **p_dst,int num)
 */
 /* Zameni koncovku, koncovka je zadana vcetne tecky
 */
-char * zamen_koncovku(char *p_file, char *p_koncovka)
+char * zamen_koncovku(char *p_file, const char *p_koncovka)
 {
   char *p_pom = p_file,*p_last = NULL;
   while((p_pom = strchr(p_pom,'.'))) {
@@ -45,7 +45,7 @@ char * zamen_koncovku(char *p_file, char *p_koncovka)
 
 /* Zameni koncovku, oddelovaci znak se zadava
 */
-char * zamen_koncovku_znak(char *p_file, char znak, char *p_koncovka)
+char * zamen_koncovku_znak(char *p_file, char znak, const char *p_koncovka)
 {
   char *p_pom = strchr(p_file,znak);
   if(p_pom) *p_pom = 0;  
