@@ -914,7 +914,8 @@ bitmapa * surface2bmp(SURFACE_SDL *p_surf)
   
   for(y = 0; y < dy; y++) {
     for(x = 0; x < dx; x++) {
-      bmp_putpixel(p_vysl, x, y, p_surf->pixel_get(x, dy-y-1));
+      tcolor color = p_surf->pixel_get(x, dy-y-1)&0xffffff;
+      bmp_putpixel(p_vysl, x, y, color);
     }
   }
 

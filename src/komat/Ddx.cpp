@@ -595,6 +595,7 @@ int gl_init(HW_KONFIG *p_conf)
 
 #define KONZOLE_POZADI  0xffffffff
 #define KONZOLE_TEXT    0x0
+#define KONZOLE_COLOR   1
 
 void ddw_surf(int x, int y, char *fmt,...)
 {
@@ -604,8 +605,7 @@ void ddw_surf(int x, int y, char *fmt,...)
  if(fmt == NULL)									// If There's No Text
    return;									   		  // Do Nothing
 
- glColor3f(0.0f,0.0f,0.0f);
- //glColor3f(1.0f,1.0f,1.0f);
+ glColor3f(KONZOLE_COLOR,KONZOLE_COLOR,KONZOLE_COLOR); 
  glRasterPos2i(x*SIRKA_FONTU,y*VYSKA_FONTU);
 
  va_start(ap, fmt);								// Parses The String For Variables
@@ -626,8 +626,7 @@ void ddw_surf_xy(int x, int y, char *fmt,...)
  if(fmt == NULL)									// If There's No Text
    return;									   		  // Do Nothing
 
- glColor3f(0.0f,0.0f,0.0f);
- //glColor3f(1.0f,1.0f,1.0f);
+ glColor3f(KONZOLE_COLOR,KONZOLE_COLOR,KONZOLE_COLOR); 
  glRasterPos2i(x,y);
 
  va_start(ap, fmt);								// Parses The String For Variables

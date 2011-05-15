@@ -185,14 +185,8 @@ bool main_callback(AGE_MAIN *p_age)
   return(TRUE);
 }
 
-int main(int argc, char **argv)
+void quat_test(void)
 {
-  char *p_level;
-  char pom[200];
-  
-  //feenableexcept(FE_DIVBYZERO|FE_INEXACT|FE_INVALID|FE_OVERFLOW|FE_UNDERFLOW);
-  feenableexcept(FE_DIVBYZERO|FE_INVALID);
-
   QUAT q;
   VECT o(1,0,0);
   float r,fi = DEG2RAD(30);
@@ -203,8 +197,19 @@ int main(int argc, char **argv)
   fi = DEG2RAD(30);
   kam_angle_to_quat(r,fi,&q);
   quat_to_euler(&q, &r, &fi);
-  assert(r == 0 && RAD2DEG(fi) == 30);
+  assert(r == 0 && RAD2DEG(fi) == 30); 
+}
+
+int main(int argc, char **argv)
+{
+  char *p_level;
+  char pom[200];
   
+  //feenableexcept(FE_DIVBYZERO|FE_INEXACT|FE_INVALID|FE_OVERFLOW|FE_UNDERFLOW);
+  feenableexcept(FE_DIVBYZERO|FE_INVALID);
+
+  quat_test();
+
   getcwd(ini_file,500);
   strcat(ini_file,"//berusky3d.ini");
   if(!efile(ini_file)) {

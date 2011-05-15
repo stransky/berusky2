@@ -1,1 +1,8 @@
-BUG: camera_Center() -> nejakej problem v prepoctu te animace, asi hranice?
+- kresleni menu -> uvodni obrazovka
+- nefunguje nastaveni alfy pomoci alfa-faktoru (asi?)
+  - proc se nekresli stul?
+  - blba textura?
+- kresleni stolu
+- nastavit fps!
+- ber_ovladani_mysi_rotace/posun nefunguje
+- hwconf -> nastavit tam to rozliseni, 1024/768
