@@ -518,8 +518,10 @@ int kd_intersect_kostku(BOD *p_a, BOD *p_b, BOD *p_min, BOD *p_max)
     t1 = t2;
     t2 = t;
   }
-  tn = MAX(t2/Q.x,tn);
-  tf = MIN(t1/Q.x,tf);
+  if(Q.x != 0) {
+    tn = MAX(t2/Q.x,tn);
+    tf = MIN(t1/Q.x,tf);
+  }
   if(tn > tf || tf < 0.0f)
     return(FALSE);
     
@@ -531,8 +533,10 @@ int kd_intersect_kostku(BOD *p_a, BOD *p_b, BOD *p_min, BOD *p_max)
     t1 = t2;
     t2 = t;
   }
-  tn = MAX(t2/Q.y,tn);
-  tf = MIN(t1/Q.y,tf);
+  if(Q.y != 0) {
+    tn = MAX(t2/Q.y,tn);
+    tf = MIN(t1/Q.y,tf);
+  }
   if(tn > tf || tf < 0.0f)
     return(FALSE);
   
@@ -544,8 +548,10 @@ int kd_intersect_kostku(BOD *p_a, BOD *p_b, BOD *p_min, BOD *p_max)
     t1 = t2;
     t2 = t;
   }
-  tn = MAX(t2/Q.z,tn);
-  tf = MIN(t1/Q.z,tf);
+  if(Q.z != 0) {
+    tn = MAX(t2/Q.z,tn);
+    tf = MIN(t1/Q.z,tf);
+  }
   if(tn > tf || tf < 0.0f)
     return(FALSE);
 
@@ -576,8 +582,10 @@ int kd_intersect_kostku_bod(BOD *p_a, BOD *p_b, BOD *p_min, BOD *p_max, BOD *p_p
     t1 = t2;
     t2 = t;
   }
-  tn = MAX(t2/Q.x,tn);
-  tf = MIN(t1/Q.x,tf);
+  if(Q.x != 0) {
+    tn = MAX(t2/Q.x,tn);
+    tf = MIN(t1/Q.x,tf);
+  }
   if(tn > tf || tf < 0.0f)
     return(FALSE);
     
@@ -589,8 +597,10 @@ int kd_intersect_kostku_bod(BOD *p_a, BOD *p_b, BOD *p_min, BOD *p_max, BOD *p_p
     t1 = t2;
     t2 = t;
   }
-  tn = MAX(t2/Q.y,tn);
-  tf = MIN(t1/Q.y,tf);
+  if(Q.y != 0) {
+    tn = MAX(t2/Q.y,tn);
+    tf = MIN(t1/Q.y,tf);
+  }
   if(tn > tf || tf < 0.0f)
     return(FALSE);
   
@@ -602,8 +612,10 @@ int kd_intersect_kostku_bod(BOD *p_a, BOD *p_b, BOD *p_min, BOD *p_max, BOD *p_p
     t1 = t2;
     t2 = t;
   }
-  tn = MAX(t2/Q.z,tn);
-  tf = MIN(t1/Q.z,tf);
+  if(Q.z != 0) {
+    tn = MAX(t2/Q.z,tn);
+    tf = MIN(t1/Q.z,tf);
+  }
   if(tn > tf || tf < 0.0f)
     return(FALSE);
 

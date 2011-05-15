@@ -8,6 +8,9 @@
 #include <time.h>
 #include <assert.h>
 
+#define _GNU_SOURCE
+#include <fenv.h>
+
 #include "3d_all.h"
 
 #include "Object.h"
@@ -187,6 +190,21 @@ int main(int argc, char **argv)
   char *p_level;
   char pom[200];
   
+  //feenableexcept(FE_DIVBYZERO|FE_INEXACT|FE_INVALID|FE_OVERFLOW|FE_UNDERFLOW);
+  feenableexcept(FE_DIVBYZERO|FE_INVALID);
+
+  QUAT q;
+  VECT o(1,0,0);
+  float r,fi = DEG2RAD(30);
+  angle_to_quat(&q,&o,fi);
+  quat_to_angle(&q,&o,&fi);
+  
+  r = DEG2RAD(0);
+  fi = DEG2RAD(30);
+  kam_angle_to_quat(r,fi,&q);
+  quat_to_euler(&q, &r, &fi);
+  assert(r == 0 && RAD2DEG(fi) == 30);
+  
   getcwd(ini_file,500);
   strcat(ini_file,"//berusky3d.ini");
   if(!efile(ini_file)) {
@@ -197,8 +215,8 @@ int main(int argc, char **argv)
   
   if(GetPrivateProfileInt("debug","debug_file",0,ini_file)) {
    GetPrivateProfileString("hra","log_file","c:\\berusky2log.txt",pom,500,ini_file);
-   p_ber->debug_file = fopen(pom,"a");   
-  }  
+   p_ber->debug_file = fopen(pom,"a");
+  }
 
   ber_konfiguruj_berusky(&ber);
 

@@ -2126,7 +2126,7 @@ void konfiguruj_look_up(int *p_looksqrt_linear,
       if((m1 = (255.0f-vzdal)/255.0f) < 0.0f)
         m1 = 0.0f;
       
-      vzdal = qk/255.0f*vzdal;
+      vzdal = (qk/255.0f)*vzdal;
       if((m2 = (255.0f-vzdal*vzdal)/255.0f) < 0.0f)
         m2 = 0.0f;
       p_looksqrt_linear[i] = ftoi(((float)(0xffffff))*m1);

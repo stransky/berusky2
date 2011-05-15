@@ -591,7 +591,7 @@ bool graph3d_sdl::screen_create(void)
   int flag = SDL_OPENGL;       /* Enable OpenGL in SDL */
   flag |= SDL_GL_DOUBLEBUFFER; /* Enable double buffering */
   flag |= SDL_HWPALETTE;       /* Store the palette in hardware */
-  flag |= SDL_RESIZABLE;       /* Enable window resizing */
+  //flag |= SDL_RESIZABLE;     /* Disable window resizing */
 
   /* This checks to see if surfaces can be stored in memory */
   if ( videoInfo->hw_available )

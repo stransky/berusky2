@@ -165,12 +165,13 @@ public:
   */
   static quat * mult(quat *p_q1, quat *p_q2, quat *p_qv)
   {
-    quat q1,q2;
-    
     p_qv->w = p_q1->w*p_q2->w - vect_dot_product(*p_q1,*p_q2);
-    
-    (VECT)q1 = *p_q2 * p_q1->w;
-    (VECT)q2 = *p_q1 * p_q2->w;
+        
+    quat q1 = *p_q2;
+    quat q2 = *p_q1;
+  
+    q1.vect_mult(p_q1->w);
+    q2.vect_mult(p_q2->w);
     
     ::vect_mult(p_q1,p_q2,p_qv);
     
@@ -182,19 +183,7 @@ public:
   
   quat * mult(quat *p_q1, quat *p_q2)
   {
-    quat q1,q2;
-    
-    w = p_q1->w*p_q2->w - ::vect_dot_product(p_q1,p_q2);
-    
-    (VECT)q1 = *p_q2 * p_q1->w;
-    (VECT)q2 = *p_q1 * p_q2->w;
-    
-    ::vect_mult(p_q1,p_q2,this);
-    
-    *this += q1;
-    *this += q2;
-    
-    return(this);
+    return(mult(p_q1, p_q2, this));
   }
   
   static quat * mult(quat *p_q1, float scalar, quat *p_qv)
@@ -410,8 +399,8 @@ inline QUAT * quat_to_angle(QUAT *p_q, VECT *p_o, float *p_angle)
  if(*p_angle < DELTA) {
    p_o->x = p_o->y = p_o->z = 0.0f;
  } else {   
-   *p_o = *p_q * (float)(1.0f/sin(*p_angle/2.0f));
-   //vect_mult_scalar((VECT *)p_q,(float)(1.0f/sin(*p_angle/2.0f)),p_o);
+   *p_o = *p_q;
+   *p_o *= (float)(1.0f/sin(*p_angle/2.0f));
  }
  return(p_q);
 }

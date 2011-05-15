@@ -162,6 +162,12 @@ void vect_mult(type & v)                    \
   c.z = x*v.y - y*v.x;                      \
   *this = c;                                \
 }                                           \
+void vect_mult(float s)                     \
+{                                           \
+  x *= s;                                   \
+  y *= s;                                   \
+  z *= s;                                   \
+}                                           \
 bool zero(void)                             \
 {                                           \
   return(x*x+y*y+z*z == 0);                 \

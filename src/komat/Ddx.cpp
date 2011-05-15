@@ -411,6 +411,7 @@ int cti_max_frekvenci_test(int xPels, int yPels, int Bits, int freq)
 		return(1);
   }
   */
+  return(1);
 }
 
 int cti_max_frekvenci(int xPels, int yPels, int bpp)
@@ -442,6 +443,7 @@ int cti_max_frekvenci(int xPels, int yPels, int bpp)
   kprintf(TRUE,"Max frekvence %d",max);
 	return(max);
   */
+  return(1);
 }
 
 
@@ -602,8 +604,8 @@ void ddw_surf(int x, int y, char *fmt,...)
  if(fmt == NULL)									// If There's No Text
    return;									   		  // Do Nothing
 
- //glColor3f(0.0f,0.0f,0.0f);
- glColor3f(1.0f,1.0f,1.0f);
+ glColor3f(0.0f,0.0f,0.0f);
+ //glColor3f(1.0f,1.0f,1.0f);
  glRasterPos2i(x*SIRKA_FONTU,y*VYSKA_FONTU);
 
  va_start(ap, fmt);								// Parses The String For Variables
@@ -624,8 +626,8 @@ void ddw_surf_xy(int x, int y, char *fmt,...)
  if(fmt == NULL)									// If There's No Text
    return;									   		  // Do Nothing
 
- //glColor3f(0.0f,0.0f,0.0f);
- glColor3f(1.0f,1.0f,1.0f);
+ glColor3f(0.0f,0.0f,0.0f);
+ //glColor3f(1.0f,1.0f,1.0f);
  glRasterPos2i(x,y);
 
  va_start(ap, fmt);								// Parses The String For Variables
@@ -648,6 +650,7 @@ int ddwqueto(char *p_text,...)
  va_end(argumenty);
 
 // return(MessageBox(hwnd,text,"DdwQueto:",MB_ICONASTERISK|MB_YESNO|MB_SYSTEMMODAL) == IDYES);
+ return(1);
 }
 
 int ddwquetot(char *p_title, char *p_text,...)
@@ -660,6 +663,7 @@ int ddwquetot(char *p_title, char *p_text,...)
  va_end(argumenty);
 
 // return(MessageBox(hwnd,text,p_title,MB_ICONASTERISK|MB_YESNO|MB_SYSTEMMODAL) == IDYES);
+ return(1);
 }
 
 void gl_texture_scan(void)

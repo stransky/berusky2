@@ -151,14 +151,14 @@ void ber_kamera_zpruhledni_objekty(G_KONFIG *p_ber)
     pohyb_kamery = TRUE;
   }  
 
-  p.x = p_ber->p_invcam->_41;
-  p.y = p_ber->p_invcam->_42;
-  p.z = p_ber->p_invcam->_43;
+  p.x = p_inv->_41;
+  p.y = p_inv->_42;
+  p.z = p_inv->_43;
 
   /* Projedu seznam viditelnych meshu
   */
   ber_mesh_render_list_reset(p_ber);
-  while(p_mesh = ber_mesh_render_list_next_flag(p_ber,KONT_VIDITELNY,KONT_PRVEK)) {
+  while((p_mesh = ber_mesh_render_list_next_flag(p_ber,KONT_VIDITELNY,KONT_PRVEK))) {
     if(p_mesh->p_vertex_diff && (pohyb_kamery || p_mesh->p_data->kflag&KONT_POHYB))
       ber_kamera_zpruhledni_mesh(p_mesh,&p,&t);
   }
@@ -167,7 +167,7 @@ void ber_kamera_zpruhledni_objekty(G_KONFIG *p_ber)
   */
   if(pohyb_kamery) {
     ber_poly_render_list_reset(p_ber);
-    while(p_poly = ber_poly_render_list_next_flag(p_ber,KONT_VIDITELNY,KONT_PRVEK)) {
+    while((p_poly = ber_poly_render_list_next_flag(p_ber,KONT_VIDITELNY,KONT_PRVEK))) {
       ber_kamera_zpruhledni_poly(p_poly,&p,&t);
     }
   }
@@ -919,7 +919,9 @@ void kani_updatuj(G_KONFIG *p_ber)
     
     calc_camera_polar(p_ber->p_camera, p_ber->p_invcam, &p_kam->t, &q, p_kam->vzdal);
     quat_to_euler(&q, &p_kam->r, &p_kam->fi);
-
+    
+    kprintf(1,"kani_updatuj(): r = %f, fi = %f", RAD2DEG(p_kam->r), RAD2DEG(p_kam->fi));
+    
     ber_kamera_korekce_vzdalenosti(p_ber,p_ber->kam_omezeni,FALSE);
 
     p_ber->kamera.zmena = TRUE;
@@ -1182,14 +1184,12 @@ void ber_zpruhledni_prvky_reset(G_KONFIG *p_ber)
 void ber_zpruhledni_prvky(G_KONFIG *p_ber)
 {
   EDIT_MESH_POLY *p_poly;
-  TEXT_KOORD     *p_koord;
-  GLMATRIX       *p_camera_project = get_matrix_camera_project();
+  TEXT_KOORD     *p_koord;  
   GLMATRIX       *p_m;
   float           ra,radius = p_ber->conf_pruhledna_kamera_radius;
   float           vzdal,alfa;
   static BOD      lt(FLT_MAX,FLT_MAX,FLT_MAX);
-  OBB_TREE_OLD   *p_prvni = &p_ber->obbtree;
-  GAME_MESH_OLD      *p_mesh,*p_beruska;
+  GAME_MESH_OLD  *p_mesh,*p_beruska;
   BOD             t,p,i,*p_vrt,vr;
   BODRGBA        *p_d;
   BODRGBA        *p_dm;
@@ -1230,7 +1230,7 @@ void ber_zpruhledni_prvky(G_KONFIG *p_ber)
 
   //t - pozice berusky
   ber_mesh_render_list_reset(p_ber);
-  while(p_mesh = ber_mesh_render_list_next_flag(p_ber,KONT_VIDITELNY|KONT_PRVEK,FALSE)) {
+  while((p_mesh = ber_mesh_render_list_next_flag(p_ber,KONT_VIDITELNY|KONT_PRVEK,FALSE))) {
     if(p_beruska == p_mesh) {
       p_mesh->p_data->kflag &= ~KONT_DRAW_CAMERA;
     } else {      
@@ -1304,7 +1304,7 @@ void ber_zpruhledni_prvky(G_KONFIG *p_ber)
   }
 
   ber_poly_render_list_reset(p_ber);
-  while(p_poly = ber_poly_render_list_next_flag(p_ber,KONT_VIDITELNY|KONT_PRVEK,FALSE)) {  
+  while((p_poly = ber_poly_render_list_next_flag(p_ber,KONT_VIDITELNY|KONT_PRVEK,FALSE))) {
     bod_primka_bod_bod(&p_poly->obb.obb_stred, &p, &t, &i);
     if(!bod_mezi(&p, &t, &i)) {
       if(p_poly->m1flag&MAT_PRUHLEDNY || p_poly->m2flag&MAT2_MASKA) {
