@@ -203,8 +203,7 @@ int main(int argc, char **argv)
   ber_konfiguruj_berusky(&ber);
 
   AGE_MAIN *p_age = p_ber->p_age = new AGE_MAIN(main_callback);
-
-  //p_age->graph_set(XRES_MENU,YRES_MENU,BPP_DEFAULT,hwconf.fullscreen);
+  
   p_age->graph_set(XRES_MENU,YRES_MENU);
   if(!p_age->graph_screen_create())
     return(FALSE);
@@ -243,26 +242,35 @@ inline void nacti_polohu_mysi(int nx, int ny)
 }                                     
 
 inline void nacti_tlacitka_mysi(int num, bool state)
-{                                    
+{             
+  kprintf(TRUE,"nacti_tlacitka_mysi(): num = %d, state = %d",num, state);
   switch(num) {
     case 1:
+      kprintf(TRUE,"nacti_tlacitka_mysi(): mi.t1 = %d",state);
       mi.ot1 = mi.dt1 = mi.t1 = state;
       break;
     case 3:
+      kprintf(TRUE,"nacti_tlacitka_mysi(): mi.t2 = %d",state);
       mi.ot2 = mi.dt2 = mi.t2 = state;
       break;
     case 4:
     case 5:
-      {        
-        if(!PRCameraFlag)
-          break;
-        
-        PRCameraFlagChange = FALSE;
-        
-        if(num == 4)
-          key[K_PLUS] = TRUE;
-        else
-          key[K_MINUS] = TRUE;      
+      { 
+        if(state) {
+          if(!PRCameraFlag)
+            break;
+          
+          PRCameraFlagChange = FALSE;
+          
+          if(num == 4) {
+            kprintf(TRUE,"nacti_tlacitka_mysi(): key[K_PLUS] = %d",TRUE);
+            key[K_PLUS] = TRUE;
+          }
+          else {
+            kprintf(TRUE,"nacti_tlacitka_mysi(): key[K_MINUS] = %d",TRUE);
+            key[K_MINUS] = TRUE;
+          }
+        }
       }
       break;
     default:
@@ -351,4 +359,5 @@ int spracuj_spravy(int param)
         printf("I don't know what this event is!\n");
     }
   }
+  return(TRUE);
 }

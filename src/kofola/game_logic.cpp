@@ -11223,13 +11223,13 @@ PLAY_LEVEL_START:
 
 		if (key[control.camera_fast_turn_left])
 			camera_Fast_Turn(control.camera_fast_turn_left, 1, &cameraflag, am.frame_per_quater);
-
+/*
 		if (key[control.camera_zoom_in])
 			camera_Zoom(control.camera_zoom_in, 0, &cameraflag, am.frame_per_quater);
 
 		if (key[control.camera_zoom_out])
 			camera_Zoom(control.camera_zoom_out, 1, &cameraflag, am.frame_per_quater);
-
+*/
 		/*if (key[control.camera_turn_right] && !bOvladaniBerusek1)
 		{
 			if (!demo)
