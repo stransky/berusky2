@@ -597,7 +597,7 @@ int gl_init(HW_KONFIG *p_conf)
 #define KONZOLE_TEXT    0x0
 #define KONZOLE_COLOR   1
 
-void ddw_surf(int x, int y, char *fmt,...)
+void ddw_surf(int x, int y, const char *fmt,...)
 {
  char text[1000];	
  va_list	ap;								  		  // Pointer To List Of Arguments
@@ -618,7 +618,7 @@ void ddw_surf(int x, int y, char *fmt,...)
  glPopAttrib();										// Pops The Display List Bits 
 }
 
-void ddw_surf_xy(int x, int y, char *fmt,...)
+void ddw_surf_xy(int x, int y, const char *fmt,...)
 {
  char text[1000];	
  va_list	ap;								  		  // Pointer To List Of Arguments

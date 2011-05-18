@@ -255,7 +255,13 @@ int is_token(const char *p_line, const char *p_token)
     p_token++;
   }
 
-  return (*p_token ? 0 : p_line - p_start);
+  char line_end = *p_line;
+  if(ini_is_space(line_end) || ini_is_separator(line_end)) {
+    return (*p_token ? 0 : p_line - p_start);
+  }
+  else {
+    return(0);
+  }
 }
 
 /* Reading token (between %) from file

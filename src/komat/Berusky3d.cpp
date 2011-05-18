@@ -425,7 +425,7 @@ void ber_init_level(G_KONFIG *p_ber)
 
  /* Hodim kurzor do poloviny obrazovky
  */
- ber_nastav_kurzor(OXRES/2,OYRES/2);
+ //ber_nastav_kurzor(OXRES/2,OYRES/2);
 
  /* Nastavi svetla v levelu
  */
@@ -574,25 +574,13 @@ float ber_stredni_vzdalenost_ve_scene(G_KONFIG *p_ber)
    return(vzdal_bodu_bod(&a,&p));
 }
 
-void ber_nastav_kurzor(int x, int y)
-{
-/*
-  POINT p;
-  p.x = x; p.y = y;
-  ClientToScreen(hwnd_hry,&p);
-  SetCursorPos(p.x,p.y);
-  spracuj_spravy(1);
-*/
-}
-
-
 /*
   inline ROVINA * calc_rovinu_bod_vektor(BOD *p, BOD *v, ROVINA *r)
 */
 void ber_prikaz_posun_sceny(G_KONFIG *p_ber, int ref)
 {
  static BOD o1,v1;
- static int rx,ry; 
+ static int rx,ry;
  BOD v2; 
 
  if(!PRCameraFlag)
@@ -636,7 +624,8 @@ void ber_prikaz_posun_sceny(G_KONFIG *p_ber, int ref)
    
    nuluj_dif();
 
-   ber_nastav_kurzor(rx,ry);
+   rx = mi.x;
+   ry = mi.y;
  } 
 
  mi.dx = 1; // kvuli kofolovy - aby se ten kurzor nestracel
@@ -660,8 +649,8 @@ void ber_prikaz_rotace_sceny(G_KONFIG *p_ber, int ref)
 
  if(ref) {
    rx = mi.x;
-   ry = mi.y;   
- } else {   
+   ry = mi.y;
+ } else {
    *p_ber->p_fi += ((float)PI/180)*(float)(mi.y-ry)*0.5f;
    *p_ber->p_rfi -= ((float)PI/180)*(float)(mi.x-rx)*0.5f;
    
@@ -676,7 +665,8 @@ void ber_prikaz_rotace_sceny(G_KONFIG *p_ber, int ref)
    
    ber_kamera_korekce_vzdalenosti(p_ber,p_ber->kam_omezeni,FALSE);
     
-   ber_nastav_kurzor(rx,ry); 
+   rx = mi.x;
+   ry = mi.y;
  }
 
  p_ber->kamera.zmena = TRUE;
