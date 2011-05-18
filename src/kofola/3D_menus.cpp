@@ -422,10 +422,10 @@ void _3d_AnimationEvent(void)
 //------------------------------------------------------------------------------------------------
 void Parse_3DAnimLine(FILE *file, _3D_ANIMATION_FRAME *pFrame)
 {
-	char	text[256], expression[256];
+	char	text[MAX_PATH], expression[MAX_PATH];
 	int		p = 0, r = 0;
 	
-	agets(text, 256, file);
+	agets(text, MAX_PATH, file);
 
 	while(p != -1)
 	{
@@ -499,10 +499,10 @@ void _3d_Load_Animations(float *fScaleFactor)
 	_3D_ANIMATION_FRAME	*pFrame;
 	_3D_ANIMATION	*p3DAnim;
 	FILE	*pFile = NULL, *pListFile = NULL;
-	char	text[256];
+	char	text[MAX_PATH];
 	int		i = 0, j;
 
-	GetPrivateProfileString("game","data_dir","c:\\",text,256,ini_file);
+	GetPrivateProfileString("game","data_dir","c:\\",text,MAX_PATH,ini_file);
 	achdir(pDataArchive, text);
 
 	pListFile = aopen(pDataArchive, "3DAnimations.dat","r");
@@ -511,7 +511,7 @@ void _3d_Load_Animations(float *fScaleFactor)
 	{
 		while(!aeof(pListFile))
 		{
-			agets(text,256,pListFile);
+			agets(text,MAX_PATH,pListFile);
 			
 			if(!strlen(text))
 				break;

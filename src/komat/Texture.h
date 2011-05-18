@@ -118,7 +118,7 @@ void      bmp_zrus(bitmapa **p_bmp);
 bitmapa * bmp_kopituj(bitmapa *p_bmp);
 inline void bmp_cti_rozmery(bitmapa *p_bmp, int *p_x, int *p_y);
 inline int  bmp_velikost(bitmapa *p_bmp);
-
+bitmapa * bmp_prehod(bitmapa *p_bmp);
 
 typedef struct _bitmapa_pixel {
   byte r,g,b,a;
@@ -130,6 +130,11 @@ inline dword barva_to_bmp(dword barva)
   return((barva << 8)|(barva >> 24));
 }
 */
+inline dword * bmp_getpixel_ref(bitmapa *p_bmp, int x, int y)
+{
+ return(p_bmp->data+(p_bmp->x*y+x));
+}
+
 inline dword bmp_getpixel(bitmapa *p_bmp, int x, int y)
 {
  return(p_bmp->data[p_bmp->x*y+x]);

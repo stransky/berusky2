@@ -860,7 +860,7 @@ void ber_test_animaci2(G_KONFIG *p_ber)
 
 /*
   ddx2Init(100,RGB(255,0,255));
-  dh = ddx2DeviceCreate(FALSE,16);
+  dh = ddx2DeviceCreate(FALSE,32);
   ddx2DeviceSetActive(dh);  
 
   //Rozdelit do funkci "vyrob back-buffer a vyrob texturu"

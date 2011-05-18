@@ -1,4 +1,5 @@
 - kresleni menu -> uvodni obrazovka
+  RunMenuLoadScreen2() -> tady se to deje!
 - nefunguje nastaveni alfy pomoci alfa-faktoru (asi?)
   - proc se nekresli stul?
   - blba textura?

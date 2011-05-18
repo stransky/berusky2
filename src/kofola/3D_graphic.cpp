@@ -175,7 +175,7 @@ int _3d_Load_Texture(char *p_File_Name, int Index, char bVideoRAM, char bSeek)
 void _3d_Get_Cursor_Name(char *cName)
 {
 	FILE *file;
-	char text[256];
+	char text[MAX_PATH];
 
 	GetPrivateProfileString("hra","cursor","cursor",text,32,ini_file);
 
@@ -212,7 +212,7 @@ void _3d_Get_Cursor_Name(char *cName)
 //------------------------------------------------------------------------------------------------
 int _3d_Load_List(char *p_File_Name)
 {
-	char	text[256];
+	char	text[MAX_PATH];
 	FILE	*file = 0;
 	int		c = 0;
 
@@ -234,7 +234,7 @@ int _3d_Load_List(char *p_File_Name)
 
 	while(!aeof(file))
 	{
-			agets(text,256,file);
+			agets(text,MAX_PATH,file);
 			if(!aeof(file))
 			{
 				text[strlen(text)-1] = '\0';
@@ -407,7 +407,7 @@ void _3d_Load_Indikace(void)
 
 void _3d_Gen_Hints(HINT_TEXTURE *bTexture, int tsize)
 {
-	char text[256];
+	char text[MAX_PATH];
 	int i;
 
 	ZeroMemory(bTexture, sizeof(EDIT_TEXT) * tsize);

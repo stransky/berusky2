@@ -1362,7 +1362,7 @@ void lsi_Get_Dir_Name(char *cText, char *cLevel)
 {
 	char *c;
 
-	ZeroMemory(cText, 256);
+	ZeroMemory(cText, MAX_PATH);
 
 	c = strstr(cLevel, ".");
 
@@ -1373,7 +1373,7 @@ void lsi_Get_Dir_Name(char *cText, char *cLevel)
 void lsi_copy_save(char *cMask, LEVELINFO *p_Level)
 {
 	char dir[MAX_PATH+1];
-	char cLevelMask[256];
+	char cLevelMask[MAX_PATH];
 	char csrc[MAX_PATH+1];
 	char cout[MAX_PATH+1];
 

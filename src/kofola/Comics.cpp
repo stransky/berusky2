@@ -41,7 +41,7 @@ void cmcs_Draw(int iIndex, int xPos, int yPos)
 void cmcs_Read_Line(char *pLine, COMICS_PICTURE *pPicture)
 {
 	int p = 0;
-	char expression[256];
+	char expression[MAX_PATH];
 
 	p = Find_Next_Expresion(pLine, p, expression);
 	pPicture->xPos = atoi(expression);
@@ -83,7 +83,7 @@ void cmcs_Next_Picture(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime)
 void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA *p_ad, char bMusic)
 {
 	int i;
-	char text[256] = "";
+	char text[MAX_PATH] = "";
 	FILE *file;
 
 	bCimicsEnd = 0;
@@ -103,7 +103,7 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA *p_ad, char bMusic)
 
 	while(strcmp(text,"LOAD_END"))
 	{
-		fgets(text,256,file);
+		fgets(text,MAX_PATH,file);
 		text[strlen(text)-1] = '\0';
 
 		if(!strcmp(text,"LOAD_END"))
@@ -116,7 +116,7 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA *p_ad, char bMusic)
 
 	while(strcmp(text,"COMICS_END"))
 	{
-		fgets(text,256,file);
+		fgets(text,MAX_PATH,file);
 		text[strlen(text)-1] = '\0';
 		cmcs_Read_Line(text, &cmcs_Picture[i]);
 		cmcs_Picture[i].iPicture = i+1;
@@ -165,9 +165,9 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA *p_ad, char bMusic)
 
 void cmcs_Play_Intro(char *cFile, HWND hWnd, AUDIO_DATA *p_ad)
 {
-	char dir[256];
+	char dir[MAX_PATH];
 
-	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
+	GetPrivateProfileString("game","data_dir","c:\\",dir,MAX_PATH,ini_file);
 	chdir(dir);
 
 	cmcs_Start_Comics("gamelogo.txt", hWnd, p_ad, 0);

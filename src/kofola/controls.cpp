@@ -12,8 +12,6 @@
 //#include "2ddx.h"
 
 #define HDC2DD -1
-#define TRANSCOLOR	0//RGB(255, 0, 255)
-#define RGB(a,b,c)  a
 
 extern B2_FONT	b2_font;
 extern APAK_HANDLE	*pControlsArchive;

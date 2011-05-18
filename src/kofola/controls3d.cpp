@@ -19,8 +19,6 @@ static char bExclusive = 0;
 extern RECT_LINE	rline;
 
 #define HDC2DD		-1
-#define TRANSCOLOR	0//RGB(255, 0, 255)
-
 
 static HDC_EDIT_CONTROL2		hdcED;
 static HDC_COMBO_CONTROL2		hdcCO;

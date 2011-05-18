@@ -27,8 +27,6 @@
 #define RES_NUM 60
 
 #define HDC2DD		 -1
-#define TRANSCOLOR	0//RGB(255, 0, 255)
-#define RGB(a,b,c)  (a)
 
 extern SETUP setup;
 extern _3D_CURSOR _3dCur;
@@ -1163,7 +1161,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 	s_factor[1] = (float)768 / (float)hwconf.yres;
 
 	ddx2Init(200,RGB(255,0,255));
-	dh = ddx2DeviceCreate(TRUE,16);
+	dh = ddx2DeviceCreate(TRUE,32);
 
 	if(!dh)
 		return;
@@ -1970,7 +1968,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level
 	p_Level->iCursor = 0;
 
 	ddx2Init(200,RGB(255,0,255));
-	dh = ddx2DeviceCreate(TRUE,16);
+	dh = ddx2DeviceCreate(TRUE,32);
 
 	if(!dh)
 		return 0;
@@ -2841,7 +2839,7 @@ void RunMenuHelp2(char *p_File_Name, void *p_ad, LEVELINFO *p_Level, ANIMATION_M
 	s_factor[1] = (float)768 / (float)hwconf.yres;
 
 	ddx2Init(200,RGB(255,0,255));
-	dh = ddx2DeviceCreate(TRUE,16);
+	dh = ddx2DeviceCreate(TRUE,32);
 
 	if(!dh)
 		return;
@@ -3419,7 +3417,7 @@ void RunMenuLevelStats2(char *p_File_Name, void *p_ad, LEVELINFO *p_Level, ANIMA
 	s_factor[1] = (float)768 / (float)hwconf.yres;
 
 	ddx2Init(200,RGB(255,0,255));
-	dh = ddx2DeviceCreate(TRUE,16);
+	dh = ddx2DeviceCreate(TRUE,32);
 
 	if(!dh)
 		return;
@@ -3876,7 +3874,7 @@ void RunMenuTutorial2(char *p_File_Name, void *p_ad, LEVELINFO *p_Level, ANIMATI
 	s_bfactor[1] = (float)hwconf.yres / 768.0f;
 
 	ddx2Init(200,RGB(255,0,255));
-	dh = ddx2DeviceCreate(FALSE,16);
+	dh = ddx2DeviceCreate(FALSE,32);
 
 	if(!dh)
 		return;
@@ -4283,7 +4281,7 @@ void RunMenuLoadScreen2(void)
 	kprintf(1, "ddx2Init");
 
 	ddx2Init(10,RGB(255,0,255));
-	iLoadScreenDevice = ddx2DeviceCreate(TRUE,16);
+	iLoadScreenDevice = ddx2DeviceCreate(TRUE,32);
 
 	if(!iLoadScreenDevice)
 		return;

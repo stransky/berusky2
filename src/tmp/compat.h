@@ -69,7 +69,7 @@ inline void ZeroMemory(void *mem, int size)
   memset(mem,0,size);
 }
 
-#define MAX_PATH 128
+#define MAX_PATH 256
 
 typedef struct _MOUSE_INFO {
         

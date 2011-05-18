@@ -28,8 +28,6 @@
 #include "Tools.h"
 
 #define HDC2DD		-1
-#define TRANSCOLOR	0//RGB(255, 0, 255)
-
 #define RES_NUM 200
 
 extern SETUP setup;

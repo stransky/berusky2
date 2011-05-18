@@ -498,7 +498,7 @@ int txt_nahraj_texturu_z_func(APAK_HANDLE *pHandle, char *p_file,
       return(FALSE);
     }
     p_text->load = TRUE;
-    p_text->p_bmp = p_tmp;    
+    p_text->p_bmp = p_tmp;
     p_text->p_bmp = txt_alfa2bmp(p_text->p_bmp, p_alf);
     bmp_zrus(&p_alf);
   }
@@ -795,6 +795,25 @@ bitmapa * bmp_nahraj(char *p_file)
 {     
   SURFACE_SDL srf(IMG_Load(p_file),SURFACE_TEXTURE,TRUE);
   bitmapa *p_bmp = surface2bmp(&srf);
+  return(p_bmp);
+}
+
+bitmapa * bmp_prehod(bitmapa *p_bmp)
+{
+  bitmapa *p_src = bmp_kopituj(p_bmp);
+  tpos y;
+  tpos dx,
+       dy;
+
+  bmp_cti_rozmery(p_src,&dx,&dy);
+
+  for(y = 0; y < dy; y++) {    
+    memcpy(bmp_getpixel_ref(p_bmp, 0, y),
+           bmp_getpixel_ref(p_src, 0, dy-y-1),
+           sizeof(dword)*dx);
+  }
+
+  bmp_zrus(&p_src);
   return(p_bmp);
 }
 

@@ -390,8 +390,13 @@ void ddx2RenderujDevice(G_KONFIG *p_ber, DDX2_SURFACE_DEVICE *p_dev)
     vdy = rky-ry;
     
     if(vdx && vdy) {
-      glTexSubImage2D(GL_TEXTURE_2D,0,rx-tx,ry-ty,vdx,vdy,GL_RGBA,
-                      GL_UNSIGNED_BYTE,p_text_start+rx+ry*p_hw->back_dx);
+      glTexSubImage2D(GL_TEXTURE_2D,  // target
+                      0,              // level (MIP map?)
+                      rx-tx,ry-ty,    // xoffset / yoffset
+                      vdx,vdy,        // width / height
+                      GL_RGBA,        // format
+                      GL_UNSIGNED_BYTE, // data type
+                      p_text_start+rx+ry*p_hw->back_dx); // pixel data
     }
   }
   glPixelStorei(GL_UNPACK_ROW_LENGTH,0);
@@ -561,6 +566,8 @@ SurfaceHandle ddx2LoadBitmapPos(SurfaceHandle handle, char *pFileName, APAK_HAND
   if(handle != K_CHYBA) {
     ddx2ReleaseBitmap(handle);
     if((slist.p_slist[handle].p_bmp = bmp_nahraj(pHandle, pFileName))) {
+      // for compatibility with old broken bmp loading
+      bmp_prehod(slist.p_slist[handle].p_bmp);
       return(handle);
     }
   }
@@ -579,6 +586,8 @@ SurfaceHandle ddx2LoadBitmapPosDisk(SurfaceHandle handle, char *pFileName)
   if(handle != K_CHYBA) {
     ddx2ReleaseBitmap(handle);      
     if((slist.p_slist[handle].p_bmp = bmp_nahraj(pFileName))) {
+      // for compatibility with old broken bmp loading
+      bmp_prehod(slist.p_slist[handle].p_bmp);
       return(handle);
     }    
   }
