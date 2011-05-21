@@ -682,8 +682,6 @@ void ber_prikaz_scena_zoom(int koeficient)
   kam_stop();
   kam_set_mod_polar();
     
-  kprintf(1,"ber_prikaz_scena_zoom(%d)",koeficient);
-
   *p_ber->p_vzdal += koeficient*(*p_ber->p_vzdal)*0.1f;
 
   if(*p_ber->p_vzdal < KAM_MIN_VZDAL)

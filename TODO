@@ -1,11 +1,6 @@
-- spatne pocitani viditelnosti obb
-- kresleni menu -> uvodni obrazovka
-  RunMenuLoadScreen2() -> tady se to deje!
-- nefunguje nastaveni alfy pomoci alfa-faktoru (asi?)
-  - proc se nekresli stul?
-  - blba textura?
-- kresleni stolu
-- nastavit fps!
-- ber_ovladani_mysi_rotace/posun nefunguje
+- zverejnit par testovacich levelu
+- udelat nejakou developerskou stranku, s par levelama, obrazkama
+
+- nastavit fps! (v ini souboru)
 - hwconf -> nastavit tam to rozliseni, 1024/768
 - ini -> pridelat podporu sekci
