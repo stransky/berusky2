@@ -1058,7 +1058,7 @@ void poly_vertex_array_upload_ati(EDIT_MESH_POLY *p_poly)
 void poly_vertex_array_set_ati(EDIT_MESH_POLY *p_poly)
 {
   int handle = p_poly->varray.ati_handle;
-  int spec = p_poly->m2flag&(MAT2_SPECULAR|MAT2_ENV_SPEC) || p_poly->kflag&MESH_DRAW_SPEC;
+  int spec = p_poly->m2flag&(MAT2_SPECULAR|MAT2_ENV_SPEC) || p_poly->kflag&KONT_DRAW_SPEC;
   int norm = glstav_pn_triangles || p_poly->m2flag&(MAT2_CALC_MAP1|MAT2_CALC_MAP2|MAT2_CALC_MAP3|MAT2_CALC_MAP4);
   int *p_int,ind;
     
@@ -1370,7 +1370,7 @@ void poly_vertex_array_upload_arb(EDIT_MESH_POLY *p_poly)
 void poly_vertex_array_set_arb(EDIT_MESH_POLY *p_poly)
 {
   VERTEX_ARRAYS *p_va = &p_poly->varray;  
-  int spec = p_poly->m2flag&(MAT2_SPECULAR|MAT2_ENV_SPEC) || p_poly->kflag&MESH_DRAW_SPEC;
+  int spec = p_poly->m2flag&(MAT2_SPECULAR|MAT2_ENV_SPEC) || p_poly->kflag&KONT_DRAW_SPEC;
   int norm = glstav_pn_triangles || p_poly->m2flag&(MAT2_CALC_MAP1|MAT2_CALC_MAP2|MAT2_CALC_MAP3|MAT2_CALC_MAP4);
   int *p_int,ind;
     

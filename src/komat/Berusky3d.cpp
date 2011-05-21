@@ -475,15 +475,19 @@ void ber_tiskni_statistiku(G_KONFIG *p_ber)
   if(p_ber->debug_vypisy) {
     printfs(start,posun++, "bodu %d",p_ber->debug.bodu);
     printfs(start,posun++, "facu %d",p_ber->debug.facu/3);
-    printfs(start,posun++, "poly %d",p_ber->debug.poly);
-    printfs(start,posun++, "meshu %d",p_ber->debug.meshu);
-    printfs(start,posun++, "obj %d ply %d",p_ber->debug.objektu,p_ber->debug.poly);
+    printfs(start,posun++, "objektu %d",p_ber->debug.objektu);
+    printfs(start,posun++, "poly rendered %d / total %d",p_ber->debug.poly,p_ber->polynum);
+    printfs(start,posun++, "meshu rendered %d / total %d",p_ber->debug.meshu,p_ber->meshnum);
+    printfs(start,posun++, "render list poly num %d / akt = %d, mesh num = %d / akt = %d",
+                            p_ber->poly_rendernum, p_ber->poly_renderakt,
+                            p_ber->mesh_rendernum, p_ber->mesh_renderakt);
     printfs(start,posun++, "ac %d tc %d",p_ber->debug.alfa_stage_change,p_ber->debug.text_stage_change);
-    printfs(start,posun++, "pruhlednych %d m [mi.t1 = %d mi.t2 = %d]",p_ber->prhlnum,mi.t1,mi.t2);
+    printfs(start,posun++, "pruhlednych %d",p_ber->prhlnum);
+    printfs(start,posun++, "mouse [mi.t1 = %d mi.t2 = %d]",mi.t1,mi.t2);
     printfs(start,posun++, "r[%.2f] fi[%.2f] vzdal[%.2f] vzdal_kor[%.2f]",RAD2DEG(*p_ber->p_rfi),RAD2DEG(*p_ber->p_fi),*p_ber->p_vzdal,*p_ber->p_vzdal_kor);
     printfs(start,posun++, "t[%.2f,%.2f,%.2f]",p_ber->p_target->x,p_ber->p_target->y,p_ber->p_target->z);
-    printfs(start,posun++,"p[%.2f,%.2f,%.2f]",p_ber->p_pos->x,p_ber->p_pos->y,p_ber->p_pos->z);
-    printfs(start,posun++,"AK = %d PRCameraFlag = %d",p_ber->kamera.a_handle,PRCameraFlag);
+    printfs(start,posun++, "p[%.2f,%.2f,%.2f]",p_ber->p_pos->x,p_ber->p_pos->y,p_ber->p_pos->z);
+    printfs(start,posun++, "AK = %d PRCameraFlag = %d",p_ber->kamera.a_handle,PRCameraFlag);
     for(i = 0; i < p_ber->dl_lightnum; i++) {
       if(p_ber->p_dlight[i].akt)
         dlnum++;

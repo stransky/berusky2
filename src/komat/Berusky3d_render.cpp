@@ -1567,10 +1567,9 @@ void ber_renderuj_scenu_obyc(int zrc)
 
  /*
    Render levelu - budu kreslit podle listu meshu
- */ 
+ */
  ber_mesh_render_list_reset(p_ber);  
- while(p_mesh = ber_mesh_render_list_next_flag(p_ber,flag,KONT_VIDITELNY_PRUHL)) {
-   if(p_mesh->p_data->mesh_handle != 0 && p_mesh->p_data->mesh_handle != 2)
+ while((p_mesh = ber_mesh_render_list_next_flag(p_ber,flag,KONT_VIDITELNY_PRUHL))) { 
       ber_kresli_mesh(p_mesh,p_ber->p_mat);
  }
 
@@ -1583,19 +1582,18 @@ void ber_renderuj_scenu_obyc(int zrc)
  */   
  ber_render_polylistu_start();
  ber_poly_render_list_reset(p_ber);
- while(p_poly = ber_poly_render_list_next_flag(p_ber,flag,KONT_VIDITELNY_PRUHL)) {
+ while((p_poly = ber_poly_render_list_next_flag(p_ber,flag,KONT_VIDITELNY_PRUHL))) {
    ber_kresli_poly(p_poly, p_ber->p_mat);
  } 
 
+ /* Reset posledniho materialu
+ */
   __p_last_mat = NULL;
 
  /* Zjisti viditelne flare
  */ 
  if(p_ber->p_flare)
    ber_viditelnost_flare(p_ber, p_ber->p_flare);
-
- /* Reset posledniho materialu
- */
 
  /* Kresli fleky sceny
  */
@@ -1608,7 +1606,6 @@ void ber_renderuj_scenu_obyc(int zrc)
      ber_kresli_fleky(p_ber,p_ber->p_fleky_mesh);
    enable_fog_causal();
  }
-
  
  /* Render casticoveho systemu
  */
@@ -1770,7 +1767,6 @@ void ber_reset_render(void)
 
 void ber_renderuj_scenu(void)
 {
- static  int mail = 0;
  int     kamera_zmena = p_ber->kamera.zmena||p_ber->kamera.zmena_last;
 
  #ifdef DEBUG_MOD
@@ -1839,7 +1835,7 @@ void ber_renderuj_scenu(void)
    ber_zpruhledni_prvky(p_ber);
    
    /* Zpruhledneni objekty pred kamerou
-   */
+   */ 
    ber_kamera_zpruhledni_objekty(p_ber);
 
    if(karmin_aktivni) {
@@ -1855,12 +1851,13 @@ void ber_renderuj_scenu(void)
      #endif
      
      vertex_array_start_render();
-     
+
      if(p_ber->zrc_akt) {
        ber_zrcadlo_nastav();
        ber_renderuj_scenu_obyc(TRUE);
        ber_zrcadlo_zrus();
-     }   
+     }
+
      ber_renderuj_scenu_obyc(FALSE);
      
      vertex_array_stop_render();
@@ -2598,14 +2595,14 @@ inline int ber_render_list_vyrob_mesh(G_KONFIG *p_ber, int viz, GAME_MESH_OLD **
 }
 
 inline void ber_render_list_vyrob_poly(G_KONFIG *p_ber, EDIT_MESH_POLY *p_poly, int add, GLMATRIX *p_mat, int viditelny_flag, int zmena_flag, int mail)
-{
+{  
   int kflag;
   
   kflag = p_poly->kflag;
-  
+
   if(kflag&KONT_ZRCADLO)
     return;
-  
+
   if(!(kflag&viditelny_flag) || p_poly->mail+1 != mail)
     kflag |= zmena_flag;
   else
@@ -2637,12 +2634,12 @@ void ber_render_list_vyrob_rec(G_KONFIG *p_ber, OBB_TREE_OLD *p_prvni, GLMATRIX 
     if(p_item->viditelny) {
       p_poly = p_item->p_poly;
       if(p_poly) {
-        ber_render_list_vyrob_poly(p_ber, p_poly, TRUE, p_m, KONT_VIDITELNY, KONT_VIDITELNY_ZMENA, mail);
+        ber_render_list_vyrob_poly(p_ber, p_poly, TRUE, p_m, KONT_VIDITELNY, KONT_VIDITELNY_ZMENA, mail);        
       } else {
-        ber_render_list_vyrob_mesh(p_ber, TRUE, p_ber->p_mesh+p_item->mesh, TRUE, p_m, KONT_VIDITELNY, KONT_VIDITELNY_ZMENA, mail, kamera_zmena);
+        ber_render_list_vyrob_mesh(p_ber, TRUE, p_ber->p_mesh+p_item->mesh, TRUE, p_m, KONT_VIDITELNY, KONT_VIDITELNY_ZMENA, mail, kamera_zmena);        
       }    
     }
-    
+
     if(p_zrc) {
       if(kamera_zmena) {
         p_item->zrc_viditelny = obb_visibility(p_item->p_obb, p_zrc);
@@ -2678,7 +2675,7 @@ void ber_render_list_vyrob(G_KONFIG *p_ber, int zrcadlo, int kamera_zmena)
   p_zrc = zrcadlo ? mat_mult_dir(__mat_top_matrix+__mat_top_matrix_akt,p_camera_project,&camera_project_zrc) : NULL;
 
   if(!p_ber->p_poly_renderlist) {
-    p_ber->p_poly_renderlist = (EDIT_MESH_POLY **)mmalloc(sizeof(p_ber->p_poly_renderlist[0])*p_ber->polynum);
+    p_ber->p_poly_renderlist = (EDIT_MESH_POLY **)mmalloc(sizeof(p_ber->p_poly_renderlist[0])*p_ber->polynum*2);
     p_ber->poly_rendernum = 0;
     p_ber->poly_renderakt = 0;
   }
@@ -2688,14 +2685,12 @@ void ber_render_list_vyrob(G_KONFIG *p_ber, int zrcadlo, int kamera_zmena)
 
   /* Prihozeni statickych veci z obbtree render-listu
   */
-
   if(obb_visibility(&p_ber->obbtree.obb, p_camera_project) || (p_zrc && obb_visibility(&p_ber->obbtree.obb, p_zrc))) {
     ber_render_list_vyrob_rec(p_ber, &p_ber->obbtree, p_camera_project, p_zrc, kamera_zmena, mail);
   }
 
   /* Prihozeni dynamickych veci z dynamickeho render-listu
   */
-
   p_src = p_ber->p_dyn_meshlist;
   for(i = 0; i < p_ber->dyn_meshlistnum; i++, p_src++) {
     if(**p_src && !((**p_src)->nekreslit)) {
@@ -2707,7 +2702,7 @@ void ber_render_list_vyrob(G_KONFIG *p_ber, int zrcadlo, int kamera_zmena)
   }
 
   /* Setrideni podle materialu
-  */
+  */  
   ber_render_list_setrid(p_ber);
 }
 
@@ -2715,7 +2710,7 @@ void ber_render_list_vyrob_pruhlist(G_KONFIG *p_ber)
 {
  GLMATRIX       *p_mat = get_matrix_camera_project();
  EDIT_MESH_POLY *p_poly;
- GAME_MESH_OLD      *p_mesh;
+ GAME_MESH_OLD  *p_mesh;
 
  /* A zaciname!
  */
@@ -2725,8 +2720,8 @@ void ber_render_list_vyrob_pruhlist(G_KONFIG *p_ber)
    Render Mesh-listu
  */
  ber_mesh_render_list_reset(p_ber);
- while(p_mesh = ber_mesh_render_list_next(p_ber)) {
-   if(p_mesh->p_data->m1flag&MAT_PRUHLEDNY || p_mesh->p_data->kflag&(KONT_DRAW_PRUHL|KONT_DRAW_CAMERA)) {
+ while((p_mesh = ber_mesh_render_list_next(p_ber))) {
+   if(p_mesh->p_data->m1flag&MAT_PRUHLEDNY || p_mesh->p_data->kflag&(KONT_DRAW_PRUHL|KONT_DRAW_CAMERA)) {   
      PRUHLEDNY_OBJEKT *p_pruhl = p_ber->prhl+p_ber->prhlnum++;
      assert(p_ber->prhlnum < MAX_PRHL_OBJEKTU);
      p_pruhl->vzdal = ber_vzdal_bodu_z(&p_mesh->obb_world.obb_stred,p_mat);
@@ -2736,13 +2731,13 @@ void ber_render_list_vyrob_pruhlist(G_KONFIG *p_ber)
    } else {
      p_mesh->p_data->kflag &= ~KONT_VIDITELNY_PRUHL;
    }
- }  
+ }
 
  /*
    Render poly-listu
  */
  ber_poly_render_list_reset(p_ber);
- while(p_poly = ber_poly_render_list_next(p_ber)) {
+ while((p_poly = ber_poly_render_list_next(p_ber))) {
    if(p_poly->m1flag&MAT_PRUHLEDNY || p_poly->kflag&(KONT_DRAW_PRUHL|KONT_DRAW_CAMERA)) {
      PRUHLEDNY_OBJEKT *p_pruhl = p_ber->prhl+p_ber->prhlnum++;
      assert(p_ber->prhlnum < MAX_PRHL_OBJEKTU);
