@@ -2374,7 +2374,6 @@ static EDIT_KONTEJNER    *p_kont; // aktualni kontejner
 static EDIT_MATERIAL     *p_mat;  // aktualni material
 static EDIT_OBJEKT       *p_obj;  // aktualni objekt
 
-static SIMPLE_TRACK_INFO *p_sim_node; // aktivni loadovaci node
 static HIERARCHY_SIM     *p_sim;      // aktivni loadovaci root
 
 static STATIC_LIGHT      *p_lightlist;
@@ -3145,9 +3144,14 @@ int lo_chunk_load_zrcadlo_3(FFILE f, OUT_CHUNK *p_ch)
 {     
   if(p_zrcadlolist && p_ch->typ == CHUNK_ZRCADLO_3) {
     *p_zrcadloload = TRUE;
-    
-    ffread(p_zrcadlolist,sizeof(ZDRCADLO_DESC),1,f);    
+      
+    ffread(&p_zrcadlolist->ref,sizeof(p_zrcadlolist->ref),1,f);
+    ffread(&p_zrcadlolist->p,sizeof(p_zrcadlolist->p),1,f);
+    ffread(&p_zrcadlolist->r,sizeof(p_zrcadlolist->r),1,f);
     p_zrcadlolist->p_poly = NULL;
+
+    // skip p_zrcadlolist->p_poly and 4 bytes space
+    ffseek(f,8,SEEK_CUR);
 
     return(TRUE);
   } else
@@ -4515,10 +4519,9 @@ int lo_chunk_load_sim_root(FFILE f, OUT_CHUNK *p_ch)
 */
 int lo_chunk_load_neznamy(FFILE f, OUT_CHUNK *p_ch)
 {
-  int delka = p_ch->velikost-sizeof(*p_ch);  
-  //if(p_ch->typ < 0 && p_ch->typ > CHUNK_KONT_JMENO)
-    //kprintfl(TRUE,"-load neznamy chunk typ %d velikost %d",p_ch->typ,p_ch->velikost);
-  ffseek(f,delka,SEEK_CUR);  
+  int delka = p_ch->velikost-sizeof(*p_ch);
+  //kprintf(TRUE,"neznamy chunk typ %d velikost %d",p_ch->typ,p_ch->velikost);
+  ffseek(f,delka,SEEK_CUR);
   return(TRUE);
 }
 
@@ -4654,12 +4657,14 @@ int lo_load_chunky(FFILE f)
   
   while((ret = ffread(&ch,sizeof(ch),1,f)) && ret > 0) {
     load = 0;
-
-    //kprintf(1,"Chunk %d, size %d",ch.typ, ch.velikost);
+    
     assert(ch.typ >= 0 && ch.typ <= CHUNK_KAMSET_2);
   
-    for(i = 0; i < (sizeof(chload)/sizeof(chload[0])); i++) {
-      if(chload[i].chunk == ch.typ) {        
+    if(ch.typ == 58)
+      ch.typ = 58;
+      
+    for(i = 0; i < (int)(sizeof(chload)/sizeof(chload[0])); i++) {
+      if(chload[i].chunk == ch.typ) {
         load = chload[i].p_fce(f,&ch);
         break;
       }

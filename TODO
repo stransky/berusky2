@@ -1,6 +1,12 @@
+6003 je posunuty -> nenhraje se
+- jak to ze tam sou 2 materialy se stejnym jmenem?
+
 - zverejnit par testovacich levelu
 - udelat nejakou developerskou stranku, s par levelama, obrazkama
 
 - nastavit fps! (v ini souboru)
 - hwconf -> nastavit tam to rozliseni, 1024/768
 - ini -> pridelat podporu sekci
+
+- co se kresli v zrcadle 
+  -> nastavit tam tu Z-bufer penalizaci (+ hloubka) (aby tam nebyli ty cmouhy)

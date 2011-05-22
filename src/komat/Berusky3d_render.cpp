@@ -201,7 +201,7 @@ void ber_kresli_flare(G_KONFIG *p_ber, LENS_FLARE *p_flare)
   EDIT_TEXT *p_text;
   LENS_FLARE_SLOZ *p_sloz;
   float            dx,dy,xw,yw;
-  int              s,i = 0;
+  int              s;
 
   ber_kresli_flare_pre(p_ber);
   
@@ -902,7 +902,6 @@ inline void ber_kresli_mesh(GAME_MESH_OLD *p_mesh, EDIT_MATERIAL **p_mat)
 {
   int kflag = p_mesh->p_data->kflag;
   int m2flag = p_mesh->p_data->m2flag;
-  int kamera_zmena = p_ber->kamera.zmena||p_ber->kamera.zmena_last;
 
   // Pripadne vypnuti mlhy
   if(kflag&KONT_NO_FOG) {
@@ -1549,7 +1548,7 @@ void ber_renderuj_scenu_pruhledne(G_KONFIG *p_ber)
 void ber_renderuj_scenu_obyc(int zrc)
 {
  EDIT_MESH_POLY *p_poly;
- GAME_MESH_OLD      *p_mesh;
+ GAME_MESH_OLD  *p_mesh;
  int             flag = zrc ? KONT_VIDITELNY_ZRC : KONT_VIDITELNY;
 
  /* Vyrobi list pruhlednosti
@@ -1570,7 +1569,7 @@ void ber_renderuj_scenu_obyc(int zrc)
  */
  ber_mesh_render_list_reset(p_ber);  
  while((p_mesh = ber_mesh_render_list_next_flag(p_ber,flag,KONT_VIDITELNY_PRUHL))) { 
-      ber_kresli_mesh(p_mesh,p_ber->p_mat);
+   ber_kresli_mesh(p_mesh,p_ber->p_mat);
  }
 
  /* Reset posledniho materialu

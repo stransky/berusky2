@@ -920,8 +920,6 @@ void kani_updatuj(G_KONFIG *p_ber)
     calc_camera_polar(p_ber->p_camera, p_ber->p_invcam, &p_kam->t, &q, p_kam->vzdal);
     quat_to_euler(&q, &p_kam->r, &p_kam->fi);
     
-    kprintf(1,"kani_updatuj(): r = %f, fi = %f", RAD2DEG(p_kam->r), RAD2DEG(p_kam->fi));
-    
     ber_kamera_korekce_vzdalenosti(p_ber,p_ber->kam_omezeni,FALSE);
 
     p_ber->kamera.zmena = TRUE;
