@@ -106,6 +106,15 @@ typedef struct _APAK_FIND_SWITCH
 	long		find;
 } APAK_FIND_SWITCH;
 
+struct _finddata_t {
+    unsigned  attrib;
+    time_t    time_create; /*-1forFATfilesystems*/
+    time_t    time_access; /*-1forFATfilesystems */
+    time_t    time_write;
+    int       size;
+    char      name[260];
+};
+
 #define APAK_ENDOFFAT	0
 #define APAK_ENDOFNODE	1
 #define APAK_NODE		2

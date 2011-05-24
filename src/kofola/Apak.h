@@ -69,4 +69,7 @@ FILE *afiletoswitch(FILE *stream);
 // testuje zda je textovy soubor v uni code
 int aunicode(FILE *stream);
 
+// from compat.h
+void apak_dir_correction(char *dir);
+
 #endif

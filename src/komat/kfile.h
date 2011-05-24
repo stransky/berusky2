@@ -22,7 +22,6 @@ inline int efile(char *p_file)
 // Tak musis pouzit afindfirst, next, close .. jinak to nejde
 inline int efileAPAK(APAK_HANDLE *pAHandle, char *p_file)
 {
-/* TODO
   struct _finddata_t fileinfo;
   long handle = afindfirst(pAHandle, (char *)p_file, &fileinfo);
   if(handle != -1) {
@@ -31,8 +30,6 @@ inline int efileAPAK(APAK_HANDLE *pAHandle, char *p_file)
   } else {
     return(FALSE);
   }
-*/
-  return(FALSE);
 }
 
 inline int kefile(APAK_HANDLE *pAHandle, char *p_file)

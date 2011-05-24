@@ -341,3 +341,11 @@ void apakclose(APAK_HANDLE *pHandle)
 	fclose(pHandle->pFILE);
 	free((void *) pHandle);
 }
+
+void apak_dir_correction(char *dir)
+{
+  char tmp[256] = "c:";
+  assert(strlen(dir) < 254);
+  strcat(tmp,dir);
+  strcpy(dir,tmp);
+}

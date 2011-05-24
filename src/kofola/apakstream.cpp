@@ -39,7 +39,6 @@ void agetbuffer(FILE *stream, char **pBuffer, apuLong *psize)
 	*pBuffer = pFHandle->pBuffer;
 	*psize = pFHandle->pFileInfo->apuLRealSizeofFile;
 }
-
 /*
 void agetfiledata(FILE *stream, struct _finddata_t *fileinfo)
 {

@@ -325,11 +325,3 @@ int GetPrivateProfileInt(
   // lpAppName -> unused
   return(ini_read_int(lpFileName, lpKeyName, nDefault));
 }
-
-void apak_dir_correction(char *dir)
-{
-  char tmp[256] = "c:";
-  assert(strlen(dir) < 254);
-  strcat(tmp,dir);
-  strcpy(dir,tmp);
-}

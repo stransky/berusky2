@@ -224,9 +224,9 @@ void nastav_konfig(HW_KONFIG *p_hwconf, TXT_KONFIG *p_txt)
 */
 int nahraj_device_config(char *p_file, char *p_sekce, HW_KONFIG *p_conf)
 {
- p_conf->xres = GetPrivateProfileInt(p_sekce,"xres",800,p_file);
- p_conf->yres = GetPrivateProfileInt(p_sekce,"yres",600,p_file);
- p_conf->bpp = GetPrivateProfileInt(p_sekce,"bpp",16,p_file);
+ p_conf->xres = GetPrivateProfileInt(p_sekce,"xres",1024,p_file);
+ p_conf->yres = GetPrivateProfileInt(p_sekce,"yres",768,p_file);
+ p_conf->bpp = GetPrivateProfileInt(p_sekce,"bpp",32,p_file);
  p_conf->fullscreen = GetPrivateProfileInt(p_sekce,"fullscreen",1,p_file);
  
  p_conf->frekvence = GetPrivateProfileInt(p_sekce,"freq",0,p_file);
