@@ -10882,7 +10882,7 @@ PLAY_LEVEL_START:
 
 				PRCameraFlag = 0;
 				ZeroMemory(cText, 128);
-//				RunMenuLoadGameLoad2("Mmload_game_load3d.txt", Level.p_ad, &Level, &am, 1, cText);
+				RunMenuLoadGameLoad2("Mmload_game_load3d.txt", NULL /*Level.p_ad*/, &Level, &am, 1, cText);
 				PRCameraFlag = 1;
 
 				if(wcslen(cText))
@@ -11350,7 +11350,7 @@ PLAY_LEVEL_START:
 				sHint.bHint = 0;
 				ZeroMemory(cText, 128);
 				PRCameraFlag = 0;
-//				RunMenuLoadGameLoad2("Mmload_game_loads3d.txt", Level.p_ad, &Level, &am, 0, cText);
+				RunMenuLoadGameLoad2("Mmload_game_loads3d.txt", NULL /*Level.p_ad*/, &Level, &am, 0, cText);
 				PRCameraFlag = 1;
 
 				if(wcslen(cText))
@@ -12560,11 +12560,9 @@ PLAY_LEVEL_START:
 		WCHAR cText[128];
 
 		ZeroMemory(cText, 128);
-/*
-		if(RunMenuLoadGameLoad2("Mmload_game_loads3d.txt", Level.p_ad, &Level, &am, 2, cText))
+		if(RunMenuLoadGameLoad2("Mmload_game_loads3d.txt", NULL /*Level.p_ad*/, &Level, &am, 2, cText))
 			if(wcslen(cText))
 				demo_SaveWC(&Demo, cText, bOvladaniBerusek1, cLevelName, p_Env_Name);
-*/
 	}
 
 //	lsi_Save_Level(Level.cLevelName, &Level);

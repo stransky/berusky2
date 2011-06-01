@@ -1,3 +1,9 @@
+wchar -> loaded from disc -> convert from windows wchar(16 bit) to linux (32-bit)
+  - mapovani 1:1
+wchar_windows_to_linux -> mem leaky
+
+- opravit rendering fontu
+
 - zverejnit par testovacich levelu
 - udelat nejakou developerskou stranku, s par levelama, obrazkama
 

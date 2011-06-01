@@ -211,7 +211,7 @@ void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
 	}
 
 	agetbuffer(file, (char **) &buffer, &ulsize);
-
+  
 	memset(Text, 0, 1024 * sizeof(char));
 	memset(Caption, 0, 1024 * sizeof(char));
 		

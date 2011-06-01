@@ -1928,7 +1928,6 @@ int FillListLoad2(LIST_VIEW_CONTROL2 *p_li, char *mask, char bAdd, char bLoad)
 
 int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, ANIMATION_MODULE *p_am, char bLoad, WCHAR *cText)
 {
-/*
 	int		iReturn = 0;
 	int		mix, miy;
 	float	s_factor[2], s_bfactor[2];
@@ -2379,7 +2378,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level
 
 					MultiByteToWideChar( CP_ACP, 0, ccheck, strlen(ccheck)+1, wcheck, sizeof(wcheck)/sizeof(wcheck[0]) );
 					
-					if(wcsicmp(cText, wcheck))
+					if(wcscasecmp(cText, wcheck))
 					{
 						if(!bLoad || bLoad == 2)
 							iReturn++;
@@ -2410,7 +2409,6 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level
 					}
         */
 				//goto __QUIT;
-        /*
 			}
 		}
 
@@ -2515,7 +2513,6 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level
 
 	p_Level->bRestart = 0;
 	return iReturn;
-*/
 }
 
 int LoadHelp(char *c_file)
@@ -2798,7 +2795,7 @@ int DrawHelp(int iBmp, int iSurface, int *iHelpIndex)
 	return 1;
 }
 
-void RunMenuHelp2(char *p_File_Name, void *p_ad, LEVELINFO *p_Level, ANIMATION_MODULE *p_am)
+void RunMenuHelp2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, ANIMATION_MODULE *p_am)
 {
 	int		mix, miy;
 	float	s_factor[2];
@@ -3386,7 +3383,7 @@ int LoadCList2(char *cFile)
 	return i;
 }
 
-void RunMenuLevelStats2(char *p_File_Name, void *p_ad, LEVELINFO *p_Level, ANIMATION_MODULE *p_am)
+void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, ANIMATION_MODULE *p_am)
 {
 /*
 	int		mix, miy;
@@ -3830,7 +3827,7 @@ __QUIT:
 */
 }
 
-void RunMenuTutorial2(char *p_File_Name, void *p_ad, LEVELINFO *p_Level, ANIMATION_MODULE *p_am)
+void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, ANIMATION_MODULE *p_am)
 {
 	int		mix, miy;
 	float	s_factor[2], s_bfactor[2];

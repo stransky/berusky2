@@ -214,7 +214,9 @@ int MultiByteToWideChar(
   int cchWideChar
 )
 {  
-  mbtowc(lpWideCharStr, lpMultiByteStr, cbMultiByte);	
+  int ret = mbstowcs(lpWideCharStr, lpMultiByteStr, cchWideChar);
+  assert(ret && ret < cchWideChar);
+  return(ret);
 }
 
 // Audio interface
@@ -324,4 +326,19 @@ int GetPrivateProfileInt(
 {
   // lpAppName -> unused
   return(ini_read_int(lpFileName, lpKeyName, nDefault));
+}
+
+void wchar_windows_to_linux(word *p_in, int bytes_in_len, wchar_t *p_out)
+{
+  int i;
+  for(i = 0; i < bytes_in_len/2; i++)
+    *p_out++ = *p_in++;
+}
+
+// in place replacement
+wchar_t * wchar_windows_to_linux(word *p_in, int bytes_in_len)
+{
+  wchar_t *p_tmp = (wchar_t *)mmemcpy(p_in, bytes_in_len*2);
+  wchar_windows_to_linux(p_in, bytes_in_len, p_tmp);
+  return(p_tmp);
 }

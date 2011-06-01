@@ -169,7 +169,7 @@ int	winmain_Game_Run(char *p_Level_Name)
 	{
 		return 0;
 	}
-#endif*/
+#endif
 
 	if(!gi_Open_Archive("controls.pak", &pControlsArchive,"game","bitmap_dir"))
 	{
@@ -236,7 +236,7 @@ int	winmain_Game_Run(char *p_Level_Name)
 		apakclose(pSndArchive);
 		return 0;
 	}
-#endif*/
+#endif
 
 #ifndef __DEMO
 	if(!gi_Open_Archive("game_data.pak", &pGDataArchive,"game","game_data_dir"))

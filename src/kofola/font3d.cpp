@@ -163,11 +163,11 @@ int fn2_Set_Font_Bmps(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts)
 					   gt->command[i].Parametr[1].Type == 2)
 					{
 					   memset(text, 0, 256);
-/*
+
 					   WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK | WC_DEFAULTCHAR, (const unsigned short *)ts->StrTable[gt->command[i].Parametr[1].Value], 
 											wcslen((const unsigned short *)ts->StrTable[gt->command[i].Parametr[1].Value]),
 											text, 256, NULL, NULL);
-*/
+
 					   b2_font.iBitmap[gt->command[i].Parametr[0].Value] = ddx2LoadBitmap(text, b2_font.pArchive);
 					   //_2d_APAK_Load_Bitmap(text, b2_font.pArchive);
 					}  
@@ -180,16 +180,15 @@ int fn2_Set_Font_Bmps(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts)
 					{
 					
 					   memset(text, 0, 256);
-/*
+
 					   WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK | WC_DEFAULTCHAR, (const unsigned short *)ts->StrTable[gt->command[i].Parametr[1].Value], 
 											wcslen((const unsigned short *)ts->StrTable[gt->command[i].Parametr[1].Value]),
 											text, 256, NULL, NULL);
-*/
-          /*
+
+
 						txt_nahraj_texturu_z_func(b2_font.pArchive, text, 
 							&b2_font.tex[gt->command[i].Parametr[0].Value], 1, 0, 
 							&b2_font.konf[gt->command[i].Parametr[0].Value],nahraj_aux);
-          */
 					}
 				}
 				break;
@@ -625,8 +624,7 @@ void fn2_Gen_Texture(byte **lpTexture, int iXSize, int iYSize, int iXpos, int iY
 					// *iYres = y;
 					x = iXpos;
 					continue;
-				}
-          /*
+				}          
 				else if(fn2_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor, wtext[i],
 									(float)b2_font.tex[iSection].p_bmp->x,
 									(float)b2_font.tex[iSection].p_bmp->y))
@@ -646,8 +644,7 @@ void fn2_Gen_Texture(byte **lpTexture, int iXSize, int iYSize, int iXpos, int iY
 
 						if(bottom - top > *iYres)
 							*iYres = bottom - top;
-					}
-          */
+					}          
 		}
 }
 
@@ -728,6 +725,8 @@ char fn2_Load_Triger(char *pFile, GAME_TRIGER *pTriger, GRAMMAR *pGr, TRIGER_STR
 	FILE	*file;
 	char	text[256];
 	WCHAR	wtext[128];
+  word  wotext[128];
+
 	
 	pTriger->lastcommand = 0;
 
@@ -743,8 +742,8 @@ char fn2_Load_Triger(char *pFile, GAME_TRIGER *pTriger, GRAMMAR *pGr, TRIGER_STR
 	while(!aeof(file))
 	{
 		memset(wtext, 0, 128 * sizeof(WCHAR));
-		agets((char *) wtext,256,file);
-		Uni2Char(wtext, text, 256);
+		agets((char *) wotext,256,file);
+		wchar_windows_to_linux(wotext, 128, wtext);
 		trig_Parse_LineU(wtext, &pTriger->command[pTriger->lastcommand], pTriger, pGr, pTStruct);		
 	}
 
@@ -770,7 +769,9 @@ int fn2_Set_Font(char *cPAK)
 	}
 	else
 	{
-		agetbuffer(b2_font.file, (char **)&b2_font.pTBuffer, &b2_font.iTSize);
+    int iTSize;
+		agetbuffer(b2_font.file, (char **)&b2_font.pTBuffer, &iTSize);
+    b2_font.pTBuffer = wchar_windows_to_linux((word *)b2_font.pTBuffer, iTSize);
 
 		if(!b2_font.pTBuffer)
 		{
@@ -826,15 +827,15 @@ void fn2_Release_Font(void)
 				ddx2ReleaseBitmap(b2_font.iBitmap[i]);
 				//_2d_Release_Bitmap(b2_font.iBitmap[i]);
 			}
-/*
+
 	for(i=0;i<FONT_MAX_BMP;i++)
 		if(b2_font.tex[i].load)
 		{
 			txt_zrus_texturu_ram(&b2_font.tex[i]);
 			b2_font.tex[i].load = 0;
 		}
-*/
-	b2_font.iTSize = 0;
+
+	//b2_font.iTSize = 0;
 
 	if(b2_font.pTTable)
 		free((void *) b2_font.pTTable);
@@ -845,14 +846,14 @@ void fn2_Release_Font(void)
 void fn2_Release_3d_Textures_Full(void)
 {
 	int i;
-/*
+
 	for(i=133;i<_3dd.last;i++)
 	{
 		txt_zrus_texturu(&_3dd.p_texture[i]);
 		_3dd.p_texture[i].text = -1;
 		free((void *) _3dd.p_sysramtexture[i].data);
 	}
-*/
+
 	_3dd.last = 133;
 }
 
@@ -872,13 +873,12 @@ void fn2_Release_3d_Textures_RAM(void)
 void fn2_Release_3d_Textures(void)
 {
 	int i;
-/*
+
 	for(i=133;i<_3dd.last;i++)
 	{
 		txt_zrus_texturu(&_3dd.p_texture[i]);
 		_3dd.p_texture[i].text = -1;
 	}
-*/
 }
 
 void fn2_Test(int hdc)
@@ -1038,7 +1038,7 @@ int fn2_Up(int iValue)
 
 	return FONT_X_MAX;
 }
-/*
+
 int fn2_Blt(byte *pT, byte **pD, int ix, int iy)
 {
 	int y;
@@ -1071,8 +1071,7 @@ int fn2_Blt(byte *pT, byte **pD, int ix, int iy)
 
 	return 1;
 }
-*/
-/*
+
 int fn2_Put_in_3d_List(int text, EDIT_TEXT *p_tex, EDIT_TEXT_KONFIG *p_konf, int x, int y, char *pMem, int ox, int oy)
 {
 	memcpy(&_3dd.p_texture[_3dd.last], p_tex, sizeof(EDIT_TEXT));
@@ -1094,12 +1093,12 @@ int fn2_Put_in_3d_List(int text, EDIT_TEXT *p_tex, EDIT_TEXT_KONFIG *p_konf, int
 
 	return _3dd.last-1;
 }
-*/
+
 int fn2_Get_Font_Texture(int iSection, char *cText)
 {
 	int	tx, ty;
 	int Xmax, Ymax;
-/*
+
 	byte *pT = NULL;
 	byte *pnT = NULL;
 
@@ -1117,11 +1116,11 @@ int fn2_Get_Font_Texture(int iSection, char *cText)
 	Ymax = fn2_Up(Ymax);
 
 	fn2_Blt(pT, &pnT, Xmax, Ymax);
-*/
+
 	/*glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, b2_font.tex.p_bmp->x, b2_font.tex.p_bmp->y, 0, GL_RGBA, GL_UNSIGNED_BYTE, 
 				 b2_font.tex.p_bmp->data);*/
 
-//	return fn2_Put_in_3d_List(b2_font.tex[iSection].text, &b2_font.tex[iSection], &b2_font.konf[iSection], Xmax, Ymax, pnT, tx, ty);
+	return fn2_Put_in_3d_List(b2_font.tex[iSection].text, &b2_font.tex[iSection], &b2_font.konf[iSection], Xmax, Ymax, pnT, tx, ty);
 }
 
 void fn2_Load_Textures_From_RAM(void)
@@ -1130,12 +1129,11 @@ void fn2_Load_Textures_From_RAM(void)
 
 	for(i=133;i<_3dd.last;i++)
 	{
-  /*
 		glGenTextures(1, &_3dd.p_texture[i].text);
 		glBindTexture(GL_TEXTURE_2D, _3dd.p_texture[i].text);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _3dd.p_sysramtexture[i].x, _3dd.p_sysramtexture[i].y, 
 					 0, GL_RGBA, GL_UNSIGNED_BYTE, _3dd.p_sysramtexture[i].data);
-*/
+
 	    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); 
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
@@ -1218,7 +1216,7 @@ void fn2_Convert_Rect(char *cFile, int xmax, int ymax)
 
 void fn2_Draw_Line(int x1, int y1, int x2, int y2, COLORREF color, HDC hdc)
 {
-/*
+/* TODO
 	HPEN	LastPen;
 	HPEN	MePen;
 

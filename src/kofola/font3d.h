@@ -26,7 +26,7 @@ typedef struct _B2_FONT
 	EDIT_TEXT			tex[FONT_MAX_BMP];
 	EDIT_TEXT_KONFIG	konf[FONT_MAX_BMP];
 	WCHAR				*pTBuffer;
-	unsigned long iTSize;
+//	unsigned long iTSize;
 	FILE				*file;
 	COLORREF			tcolor;
 	int					iYPlus;

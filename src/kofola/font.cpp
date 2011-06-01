@@ -497,9 +497,9 @@ int fn_Load_Grammar(char *pFile, GRAMMAR *pGr)
 
 char fn_Load_Triger(char *pFile, GAME_TRIGER *pTriger, GRAMMAR *pGr, TRIGER_STRUCTURE *pTStruct)
 {
-	FILE	*file;
-	char	text[256];
+	FILE	*file;	
 	WCHAR	wtext[128];
+  word  wotext[128];
 	
 	pTriger->lastcommand = 0;
 
@@ -515,9 +515,9 @@ char fn_Load_Triger(char *pFile, GAME_TRIGER *pTriger, GRAMMAR *pGr, TRIGER_STRU
 	while(!aeof(file))
 	{
 		memset(wtext, 0, 128 * sizeof(WCHAR));
-		agets((char *) wtext,256,file);
-		Uni2Char(wtext, text, 256);
-		trig_Parse_LineU(wtext, &pTriger->command[pTriger->lastcommand], pTriger, pGr, pTStruct);		
+		agets((char *) wotext,256,file);
+    wchar_windows_to_linux(wotext, 256, wtext);
+		trig_Parse_LineU(wtext, &pTriger->command[pTriger->lastcommand], pTriger, pGr, pTStruct);
 	}
 
 	aclose(file);
@@ -543,6 +543,7 @@ int fn_Set_Font(char *cPAK)
 	else
 	{
     agetbuffer(b2_font.file, (char **)&b2_font.pTBuffer, &b2_font.iTSize);
+    b2_font.pTBuffer = wchar_windows_to_linux((word *)b2_font.pTBuffer, b2_font.iTSize);
 
 		if(!b2_font.pTBuffer)
 		{
