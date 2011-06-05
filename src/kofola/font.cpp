@@ -602,7 +602,7 @@ void fn_Release_Font(int bTextures)
 				ddxReleaseBitmap(b2_font.iBitmap[i]);
 				//_2d_Release_Bitmap(b2_font.iBitmap[i]);
 			}
-/*
+
 	if(bTextures)
 	for(i=0;i<FONT_MAX_BMP;i++)
 		if(b2_font.tex[i].load)
@@ -610,7 +610,7 @@ void fn_Release_Font(int bTextures)
 			txt_zrus_texturu_ram(&b2_font.tex[i]);
 			b2_font.tex[i].load = 0;
 		}
-*/
+
 	b2_font.iTSize = 0;
 
 	if(b2_font.pTTable)

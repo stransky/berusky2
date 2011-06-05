@@ -333,56 +333,54 @@ void AnimationEvent(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime, AUDIO_DATA
 			for(i=0;i<rline.rlast;i++)
 			{
 				dr = &rline.rect[i];
-/*
+
 				ddxTransparentBlt(BackDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
 							      FontDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
 							      TRANSCOLOR);
-      */
 			}
 
 			for(i=0;i<rline.rlast;i++)
 			{
 				dr = &rline.rect[i];
-/*
+
 				ddxTransparentBlt(CompositDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom,
 							    BackDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
 							    TRANSCOLOR);
-*/
 			}
 		}
 		else
 			for(i=0;i<rline.rlast;i++)
 			{
 				dr = &rline.rect[i];
-/*
+      
 				ddxTransparentBlt(CompositDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
 							      FontDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
 							      TRANSCOLOR);
-*/      
+
 			}
 
-			//ddxSetFlip(0);
+			ddxSetFlip(0);
 
 			for(j=0;j<2;j++)
 			{
 				for(i=0;i<rline.rlast;i++)
 				{
 					dr = &rline.rect[i];
-/*	
+
 					ddxTransparentBltDisplay(dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
 											 CompositDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
 											 TRANSCOLOR);
-*/        
+
 				}
 
-//				ddxUpdateMouse();
-/*
+				ddxUpdateMouse();
+
 				if(!j)
 					DisplayFrame();
-*/      
+
 			}
 
-//			ddxSetFlip(1);
+			ddxSetFlip(1);
 
 			bAnim = 1;
 	}
@@ -392,7 +390,7 @@ void AnimationEvent(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime, AUDIO_DATA
 	if(!bAnim && (dim.dx || dim.dy) && timercntframe > 9)
 	{
 		timercntframe = 0;
-		//DisplayFrame();
+		DisplayFrame();
 	}
 
 	dwLTime = dwTime;
@@ -411,8 +409,8 @@ void StartAnimationTimer(void)
 	for(i=0;i<32;i++)
 		anm[i].cmd = NULL;
 
-//	ATimer_ID = SetTimer(NULL, 0, 30, (TIMERPROC)AnimationEvent);
-//	dwLTime = timeGetTime();
+	ATimer_ID = SetTimer(NULL, 0, 30, (TIMERPROC)AnimationEvent);
+	dwLTime = timeGetTime();
 }
 
 
@@ -423,7 +421,7 @@ void StopAnimationTimer(void)
 {
 	int i;
 
-//	KillTimer(NULL, ATimer_ID);
+	KillTimer(NULL, ATimer_ID);
 
 	for(i=0;i<32;i++)
 		anm[i].cmd = NULL;	
@@ -642,8 +640,8 @@ void StretchAnimation(RECT *rStart, RECT *rFinish, int iSurface, int iSpeed, AUD
 	
 	rBmp.left = 0;
 	rBmp.top = 0;
-	//rBmp.right = ddxGetWidth(iSurface);
-	//rBmp.bottom = ddxGetHight(iSurface);
+	rBmp.right = ddxGetWidth(iSurface);
+	rBmp.bottom = ddxGetHight(iSurface);
 
 	memcpy(&rDraw, rStart, sizeof(RECT));
 
@@ -651,8 +649,8 @@ void StretchAnimation(RECT *rStart, RECT *rFinish, int iSurface, int iSpeed, AUD
 
 	while(!done)
 	{
-		//ddxStretchBltDisplay(&rDraw, iSurface, &rBmp);
-		//DisplayFrame();
+		ddxStretchBltDisplay(&rDraw, iSurface, &rBmp);
+		DisplayFrame();
 
 		dwF = timeGetTime();
 
@@ -692,22 +690,21 @@ void StretchAnimation(RECT *rStart, RECT *rFinish, int iSurface, int iSpeed, AUD
 		}
 
 		spracuj_spravy(0);
-		//ddxUpdateMouse();
+		ddxUpdateMouse();
 
 		/*if(rDraw.left <= rFinish->left &&
 		   rDraw.top  <= rFinish->top &&
 		   rDraw.bottom >= rFinish->bottom &&
 		   rDraw.right >= rFinish->right)
 			done = 1;*/
-/*
+
 		if(ddxRestore(&CompositDC, &FontDC, &BackDC, &iCompositDC, &iFontDC, &iBackDC, &cBrutalRestart, p_ad))
 			return;
-*/  
 	}
 
-	//ddxStretchBltDisplay(rFinish, iSurface, &rBmp);
-	//DisplayFrame();
-	//ddxStretchBltDisplay(rFinish, iSurface, &rBmp);
+	ddxStretchBltDisplay(rFinish, iSurface, &rBmp);
+	DisplayFrame();
+	ddxStretchBltDisplay(rFinish, iSurface, &rBmp);
 //	StartAnimationTimer();
 }
 
@@ -824,10 +821,10 @@ int RunLevel(HWND hWnd, AUDIO_DATA *p_ad, int cpu, char *lvl, char *env)
 */
 	Sleep(1000);
 
-//	ddxRelease();
-//	FreeDirectDraw();
+	ddxRelease();
+	//FreeDirectDraw();
 
-//	ShowCursor(FALSE);
+	ShowCursor(FALSE);
 	
 	if(kom_graf_init())
 	{
@@ -839,14 +836,14 @@ int RunLevel(HWND hWnd, AUDIO_DATA *p_ad, int cpu, char *lvl, char *env)
 		_3d_Init();
 		_3d_Load_List("3D_load.dat");
 
-		//_3d_Gen_Hints(pHintTexture, 26);
+		_3d_Gen_Hints(pHintTexture, 26);
 
 		RunMenuLoadScreenAddProgress(-1);
 
 		_3d_Load_Indikace();
-/*  
+  
 		Timer_ID = SetTimer(NULL, 0, 250, (TIMERPROC)gl_Set_Frame_Rate);
-
+/*  
 		adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
 		adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
 */
@@ -859,10 +856,10 @@ int RunLevel(HWND hWnd, AUDIO_DATA *p_ad, int cpu, char *lvl, char *env)
 				RunMenuLoadScreenRelease(3);
 	
 		kprintf(1, "KillTimer");
-		//KillTimer(NULL,Timer_ID);
+		KillTimer(NULL,Timer_ID);
 
 		kprintf(1, "_3d_Release_Hints");
-		//_3d_Release_Hints(pHintTexture, 26);
+		_3d_Release_Hints(pHintTexture, 26);
 	
 		kprintf(1, "_3d_Release");
 		_3d_Release();
@@ -870,7 +867,7 @@ int RunLevel(HWND hWnd, AUDIO_DATA *p_ad, int cpu, char *lvl, char *env)
 		kom_graf_konec(!bWindowMenu);
 		spracuj_spravy(0);
 		//maximalizuj_okno(NULL);
-		//ShowCursor(TRUE);
+		ShowCursor(TRUE);
 		spracuj_spravy(0);
 	}
 	else
@@ -880,31 +877,31 @@ int RunLevel(HWND hWnd, AUDIO_DATA *p_ad, int cpu, char *lvl, char *env)
 		MyMessageBox(NULL,"##error_title", "##kom_graf_init_error","");
 		spracuj_spravy(0);
 		//maximalizuj_okno(NULL);
-		//ShowCursor(TRUE);
+		ShowCursor(TRUE);
 		spracuj_spravy(0);
 	}
 
 	kprintf(1, "ddxInit");
-	//ddxInit();
+	ddxInit();
 	spracuj_spravy(0);
 	kprintf(1, "InitDirectDraw");
 	//InitDirectDraw(NULL, 1024, 768, GetPrivateProfileInt("hra", "menu_bpp", 16, ini_file));
 	spracuj_spravy(0);
 	kprintf(1, "ddxLoadList");
-	//ddxLoadList("2d_load.dat", 0);
+	ddxLoadList("2d_load.dat", 0);
 	spracuj_spravy(0);
 	kprintf(1, "ddxFindFreeSurface");
-	//iCompositDC = ddxFindFreeSurface();
+	iCompositDC = ddxFindFreeSurface();
 	kprintf(1, "ddxCreateSurface");
-	//CompositDC = ddxCreateSurface(1024, 768, iCompositDC);
+	CompositDC = ddxCreateSurface(1024, 768, iCompositDC);
 	kprintf(1, "ddxFindFreeSurface");
-	//iFontDC = ddxFindFreeSurface();
+	iFontDC = ddxFindFreeSurface();
 	kprintf(1, "ddxCreateSurface");
-	//FontDC = ddxCreateSurface(1024, 768, iFontDC);
+	FontDC = ddxCreateSurface(1024, 768, iFontDC);
 	kprintf(1, "ddxFindFreeSurface");
-	//iBackDC = ddxFindFreeSurface();
+	iBackDC = ddxFindFreeSurface();
 	kprintf(1, "ddxCreateSurface");
-	//BackDC = ddxCreateSurface(1024, 768, iBackDC);
+	BackDC = ddxCreateSurface(1024, 768, iBackDC);
 
 	spracuj_spravy(0);
 	
@@ -975,8 +972,8 @@ void Credits(HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 	if(ogg_playing())
 		ap_Stop_Song(p_ad);
 */
-//	SetCursor(NULL);
-//	_2d_Release();
+	SetCursor(NULL);
+	_2d_Release();
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
 	chdir(dir);
@@ -985,7 +982,7 @@ void Credits(HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 	cr_Credits(NULL, p_ad);
 
 	_2d_Init();
-	//_2d_APAK_Load_List("2d_load.dat");
+	_2d_APAK_Load_List("2d_load.dat");
 	
 	//ap_Play_Song(0,0,p_ad);
 	//adas_OGG_Set_Priority(cpu);
@@ -995,7 +992,7 @@ void Credits(HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 	
 	//SetCursor(LoadCursor(NULL, IDC_ARROW));
 	spracuj_spravy(0);
-	//ShowCursor(TRUE);
+	ShowCursor(TRUE);
 	spracuj_spravy(0);
 }
 
@@ -1022,15 +1019,13 @@ void CreateFontAnimations(CMD_LINE *res, int *lastcmd)
 
 	for(i=0;i<lcmd;i++)
 		if(res[i].iParam[0] == COM_CREATEBUTTON)
-			//if(fn_Gen_Menu_Text(0, HDC2DD, res[i].cParam[0], &sidx1, &sidx2) != -1)
-			if(fn_Gen_Menu_Text(0, -1, res[i].cParam[0], &sidx1, &sidx2) != -1)
+			if(fn_Gen_Menu_Text(0, HDC2DD, res[i].cParam[0], &sidx1, &sidx2) != -1)
 				if(sidx1 != -1 && sidx2 != -1)
 				{
 					int ii;
 					int oy = res[i].iParam[2];
 					//int x = r.left + (int)((r.right - r.left - _2dd.bitmap[sidx1].bitmap.bmWidth) / (float)2.0f);
-					//int x = r.left + (int)((r.right - r.left - ddxGetWidth(sidx1)) / (float)2.0f);
-          int x = 0;
+					int x = r.left + (int)((r.right - r.left - ddxGetWidth(sidx1)) / (float)2.0f);
 					
 					if(res[i].iParam[1] != -1)
 					{
@@ -1044,10 +1039,10 @@ void CreateFontAnimations(CMD_LINE *res, int *lastcmd)
 						y = oy;
 					}
 
-//					y += ddxGetHight(sidx1);
+					y += ddxGetHight(sidx1);
 
 					//OnAbove(16,661,100,748, quit_game.txt, NO_EXEPTION)
-//					sprintf(text,"OnAbove(%d,%d,%d,%d, NO_EXEPTION, NO_EXEPTION)", x, oy, x + ddxGetWidth(sidx1), y);
+					sprintf(text,"OnAbove(%d,%d,%d,%d, NO_EXEPTION, NO_EXEPTION)", x, oy, x + ddxGetWidth(sidx1), y);
 					Parse_LineT(text, res[*lastcmd].iParam, 6, res[*lastcmd].cParam[0], res[*lastcmd].cParam[1]);
 					res[*lastcmd].uiTimerID = 0;
 					res[*lastcmd].iLastfrm = 1;
@@ -1068,7 +1063,7 @@ void CreateFontAnimations(CMD_LINE *res, int *lastcmd)
 					for(ii=6;ii<13;ii++)
 						res[*lastcmd].iAnim[0][ii] = -1;
 
-//					x = r.left + (int)((r.right - r.left - ddxGetWidth(sidx2)) / (float)2.0f);
+					x = r.left + (int)((r.right - r.left - ddxGetWidth(sidx2)) / (float)2.0f);
 
 					if(res[i].iParam[1] != -1)
 						x = res[i].iParam[1];
@@ -1103,8 +1098,8 @@ void CreateFontAnimations(CMD_LINE *res, int *lastcmd)
 					(*lastcmd)++;
 					
 					//OnClick(16,661,100,748, quit_gamec.txt, EXIT)
-//					sprintf(text,"OnClick(%d,%d,%d,%d, NO_EXEPTION, %s)", x, oy, x + ddxGetWidth(sidx1), 
-//							y, res[i].cParam[1]);
+					sprintf(text,"OnClick(%d,%d,%d,%d, NO_EXEPTION, %s)", x, oy, x + ddxGetWidth(sidx1), 
+							y, res[i].cParam[1]);
 
 					Parse_LineT(text, res[*lastcmd].iParam, 6, res[*lastcmd].cParam[0], res[*lastcmd].cParam[1]);
 					res[*lastcmd].iLayer = 1;
@@ -1125,7 +1120,7 @@ void SetTab(int iTab, int iLTab, CONTROL_LIST_ITEM *p_list, int lsize, int	*hdcT
 	if(iLTab > -1)
 	{
 		//BitBlt(hdcTab[iLTab], 0, 0, TAB_XRES, TAB_YRES, _2dd.hDC, TAB_X, TAB_Y, SRCCOPY);
-//		ddxBitBlt(hdcTab[iLTab], 0, 0, TAB_XRES, TAB_YRES, HDC2DD, TAB_X, TAB_Y);
+		ddxBitBlt(hdcTab[iLTab], 0, 0, TAB_XRES, TAB_YRES, HDC2DD, TAB_X, TAB_Y);
 	}
 
 	for(i=0;i<lsize;i++)
@@ -1136,8 +1131,8 @@ void SetTab(int iTab, int iLTab, CONTROL_LIST_ITEM *p_list, int lsize, int	*hdcT
 				(p_list+i)->bActive = 0;
 
 	//BitBlt(_2dd.hDC, TAB_X, TAB_Y, TAB_XRES, TAB_YRES, hdcTab[iTab], 0, 0, SRCCOPY);
-//	ddxBitBltDisplay(TAB_X, TAB_Y, TAB_XRES, TAB_YRES, hdcTab[iTab], 0, 0);
-//	DisplayFrame();
+	ddxBitBltDisplay(TAB_X, TAB_Y, TAB_XRES, TAB_YRES, hdcTab[iTab], 0, 0);
+	DisplayFrame();
 }
 
 int CheckRozliseni(ROZLISENI *res, int roz_size, DWORD x, DWORD y, DWORD bpp)
@@ -1242,12 +1237,12 @@ void CharMenuCheckMultyKyes(LIST_VIEW_CONTROL *p_li, int iKey)
 
 			r.left = 550;
 			r.top = y+2;
-//			r.right = r.left + (ddxGetWidth(p_li->bDCn) - 550);
+			r.right = r.left + (ddxGetWidth(p_li->bDCn) - 550);
 			r.bottom = r.top + 28;
 
-//			ddxFillRect(p_li->bDCn, &r, 0 );
+			ddxFillRect(p_li->bDCn, &r, 0 );
 
-//			ddxFillRect(p_li->bDCs, &r, 0 );
+			ddxFillRect(p_li->bDCs, &r, 0 );
 	
 			co_List_Add_String(p_li, i, 550, "##control_k_255", 255, 0);
 		}

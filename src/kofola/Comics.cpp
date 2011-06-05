@@ -54,9 +54,8 @@ void cmcs_Read_Line(char *pLine, COMICS_PICTURE *pPicture)
 void cmcs_Next_Picture(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime)
 {
 	COMICS_PICTURE *pPicture = &cmcs_Picture[iActualBmp];
-
-  // TODO
-	//KillTimer(NULL, uiTimerID);
+  
+  KillTimer(NULL, uiTimerID);
 
 	if(pPicture->iPicture == -1)
 	{
@@ -74,8 +73,8 @@ void cmcs_Next_Picture(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime)
 	
 	cmcs_Draw(pPicture->iPicture, pPicture->xPos, pPicture->yPos);
 	
-  //TODO
-	//uiTimerID = SetTimer(NULL, 0, pPicture->iTimeToNextPicture, (TIMERPROC)cmcs_Next_Picture);
+  
+	uiTimerID = SetTimer(NULL, 0, pPicture->iTimeToNextPicture, (TIMERPROC)cmcs_Next_Picture);
 
 	iActualBmp++;
 }
@@ -136,8 +135,8 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA *p_ad, char bMusic)
 			adas_OGG_Play_Stream();*/
 
 	cmcs_Draw(cmcs_Picture[0].iPicture, cmcs_Picture[0].xPos, cmcs_Picture[0].yPos);
-  //TODO
-	//uiTimerID = SetTimer(NULL, 0, cmcs_Picture[0].iTimeToNextPicture, (TIMERPROC)cmcs_Next_Picture);
+
+	uiTimerID = SetTimer(NULL, 0, (UINT)cmcs_Picture[0].iTimeToNextPicture, (TIMERPROC)cmcs_Next_Picture);
 	
 	iActualBmp++;
 
@@ -150,7 +149,7 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA *p_ad, char bMusic)
 			bCimicsEnd = 1;
 		}
 
-		//Sleep(10);
+		Sleep(10);
 	}
 
 /* TODO
@@ -158,9 +157,9 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA *p_ad, char bMusic)
 		if(ogg_playing())
 			ap_Stop_Song(p_ad);
 */
-	//KillTimer(NULL, uiTimerID);
+	KillTimer(NULL, uiTimerID);
 
-	//_2d_Release();
+	_2d_Release();
 }
 
 void cmcs_Play_Intro(char *cFile, HWND hWnd, AUDIO_DATA *p_ad)
@@ -309,7 +308,7 @@ void cmcs_Start_Picture(int Index, long time, AUDIO_DATA *p_ad, char bMusic)
 			bCimicsEnd = 1;
 		}
 
-		//Sleep(10);
+		Sleep(10);
 
 		timecnt+=10;
 

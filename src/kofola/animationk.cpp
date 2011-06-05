@@ -6210,7 +6210,7 @@ void am_Flip(LEVELINFO *p_Level, ANIMATION_MODULE *p_am, char bAll, RECT_LINE *r
 		else
 		{
 			ZeroMemory(rDrawRect, sizeof(RECT) * DRAW_RECT_NUM);
-/*
+
 			for(i=0;i<rline->rlast;i++)
 				if(!_2d_Is_InRectLine(rDrawRect, &rline->rect[i].rect, x))
 				{
@@ -6218,8 +6218,8 @@ void am_Flip(LEVELINFO *p_Level, ANIMATION_MODULE *p_am, char bAll, RECT_LINE *r
 
 					x++;
 				}
-*/
-			ddx2SetRect(rDrawRect, x);
+
+        ddx2SetRect(rDrawRect, x);
 		}
 	}
 

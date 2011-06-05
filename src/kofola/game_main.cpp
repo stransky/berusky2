@@ -359,7 +359,7 @@ int	winmain_Game_Run(char *p_Level_Name)
 	{
 		//schovej_konzoli();
 		SetCursor(NULL);
-		//ddxInit();
+		ddxInit();
 	
 		//Sleep(2000);
 		RunMenuCinemax();
@@ -386,12 +386,12 @@ int	winmain_Game_Run(char *p_Level_Name)
 		pr_ReadProfile("Default", &pPlayerProfile);
 
 		SetCursor(NULL);
-		//Timer_ID = SetTimer(NULL, 0, 250, (TIMERPROC)gl_Set_Frame_Rate);
+		Timer_ID = SetTimer(NULL, 0, 250, (TIMERPROC)gl_Set_Frame_Rate);
 		_3d_Load_Indikace();		
 		iActualScene = 0;
 		gl_Run_Level(p_Level_Name,"default.env",&ad, cpu);
-		//_3d_Release_Hints(pHintTexture, 26);
-		//KillTimer(NULL,Timer_ID);
+		_3d_Release_Hints(pHintTexture, 26);
+		KillTimer(NULL,Timer_ID);
 	}
 	else
 	{
@@ -417,7 +417,7 @@ int	winmain_Game_Run(char *p_Level_Name)
 	{
 		/*_2d_Blackness();
 		_2d_Release();*/
-		//ddxRelease();
+		ddxRelease();
 		//FreeDirectDraw();
 	}
 	else

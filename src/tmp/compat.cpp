@@ -356,3 +356,11 @@ wchar_t * wchar_windows_to_linux(word *p_in, int bytes_in_len)
   wchar_windows_to_linux(p_in, bytes_in_len, p_tmp);
   return(p_tmp);
 }
+
+int  SetTimer(HWND hWnd, int nIDEvent, UINT uElapse, TIMERPROC lpTimerFunc);
+{
+}
+
+BOOL KillTimer(HWND hWnd, int uIDEvent);
+{
+}

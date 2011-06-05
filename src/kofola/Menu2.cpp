@@ -1173,7 +1173,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 	ddx2DeviceSetBackBufferRect(0, 0, 1024, 768);
 	ddx2DeviceSetTextRenderRec(0, 0, 1024, 768);
 	ddx2DeviceSetScreenRec(0, 0, hwconf.xres,hwconf.yres);
-
+  
 	//ddx2DeviceSetRender(TRUE);
 
 	ddx2CleareSurface(DDX2_BACK_BUFFER);
@@ -1417,7 +1417,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 	am_FlipA(p_Level, p_am, 1, &rline, CLIST_ITEMC, 0, 0, 0);
 
 //BEGIN_MENU:
-/*
+
 	for(i=0;i<lastcmd;i++)
 		if(res[i].iParam[0] == COM_RUNANIMATION)
 		{
@@ -1429,7 +1429,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 				anm[iWave].iWave = res[i+1].iParam[5] = mPlaySound2(&res[i+1], &ad, 2);
 			}
 		}
-*/
+
 	mi.t1 = 0;
 	mi.t2 = 0;
 	mi.dx = 0;
@@ -1568,12 +1568,13 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 
 		co2_Handle_Controls(citem, CLIST_ITEMC, mi.x - TAB_X, mi.y - TAB_Y, HDC2DD, TAB_X, TAB_Y);
 
-/*		
+/*
 		if(co2_Progres_Changed(citem, CLIST_ITEMC, 4))
 			ad.Sound_Gain = co2_Progres_Get(citem, CLIST_ITEMC, 4) / 100.0f;
-
+*/
     if(co2_Progres_Changed(citem, CLIST_ITEMC, 5))
-		{    
+		{   
+/* 
 			float laf = ad.Ambient_Gain;
 
 			ad.Ambient_Gain = co2_Progres_Get(citem, CLIST_ITEMC, 5) / 100.0f;
@@ -1584,12 +1585,13 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 				adas_Release_Source(-1, LOOPING_TYPE, UNDEFINED_VALUE);
 				as_Start(p_Level->Environment.id, &ad, p_Level);
 			}
-		}
 */
+		}
+
 
 		if(co2_Progres_Changed(citem, CLIST_ITEMC, 6))
 		{
-    /*
+/*
 			float f = co2_Progres_Get(citem, CLIST_ITEMC, 6) / 100.0f;
 
 			ogg_gain(f);
@@ -1605,7 +1607,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 				adas_OGG_Set_Priority(p_Level->Base_Priority);
 				ap_Play_Song(0,0,&ad);
 			}
-    */
+*/
 		}
 
 		//stlacil leve tlacitko
@@ -1615,7 +1617,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 			LIST_VIEW_CONTROL2 *p_li;
 
 
-			/*iCheck = co2_Check_Get_State_Change(citem, CLIST_ITEMC, 1);
+			iCheck = co2_Check_Get_State_Change(citem, CLIST_ITEMC, 1);
 
 			if(iCheck != -1)
 			{
@@ -1626,7 +1628,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 				}
 				else
 					co2_Check_Enable(HDC2DD, TAB_X, TAB_Y, citem, CLIST_ITEMC, 0);
-			}*/
+			}
 
 			iCheck = co2_Check_Get_State_Change(citem, CLIST_ITEMC, 12);
 

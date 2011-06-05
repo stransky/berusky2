@@ -349,3 +349,7 @@ void apak_dir_correction(char *dir);
 
 wchar_t * wchar_windows_to_linux(word *p_in, int bytes_in_len);
 void wchar_windows_to_linux(word *p_in, int bytes_in_len, wchar_t *p_out);
+
+typedef void (*TIMERPROC)(HWND hwnd, UINT uMsg, UINT idEvent,DWORD dwTime);
+UINT SetTimer(HWND hWnd, UINT nIDEvent, UINT uElapse, TIMERPROC lpTimerFunc);
+BOOL KillTimer(HWND hWnd, UINT uIDEvent);
