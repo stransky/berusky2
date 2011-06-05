@@ -10871,7 +10871,7 @@ PLAY_LEVEL_START:
 
 	if(!Level.bMenuRunning && !Level.Level_Exit)
 	{
-	
+
 		if(key[K_F3] && !demo)
 		{
 			key[K_F3] = 0;

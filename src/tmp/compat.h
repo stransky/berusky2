@@ -6,6 +6,7 @@
 #define  FALSE  (1!=1)
 
 typedef unsigned char   byte;
+typedef unsigned char   BYTE;
 typedef unsigned short  word;
 typedef unsigned short  WORD;
 typedef unsigned int    dword;
@@ -255,6 +256,20 @@ int MultiByteToWideChar(
   int cbMultiByte,
   WCHAR * lpWideCharStr,
   int cchWideChar
+);
+
+#define WC_COMPOSITECHECK 0
+#define WC_DEFAULTCHAR    0
+
+int WideCharToMultiByte(
+  int CodePage,
+  int dwFlags,
+  wchar_t * lpWideCharStr,
+  int cchWideChar,
+  char *lpMultiByteStr,
+  int cbMultiByte,
+  char * lpDefaultChar,
+  int * lpUsedDefaultChar
 );
 
 // Audio interface

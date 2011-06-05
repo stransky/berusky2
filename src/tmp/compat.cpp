@@ -219,6 +219,20 @@ int MultiByteToWideChar(
   return(ret);
 }
 
+int WideCharToMultiByte(
+  int CodePage,
+  int dwFlags,
+  wchar_t * lpWideCharStr,
+  int cchWideChar,
+  char *lpMultiByteStr,
+  int cbMultiByte,
+  char * lpDefaultChar,
+  int * lpUsedDefaultChar
+)
+{
+  return(wcstombs(lpMultiByteStr, lpWideCharStr, cbMultiByte));
+}
+
 // Audio interface
 // Init
 void ap_Init(AUDIO_DATA *p_ad)

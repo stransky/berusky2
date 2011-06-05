@@ -321,7 +321,7 @@ typedef struct _CONTROL_LIST_ITEM2
 
 	void co2_Release_Combo_Drop(COMBO_DROP_CONTROL2 *p_co);
 
-	//int co2_Set_TextWC(int hdc, int x, int y, char *text, int isection);
+	int co2_Set_TextWC(int hdc, int x, int y, char *text, int isection);
 
 	void co2_Check_Disable(int hdc, int xcor, int ycor, CONTROL_LIST_ITEM2 *p_list, int lsize, int id);
 	void co2_Check_Enable(int hdc, int xcor, int ycor, CONTROL_LIST_ITEM2 *p_list, int lsize, int id);

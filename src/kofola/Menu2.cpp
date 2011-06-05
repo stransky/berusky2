@@ -3385,7 +3385,6 @@ int LoadCList2(char *cFile)
 
 void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, ANIMATION_MODULE *p_am)
 {
-/*
 	int		mix, miy;
 	float	s_factor[2];
 	RECT	rTMP = {0, 0, 1024, 768};
@@ -3824,7 +3823,6 @@ __QUIT:
 
 	 // Start renderu hry
 	ddx2GameRender(TRUE);
-*/
 }
 
 void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, ANIMATION_MODULE *p_am)
@@ -3849,7 +3847,7 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 	int		ycorrection = 0;
 	EDIT_TEXT	ttext;
 	//int		sh = K_CHYBA;
-/*
+
 	ZeroMemory(&ttext, sizeof(EDIT_TEXT));
 
 	p_Level->iCursor = 133;
@@ -3858,8 +3856,8 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 
 	txt_trida(TEXT_MENU);
 	kom_set_default_text_config(0,0,1,0,0,1);
-	txt_nahraj_texturu_z_func(p3DMArchive,"tutor_frame.bmp", &ttext, 0, 1, NULL,nahraj_aux);
-	//txt_nahraj_texturu_z_func(p3DMArchive,"Hneda_a.bmp", &ttext, 0, 1, NULL,nahraj_aux);
+	txt_nahraj_texturu_z_func(p3DMArchive,"tutor_frame.bmp", &ttext, 0, 1, NULL,bmp_nahraj);
+	//txt_nahraj_texturu_z_func(p3DMArchive,"Hneda_a.bmp", &ttext, 0, 1, NULL,bmp_nahraj);
 	kom_ret_default_text_config();
 
 	_2d_Clear_RectLine(&rline);
@@ -4202,7 +4200,7 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
-						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
+//						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
 				goto __QUIT;
@@ -4263,7 +4261,6 @@ __QUIT:
 	ddx2GameRender(TRUE);
 
 	txt_zrus_texturu(&ttext);
-  */
 }
 
 void RunMenuLoadScreen2(void)

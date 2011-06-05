@@ -1587,7 +1587,7 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out, LEVELINFO *p_Lev
 //			ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
 
 			ZeroMemory(cText, 128);
-			RunMenuLoadGameLoad2("Mmload_game_load3d.txt", NULL, p_Level, &am, 1, cText);
+      RunMenuLoadGameLoad2("Mmload_game_load3d.txt", NULL, p_Level, &am, 1, cText);
 			RunMenuLoadGameLoad2("Mmload_game_load3d.txt", NULL, p_Level, &am, 1, cText);
 
 			if(wcslen(cText))

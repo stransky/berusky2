@@ -164,8 +164,9 @@ int fn2_Set_Font_Bmps(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts)
 					{
 					   memset(text, 0, 256);
 
-					   WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK | WC_DEFAULTCHAR, (const unsigned short *)ts->StrTable[gt->command[i].Parametr[1].Value], 
-											wcslen((const unsigned short *)ts->StrTable[gt->command[i].Parametr[1].Value]),
+            WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK | WC_DEFAULTCHAR, 
+                      (wchar_t *)ts->StrTable[gt->command[i].Parametr[1].Value],
+											wcslen((wchar_t *)ts->StrTable[gt->command[i].Parametr[1].Value]),
 											text, 256, NULL, NULL);
 
 					   b2_font.iBitmap[gt->command[i].Parametr[0].Value] = ddx2LoadBitmap(text, b2_font.pArchive);
@@ -181,14 +182,15 @@ int fn2_Set_Font_Bmps(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts)
 					
 					   memset(text, 0, 256);
 
-					   WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK | WC_DEFAULTCHAR, (const unsigned short *)ts->StrTable[gt->command[i].Parametr[1].Value], 
-											wcslen((const unsigned short *)ts->StrTable[gt->command[i].Parametr[1].Value]),
+					   WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK | WC_DEFAULTCHAR, 
+                      (wchar_t *)ts->StrTable[gt->command[i].Parametr[1].Value], 
+											wcslen((wchar_t *)ts->StrTable[gt->command[i].Parametr[1].Value]),
 											text, 256, NULL, NULL);
 
 
 						txt_nahraj_texturu_z_func(b2_font.pArchive, text, 
 							&b2_font.tex[gt->command[i].Parametr[0].Value], 1, 0, 
-							&b2_font.konf[gt->command[i].Parametr[0].Value],nahraj_aux);
+							&b2_font.konf[gt->command[i].Parametr[0].Value],bmp_nahraj);
 					}
 				}
 				break;
