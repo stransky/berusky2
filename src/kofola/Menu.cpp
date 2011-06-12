@@ -82,7 +82,7 @@ int	iActualLevel = 0;
 static char	bNewScene = 0;
 static _2D_HINT	_2d_hint;
 
-RECT_LINE	rline;
+extern RECT_LINE	rline;
 
 extern int gi_Change_Grafic_Mode(int xPels, int yPels, int Bits, int freq, DWORD dwflags);
 //extern int gi_EnumDisplaySettings(DEVMODE *pdevmode);

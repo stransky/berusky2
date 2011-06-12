@@ -474,7 +474,7 @@ graph3d::graph3d(GRAPH_TYPE type)
   set();
   
   pprintf("SDL Init...");
-  if(SDL_Init(SDL_INIT_VIDEO)) {
+  if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER)) {
     pprintf("SDL Video initialization failed: %s\n", SDL_GetError());
   }  
 }
@@ -485,7 +485,7 @@ graph3d::graph3d(GRAPH_TYPE type, tpos width, tpos height, int screen_depth, boo
   set(width, height, screen_depth, full_screen);
   
   pprintf("SDL Init...");
-  if(SDL_Init(SDL_INIT_VIDEO)) {
+  if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER)) {
     pprintf("SDL Video initialization failed: %s\n", SDL_GetError());
   }  
 }

@@ -69,7 +69,7 @@ static int	iLoadScreenDevice = 0;
 static int	iLoadScreenBitmap = K_CHYBA;
 static RECT	iLoadScreenRect = {0, 0, 1024, 768};
 
-static RECT_LINE rline;
+RECT_LINE rline;
 
 extern int gi_Change_Grafic_Mode(int xPels, int yPels, int Bits, int freq, DWORD dwflags);
 //extern int gi_EnumDisplaySettings(DEVMODE *pdevmode);
@@ -1182,7 +1182,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 
 	ddx2FillRect(DDX2_BACK_BUFFER, &rTMP, RGB(255, 0, 255));
 	ddx2SetRect(&rTMP,1);
-  
+    
 	am_FlipA(p_Level, p_am, 1, &rline, CLIST_ITEMC, 0, 0, 0);
 
 	// Stop renderu hry
@@ -1975,7 +1975,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level
 		return 0;
 
 	//fn2_Release_Font();
-	ddx2DeviceSetActive(dh);  
+	ddx2DeviceSetActive(dh);
 
 	ddx2DeviceSetBackBufferSize(1024, 768);
 	ddx2DeviceSetBackBufferRect(299, 209, 444, 415);
@@ -2189,7 +2189,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level
 				{
 					//spusteni animace v OnAbove
 					if(i != lastabv)
-					{
+					{            
 						if(in)
 						{
 							Stop2(&res[lastabv]);
@@ -2960,6 +2960,7 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, ANIMA
 	if(!co2_Load_Graphic(1))
 	{
 		kprintf(1, "co2_Load_Graphic ... con't load controls!");
+    assert(0);
 	}
 	else
 	{

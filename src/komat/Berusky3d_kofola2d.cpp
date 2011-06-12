@@ -357,7 +357,7 @@ void ddx2RenderujDevice(G_KONFIG *p_ber, DDX2_SURFACE_DEVICE *p_dev)
 
   if(!p_rlist || !p_dev->rnum)
     return;
-
+  
   glBindTexture(GL_TEXTURE_2D,p_hw->text);
   glPixelStorei(GL_UNPACK_ROW_LENGTH,p_dev->p_back_buffer->x);
   
@@ -375,7 +375,7 @@ void ddx2RenderujDevice(G_KONFIG *p_ber, DDX2_SURFACE_DEVICE *p_dev)
     ry  = p_rlist->top;
     rkx = rx+p_rlist->right;
     rky = ry+p_rlist->bottom;
-
+  
     if(rx < tx)   rx = tx;
     if(ry < ty)   ry = ty;
     if(rx > tkx)  rx = tkx;

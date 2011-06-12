@@ -34,6 +34,14 @@ int DisplayFrame()
 {
 }
 
+int ddxInit(void)
+{
+}
+
+void ddxRelease(void)
+{
+}
+
 int ddxFindFreeSurface(void)
 {
   return(0);
@@ -357,10 +365,20 @@ wchar_t * wchar_windows_to_linux(word *p_in, int bytes_in_len)
   return(p_tmp);
 }
 
-int  SetTimer(HWND hWnd, int nIDEvent, UINT uElapse, TIMERPROC lpTimerFunc);
+/* type definition for the "new" timer callback function */
+Uint32 callback(Uint32 interval, void* param)
 {
+  TIMERPROC func = (TIMERPROC)param;
+  func(NULL,0,0,interval);
+  return(interval);
 }
 
-BOOL KillTimer(HWND hWnd, int uIDEvent);
+TIMER_ID SetTimer(HWND hWnd, TIMER_ID nIDEvent, UINT uElapse, TIMERPROC lpTimerFunc)
 {
+  return(SDL_AddTimer(uElapse, callback, (void*)lpTimerFunc));
+}
+
+UINT KillTimer(HWND hWnd, TIMER_ID uIDEvent)
+{
+  return(SDL_RemoveTimer(uIDEvent));
 }

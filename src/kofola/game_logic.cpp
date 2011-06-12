@@ -10807,6 +10807,9 @@ PLAY_LEVEL_START:
 		if(!bRestart)
 			icamanimrestart = 1;
 
+    // TODO
+    icamanimrestart = 0;
+    
 		GetPrivateProfileString("game","game_data_dir","c:\\",file,255,ini_file);
 		pEnv = kom_get_level_environment();
 		if(pEnv)
