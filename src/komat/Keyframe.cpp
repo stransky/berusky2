@@ -2065,7 +2065,7 @@ void key_sim_uloz(SIMPLE_TRACK_INFO *p_sim, char *p_file, char *p_dir)
   int   i;
   int   loop = p_sim->flag&GK_LOOP;
 
-  chdir(p_dir);
+  chdir(working_file_get(p_dir));
 
   if(!(f = fopen(p_file,"w"))) {
     ddw("File %s Line %d Chyba otevreni souboru '%s' v %s",__FILE__,__LINE__,p_file,p_dir);
@@ -2103,9 +2103,9 @@ int key_sim_nahraj(APAK_HANDLE *pHandle, SIMPLE_TRACK_INFO *p_sim, char *p_file,
   char               **p_line;
   int                  l,lmax;
 
-  chdir(p_dir);
+  chdir(working_file_get(p_dir));
   if(!(f = kopen(pHandle,p_file,"r"))) {
-    kprintf(TRUE,"File %s Line %d Chyba otevreni souboru '%s' v %s",__FILE__,__LINE__,p_file,p_dir);
+    kprintf(TRUE,"File %s Line %d Chyba otevreni souboru '%s' v %s",__FILE__,__LINE__,p_file,working_file_get(p_dir));
     return(FALSE);
   } else {
     kprintf(TRUE,"Nahravam animaci z %s...",p_file);
@@ -2260,9 +2260,9 @@ int key_sim_nahraj_extended(EDIT_KONTEJNER *p_kont, int cislo_anim, char *p_file
   float                  uhel;
   int                    i,objektu = 0,stop,ob,end,float_scale = FALSE;
 
-  chdir(p_dir);
+  chdir(working_file_get(p_dir));
   if(!(f = fopen(p_file,"r"))) {
-    ddw("File %s Line %d Chyba otevreni souboru '%s' v %s",__FILE__,__LINE__,p_file,p_dir);
+    ddw("File %s Line %d Chyba otevreni souboru '%s' v %s",__FILE__,__LINE__,p_file,working_file_get(p_dir));
     return(FALSE);
   }
 
@@ -2816,10 +2816,10 @@ int key_kamera_uloz(KAMERA_TRACK_INFO *p_track, char *p_jmeno_kamery, char *p_jm
   int   i,keynum;
   int   p,t,r,fv;
 
-  chdir(p_dir);
+  chdir(working_file_get(p_dir));
 
   if(!(f = fopen(p_file,"w"))) {
-    ddw("File %s Line %d Chyba otevreni souboru '%s' v %s",__FILE__,__LINE__,p_file,p_dir);
+    ddw("File %s Line %d Chyba otevreni souboru '%s' v %s",__FILE__,__LINE__,p_file,working_file_get(p_dir));
     return(FALSE);
   }
   
@@ -2893,9 +2893,10 @@ int key_kamera_nahraj(KAMERA_TRACK_INFO *p_track, char *p_jmeno_kamery, char *p_
   int            l,lmax;
 
 
-  chdir(p_dir);
-  if(!(f = kopen(pHandle,p_file,"r"))) {
-    kprintf(TRUE,"File %s Line %d Chyba otevreni souboru '%s' v %s",__FILE__,__LINE__,p_file,p_dir);
+  chdir(working_file_get(p_dir));
+  if(!(f = kopen(pHandle,working_file_get(p_file),"r"))) {
+    kprintf(TRUE,"File %s Line %d Chyba otevreni souboru '%s' v %s",
+            __FILE__,__LINE__,working_file_get(p_file),working_file_get(p_dir));
     return(FALSE);
   }
 
@@ -3177,9 +3178,9 @@ ANIM_TEXT * key_text_nahraj(char *p_file, char *p_dir)
   int                  p,r,s,v,fr;
   float                uhel;
 
-  chdir(p_dir);
+  chdir(working_file_get(p_dir));
   if(!(f = fopen(p_file,"r"))) {
-    ddw("File %s Line %d Chyba otevreni souboru '%s' v %s",__FILE__,__LINE__,p_file,p_dir);
+    ddw("File %s Line %d Chyba otevreni souboru '%s' v %s",__FILE__,__LINE__,p_file,working_file_get(p_dir));
     return(FALSE);
   }
 
@@ -3285,10 +3286,10 @@ int key_text_uloz(ANIM_TEXT *p_track, char *p_file, char *p_dir)
   int   keynum;
   dword time;
 
-  chdir(p_dir);
+  chdir(working_file_get(p_dir));
 
   if(!(f = fopen(p_file,"w"))) {
-    ddw("File %s Line %d Chyba otevreni souboru '%s' v %s",__FILE__,__LINE__,p_file,p_dir);
+    ddw("File %s Line %d Chyba otevreni souboru '%s' v %s",__FILE__,__LINE__,p_file,working_file_get(p_dir));
     return(FALSE);
   }
 

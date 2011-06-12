@@ -656,7 +656,7 @@ int fn2_Open_Archive(char *cFile, APAK_HANDLE **pAHandle, char *cAppName, char *
 	char text[256];
 
 	GetPrivateProfileString(cAppName,cKeyName,"c:\\",text,256,ini_file);
-	chdir(text);
+	chdir(working_file_get(text));
 
   apak_dir_correction(text);
 	(*pAHandle) = apakopen(cFile, text, &e);

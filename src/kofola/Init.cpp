@@ -27,7 +27,7 @@ int lsi_Load_Items(LEVELINFO *p_Level)
 
 	getcwd(odir, 255);
 
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	strcpy(text,"*.itm");
 	Count = 0;
@@ -61,7 +61,7 @@ int lsi_Load_Items(LEVELINFO *p_Level)
 		{
 			//MessageBox(p_Level->hWnd,"Unable to allocate memory for objects","Error",MB_OK);
 			kprintf(1,"Unable to allocate memory for objects");
-			chdir(odir);
+			chdir(working_file_get(odir));
 			return 0;
 		}
 
@@ -101,7 +101,7 @@ int lsi_Load_Items(LEVELINFO *p_Level)
 
 	afindclose(Done);
 
-	chdir(odir);
+	chdir(working_file_get(odir));
 
 	apakclose(aHandle);
 

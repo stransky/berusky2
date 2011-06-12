@@ -98,7 +98,7 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA *p_ad, char bMusic)
 	for(i=0;i<64;i++)
 		cmcs_Picture[i].iPicture = -1;
 
-	chdir(_2dd.bm_dir);
+	chdir(working_file_get(_2dd.bm_dir));
 
 	while(strcmp(text,"LOAD_END"))
 	{
@@ -167,7 +167,7 @@ void cmcs_Play_Intro(char *cFile, HWND hWnd, AUDIO_DATA *p_ad)
 	char dir[MAX_PATH];
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,MAX_PATH,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	cmcs_Start_Comics("gamelogo.txt", hWnd, p_ad, 0);
 }

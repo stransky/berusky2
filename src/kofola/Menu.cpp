@@ -976,7 +976,7 @@ void Credits(HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 	_2d_Release();
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 
 	cr_Credits(NULL, p_ad);
@@ -988,7 +988,7 @@ void Credits(HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 	//adas_OGG_Set_Priority(cpu);
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 	
 	//SetCursor(LoadCursor(NULL, IDC_ARROW));
 	spracuj_spravy(0);
@@ -2104,7 +2104,7 @@ MENU_SETTING_BRUTAL_RESTART:
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -3118,7 +3118,7 @@ BEGIN_MENU_NEWGAMESCENE_BRUTAL:
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -4360,7 +4360,7 @@ BRUTAL_RESTART_SCENE_MAP_MENU:
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	//natadhe skript menu
 	LoadMenuScript(csrriptname, res, &lastcmd);
@@ -4831,7 +4831,7 @@ int RunMenuNewGame(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -5336,7 +5336,7 @@ int FillComboProfiles(COMBO_CONTROL *p_co, int *iSel)
 
 	GetPrivateProfileString("game","profile_dir","c:\\",dir,256,ini_file);
 	GetPrivateProfileString("hra","last_profile","c:\\",cprofile,128,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	FillStringList("*.prf", &list, &isize);
 
@@ -5393,7 +5393,7 @@ int check_Save_Owner(char *cDir, WCHAR	*wFileName)
 
 	getcwd(dir, MAX_PATH);
 
-	chdir(cDir);
+	chdir(working_file_get(cDir));
 
 	ZeroMemory(&pProfile,sizeof(PLAYER_PROFILE));
 
@@ -5403,7 +5403,7 @@ int check_Save_Owner(char *cDir, WCHAR	*wFileName)
 	file = fopen(text,"rb");
 		if (!file)
 		{
-			chdir(dir);
+			chdir(working_file_get(dir));
 			return 0;
 		}
 	
@@ -5424,7 +5424,7 @@ int check_Save_Owner(char *cDir, WCHAR	*wFileName)
 
 	fclose(file);
 
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	if(wcscmp(pPlayerProfile.cName, pProfile.cName))
 		return 0;
@@ -5454,7 +5454,7 @@ int FillListLoad(LIST_VIEW_CONTROL *p_li, char *mask, char bAdd, int LoadGame)
 	int		   isize;
 
 	GetPrivateProfileString("game","save_dir","c:\\",dir,256,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	FillStringList(mask, &list, &isize);
 
@@ -5554,7 +5554,7 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -6168,7 +6168,7 @@ void RunMenuLoadGame(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -6779,7 +6779,7 @@ RUN_MENU_BRUTAL_RESTART:
 	ZeroMemory(res, RES_NUM * sizeof(CMD_LINE));
 	
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	if(!cBrutalRestart)
 	{
@@ -7333,7 +7333,7 @@ void RunMenuChildGame(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -7845,7 +7845,7 @@ void RunMenuStartGame(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -8446,7 +8446,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);

@@ -555,12 +555,12 @@ void lsi_Load_Level_Script(LEVELINFO *p_Level, char *cFile)
 	GRAMMAR	gr;
 
 	GetPrivateProfileString("game","data_dir","c:\\",text,256,ini_file);
-	chdir(text);
+	chdir(working_file_get(text));
 
 	gr_Load_Grammar("lsc_grammar.txt", &gr);
 
 	GetPrivateProfileString("game","game_data_dir","c:\\",text,256,ini_file);
-	chdir(text);
+	chdir(working_file_get(text));
 
 	ts.LastStr = 0;
 	ts.sizeofT = 0;
@@ -767,7 +767,7 @@ int lsi_Create_Level_Raw(char *p_Level_Name, BUNKA_LEVELU_DISK **b_l_d, int *siz
 	file = fopen(p_Level_Name,"rb");
 		if (!file)
 		{
-			chdir(text);
+			chdir(working_file_get(text));
 			sprintf(text,"Unable to find level %s",p_Level_Name);
 			kprintf(1,text);
 			return 0;
@@ -782,14 +782,14 @@ int lsi_Create_Level_Raw(char *p_Level_Name, BUNKA_LEVELU_DISK **b_l_d, int *siz
 	if(!(*b_l_d))
 	{
 		kprintf(1,"Nepodarilo se naalokovat pamet na raw strukturu pro komata");
-		chdir(text);
+		chdir(working_file_get(text));
 		return 0;
 	}
 
 	fread((*b_l_d),sizeof(BUNKA_LEVELU_DISK),(*size),file);
 
 	fclose(file);
-	chdir(text);
+	chdir(working_file_get(text));
 	return 1;
 }
 
@@ -1432,8 +1432,8 @@ int lsi_Get_Save_Info(char *p_Level_Name, int *pActLevel, int *pActScene)
 
 	GetPrivateProfileString("game","save_dir","c:\\",text,256,ini_file);
 
-	chdir(text);
-	chdir(p_Level_Name);
+	chdir(working_file_get(text));
+	chdir(working_file_get(p_Level_Name));
 
 	sprintf(text, "%s.lvc", p_Level_Name);
 

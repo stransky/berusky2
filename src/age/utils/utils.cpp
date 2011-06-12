@@ -168,6 +168,19 @@ char * return_path(const char *p_dir, const char *p_file, char *p_buffer, int ma
   return(p_buffer);
 }
 
+/* Create a path */
+char * return_path_ext(const char *p_file, const char *p_cwd, 
+                       char *p_buffer, int max_lenght)
+{
+  if(p_file[0] == '.') {
+    strncpy(p_buffer,p_cwd,max_lenght);
+    strncat(p_buffer,p_file+1,max_lenght-strlen(p_buffer)-1);
+  } else {
+    strncpy(p_buffer,p_file,max_lenght-1);
+  }
+  return(p_buffer);
+}
+
 /* get a dir */
 char * return_dir(const char *p_file, char *p_buffer, int max_lenght)
 {

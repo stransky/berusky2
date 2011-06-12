@@ -105,7 +105,7 @@ char *_ui64towc(__int64 i64, char *cText)
 	FILE	*file;
 	char	buffer[256], buffer1[256];
 
-	chdir(cText);
+	chdir(working_file_get(cText));
 
 	ZeroMemory(buffer, 256);
 	ZeroMemory(ui64ID, 5 * sizeof(__int64));
@@ -189,14 +189,14 @@ void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
 	getcwd(odir, MAX_PATH);
 
 	GetPrivateProfileString("game","bitmap_dir","c:\\",dir,MAX_PATH,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
   apak_dir_correction(dir);
 	hArchive = apakopen(cFontFile[2], dir, &error);
 
 	if(!hArchive)
 	{
-		chdir(odir);
+		chdir(working_file_get(odir));
 		return;
 	}
 	else
@@ -207,7 +207,7 @@ void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
 	if(!file)
 	{
 		apakclose(hArchive);
-		chdir(odir);
+		chdir(working_file_get(odir));
 	}
 
 	agetbuffer(file, (char **) &buffer, &ulsize);
@@ -224,5 +224,5 @@ void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
 
 	aclose(file);
 	apakclose(hArchive);
-	chdir(odir);
+	chdir(working_file_get(odir));
 }

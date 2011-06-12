@@ -210,6 +210,8 @@ int main(int argc, char **argv)
 
   quat_test();
 
+  working_dir_init();
+
   getcwd(ini_file,500);
   strcat(ini_file,"//berusky3d.ini");
   if(!efile(ini_file)) {

@@ -216,7 +216,7 @@ int _3d_Load_List(char *p_File_Name)
 	FILE	*file = 0;
 	int		c = 0;
 
-	chdir(_3dd.bm_dir);
+	chdir(working_file_get(_3dd.bm_dir));
 
   apak_dir_correction(_3dd.bm_dir);
 	achdir(p3DMArchive, _3dd.bm_dir);

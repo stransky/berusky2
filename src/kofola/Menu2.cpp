@@ -1247,7 +1247,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -1865,7 +1865,7 @@ int FillListLoad2(LIST_VIEW_CONTROL2 *p_li, char *mask, char bAdd, char bLoad)
 	int		   isize;
 
 	GetPrivateProfileString("game","save_dir","c:\\",dir,256,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	FillStringList(mask, &list, &isize);
 
@@ -2030,7 +2030,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -2917,7 +2917,7 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, ANIMA
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -3522,7 +3522,7 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level,
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -3935,7 +3935,7 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(dir);
+	chdir(working_file_get(dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);

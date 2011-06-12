@@ -661,12 +661,12 @@ void kom_load_level(char *p_file, int zmen_dir, int restart, BUNKA_LEVELU_DISK *
    kom_load_sys_material(i);
  
  if(zmen_dir) {
-   chdir(p_ber->dir.game_level_dir);
+   chdir(working_file_get(p_ber->dir.game_level_dir));
    strcpy(dir,p_file);
    zamen_koncovku(dir,"");   
  } 
 
- chdir(dir);
+ chdir(working_file_get(dir));
  getcwd(dir,200);
  strcpy(file,p_file);
  

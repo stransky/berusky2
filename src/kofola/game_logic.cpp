@@ -10277,8 +10277,8 @@ void gl_Change_Dir_To_Level(char *p_Level_Name)
 
 	GetPrivateProfileString("game","save_dir","c:\\",ctext,MAX_PATH,ini_file);
 
-	chdir(ctext);
-	chdir(p_Level_Name);
+	chdir(working_file_get(ctext));
+	chdir(working_file_get(p_Level_Name));
 }
 
 //------------------------------------------------------------------------------------------------
@@ -10513,9 +10513,9 @@ PLAY_LEVEL_START:
 		char	ctext[MAX_PATH];
 		
 		GetPrivateProfileString("game","game_level_dir","c:\\",ctext,256,ini_file);
-		chdir(ctext);
+		chdir(working_file_get(ctext));
 		lsi_Get_Dir_Name(ctext, cLevelName);
-		chdir(ctext);
+		chdir(working_file_get(ctext));
 		
 		kprintf(1, "lsi_Create_Level_Raw...");
 		if(!lsi_Create_Level_Raw(cLevelName, &b_l_d, &isize))
@@ -10525,9 +10525,9 @@ PLAY_LEVEL_START:
 		kprintf(1, "kom_load_level...");
 		kom_load_level(cLevelName, 1, bRestart, b_l_d, isize);
 		GetPrivateProfileString("game","game_level_dir","c:\\",ctext,256,ini_file);
-		chdir(ctext);
+		chdir(working_file_get(ctext));
 		lsi_Get_Dir_Name(ctext, cLevelName);
-		chdir(ctext);
+		chdir(working_file_get(ctext));
 		
 		kprintf(1, "free((void *) b_l_d);");
 		free((void *) b_l_d);

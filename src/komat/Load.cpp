@@ -2242,8 +2242,8 @@ int lo_reload_textur_formaty(APAK_HANDLE *pHandle, EDIT_TEXT *p_text, int max, i
 
 int lo_reload_textur_dir(EDIT_TEXT *p_text, int max, char *p_dir, int save)
 {
-  if(chdir(p_dir)) {
-    kprintf(TRUE,"Chyba dir %s...",p_dir);
+  if(chdir(working_file_get(p_dir))) {
+    kprintf(TRUE,"Chyba dir %s...",working_file_get(p_dir));
     return(FALSE);
   }
   lo_reload_textur_formaty(NULL, p_text, max, save);
@@ -2253,9 +2253,9 @@ int lo_reload_textur_dir(EDIT_TEXT *p_text, int max, char *p_dir, int save)
 int lo_reload_textur_file(EDIT_TEXT *p_text, int max, char *p_file, int save)
 {
   APAK_HANDLE *pHandle;
-  int err;
-      
-	pHandle = apakopen(p_file,".", &err);
+  int err;  
+
+	pHandle = apakopen(working_file_get(p_file),".", &err);
   if(!pHandle) {
     kprintf(TRUE,"Chyba otevreni pak file %s...",p_file);
     return(FALSE);
@@ -2504,7 +2504,7 @@ void lo_vyrob_animaci_list(EDIT_MATERIAL *p_mat, char *p_list, EDIT_TEXT *p_text
  int   first_text = 1,
        i,t,akt,pos,alfa,a;
 
- chdir(p_dir);
+ chdir(working_file_get(p_dir));
 
  if((f = fopen(p_list,"r")) == NULL) {
    ddw("Nemuzu otevrit soubor %s",p_list);
@@ -3208,7 +3208,7 @@ int lo_uloz_materialy(EDIT_MATERIAL **p_mat, int max_mat, char *p_file, char *p_
  strcpy(file,p_file);
  zamen_koncovku(file,KONCOVKA_MATERIAL);
  
- chdir(p_dir);
+ chdir(working_file_get(p_dir));
  if((f = ffopen(file,"wb")) == NULL) {
    return(FALSE);
  } 
@@ -3230,7 +3230,7 @@ int lo_uloz_material(EDIT_MATERIAL *p_mat, char *p_file, char *p_dir)
  strcpy(file,p_file);
  zamen_koncovku(file,KONCOVKA_MATERIAL);
  
- chdir(p_dir);
+ chdir(working_file_get(p_dir));
  if((f = ffopen(file,"wb")) == NULL) {
    return(FALSE);
  } 
@@ -3253,7 +3253,7 @@ int lo_uloz_materialy_pouzite(EDIT_MATERIAL **p_mat, int max_mat, char *p_file, 
   strcpy(file,p_file);
   zamen_koncovku(file,KONCOVKA_MATERIAL);
   
-  chdir(p_dir);
+  chdir(working_file_get(p_dir));
   if((f = ffopen(file,"wb")) == NULL) {
     return(FALSE);
   } 

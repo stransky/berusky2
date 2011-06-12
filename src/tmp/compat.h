@@ -355,3 +355,7 @@ typedef SDL_TimerID TIMER_ID;
 typedef void (*TIMERPROC)(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime);
 TIMER_ID SetTimer(HWND hWnd, TIMER_ID nIDEvent, UINT uElapse, TIMERPROC lpTimerFunc);
 UINT KillTimer(HWND hWnd, TIMER_ID uIDEvent);
+
+void working_dir_init(void);
+char * working_file_get(const char *p_file);
+char * working_file_get(const char *p_file, char *p_target, int size);

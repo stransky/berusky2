@@ -182,11 +182,11 @@ char trig_Load_Trigers(char *pLevel, char *pFile, TRIGER_STRUCTURE *pTStruct, GR
 
 	GetPrivateProfileString("game","game_level_dir","c:\\",text,256,ini_file);
 
-	chdir(text);
+	chdir(working_file_get(text));
 	text[0] = '\0';
 	strncpy(text,pLevel,strlen(pLevel)-4);
 	text[strlen(pLevel)-4] = '\0';
-	chdir(text);
+	chdir(working_file_get(text));
 
 	file = fopen(pFile, "r");
 
@@ -198,7 +198,7 @@ char trig_Load_Trigers(char *pLevel, char *pFile, TRIGER_STRUCTURE *pTStruct, GR
 	}
 
 	GetPrivateProfileString("game","data_dir","c:\\",text,256,ini_file);
-	chdir(text);
+	chdir(working_file_get(text));
 
 	fgets(text,256, file);
 	pTStruct->sizeofT = atoi(text);

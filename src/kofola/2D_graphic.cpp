@@ -531,7 +531,7 @@ int _2d_Load_List(char *p_File_Name)
 	char	text[256];
 	FILE	*file = 0;
 
-	chdir(_2dd.bm_dir);
+	chdir(working_file_get(_2dd.bm_dir));
 
 	file = fopen(p_File_Name,"r");
 
@@ -713,7 +713,7 @@ void _2d_Draw_Load_Screen(void)
 	
 	_2d_Init();
 	_2d_Blackness();
-	chdir(_2dd.bm_dir);
+	chdir(working_file_get(_2dd.bm_dir));
 	achdir(pBmpArchive, _2dd.bm_dir);
 
 	if(iActualScene < 13)
