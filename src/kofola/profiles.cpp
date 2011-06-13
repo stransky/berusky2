@@ -79,7 +79,8 @@ int pr_CreateProfile(WCHAR *cPlayerName)
 	ZeroMemory(&Profile, sizeof(PLAYER_PROFILE));
 
 	GetPrivateProfileString("game","profile_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 
 	pr_FindFreeFileName(cFile);
 
@@ -149,7 +150,8 @@ int pr_ReadProfile(char *cFileName, PLAYER_PROFILE *pProfile)
 	ZeroMemory(pProfile, sizeof(PLAYER_PROFILE));
 
 	GetPrivateProfileString("game","profile_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 
 	strcpy(dir, cFileName);
 
@@ -248,7 +250,8 @@ int pr_SaveProfile(PLAYER_PROFILE *pProfile)
 	ZeroMemory(cFile, 256 * sizeof(char));
 
 	GetPrivateProfileString("game","profile_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+  chdir((dir));
 
 	if(!pr_FindFileToProfile(pProfile->cName, cFile))
 		return 0;

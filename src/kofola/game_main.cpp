@@ -133,6 +133,7 @@ int	winmain_Game_Run(char *p_Level_Name)
 	srand( (unsigned) time( NULL ) );
 
 	GetPrivateProfileString("game","bitmap_pak","c:\\",dir,256,ini_file);
+  working_file_translate(dir,256);
 
 	GetPrivateProfileString("game","font_pak1","c:\\",cFontFile[0],64,ini_file);
 	kprintf(1, "font_pak1 = %s", cFontFile[0]);
@@ -196,6 +197,7 @@ int	winmain_Game_Run(char *p_Level_Name)
 #endif
 */
 	GetPrivateProfileString("game","3dmenu_pak","c:\\",dir,256,ini_file);
+  working_file_translate(dir,256);
 
 	if(!gi_Open_Archive(dir, &p3DMArchive,"game","bitmap_dir"))
 	{
@@ -206,6 +208,7 @@ int	winmain_Game_Run(char *p_Level_Name)
 	}
 
 	GetPrivateProfileString("game","data_pak","c:\\",dir,256,ini_file);
+  working_file_translate(dir,256);
 
 	if(!gi_Open_Archive(dir, &pDataArchive,"game","data_dir"))
 	{

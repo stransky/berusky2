@@ -204,18 +204,27 @@ void ber_konfiguruj_berusky(G_KONFIG *p_ber)
  for(i = 0; i < SIN_TABLE_SIZE; i++)
    p_ber->sinus_table[i] = sinf(DEG2RAD(i));
 
- GetPrivateProfileString("game","prvky_dir",".",p_ber->dir.prvky_dir,99,ini_file);
- GetPrivateProfileString("game","level_dir",".",p_ber->dir.level_dir,99,ini_file);
- GetPrivateProfileString("game","out_dir",".",p_ber->dir.out_dir,99,ini_file); 
- GetPrivateProfileString("game","material_dir",".",p_ber->dir.material_dir,99,ini_file);
- GetPrivateProfileString("game","data_dir",".",p_ber->dir.data_dir,99,ini_file);
- GetPrivateProfileString("game","game_level_dir",".",p_ber->dir.game_level_dir,99,ini_file);
- GetPrivateProfileString("game","game_data_dir",".",p_ber->dir.game_data_dir,99,ini_file);
- GetPrivateProfileString("game","texture_dir",".",p_ber->tdir.texture_dir[0],99,ini_file);
+ GetPrivateProfileString("game","prvky_dir",".",p_ber->dir.prvky_dir,MAX_PATH,ini_file);
+ working_file_translate(p_ber->dir.prvky_dir,MAX_PATH); 
+ GetPrivateProfileString("game","level_dir",".",p_ber->dir.level_dir,MAX_PATH,ini_file);
+ working_file_translate(p_ber->dir.level_dir,MAX_PATH); 
+ GetPrivateProfileString("game","out_dir",".",p_ber->dir.out_dir,MAX_PATH,ini_file); 
+ working_file_translate(p_ber->dir.out_dir,MAX_PATH); 
+ GetPrivateProfileString("game","material_dir",".",p_ber->dir.material_dir,MAX_PATH,ini_file);
+ working_file_translate(p_ber->dir.material_dir,MAX_PATH); 
+ GetPrivateProfileString("game","data_dir",".",p_ber->dir.data_dir,MAX_PATH,ini_file);
+ working_file_translate(p_ber->dir.data_dir,MAX_PATH);
+ GetPrivateProfileString("game","game_level_dir",".",p_ber->dir.game_level_dir,MAX_PATH,ini_file);
+ working_file_translate(p_ber->dir.game_level_dir,MAX_PATH);
+ GetPrivateProfileString("game","game_data_dir",".",p_ber->dir.game_data_dir,MAX_PATH,ini_file);
+ working_file_translate(p_ber->dir.game_data_dir,MAX_PATH);
+ GetPrivateProfileString("game","texture_dir",".",p_ber->tdir.texture_dir[0],MAX_PATH,ini_file);
+ working_file_translate(p_ber->tdir.texture_dir[0],MAX_PATH);
  
  for(i = 0; i < TEXT_DIRS; i++) {
    sprintf(pom,"texture_dir%d",i);
-   GetPrivateProfileString("game",pom,"",p_ber->tdir.texture_dir[i],99,ini_file);
+   GetPrivateProfileString("game",pom,"",p_ber->tdir.texture_dir[i],MAX_PATH,ini_file);
+   working_file_translate(p_ber->tdir.texture_dir[i],MAX_PATH);
    if(p_ber->tdir.texture_dir[i][0] == '.' && !p_ber->tdir.texture_dir[i][1])
      p_ber->tdir.texture_dir[i][0] = 0;
    sprintf(pom,"texture_dir%d_class",i);
@@ -224,7 +233,8 @@ void ber_konfiguruj_berusky(G_KONFIG *p_ber)
 
  for(i = 0; i < TEXT_DIRS; i++) {
    sprintf(pom,"texture_file%d",i);
-   GetPrivateProfileString("game",pom,"",p_ber->tdir.texture_file[i],99,ini_file);
+   GetPrivateProfileString("game",pom,"",p_ber->tdir.texture_file[i],MAX_PATH,ini_file);
+   working_file_translate(p_ber->tdir.texture_file[i],MAX_PATH);
    if(p_ber->tdir.texture_file[i][0] == '.' && !p_ber->tdir.texture_file[i][1])
      p_ber->tdir.texture_file[i][0] = 0;
    sprintf(pom,"texture_file%d_class",i);

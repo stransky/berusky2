@@ -56,6 +56,7 @@ int _3d_Init(void)
 	}
 
 	GetPrivateProfileString("game","bitmap_dir","c:\\",_3dd.bm_dir,256,ini_file);
+  working_file_translate(_3dd.bm_dir,256);
 	_3dd.bMenuVRAMLoad = GetPrivateProfileInt("hra","menu_vram_load",0,ini_file);
 
 	return 1;
@@ -216,7 +217,7 @@ int _3d_Load_List(char *p_File_Name)
 	FILE	*file = 0;
 	int		c = 0;
 
-	chdir(working_file_get(_3dd.bm_dir));
+	chdir((_3dd.bm_dir));
 
   apak_dir_correction(_3dd.bm_dir);
 	achdir(p3DMArchive, _3dd.bm_dir);

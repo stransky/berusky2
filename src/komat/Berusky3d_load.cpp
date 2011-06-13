@@ -300,7 +300,7 @@ int ber_nahraj_materialy(G_KONFIG *p_ber, char *p_jmeno, char *p_dir)
   strcpy(pom,p_jmeno);
   zamen_koncovku(pom,KONCOVKA_MATERIAL);
 
-  chdir(working_file_get(p_dir));
+  chdir((p_dir));
   if(!lo_nahraj_materialy(p_ber->p_mat,MAX_CELKEM_MATERIALU,p_ber->p_text,MAX_CELKEM_TEXTUR,pom)) {
     kprintf(1,"Unable to load materials %s",p_jmeno);
     return(FALSE);
@@ -346,7 +346,7 @@ void ber_materialy_rozkopiruj(G_KONFIG *p_ber, GAME_MESH_OLD *p_mesh, int restar
 */
 int ber_nahraj_mesh(G_KONFIG *p_ber, char *p_jmeno, GAME_MESH_OLD **p_mesh)
 {
- chdir(working_file_get(p_ber->dir.out_dir));
+ chdir((p_ber->dir.out_dir));
  p_mesh[0] = lo_nahraj_mesh(p_ber->p_mat, MAX_CELKEM_MATERIALU, p_ber->p_text, MAX_CELKEM_TEXTUR, p_jmeno, TRUE, p_ber->conf_extra_light_vertex);
  return((int)p_mesh[0]);
 }
@@ -591,7 +591,7 @@ int ber_nahraj_scenu(G_KONFIG *p_ber, char *p_jmeno, char *p_dir, int reload, BU
   strcpy(file,p_jmeno);
   zamen_koncovku(file,KONCOVKA_SCENY);
   
-  chdir(working_file_get(p_dir));
+  chdir((p_dir));
   
   kprintf(1,"           - Load project....");
   if(lo_nahraj_projekt(p_ber->p_mat,MAX_CELKEM_MATERIALU,
@@ -707,7 +707,7 @@ void ber_nahraj_poly(G_KONFIG *p_ber, char *p_jmeno, char *p_dir)
   char file[200];
   int  i;
 
-  chdir(working_file_get(p_dir));
+  chdir((p_dir));
   strcpy(file,p_jmeno);
   zamen_koncovku(file,".ply");
 
@@ -757,7 +757,7 @@ void ber_nahraj_lightmap(G_KONFIG *p_ber, char *p_jmeno, char *p_dir)
   KFILE *f;
   int i,r;
 
-  chdir(working_file_get(p_dir));
+  chdir((p_dir));
   strcpy(pom,p_jmeno);
   zamen_koncovku(pom,KONCOVKA_LIGHTMAPY);
   

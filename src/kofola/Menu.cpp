@@ -976,7 +976,8 @@ void Credits(HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 	_2d_Release();
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 
 
 	cr_Credits(NULL, p_ad);
@@ -988,7 +989,8 @@ void Credits(HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 	//adas_OGG_Set_Priority(cpu);
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 	
 	//SetCursor(LoadCursor(NULL, IDC_ARROW));
 	spracuj_spravy(0);
@@ -2104,7 +2106,8 @@ MENU_SETTING_BRUTAL_RESTART:
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -2769,6 +2772,7 @@ void RunStretchAnimation(char *cScene, int x, int y, AUDIO_DATA *p_ad)
 	if(iLanguageVersion == 4)
 	{
 		GetPrivateProfileString("game","bitmap_dir","c:\\",cDir,MAX_PATH,ini_file);
+    working_file_translate(cDir,MAX_PATH);
 		sprintf(cFile, "%s\\scene%d.pak", cDir, iActualScene);
     apak_dir_correction(cDir);
 		hArchive = apakopen(cFile, cDir, &idx);
@@ -3118,7 +3122,8 @@ BEGIN_MENU_NEWGAMESCENE_BRUTAL:
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -3662,6 +3667,7 @@ void LoadSceneMap(int *pBmp, char *cSceneBmp, char *cSceneAnim, int iScene, int 
 	if(iLanguageVersion == 4)
 	{
 		GetPrivateProfileString("game","bitmap_dir","c:\\",cDir,MAX_PATH,ini_file);
+    working_file_translate(cDir,MAX_PATH);
 		sprintf(cFile, "%s\\scene%d.pak", cDir, iScene);
     apak_dir_correction(cDir);
 		hArchive = apakopen(cFile, cDir, &i);
@@ -4360,7 +4366,8 @@ BRUTAL_RESTART_SCENE_MAP_MENU:
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 
 	//natadhe skript menu
 	LoadMenuScript(csrriptname, res, &lastcmd);
@@ -4831,7 +4838,8 @@ int RunMenuNewGame(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -5335,8 +5343,10 @@ int FillComboProfiles(COMBO_CONTROL *p_co, int *iSel)
 	int	isize;
 
 	GetPrivateProfileString("game","profile_dir","c:\\",dir,256,ini_file);
+  working_file_translate(dir,256);
+
 	GetPrivateProfileString("hra","last_profile","c:\\",cprofile,128,ini_file);
-	chdir(working_file_get(dir));
+	chdir((dir));
 
 	FillStringList("*.prf", &list, &isize);
 
@@ -5393,7 +5403,7 @@ int check_Save_Owner(char *cDir, WCHAR	*wFileName)
 
 	getcwd(dir, MAX_PATH);
 
-	chdir(working_file_get(cDir));
+	chdir((cDir));
 
 	ZeroMemory(&pProfile,sizeof(PLAYER_PROFILE));
 
@@ -5403,7 +5413,7 @@ int check_Save_Owner(char *cDir, WCHAR	*wFileName)
 	file = fopen(text,"rb");
 		if (!file)
 		{
-			chdir(working_file_get(dir));
+			chdir((dir));
 			return 0;
 		}
 	
@@ -5424,7 +5434,7 @@ int check_Save_Owner(char *cDir, WCHAR	*wFileName)
 
 	fclose(file);
 
-	chdir(working_file_get(dir));
+	chdir((dir));
 
 	if(wcscmp(pPlayerProfile.cName, pProfile.cName))
 		return 0;
@@ -5454,7 +5464,8 @@ int FillListLoad(LIST_VIEW_CONTROL *p_li, char *mask, char bAdd, int LoadGame)
 	int		   isize;
 
 	GetPrivateProfileString("game","save_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 
 	FillStringList(mask, &list, &isize);
 
@@ -5554,7 +5565,8 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -6168,7 +6180,8 @@ void RunMenuLoadGame(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -6779,7 +6792,8 @@ RUN_MENU_BRUTAL_RESTART:
 	ZeroMemory(res, RES_NUM * sizeof(CMD_LINE));
 	
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 
 	if(!cBrutalRestart)
 	{
@@ -7333,7 +7347,8 @@ void RunMenuChildGame(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -7845,7 +7860,8 @@ void RunMenuStartGame(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -8446,7 +8462,8 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -8868,6 +8885,7 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 	if(iLanguageVersion == 4)
 	{
 		GetPrivateProfileString("game","bitmap_dir","c:\\",cDir,MAX_PATH,ini_file);
+    working_file_translate(cDir,MAX_PATH);
 		//sprintf(cFile, "%s\\scene%d.pak", cDir, iScene); - DIR?
     sprintf(cFile, "%s/scene%d.pak", cDir, iScene);
     apak_dir_correction(cDir);

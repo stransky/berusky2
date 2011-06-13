@@ -59,7 +59,8 @@ int _2d_Init(void)
 		_2dd.bitmap[i].bLoad = 0;
 	}
 
-	//GetPrivateProfileString("game","bitmap_dir","c:\\",_2dd.bm_dir,256,ini_file);
+	GetPrivateProfileString("game","bitmap_dir","c:\\",_2dd.bm_dir,256,ini_file);
+  working_file_translate(_2dd.bm_dir,256);
 	return 1;
 }
 
@@ -531,7 +532,7 @@ int _2d_Load_List(char *p_File_Name)
 	char	text[256];
 	FILE	*file = 0;
 
-	chdir(working_file_get(_2dd.bm_dir));
+	chdir((_2dd.bm_dir));
 
 	file = fopen(p_File_Name,"r");
 
@@ -713,7 +714,7 @@ void _2d_Draw_Load_Screen(void)
 	
 	_2d_Init();
 	_2d_Blackness();
-	chdir(working_file_get(_2dd.bm_dir));
+	chdir((_2dd.bm_dir));
 	achdir(pBmpArchive, _2dd.bm_dir);
 
 	if(iActualScene < 13)

@@ -383,22 +383,29 @@ UINT KillTimer(HWND hWnd, TIMER_ID uIDEvent)
   return(SDL_RemoveTimer(uIDEvent));
 }
 
-char current_working_dir[MAX_PATH];
-char current_working_dir_file[MAX_PATH];
+char current_working_dir[PATH_MAX];
+char current_working_dir_file[PATH_MAX];
 
 void working_dir_init(void)
 {
-  getcwd(current_working_dir,MAX_PATH);
+  getcwd(current_working_dir,PATH_MAX);
 }
 
 char * working_file_get(const char *p_file)
 {
   return(return_path_ext(p_file, current_working_dir,
-                         current_working_dir_file, MAX_PATH));
+                         current_working_dir_file, PATH_MAX));
 }
 
 char * working_file_get(const char *p_file, char *p_target, int size)
 {
   return(return_path_ext(p_file, current_working_dir,
                          p_target, size));
+}
+
+void working_file_translate(char *p_file, int size)
+{
+  return_path_ext(p_file, current_working_dir, current_working_dir_file, PATH_MAX);
+  assert(size <= PATH_MAX);
+  strcpy(p_file, current_working_dir_file);
 }

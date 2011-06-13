@@ -2632,14 +2632,15 @@ void co_delete(char *cfile)
 	_getcwd(olddir, MAX_PATH);
 
 	GetPrivateProfileString("game","save_dir","c:\\",dir,MAX_PATH,ini_file);
+  working_file_translate(dir,256);
 
-	chdir(working_file_get(dir));
+	chdir((dir));
 
 	if(c)	// ma to tecku v filu, tak je to demo, jinak je to save (dir)
 		remove(cfile);
 	else
 	{
-		chdir(working_file_get(cfile));
+		chdir((cfile));
 
 		Done = _findfirst("*.*",&Data);
 		error = Done;
@@ -2655,11 +2656,11 @@ void co_delete(char *cfile)
 
 		_findclose(Done);
 
-		chdir(working_file_get(dir));
+		chdir((dir));
 		rmdir(cfile);
 	}
 
-	chdir(working_file_get(olddir));
+	chdir((olddir));
 */
 }
 

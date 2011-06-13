@@ -10276,9 +10276,10 @@ void gl_Change_Dir_To_Level(char *p_Level_Name)
 	char	ctext[MAX_PATH + 1];
 
 	GetPrivateProfileString("game","save_dir","c:\\",ctext,MAX_PATH,ini_file);
+  working_file_translate(ctext,MAX_PATH);
 
-	chdir(working_file_get(ctext));
-	chdir(working_file_get(p_Level_Name));
+	chdir((ctext));
+	chdir((p_Level_Name));
 }
 
 //------------------------------------------------------------------------------------------------
@@ -10449,7 +10450,8 @@ PLAY_LEVEL_START:
 		Level.bPohled_Berusky = 0;
 
 		GetPrivateProfileString("game","save_dir","c:\\",Demo_File,255,ini_file);
-
+    working_file_translate(Demo_File,255);
+  
 		//strcat(Demo_File,"\\"); - DIR?
 		strcat(Demo_File,"/");
 		strcat(Demo_File, cDemoName);
@@ -10513,9 +10515,10 @@ PLAY_LEVEL_START:
 		char	ctext[MAX_PATH];
 		
 		GetPrivateProfileString("game","game_level_dir","c:\\",ctext,256,ini_file);
-		chdir(working_file_get(ctext));
+    working_file_translate(ctext,256);
+		chdir(ctext);
 		lsi_Get_Dir_Name(ctext, cLevelName);
-		chdir(working_file_get(ctext));
+		chdir(ctext);
 		
 		kprintf(1, "lsi_Create_Level_Raw...");
 		if(!lsi_Create_Level_Raw(cLevelName, &b_l_d, &isize))
@@ -10525,9 +10528,10 @@ PLAY_LEVEL_START:
 		kprintf(1, "kom_load_level...");
 		kom_load_level(cLevelName, 1, bRestart, b_l_d, isize);
 		GetPrivateProfileString("game","game_level_dir","c:\\",ctext,256,ini_file);
-		chdir(working_file_get(ctext));
+    working_file_translate(ctext,256);
+		chdir(ctext);
 		lsi_Get_Dir_Name(ctext, cLevelName);
-		chdir(working_file_get(ctext));
+		chdir(ctext);
 		
 		kprintf(1, "free((void *) b_l_d);");
 		free((void *) b_l_d);
@@ -10811,6 +10815,7 @@ PLAY_LEVEL_START:
     icamanimrestart = 0;
     
 		GetPrivateProfileString("game","game_data_dir","c:\\",file,255,ini_file);
+    working_file_translate(file,255);
 		pEnv = kom_get_level_environment();
 		if(pEnv)
 		{

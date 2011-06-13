@@ -3,7 +3,6 @@
 #include <unistd.h>
 #include "Apak.h"
 
-extern char * working_file_get(const char *p_file);
 extern void apakError(APAK_HANDLE *pHandle, char *cError);
 extern int  apakReadError(int iError, APAK_HANDLE	*pHandle);
 
@@ -88,7 +87,7 @@ int achdir(APAK_HANDLE *pHandle, const char *dirname)
 	APAKNODE *pNode;
 
 	if(!pHandle)
-		return chdir(working_file_get(dirname));
+		return chdir((dirname));
 
 	pNode = pHandle->pActualNode;
 

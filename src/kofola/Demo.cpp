@@ -26,13 +26,13 @@ void demo_Set_Scene_Level(char *cDemo, int *pScene, int *pLevel)
 	getcwd(odir, MAX_PATH);
 	
 	GetPrivateProfileString("game","save_dir","c:\\",dir,MAX_PATH,ini_file);
-	chdir(working_file_get(dir));
+	chdir((dir));
 
 	file = fopen(cDemo, "rb");
 
 	if(!file)
 	{
-		chdir(working_file_get(odir));
+		chdir((odir));
 		return;
 	}
 
@@ -42,7 +42,7 @@ void demo_Set_Scene_Level(char *cDemo, int *pScene, int *pLevel)
 	(*pScene) = FileHeader.iScene;
 	(*pLevel) = FileHeader.iLevel;
 
-	chdir(working_file_get(odir));
+	chdir((odir));
 }
 
 int demo_Check_Owner(WCHAR	*wPlayer, char *cDemo, WCHAR *wDemoName)
@@ -275,7 +275,8 @@ int demo_SaveWC(DEMOSTRUCTURE *p_Demo, WCHAR *wcName, char Ovladani, char *cLeve
 	sprintf(cFile, "demo_[%s]_[%s].dem", pom, pom2);
 
 	GetPrivateProfileString("game","save_dir","c:\\",cText,255,ini_file);
-	chdir(working_file_get(cText));
+  working_file_translate(cText,255);
+	chdir((cText));
 
 	//strcat(cText, "\\");
 	//strcat(cText, cFile);

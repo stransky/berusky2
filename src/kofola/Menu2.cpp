@@ -1247,7 +1247,8 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -1865,7 +1866,8 @@ int FillListLoad2(LIST_VIEW_CONTROL2 *p_li, char *mask, char bAdd, char bLoad)
 	int		   isize;
 
 	GetPrivateProfileString("game","save_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 
 	FillStringList(mask, &list, &isize);
 
@@ -2030,7 +2032,8 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -2917,7 +2920,8 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, ANIMA
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -3522,7 +3526,8 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level,
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -3935,7 +3940,8 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 	timercnt = 0;
 
 	GetPrivateProfileString("game","data_dir","c:\\",dir,256,ini_file);
-	chdir(working_file_get(dir));
+  working_file_translate(dir,256);
+	chdir((dir));
 
 	//natadhe skript menu
 	LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -4308,6 +4314,7 @@ void RunMenuLoadScreen2(void)
 		if(iLanguageVersion == 4)
 		{
 			GetPrivateProfileString("game","bitmap_dir","c:\\",cDir,MAX_PATH,ini_file);
+      working_file_translate(cDir,MAX_PATH);
 			//sprintf(cFile, "%s\\scene%d.pak", cDir, iActualScene); - DIR?
       sprintf(cFile, "%s/scene%d.pak", cDir, iActualScene);
       apak_dir_correction(cDir);

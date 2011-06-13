@@ -57,7 +57,8 @@ char gr_Load_Grammar(char *pFile, GRAMMAR *pGr)
 	char	text[256];
 	
 	GetPrivateProfileString("game","data_dir","c:\\",text,256,ini_file);
-	chdir(working_file_get(text));
+  working_file_translate(text,256);
+	chdir((text));
 	
 	file = aopen(pDataArchive, pFile, "r");
 

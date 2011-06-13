@@ -70,7 +70,8 @@ inline void ZeroMemory(void *mem, int size)
   memset(mem,0,size);
 }
 
-#define MAX_PATH 256
+// default filename size
+#define MAX_PATH 255
 
 typedef struct _MOUSE_INFO {
         
@@ -357,5 +358,6 @@ TIMER_ID SetTimer(HWND hWnd, TIMER_ID nIDEvent, UINT uElapse, TIMERPROC lpTimerF
 UINT KillTimer(HWND hWnd, TIMER_ID uIDEvent);
 
 void working_dir_init(void);
+void working_file_translate(char *p_file, int size);
 char * working_file_get(const char *p_file);
 char * working_file_get(const char *p_file, char *p_target, int size);

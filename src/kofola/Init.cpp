@@ -24,10 +24,11 @@ int lsi_Load_Items(LEVELINFO *p_Level)
 	APAK_HANDLE	*aHandle;
 
 	GetPrivateProfileString("game","prvky_dir","c:\\",dir,256,ini_file);
+  working_file_translate(dir,256);
 
 	getcwd(odir, 255);
 
-	chdir(working_file_get(dir));
+	chdir((dir));
 
 	strcpy(text,"*.itm");
 	Count = 0;
@@ -61,7 +62,7 @@ int lsi_Load_Items(LEVELINFO *p_Level)
 		{
 			//MessageBox(p_Level->hWnd,"Unable to allocate memory for objects","Error",MB_OK);
 			kprintf(1,"Unable to allocate memory for objects");
-			chdir(working_file_get(odir));
+			chdir((odir));
 			return 0;
 		}
 
@@ -101,7 +102,7 @@ int lsi_Load_Items(LEVELINFO *p_Level)
 
 	afindclose(Done);
 
-	chdir(working_file_get(odir));
+	chdir((odir));
 
 	apakclose(aHandle);
 

@@ -555,12 +555,14 @@ void lsi_Load_Level_Script(LEVELINFO *p_Level, char *cFile)
 	GRAMMAR	gr;
 
 	GetPrivateProfileString("game","data_dir","c:\\",text,256,ini_file);
-	chdir(working_file_get(text));
+  working_file_translate(text,256);
+	chdir((text));
 
 	gr_Load_Grammar("lsc_grammar.txt", &gr);
 
 	GetPrivateProfileString("game","game_data_dir","c:\\",text,256,ini_file);
-	chdir(working_file_get(text));
+  working_file_translate(text,256);
+	chdir((text));
 
 	ts.LastStr = 0;
 	ts.sizeofT = 0;
@@ -767,7 +769,7 @@ int lsi_Create_Level_Raw(char *p_Level_Name, BUNKA_LEVELU_DISK **b_l_d, int *siz
 	file = fopen(p_Level_Name,"rb");
 		if (!file)
 		{
-			chdir(working_file_get(text));
+			chdir((text));
 			sprintf(text,"Unable to find level %s",p_Level_Name);
 			kprintf(1,text);
 			return 0;
@@ -782,14 +784,14 @@ int lsi_Create_Level_Raw(char *p_Level_Name, BUNKA_LEVELU_DISK **b_l_d, int *siz
 	if(!(*b_l_d))
 	{
 		kprintf(1,"Nepodarilo se naalokovat pamet na raw strukturu pro komata");
-		chdir(working_file_get(text));
+		chdir((text));
 		return 0;
 	}
 
 	fread((*b_l_d),sizeof(BUNKA_LEVELU_DISK),(*size),file);
 
 	fclose(file);
-	chdir(working_file_get(text));
+	chdir((text));
 	return 1;
 }
 
@@ -1378,6 +1380,7 @@ void lsi_copy_save(char *cMask, LEVELINFO *p_Level)
 	char cout[MAX_PATH+1];
 
 	GetPrivateProfileString("game","game_level_dir","c:\\",dir,MAX_PATH,ini_file);
+  working_file_translate(dir,MAX_PATH);
 	lsi_Get_Dir_Name(cLevelMask, p_Level->cLoadedFrom);
 /* DIR?
 	sprintf(cout,"%s%s", cMask, ".b2l");
@@ -1431,9 +1434,10 @@ int lsi_Get_Save_Info(char *p_Level_Name, int *pActLevel, int *pActScene)
 	int		ver;
 
 	GetPrivateProfileString("game","save_dir","c:\\",text,256,ini_file);
+  working_file_translate(text,256);
 
-	chdir(working_file_get(text));
-	chdir(working_file_get(p_Level_Name));
+	chdir((text));
+	chdir((p_Level_Name));
 
 	sprintf(text, "%s.lvc", p_Level_Name);
 
@@ -1554,6 +1558,7 @@ void lsi_Save_Level(WCHAR *pwc_Level_Name, LEVELINFO *p_Level)
 	ZeroMemory(p_Level_Name, 256);
 
 	GetPrivateProfileString("game","save_dir","c:\\",text,256,ini_file);
+  working_file_translate(text,256);
 
 	chdir(text);
 

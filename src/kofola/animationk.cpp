@@ -76,7 +76,8 @@ int	am_Init(ANIMATION_MODULE *p_am, LEVELINFO *p_Level)
 	}
 	
 	GetPrivateProfileString("game","data_dir","c:\\",text,256,ini_file);
-	chdir(working_file_get(text));
+  working_file_translate(text,255);
+	chdir((text));
 
 	pDataArchive->pActualNode = pDataArchive->pRootNode->pNextNode;
 

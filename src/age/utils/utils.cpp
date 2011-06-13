@@ -37,7 +37,6 @@
 #include "ini.h"
 #include "mem_alloc.h"
 
-
 /*
  * Utility
  */

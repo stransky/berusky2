@@ -42,7 +42,8 @@ int gi_Open_Archive(char *cFile, APAK_HANDLE **pAHandle, char *cAppName, char *c
 	char text[256];
 
 	GetPrivateProfileString(cAppName,cKeyName,"c:\\",text,256,ini_file);
-	chdir(working_file_get(text));
+  working_file_translate(text,256);
+	chdir((text));
 
   apak_dir_correction(text);
   (*pAHandle) = apakopen(cFile, text, &e);
@@ -341,8 +342,11 @@ void gi_Init_Sound_Engine(HWND hWnd, AUDIO_DATA *p_ad)
 	max_mem = GetPrivateProfileInt("soundengine","pre_load",0,ini_file);
 	
 	GetPrivateProfileString("soundengine","sound_dir","c:\\",init_data.Sound_Dir,256,ini_file);
+  working_file_translate(init_data.Sound_Dir,256);
 	GetPrivateProfileString("soundengine","sound_dir","c:\\",p_ad->Sound_Dir,256,ini_file);
+  working_file_translate(p_ad->Sound_Dir,256);
 	GetPrivateProfileString("soundengine","music_dir","c:\\",p_ad->Music_Dir,256,ini_file);
+  working_file_translate(p_ad->Music_Dir,256);
 	
 	iValue = GetPrivateProfileInt("soundengine","soundvolume",0,ini_file);
 		p_ad->Sound_Gain = (float)(iValue/100.0f);

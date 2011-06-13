@@ -503,6 +503,7 @@ void _3d_Load_Animations(float *fScaleFactor)
 	int		i = 0, j;
 
 	GetPrivateProfileString("game","data_dir","c:\\",text,MAX_PATH,ini_file);
+  working_file_translate(text, MAX_PATH);
   apak_dir_correction(text);
 	achdir(pDataArchive, text);
 

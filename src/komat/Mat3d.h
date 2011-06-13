@@ -1451,28 +1451,28 @@ typedef struct _PRVEK_LEVELU_GAME {  // prvek, ktery je umisteny v levelu
 
 typedef struct _KONFIG_DIR {
 
- char    prvky_dir[100];
- char    level_dir[100];
+ char    prvky_dir[PATH_MAX];
+ char    level_dir[PATH_MAX];
  
- char    out_dir[100];
- char    material_dir[100];
+ char    out_dir[PATH_MAX];
+ char    material_dir[PATH_MAX];
 
- char    data_dir[100];
- char    scene_dir[100];
+ char    data_dir[PATH_MAX];
+ char    scene_dir[PATH_MAX];
 
- char    game_level_dir[100];
- char    game_data_dir[100];
- char    edit_level_dir[100];
+ char    game_level_dir[PATH_MAX];
+ char    game_data_dir[PATH_MAX];
+ char    edit_level_dir[PATH_MAX];
 
 } KONFIG_DIR;
 
 typedef struct _TEXT_DIR {
 
-  char    texture_dir[TEXT_DIRS][100];   // adresare textur
+  char    texture_dir[TEXT_DIRS][PATH_MAX];   // adresare textur
   int     texture_dir_class[TEXT_DIRS];
-  char    texture_file[TEXT_DIRS][100];  // soubory textur
+  char    texture_file[TEXT_DIRS][PATH_MAX];  // soubory textur
   int     texture_file_class[TEXT_DIRS]; // tridy textur v paku
-  char    scene_texture_dir[100];
+  char    scene_texture_dir[PATH_MAX];
 
 } TEXT_DIR;
 
