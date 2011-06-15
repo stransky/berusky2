@@ -1,0 +1,80 @@
+
+0. Homepage
+
+  http://anakreon.cz/en/Berusky2.htm
+
+1. Compilation
+
+  Berusky2 is developed on Fedora 14/i386. It may or may not build/run
+  on other distros/platform. Feel free to send feedback/patches.
+  
+  Build of berusky2 code:
+
+  Install devel packages for libraries (SDL, SDL_Image, GL, GLU, X11, zlib).
+
+  Download berusky2-version.tar.gz and extract it and rebuild by:
+
+  $tar xzf berusky2-version.tar.gz
+  $cd berusky2-version
+  $./configure
+  $make
+  
+2. Configuration
+
+  Download berusky2-data-version.tar.gz, extract it somewhere:
+  
+  $tar xzf berusky2-data-version.tar.gz
+  $cd berusky2-data-version
+
+  It contains data pack with some levels and graphics and built binary for 
+  Fedora 14. If you build your own binary just replace it.
+
+3. Game run
+
+  ./berusky2 level_name.lv6 - runs user level named "level_name" 
+                              from game directory.
+
+4. Game Rules
+
+  In order to leave each level it is necessary to reach exit with all bugs.
+
+  You will be meeting miscellaneous game elements while completing individual
+  missions, we will try to explain their meaning now.
+
+  Box             - It is possible to push it.
+  Explosive       - Can destroy the boxes.
+
+  Exit            - A gate to next level/exit.
+
+  Stone           - Can be broken by a pickax.
+  Pickax          - A tool for stone crushing.
+
+  Other elements not listed here are just walls, which have no interesting
+  properties. They cannot be push away nor it is possible 
+  to break them anywise.
+
+
+5. Game keys
+
+  Arrows      - Move selected bug
+        
+  Tabulator   - Switch among the bugs
+
+  Space       - On/Off bug visibility
+
+  1           - Choose the first bug
+  2           - Choose the second bug
+  3           - Choose the third bug
+  4           - Choose the fourth bug
+  5           - Choose the fifth bug
+
+  F1          - In game help
+  F2          - Save level
+  F3          - Load level
+
+
+Mouse:  
+  
+  left shift + mouse motion - camera move
+  left ctrl + mouse motion  - camera rotation
+  mouse wheel               - camera zoom

@@ -208,7 +208,7 @@ int main(int argc, char **argv)
   //feenableexcept(FE_DIVBYZERO|FE_INEXACT|FE_INVALID|FE_OVERFLOW|FE_UNDERFLOW);
   feenableexcept(FE_DIVBYZERO|FE_INVALID);
 
-  quat_test();
+  //quat_test();
 
   working_dir_init();
 
