@@ -40,7 +40,6 @@ typedef struct _ROVINAD {
 #include "Bmp.h"
 #include "Texture.h"
 #include "Matrix.h"
-#include "mesh_flags.h"
 #include "Mat3d.h"
 #include "Vektor.h"
 #include "3dinterface.h"
