@@ -68,8 +68,8 @@ int gi_Open_Archive(char *cFile, APAK_HANDLE **pAHandle, char *cAppName, char *c
 			break;
 		}
 
-		kprintf(1,"Unable to open archive %s", cFile);
-		return 0;
+		assert(0);
+    abort();
 	}
 
 	kprintf(1, "APAK: %s", cFile);

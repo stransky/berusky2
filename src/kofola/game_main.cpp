@@ -112,53 +112,54 @@ int winmain_Check_Window_Menu(void)
 //------------------------------------------------------------------------------------------------
 int	winmain_Game_Run(char *p_Level_Name)
 {
-	char	dir[256];
-	unsigned int Timer_ID;
-	int		cpu;
-	char	bGame = strlen(p_Level_Name);
-	char	bConsole = GetPrivateProfileInt("debug","start-konzole",0,ini_file);
-
-	cpu = sizeof(AUDIO_DATA);
-
-	kprintf(1,"Kofola - verze zdrojaku: MASTER %d.%d", VERZEHI, VERZELO);
-
-	if(!winmain_Check_Window_Menu())
-		return 0;
-
-	bWindowMenu = !GetPrivateProfileInt("hra","fullscreen", 1, ini_file);
-
-	gi_Set_Win_Version();
-	getcwd(CurrentWorkingDirectory, 256);
-
-	srand( (unsigned) time( NULL ) );
-
-	GetPrivateProfileString("game","bitmap_pak","c:\\",dir,256,ini_file);
-  working_file_translate(dir,256);
-
-	GetPrivateProfileString("game","font_pak1","c:\\",cFontFile[0],64,ini_file);
-	kprintf(1, "font_pak1 = %s", cFontFile[0]);
-
-	GetPrivateProfileString("game","font_pak2","c:\\",cFontFile[1],64,ini_file);
-	kprintf(1, "font_pak2 = %s", cFontFile[1]);
-
-	GetPrivateProfileString("game","font_pak3","c:\\",cFontFile[2],64,ini_file);
-	kprintf(1, "font_pak3 = %s", cFontFile[2]);
-
-	GetPrivateProfileString("game","font_pak4","c:\\",cFontFile[3],64,ini_file);
-	kprintf(1, "font_pak4 = %s", cFontFile[3]);
-
-	GetPrivateProfileString("game","font_pak5","c:\\",cFontFile[4],64,ini_file);
-	kprintf(1, "font_pak5 = %s", cFontFile[4]);
-
-	iLanguageVersion = GetPrivateProfileInt("game","languageid", 0, ini_file);
-	kprintf(1, "Language ID = %d", iLanguageVersion);
-
-	if(!gi_Open_Archive(dir, &pBmpArchive,"game","bitmap_dir"))
-	{
-		return 0;
-	}
-
-#ifndef __DEMO
+  char	dir[256];
+  unsigned int Timer_ID;
+  int		cpu;
+  char	bGame = strlen(p_Level_Name);
+  char	bConsole = GetPrivateProfileInt("debug","start-konzole",0,ini_file);
+  char  bitmap_pak[256];
+  
+  cpu = sizeof(AUDIO_DATA);
+  
+  kprintf(1,"Kofola - verze zdrojaku: MASTER %d.%d", VERZEHI, VERZELO);
+  
+  if(!winmain_Check_Window_Menu())
+    return 0;
+  
+  bWindowMenu = !GetPrivateProfileInt("hra","fullscreen", 1, ini_file);
+  
+  gi_Set_Win_Version();
+  getcwd(CurrentWorkingDirectory, 256);
+  
+  srand( (unsigned) time( NULL ) );
+  
+  GetPrivateProfileString("game","bitmap_pak","c:\\",bitmap_pak,256,ini_file);
+  working_file_translate(bitmap_pak,256);
+  
+  GetPrivateProfileString("game","font_pak1","c:\\",cFontFile[0],64,ini_file);
+  kprintf(1, "font_pak1 = %s", cFontFile[0]);
+  
+  GetPrivateProfileString("game","font_pak2","c:\\",cFontFile[1],64,ini_file);
+  kprintf(1, "font_pak2 = %s", cFontFile[1]);
+  
+  GetPrivateProfileString("game","font_pak3","c:\\",cFontFile[2],64,ini_file);
+  kprintf(1, "font_pak3 = %s", cFontFile[2]);
+  
+  GetPrivateProfileString("game","font_pak4","c:\\",cFontFile[3],64,ini_file);
+  kprintf(1, "font_pak4 = %s", cFontFile[3]);
+  
+  GetPrivateProfileString("game","font_pak5","c:\\",cFontFile[4],64,ini_file);
+  kprintf(1, "font_pak5 = %s", cFontFile[4]);
+  
+  iLanguageVersion = GetPrivateProfileInt("game","languageid", 0, ini_file);
+  kprintf(1, "Language ID = %d", iLanguageVersion);
+  
+  if(!gi_Open_Archive(bitmap_pak, &pBmpArchive,"game","bitmap_dir"))
+  {
+    return 0;
+  }
+  
+/*#ifndef __DEMO
 	if(!gi_Open_Archive("bitmap.pak", &pBmpArchive,"game","bitmap_dir"))
 	{
 		return 0;
@@ -170,7 +171,7 @@ int	winmain_Game_Run(char *p_Level_Name)
 	{
 		return 0;
 	}
-#endif
+#endif*/
 
 	if(!gi_Open_Archive("controls.pak", &pControlsArchive,"game","bitmap_dir"))
 	{
@@ -219,6 +220,7 @@ int	winmain_Game_Run(char *p_Level_Name)
 		return 0;
 	}
 
+/*
 #ifndef __DEMO
 	if(!gi_Open_Archive("data.pak", &pDataArchive,"game","data_dir"))
 	{
@@ -240,6 +242,7 @@ int	winmain_Game_Run(char *p_Level_Name)
 		return 0;
 	}
 #endif
+*/
 
 #ifndef __DEMO
 	if(!gi_Open_Archive("game_data.pak", &pGDataArchive,"game","game_data_dir"))
@@ -345,7 +348,7 @@ int	winmain_Game_Run(char *p_Level_Name)
 
 		_3d_Gen_Hints(pHintTexture, 26);
 
-		if(!fn_Set_Font("font3d.pak"))
+		if(!fn_Set_Font(cFontFile[1]))
 		{
 			kprintf(1, "Unable to set font!");
 			return 0;

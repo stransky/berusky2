@@ -455,10 +455,8 @@ int fn_Open_Archive(char *cFile, APAK_HANDLE **pAHandle, char *cAppName, char *c
 			break;
 		}
 
-		kprintf(1, "Unable to open archive %s", cFile);
-		//MessageBox(NULL,text,"Error",MB_OK);
-
-		return 0;
+		assert(0);
+    abort();
 	}
 
 	achdir((*pAHandle), text);

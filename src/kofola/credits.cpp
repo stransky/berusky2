@@ -15,7 +15,6 @@ typedef struct
 	int	y;
 } CREDIT_SURFACE;
 
-
 extern B2_FONT	b2_font;
 extern APAK_HANDLE		*pBmpArchive;
 extern APAK_HANDLE		*pDataArchive;

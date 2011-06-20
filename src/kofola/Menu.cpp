@@ -871,7 +871,7 @@ int RunLevel(HWND hWnd, AUDIO_DATA *p_ad, int cpu, char *lvl, char *env)
 		spracuj_spravy(0);
 	}
 	else
-	{
+  {
 		//----------------------- MessageBox ......
 		kprintf(1, "kom_graf_init - nepodarilo se nahodit");
 		MyMessageBox(NULL,"##error_title", "##kom_graf_init_error","");
