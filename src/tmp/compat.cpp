@@ -306,6 +306,7 @@ int ap_Load_Sound_List(AUDIO_DATA *p_ad, char *cFile, int iStart)
 
 void ShowCursor(bool state)
 {
+  SDL_ShowCursor(state ? SDL_ENABLE : SDL_DISABLE);
 }
 
 void SetCursor(void *tmp)

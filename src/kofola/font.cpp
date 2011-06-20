@@ -7,7 +7,7 @@
 #include "Berusky3d_kofola_interface.h"
 #include "Berusky_universal.h"
 
-static B2_FONT	b2_font;
+B2_FONT	b2_font;
 
 extern _2D_DATA		_2dd;
 extern _3D_DATA		_3dd;
@@ -159,7 +159,7 @@ int fn_Set_Font_Bmps(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts)
 	char text[256];
 	int i;
 
-	//txt_trida(TEXT_MENU);
+	txt_trida(TEXT_MENU);
 
 	for(i=0;i<gt->lastcommand;i++)
 		switch(gt->command[i].iCommand)

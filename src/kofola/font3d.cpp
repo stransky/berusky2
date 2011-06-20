@@ -11,8 +11,7 @@
 
 //#pragma comment(lib,"Msimg32.lib")
 
-static B2_FONT b2_font;
-
+extern B2_FONT    b2_font;
 extern _3D_DATA		_3dd;
 
 void fn2_Release_Font(void);

@@ -1,9 +1,8 @@
-ShowCursor() -> implement
+- wrong font highlight
+- spatne ovladani b1, pri ruznych smerech to je blbe
 
 - hint loading/rendering
 
-wchar -> loaded from disc -> convert from windows wchar(16 bit) to linux (32-bit)
-  - mapovani 1:1
 wchar_windows_to_linux -> mem leaky
 
 - opravit rendering fontu

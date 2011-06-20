@@ -343,7 +343,7 @@ int	winmain_Game_Run(char *p_Level_Name)
 		_3d_Init();
 		_3d_Load_List("3D_load.dat");
 
-		//_3d_Gen_Hints(pHintTexture, 26);
+		_3d_Gen_Hints(pHintTexture, 26);
 
 		if(!fn_Set_Font("font3d.pak"))
 		{

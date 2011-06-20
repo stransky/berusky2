@@ -35,7 +35,7 @@ extern PLAYER_PROFILE	pPlayerProfile;
 extern APAK_HANDLE		*p3DMArchive;
 extern int				iActualLevel;
 extern int				iActualScene;
-B2_FONT	b2_font;
+extern B2_FONT	b2_font;
 extern char cFontFile[5][64];
 AUDIO_DATA		ad;
 extern int iLanguageVersion;
