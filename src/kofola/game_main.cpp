@@ -135,7 +135,7 @@ int	winmain_Game_Run(char *p_Level_Name)
   
   GetPrivateProfileString("game","bitmap_pak","c:\\",bitmap_pak,256,ini_file);
   working_file_translate(bitmap_pak,256);
-  
+
   GetPrivateProfileString("game","font_pak1","c:\\",cFontFile[0],64,ini_file);
   kprintf(1, "font_pak1 = %s", cFontFile[0]);
   
@@ -150,7 +150,7 @@ int	winmain_Game_Run(char *p_Level_Name)
   
   GetPrivateProfileString("game","font_pak5","c:\\",cFontFile[4],64,ini_file);
   kprintf(1, "font_pak5 = %s", cFontFile[4]);
-  
+
   iLanguageVersion = GetPrivateProfileInt("game","languageid", 0, ini_file);
   kprintf(1, "Language ID = %d", iLanguageVersion);
   
@@ -404,7 +404,7 @@ int	winmain_Game_Run(char *p_Level_Name)
 		//fn_Convert_Rect("", 768, 576);
 		SetCursor(NULL);
 		ShowCursor(FALSE);
-		//RunMenu("mainmenu.txt", hwnd_hry, &ad, cpu);
+		RunMenu("mainmenu.txt", NULL, &ad, cpu);
 
 #ifdef __DEMO
 		{

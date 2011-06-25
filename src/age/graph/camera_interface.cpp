@@ -249,8 +249,8 @@ void camera_interface::screen_normal_to_screen(VECT *p_vect)
     y[-1, 1] => [view_y, view_dy]
   */
   
-  p_vect->x = (int)(x_c*(x+1))+vx;
-  p_vect->y = (int)(y_c*(1-y))+vy;
+  p_vect->x = ftoi(x_c*(x+1))+vx;
+  p_vect->y = ftoi(y_c*(1-y))+vy;
   
   /*
     Extend z screen coordinates:
@@ -405,8 +405,8 @@ bool camera_interface::world_to_screen(VECT *p_vect)
   int   x_c = vdx >> 1;
   int   y_c = vdy >> 1;
   
-  p_vect->x = (int)(x_c*(x+1))+vx;
-  p_vect->y = (int)(y_c*(1-y))+vy;
+  p_vect->x = ftoi(x_c*(x+1))+vx;
+  p_vect->y = ftoi(y_c*(1-y))+vy;
     
   return(ret);
 }

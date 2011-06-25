@@ -2600,7 +2600,7 @@ void lo_vyrob_animaci_list(EDIT_MATERIAL *p_mat, char *p_list, EDIT_TEXT *p_text
            break;
 
          case 't': // time flag
-           p_amat->p_frame[i].time = (int)(atof(p_pom+2)*1000);
+           p_amat->p_frame[i].time = ftoi(atof(p_pom+2)*1000);
            break;
 
          case 'e': // event flag

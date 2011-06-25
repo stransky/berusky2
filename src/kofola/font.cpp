@@ -75,11 +75,11 @@ int fn_Find_Char(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts, int *top, int *left, int
 		b = (float *)&gt->command[i].Parametr[4].Value;
 		y = (float *)&gt->command[i].Parametr[5].Value;
 
-		*left = (int)((*l) * xbmp);
-		*top = (int)((*t) * ybmp);
-		*right = (int)((*r) * xbmp);
-		*bottom = (int)((*b) * ybmp);
-		*ycor = (int)((*y) * ybmp);		
+		*left = ftoi((*l) * xbmp);
+		*top = ftoi((*t) * ybmp);
+		*right = ftoi((*r) * xbmp);
+		*bottom = ftoi((*b) * ybmp);
+		*ycor = ftoi((*y) * ybmp);		
 	}
 
 	return 1;
@@ -1032,11 +1032,11 @@ void fn_Draw_Draw_Frames(void)
 							b = (float *)&gt->command[i].Parametr[4].Value;
 							y = (float *)&gt->command[i].Parametr[5].Value;
 
-							left = (int)((*l) * xbmp);
-							top = (int)((*t) * ybmp);
-							right = (int)((*r) * xbmp);
-							bottom = (int)((*b) * ybmp);
-							ycor = (int)((*y) * ybmp);
+							left = ftoi((*l) * xbmp);
+							top = ftoi((*t) * ybmp);
+							right = ftoi((*r) * xbmp);
+							bottom = ftoi((*b) * ybmp);
+							ycor = ftoi((*y) * ybmp);
 
 						fn_Draw_Line(left-1, top-1, right+1, top-1, RGB(255, 0, 0), _2dd.hDC);
 						fn_Draw_Line(right+1, top-1, right+1, bottom+1, RGB(255, 0, 0), _2dd.hDC);

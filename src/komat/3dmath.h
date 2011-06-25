@@ -193,8 +193,8 @@ inline void kar2polar(BOD *p_car, float *p_r, float *p_fi, float *p_vzdal)
  BOD z = *p_car;
  float p; 
  *p_vzdal = vektor_norm(&z);
- *p_fi = asinf((fabsf(z.y) > 1.0f) ? (int)(z.y) : z.y); 
- *p_r = copysign(acosf((fabsf(p = (-z.z)/cosf(*p_fi)) > 1.0f) ? (int)(p) : p),z.x);
+ *p_fi = asinf((fabsf(z.y) > 1.0f) ? ftoi(z.y) : z.y); 
+ *p_r = copysign(acosf((fabsf(p = (-z.z)/cosf(*p_fi)) > 1.0f) ? ftoi(p) : p),z.x);
 }
 
 // polarni souradnice -> kartezske souradnice

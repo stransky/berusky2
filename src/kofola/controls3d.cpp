@@ -1048,8 +1048,8 @@ BUTTON_CONTROL2 *co2_Create_Button(int hdc, int x, int y, int type, char *text, 
 	//fn2_Draw_Message(tmpDC.hdc, 0, 0, &b2_font.gt, &b2_font.ts, wc, ws, isection, &tx, &ty);
 	fn2_Draw_Message(tmpDC, 0, 0, &b2_font.gt, &b2_font.ts, wc, ws, isection, &tx, &ty);
 
-	cx = (int)(((p_bu->Rect.right - p_bu->Rect.left) - tx) / 2.0f);
-	cy = (int)(((p_bu->Rect.bottom - p_bu->Rect.top) - ty) / 2.0f);
+	cx = ftoi(((p_bu->Rect.right - p_bu->Rect.left) - tx) / 2.0f);
+	cy = ftoi(((p_bu->Rect.bottom - p_bu->Rect.top) - ty) / 2.0f);
 
 	//TransparentBltU(p_bu->dc.hdc, cx, cy, tx, ty,  tmpDC.hdc, 0, 0, tx, ty, TRANSCOLOR);
 	ddx2TransparentBlt(p_bu->dc, cx, cy, tx, ty,  tmpDC, 0, 0, tx, ty, TRANSCOLOR);
@@ -1241,7 +1241,7 @@ int co2_Progres_Set(PROGRES_CONTROL2 *p_pr, int hdc, int i)
 	int dd = p_pr->max - p_pr->min;
 	int md = p_pr->rectProgres.right - p_pr->rectProgres.left;
 	float in = md / (float)dd;
-	int x = p_pr->rectProgres.left + (int)((i - p_pr->min) * in);
+	int x = p_pr->rectProgres.left + ftoi((i - p_pr->min) * in);
 
 	int yp;
 
@@ -1252,7 +1252,7 @@ int co2_Progres_Set(PROGRES_CONTROL2 *p_pr, int hdc, int i)
 	p_pr->rectMover.left = p_pr->pos - p_pr->cor;
 	p_pr->rectMover.right = p_pr->rectMover.left + ddx2GetWidth(hdcPR.hdcMover);
 
-	yp = (int)(ddx2GetHeight(hdcPR.hdcMover) / 2.0f);
+	yp = ftoi(ddx2GetHeight(hdcPR.hdcMover) / 2.0f);
 		
 	/*BitBlt(p_pr->bDC.hdc, 0, 0, _2dd.bitmap[hdcPR.hdcMover].bitmap.bmWidth, 
 		   _2dd.bitmap[hdcPR.hdcMover].bitmap.bmHeight, hdc, 
@@ -1346,7 +1346,7 @@ int co2_Progres_Get(CONTROL_LIST_ITEM2 *p_list, int lsize, int id)
 				int dd = p_pr->max - p_pr->min;
 				int md = p_pr->rectProgres.right - p_pr->rectProgres.left;
 				float out = dd / (float)md;
-				int x = p_pr->min + (int)((p_pr->pos - p_pr->rectProgres.left) * out);
+				int x = p_pr->min + ftoi((p_pr->pos - p_pr->rectProgres.left) * out);
 
 				return x;
 			}
@@ -1397,14 +1397,14 @@ PROGRES_CONTROL2 *co2_Create_Progres(int hdc, int x, int y, int min, int max, in
 	p_pr->max = max;
 	p_pr->x = x;
 	p_pr->y = y;
-	p_pr->cor = (int)(ddx2GetWidth(hdcPR.hdcMover) / 2.0f);
+	p_pr->cor = ftoi(ddx2GetWidth(hdcPR.hdcMover) / 2.0f);
 	p_pr->pos = x;
 	p_pr->bExclusive = 0;
 
 	bmpx = ddx2GetWidth(hdcPR.hdcLine);
 	bmpy = ddx2GetHeight(hdcPR.hdcMover);
 	bmpDC = hdcPR.hdcLine;
-	yp = (int)(bmpy / 2.0f);
+	yp = ftoi(bmpy / 2.0f);
 
 	p_pr->rectMover.top = y;
 	p_pr->rectMover.left = x;
@@ -1498,8 +1498,8 @@ int co2_Set_Text_Center(int hdc, char *text, int isection, RECT r)
 
 	fn2_Draw_Message(h, 0, 0, &b2_font.gt, &b2_font.ts, wc, ws, isection, &tx, &ty);
 
-	xp = (int)(((r.right - r.left) - tx) / 2.0f);
-	yp = (int)(((r.bottom - r.top) - ty) / 2.0f);
+	xp = ftoi(((r.right - r.left) - tx) / 2.0f);
+	yp = ftoi(((r.bottom - r.top) - ty) / 2.0f);
 
 	//TransparentBltU(hdc, r.left + xp, r.top + yp, tx, ty, h.hdc, 0, 0, tx, ty, TRANSCOLOR);
 	ddx2TransparentBlt(hdc, r.left + xp, r.top + yp, tx, ty, h, 0, 0, tx, ty, TRANSCOLOR);
@@ -2090,7 +2090,7 @@ void co2_Set_List_View_List_Pos(LIST_VIEW2_CONTROL2 *p_li, int y, int hdc, int x
 
 	pm = y;
 
-	pos = p_li->mpmin + (int)((mm * y) / (float)dcm);
+	pos = p_li->mpmin + ftoi((mm * y) / (float)dcm);
 
 	if(pos > p_li->mpmax)
 		pos = p_li->mpmax;
@@ -2157,7 +2157,7 @@ void co2_Set_List_View_List_Pos(LIST_VIEW2_CONTROL2 *p_li, int y, int hdc, int x
 		mm = p_li->mpmax - p_li->mpmin;
 		pm = p_li->mpos - p_li->mpmin;
 
-		pos = (int)((pm * dcm) / (float)mm);
+		pos = ftoi((pm * dcm) / (float)mm);
 
 		if(p_li->mpos == p_li->mpmax)
 			pos = ddx2GetHeight(p_li->bDCn) - (p_li->rectList.bottom - p_li->rectList.top);
@@ -2421,7 +2421,7 @@ int co2_Handle_Combo(COMBO_CONTROL2 *p_co, char bFocus, int x, int y, int hdc, i
 		if(ym > ymx)
 			ym = ymx;
 
-		i = (int)(((p_co->CounfOfItems - p_co->CounfOfItemsL) * ym) / (float)ymx);
+		i = ftoi(((p_co->CounfOfItems - p_co->CounfOfItemsL) * ym) / (float)ymx);
 
 		p_co->SSelected = i;
 
@@ -2478,7 +2478,7 @@ int co2_Handle_Combo(COMBO_CONTROL2 *p_co, char bFocus, int x, int y, int hdc, i
 		co2_Del_Combo_List(p_co, hdc, xcor, ycor);
 		co2_Combo_Draw_List(hdc, p_co, xcor, ycor, 0);
 		
-		ny = (int)((p_co->xm / (float)(p_co->CounfOfItems - p_co->CounfOfItemsL)) * p_co->SSelected);
+		ny = ftoi((p_co->xm / (float)(p_co->CounfOfItems - p_co->CounfOfItemsL)) * p_co->SSelected);
 
 		t = ny + p_co->xmstart - ymcor;
 		b = p_co->coLMov.top + ddx2GetHeight(hdcCO.hdcComboMover);
@@ -2511,7 +2511,7 @@ int co2_Handle_Combo(COMBO_CONTROL2 *p_co, char bFocus, int x, int y, int hdc, i
 		co2_Del_Combo_List(p_co, hdc,xcor, ycor);
 		co2_Combo_Draw_List(hdc, p_co, xcor, ycor, 0);
 
-		ny = (int)((p_co->xm / (float)(p_co->CounfOfItems - p_co->CounfOfItemsL)) * p_co->SSelected);
+		ny = ftoi((p_co->xm / (float)(p_co->CounfOfItems - p_co->CounfOfItemsL)) * p_co->SSelected);
 
 		t = ny + p_co->xmstart - ymcor;
 		b = p_co->coLMov.top + ddx2GetHeight(hdcCO.hdcComboMover);
@@ -2979,7 +2979,7 @@ int co2_Handle_List(LIST_VIEW_CONTROL2 *p_li, int x, int y, int hdc, int xcor, i
 		float dcm = (float)ddx2GetHeight(p_li->bDCn) - (p_li->rectList.bottom - p_li->rectList.top);
 		float c = (p_li->rectMoverA.bottom - p_li->rectMoverA.top) / dcm;
 
-		y = p_li->mpos - (int)(30 * c);
+		y = p_li->mpos - ftoi(30 * c);
 
 		p_li->bInE = -1;
 		p_li->bIn = -1;
@@ -2993,7 +2993,7 @@ int co2_Handle_List(LIST_VIEW_CONTROL2 *p_li, int x, int y, int hdc, int xcor, i
 		float dcm = (float)ddx2GetHeight(p_li->bDCn) - (p_li->rectList.bottom - p_li->rectList.top);
 		float c = (p_li->rectMoverA.bottom - p_li->rectMoverA.top) / dcm;
 		
-		y = p_li->mpos + (int)(30 * c);
+		y = p_li->mpos + ftoi(30 * c);
 
 		p_li->bInE = -1;
 		p_li->bIn = -1;
@@ -3043,7 +3043,7 @@ HANDLE_LISTVIEW:
 		mm = p_li->mpmax - p_li->mpmin;
 		pm = p_li->mpos - p_li->mpmin;
 
-		pos = (int)((pm * dcm) / (float)mm);
+		pos = ftoi((pm * dcm) / (float)mm);
 
 		if(p_li->mpos == p_li->mpmax)
 			pos = ddx2GetHeight(p_li->bDCn) - (p_li->rectList.bottom - p_li->rectList.top);
@@ -3196,7 +3196,7 @@ HANDLE_LISTVIEW:
 		mm = p_li->mpmax - p_li->mpmin;
 		pm = p_li->mpos - p_li->mpmin;
 
-		pos = (int)((pm * dcm) / (float)mm);
+		pos = ftoi((pm * dcm) / (float)mm);
 
 		if(p_li->mpos == p_li->mpmax)
 			pos = ddx2GetHeight(p_li->bDC) - (p_li->rectList.bottom - p_li->rectList.top);

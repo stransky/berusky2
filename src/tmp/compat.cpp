@@ -9,7 +9,7 @@ void Sleep(int ms)
 
 int ftoi(float t)
 {
-  return((int)t);
+  return((int)roundf(t));  
 }
 
 static int timeGetTimeSet = 0;
@@ -361,7 +361,7 @@ void wchar_windows_to_linux(word *p_in, int bytes_in_len, wchar_t *p_out)
 // in place replacement
 wchar_t * wchar_windows_to_linux(word *p_in, int bytes_in_len)
 {
-  wchar_t *p_tmp = (wchar_t *)mmemcpy(p_in, bytes_in_len*2);
+  wchar_t *p_tmp = (wchar_t *)mmalloc(bytes_in_len*2);
   wchar_windows_to_linux(p_in, bytes_in_len, p_tmp);
   return(p_tmp);
 }

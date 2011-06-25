@@ -124,5 +124,5 @@ polar2di::polar2di(VECT2DI src)
 {
   float flenght;
   scalar2polar(src.x, src.y, &rotation, &flenght);
-  length = (int)flenght;
+  length = ftoi(flenght);
 }

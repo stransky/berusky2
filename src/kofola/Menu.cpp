@@ -656,10 +656,10 @@ void StretchAnimation(RECT *rStart, RECT *rFinish, int iSurface, int iSpeed, AUD
 
 		dwE = dwF - dwS;
 
-		rDraw.left = rStart->left + (int)((s[0] * dwE) / (float) iSpeed);
-		rDraw.top = rStart->top + (int)((s[1] * dwE) / (float) iSpeed);
-		rDraw.right = rStart->right + (int)((s[2] * dwE) / (float) iSpeed);
-		rDraw.bottom = rStart->bottom + (int)((s[3] * dwE) / (float) iSpeed);
+		rDraw.left = rStart->left + ftoi((s[0] * dwE) / (float) iSpeed);
+		rDraw.top = rStart->top + ftoi((s[1] * dwE) / (float) iSpeed);
+		rDraw.right = rStart->right + ftoi((s[2] * dwE) / (float) iSpeed);
+		rDraw.bottom = rStart->bottom + ftoi((s[3] * dwE) / (float) iSpeed);
 
 		//kprintf(1, "rDraw.left, rFinish->left: [%d, %d]", rDraw.left, rFinish->left);
 		if(rDraw.left <= rFinish->left && p[0])
@@ -1026,8 +1026,8 @@ void CreateFontAnimations(CMD_LINE *res, int *lastcmd)
 				{
 					int ii;
 					int oy = res[i].iParam[2];
-					//int x = r.left + (int)((r.right - r.left - _2dd.bitmap[sidx1].bitmap.bmWidth) / (float)2.0f);
-					int x = r.left + (int)((r.right - r.left - ddxGetWidth(sidx1)) / (float)2.0f);
+					//int x = r.left + ftoi((r.right - r.left - _2dd.bitmap[sidx1].bitmap.bmWidth) / (float)2.0f);
+					int x = r.left + ftoi((r.right - r.left - ddxGetWidth(sidx1)) / (float)2.0f);
 					
 					if(res[i].iParam[1] != -1)
 					{
@@ -1065,7 +1065,7 @@ void CreateFontAnimations(CMD_LINE *res, int *lastcmd)
 					for(ii=6;ii<13;ii++)
 						res[*lastcmd].iAnim[0][ii] = -1;
 
-					x = r.left + (int)((r.right - r.left - ddxGetWidth(sidx2)) / (float)2.0f);
+					x = r.left + ftoi((r.right - r.left - ddxGetWidth(sidx2)) / (float)2.0f);
 
 					if(res[i].iParam[1] != -1)
 						x = res[i].iParam[1];
@@ -1714,7 +1714,7 @@ void InitTab3d(CONTROL_LIST_ITEM *citem, int *hdcTab, ROZLISENI	*roz, int roz_si
 		co_Combo_Drop_Add_String(citem[42].p_combod, "+2.75", 2.75f);
 		co_Combo_Drop_Add_String(citem[42].p_combod, "+3.0", 3.0f);
 
-		i = (int)(((setup.text_ostrost + 3) * 100) / 25.0f);
+		i = ftoi(((setup.text_ostrost + 3) * 100) / 25.0f);
 
 		if(i > 24)
 			i = 24;
@@ -2237,17 +2237,17 @@ MENU_SETTING_BRUTAL_RESTART:
 
 		//co_Set_Text_Right(hdcTab[0], "##settings_transparency", 0, 450, 300);
 		//citem[6].p_prog = co_Create_Progres(hdcTab[0], 500, 300, 2, 18, 0);
-		//co_Progres_Set(citem[6].p_prog, hdcTab[0], (int)(setup.p_kamera_alfa * 20));
+		//co_Progres_Set(citem[6].p_prog, hdcTab[0], ftoi(setup.p_kamera_alfa * 20));
 		//citem[6].bActive = 1;
 		
 		co_Set_Text_Right(hdcTab[0], "##setings_camera_speed", 0, 450, 390);
 		citem[52].p_prog = co_Create_Progres(hdcTab[0], 500, 387, 0, 10, 0);
-		co_Progres_Set(citem[52].p_prog, hdcTab[0], (int)(setup.ovladani_rohy_rychlost * 10));
+		co_Progres_Set(citem[52].p_prog, hdcTab[0], ftoi(setup.ovladani_rohy_rychlost * 10));
 		citem[52].bActive = 1;
 
 		co_Set_Text_Right(hdcTab[0], "##settings_trans_radius", 0, 450, 425);
 		citem[7].p_prog = co_Create_Progres(hdcTab[0], 500, 412, 1, 20, 1);
-		co_Progres_Set(citem[7].p_prog, hdcTab[0], (int)(setup.p_kamera_radius * 2));
+		co_Progres_Set(citem[7].p_prog, hdcTab[0], ftoi(setup.p_kamera_radius * 2));
 		citem[7].bActive = 1;
 
 		//if(!setup.posouvat_kameru)
@@ -4124,8 +4124,8 @@ int LoadClock(int *iClock)
 
 /*			if(i != -1)
 			{
-				int x = dim.x - (int)(ddxGetWidth(i) / 2.0f);
-				int y = dim.y - (int)(ddxGetHight(i) / 2.0f);
+				int x = dim.x - ftoi(ddxGetWidth(i) / 2.0f);
+				int y = dim.y - ftoi(ddxGetHight(i) / 2.0f);
 
 				ddxTransparentBltDisplay(x, y, ddxGetWidth(i), ddxGetHight(i), i, 0, 0, ddxGetWidth(i), ddxGetHight(i), TRANSCOLOR);
 			}*/
@@ -8795,7 +8795,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 			rr.right = 700;
 			rr.bottom = 549;
 /*
-			y = (int)(int)((dwEplased * (ddxGetHight(iComix) - 550)) / (float) iSongTime);
+			y = (int)ftoi((dwEplased * (ddxGetHight(iComix) - 550)) / (float) iSongTime);
 	
 			if(y >=  ddxGetHight(iComix) - 550)
 				key[K_ESC] = 1;
@@ -9004,7 +9004,7 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 			}
 			while(idx == lidx);
 						
-			dwStart -= (int)(iSongTime / (float)bmpc);
+			dwStart -= ftoi(iSongTime / (float)bmpc);
 		}
 
 		if(ddxRestore(&CompositDC, &FontDC, &BackDC, &iCompositDC, &iFontDC, &iBackDC, &cBrutalRestart, p_ad))

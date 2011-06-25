@@ -250,9 +250,9 @@ int main(int argc, char **argv)
     p_grf->config_draw_all_objects(TRUE);
     p_grf->config_draw_pivots(TRUE);
     p_grf->config_draw_selection(TRUE);
-  }  
+  }
 
-  p_level = (argc > 1) ? argv[1] : (char *)"a";
+  p_level = (argc > 1) ? argv[1] : "";
   winmain_Game_Run(p_level);
 
   return(TRUE);

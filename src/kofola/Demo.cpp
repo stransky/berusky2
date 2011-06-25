@@ -670,7 +670,7 @@ int demo_Rotation(int initRot, int finishRot)
 
 	fr = fr / 90.0f;
 
-	s = (int)(fr);
+	s = ftoi(fr);
 
 	s = s%4;
 

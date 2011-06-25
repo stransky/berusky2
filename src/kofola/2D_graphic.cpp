@@ -761,12 +761,12 @@ void _2d_Draw_Progress(int x, int y)
 	int Width;
 	int RWidth;
 
-	Width = (int)((1024 * _2dd.ProgressStatus) / 100.0f);
+	Width = ftoi((1024 * _2dd.ProgressStatus) / 100.0f);
 
 	if(x < 0 || y < 0)
-		RWidth = (int)((hwconf.xres * _2dd.ProgressStatus) / 100.0f);
+		RWidth = ftoi((hwconf.xres * _2dd.ProgressStatus) / 100.0f);
 	else
-		RWidth = (int)((x * _2dd.ProgressStatus) / 100.0f);
+		RWidth = ftoi((x * _2dd.ProgressStatus) / 100.0f);
 	
 	//SetStretchBltMode(_2dd.hDC, COLORONCOLOR);
 	//StretchBlt(_2dd.hDC, 0, 0, RWidth, hwconf.yres, 

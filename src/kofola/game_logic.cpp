@@ -453,9 +453,9 @@ void gl_Real2Logical(int Real_Pos, int *Log_Pos, LEVELINFO *p_Level)
 
 void gl_fPos2iPos(float *fPos, int *iPos)
 {
-	iPos[0] = (int)(fPos[0]);
-	iPos[1] = (int)(fPos[1]);
-	iPos[2] = (int)(fPos[2]);
+	iPos[0] = ftoi(fPos[0]);
+	iPos[1] = ftoi(fPos[1]);
+	iPos[2] = ftoi(fPos[2]);
 }
 
 //------------------------------------------------------------------------------------------------
@@ -800,7 +800,7 @@ int gl_Do_Lift_Particles(float *pos, int mesh, LEVELINFO *p_Level)
 {
 	int k,m,i;
 	PAR_KOUR_STOPA	*pKourovaS;
-	int size = (int)(50 / p_Level->KvalitaCastic);
+	int size = ftoi(50 / p_Level->KvalitaCastic);
 
 	k = gl_Get_Free_Lift_Particles(p_Level);
 
@@ -889,7 +889,7 @@ void gl_Do_Teleport_Sparks(float *pos, LEVELINFO *p_Level)
 {
 	int k,m,i;
 	PAR_KOUR_STOPA	*pKourovaS;
-	int size = (int)(60 / p_Level->KvalitaCastic);
+	int size = ftoi(60 / p_Level->KvalitaCastic);
 
 	k = gl_Get_Free_Teleport_Sparks(p_Level);
 
@@ -10327,7 +10327,7 @@ int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, AUDIO_DATA *p_ad, int iCP
 
 	//...................... *** oprava
 	char				bCamera;
-	int					cameraanim;
+  int					cameraanim;
 	static	int			flag;
 	int					bmpc = 0;
 	//...................... *** oprava

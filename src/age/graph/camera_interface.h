@@ -156,22 +156,22 @@ public:
 
   int view_x_get(void)
   {
-    return(view_relative ? (int)(view_ax*camera_screen_width) : view_ax);
+    return(view_relative ? view_ax*camera_screen_width : view_ax);
   }
   
   int view_y_get(void)
   {
-    return(view_relative ? (int)(view_ay*camera_screen_height) : view_ay);
+    return(view_relative ? view_ay*camera_screen_height : view_ay);
   }  
   
   int view_width_get(void)
   {
-    return(view_relative ? (int)(view_rdx*camera_screen_width) : view_adx);
+    return(view_relative ? ftoi(view_rdx*camera_screen_width) : view_adx);
   }
   
   int view_height_get(void)
   {
-    return(view_relative ? (int)(view_rdy*camera_screen_height) : view_ady);
+    return(view_relative ? ftoi(view_rdy*camera_screen_height) : view_ady);
   }
   
   void view_get(int *p_x, int *p_y, int *p_width, int *p_height)

@@ -387,11 +387,11 @@ void surface_sdl::scale(int nx, int ny)
     py = 0;
     
     for(ty = 0; ty < ny; ty++) {
-      ys = (int)((py)*(p_surf->w));
+      ys = ftoi((py)*(p_surf->w));
       px = 0;
       p_dest = p_dest_mem+ty*nx;
       for(tx = 0; tx < nx; tx++) {
-        p_dest[tx] = p_src_mem[ys+(int)px];
+        p_dest[tx] = p_src_mem[ys+ftoi(px)];
         px += dx;
       }
       py += dy;

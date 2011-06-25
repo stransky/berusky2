@@ -52,12 +52,12 @@ void hsv_to_rgb(float hue, float saturation, float value,
     if(hue == 6)
       hue = 0;
   
-    f = hue - (int) hue;
+    f = hue - ftoi(hue);
     p = value * (1 - saturation);
     q = value * (1 - saturation * f);
     t = value * (1 - saturation * (1.0 - f));
 
-    switch ((int) hue)  {
+    switch (ftoi(hue))  {
     case 0:
       r = value;
       g = t;

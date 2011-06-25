@@ -317,7 +317,7 @@ void graph3d::draw_floor_line(VECT *p_center, float size, int lines_min, int lin
   float step = 1.0f;
   
   while(1) {
-    int lines = (int)(size/step);
+    int lines = ftoi(size/step);
     if(lines > lines_max) {
       step *= 2.0f;
     } else if(lines < lines_min) {

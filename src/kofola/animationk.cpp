@@ -454,9 +454,9 @@ void am_Do_Beatle_Cakanec(int mesh, LEVELINFO *p_Level, int id)
 
 	kom_mesh_get_float(mesh, &pos[0], &pos[1], &pos[2], &r);
 
-	iPos[0] = (int)((pos[0] - ber.x_start - X_PRVEK/2) / X_PRVEK);
-	iPos[2] = (int)(((pos[1] - ber.y_start - Y_PRVEK/2) / Y_PRVEK) * 2);
-	iPos[1] = (int)((pos[2] - ber.z_start - Z_PRVEK/2) / Z_PRVEK);
+	iPos[0] = ftoi((pos[0] - ber.x_start - X_PRVEK/2) / X_PRVEK);
+	iPos[2] = ftoi(((pos[1] - ber.y_start - Y_PRVEK/2) / Y_PRVEK) * 2);
+	iPos[1] = ftoi((pos[2] - ber.z_start - Z_PRVEK/2) / Z_PRVEK);
 
 	if(iPos[0] < 0 || iPos[1] < 0 || iPos[2] < 0 ||
 	   iPos[0] >= p_Level->Size[0] ||
@@ -1506,7 +1506,7 @@ int am_Kola_na_Vode(float *pos, int VyskaSloupce, int VyskaPadu, int predmet, LE
 	PARMETAC_HNIZDO *pHnizdo;
 	SYSTEMKOUROVYCHCASTIC	*pSystem;
 	WATER_BOUNDARY	Boundary;
-	int size = (int)(100 / p_Level->KvalitaCastic);
+	int size = ftoi(100 / p_Level->KvalitaCastic);
 
 	k = am_Get_Free_VodniKola(p_Level);
 
@@ -1770,7 +1770,7 @@ void am_Do_Lift_VParticles(float *pos, int mesh, LEVELINFO *p_Level)
 {
 	int k,m;
 	PAR_KOUR_STOPA	*pKourovaS;
-	int size = (int)(500 / p_Level->KvalitaCastic);
+	int size = ftoi(500 / p_Level->KvalitaCastic);
 
 	k = am_Get_Free_Lift_VParticles(p_Level);
 
@@ -1868,7 +1868,7 @@ int am_Kola_na_VodeB(float *pos, int Beruska, int mesh, int infinity, LEVELINFO 
 	PARMETAC_HNIZDO *pHnizdo;
 	SYSTEMKOUROVYCHCASTIC	*pSystem;
 	WATER_BOUNDARY	Boundary;
-	int size = (int)(100 / p_Level->KvalitaCastic);
+	int size = ftoi(100 / p_Level->KvalitaCastic);
 
 	pos[1] -= 0.5f;
 
@@ -2120,7 +2120,7 @@ void am_Create_BublSystem(int i, LEVELINFO *p_Level)
 	int m, rot;
 	PAR_KOUR_STOPA	*pKourovaS;
 	SYSTEMKOUROVYCHCASTIC	*pSystem = &p_Level->BublSystem[i].System;
-	int size = (int)(500 / p_Level->KvalitaCastic);
+	int size = ftoi(500 / p_Level->KvalitaCastic);
 
 	pKourovaS = (PAR_KOUR_STOPA *) malloc(size * sizeof(PAR_KOUR_STOPA));
 
@@ -2257,7 +2257,7 @@ void am_Do_Vybuch_Bublin(int *iPos, float *fPos, LEVELINFO *p_Level)
 	PAR_KOUR_STOPA	*pKourovaS;
 	PAR_KOUR_STOPA	*pCastice;
 	SYSTEMKOUROVYCHCASTIC	*pSystem;
-	int size = (int)(500 / p_Level->KvalitaCastic);
+	int size = ftoi(500 / p_Level->KvalitaCastic);
 	
 	m = am_Get_Free_BublVybuch(p_Level);
 
@@ -2819,7 +2819,7 @@ void am_Create_Exit_Sparks(ITEMDESC *pExit, char Down, LEVELINFO *p_Level)
 	SYSTEMKOUROVYCHCASTIC	*pSystem;
 	float pos[3];
 	int rot;
-	int size = (int)(100 / p_Level->KvalitaCastic);
+	int size = ftoi(100 / p_Level->KvalitaCastic);
 
 	k = am_Get_Free_ExitSparksSystem(p_Level);
 
@@ -2921,7 +2921,7 @@ int am_Create_TelCSparks(ITEMDESC *pTel, LEVELINFO *p_Level)
 	SYSTEMKOUROVYCHCASTIC	*pSystem;
 	float pos[3];
 	int rot;
-	int size = (int)(300 / p_Level->KvalitaCastic);
+	int size = ftoi(300 / p_Level->KvalitaCastic);
 
 	k = am_Get_Free_TelCSparksSystem(p_Level);
 
@@ -4884,7 +4884,7 @@ int am_Create_BarelSparksSystem(ITEMDESC *pTel, LEVELINFO *p_Level)
 	SYSTEMKOUROVYCHCASTIC	*pSystem;
 	float pos[3];
 	int rot;
-	int size = (int)(10 / p_Level->KvalitaCastic);
+	int size = ftoi(10 / p_Level->KvalitaCastic);
 
 	k = am_Get_Free_BarelSparksSystem(p_Level);
 
@@ -5532,7 +5532,7 @@ void am_Create_BublSystem_Effect1(float *pos, LEVELINFO *p_Level, int iSize)
 	int m;
 	PAR_KOUR_STOPA	*pKourovaS;
 	SYSTEMKOUROVYCHCASTIC	*pSystem = &p_Level->BublSystemE.System;
-	int size = (int)(iSize / p_Level->KvalitaCastic);
+	int size = ftoi(iSize / p_Level->KvalitaCastic);
 
 	pKourovaS = (PAR_KOUR_STOPA *) malloc(size * sizeof(PAR_KOUR_STOPA));
 
@@ -5600,7 +5600,7 @@ void am_Create_BublSystem_Effect2(float *pos, LEVELINFO *p_Level, int iSize, flo
 	int m;
 	PAR_KOUR_STOPA	*pKourovaS;
 	SYSTEMKOUROVYCHCASTIC	*pSystem = &p_Level->BublSystemC.System;
-	int size = (int)(iSize / p_Level->KvalitaCastic);
+	int size = ftoi(iSize / p_Level->KvalitaCastic);
 
 	pKourovaS = (PAR_KOUR_STOPA *) malloc(size * sizeof(PAR_KOUR_STOPA));
 
@@ -6630,7 +6630,7 @@ void am_Gen_Swamp_Lights(LEVELINFO *p_Level, RECT *r)
 	//generuj staticke msvetilka
 	for(i=0;i<10;i++)
 	{
-		t = (int)(int)((randf() / (float)RAND_MAX) * 1000.0f);
+		t = (int)ftoi((randf() / (float)RAND_MAX) * 1000.0f);
 
 		done = 0;
 
@@ -7031,8 +7031,8 @@ void am_Gen_Star_Lights(LEVELINFO *p_Level, float *pos)
 	
 	for(i=0;i<200;i++)
 	{
-		s = (int)(int)((randf() / (float)RAND_MAX) * 10000.0f);
-		t = (int)(int)((randf() / (float)RAND_MAX) * 1000.0f);
+		s = (int)ftoi((randf() / (float)RAND_MAX) * 10000.0f);
+		t = (int)ftoi((randf() / (float)RAND_MAX) * 1000.0f);
 
 		done = 0;
 

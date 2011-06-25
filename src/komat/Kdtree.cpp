@@ -140,7 +140,7 @@ typedef struct _MIN_MAX {
 
 static int kd_comp_hrana(const void *p_hrana1, const void *p_hrana2)
 {
-  return((int)((((MIN_MAX *)p_hrana1)->min-((MIN_MAX *)p_hrana2)->min)*10000.0f));
+  return(ftoi((((MIN_MAX *)p_hrana1)->min-((MIN_MAX *)p_hrana2)->min)*10000.0f));
 }
 
 #define   MIN_X   2.0f

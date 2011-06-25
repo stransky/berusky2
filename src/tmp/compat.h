@@ -107,7 +107,6 @@ typedef struct
 } AUDIO_DATA;
 
 void Sleep(int ms);
-int ftoi(float t);
 
 char * itoa(int base, char *buf, int d);
 

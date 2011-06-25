@@ -78,6 +78,9 @@
 //#undef ENABLE_GL
 #define ENABLE_GL           1
 
+// basic rounds
+int ftoi(float t);
+
 #endif // ! _WIN32
 
 #endif // __WINDOWS_COMPATIBILITY_H__

@@ -2531,7 +2531,7 @@ GLMATRIX * key_sim_to_matrix(SIMPLE_TRACK_INFO *p_sim, int time, GLMATRIX *p_m)
       t = (float)time/SIM_KONST;
       frame = (float)floor((float)t);
       t -= frame;
-      kn = (int)frame;
+      kn = ftoi(frame);
       t1 = 1.0f-t;
       if(p_sim->p_pos) {
         p1 = p_sim->p_pos+kn;
@@ -2681,7 +2681,7 @@ GLMATRIX * key_sim_to_matrix_param(SIMPLE_TRACK_INFO *p_sim, int time, GLMATRIX 
     t = (float)time/SIM_KONST;
     frame = (float)floor((float)t);
     t -= frame;
-    kn = (int)frame;
+    kn = ftoi(frame);
     t1 = 1.0f-t;
     if(p_sim->p_pos) {
       p1 = p_sim->p_pos+kn;
@@ -3531,7 +3531,7 @@ void key_kosti_animuj_rec(JOINT *p_joint, GLMATRIX *p_top, int time, int keynum)
     t = (float)time/SIM_KONST;
     frame = (float)floor((float)t);
     t -= frame;
-    kn = (int)frame;
+    kn = ftoi(frame);
     t1 = 1.0f-t;
     if(p_joint->p_pos) {
       p1 = p_joint->p_pos+kn;
@@ -3650,7 +3650,7 @@ void key_kosti_stream_animuj_rec(JOINT_ANIMACE *p_anim, JOINT *p_joint, GLMATRIX
       frame = (float)floor((float)t);
       
       t -= frame;
-      kn = (int)frame;
+      kn = ftoi(frame);
       t1 = 1.0f-t;
       
       if(p_joint->p_pos) {
