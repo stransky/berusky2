@@ -5,6 +5,7 @@
 
 void Sleep(int ms)
 {
+  SDL_Delay(ms);
 }
 
 int ftoi(float t)

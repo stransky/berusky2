@@ -363,25 +363,25 @@ int	winmain_Game_Run(char *p_Level_Name)
 
 	if(!bGame)
 	{
-		//schovej_konzoli();
-		SetCursor(NULL);
-		ddxInit();
-	
-		//Sleep(2000);
-		RunMenuCinemax();
-
-		ap_Play_Song(0,0,&ad);
-
-		ddxLoadList("2d_load.dat", 1);
-		
-		if(!fn_Set_Font(cFontFile[0]))
-		{
-			//MessageBox("Unable to set font!", "Error", MB_OK);
-			return 0;
-		}
-
-		if(!fn_Load_Bitmaps())
-			kprintf(1,"Unable to load font bitmaps");
+    //schovej_konzoli();
+    SetCursor(NULL);
+    ddxInit();
+      
+    RunMenuCinemax();
+    Sleep(20000);
+    
+    ap_Play_Song(0,0,&ad);
+    
+    ddxLoadList("2d_load.dat", 1);
+    
+    if(!fn_Set_Font(cFontFile[0]))
+    {
+      //MessageBox("Unable to set font!", "Error", MB_OK);
+      return 0;
+    }
+    
+    if(!fn_Load_Bitmaps())
+      kprintf(1,"Unable to load font bitmaps");
 
 	}
 

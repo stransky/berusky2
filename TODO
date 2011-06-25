@@ -1,14 +1,6 @@
-- wrong font highlight
-- spatne ovladani b1, pri ruznych smerech to je blbe
-
-- hint loading/rendering
+- spatne ovladani b1, pri ruznych smerech to je blbe (jen po c ->center na berusku)
 
 wchar_windows_to_linux -> mem leaky
-
-- opravit rendering fontu
-
-- zverejnit par testovacich levelu
-- udelat nejakou developerskou stranku, s par levelama, obrazkama
 
 - nastavit fps! (v ini souboru)
 - hwconf -> nastavit tam to rozliseni, 1024/768
