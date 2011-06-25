@@ -45,6 +45,7 @@
 static   DDX2_SURFACE_DEVICE *p_dev;
 static   DDX2_SURFACE_DEVICE *p_dev_list;
 static   DDX2_SURFACE_LIST    slist;
+static   int ddx2InitDone = FALSE;
 
 #define  vysledna_barva(barva) ((nepruhl(barva) == slist.pruhledna_barva) ? PRUHL_BARVA : nepruhl(barva))
 #define  get_bmp(handle)       ((handle == DDX2_BACK_BUFFER) ? p_dev->p_back_buffer : slist.p_slist[handle].p_bmp)
@@ -58,10 +59,13 @@ extern	RECT_LINE	rline;
 //------------------------------------------------------------------------------------------------
 int ddx2Init(int max_surfacu, dword pruhledna_barva)
 {
-  slist.p_slist = (DDX2_SURFACE *)mmalloc(sizeof(slist.p_slist[0])*max_surfacu);
-  slist.surf_max = max_surfacu;
-  slist.pruhledna_barva = pruhledna_barva;
-  slist.surf_num = 0;  
+  if(!ddx2InitDone) {
+    slist.p_slist = (DDX2_SURFACE *)mmalloc(sizeof(slist.p_slist[0])*max_surfacu);
+    slist.surf_max = max_surfacu;
+    slist.pruhledna_barva = pruhledna_barva;
+    slist.surf_num = 0;
+    ddx2InitDone = TRUE;
+  }  
   return(TRUE);
 }
 
@@ -71,11 +75,14 @@ int ddx2Init(int max_surfacu, dword pruhledna_barva)
 //------------------------------------------------------------------------------------------------
 void ddx2Release(void)
 {
-  int i;
-  for(i = 0; i < slist.surf_max; i++) {
-    ddx2ReleaseBitmap(i);
+  if(ddx2InitDone) {
+    int i;
+    for(i = 0; i < slist.surf_max; i++) {
+      ddx2ReleaseBitmap(i);
+    }
+    null_free((void **)&slist.p_slist);
+    ddx2InitDone = FALSE;
   }
-  null_free((void **)&slist.p_slist);
 }
 
 //-----------------------------------------------------------------------------
@@ -544,6 +551,8 @@ int ddx2FindFreeSurface(void)
     if(!slist.p_slist[i].p_bmp)
       return(i);
   }
+  // We don't have a free surface
+  assert(0);
   return(K_CHYBA);
 }
 

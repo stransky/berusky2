@@ -3,6 +3,23 @@
 #include "3d_all.h"
 #include "ini.h"
 
+#include "3d_all.h"
+
+#include "Object.h"
+
+#include "Berusky_universal.h"
+#include "Berusky3d_castice.h"
+#include "Berusky3d.h"
+#include "Berusky3d_ini.h"
+#include "Berusky3d_load.h"
+#include "Berusky3d_render.h"
+#include "Berusky3d_animace.h"
+#include "Berusky3d_kofola_interface.h"
+#include "Berusky3d_light.h"
+#include "Berusky3d_kamery.h"
+
+#include "Berusky3d_kofola2d.h"
+
 void Sleep(int ms)
 {
   SDL_Delay(ms);
@@ -27,55 +44,183 @@ unsigned int timeGetTime(void)
 }
 
 //-----------------------------------------------------------------------------
+// ddx2 interface
+//-----------------------------------------------------------------------------
+extern APAK_HANDLE		  *pBmpArchive;
+char                    bmp_dir[MAX_PATH];
+DeviceHandle            ddxDevice;
+int                     i_CursorDDX = 0;
+int                     ddxInitDone = FALSE;
+int                     bFlip;
+
+
+//-----------------------------------------------------------------------------
 // Name: DisplayFrame()
 // Desc: Blts a the sprites to the back buffer, then flips the 
 //       back buffer onto the primary buffer.
 //-----------------------------------------------------------------------------
 int DisplayFrame()
 {
+/*
+  RECT r;
+  HRESULT hr;
+  int i_Act = g_pDisplay->GetActBuffer();
+  
+    // We are in fullscreen mode, so perform a flip and return 
+    // any errors like DDERR_SURFACELOST
+  r.left = 0;
+  r.top = 0;
+  r.right = ddxGetWidth(i_CursorDDX);
+  r.bottom = ddxGetHight(i_CursorDDX);
+  
+  if(dim.rx + r.right >= 1024)
+    r.right -= dim.rx + r.right - 1024;
+  
+  if(dim.y + r.bottom >= 768)
+    r.bottom -= dim.ry + r.bottom - 768;
+  
+  ddxBitBlt(i_Cursor[i_Act], 0, 0, r.right, r.bottom, HDC2DD, 
+        dim.rx, 
+        dim.ry);
+  
+  if(bDrawCursor)
+  {
+    ddx.surface[i_CursorDDX].g_pSurface->SetColorKey( TRANSCOLOR );
+  
+    g_pDisplay->ColorKeyBlt(dim.rx, dim.ry, ddx.surface[i_CursorDDX].g_pSurface->GetDDrawSurface(), &r);
+  }
+  
+  g_pDisplay->SetCursorX(i_Act, dim.rx);
+  g_pDisplay->SetCursorY(i_Act, dim.ry);
+  
+    if( FAILED( hr = g_pDisplay->Present() ) )
+        return hr;
+  
+  if(!g_pDisplay->IsWindowed())
+  {
+    g_pDisplay->AddBufferCounter();
+    i_Act = g_pDisplay->GetActBuffer();
+  }
+  
+  r.left = 0;
+  r.top = 0;
+  r.right = ddxGetWidth(i_CursorDDX);
+  r.bottom = ddxGetHight(i_CursorDDX);
+  
+  if(g_pDisplay->GetCursorX(i_Act) + r.right >= 1024)
+    r.right -= g_pDisplay->GetCursorX(i_Act) + r.right - 1024;
+  
+  if(g_pDisplay->GetCursorY(i_Act) + r.bottom >= 768)
+    r.bottom -= g_pDisplay->GetCursorY(i_Act) + r.bottom - 768;
+  
+  
+  g_pDisplay->Blt(g_pDisplay->GetCursorX(i_Act), g_pDisplay->GetCursorY(i_Act), ddx.surface[i_Cursor[i_Act]].g_pSurface, &r);
+  
+  return S_OK;
+  */
+}
+
+void ddxSetCursorSurface(int iSurface)
+{
+	i_CursorDDX = iSurface;
 }
 
 int ddxInit(void)
-{
+{  
+  if(!ddxInitDone) {
+    ddx2Init(200,RGB(255,0,255));
+  
+    GetPrivateProfileString("game","bitmap_dir","c:\\",bmp_dir,MAX_PATH,(const char *) ini_file);
+  
+    ddxSetCursor(1);
+    ddxSetCursorSurface(0);
+    ddxSetFlip(1);
+  
+    ddxDevice = ddx2DeviceCreate(TRUE, 32);
+    ddx2DeviceSetActive(ddxDevice);
+  
+    ddx2DeviceSetBackBufferSize(1024, 768);
+    ddx2DeviceSetBackBufferRect(0, 0, 1024, 768);
+    ddx2DeviceSetTextRenderRec(0, 0, 1024, 768);
+    ddx2DeviceSetScreenRec(0, 0, 1024, 768);
+    ddx2DeviceSetRender(TRUE);
+  
+    ddxInitDone = TRUE;
+  }
+  return(TRUE);
 }
 
 void ddxRelease(void)
 {
+  if(ddxInitDone) {
+    ddx2DeviceRemove(ddxDevice);
+    ddx2Release();
+    ddxInitDone = FALSE;
+  }
 }
 
 int ddxFindFreeSurface(void)
 {
-  return(0);
+  return(ddx2FindFreeSurface());
 }
 
 int ddxReleaseBitmap(int iSurface)
 {
+  return(ddx2ReleaseBitmap(iSurface));
 }
 
 int ddxLoadList(char *pFileName, int bProgress)
 {
+	if(bProgress)
+	{
+		ddxSetCursor(0);
+		ddxSetFlip(0);
+	}
+
+	kprintf(1,"Kofola: - Load bitmap pro herni menu");
+  ddx2LoadList(pFileName, pBmpArchive, bmp_dir);
+
+	if(bProgress)
+	{
+		ddxSetCursor(1);
+		ddxSetFlip(1);
+	}
+  return(1);
 }
 
 int ddxLoadBitmap(char *pFileName, APAK_HANDLE *pHandle)
 {
+  return(ddx2LoadBitmap(pFileName, pHandle));
 }
 
 int ddxCreateSurface(int x, int y, int idx)
 {
+  return(ddx2CreateSurface(x, y, idx));
 }
 
 void ddxDrawSurfaceColorKey(int iSurface, int *com, int layer, COLORREF color)
 {
+  ddx2DrawSurfaceColorKey(iSurface, com, layer, color);
 }
 void ddxDrawDisplayColorKey(int *com, int layer, COLORREF color)
 {
+  ddx2DrawDisplayColorKey(com, layer, color);
 }
 void ddxDrawDisplay(int *com, int layer)
 {
+  ddx2DrawDisplay(com, layer);
 }
 void ddxDrawSurface(int iSurface, int *com, int layer)
 {
+  ddx2DrawSurface(iSurface, com, layer);
 }
+
+/*
+BOOL ddx2TransparentBltFull(SurfaceHandle dst, int dx, int dy, 
+                            SurfaceHandle src, dword barva);
+
+BOOL ddx2BitBltFull(SurfaceHandle dst, int dx, int dy, SurfaceHandle src);
+*/
 
 BOOL ddxTransparentBlt(
     int dcDestSurface,  // handle to Dest DC
@@ -91,6 +236,18 @@ BOOL ddxTransparentBlt(
     UINT crTransparent  // color to make transparent
   )
 {
+  return ddx2TransparentBlt(
+            dcDestSurface,
+            nXOriginDest,
+            nYOriginDest,
+            nWidthDest,
+            nHeightDest,
+            dcSrcSurface,
+            nXOriginSrc,
+            nYOriginSrc,
+            nWidthSrc,
+            nHeightSrc,
+            crTransparent);
 }
 
 BOOL ddxTransparentBltDisplay(
@@ -106,6 +263,17 @@ BOOL ddxTransparentBltDisplay(
     UINT crTransparent  // color to make transparent
   )
 {
+  return ddx2TransparentBltDisplay(            
+            nXOriginDest,
+            nYOriginDest,
+            nWidthDest,
+            nHeightDest,
+            dcSrcSurface,
+            nXOriginSrc,
+            nYOriginSrc,
+            nWidthSrc,
+            nHeightSrc,
+            crTransparent);
 }
 
 BOOL ddxBitBlt(
@@ -119,6 +287,15 @@ BOOL ddxBitBlt(
     int nYOriginSrc     // y-coord of source upper-left corner
   )
 {
+  return ddx2BitBlt(
+            dcDestSurface,
+            nXOriginDest,
+            nYOriginDest,
+            nWidthDest,
+            nHeightDest,
+            dcSrcSurface,
+            nXOriginSrc,
+            nYOriginSrc);
 }
 
 BOOL ddxBitBltDisplay(
@@ -131,30 +308,46 @@ BOOL ddxBitBltDisplay(
     int nYOriginSrc     // y-coord of source upper-left corner
   )
 {
+  return ddx2BitBltDisplay(
+            nXOriginDest,
+            nYOriginDest,
+            nWidthDest,
+            nHeightDest,
+            dcSrcSurface,
+            nXOriginSrc,
+            nYOriginSrc);
 }
 
 int ddxGetWidth(int iSurface)
 {
+  return(ddx2GetWidth(iSurface));
 }
 int ddxGetHight(int iSurface)
 {
+  return(ddx2GetHeight(iSurface));
 }
 
 void ddxCleareSurface(int iSurface)
 {
+  ddx2CleareSurface(iSurface);
 }
 void ddxCleareSurfaceColor(int iSurface, COLORREF color)
 {
+  ddx2CleareSurfaceColor(iSurface, color);
 }
 void ddxFillRect(int iSurface, RECT *rect, COLORREF color)
 {
+  ddx2FillRect(iSurface, rect, color);
 }
 void ddxFillRectDisplay(RECT *rect, COLORREF color)
 {
+  ddx2FillRect(DDX2_BACK_BUFFER, rect, color);
 }
 void ddxAddRectItem(void *p_rl, RECT rect, int iLayer)
 {
+  ddx2AddRectItem((RECT_LINE *)p_rl, rect, iLayer);
 }
+
 int  ddxStretchBltDisplay(RECT *rDest, int iSurface, RECT *rSource)
 {
 }
@@ -168,19 +361,18 @@ int ddxUpdateMouse(void)
 
 void ddxSetFlip(char bSwitch)
 {
+  bFlip = bSwitch;
 }
 void ddxSetCursor(char bSwitch)
 {
+  SDL_ShowCursor(bSwitch ? SDL_ENABLE : SDL_DISABLE);
 }
 void ddxResizeCursorBack(int iSurface)
 {
 }
-void ddxSetCursorSurface(int iSurface)
-{
-}
 
 BOOL ddxRestore(int *p_CompositDC, int *p_FontDC, int *p_BackDC, int *p_iCompositDC, int *p_iFontDC, int *p_iBackDC, 
-        char *p_cBrutalRestart, AUDIO_DATA *p_ad)
+                char *p_cBrutalRestart, AUDIO_DATA *p_ad)
 {
 }
 
@@ -192,8 +384,10 @@ void ddxCleareSurfaceColorDisplay(COLORREF color)
 {
 }
 
+// Return always "windowed" mode
 int ddxGetMode(void)
 {
+  return(TRUE);
 }
 
 int ogg_playing(void)
