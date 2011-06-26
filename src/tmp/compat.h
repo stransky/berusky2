@@ -36,6 +36,13 @@ typedef struct _ROVINAD {
   double x,y,z,e;
 } ROVINAD;
 
+typedef struct _RECT {
+  int left;
+  int top;
+  int right;
+  int bottom;
+} RECT, *PRECT;
+
 #include "kfile.h"
 #include "Bmp.h"
 #include "Texture.h"
@@ -54,15 +61,9 @@ typedef struct _ROVINAD {
 #include "Ddx.h"
 #include "Load_chunks.h"
 #include "Kdtree.h"
+#include "2D_graphic.h"
 
 typedef void (* END_FUNKCE)(int param, int param2, void *p_param);
-
-typedef struct _RECT {
-  int left;
-  int top;
-  int right;
-  int bottom;
-} RECT, *PRECT;
 
 inline void ZeroMemory(void *mem, int size)
 {
@@ -112,6 +113,12 @@ char * itoa(int base, char *buf, int d);
 
 void timeGetTimeInit(void);
 unsigned int timeGetTime(void);
+
+//-----------------------------------------------------------------------------
+// ddx2 interface
+//-----------------------------------------------------------------------------
+extern RECT_LINE rline;
+extern RECT	rDrawRect[DRAW_RECT_NUM];
 
 //-----------------------------------------------------------------------------
 // Name: DisplayFrame()

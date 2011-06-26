@@ -159,6 +159,55 @@ void ddxRelease(void)
   }
 }
 
+/*
+void am_Flip(LEVELINFO *p_Level, ANIMATION_MODULE *p_am, char bAll, RECT_LINE *rline, int rsize, int bTutor, int bTText, int ty)
+*/
+void ddxPublish(void)
+{
+  int i, x = 0;
+  float s[2];
+  
+  s[0] = (float)hwconf.xres / 1024.0f;
+  s[1] = (float)hwconf.yres / 768.0f;
+  
+  char bAll = TRUE;
+  /*
+  RECT	r;
+  
+  r.left = mx;
+  r.top = my;
+  r.right = _3dCur.idx;
+  r.bottom = _3dCur.idy;
+  
+  ddx2AddRectItem(rline, r, 0);
+  */
+  if(!rline.rlast)
+    ddx2SetRect(NULL, 0);
+  else
+  {
+    ZeroMemory(rDrawRect, sizeof(RECT) * DRAW_RECT_NUM);
+    for(i=0;i<rline.rlast;i++) {
+      if(!_2d_Is_InRectLine(rDrawRect, &rline.rect[i].rect, x))
+      {
+        memcpy(&rDrawRect[x], &rline.rect[i].rect, sizeof(RECT));
+        x++;
+      }
+    }
+    ddx2SetRect(rDrawRect, x);
+  }
+  
+  spracuj_spravy(0);
+  
+  if(bAll)
+    ddx2RenderujVse(p_ber);
+  else
+    ddx2RenderujMenu(p_ber);
+  
+  flip();
+  
+  _2d_Clear_RectLine(&rline);
+}
+
 int ddxFindFreeSurface(void)
 {
   return(ddx2FindFreeSurface());
@@ -209,6 +258,7 @@ void ddxDrawDisplayColorKey(int *com, int layer, COLORREF color)
 void ddxDrawDisplay(int *com, int layer)
 {
   ddx2DrawDisplay(com, layer);
+  ddxPublish();
 }
 void ddxDrawSurface(int iSurface, int *com, int layer)
 {
@@ -236,18 +286,20 @@ BOOL ddxTransparentBlt(
     UINT crTransparent  // color to make transparent
   )
 {
-  return ddx2TransparentBlt(
-            dcDestSurface,
-            nXOriginDest,
-            nYOriginDest,
-            nWidthDest,
-            nHeightDest,
-            dcSrcSurface,
-            nXOriginSrc,
-            nYOriginSrc,
-            nWidthSrc,
-            nHeightSrc,
-            crTransparent);
+  bool ret = ddx2TransparentBlt(
+                dcDestSurface,
+                nXOriginDest,
+                nYOriginDest,
+                nWidthDest,
+                nHeightDest,
+                dcSrcSurface,
+                nXOriginSrc,
+                nYOriginSrc,
+                nWidthSrc,
+                nHeightSrc,
+                crTransparent);
+  ddxPublish();
+  return(ret);
 }
 
 BOOL ddxTransparentBltDisplay(
@@ -263,17 +315,19 @@ BOOL ddxTransparentBltDisplay(
     UINT crTransparent  // color to make transparent
   )
 {
-  return ddx2TransparentBltDisplay(            
-            nXOriginDest,
-            nYOriginDest,
-            nWidthDest,
-            nHeightDest,
-            dcSrcSurface,
-            nXOriginSrc,
-            nYOriginSrc,
-            nWidthSrc,
-            nHeightSrc,
-            crTransparent);
+  bool ret = ddx2TransparentBltDisplay(
+                nXOriginDest,
+                nYOriginDest,
+                nWidthDest,
+                nHeightDest,
+                dcSrcSurface,
+                nXOriginSrc,
+                nYOriginSrc,
+                nWidthSrc,
+                nHeightSrc,
+                crTransparent);
+  ddxPublish();
+  return(ret);
 }
 
 BOOL ddxBitBlt(
@@ -308,14 +362,16 @@ BOOL ddxBitBltDisplay(
     int nYOriginSrc     // y-coord of source upper-left corner
   )
 {
-  return ddx2BitBltDisplay(
-            nXOriginDest,
-            nYOriginDest,
-            nWidthDest,
-            nHeightDest,
-            dcSrcSurface,
-            nXOriginSrc,
-            nYOriginSrc);
+  int ret = ddx2BitBltDisplay(
+                nXOriginDest,
+                nYOriginDest,
+                nWidthDest,
+                nHeightDest,
+                dcSrcSurface,
+                nXOriginSrc,
+                nYOriginSrc);
+  ddxPublish();
+  return(ret);
 }
 
 int ddxGetWidth(int iSurface)
@@ -342,6 +398,7 @@ void ddxFillRect(int iSurface, RECT *rect, COLORREF color)
 void ddxFillRectDisplay(RECT *rect, COLORREF color)
 {
   ddx2FillRect(DDX2_BACK_BUFFER, rect, color);
+  ddxPublish();
 }
 void ddxAddRectItem(void *p_rl, RECT rect, int iLayer)
 {

@@ -767,7 +767,7 @@ void kom_load_level(char *p_file, int zmen_dir, int restart, BUNKA_LEVELU_DISK *
 
 void kom_post_init_level(void)
 {
- ber_init_level(p_ber);
+  ber_init_level(p_ber);
 }
 
 /* Zruseni meshe

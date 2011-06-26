@@ -252,6 +252,9 @@ int main(int argc, char **argv)
     p_grf->config_draw_selection(TRUE);
   }
 
+  glClearColor(1,0,0,1);
+  glstav_reset();
+
   p_level = (argc > 1) ? argv[1] : "";
   winmain_Game_Run(p_level);
 

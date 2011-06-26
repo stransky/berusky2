@@ -26,27 +26,5 @@
 #include "compat.h"
 
 #include "kfile.h"
-/*
-#include "3d_typy.h"
-#include "Texture.h"
-#include "Ddx.h"
-#include "gglext.h"
-#include "Di.h"
-#include "Matrix.h"
-#include "Color.h"
-#include "Mat3d.h"
-#include "strip.h"
-#include "Load.h"
-#include "Load_chunks.h"
-#include "Load_out.h"
-#include "Vektor.h"
-#include "Kdtree.h"
-#include "Keyframe.h"
-#include "3dmath.h"
-#include "3dproject.h"
-#include "Quat.h"
-#include "Bmp.h"
-#include "obbo.h"
-*/
 
 #endif

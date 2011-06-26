@@ -378,7 +378,7 @@ void ber_init_level(G_KONFIG *p_ber)
 {
  float b[4];
 
- glstav_reset(); 
+ glstav_reset();
   
  if(p_ber->conf_barva_pozadi_pouzit) {
    rgb_float(p_ber->conf_barva_pozadi,b);
