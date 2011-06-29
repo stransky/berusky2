@@ -47,16 +47,10 @@ void ber_ini_mod(G_KONFIG *p_ber)
   calc_camera_bod(&p_ber->kamera.camera,&p_ber->kamera.invcam,
                   &p_ber->kamera.p,p_ber->kamera.vzdal,p_ber->kamera.fi,
                   p_ber->kamera.r);
-
-  p_ber->wx = 0;
-  p_ber->wy = 0;
-  p_ber->wxres = hwconf.xres;
-  p_ber->wyres = hwconf.yres;
 }
 
 void ber_nahod_mod(G_KONFIG *p_ber)
 {
-
  p_ber->p_word = &p_ber->kamera.word;
  p_ber->p_project = &p_ber->kamera.project;
  p_ber->p_camera = &p_ber->kamera.camera;
@@ -73,12 +67,12 @@ void ber_nahod_mod(G_KONFIG *p_ber)
  p_ber->kamera.aktivni |= GAME_KAMERA_POLAR;
  p_ber->kamera.zmena = TRUE;
  
- kprintf(TRUE,"Screen %dx%d",p_ber->wxres,p_ber->wyres);
+ kprintf(TRUE,"Screen %dx%d",OXRES, OYRES);
  
  set_matrix_world(p_ber->p_word);
  set_matrix_camera(p_ber->p_camera);
  set_matrix_project(p_ber->p_project);
- set_matrix_view(p_ber->wx, p_ber->wy, p_ber->wxres, p_ber->wyres);
+ set_matrix_view(OXSTART, OYSTART, OXRES, OYRES);
  set_matrix_camera_project(p_ber->p_project);
 
  kprintf(TRUE,"kam.fov = %.2fs",RAD2DEG(p_ber->kam.fov));

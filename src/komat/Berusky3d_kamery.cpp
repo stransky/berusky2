@@ -1354,10 +1354,10 @@ void kam_game_set_clear(G_KONFIG *p_ber)
 
 void kam_set_kino_screen(G_KONFIG *p_ber)
 {
-  int kxres = p_ber->wxres;
-  int kyres = ftoi(p_ber->wxres*KINO_POMER);
-  int kx = p_ber->wx,
-      ky = p_ber->wy + (p_ber->wyres-kyres)/2;
+  int kxres = OXRES;
+  int kyres = ftoi(OXRES*KINO_POMER);
+  int kx = OXSTART,
+      ky = OYSTART + (OYRES-kyres)/2;
 
   set_matrix_view(kx, ky, kxres, kyres);
   projection_matrix(&p_ber->kamera.project,p_ber->kam.fov,(float)kxres/(float)kyres,p_ber->kam.near_plane,p_ber->kam.far_plane);
@@ -1366,7 +1366,7 @@ void kam_set_kino_screen(G_KONFIG *p_ber)
 
 void kam_set_normal_screen(G_KONFIG *p_ber)
 {
-  set_matrix_view(p_ber->wx, p_ber->wy, p_ber->wxres, p_ber->wyres);
+  set_matrix_view(OXSTART, OYSTART, OXRES, OYRES);
   projection_matrix(&p_ber->kamera.project,p_ber->kam.fov,(float)OXRES/(float)OYRES,p_ber->kam.near_plane,p_ber->kam.far_plane);
   set_matrix_project(p_ber->p_project);
 }

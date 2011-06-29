@@ -51,10 +51,8 @@ extern _2D_DATA				_2dd;
 extern   HW_KONFIG          hwconf;
 
 static ANIMATION		anm[32];
-static unsigned int	ATimer_ID = 0;
 static DWORD timercnt = 0;
 static DWORD dwLTime;
-static char cRestartMainMenu;
 static int CompositDC;
 static int FontDC;
 static int BackDC;
@@ -495,7 +493,7 @@ void CheckAnimation2(CMD_LINE *cmd, AUDIO_DATA *p_ad)
 int mPlaySound2(CMD_LINE *cmd, AUDIO_DATA *p_ad, int type)
 {
 	float	pos[3] = {0.0f, 0.0f, 1.0f};
-	int		r = rand()%4, ret;
+	int		r = rand()%4, ret = 0;
 
 	if(cmd->iParam[r+1] < 0)
 	{
@@ -1120,7 +1118,7 @@ void InitTabControls2(CONTROL_LIST_ITEM2 *citem, int *hdcTab)
 		co2_List_Redraw(hdcTab[3], citem[24].p_list, 0);
 }
 
-void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, ANIMATION_MODULE *p_am)
+void RunMenuSettings2(const char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, ANIMATION_MODULE *p_am)
 {
 	int		mix, miy;
 	float	s_factor[2];
@@ -1172,7 +1170,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA *p_ad, LEVELINFO *p_Level, A
 	ddx2DeviceSetBackBufferSize(1024, 768);
 	ddx2DeviceSetBackBufferRect(0, 0, 1024, 768);
 	ddx2DeviceSetTextRenderRec(0, 0, 1024, 768);
-	ddx2DeviceSetScreenRec(0, 0, hwconf.xres,hwconf.yres);
+	ddx2DeviceSetScreenRec(0, 0, hwconf.xres, hwconf.yres);
   
 	//ddx2DeviceSetRender(TRUE);
 

@@ -128,7 +128,7 @@ void ddxSetCursorSurface(int iSurface)
 int ddxInit(void)
 {  
   if(!ddxInitDone) {
-    ddx2Init(200,RGB(255,0,255));
+    ddx2Init(10000, RGB(255,0,255));
   
     GetPrivateProfileString("game","bitmap_dir","c:\\",bmp_dir,MAX_PATH,(const char *) ini_file);
   
@@ -220,20 +220,20 @@ int ddxReleaseBitmap(int iSurface)
 
 int ddxLoadList(char *pFileName, int bProgress)
 {
-	if(bProgress)
-	{
-		ddxSetCursor(0);
-		ddxSetFlip(0);
-	}
-
-	kprintf(1,"Kofola: - Load bitmap pro herni menu");
+  if(bProgress)
+  {
+    ddxSetCursor(0);
+    ddxSetFlip(0);
+  }
+  
+  kprintf(1,"Kofola: - Load bitmap pro herni menu");
   ddx2LoadList(pFileName, pBmpArchive, bmp_dir);
-
-	if(bProgress)
-	{
-		ddxSetCursor(1);
-		ddxSetFlip(1);
-	}
+  
+  if(bProgress)
+  {
+    ddxSetCursor(1);
+    ddxSetFlip(1);
+  }
   return(1);
 }
 

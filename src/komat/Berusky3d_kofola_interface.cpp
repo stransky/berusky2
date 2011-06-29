@@ -1155,9 +1155,9 @@ MeshHandle kom_get_mesh_mys(int itrida)
 
  glu_invert_matrix(p_mat,&m);
  transf_2d_3d_matrix((float)mi.x, (float)mi.y, 0.0f, &a.x, &a.y, &a.z,
-                     &m, p_ber->wxres, p_ber->wyres, p_ber->wx, p_ber->wy);
+                     &m, OXRES, OYRES, OXSTART, OYSTART);
  transf_2d_3d_matrix((float)mi.x, (float)mi.y, 0.2f, &b.x, &b.y, &b.z,
-                     &m, p_ber->wxres, p_ber->wyres, p_ber->wx, p_ber->wy);
+                     &m, OXRES, OYRES, OXSTART, OYSTART);
 
  prvnum = p_ber->prvnum;
  for(i = 0; i < prvnum; i++) {
@@ -1199,9 +1199,9 @@ int kom_get_mesh_mys_all(void)
 
  glu_invert_matrix(p_mat,&m);
  transf_2d_3d_matrix((float)mi.x, (float)mi.y, 0.0f, &a.x, &a.y, &a.z,
-                     &m, p_ber->wxres, p_ber->wyres, p_ber->wx, p_ber->wy);
+                     &m, OXRES, OYRES, OXSTART, OYSTART);
  transf_2d_3d_matrix((float)mi.x, (float)mi.y, 0.2f, &b.x, &b.y, &b.z,
-                     &m, p_ber->wxres, p_ber->wyres, p_ber->wx, p_ber->wy);
+                     &m, OXRES, OYRES, OXSTART, OYSTART);
 
  meshnum = p_ber->meshnum;
  for(i = 0; i < meshnum; i++) {

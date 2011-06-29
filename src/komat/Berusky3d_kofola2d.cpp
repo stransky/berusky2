@@ -48,7 +48,16 @@ static   DDX2_SURFACE_LIST    slist;
 static   int ddx2InitDone = FALSE;
 
 #define  vysledna_barva(barva) ((nepruhl(barva) == slist.pruhledna_barva) ? PRUHL_BARVA : nepruhl(barva))
-#define  get_bmp(handle)       ((handle == DDX2_BACK_BUFFER) ? p_dev->p_back_buffer : slist.p_slist[handle].p_bmp)
+
+inline bitmapa * get_bmp(SurfaceHandle handle)
+{
+  if(handle == DDX2_BACK_BUFFER) {
+    return(p_dev->p_back_buffer);
+  } else {
+    assert(handle < slist.surf_max);
+    return(slist.p_slist[handle].p_bmp);
+  }
+}
 
 // Kofolovo
 extern	RECT_LINE	rline;
@@ -463,10 +472,10 @@ glEnable(GL_BLEND);
 //------------------------------------------------------------------------------------------------
 void ddx2StartRender2D(void)
 {
-	set_matrix_2d(OXRES,OYRES);
-	glColor4f(1,1,1,1);
-	glDisable(GL_BLEND);
-	glDisable(GL_DEPTH_TEST);
+  set_matrix_2d(OXRES,OYRES);
+  glColor4f(1,1,1,1);
+  glDisable(GL_BLEND);
+  glDisable(GL_DEPTH_TEST);
   glEnable(GL_ALPHA_TEST);
   glAlphaFunc(GL_LEQUAL,0);
   specular_off();
@@ -481,8 +490,8 @@ void ddx2StopRender2D(void)
   glDisable(GL_ALPHA_TEST);
   glAlphaFunc(GL_GREATER,0.5f);
   glDisable(GL_BLEND);
-	glEnable(GL_DEPTH_TEST);
-	ret_matrix_2d();
+  glEnable(GL_DEPTH_TEST);
+  ret_matrix_2d();
 }
 
 // ----------------------------------------------------------------------------
@@ -561,6 +570,7 @@ int ddx2FindFreeSurface(void)
 //------------------------------------------------------------------------------------------------
 SurfaceHandle ddx2ReleaseBitmap(SurfaceHandle iSurface)
 {
+  assert(iSurface < slist.surf_max);
   if(slist.p_slist[iSurface].p_bmp) {
     bmp_zrus(&slist.p_slist[iSurface].p_bmp);
   }
@@ -573,6 +583,7 @@ SurfaceHandle ddx2ReleaseBitmap(SurfaceHandle iSurface)
 SurfaceHandle ddx2LoadBitmapPos(SurfaceHandle handle, char *pFileName, APAK_HANDLE *pHandle)
 {
   if(handle != K_CHYBA) {
+    assert(handle < slist.surf_max);
     ddx2ReleaseBitmap(handle);
     if((slist.p_slist[handle].p_bmp = bmp_nahraj(pHandle, pFileName))) {
       // for compatibility with old broken bmp loading
@@ -593,6 +604,7 @@ SurfaceHandle ddx2LoadBitmapPos(SurfaceHandle handle, char *pFileName, APAK_HAND
 SurfaceHandle ddx2LoadBitmapPosDisk(SurfaceHandle handle, char *pFileName)
 {
   if(handle != K_CHYBA) {
+    assert(handle < slist.surf_max);
     ddx2ReleaseBitmap(handle);      
     if((slist.p_slist[handle].p_bmp = bmp_nahraj(pFileName))) {
       // for compatibility with old broken bmp loading
@@ -667,6 +679,7 @@ BOOL ddx2LoadList(char *pFileName, APAK_HANDLE *pBmpArchive, char *p_bmp_dir)
 //------------------------------------------------------------------------------------------------
 SurfaceHandle ddx2CreateSurface(int x, int y, int idx)
 {
+  assert(idx < slist.surf_max);
   if(idx > -1 && idx < slist.surf_max) {
     ddx2ReleaseBitmap(idx);
     

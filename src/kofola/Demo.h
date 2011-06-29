@@ -26,12 +26,12 @@ typedef struct
 {
 	DEMOKEYFRAME	*p_First;			// pointer to first DEMOKEYFRAME
 	DEMOKEYFRAME	*p_Last;			// pointer to first DEMOKEYFRAME
-	long			Frame_Counter;		// stores number of created DEMOKEYFRAMEs+1
-	DWORD			Start;				// start time
-	DWORD			Finish;				// finist time
-	unsigned int	Timer_ID;			// Timer ID for next frame
-	int				bOvladaniBerusek1;
-	long			dwTimeCounter;
+	long			    Frame_Counter;		// stores number of created DEMOKEYFRAMEs+1
+	DWORD			    Start;				// start time
+	DWORD			    Finish;				// finist time
+  SDL_TimerID	  Timer_ID;			// Timer ID for next frame
+	int				    bOvladaniBerusek1;
+	long			    dwTimeCounter;
 } DEMOSTRUCTURE;
 
 typedef struct

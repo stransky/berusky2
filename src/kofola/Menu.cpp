@@ -56,25 +56,25 @@ typedef struct
 	char		 bStop;
 } ANIMATION;
 
-extern _2D_DATA				_2dd;
-extern   HW_KONFIG          hwconf;
+extern _2D_DATA		_2dd;
+extern HW_KONFIG  hwconf;
 
-	   MOUSE_INFO           dim;
+MOUSE_INFO        dim;
 
 static ANIMATION		anm[32];
-static unsigned int	ATimer_ID = 0;
+static SDL_TimerID	ATimer_ID = 0;
 static DWORD timercnt = 0;
 static DWORD timercntframe = 0;
 static DWORD dwLTime;
 static char cRestartMainMenu;
-	   char cBrutalRestart = 0;
-	   int CompositDC;
-	   int FontDC;
-	   int BackDC;
+char cBrutalRestart = 0;
+int  CompositDC;
+int  FontDC;
+int  BackDC;
 
-	int		iCompositDC,
-			iFontDC,
-			iBackDC;
+int  iCompositDC,
+     iFontDC,
+     iBackDC;
 
 static char bBackDC = 0;
 int	iActualScene = 0;

@@ -290,7 +290,6 @@ typedef struct _G_KONFIG {
   float               *p_roll;   // roll kamery
   int                 *p_mod;    // mod kamery
 
-  int                  wx,wy,wxres,wyres;
   int                  kam_omezeni;
 
   GAME_KAMERA          kamera;
@@ -530,10 +529,10 @@ typedef struct _G_KONFIG {
 
 } G_KONFIG;
 
-#define OXRES       p_ber->wxres
-#define OYRES       p_ber->wyres
-#define OXSTART     p_ber->wx
-#define OYSTART     p_ber->wy
+#define OXRES       hwconf.xres
+#define OYRES       hwconf.yres
+#define OXSTART     hwconf.xstart
+#define OYSTART     hwconf.ystart
 
 void ber_updatuj_fps(G_KONFIG *p_ber);
 void ber_konfiguruj_berusky(G_KONFIG *p_ber);

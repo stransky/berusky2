@@ -118,13 +118,6 @@ int kom_graf_init(void)
   */ 
   ber_nahod_render_funkce();
 
-  /* Nastavni rozliseni
-  */
-  p_ber->wx = hwconf.xstart;
-  p_ber->wy = hwconf.ystart;
-  p_ber->wxres = hwconf.xres;
-  p_ber->wyres = hwconf.yres;
-
   /* Vyflushni veci z fronty
   */
   spracuj_spravy(TRUE);

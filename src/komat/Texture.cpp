@@ -468,7 +468,7 @@ void txt_lightmap_konfig(EDIT_TEXT_KONFIG *p_konf)
 /* Textury
   +scale textur, je-li to potreba
 */
-int txt_nahraj_texturu_z_func(APAK_HANDLE *pHandle, char *p_file,
+int txt_nahraj_texturu_z_func(APAK_HANDLE *pHandle, const char *p_file,
                               EDIT_TEXT_OLD *p_text, int save, int load,
                               EDIT_TEXT_KONFIG *p_konf,
                               bitmapa * (*p_load)(APAK_HANDLE *pAHandle, char *p_file))

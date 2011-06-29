@@ -368,8 +368,7 @@ int	winmain_Game_Run(char *p_Level_Name)
     ddxInit();
       
     RunMenuCinemax();
-    Sleep(20000);
-    
+        
     ap_Play_Song(0,0,&ad);
     
     ddxLoadList("2d_load.dat", 1);
