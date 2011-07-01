@@ -15,7 +15,7 @@ typedef struct
 	int	y;
 } CREDIT_SURFACE;
 
-extern B2_FONT	b2_font;
+extern B2_FONT	b2_2d_font;
 extern APAK_HANDLE		*pBmpArchive;
 extern APAK_HANDLE		*pDataArchive;
 
@@ -44,7 +44,7 @@ int cr_Set_Text_Center(int hdc, char *text, int isection, RECT r)
 
 	MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
 
-	fn_Draw_MessageA(h, 0, 0, &b2_font.gt, &b2_font.ts, wc, isection, &tx, &ty);
+	fn_Draw_MessageA(h, 0, 0, &b2_2d_font.gt, &b2_2d_font.ts, wc, isection, &tx, &ty);
 
 	xp = ftoi(((r.right - r.left) - tx) / 2.0f);
 	//yp = ftoi(((r.bottom - r.top) - ty) / 2.0f);
@@ -68,7 +68,7 @@ int cr_Set_Text_CenterW(int hdc, WCHAR *text, int isection, RECT r)
 
 	MultiByteToWideChar( CP_ACP, 0, (char *)text, strlen((char *)text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
 
-	fn_Draw_MessageA(h, 0, 0, &b2_font.gt, &b2_font.ts, text, isection, &tx, &ty);
+	fn_Draw_MessageA(h, 0, 0, &b2_2d_font.gt, &b2_2d_font.ts, text, isection, &tx, &ty);
 
 	xp = ftoi(((r.right - r.left) - tx) / 2.0f);
 	yp = 0;

@@ -173,7 +173,6 @@ int NextStep(CMD_LINE *cmd)
 
 void DrawFrame(CMD_LINE *cmd, AUDIO_DATA *p_ad)
 {
-/*
 	if(cmd->iAnim[cmd->iLastfrm][10] == 2)
 	{
 		float p[3] = {0, 0, 0};
@@ -212,7 +211,6 @@ void DrawFrame(CMD_LINE *cmd, AUDIO_DATA *p_ad)
 			ddxDrawSurfaceColorKey(CompositDC, cmd->iAnim[cmd->iLastfrm], 1, TRANSCOLOR);
 		else
 			ddxDrawSurface(FontDC, cmd->iAnim[cmd->iLastfrm], 3);
-*/
 }
 
 //------------------------------------------------------------------------------------------------
@@ -2675,20 +2673,21 @@ MENU_SETTING_BRUTAL_RESTART:
 				}
 			}
 */
-			//resid = -1;
-/*
+			resid = -1;
+
 			if(key[K_ESC])
 			{
+/*      
 				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-
+*/
 				goto __QUIT;
 			}
-*/
+
 			/*else
 				goto BEGIN_MENU;*/     
 		}
@@ -2761,7 +2760,6 @@ __QUIT:
 
 void RunStretchAnimation(char *cScene, int x, int y, AUDIO_DATA *p_ad)
 {
-/*
 	int idx;
 	RECT r;
 	RECT s = {0, 0, 1024, 768};
@@ -2808,12 +2806,10 @@ void RunStretchAnimation(char *cScene, int x, int y, AUDIO_DATA *p_ad)
 
 	if(iLanguageVersion == 4)
 		apakclose(hArchive);
-*/
 }
 
 void RunMenuNewGameSceneActivate(CMD_LINE *res)
 {
-/*
 #ifndef __DEMO
 	int i;
 
@@ -2836,7 +2832,6 @@ void RunMenuNewGameSceneActivate(CMD_LINE *res)
 	ddxDrawSurface(BackDC, res[6+8].iAnim[0], 2);
 
 #endif
-*/
 }
 
 void GetRunMenuNewGameSceneLoadGame(char *cscene, char *cscenemap, char *csceneanim, char	*cscenelevel, 
@@ -3097,11 +3092,11 @@ void RunMenuNewGameScene(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu
 				return;
 			}
 		}
-/*
+
 	ddxCleareSurface(CompositDC);
 	ddxCleareSurface(FontDC);
 	ddxCleareSurface(BackDC);
-*/
+
 BEGIN_MENU_NEWGAMESCENE_BRUTAL:
 
 	for(bind=0;bind<RES_NUM;bind++)
@@ -3153,12 +3148,12 @@ BEGIN_MENU_NEWGAMESCENE_BRUTAL:
 				break;
 		}
 	}
-	/*
+
 	RunMenuNewGameSceneActivate(res);
 	ddxBitBltDisplay(0, 0, 1024, 768, BackDC, 0, 0);
 	ddxCleareSurface(BackDC);
 	//DisplayFrame();
-  */
+
 BEGIN_MENU_NEWGAMESCENE:
 
 	//NOVA CESTA ////////////////////////////////////////////////////////////////////////////////////
@@ -3234,7 +3229,7 @@ BEGIN_MENU_NEWGAMESCENE:
 						if(in)
 						{
 							Stop(&res[lastabv]);
-/*
+
 							if(!res[lastabv].iLayer)
 							{
 								ddxDrawDisplay(res[lastabv].iAnim[0], 0);
@@ -3245,7 +3240,6 @@ BEGIN_MENU_NEWGAMESCENE:
 								ddxDrawDisplayColorKey(res[lastabv].iAnim[0], 0, TRANSCOLOR);
 								ddxDrawSurface(FontDC, res[lastabv].iAnim[0], 3);
 							}
-*/
 						}
 
 						CheckAnimation(&res[i], p_ad);
@@ -3276,7 +3270,7 @@ BEGIN_MENU_NEWGAMESCENE:
 						// odesel z oblasti, ktera byla aktivni -> stop animace					
 						// a odznaceni oblasti
 						Stop(&res[i]);
-/*
+
 						if(!res[i].iLayer)
 						{
 							ddxDrawDisplay(res[i].iAnim[0], 0);
@@ -3287,7 +3281,7 @@ BEGIN_MENU_NEWGAMESCENE:
 							ddxDrawDisplayColorKey(res[i].iAnim[0], 0, TRANSCOLOR);
 							ddxDrawSurface(FontDC, res[i].iAnim[0], 3);
 						}
-*/
+
 						bind = ChooseBidedExitAnimation(res, i+1, p_ad);
 
 						if(bind != -1)
@@ -3297,7 +3291,7 @@ BEGIN_MENU_NEWGAMESCENE:
 							if(anbind != -1)
 							{
 								Stop(&res[anbind]);
-/*
+
 								if(!res[anbind].iLayer)
 								{
 									ddxDrawDisplay(res[anbind].iAnim[0], 0);
@@ -3308,7 +3302,6 @@ BEGIN_MENU_NEWGAMESCENE:
 									ddxDrawDisplayColorKey(res[anbind].iAnim[0], 0, TRANSCOLOR);
 									ddxDrawSurface(FontDC, res[anbind].iAnim[0], 3);
 								}
-*/
 							}
 
 							iAnim = AddAnimation(&res[bind], p_ad, 1, 1);
@@ -3574,7 +3567,6 @@ BEGIN_MENU_NEWGAMESCENE:
 			}
 			else
 			{
-/*      
 				for(i=0;i<lastcmd;i++)
 				{
 					switch(res[i].iParam[0])
@@ -3588,7 +3580,7 @@ BEGIN_MENU_NEWGAMESCENE:
 				RunMenuNewGameSceneActivate(res);
 				ddxBitBltDisplay(0, 0, 1024, 768, BackDC, 0, 0);
 				ddxCleareSurface(BackDC);
-*/
+
 				goto BEGIN_MENU_NEWGAMESCENE;
 			}
 		}
@@ -3617,7 +3609,7 @@ BEGIN_MENU_NEWGAMESCENE:
 		dwStop = timeGetTime();
 
 		dwEplased += dwStop - dwStart;
-/*
+
 		spracuj_spravy(0);
 		ddxUpdateMouse();
 		AnimationEvent(NULL, 0, 0, dwStop, p_ad);
@@ -3640,15 +3632,14 @@ BEGIN_MENU_NEWGAMESCENE:
 			FreeAnimations(res, RES_NUM);
 			goto BEGIN_MENU_NEWGAMESCENE_BRUTAL;
 		}
-*/
 	}
 
 __QUIT:
-/*
+
 	ddxCleareSurface(FontDC);
 	ddxCleareSurface(BackDC);
 	ddxCleareSurface(CompositDC);
-*/
+
 	cRestartMainMenu = 1;
 	key[K_ESC] = 0;
 
@@ -3680,7 +3671,7 @@ void LoadSceneMap(int *pBmp, char *cSceneBmp, char *cSceneAnim, int iScene, int 
 		else
 			hArchive->pActualNode = hArchive->pRootNode->pNextNode;
 
-		//pBmp[0] = ddxLoadBitmap(cSceneBmp, hArchive);
+		pBmp[0] = ddxLoadBitmap(cSceneBmp, hArchive);
 
 		for(i=1;i<6;i++)
 		{
@@ -3693,17 +3684,16 @@ void LoadSceneMap(int *pBmp, char *cSceneBmp, char *cSceneAnim, int iScene, int 
 	}
 	else
 	{
-		//pBmp[0] = ddxLoadBitmap(cSceneBmp, pBmpArchive);
-/*
+		pBmp[0] = ddxLoadBitmap(cSceneBmp, pBmpArchive);
+  
 		for(i=1;i<6;i++)
 		{
 			sprintf(text, "%s%d.bmp", cSceneAnim, i);
 			pBmp[i] = ddxLoadBitmap(text, pBmpArchive);
 			DrawClock(iClock, i);
 		}
-*/  
 	}
-/*
+
 	switch(iScene)
 	{
 		case 1:
@@ -3755,7 +3745,7 @@ void LoadSceneMap(int *pBmp, char *cSceneBmp, char *cSceneAnim, int iScene, int 
 			pBmp[11] = ddxLoadBitmap("level_ok_yellow_l.bmp", pBmpArchive);
 			break;
 	}
-*/
+
 	DrawClock(iClock, 6);
 }
 
@@ -3765,7 +3755,7 @@ void DrawLevelHint(int x, int y, int iLevel)
 	char text[256];
 
 	sprintf(text, "t_%d.bmp", iLevel - 200);
-/*
+
 	idx = ddxLoadBitmap(text, pBmpArchive);
 
 	if(idx == -1)
@@ -3775,7 +3765,6 @@ void DrawLevelHint(int x, int y, int iLevel)
 	ddxTransparentBlt(BackDC, x, y, ddxGetWidth(idx), ddxGetHight(idx), idx, 0, 0, ddxGetWidth(idx), ddxGetHight(idx), TRANSCOLOR);
 
 	ddxReleaseBitmap(idx);
-*/
 }
 
 void CreateLevelButton(int x, int y, CMD_LINE *res, int *lastcmd, int *pBmp, char *cMessage, char bDone, 
@@ -4783,7 +4772,6 @@ __QUIT:
 
 int RunMenuNewGame(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 {
-/*
 	DWORD	dwEplased = 0, dwStart, dwStop;
 	int	ret = 0;
 	int c = 0;
@@ -5174,16 +5162,14 @@ BEGIN_MENU_NEWGAME:
 
 			if(bDone)
 			{
-*/      
-/*
+      /*
 				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-*/
-/*
+      */
 				goto __QUIT;
 			}
 			else
@@ -5251,7 +5237,6 @@ __QUIT:
 	free((void *) res);
 
 	return ret;
-  */
 }
 
 char check_profile(char *p_name)
@@ -5276,12 +5261,11 @@ int compare( const void *arg1, const void *arg2 )
 
 int FillStringList(char *cmask, LIST_ITEM_ **list, int *isize)
 {
-/*
 	int c = 0;
 	long Done, error;
 	struct _finddata_t	Data;
 	
-
+/* TODO
 	Done = _findfirst(cmask ,&Data);
 	error = Done;
 		
@@ -5292,7 +5276,7 @@ int FillStringList(char *cmask, LIST_ITEM_ **list, int *isize)
 	}
 
 	_findclose(Done); 
-
+*/
 	if(!c)
 	{
 		(*isize) = c;
@@ -5304,7 +5288,7 @@ int FillStringList(char *cmask, LIST_ITEM_ **list, int *isize)
 
 
 	c = 0;
-	
+/*	
 	Done = _findfirst(cmask ,&Data);
 	error = Done;
 		
@@ -5318,13 +5302,12 @@ int FillStringList(char *cmask, LIST_ITEM_ **list, int *isize)
 	}
 
 	_findclose(Done); 
-
+*/
 	qsort((*list), c, sizeof(LIST_ITEM_), compare);
 
 	(*isize) = c;
 
 	return c;
-*/
 }
 
 int FillComboProfiles(COMBO_CONTROL *p_co, int *iSel)
@@ -8646,7 +8629,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 						// odesel z oblasti, ktera byla aktivni -> stop animace					
 						// a odznaceni oblasti
 						Stop(&res[i]);
-/*
+
 						if(res[i].iAnim[0][0] != -1)
 						{
 							if(!res[i].iLayer)
@@ -8660,7 +8643,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 								ddxDrawSurface(FontDC, res[i].iAnim[0], 3);
 							}
 						}
-*/
+
 						bind = ChooseBidedExitAnimation(res, i+1, p_ad);
 
 						if(bind != -1)
@@ -8794,7 +8777,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 			rr.top = 161;
 			rr.right = 700;
 			rr.bottom = 549;
-/*
+
 			y = (int)ftoi((dwEplased * (ddxGetHight(iComix) - 550)) / (float) iSongTime);
 	
 			if(y >=  ddxGetHight(iComix) - 550)
@@ -8803,7 +8786,6 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int iScene)
 			ddxBitBlt(CompositDC, 124, 161, ddxGetWidth(iComix), 549, iComix, 0, y);
 
 			_2d_Add_RectItem(&rline, rr, 0);
-    */
 		}
 
 		AnimationEvent(NULL, 0, 0, dwStop, p_ad);

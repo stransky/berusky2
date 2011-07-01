@@ -11,7 +11,7 @@
 
 //#pragma comment(lib,"Msimg32.lib")
 
-extern B2_FONT    b2_font;
+B2_FONT b2_3d_font;
 extern _3D_DATA		_3dd;
 
 void fn2_Release_Font(void);
@@ -53,10 +53,10 @@ int fn2_Find_Char(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts, int *top, int *left, in
 				break;
 		}*/
 
-	if(cWChar > b2_font.iMaxCharValue)
+	if(cWChar > b2_3d_font.iMaxCharValue)
 		return 0;
 
-	i = b2_font.pTTable[cWChar];
+	i = b2_3d_font.pTTable[cWChar];
 
 	if(i < 0)
 		return 0;
@@ -82,24 +82,24 @@ int fn2_Create_TTable(int iMaxCharValue, GAME_TRIGER *gt, TRIGER_STRUCTURE *ts)
 {
 	int i;
 
-	b2_font.pTTable = (int *) malloc((iMaxCharValue + 1)* sizeof(int));
+	b2_3d_font.pTTable = (int *) malloc((iMaxCharValue + 1)* sizeof(int));
 
-	if(!b2_font.pTTable)
+	if(!b2_3d_font.pTTable)
 		return 0;
 
 	for(i=0;i<iMaxCharValue + 1;i++)
-		b2_font.pTTable[i] = -1;
+		b2_3d_font.pTTable[i] = -1;
 
 	for(i=0;i<gt->lastcommand;i++)
 		switch(gt->command[i].iCommand)
 		{
 			case 1:
 				if(gt->command[i].Parametr[0].Value < (unsigned) iMaxCharValue + 1)
-						b2_font.pTTable[(int)gt->command[i].Parametr[0].Value] = i;
+						b2_3d_font.pTTable[(int)gt->command[i].Parametr[0].Value] = i;
 				break;
 		}
 
-	b2_font.iMaxCharValue = iMaxCharValue;
+	b2_3d_font.iMaxCharValue = iMaxCharValue;
 	return 1;
 }
 
@@ -119,7 +119,7 @@ int fn2_Set_Font_Params(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts)
 				{
 					if(gt->command[i].LastParam > 2 &&
 					   gt->command[i].Parametr[0].Type == 0)
-						b2_font.tcolor = RGB(gt->command[i].Parametr[0].Value, 
+						b2_3d_font.tcolor = RGB(gt->command[i].Parametr[0].Value, 
 											 gt->command[i].Parametr[1].Value,
 											 gt->command[i].Parametr[2].Value);
 				}
@@ -128,14 +128,14 @@ int fn2_Set_Font_Params(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts)
 				{
 					if(gt->command[i].LastParam > 0 &&
 					   gt->command[i].Parametr[0].Type == 0)
-						b2_font.iYPlus = gt->command[i].Parametr[0].Value;
+						b2_3d_font.iYPlus = gt->command[i].Parametr[0].Value;
 				}
 				break;
 			case 6:
 				{
 					if(gt->command[i].LastParam > 0 &&
 					   gt->command[i].Parametr[0].Type == 0)
-						b2_font.iXPlus = gt->command[i].Parametr[0].Value;
+						b2_3d_font.iXPlus = gt->command[i].Parametr[0].Value;
 				}
 				break;
 		}
@@ -168,8 +168,8 @@ int fn2_Set_Font_Bmps(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts)
 											wcslen((wchar_t *)ts->StrTable[gt->command[i].Parametr[1].Value]),
 											text, 256, NULL, NULL);
 
-					   b2_font.iBitmap[gt->command[i].Parametr[0].Value] = ddx2LoadBitmap(text, b2_font.pArchive);
-					   //_2d_APAK_Load_Bitmap(text, b2_font.pArchive);
+					   b2_3d_font.iBitmap[gt->command[i].Parametr[0].Value] = ddx2LoadBitmap(text, b2_3d_font.pArchive);
+					   //_2d_APAK_Load_Bitmap(text, b2_3d_font.pArchive);
 					}  
 				}
 				break;
@@ -187,9 +187,9 @@ int fn2_Set_Font_Bmps(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts)
 											text, 256, NULL, NULL);
 
 
-						txt_nahraj_texturu_z_func(b2_font.pArchive, text, 
-							&b2_font.tex[gt->command[i].Parametr[0].Value], 1, 0, 
-							&b2_font.konf[gt->command[i].Parametr[0].Value],bmp_nahraj);
+						txt_nahraj_texturu_z_func(b2_3d_font.pArchive, text, 
+							&b2_3d_font.tex[gt->command[i].Parametr[0].Value], 1, 0, 
+							&b2_3d_font.konf[gt->command[i].Parametr[0].Value],bmp_nahraj);
 					}
 				}
 				break;
@@ -205,14 +205,14 @@ void fn2_Draw_Message(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, TRIGE
 	int		i;
 	int		top, bottom, left, right, ycor;
 
-	int		x = iXpos, y = iYpos - b2_font.iYPlus;
+	int		x = iXpos, y = iYpos - b2_3d_font.iYPlus;
 
 	*iXmax = x;
 	*iYmax = y;
 
 	i = wcslen(cFile);
 
-	cFile = wcsstr((WCHAR *) b2_font.pTBuffer, cFile);
+	cFile = wcsstr((WCHAR *) b2_3d_font.pTBuffer, cFile);
 	
 	if(!cFile)
 		return;
@@ -230,14 +230,14 @@ void fn2_Draw_Message(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, TRIGE
 			if(wtext[i] == 32)
 			{
 				//x+= 50;
-				x+=b2_font.iXPlus;
+				x+=b2_3d_font.iXPlus;
 				continue;
 			}
 			else
 				if(wtext[i] == 10)
 				{
 					//y+= 17;
-					y+= b2_font.iYPlus;
+					y+= b2_3d_font.iYPlus;
 					x = iXpos;
 
 					*iYmax = y;
@@ -245,15 +245,15 @@ void fn2_Draw_Message(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, TRIGE
 				}
 				else
 					if(fn2_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor, wtext[i], 
-									(float)ddx2GetWidth(b2_font.iBitmap[iSection]),
-									(float)ddx2GetHeight(b2_font.iBitmap[iSection])))
+									(float)ddx2GetWidth(b2_3d_font.iBitmap[iSection]),
+									(float)ddx2GetHeight(b2_3d_font.iBitmap[iSection])))
 					{		
-						/*TransparentBltU(hdc, x, y + ycor, right - left + 1, bottom - top + 1, _2dd.bitmap[b2_font.iBitmap[iSection]].bitmapDC, 
-										left, top, right - left + 1, bottom - top + 1, b2_font.tcolor);*/
+						/*TransparentBltU(hdc, x, y + ycor, right - left + 1, bottom - top + 1, _2dd.bitmap[b2_3d_font.iBitmap[iSection]].bitmapDC, 
+										left, top, right - left + 1, bottom - top + 1, b2_3d_font.tcolor);*/
 
 						ddx2TransparentBlt(iSurface, x, y + ycor, right - left + 1, bottom - top + 1, 
-										   b2_font.iBitmap[iSection],left, top, right - left +1, 
-										   bottom - top +1, b2_font.tcolor);
+										   b2_3d_font.iBitmap[iSection],left, top, right - left +1, 
+										   bottom - top +1, b2_3d_font.tcolor);
 
 						x += right - left + 2;
 
@@ -307,12 +307,12 @@ void fn2_Draw_Format_Line(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts, TEXT_WORLD *tWo
 			if(!end_char(tWord[i].wcWord[j]))
 			{
 				if(fn2_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor, tWord[i].wcWord[j], 
-								(float)ddx2GetWidth(b2_font.iBitmap[iSection]),
-								(float)ddx2GetHeight(b2_font.iBitmap[iSection])))
+								(float)ddx2GetWidth(b2_3d_font.iBitmap[iSection]),
+								(float)ddx2GetHeight(b2_3d_font.iBitmap[iSection])))
 				{
 					ddx2TransparentBlt(iSurface, sx, y + ycor, right - left + 1, bottom - top + 1, 
-									   b2_font.iBitmap[iSection],left, top, right - left +1, 
-									   bottom - top +1, b2_font.tcolor);
+									   b2_3d_font.iBitmap[iSection],left, top, right - left +1, 
+									   bottom - top +1, b2_3d_font.tcolor);
 
 					sx += right - left + 2;
 				}
@@ -337,7 +337,7 @@ void fn2_Draw_MessageRECT(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, T
 	int		i;
 	int		top, bottom, left, right, ycor;
 	
-	int		x = iXpos, y = iYpos - b2_font.iYPlus;
+	int		x = iXpos, y = iYpos - b2_3d_font.iYPlus;
 	int		lx;
 
 	ZeroMemory(tWord, 64 * sizeof(TEXT_WORLD));
@@ -346,7 +346,7 @@ void fn2_Draw_MessageRECT(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, T
 
 	i = wcslen(cFile);
 
-	cFile = wcsstr((WCHAR *) b2_font.pTBuffer, cFile);
+	cFile = wcsstr((WCHAR *) b2_3d_font.pTBuffer, cFile);
 	
 	if(!cFile)
 		return;
@@ -363,12 +363,12 @@ void fn2_Draw_MessageRECT(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, T
 		{
 			if(wtext[i] == 32)
 			{
-				x+=b2_font.iXPlus;
+				x+=b2_3d_font.iXPlus;
 
 				//pokud posledni pismeno nebyla mezera ani enter, tak konec slova
 				if(!end_char(wtext[i-1]))
 				{
-					tWord[iWordl].xEnd = x - b2_font.iXPlus;
+					tWord[iWordl].xEnd = x - b2_3d_font.iXPlus;
 					tWord[iWordl].wLen = &wtext[i] - tWord[iWordl].wcWord;
 					iWordl++;
 				}
@@ -379,19 +379,19 @@ void fn2_Draw_MessageRECT(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, T
 				if(wtext[i] == 10)
 				{
 					//y+= 17;
-					y+= b2_font.iYPlus;
+					y+= b2_3d_font.iYPlus;
 					x = iXpos;
 
 					*iYmax = y;
 
 					if(!end_char(wtext[i-1]))
 					{
-						tWord[iWordl].xEnd = x - b2_font.iXPlus;
+						tWord[iWordl].xEnd = x - b2_3d_font.iXPlus;
 						tWord[iWordl].wLen = &wtext[i] - tWord[iWordl].wcWord;
 						iWordl++;
 					}
 
-					fn2_Draw_Format_Line(gt, ts, tWord, iWordl+1, pR->left, y - b2_font.iYPlus, pR->right, iSection, iSurface, 0);
+					fn2_Draw_Format_Line(gt, ts, tWord, iWordl+1, pR->left, y - b2_3d_font.iYPlus, pR->right, iSection, iSurface, 0);
 
 					ZeroMemory(tWord, 64 * sizeof(TEXT_WORLD));
 					iWordl = 0;
@@ -399,8 +399,8 @@ void fn2_Draw_MessageRECT(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, T
 				}
 				else
 					if(fn2_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor, wtext[i], 
-									(float)ddx2GetWidth(b2_font.iBitmap[iSection]),
-									(float)ddx2GetHeight(b2_font.iBitmap[iSection])))
+									(float)ddx2GetWidth(b2_3d_font.iBitmap[iSection]),
+									(float)ddx2GetHeight(b2_3d_font.iBitmap[iSection])))
 					{
 						//pretekl sem?
 						if(x + right - left + 2 > pR->right)
@@ -421,7 +421,7 @@ void fn2_Draw_MessageRECT(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, T
 									{
 										fn2_Draw_Format_Line(gt, ts, tWord, iWordl - 1, pR->left, y, pR->right, iSection, iSurface, 1);
 	
-										y+= b2_font.iYPlus;
+										y+= b2_3d_font.iYPlus;
 										ZeroMemory(&tWord[0], sizeof(TEXT_WORLD));
 
 										tWord[0].wcWord = tWord[iWordl - 1].wcWord;
@@ -431,7 +431,7 @@ void fn2_Draw_MessageRECT(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, T
 
 										ZeroMemory(&tWord[1], 63 * sizeof(TEXT_WORLD));
 
-										x = tWord[0].xEnd + b2_font.iXPlus;
+										x = tWord[0].xEnd + b2_3d_font.iXPlus;
 
 										iWordl = 1;
 									}
@@ -439,7 +439,7 @@ void fn2_Draw_MessageRECT(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, T
 									{
 										fn2_Draw_Format_Line(gt, ts, tWord, iWordl - 1, pR->left, y, pR->right, iSection, iSurface, 1);
 	
-										y+= b2_font.iYPlus;
+										y+= b2_3d_font.iYPlus;
 										ZeroMemory(&tWord[0], sizeof(TEXT_WORLD));
 
 										tWord[0].wcWord = tWord[iWordl - 1].wcWord;
@@ -465,7 +465,7 @@ void fn2_Draw_MessageRECT(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, T
 
 									fn2_Draw_Format_Line(gt, ts, tWord, iWordl, pR->left, y, pR->right, iSection, iSurface, 1);
 
-									y+= b2_font.iYPlus;
+									y+= b2_3d_font.iYPlus;
 									ZeroMemory(&tWord[0], sizeof(TEXT_WORLD));
 
 									tWord[0].wcWord = tWord[iWordl].wcWord;
@@ -483,8 +483,8 @@ void fn2_Draw_MessageRECT(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, T
 						}			
 
 						/*ddx2TransparentBlt(iSurface, x, y + ycor, right - left + 1, bottom - top + 1, 
-										   b2_font.iBitmap[iSection],left, top, right - left +1, 
-										   bottom - top +1, b2_font.tcolor);*/
+										   b2_3d_font.iBitmap[iSection],left, top, right - left +1, 
+										   bottom - top +1, b2_3d_font.tcolor);*/
 
 						//pokud posledni pismeno byla mezera nebo enter, tak zacatek slova
 						if(end_char(wtext[i-1]))
@@ -521,14 +521,14 @@ void fn2_Draw_MessageA(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, TRIG
 			if(wtext[i] == 32)
 			{
 				//x+= 50;
-				x+=b2_font.iXPlus;
+				x+=b2_3d_font.iXPlus;
 				continue;
 			}
 			else
 				if(wtext[i] == 10)
 				{
 					//y+= 17;
-					y+= b2_font.iYPlus;
+					y+= b2_3d_font.iYPlus;
 					x = iXpos;
 
 					*iYmax = y;
@@ -536,15 +536,15 @@ void fn2_Draw_MessageA(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, TRIG
 				}
 				else
 					if(fn2_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor, wtext[i], 
-									(float)ddx2GetWidth(b2_font.iBitmap[iSection]),
-									(float)ddx2GetHeight(b2_font.iBitmap[iSection])))
+									(float)ddx2GetWidth(b2_3d_font.iBitmap[iSection]),
+									(float)ddx2GetHeight(b2_3d_font.iBitmap[iSection])))
 					{		
-						/*TransparentBltU(hdc, x, y + ycor, right - left + 1, bottom - top + 1, _2dd.bitmap[b2_font.iBitmap[iSection]].bitmapDC, 
-										left, top, right - left + 1, bottom - top + 1, b2_font.tcolor);*/
+						/*TransparentBltU(hdc, x, y + ycor, right - left + 1, bottom - top + 1, _2dd.bitmap[b2_3d_font.iBitmap[iSection]].bitmapDC, 
+										left, top, right - left + 1, bottom - top + 1, b2_3d_font.tcolor);*/
 
 						ddx2TransparentBlt(iSurface, x, y + ycor, right - left + 1, bottom - top + 1, 
-										  b2_font.iBitmap[iSection],left, top, right - left +1, 
-										  bottom - top +1, b2_font.tcolor);
+										  b2_3d_font.iBitmap[iSection],left, top, right - left +1, 
+										  bottom - top +1, b2_3d_font.tcolor);
 
 						x += right - left + 2;
 
@@ -581,14 +581,14 @@ void fn2_Gen_Texture(byte **lpTexture, int iXSize, int iYSize, int iXpos, int iY
 	int		top, bottom, left, right, ycor;
 	byte	*pT = NULL;
 
-	int		x = iXpos, y = iYpos - b2_font.iYPlus;
+	int		x = iXpos, y = iYpos - b2_3d_font.iYPlus;
 
 	*iXres = iXpos;
 	*iYres = iYpos;
 
 	i = wcslen(cFile);
 
-	cFile = wcsstr((WCHAR *) b2_font.pTBuffer, cFile);
+	cFile = wcsstr((WCHAR *) b2_3d_font.pTBuffer, cFile);
 	
 	if(!cFile)
 		return;
@@ -614,27 +614,27 @@ void fn2_Gen_Texture(byte **lpTexture, int iXSize, int iYSize, int iXpos, int iY
 		{
 			if(wtext[i] == 32)
 			{
-				x+= b2_font.iXPlus;
+				x+= b2_3d_font.iXPlus;
 				continue;
 			}
 			else
 				if(wtext[i] == 10)
 				{
 					//y+= 17;
-					y+= b2_font.iYPlus;
+					y+= b2_3d_font.iYPlus;
 					// *iYres = y;
 					x = iXpos;
 					continue;
 				}          
 				else if(fn2_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor, wtext[i],
-									(float)b2_font.tex[iSection].p_bmp->x,
-									(float)b2_font.tex[iSection].p_bmp->y))
+									(float)b2_3d_font.tex[iSection].p_bmp->x,
+									(float)b2_3d_font.tex[iSection].p_bmp->y))
 					{          
-						if(b2_font.tex[iSection].p_bmp)
+						if(b2_3d_font.tex[iSection].p_bmp)
 						{
 							fn2_Set_Char((unsigned int *)pT, iXSize, iYSize, x, y + ycor, 
-									    (unsigned int *)b2_font.tex[iSection].p_bmp->data, 
-										b2_font.tex[iSection].p_bmp->x, b2_font.tex[iSection].p_bmp->y,
+									    (unsigned int *)b2_3d_font.tex[iSection].p_bmp->data, 
+										b2_3d_font.tex[iSection].p_bmp->x, b2_3d_font.tex[iSection].p_bmp->y,
 										right - left, bottom - top, left, top);
 						}
 
@@ -702,7 +702,7 @@ int fn2_Load_Grammar(char *pFile, GRAMMAR *pGr)
 	FILE	*file;
 	char	text[256];
 	
-	file = aopen(b2_font.pArchive, pFile, "rb");
+	file = aopen(b2_3d_font.pArchive, pFile, "rb");
 
 	if(!file)
 		return 0;
@@ -730,7 +730,7 @@ char fn2_Load_Triger(char *pFile, GAME_TRIGER *pTriger, GRAMMAR *pGr, TRIGER_STR
 	
 	pTriger->lastcommand = 0;
 
-	file = aopen(b2_font.pArchive, pFile, "rb");
+	file = aopen(b2_3d_font.pArchive, pFile, "rb");
 
 	aunicode(file);
 
@@ -755,47 +755,47 @@ int fn2_Set_Font(char *cPAK)
 {
 	int i;
 
-	memset(&b2_font, 0, sizeof(B2_FONT));
+	memset(&b2_3d_font, 0, sizeof(B2_FONT));
 
-	if(!fn2_Open_Archive(cPAK, &b2_font.pArchive,"game","bitmap_dir"))
+	if(!fn2_Open_Archive(cPAK, &b2_3d_font.pArchive,"game","bitmap_dir"))
 		return 0;
 
-	b2_font.file = aopen(b2_font.pArchive, "texts.txt", "rb");
+	b2_3d_font.file = aopen(b2_3d_font.pArchive, "texts.txt", "rb");
 
-	if(!b2_font.file)
+	if(!b2_3d_font.file)
 	{
-		apakclose(b2_font.pArchive);
+		apakclose(b2_3d_font.pArchive);
 		return 0;
 	}
 	else
 	{
     int iTSize;
-		agetbuffer(b2_font.file, (char **)&b2_font.pTBuffer, &iTSize);
-    b2_font.pTBuffer = wchar_windows_to_linux((word *)b2_font.pTBuffer, iTSize);
+		agetbuffer(b2_3d_font.file, (char **)&b2_3d_font.pTBuffer, &iTSize);
+    b2_3d_font.pTBuffer = wchar_windows_to_linux((word *)b2_3d_font.pTBuffer, iTSize);
 
-		if(!b2_font.pTBuffer)
+		if(!b2_3d_font.pTBuffer)
 		{
-			apakclose(b2_font.pArchive);
+			apakclose(b2_3d_font.pArchive);
 			return 0;
 		}
 	}
 
-	if(!fn2_Load_Grammar("font_grammar.txt", &b2_font.gr))
+	if(!fn2_Load_Grammar("font_grammar.txt", &b2_3d_font.gr))
 		return 0;
 
-	b2_font.ts.LastStr = 0;
-	b2_font.ts.sizeofT = 0;
-	b2_font.ts.pTriger = NULL;
+	b2_3d_font.ts.LastStr = 0;
+	b2_3d_font.ts.sizeofT = 0;
+	b2_3d_font.ts.pTriger = NULL;
 	
-	if(!fn2_Load_Triger("font_def.txt", &b2_font.gt, &b2_font.gr, &b2_font.ts))
+	if(!fn2_Load_Triger("font_def.txt", &b2_3d_font.gt, &b2_3d_font.gr, &b2_3d_font.ts))
 		return 0;
 
 	for(i=0;i<FONT_MAX_BMP;i++)
-		b2_font.iBitmap[i] = -1;
+		b2_3d_font.iBitmap[i] = -1;
 
-	b2_font.pTTable = NULL;
+	b2_3d_font.pTTable = NULL;
 	
-	if(!fn2_Set_Font_Params(&b2_font.gt, &b2_font.ts))
+	if(!fn2_Set_Font_Params(&b2_3d_font.gt, &b2_3d_font.ts))
 		return 0;
 
 	return 1;
@@ -803,11 +803,11 @@ int fn2_Set_Font(char *cPAK)
 
 int fn2_Load_Bitmaps(void)
 {
-	if(!b2_font.pArchive)
+	if(!b2_3d_font.pArchive)
 		return 0;
 
 	kom_set_default_text_config(0,0,1,0,0,1);
-	fn2_Set_Font_Bmps(&b2_font.gt, &b2_font.ts);
+	fn2_Set_Font_Bmps(&b2_3d_font.gt, &b2_3d_font.ts);
 	kom_ret_default_text_config();
 
 	return 1;
@@ -817,30 +817,30 @@ void fn2_Release_Font(void)
 {
 	int i;
 
-	aclose(b2_font.file);
-	apakclose(b2_font.pArchive);
+	aclose(b2_3d_font.file);
+	apakclose(b2_3d_font.pArchive);
 
 //	if(_2dd.bitmap)
 		for(i=0;i<FONT_MAX_BMP;i++)
-			if(b2_font.iBitmap[i] != -1)
+			if(b2_3d_font.iBitmap[i] != -1)
 			{
-				ddx2ReleaseBitmap(b2_font.iBitmap[i]);
-				//_2d_Release_Bitmap(b2_font.iBitmap[i]);
+				ddx2ReleaseBitmap(b2_3d_font.iBitmap[i]);
+				//_2d_Release_Bitmap(b2_3d_font.iBitmap[i]);
 			}
 
 	for(i=0;i<FONT_MAX_BMP;i++)
-		if(b2_font.tex[i].load)
+		if(b2_3d_font.tex[i].load)
 		{
-			txt_zrus_texturu_ram(&b2_font.tex[i]);
-			b2_font.tex[i].load = 0;
+			txt_zrus_texturu_ram(&b2_3d_font.tex[i]);
+			b2_3d_font.tex[i].load = 0;
 		}
 
-	//b2_font.iTSize = 0;
+	//b2_3d_font.iTSize = 0;
 
-	if(b2_font.pTTable)
-		free((void *) b2_font.pTTable);
+	if(b2_3d_font.pTTable)
+		free((void *) b2_3d_font.pTTable);
 
-	b2_font.pTTable = NULL;
+	b2_3d_font.pTTable = NULL;
 }
 
 void fn2_Release_3d_Textures_Full(void)
@@ -891,7 +891,7 @@ void fn2_Test(int hdc)
 	MultiByteToWideChar( CP_ACP, 0, "##message1", strlen("##message1")+1, wc, sizeof(wc)/sizeof(wc[0]));
 	MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]));
 
-	fn2_Draw_Message(hdc, 360, 230, &b2_font.gt, &b2_font.ts, wc, ws, 0, &x, &y);
+	fn2_Draw_Message(hdc, 360, 230, &b2_3d_font.gt, &b2_3d_font.ts, wc, ws, 0, &x, &y);
 }
 
 void fn2_Test2(int hdc)
@@ -904,7 +904,7 @@ void fn2_Test2(int hdc)
 	MultiByteToWideChar( CP_ACP, 0, "##settings", strlen("##settings")+1, wc, sizeof(wc)/sizeof(wc[0]));
 	MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]));
 
-	fn2_Draw_Message(hdc, 800, 600, &b2_font.gt, &b2_font.ts, wc, ws, 0, &x, &y);
+	fn2_Draw_Message(hdc, 800, 600, &b2_3d_font.gt, &b2_3d_font.ts, wc, ws, 0, &x, &y);
 }
 
 int fn2_Text_Blt(int hdc, WCHAR *ws, WCHAR *wc, int iSurface, int iSection, int *i)
@@ -919,7 +919,7 @@ int fn2_Text_Blt(int hdc, WCHAR *ws, WCHAR *wc, int iSurface, int iSection, int 
 		_2d_Fill_Rect(fDC, r, RGB(255, 0, 255));
 	}*/
 
-	fn2_Draw_Message(iSurface, 0, 0, &b2_font.gt, &b2_font.ts, wc, ws, iSection, &x, &y);	
+	fn2_Draw_Message(iSurface, 0, 0, &b2_3d_font.gt, &b2_3d_font.ts, wc, ws, iSection, &x, &y);	
 	
 	//*i = _2d_Find_Free_Surface();
 	*i = ddx2FindFreeSurface();
@@ -1108,7 +1108,7 @@ int fn2_Get_Font_Texture(int iSection, char *cText)
 	MultiByteToWideChar( CP_ACP, 0, cText, strlen(cText)+1, wc, sizeof(wc)/sizeof(wc[0]) );
 	MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]) );
 
-	fn2_Gen_Texture(&pT, FONT_X_MAX, FONT_Y_MAX, 0, 0, &b2_font.gt, &b2_font.ts, wc, ws, iSection, &Xmax, &Ymax);
+	fn2_Gen_Texture(&pT, FONT_X_MAX, FONT_Y_MAX, 0, 0, &b2_3d_font.gt, &b2_3d_font.ts, wc, ws, iSection, &Xmax, &Ymax);
 
 	tx = Xmax;
 	ty = Ymax;
@@ -1117,10 +1117,10 @@ int fn2_Get_Font_Texture(int iSection, char *cText)
 
 	fn2_Blt(pT, &pnT, Xmax, Ymax);
 
-	/*glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, b2_font.tex.p_bmp->x, b2_font.tex.p_bmp->y, 0, GL_RGBA, GL_UNSIGNED_BYTE, 
-				 b2_font.tex.p_bmp->data);*/
+	/*glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, b2_3d_font.tex.p_bmp->x, b2_3d_font.tex.p_bmp->y, 0, GL_RGBA, GL_UNSIGNED_BYTE, 
+				 b2_3d_font.tex.p_bmp->data);*/
 
-	return fn2_Put_in_3d_List(b2_font.tex[iSection].text, &b2_font.tex[iSection], &b2_font.konf[iSection], Xmax, Ymax, pnT, tx, ty);
+	return fn2_Put_in_3d_List(b2_3d_font.tex[iSection].text, &b2_3d_font.tex[iSection], &b2_3d_font.konf[iSection], Xmax, Ymax, pnT, tx, ty);
 }
 
 void fn2_Load_Textures_From_RAM(void)
@@ -1166,8 +1166,8 @@ void fn2_Convert_Rect(char *cFile, int xmax, int ymax)
 {
 	FILE *f;
 	FILE *fi;
-	GAME_TRIGER *gt = &b2_font.gt;
-	TRIGER_STRUCTURE *ts = &b2_font.ts;
+	GAME_TRIGER *gt = &b2_3d_font.gt;
+	TRIGER_STRUCTURE *ts = &b2_3d_font.ts;
 	int i;
 	char text[256];
 	char textt[256];

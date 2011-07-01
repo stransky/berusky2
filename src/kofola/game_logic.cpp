@@ -94,7 +94,7 @@ LEVELINFO			Level;
 CONTROL_KEYS		control;
 extern	int			Xresolution;
 extern	int			Yresolution;
-extern  B2_FONT		b2_font;
+extern  B2_FONT		b2_3d_font;
 _2D_DATA		_2dd;
 static char			demo = 0;	// 1 = real play, 2= fast play, 0 = record
 int gl_Do_Lift(int Lift, int *pos, LEVELINFO *p_Level);

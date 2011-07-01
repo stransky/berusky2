@@ -35,7 +35,7 @@ extern PLAYER_PROFILE	pPlayerProfile;
 extern APAK_HANDLE		*p3DMArchive;
 extern int				iActualLevel;
 extern int				iActualScene;
-extern B2_FONT	b2_font;
+extern B2_FONT	b2_3d_font;
 extern char cFontFile[5][64];
 AUDIO_DATA		ad;
 extern int iLanguageVersion;
@@ -4352,7 +4352,7 @@ void RunMenuLoadScreen2(void)
 		{
 			ty = co2_Set_Text_Formated_Rect(sh, 0, 0, text, 0, &r);
 
-			ddx2TransparentBltDisplay(83, 33 + ftoi(((6 * b2_font.iYPlus) - ty) / 2.0f), 891, 149, sh, 0, 0, 891, 149, TRANSCOLOR);
+			ddx2TransparentBltDisplay(83, 33 + ftoi(((6 * b2_3d_font.iYPlus) - ty) / 2.0f), 891, 149, sh, 0, 0, 891, 149, TRANSCOLOR);
 			ddx2ReleaseBitmap(sh);
 		}
 

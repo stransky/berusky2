@@ -29,7 +29,7 @@ extern _2D_DATA	_2dd;
 extern _3D_DATA	_3dd;
 extern	G_KONFIG ber;
 extern _3D_CURSOR _3dCur;
-extern B2_FONT	b2_font;
+extern B2_FONT	b2_3d_font;
 extern int cameraflag;
 
 HDC_INFO	hdc_info;
