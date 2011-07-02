@@ -245,6 +245,8 @@ void ddxCleareSurfaceColorDisplay(COLORREF color);
 
 int ddxGetMode(void);
 
+char MenuCheckBossExit(void);
+
 int ogg_playing(void);
 
 char * strlwr(char *cFile);

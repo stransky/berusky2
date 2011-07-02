@@ -59,7 +59,7 @@ typedef struct
 extern _2D_DATA		_2dd;
 extern HW_KONFIG  hwconf;
 
-MOUSE_INFO        dim;
+MOUSE_INFO dim;
 
 static ANIMATION		anm[32];
 static SDL_TimerID	ATimer_ID = 0;
@@ -116,7 +116,7 @@ CMD_LINE *GetCMD(CMD_LINE *cmp, CMD_LINE *pres)
 int CheckScenePresence(int iScene)
 {
 	char t[256];
-					
+
 	sprintf(t, "scene%d", iScene);
 	return GetPrivateProfileInt("Internet",t,0,ini_file);
 }

@@ -52,7 +52,11 @@ DeviceHandle            ddxDevice;
 int                     i_CursorDDX = 0;
 int                     ddxInitDone = FALSE;
 int                     bFlip;
-
+static long		          bLastGameState = 1;
+extern int				      bWindowMenu;
+extern MOUSE_INFO       dim;
+int		start_x = 0;
+int		start_y = 0;
 
 //-----------------------------------------------------------------------------
 // Name: DisplayFrame()
@@ -414,6 +418,58 @@ int  ddxStretchBlt(int iSDest, RECT *rDest, int iSSource, RECT *rSource)
 
 int ddxUpdateMouse(void)
 {
+	spracuj_spravy(1);
+
+	dim.dx = mi.dx;
+	dim.dy = mi.dy;
+
+	dim.x = mi.x;
+	dim.y = mi.y;
+	
+	dim.rx = mi.x - start_x;
+	dim.ry = mi.y - start_y;
+
+	if(dim.x < dim.x_min)
+		dim.x = dim.x_min;
+	else
+		if(dim.x > dim.x_max)
+			dim.x = dim.x_max;	
+	
+	if(dim.y < dim.y_min)
+		dim.y = dim.y_min;
+	else
+		if(dim.y > dim.y_max)
+			dim.y = dim.y_max;
+
+
+	dim.t1 = dim.dt1 = mi.t1;
+	dim.t2 = dim.dt2 = mi.t2;
+
+	if(!dim.t1)
+		dim.lt1 = 0;
+
+	if(!dim.t2)
+		dim.lt2 = 0;
+
+	if(dim.t1 && dim.lt1)
+		dim.t1 = 0;
+
+	if(dim.t2 && dim.lt2)
+		dim.t2 = 0;
+
+	if(!dim.lt1 && dim.t1)
+	{
+		dim.lt1 = 1;
+		dim.tf1 = 1;
+	}
+
+	if(!dim.lt2 && dim.t2)
+	{
+		dim.lt2 = 1;
+		dim.tf2 = 1;
+	}
+
+	return TRUE;
 }
 
 void ddxSetFlip(char bSwitch)
@@ -422,7 +478,7 @@ void ddxSetFlip(char bSwitch)
 }
 void ddxSetCursor(char bSwitch)
 {
-  SDL_ShowCursor(bSwitch ? SDL_ENABLE : SDL_DISABLE);
+  //SDL_ShowCursor(bSwitch ? SDL_ENABLE : SDL_DISABLE);
 }
 void ddxResizeCursorBack(int iSurface)
 {
@@ -431,6 +487,95 @@ void ddxResizeCursorBack(int iSurface)
 BOOL ddxRestore(int *p_CompositDC, int *p_FontDC, int *p_BackDC, int *p_iCompositDC, int *p_iFontDC, int *p_iBackDC, 
                 char *p_cBrutalRestart, AUDIO_DATA *p_ad)
 {
+	int i;
+
+	/*if(key[K_S])
+	{
+		key[K_S] = 0;
+		ddxSaveSurfaces();
+	}*/
+/*
+	if(karmin_aktivni && timeGetTime() - dwLastMenuMusicCheck > 20000)
+	{
+		if(!ogg_playing() && !cCheckMusicExeption)
+			ap_Play_Song(0, 0, p_ad);
+
+		dwLastMenuMusicCheck = timeGetTime();
+	}
+*/
+
+	if(bLastGameState != karmin_aktivni)
+	{
+		bLastGameState = karmin_aktivni;
+	
+    // Game is restored
+		if(bLastGameState)
+		{
+			if(!bWindowMenu)
+			{
+/*
+				//restoruju surfacy;
+				g_pDisplay->GetDirectDraw()->RestoreAllSurfaces();
+
+				// release vsech surfacu
+				for(i=0;i<ddx.bm_count;i++) {
+					if(ddx.surface[i].bLoad)
+					{
+						SAFE_DELETE( ddx.surface[i].g_pSurface );
+						memset(&ddx.surface[i], 0, sizeof(SURFACESTRUCT));
+
+						//ddx.surface[i].bLoad = 0;
+					}
+        }
+
+				ddxLoadList("2d_load.dat", 0);
+				*p_iCompositDC = ddxFindFreeSurface();
+				*p_CompositDC = ddxCreateSurface(1024, 768, *p_iCompositDC);
+				*p_iFontDC = ddxFindFreeSurface();
+				*p_FontDC = ddxCreateSurface(1024, 768, *p_iFontDC);
+				*p_iBackDC = ddxFindFreeSurface();
+				*p_BackDC = ddxCreateSurface(1024, 768, *p_iBackDC);
+
+				*p_cBrutalRestart = 1;
+*/
+				SetCursor(FALSE);
+				ddxSetFlip(TRUE);
+				ddxSetCursor(TRUE);
+				ddxSetCursorSurface(0);
+				ddxResizeCursorBack(0);
+			}
+/*
+			if(!ogg_playing())
+				ap_Play_Song(0, 0, p_ad);
+*/
+			if(bWindowMenu)
+			{
+				//BringWindowToTop(hwnd_hry);
+				//SetForegroundWindow(hwnd_hry);
+				//SetFocus(hwnd_hry);
+			}
+
+			if(!bWindowMenu)
+				return TRUE;
+			else
+				return FALSE;
+		}
+		else
+		{
+    /*
+			adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
+			adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
+			ap_Stop_Song(p_ad);
+    */
+		}
+	}
+
+	if(MenuCheckBossExit())
+	{
+		gl_Kofola_End(1);
+	}
+
+	return FALSE;
 }
 
 void ddxSaveSurface(int idx)
@@ -558,7 +703,7 @@ int ap_Load_Sound_List(AUDIO_DATA *p_ad, char *cFile, int iStart)
 
 void ShowCursor(bool state)
 {
-  SDL_ShowCursor(state ? SDL_ENABLE : SDL_DISABLE);
+  //SDL_ShowCursor(state ? SDL_ENABLE : SDL_DISABLE);
 }
 
 void SetCursor(void *tmp)
