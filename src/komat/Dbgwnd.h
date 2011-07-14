@@ -1,6 +1,6 @@
 #ifdef __cplusplus
 extern "C"
-  {
+{
 #endif
 
 #ifndef NOTDEBUGPRINT
@@ -9,10 +9,9 @@ extern "C"
 #define dbgprintf
 #endif
 
-void DebugPrint(char *text, ... );
+  void DebugPrint(char *text, ...);
 
 
 #ifdef __cplusplus
-  }
+}
 #endif
-

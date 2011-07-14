@@ -8,14 +8,19 @@
 #include "alu.h"
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-ALUTAPI ALvoid	ALUTAPIENTRY alutInit(ALint *argc,ALbyte **argv);
-ALUTAPI ALvoid	ALUTAPIENTRY alutExit(ALvoid);
-ALUTAPI ALvoid	ALUTAPIENTRY alutLoadWAVFile(ALbyte *file,ALenum *format,ALvoid **data,ALsizei *size,ALsizei *freq,ALboolean *loop);
-ALUTAPI ALvoid	ALUTAPIENTRY alutLoadWAVMemory(ALbyte *memory,ALenum *format,ALvoid **data,ALsizei *size,ALsizei *freq,ALboolean *loop);
-ALUTAPI ALvoid  ALUTAPIENTRY alutUnloadWAV(ALenum format,ALvoid *data,ALsizei size,ALsizei freq);
+  ALUTAPI ALvoid ALUTAPIENTRY alutInit(ALint * argc, ALbyte ** argv);
+  ALUTAPI ALvoid ALUTAPIENTRY alutExit(ALvoid);
+  ALUTAPI ALvoid ALUTAPIENTRY alutLoadWAVFile(ALbyte * file, ALenum * format,
+    ALvoid ** data, ALsizei * size, ALsizei * freq, ALboolean * loop);
+  ALUTAPI ALvoid ALUTAPIENTRY alutLoadWAVMemory(ALbyte * memory,
+    ALenum * format, ALvoid ** data, ALsizei * size, ALsizei * freq,
+    ALboolean * loop);
+  ALUTAPI ALvoid ALUTAPIENTRY alutUnloadWAV(ALenum format, ALvoid * data,
+    ALsizei size, ALsizei freq);
 
 #ifdef __cplusplus
 }

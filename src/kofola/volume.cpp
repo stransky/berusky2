@@ -1,8 +1,8 @@
 #include "3d_all.h"
 
 //static HMIXER m_hMixer = NULL;
-static int	m_dwVolumeControlID = 0;
-static long	m_dwMinimum = 0;
+static int m_dwVolumeControlID = 0;
+static long m_dwMinimum = 0;
 static long m_dwMaximum = 0;
 
 BOOL amdInitialize(HWND hwnd)
@@ -32,7 +32,7 @@ BOOL amdInitialize(HWND hwnd)
 
 	kprintf(1, "Mixer: %s", m_mxcaps.szPname);
 */
-	return TRUE;
+  return TRUE;
 }
 
 void amdUninitialize()
@@ -44,7 +44,7 @@ void amdUninitialize()
 		m_hMixer = NULL;
 	}
 */
-	return;
+  return;
 }
 
 BOOL amdGetMasterVolumeControl()
@@ -85,7 +85,7 @@ BOOL amdGetMasterVolumeControl()
 	m_dwMaximum = mxc.Bounds.dwMaximum;
 	m_dwVolumeControlID = mxc.dwControlID;
 */
-	return TRUE;
+  return TRUE;
 }
 
 BOOL amdGetMasterVolumeValue(float *dwVal)
@@ -112,7 +112,7 @@ BOOL amdGetMasterVolumeValue(float *dwVal)
 	
 	*dwVal = mxcdVolume.dwValue / (float)(m_dwMaximum - m_dwMinimum);
 */
-	return TRUE;
+  return TRUE;
 }
 
 BOOL amdSetMasterVolumeValue(float dwVal)
@@ -137,6 +137,6 @@ BOOL amdSetMasterVolumeValue(float dwVal)
 	{
 		return FALSE;
 	}
-*/	
-	return TRUE;
+*/
+  return TRUE;
 }

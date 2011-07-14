@@ -23,44 +23,45 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 /** ALC boolean type. */
-typedef char ALCboolean;
+  typedef char ALCboolean;
 
 /** ALC 8bit signed byte. */
-typedef char ALCbyte;
+  typedef char ALCbyte;
 
 /** ALC 8bit unsigned byte. */
-typedef unsigned char ALCubyte;
+  typedef unsigned char ALCubyte;
 
 /** ALC 16bit signed short integer type. */
-typedef short ALCshort;
+  typedef short ALCshort;
 
 /** ALC 16bit unsigned short integer type. */
-typedef unsigned short ALCushort;
+  typedef unsigned short ALCushort;
 
 /** ALC 32bit unsigned integer type. */
-typedef unsigned ALCuint;
+  typedef unsigned ALCuint;
 
 /** ALC 32bit signed integer type. */
-typedef int ALCint;
+  typedef int ALCint;
 
 /** ALC 32bit floating point type. */
-typedef float ALCfloat;
+  typedef float ALCfloat;
 
 /** ALC 64bit double point type. */
-typedef double ALCdouble;
+  typedef double ALCdouble;
 
 /** ALC 32bit type. */
-typedef unsigned int ALCsizei;
+  typedef unsigned int ALCsizei;
 
 /** ALC void type */
-typedef void ALCvoid;
+  typedef void ALCvoid;
 
 /** ALC enumerations. */
-typedef int ALCenum;
+  typedef int ALCenum;
 
 /* Bad value. */
 #define ALC_INVALID                              (-1)
@@ -95,7 +96,7 @@ typedef int ALCenum;
 /** 
  * The context argument does not name a valid context.
  */
-#define ALC_INVALID_CONTEXT                      0xA002  
+#define ALC_INVALID_CONTEXT                      0xA002
 
 /**
  * A function was called at inappropriate time,
@@ -122,4 +123,3 @@ typedef int ALCenum;
 #endif
 
 #endif
-

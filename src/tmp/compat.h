@@ -5,38 +5,41 @@
 #define  TRUE   (1==1)
 #define  FALSE  (1!=1)
 
-typedef unsigned char   byte;
-typedef unsigned char   BYTE;
-typedef unsigned short  word;
-typedef unsigned short  WORD;
-typedef unsigned int    dword;
-typedef unsigned int    COLORREF;
-typedef long            LONG;
-typedef dword           DWORD;
-typedef float           FLOAT;
-typedef wchar_t         WCHAR;
-typedef void *          HWND;
-typedef void *          HDC;
-typedef unsigned int    UINT;
-typedef int             BOOL;
-typedef void *          HINSTANCE;
-typedef VECT2DF         BODUV;
-typedef VECT3DF         BOD;
-typedef VECT4DF         WBOD;
-typedef RGBF            BODRGB;
-typedef RGBAF           BODRGBA;
-typedef RGBF            RGB_M;
-typedef RGBAF           BARVA_RGBA;
-typedef PLANE           ROVINA;
+typedef unsigned char byte;
+typedef unsigned char BYTE;
+typedef unsigned short word;
+typedef unsigned short WORD;
+typedef unsigned int dword;
+typedef unsigned int COLORREF;
+typedef long LONG;
+typedef dword DWORD;
+typedef float FLOAT;
+typedef wchar_t WCHAR;
+typedef void *HWND;
+typedef void *HDC;
+typedef unsigned int UINT;
+typedef int BOOL;
+typedef void *HINSTANCE;
+typedef VECT2DF BODUV;
+typedef VECT3DF BOD;
+typedef VECT4DF WBOD;
+typedef RGBF BODRGB;
+typedef RGBAF BODRGBA;
+typedef RGBF RGB_M;
+typedef RGBAF BARVA_RGBA;
+typedef PLANE ROVINA;
+
 //typedef MATERIAL_TEXT   EDIT_TEXT;
 //typedef SURFACE_SW      bitmapa;
-typedef word            FACE;
+typedef word FACE;
 
-typedef struct _ROVINAD {
-  double x,y,z,e;
+typedef struct _ROVINAD
+{
+  double x, y, z, e;
 } ROVINAD;
 
-typedef struct _RECT {
+typedef struct _RECT
+{
   int left;
   int top;
   int right;
@@ -63,32 +66,33 @@ typedef struct _RECT {
 #include "Kdtree.h"
 #include "2D_graphic.h"
 
-typedef void (* END_FUNKCE)(int param, int param2, void *p_param);
+typedef void (*END_FUNKCE) (int param, int param2, void *p_param);
 
 inline void ZeroMemory(void *mem, int size)
 {
-  memset(mem,0,size);
+  memset(mem, 0, size);
 }
 
 // default filename size
 #define MAX_PATH 255
 
-typedef struct _MOUSE_INFO {
-        
+typedef struct _MOUSE_INFO
+{
+
   int x_min, x_max;
   int y_min, y_max;
   int x_res, y_res;
-        
+
   int x, y;
   int rx, ry;
-  int dx,dy;
-                        
-  int t1,t2;
-  int dt1,dt2;
-  int d1,d2;
+  int dx, dy;
+
+  int t1, t2;
+  int dt1, dt2;
+  int d1, d2;
   int tf1, tf2;
   int lt1, lt2;
-        
+
 } MOUSE_INFO;
 
 #define RGB(r,g,b) int_rgb(r,g,b)
@@ -96,9 +100,9 @@ typedef struct _MOUSE_INFO {
 #define TRANSCOLOR int_rgb(255, 0, 255)
 #define HDC2DD     -1
 
-void kprintf(char log, const char *p_text,...);
-void kprintfl(char log, const char *p_text,...);
-void ddw(char *p_text,...);
+void kprintf(char log, const char *p_text, ...);
+void kprintfl(char log, const char *p_text, ...);
+void ddw(char *p_text, ...);
 
 extern char ini_file[300];
 
@@ -109,7 +113,7 @@ typedef struct
 
 void Sleep(int ms);
 
-char * itoa(int base, char *buf, int d);
+char *itoa(int base, char *buf, int d);
 
 void timeGetTimeInit(void);
 unsigned int timeGetTime(void);
@@ -118,7 +122,7 @@ unsigned int timeGetTime(void);
 // ddx2 interface
 //-----------------------------------------------------------------------------
 extern RECT_LINE rline;
-extern RECT	rDrawRect[DRAW_RECT_NUM];
+extern RECT rDrawRect[DRAW_RECT_NUM];
 
 
 //------------------------------------------------------------------------------------------------
@@ -161,7 +165,7 @@ int ddxLoadList(char *pFileName, int bProgress);
 //------------------------------------------------------------------------------------------------
 // load bitmap from APAK
 //------------------------------------------------------------------------------------------------
-int ddxLoadBitmap(char *pFileName, APAK_HANDLE *pHandle);
+int ddxLoadBitmap(char *pFileName, APAK_HANDLE * pHandle);
 
 //------------------------------------------------------------------------------------------------
 // Create Surface
@@ -171,57 +175,54 @@ int ddxCreateSurface(int x, int y, int idx);
 //------------------------------------------------------------------------------------------------
 // nakresli obrazek
 //------------------------------------------------------------------------------------------------
-void ddxDrawSurfaceColorKey(int iSurface, int *com, int layer, COLORREF color);
+void ddxDrawSurfaceColorKey(int iSurface, int *com, int layer,
+  COLORREF color);
 void ddxDrawDisplayColorKey(int *com, int layer, COLORREF color);
 void ddxDrawDisplay(int *com, int layer);
 void ddxDrawSurface(int iSurface, int *com, int layer);
 
-BOOL ddxTransparentBlt(
-    int dcDestSurface,  // handle to Dest DC
-    int nXOriginDest,   // x-coord of destination upper-left corner
-    int nYOriginDest,   // y-coord of destination upper-left corner
-    int nWidthDest,     // width of destination rectangle
-    int nHeightDest,    // height of destination rectangle
-    int dcSrcSurface,   // handle to source DC
-    int nXOriginSrc,    // x-coord of source upper-left corner
-    int nYOriginSrc,    // y-coord of source upper-left corner
-    int nWidthSrc,      // width of source rectangle
-    int nHeightSrc,     // height of source rectangle
-    UINT crTransparent  // color to make transparent
+BOOL ddxTransparentBlt(int dcDestSurface,       // handle to Dest DC
+  int nXOriginDest,             // x-coord of destination upper-left corner
+  int nYOriginDest,             // y-coord of destination upper-left corner
+  int nWidthDest,               // width of destination rectangle
+  int nHeightDest,              // height of destination rectangle
+  int dcSrcSurface,             // handle to source DC
+  int nXOriginSrc,              // x-coord of source upper-left corner
+  int nYOriginSrc,              // y-coord of source upper-left corner
+  int nWidthSrc,                // width of source rectangle
+  int nHeightSrc,               // height of source rectangle
+  UINT crTransparent            // color to make transparent
   );
 
-BOOL ddxTransparentBltDisplay(
-    int nXOriginDest,   // x-coord of destination upper-left corner
-    int nYOriginDest,   // y-coord of destination upper-left corner
-    int nWidthDest,     // width of destination rectangle
-    int nHeightDest,    // height of destination rectangle
-    int dcSrcSurface,   // handle to source DC
-    int nXOriginSrc,    // x-coord of source upper-left corner
-    int nYOriginSrc,    // y-coord of source upper-left corner
-    int nWidthSrc,      // width of source rectangle
-    int nHeightSrc,     // height of source rectangle
-    UINT crTransparent  // color to make transparent
+BOOL ddxTransparentBltDisplay(int nXOriginDest, // x-coord of destination upper-left corner
+  int nYOriginDest,             // y-coord of destination upper-left corner
+  int nWidthDest,               // width of destination rectangle
+  int nHeightDest,              // height of destination rectangle
+  int dcSrcSurface,             // handle to source DC
+  int nXOriginSrc,              // x-coord of source upper-left corner
+  int nYOriginSrc,              // y-coord of source upper-left corner
+  int nWidthSrc,                // width of source rectangle
+  int nHeightSrc,               // height of source rectangle
+  UINT crTransparent            // color to make transparent
   );
 
-BOOL ddxBitBlt(
-    int dcDestSurface,  // handle to Dest DC
-    int nXOriginDest,   // x-coord of destination upper-left corner
-    int nYOriginDest,   // y-coord of destination upper-left corner
-    int nWidthDest,     // width of destination rectangle
-    int nHeightDest,    // height of destination rectangle
-    int dcSrcSurface,   // handle to source DC
-    int nXOriginSrc,    // x-coord of source upper-left corner
-    int nYOriginSrc     // y-coord of source upper-left corner
+BOOL ddxBitBlt(int dcDestSurface,       // handle to Dest DC
+  int nXOriginDest,             // x-coord of destination upper-left corner
+  int nYOriginDest,             // y-coord of destination upper-left corner
+  int nWidthDest,               // width of destination rectangle
+  int nHeightDest,              // height of destination rectangle
+  int dcSrcSurface,             // handle to source DC
+  int nXOriginSrc,              // x-coord of source upper-left corner
+  int nYOriginSrc               // y-coord of source upper-left corner
   );
 
-BOOL ddxBitBltDisplay(
-    int nXOriginDest,   // x-coord of destination upper-left corner
-    int nYOriginDest,   // y-coord of destination upper-left corner
-    int nWidthDest,     // width of destination rectangle
-    int nHeightDest,    // height of destination rectangle
-    int dcSrcSurface,   // handle to source DC
-    int nXOriginSrc,    // x-coord of source upper-left corner
-    int nYOriginSrc     // y-coord of source upper-left corner
+BOOL ddxBitBltDisplay(int nXOriginDest, // x-coord of destination upper-left corner
+  int nYOriginDest,             // y-coord of destination upper-left corner
+  int nWidthDest,               // width of destination rectangle
+  int nHeightDest,              // height of destination rectangle
+  int dcSrcSurface,             // handle to source DC
+  int nXOriginSrc,              // x-coord of source upper-left corner
+  int nYOriginSrc               // y-coord of source upper-left corner
   );
 
 int ddxGetWidth(int iSurface);
@@ -229,11 +230,11 @@ int ddxGetHight(int iSurface);
 
 void ddxCleareSurface(int iSurface);
 void ddxCleareSurfaceColor(int iSurface, COLORREF color);
-void ddxFillRect(int iSurface, RECT *rect, COLORREF color);
-void ddxFillRectDisplay(RECT *rect, COLORREF color);
+void ddxFillRect(int iSurface, RECT * rect, COLORREF color);
+void ddxFillRectDisplay(RECT * rect, COLORREF color);
 void ddxAddRectItem(void *p_rl, RECT rect, int iLayer);
-int  ddxStretchBltDisplay(RECT *rDest, int iSurface, RECT *rSource);
-int  ddxStretchBlt(int iSDest, RECT *rDest, int iSSource, RECT *rSource);
+int ddxStretchBltDisplay(RECT * rDest, int iSurface, RECT * rSource);
+int ddxStretchBlt(int iSDest, RECT * rDest, int iSSource, RECT * rSource);
 
 int ddxUpdateMouse(void);
 
@@ -242,8 +243,9 @@ void ddxSetCursor(char bSwitch);
 void ddxResizeCursorBack(int iSurface);
 void ddxSetCursorSurface(int iSurface);
 
-BOOL ddxRestore(int *p_CompositDC, int *p_FontDC, int *p_BackDC, int *p_iCompositDC, int *p_iFontDC, int *p_iBackDC, 
-        char *p_cBrutalRestart, AUDIO_DATA *p_ad);
+BOOL ddxRestore(int *p_CompositDC, int *p_FontDC, int *p_BackDC,
+  int *p_iCompositDC, int *p_iFontDC, int *p_iBackDC, char *p_cBrutalRestart,
+  AUDIO_DATA * p_ad);
 
 void ddxSaveSurface(int idx);
 
@@ -251,14 +253,14 @@ void ddxCleareSurfaceColorDisplay(COLORREF color);
 
 int ddxGetMode(void);
 
-void InitDirectDraw( HWND hWnd , int x, int y, int bpp);
+void InitDirectDraw(HWND hWnd, int x, int y, int bpp);
 void FreeDirectDraw();
 
 char MenuCheckBossExit(void);
 
 int ogg_playing(void);
 
-char * strlwr(char *cFile);
+char *strlwr(char *cFile);
 
 void dbgprintf(char *p_tmp, ...);
 
@@ -266,114 +268,96 @@ void dbgprintf(char *p_tmp, ...);
 
 #define CP_ACP 0
 
-int MultiByteToWideChar(
-  int CodePage,
+int MultiByteToWideChar(int CodePage,
   int dwFlags,
-  char * lpMultiByteStr,
-  int cbMultiByte,
-  WCHAR * lpWideCharStr,
-  int cchWideChar
-);
+  char *lpMultiByteStr,
+  int cbMultiByte, WCHAR * lpWideCharStr, int cchWideChar);
 
 #define WC_COMPOSITECHECK 0
 #define WC_DEFAULTCHAR    0
 
-int WideCharToMultiByte(
-  int CodePage,
+int WideCharToMultiByte(int CodePage,
   int dwFlags,
   wchar_t * lpWideCharStr,
   int cchWideChar,
   char *lpMultiByteStr,
-  int cbMultiByte,
-  char * lpDefaultChar,
-  int * lpUsedDefaultChar
-);
+  int cbMultiByte, char *lpDefaultChar, int *lpUsedDefaultChar);
 
 // Audio interface
 // Init
-void ap_Init(AUDIO_DATA *p_ad);
+void ap_Init(AUDIO_DATA * p_ad);
 
 // Release
-void ap_Release(AUDIO_DATA *p_ad);
+void ap_Release(AUDIO_DATA * p_ad);
 
 // loades play list
-int ap_Load_Play_List(char *p_File_Name, AUDIO_DATA *p_ad);
+int ap_Load_Play_List(char *p_File_Name, AUDIO_DATA * p_ad);
 
 // Releases play list
-void ap_Release_Play_List(AUDIO_DATA *p_ad);
+void ap_Release_Play_List(AUDIO_DATA * p_ad);
 
 // playes ogg song
-int ap_Play_Song(int Index, char Random, AUDIO_DATA *p_ad);
-int ap_Setup_and_Play_Song(int Index, char Random, AUDIO_DATA *p_ad);
+int ap_Play_Song(int Index, char Random, AUDIO_DATA * p_ad);
+int ap_Setup_and_Play_Song(int Index, char Random, AUDIO_DATA * p_ad);
 
 // stops ogg song
-void ap_Stop_Song(AUDIO_DATA *p_ad);
+void ap_Stop_Song(AUDIO_DATA * p_ad);
 
 // Plays sound
-int ap_Play_Sound(int Type, char Relative, char bAmbient, float *p_Pos, int Wave_Index, void *p_eax, AUDIO_DATA *p_ad);
+int ap_Play_Sound(int Type, char Relative, char bAmbient, float *p_Pos,
+  int Wave_Index, void *p_eax, AUDIO_DATA * p_ad);
 
 // Releases materail list
-void ap_Release_Material_List(AUDIO_DATA *p_ad);
+void ap_Release_Material_List(AUDIO_DATA * p_ad);
 
 // loades material list
-int ap_Load_Material_List(char *p_File_Name, AUDIO_DATA *p_ad);
+int ap_Load_Material_List(char *p_File_Name, AUDIO_DATA * p_ad);
 
 // count environment
-void ap_Count_Environment(AUDIO_DATA *p_ad, void *p_Level);
+void ap_Count_Environment(AUDIO_DATA * p_ad, void *p_Level);
 
 // load environment
-int ap_Load_Environment(char *p_Env_Name, void *p_Level, AUDIO_DATA *p_ad);
+int ap_Load_Environment(char *p_Env_Name, void *p_Level, AUDIO_DATA * p_ad);
 
-int ap_Load_Sound_List(AUDIO_DATA *p_ad, char *cFile, int iStart);
+int ap_Load_Sound_List(AUDIO_DATA * p_ad, char *cFile, int iStart);
 
 void ShowCursor(bool state);
 void SetCursor(void *tmp);
 
-char * strupr(char * string);
+char *strupr(char *string);
 
-void GetPrivateProfileString(
-  const char * lpAppName,
-  const char * lpKeyName,
-  const char * lpDefault,
-  char * lpReturnedString,
-  int nSize,
-  const char * lpFileName
-);
+void GetPrivateProfileString(const char *lpAppName,
+  const char *lpKeyName,
+  const char *lpDefault,
+  char *lpReturnedString, int nSize, const char *lpFileName);
 
-int WritePrivateProfileString(
-  const char * lpAppName,
-  const char * lpKeyName,
-  const char * lpString,
-  const char * lpFileName
-);
+int WritePrivateProfileString(const char *lpAppName,
+  const char *lpKeyName, const char *lpString, const char *lpFileName);
 
-int GetPrivateProfileInt(
-  const char * lpAppName,
-  const char * lpKeyName,
-  int nDefault,
-  const char * lpFileName
-);
+int GetPrivateProfileInt(const char *lpAppName,
+  const char *lpKeyName, int nDefault, const char *lpFileName);
 
 inline void null_free(void **p_mem)
-{                    
- if((*p_mem) != NULL) {
-   free(*p_mem);
-   *p_mem = NULL;
- }
+{
+  if ((*p_mem) != NULL) {
+    free(*p_mem);
+    *p_mem = NULL;
+  }
 }
 
 void apak_dir_correction(char *dir);
 
-wchar_t * wchar_windows_to_linux(word *p_in, int bytes_in_len);
-void wchar_windows_to_linux(word *p_in, int bytes_in_len, wchar_t *p_out);
+wchar_t *wchar_windows_to_linux(word * p_in, int bytes_in_len);
+void wchar_windows_to_linux(word * p_in, int bytes_in_len, wchar_t * p_out);
 
 typedef SDL_TimerID TIMER_ID;
 
-typedef void (*TIMERPROC)(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime);
-TIMER_ID SetTimer(HWND hWnd, TIMER_ID nIDEvent, UINT uElapse, TIMERPROC lpTimerFunc);
+typedef void (*TIMERPROC) (HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime);
+TIMER_ID SetTimer(HWND hWnd, TIMER_ID nIDEvent, UINT uElapse,
+  TIMERPROC lpTimerFunc);
 UINT KillTimer(HWND hWnd, TIMER_ID uIDEvent);
 
 void working_dir_init(void);
 void working_file_translate(char *p_file, int size);
-char * working_file_get(const char *p_file);
-char * working_file_get(const char *p_file, char *p_target, int size);
+char *working_file_get(const char *p_file);
+char *working_file_get(const char *p_file, char *p_target, int size);

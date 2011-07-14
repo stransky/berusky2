@@ -7,49 +7,54 @@
 
 typedef struct
 {
-  float u,v;
+  float u, v;
 } BODUV;
 
-typedef struct _ROVINA {
-  float x,y,z,e;
+typedef struct _ROVINA
+{
+  float x, y, z, e;
 } ROVINA;
 
-typedef struct _ROVINAD {
-  double x,y,z,e;
+typedef struct _ROVINAD
+{
+  double x, y, z, e;
 } ROVINAD;
 
 typedef struct
 {
-  float x,y,z,w;
+  float x, y, z, w;
 } WBOD;
 
 typedef struct
 {
-  dword x,y;
+  dword x, y;
 } BOD_2D;
 
 typedef struct
 {
-  int x,y,z;
-} BOD3D,QBOD;
+  int x, y, z;
+} BOD3D, QBOD;
 
-typedef struct _BARVA_RGBA {
-  
-  float r,g,b,a;
+typedef struct _BARVA_RGBA
+{
 
-} BARVA_RGBA,BODRGBA,RGBA;
+  float r, g, b, a;
 
-typedef struct _BARVA_RGB {
-  
-  float r,g,b;
+} BARVA_RGBA, BODRGBA, RGBA;
 
-} BARVA_RGB,BODRGB,RGB;
+typedef struct _BARVA_RGB
+{
+
+  float r, g, b;
+
+} BARVA_RGB, BODRGB, RGB;
 
 typedef word FACE;
 
-typedef struct _RGB_M {
+typedef struct _RGB_M
+{
 
-float r,g,b;
+  float r, g, b;
 
 } RGB_M;
 

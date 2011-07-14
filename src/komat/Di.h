@@ -6,7 +6,8 @@
 #define __DI_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #define  POCET_KLAVES SDLK_LAST+3
@@ -25,7 +26,7 @@ extern "C" {
 #define  K_NUMLOCK  SDLK_NUMLOCK
 #define  K_SCRLOCK  SDLK_SCROLLOCK
 #define  K_NAHORU   K_UP
-#define  K_K_MINUS  SDLK_KP_MINUS 
+#define  K_K_MINUS  SDLK_KP_MINUS
 #define  K_DOLEVA   K_LEFT
 #define  K_K_5      KP_5
 #define  K_DOPRAVA  K_RIGHT
@@ -38,33 +39,34 @@ extern "C" {
 #define  K_ALT      SDLK_LAST+2
 
 
-extern   int  key[POCET_KLAVES];
-extern	 int  key_pressed;
+  extern int key[POCET_KLAVES];
+  extern int key_pressed;
 
-typedef struct _MYSI_INFO {
+  typedef struct _MYSI_INFO
+  {
 
-  int x_min, x_max;
-  int y_min, y_max;
-  int x_res, y_res;
+    int x_min, x_max;
+    int y_min, y_max;
+    int x_res, y_res;
 
-  int x, y;  
-  int dx,dy;
+    int x, y;
+    int dx, dy;
 
-  int t1,t2;
-  int dt1,dt2;
-  int ot1,ot2;
-  int d1,d2;
+    int t1, t2;
+    int dt1, dt2;
+    int ot1, ot2;
+    int d1, d2;
 
-} MYSI_INFO;
+  } MYSI_INFO;
 
 #define stisk_mys() (spracuj_spravy(TRUE) && !(mi.t1 || mi.t2))
 #define nuluj_mys() { mi.t1 = mi.t2 = 0; mi.dx = mi.dy = 0; mi.dt1 = mi.dt2 = 0; }
 #define nuluj_dif() { mi.dx = mi.dy = 0; }
 
-extern MYSI_INFO mi;
+  extern MYSI_INFO mi;
 
-int  zapni_kurzor(void);
-int  vypni_kurzor(void);
+  int zapni_kurzor(void);
+  int vypni_kurzor(void);
 
 #ifdef __cplusplus
 }

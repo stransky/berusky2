@@ -23,15 +23,15 @@
 #define VERZE_KOMAT            "MASTER 1.2"
 
 #ifdef  _DEBUG
-#define DEBUG_MOD         // sbiraji se citlive informace
+#define DEBUG_MOD               // sbiraji se citlive informace
 //#define DEBUG_MOD_OBALKY  // sbiraji se citlive informace
 #endif
 
 #define MAX_VZDAL_KAMERY       70
 #define MIN_VZDAL_KAMERY       10
 
-#define MAX_UHEL_KAMERY        DEG2RAD(85.0f) //max uhel 85 stupnu
-#define MIN_UHEL_KAMERY        DEG2RAD(30.0f) //min uhel 35 stupnu
+#define MAX_UHEL_KAMERY        DEG2RAD(85.0f)   //max uhel 85 stupnu
+#define MIN_UHEL_KAMERY        DEG2RAD(30.0f)   //min uhel 35 stupnu
 
 #define MAX_CELKEM_MATERIALU   1000
 #define MAX_CELKEM_TEXTUR      500
@@ -47,7 +47,7 @@
 #define MAX_PATER              100
 
 #define MAX_FLARE_SVETEL       100
-#define MAX_STATE_BLOKU        100 // celkovy pocet state bloku
+#define MAX_STATE_BLOKU        100      // celkovy pocet state bloku
 
 #define MAX_PRHL_OBJEKTU       1000
 
@@ -63,48 +63,49 @@
 #define Y_PRVEK2               (Y_PRVEK>>1)
 #define Z_PRVEK2               (Z_PRVEK>>1)
 
-typedef struct _LEVEL_HEADER {
+typedef struct _LEVEL_HEADER
+{
 
-  int   magic;       // magicke cislo
-  int   x,z,y;       // rozmery levelu
+  int magic;                    // magicke cislo
+  int x, z, y;                  // rozmery levelu
   // LV 6
-  int   prvku;       // pocet prvku v levelu
-  float x_start,     // starty levelu
-        y_start,
-        z_start;
-  int   rezerved[97];// rezervovano
+  int prvku;                    // pocet prvku v levelu
+  float x_start,                // starty levelu
+    y_start, z_start;
+  int rezerved[97];             // rezervovano
 
 } LEVEL_HEADER;
 
-typedef struct _BUNKA_LEVELU_DISK {
+typedef struct _BUNKA_LEVELU_DISK
+{
 
   int guid;
   int Vazba1;
   int Vazba2;
   int Rotace;
-  int mesh;    // provazani se scenou
-  int rez[10]; // rezerva
+  int mesh;                     // provazani se scenou
+  int rez[10];                  // rezerva
 
 } BUNKA_LEVELU_DISK;
 
-typedef int MeshHandle;      // handle meshe/prvku pri loadu
-typedef int ExMeshHandle;    // handle extra-mesh (neni to prvek ale jen mesh)
-typedef int DataHandle;      // handle meshe/prvku v datazazi
-typedef int AnimHandle;      // handle simple animace (polotovaru animace)
-typedef int RunHandle;       // handle bezici animace
-typedef int MatrixHandle;    // handle matice
-typedef int MatHandle;       // handle animovaneho materialu
-typedef int LightHandle;     // handle bezneho dynamickeho svetla
-typedef int ExtraLightHandle;// handle extra-dynamickeho svetla
-typedef int FlekHandle;      // handle na fleky
-typedef int ParHandle;       // handle na casticovac
-typedef int FlareHandle;     // handle na flare
-typedef int HnizdoHandle;    // handle na hnizdo
-typedef int TextHandle;      // handle na texturovou animaci
-typedef int VodaHandle;      // handle na vodni system
-typedef int VodnikHandle;    // handle na vodnika ve vodnim systemu
-typedef int ChapadelnikHandle; // handle na chapadelnika s chapadlama
-typedef int ChapadloHandle;  // handle na chapadlo
+typedef int MeshHandle;         // handle meshe/prvku pri loadu
+typedef int ExMeshHandle;       // handle extra-mesh (neni to prvek ale jen mesh)
+typedef int DataHandle;         // handle meshe/prvku v datazazi
+typedef int AnimHandle;         // handle simple animace (polotovaru animace)
+typedef int RunHandle;          // handle bezici animace
+typedef int MatrixHandle;       // handle matice
+typedef int MatHandle;          // handle animovaneho materialu
+typedef int LightHandle;        // handle bezneho dynamickeho svetla
+typedef int ExtraLightHandle;   // handle extra-dynamickeho svetla
+typedef int FlekHandle;         // handle na fleky
+typedef int ParHandle;          // handle na casticovac
+typedef int FlareHandle;        // handle na flare
+typedef int HnizdoHandle;       // handle na hnizdo
+typedef int TextHandle;         // handle na texturovou animaci
+typedef int VodaHandle;         // handle na vodni system
+typedef int VodnikHandle;       // handle na vodnika ve vodnim systemu
+typedef int ChapadelnikHandle;  // handle na chapadelnika s chapadlama
+typedef int ChapadloHandle;     // handle na chapadlo
 
 #define FRAMU_PER_SEC         20
 #define DELKA_SEC             1000
@@ -135,7 +136,7 @@ typedef int ChapadloHandle;  // handle na chapadlo
 #define LIST_PRVKU            "prvky.txt"
 #define DEFAULT_LEVEL         "a.lv6"
 
-#define GUID_PRAZDNA_STENA     21000 // guid neviditelne steny (bez modelu)
+#define GUID_PRAZDNA_STENA     21000    // guid neviditelne steny (bez modelu)
 
 #define KONT_NEVID_STENA       0
 #define KONT_NEVID_PRVEK       1
@@ -144,7 +145,7 @@ typedef int ChapadloHandle;  // handle na chapadlo
 #define MAX_PODTRID            30
 #define MAX_TRID_JMENO         50
 
-extern  char                   ini_file[300]; // ini soubor
+extern char ini_file[300];      // ini soubor
 
 #define DELICKA_CASU           1
 
@@ -152,22 +153,25 @@ extern  char                   ini_file[300]; // ini soubor
 // 
 inline int ber_je_objekt_staticky(int guid)
 {
-  int trida = guid/1000;
-  return(trida == 2  || trida == 4  || trida == 9 || trida == 17 ||
-         trida == 19 || trida == 20 || trida == 12);
+  int trida = guid / 1000;
+
+  return (trida == 2 || trida == 4 || trida == 9 || trida == 17 ||
+    trida == 19 || trida == 20 || trida == 12);
 }
 
 inline int ber_je_objekt_beruska(int guid)
 {
-  int trida = guid/1000;
-  return(trida == 1);
+  int trida = guid / 1000;
+
+  return (trida == 1);
 }
 
 inline int ber_je_objekt_staticky_bez_exitu(int guid)
 {
-  int trida = guid/1000;
-  return(trida == 2  || trida == 9 || trida == 17 ||
-         trida == 19 || trida == 20 || trida == 12);
+  int trida = guid / 1000;
+
+  return (trida == 2 || trida == 9 || trida == 17 ||
+    trida == 19 || trida == 20 || trida == 12);
 }
 
 #endif

@@ -48,49 +48,46 @@ float tools_Base_Priority(unsigned __int64 CPU_Speed)
 }
 */
 
-void tools_Parse_Command_Line(char *pCommnad, char *pLevel, char *pDemo, char *demo)
+void tools_Parse_Command_Line(char *pCommnad, char *pLevel, char *pDemo,
+  char *demo)
 {
-	int i;
+  int i;
 
-	for(i=0;i<(int)strlen(pCommnad);i++)
-		if(pCommnad[i] == ' ')
-			break;
+  for (i = 0; i < (int) strlen(pCommnad); i++)
+    if (pCommnad[i] == ' ')
+      break;
 
-	if(i > 0)
-	{
-		strncpy(pLevel, pCommnad, i);
-		pLevel[i] = '\0';
-	}
-	
-	if(i < (int)strlen(pCommnad))
-	{
-		if(!strncmp((const char *)&pCommnad[i+1], "np:", 3))
-			*demo = 1;
-		else
-			if(!strncmp((const char *)&pCommnad[i+1], "fp:", 3))
-				*demo = 2;
-			else
-				*demo = 0;
+  if (i > 0) {
+    strncpy(pLevel, pCommnad, i);
+    pLevel[i] = '\0';
+  }
 
-		strcpy(pDemo, (const char *)&pCommnad[i+4]);
-	}
-	else
-	{
-		*demo = 0;
-		sprintf(pDemo,"[%s]_[%s]_[%s].dem",pLevel,__DATE__,__TIME__);
-		
-		for(i=0;i<(int)strlen(pDemo);i++)
-		{
-			if(pDemo[i] == 32)
-				pDemo[i] = '_';
+  if (i < (int) strlen(pCommnad)) {
+    if (!strncmp((const char *) &pCommnad[i + 1], "np:", 3))
+      *demo = 1;
+    else if (!strncmp((const char *) &pCommnad[i + 1], "fp:", 3))
+      *demo = 2;
+    else
+      *demo = 0;
 
-			if(pDemo[i] == ':')
-				pDemo[i] = '_';
-		}
+    strcpy(pDemo, (const char *) &pCommnad[i + 4]);
+  }
+  else {
+    *demo = 0;
+    sprintf(pDemo, "[%s]_[%s]_[%s].dem", pLevel, __DATE__, __TIME__);
 
-		//strcpy(pDemo, "Demo.dem");
-	}
+    for (i = 0; i < (int) strlen(pDemo); i++) {
+      if (pDemo[i] == 32)
+        pDemo[i] = '_';
+
+      if (pDemo[i] == ':')
+        pDemo[i] = '_';
+    }
+
+    //strcpy(pDemo, "Demo.dem");
+  }
 }
+
 /*
 void _ui64toc(__int64 a, __int64 b, __int64 *r)
 {
@@ -151,79 +148,78 @@ char *_ui64towc(__int64 i64, char *cText)
 */
 void GetText(char *Buffer, char *mask, char *text)
 {
-	char *wcChar = strstr(Buffer, mask);
-	char *wcEnter = NULL;
+  char *wcChar = strstr(Buffer, mask);
+  char *wcEnter = NULL;
 
-	if(!wcChar)
-		return;
+  if (!wcChar)
+    return;
 
-	wcChar += 2 + strlen(mask);
+  wcChar += 2 + strlen(mask);
 
-	wcEnter = strstr(wcChar, "\n");
+  wcEnter = strstr(wcChar, "\n");
 
-	if(!wcEnter)
-		return;
+  if (!wcEnter)
+    return;
 
-	wcEnter--;
+  wcEnter--;
 
-	strncpy(text, wcChar, wcEnter - wcChar);
+  strncpy(text, wcChar, wcEnter - wcChar);
 }
 
 void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
 {
-	char odir[MAX_PATH+1];
-	char dir[MAX_PATH+1];
-	int	error;
-	unsigned long ulsize;
+  char odir[MAX_PATH + 1];
+  char dir[MAX_PATH + 1];
+  int error;
+  unsigned long ulsize;
 
-	char	Text[1024];
-	char	Caption[1024];
-	char	*buffer;
-	FILE	*file;
+  char Text[1024];
+  char Caption[1024];
+  char *buffer;
+  FILE *file;
 
-	APAK_HANDLE	*hArchive = NULL;
+  APAK_HANDLE *hArchive = NULL;
 
-	if(!ctagtitle || !ctagtext)
-		return;
+  if (!ctagtitle || !ctagtext)
+    return;
 
-	getcwd(odir, MAX_PATH);
+  getcwd(odir, MAX_PATH);
 
-	GetPrivateProfileString("game","bitmap_dir","c:\\",dir,MAX_PATH,ini_file);
-  working_file_translate(dir,256);
-	chdir((dir));
+  GetPrivateProfileString("game", "bitmap_dir", "c:\\", dir, MAX_PATH,
+    ini_file);
+  working_file_translate(dir, 256);
+  chdir((dir));
 
   apak_dir_correction(dir);
-	hArchive = apakopen(cFontFile[2], dir, &error);
+  hArchive = apakopen(cFontFile[2], dir, &error);
 
-	if(!hArchive)
-	{
-		chdir((odir));
-		return;
-	}
-	else
-		hArchive->pActualNode = hArchive->pRootNode->pNextNode;
+  if (!hArchive) {
+    chdir((odir));
+    return;
+  }
+  else
+    hArchive->pActualNode = hArchive->pRootNode->pNextNode;
 
-	file = aopen(hArchive, "messages.txt", "rb");
+  file = aopen(hArchive, "messages.txt", "rb");
 
-	if(!file)
-	{
-		apakclose(hArchive);
-		chdir((odir));
-	}
+  if (!file) {
+    apakclose(hArchive);
+    chdir((odir));
+  }
 
-	agetbuffer(file, (char **) &buffer, &ulsize);
-  
-	memset(Text, 0, 1024 * sizeof(char));
-	memset(Caption, 0, 1024 * sizeof(char));
-		
-	GetText(buffer, ctagtext, Text);
-	GetText(buffer, ctagtitle, Caption);
+  agetbuffer(file, (char **) &buffer, &ulsize);
 
-	strcat(Caption, addtext);
+  memset(Text, 0, 1024 * sizeof(char));
+  memset(Caption, 0, 1024 * sizeof(char));
 
-	//MessageBox(hWnd, (LPCTSTR) Text, (LPCTSTR) Caption, MB_OK);
+  GetText(buffer, ctagtext, Text);
+  GetText(buffer, ctagtitle, Caption);
 
-	aclose(file);
-	apakclose(hArchive);
-	chdir((odir));
+  strcat(Caption, addtext);
+
+  //MessageBox(hWnd, (LPCTSTR) Text, (LPCTSTR) Caption, MB_OK);
+
+  aclose(file);
+  apakclose(hArchive);
+  chdir((odir));
 }

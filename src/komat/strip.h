@@ -4,7 +4,8 @@
 */
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #ifndef __STRIP_H__
@@ -14,15 +15,18 @@ extern "C" {
 #define ST_STRIP  1
 #define ST_FAN    2
 
-typedef struct _STRIP_FACE {
+  typedef struct _STRIP_FACE
+  {
 
-  int             typ;
-  unsigned int    facenum;
-  unsigned short *p_face;
+    int typ;
+    unsigned int facenum;
+    unsigned short *p_face;
 
-} STRIP_FACE;
+  } STRIP_FACE;
 
-int NvGenerateStrips(unsigned short *p_in_indices, unsigned int in_numIndices, STRIP_FACE **p_facer, unsigned short *p_facenum);
+  int NvGenerateStrips(unsigned short *p_in_indices,
+    unsigned int in_numIndices, STRIP_FACE ** p_facer,
+    unsigned short *p_facenum);
 
 #endif
 

@@ -48,7 +48,7 @@
    or something like that if there is no such thing on your compiler.
    (GNU C Uses __PRETTY_FUNCTION__ or __FUNCTION__). */
 //#define MSS_FUNCTION_MACRO __PRETTY_FUNCTION__
-#define MSS_FUNCTION_MACRO "(unknown function)" 
+#define MSS_FUNCTION_MACRO "(unknown function)"
 
 
 /* Some compiler needs a redefinition of new[] and delete[], some don't.
@@ -99,24 +99,31 @@
 #define MSS_VERSION "1.2"
 
 #ifdef __cplusplus
-extern "C" {
-#endif /* !__cplusplus */
+extern "C"
+{
+#endif                          /* !__cplusplus */
 
 /****************/
 /*    USER.C    */
 /****************/
-void mss_enter_scope(const char *filename, const char *function, unsigned long line);
-void mss_leave_scope(const char *filename, const char *function, unsigned long line);
+  void mss_enter_scope(const char *filename, const char *function,
+    unsigned long line);
+  void mss_leave_scope(const char *filename, const char *function,
+    unsigned long line);
 
-void mss_unregister_constant_block(void *ptr, const char *filename, const char *function, unsigned long line);
-void mss_register_constant_block(void *ptr, const char *filename, const char *function, unsigned long line);
+  void mss_unregister_constant_block(void *ptr, const char *filename,
+    const char *function, unsigned long line);
+  void mss_register_constant_block(void *ptr, const char *filename,
+    const char *function, unsigned long line);
 
-unsigned int mss_currently_used_mem(void);
-unsigned int mss_maximum_used_nem(void);
-unsigned int mss_number_of_allocated_blocks(void);
+  unsigned int mss_currently_used_mem(void);
+  unsigned int mss_maximum_used_nem(void);
+  unsigned int mss_number_of_allocated_blocks(void);
 
-void mss_set_block_label(void *ptr, const char *message, const char *filename, const char *function, unsigned long line);
-void mss_dump_block(void *ptr, const char *file, const char *filename, const char *function, unsigned long line);
+  void mss_set_block_label(void *ptr, const char *message,
+    const char *filename, const char *function, unsigned long line);
+  void mss_dump_block(void *ptr, const char *file, const char *filename,
+    const char *function, unsigned long line);
 
 /****************/
 /*   ALLOC.C    */
@@ -135,80 +142,96 @@ void mss_dump_block(void *ptr, const char *file, const char *filename, const cha
 #define MSS_BY_CFREE		12
 #define MSS_BY_STRDUP		13
 
-void *mss_malloc(size_t s, int called_by, const char *filename, const char *function, unsigned long line);
-char *mss_strdup(const char *source, const char *filename, const char *function, unsigned long line);
-void *mss_realloc(void *ptr, size_t size, int called_by, const char *filename, const char *function, unsigned long line);
-void mss_free(void *ptr, int called_by, const char *filename, const char *function, unsigned long line);
+  void *mss_malloc(size_t s, int called_by, const char *filename,
+    const char *function, unsigned long line);
+  char *mss_strdup(const char *source, const char *filename,
+    const char *function, unsigned long line);
+  void *mss_realloc(void *ptr, size_t size, int called_by,
+    const char *filename, const char *function, unsigned long line);
+  void mss_free(void *ptr, int called_by, const char *filename,
+    const char *function, unsigned long line);
 
 /****************/
 /*   CHECK.C    */
 /****************/
-void mss_check_pointer_validity(void *ptr, const char *filename, const char *function, unsigned long line);
-void mss_check_all_blocks(const char *filename, const char *function, unsigned long line);
-void mss_check_block(void *ptr, const char *filename, const char *function, unsigned long line);
+  void mss_check_pointer_validity(void *ptr, const char *filename,
+    const char *function, unsigned long line);
+  void mss_check_all_blocks(const char *filename, const char *function,
+    unsigned long line);
+  void mss_check_block(void *ptr, const char *filename, const char *function,
+    unsigned long line);
 
 
 /****************/
 /*  CPPSPEC.CC  */
 /****************/
 #ifdef __cplusplus
-} /* End of extern "C" */
+}                               /* End of extern "C" */
 
 extern unsigned int MSS_DEL_LINE;
 extern char *MSS_DEL_FILENAME;
 extern char *MSS_DEL_FUNCTION;
 
 /* Overloaded and redefined operators */
-void *operator new(size_t s);
-void *operator new(size_t s, const char *filename, const char *function, unsigned long line);
-void operator delete(void *p)
+void *operator  new(size_t s);
+void *operator  new(size_t s, const char *filename, const char *function,
+  unsigned long line);
+void operator  delete(void *p)
 #ifdef MSS_USE_EXCEPTIONS
 throw()
 #endif
-;  /* Yes, this semicolon has to be here! */
+;                               /* Yes, this semicolon has to be here! */
 
 #ifdef MSS_DEFINE_NEW_DELETE_ARRAY
-void *operator new[](size_t s);
-void *operator new[](size_t s, const char *filename, const char *function, unsigned long line);
-void operator delete[](void *p)
+     void *operator  new[] (size_t s);
+     void *operator  new[] (size_t s, const char *filename,
+  const char *function, unsigned long line);
+     void operator  delete[] (void *p)
 #ifdef MSS_USE_EXCEPTIONS
 throw()
-#endif /* !MSS_USE_EXCEPTIONS */
-; /* Yes, this semicolon has to be here! */
+#endif                          /* !MSS_USE_EXCEPTIONS */
+;                               /* Yes, this semicolon has to be here! */
 #endif /* !MSS_DEFINE_NEW_DELETE_ARRAY */
 
-extern "C" {
-#endif /* !__cplusplus */
+     extern "C"
+     {
+#endif                          /* !__cplusplus */
 
 
 /****************/
 /*    LOG.C     */
 /****************/
-typedef int (*MssCallBackFunc)  (char *		outbuf,
-				 void *		blkptr,
-		              	 unsigned int 	blklen,
-	 			 const char * 	blklab,
-				 const char * 	blksrc,
-				 const char * 	blkfnc,
-				 unsigned int blklin);
+       typedef int (*MssCallBackFunc) (char *outbuf,
+         void *blkptr,
+         unsigned int blklen,
+         const char *blklab,
+         const char *blksrc, const char *blkfnc, unsigned int blklin);
 
-void mss_log_block_list_filtered(const char * filename, const char * function, unsigned int line, MssCallBackFunc callback_func);
-void mss_log_msg(const char *msg, const char *filename, const char *function, unsigned long line);
-void mss_log_disable(const char *filename, const char *function, unsigned long line);
-void mss_log_enable(const char *filename, const char *function, unsigned long line);
-void mss_log_info(const char *filename, const char *function, unsigned long line);
-void mss_log_internal_info(const char *filename, const char *function, unsigned long line);
-void mss_log_list_blocks(const char *filename, const char *function, unsigned long line);
+       void mss_log_block_list_filtered(const char *filename,
+         const char *function, unsigned int line,
+         MssCallBackFunc callback_func);
+       void mss_log_msg(const char *msg, const char *filename,
+         const char *function, unsigned long line);
+       void mss_log_disable(const char *filename, const char *function,
+         unsigned long line);
+       void mss_log_enable(const char *filename, const char *function,
+         unsigned long line);
+       void mss_log_info(const char *filename, const char *function,
+         unsigned long line);
+       void mss_log_internal_info(const char *filename, const char *function,
+         unsigned long line);
+       void mss_log_list_blocks(const char *filename, const char *function,
+         unsigned long line);
 
 
 /****************/
 /*    INIT.C    */
 /****************/
-void mss_startup(void);
+       void mss_startup(void);
 
 #ifdef __cplusplus
-}
-#endif /* !__cplusplus */
+     }
+#endif                          /* !__cplusplus */
 
 /****************/
 /* User  Macros */
@@ -221,7 +244,7 @@ void mss_startup(void);
 #ifdef __cplusplus
 #define new new(__FILE__, MSS_FUNCTION_MACRO, __LINE__)
 #define delete MSS_DEL_FILENAME = __FILE__, MSS_DEL_LINE = __LINE__, MSS_DEL_FUNCTION = MSS_FUNCTION_MACRO, delete
-#endif /* !__cplusplus */
+#endif                          /* !__cplusplus */
 
 #define malloc(s) mss_malloc(s, MSS_BY_MALLOC, __FILE__, MSS_FUNCTION_MACRO, __LINE__)
 #define xmalloc(s) mss_malloc(s, MSS_BY_XMALLOC, __FILE__, MSS_FUNCTION_MACRO, __LINE__)
@@ -261,7 +284,7 @@ void mss_startup(void);
 #define MSS_SET_BLOCK_LABEL(ptr, str) mss_set_block_label(ptr, str, __FILE__, MSS_FUNCTION_MACRO, __LINE__)
 #define MSS_DUMP_BLOCK(ptr, filename) mss_dump_block(ptr, filename, __FILE__, MSS_FUNCTION_MACRO, __LINE__)
 
-#else /* #ifndef MSS */
+#else                           /* #ifndef MSS */
 /* We define these macros to nothing if MSS is undefined */
 #define MSS_ENTER_SCOPE	;
 #define MSS_LEAVE_SCOPE	;
@@ -292,8 +315,7 @@ void mss_startup(void);
 #define MSS_DUMP_BLOCK(ptr, filename) ;
 
 
-#endif /* !MSS */
-#endif /* !__mss_internal__ */
+#endif                          /* !MSS */
+#endif                          /* !__mss_internal__ */
 
-#endif /* !__mss_h__ */
-
+#endif                          /* !__mss_h__ */

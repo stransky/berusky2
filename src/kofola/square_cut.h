@@ -3,19 +3,19 @@
 
 typedef struct
 {
-	int top;
-	int	bottom;
-	int left;
-	int right;
+  int top;
+  int bottom;
+  int left;
+  int right;
 } SQUARE;
 
 typedef struct
 {
-	char vertikal;
-	char horizontal;
+  char vertikal;
+  char horizontal;
 } OHODNOCENI;
 
-void OrezCtverec(SQUARE *pCtverec, SQUARE *pOblast);
-char OhodnotCtverec(SQUARE *pCtverec, SQUARE *pOblast);
+void OrezCtverec(SQUARE * pCtverec, SQUARE * pOblast);
+char OhodnotCtverec(SQUARE * pCtverec, SQUARE * pOblast);
 
 #endif

@@ -23,44 +23,45 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 /** OpenAL boolean type. */
-typedef char ALboolean;
+  typedef char ALboolean;
 
 /** OpenAL 8bit signed byte. */
-typedef char ALbyte;
+  typedef char ALbyte;
 
 /** OpenAL 8bit unsigned byte. */
-typedef unsigned char ALubyte;
+  typedef unsigned char ALubyte;
 
 /** OpenAL 16bit signed short integer type. */
-typedef short ALshort;
+  typedef short ALshort;
 
 /** OpenAL 16bit unsigned short integer type. */
-typedef unsigned short ALushort;
+  typedef unsigned short ALushort;
 
 /** OpenAL 32bit unsigned integer type. */
-typedef unsigned ALuint;
+  typedef unsigned ALuint;
 
 /** OpenAL 32bit signed integer type. */
-typedef int ALint;
+  typedef int ALint;
 
 /** OpenAL 32bit floating point type. */
-typedef float ALfloat;
+  typedef float ALfloat;
 
 /** OpenAL 64bit double point type. */
-typedef double ALdouble;
+  typedef double ALdouble;
 
 /** OpenAL 32bit type. */
-typedef unsigned int ALsizei;
+  typedef unsigned int ALsizei;
 
 /** OpenAL void type */
-typedef void ALvoid;
+  typedef void ALvoid;
 
 /** OpenAL enumerations. */
-typedef int ALenum;
+  typedef int ALenum;
 
 /* Bad value. */
 #define AL_INVALID                               (-1)
@@ -117,12 +118,12 @@ typedef int ALenum;
  * To switch from a left handed coordinate system, flip the
  *  sign on the Z coordinate.
  * Listener position is always in the world coordinate system.
- */ 
+ */
 #define AL_POSITION                              0x1004
-  
+
 /** Specify the current direction as forward vector. */
 #define AL_DIRECTION                             0x1005
-  
+
 /** Specify the current velocity in three dimensional space. */
 #define AL_VELOCITY                              0x1006
 
@@ -272,13 +273,13 @@ typedef int ALenum;
 /** 
  * Illegal enum passed as an argument to an AL call.
  */
-#define AL_INVALID_ENUM                          0xA002  
+#define AL_INVALID_ENUM                          0xA002
 /** 
  * Illegal value passed as an argument to an AL call.
  * Applies to parameter values, but not to enumerations.
  */
 #define AL_INVALID_VALUE                         0xA003
-  
+
 /**
  * A function was called at inappropriate time,
  *  or in an inappropriate way, causing an illegal state.
@@ -305,7 +306,7 @@ typedef int ALenum;
  * Doppler scale.  Default 1.0
  */
 #define AL_DOPPLER_FACTOR                        0xC000
- 
+
 /**
  * Doppler velocity.  Default 1.0
  */
@@ -320,7 +321,7 @@ typedef int ALenum;
 
 #define AL_INVERSE_DISTANCE                      0xD001
 #define AL_INVERSE_DISTANCE_CLAMPED              0xD002
- 
+
  /**
  * enables
  */

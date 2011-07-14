@@ -10,10 +10,11 @@
 	float tools_Base_Priority(unsigned __int64 CPU_Speed);
 */
 
-	void tools_Parse_Command_Line(char *pCommnad, char *pLevel, char *pDemo, char *demo);
+void tools_Parse_Command_Line(char *pCommnad, char *pLevel, char *pDemo,
+  char *demo);
 
-//	char *_ui64towc(__int64 i64, char *cText);
+//      char *_ui64towc(__int64 i64, char *cText);
 
-	void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext);
+void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext);
 
 #endif

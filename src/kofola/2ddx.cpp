@@ -24,120 +24,114 @@ const NUM_OF_BITMAPS = 600;
 
 typedef struct
 {
-	CSurface*				g_pSurface;
-	int						x;
-	int						y;
-	char					bLoad;
-} SURFACESTRUCT; 
+  CSurface *g_pSurface;
+  int x;
+  int y;
+  char bLoad;
+} SURFACESTRUCT;
 
 typedef struct
 {
-	int				bm_count;
-	char			bm_dir[256];
-	SURFACESTRUCT	*surface;
+  int bm_count;
+  char bm_dir[256];
+  SURFACESTRUCT *surface;
 } _2DX_DATA;
 
-extern "C" void				kprintf(byte log, byte *p_text,...);
-extern "C" byte				ini_file[300];
-extern "C" APAK_HANDLE		*pBmpArchive;
-extern "C" APAK_HANDLE		*pControlsArchive;
-extern "C" APAK_HANDLE		*p3DMArchive;
-extern "C" APAK_HANDLE		*pSndArchive;
-extern "C" RECT_LINE		rline;
-extern "C" HINSTANCE		hinst;
-extern "C" MOUSE_INFO       dim;
-extern "C" int				bWindowMenu;
+extern "C" void kprintf(byte log, byte * p_text, ...);
+extern "C" byte ini_file[300];
+extern "C" APAK_HANDLE * pBmpArchive;
+extern "C" APAK_HANDLE * pControlsArchive;
+extern "C" APAK_HANDLE * p3DMArchive;
+extern "C" APAK_HANDLE * pSndArchive;
+extern "C" RECT_LINE rline;
+extern "C" HINSTANCE hinst;
+extern "C" MOUSE_INFO dim;
+extern "C" int bWindowMenu;
 
-_2DX_DATA					ddx;
-CDisplay*					g_pDisplay  = NULL;
-static int					i_Cursor[2];
-static int					i_CursorDDX = 0;
-LPDIRECTINPUT8				i_pDInput   = NULL;
-LPDIRECTINPUTDEVICE8		g_pMouse	= NULL;
-DIMOUSESTATE				MouseState;
-extern "C" char				bDXAktivni;
+_2DX_DATA ddx;
+CDisplay *g_pDisplay = NULL;
+static int i_Cursor[2];
+static int i_CursorDDX = 0;
+LPDIRECTINPUT8 i_pDInput = NULL;
+LPDIRECTINPUTDEVICE8 g_pMouse = NULL;
+DIMOUSESTATE MouseState;
+extern "C" char bDXAktivni;
 
-DWORD						dwLastMenuMusicCheck = 0;
+DWORD dwLastMenuMusicCheck = 0;
 
 // These variables are set in StorePixelFormat and should be defined
 // elsewhere(global, member variable, etc...)
-WORD						NumberRedBits, 
-							NumberGreenBits, 
-							NumberBlueBits;
-WORD						LowRedBit, 
-							LowGreenBit, 
-							LowBlueBit;
-static char					bFlip = 1;
-static char					bDrawCursor = 1;
-static unsigned long		bLastGameState = 1;
+WORD NumberRedBits, NumberGreenBits, NumberBlueBits;
+WORD LowRedBit, LowGreenBit, LowBlueBit;
+static char bFlip = 1;
+static char bDrawCursor = 1;
+static unsigned long bLastGameState = 1;
 
-extern "C" unsigned long	karmin_aktivni;
-extern "C" HWND				hwnd_hry;
+extern "C" unsigned long karmin_aktivni;
+extern "C" HWND hwnd_hry;
 
-extern "C" int  spracuj_spravy(int priorita);
+extern "C" int spracuj_spravy(int priorita);
 extern "C" void gi_Release_Sound_Engine(void);
 extern "C" char MenuCheckBossExit(void);
 extern "C" void gl_Kofola_End(int DirectX);
 
 extern "C" char cCheckMusicExeption;
 
-//static HHOOK				hKBHook = 0;
+//static HHOOK                          hKBHook = 0;
 
-int		start_x = 0;
-int		start_y = 0;
+int start_x = 0;
+int start_y = 0;
 
 extern "C" void ddxSaveSurface(int idx)
 {
-	char cfile[256];
-	FILE *file;
+  char cfile[256];
+  FILE *file;
 
-	sprintf(cfile, "c:\\bmp_debug\\%d.bmp", idx);
+  sprintf(cfile, "c:\\bmp_debug\\%d.bmp", idx);
 
-	file = fopen(cfile, "wb");
+  file = fopen(cfile, "wb");
 
-	if(!file)
-		return;
-	else
-	{
-		ddx.surface[idx].g_pSurface->Save(file, ddx.surface[idx].x, ddx.surface[idx].y);
-		fclose(file);
-	}
+  if (!file)
+    return;
+  else {
+    ddx.surface[idx].g_pSurface->Save(file, ddx.surface[idx].x,
+      ddx.surface[idx].y);
+    fclose(file);
+  }
 }
 
 extern "C" void ddxSaveSurfaces(void)
 {
-	int i;
-	FILE *file;
+  int i;
+  FILE *file;
 
-	file = fopen("c:\\bmp_debug\\front.bmp", "wb");
+  file = fopen("c:\\bmp_debug\\front.bmp", "wb");
 
-	if(file)
-	{
-		g_pDisplay->Save(file, 1024, 768, 1);
-		fclose(file);
-	}
-	
-	file = fopen("c:\\bmp_debug\\back.bmp", "wb");
+  if (file) {
+    g_pDisplay->Save(file, 1024, 768, 1);
+    fclose(file);
+  }
 
-	if(file)
-	{
-		g_pDisplay->Save(file, 1024, 768, 0);
-		fclose(file);
-	}
-		
-		for(i=0;i<NUM_OF_BITMAPS;i++)
-		if(ddx.surface[i].bLoad)
-			ddxSaveSurface(i);
+  file = fopen("c:\\bmp_debug\\back.bmp", "wb");
+
+  if (file) {
+    g_pDisplay->Save(file, 1024, 768, 0);
+    fclose(file);
+  }
+
+  for (i = 0; i < NUM_OF_BITMAPS; i++)
+    if (ddx.surface[i].bLoad)
+      ddxSaveSurface(i);
 }
 
-extern "C" void	ddxSetFlip(char bSwitch)
+extern "C" void ddxSetFlip(char bSwitch)
 {
-	bFlip = bSwitch;
+  bFlip = bSwitch;
 }
 
-extern "C" void	ddxSetCursor(char bSwitch)
+extern "C" void ddxSetCursor(char bSwitch)
 {
-	bDrawCursor = bSwitch;
+  bDrawCursor = bSwitch;
 }
 
 void ddxTiskniError(char *ctext, HRESULT hr)
@@ -146,134 +140,133 @@ void ddxTiskniError(char *ctext, HRESULT hr)
 		return;
 	#endif*/
 
-	switch(hr)
-	{
-		case DDERR_GENERIC:
-			kprintf(1, (unsigned char *)"%s - DDERR_GENERIC ", ctext);
-			break;
-		case DDERR_INVALIDCLIPLIST :
-			kprintf(1, (unsigned char *)"%s - DDERR_INVALIDCLIPLIST  ", ctext);
-			break;
-		case DDERR_INVALIDOBJECT :
-			kprintf(1, (unsigned char *)"%s - DDERR_INVALIDOBJECT  ", ctext);
-			break;
-		case DDERR_INVALIDPARAMS :
-			kprintf(1, (unsigned char *)"%s - DDERR_INVALIDPARAMS  ", ctext);
-			break;
-		case DDERR_INVALIDRECT :
-			kprintf(1, (unsigned char *)"%s - DDERR_INVALIDRECT  ", ctext);
-			break;
-		case DDERR_NOALPHAHW :
-			kprintf(1, (unsigned char *)"%s - DDERR_NOALPHAHW  ", ctext);
-			break;
-		case DDERR_NOBLTHW :
-			kprintf(1, (unsigned char *)"%s - DDERR_NOBLTHW  ", ctext);
-			break;
-		case DDERR_NOCLIPLIST :
-			kprintf(1, (unsigned char *)"%s - DDERR_NOCLIPLIST  ", ctext);
-			break;
-		case DDERR_NODDROPSHW :
-			kprintf(1, (unsigned char *)"%s - DDERR_NODDROPSHW  ", ctext);
-			break;
-		case DDERR_NOMIRRORHW :
-			kprintf(1, (unsigned char *)"%s - DDERR_NOMIRRORHW  ", ctext);
-			break;
-		case DDERR_NORASTEROPHW :
-			kprintf(1, (unsigned char *)"%s - DDERR_NORASTEROPHW  ", ctext);
-			break;
-		case DDERR_NOROTATIONHW :
-			kprintf(1, (unsigned char *)"%s - DDERR_NOROTATIONHW  ", ctext);
-			break;
-		case DDERR_NOSTRETCHHW :
-			kprintf(1, (unsigned char *)"%s - DDERR_NOSTRETCHHW  ", ctext);
-			break;
-		case DDERR_NOZBUFFERHW  :
-			kprintf(1, (unsigned char *)"%s - DDERR_NOZBUFFERHW   ", ctext);
-			break;
-		case DDERR_SURFACEBUSY  :
-			kprintf(1, (unsigned char *)"%s - DDERR_SURFACEBUSY   ", ctext);
-			break;
-		case DDERR_SURFACELOST  :
-			kprintf(1, (unsigned char *)"%s - DDERR_SURFACELOST   ", ctext);
-			break;
-		case DDERR_UNSUPPORTED  :
-			kprintf(1, (unsigned char *)"%s - DDERR_UNSUPPORTED   ", ctext);
-			break;
-		case DDERR_WASSTILLDRAWING  :
-			kprintf(1, (unsigned char *)"%s - DDERR_WASSTILLDRAWING   ", ctext);
-			break;
-		default:
-			kprintf(1, (unsigned char *)"%s - TAK TO JE NEJAKA PICOVINA   ", ctext);
-			break;
-	}
+  switch (hr) {
+    case DDERR_GENERIC:
+      kprintf(1, (unsigned char *) "%s - DDERR_GENERIC ", ctext);
+      break;
+    case DDERR_INVALIDCLIPLIST:
+      kprintf(1, (unsigned char *) "%s - DDERR_INVALIDCLIPLIST  ", ctext);
+      break;
+    case DDERR_INVALIDOBJECT:
+      kprintf(1, (unsigned char *) "%s - DDERR_INVALIDOBJECT  ", ctext);
+      break;
+    case DDERR_INVALIDPARAMS:
+      kprintf(1, (unsigned char *) "%s - DDERR_INVALIDPARAMS  ", ctext);
+      break;
+    case DDERR_INVALIDRECT:
+      kprintf(1, (unsigned char *) "%s - DDERR_INVALIDRECT  ", ctext);
+      break;
+    case DDERR_NOALPHAHW:
+      kprintf(1, (unsigned char *) "%s - DDERR_NOALPHAHW  ", ctext);
+      break;
+    case DDERR_NOBLTHW:
+      kprintf(1, (unsigned char *) "%s - DDERR_NOBLTHW  ", ctext);
+      break;
+    case DDERR_NOCLIPLIST:
+      kprintf(1, (unsigned char *) "%s - DDERR_NOCLIPLIST  ", ctext);
+      break;
+    case DDERR_NODDROPSHW:
+      kprintf(1, (unsigned char *) "%s - DDERR_NODDROPSHW  ", ctext);
+      break;
+    case DDERR_NOMIRRORHW:
+      kprintf(1, (unsigned char *) "%s - DDERR_NOMIRRORHW  ", ctext);
+      break;
+    case DDERR_NORASTEROPHW:
+      kprintf(1, (unsigned char *) "%s - DDERR_NORASTEROPHW  ", ctext);
+      break;
+    case DDERR_NOROTATIONHW:
+      kprintf(1, (unsigned char *) "%s - DDERR_NOROTATIONHW  ", ctext);
+      break;
+    case DDERR_NOSTRETCHHW:
+      kprintf(1, (unsigned char *) "%s - DDERR_NOSTRETCHHW  ", ctext);
+      break;
+    case DDERR_NOZBUFFERHW:
+      kprintf(1, (unsigned char *) "%s - DDERR_NOZBUFFERHW   ", ctext);
+      break;
+    case DDERR_SURFACEBUSY:
+      kprintf(1, (unsigned char *) "%s - DDERR_SURFACEBUSY   ", ctext);
+      break;
+    case DDERR_SURFACELOST:
+      kprintf(1, (unsigned char *) "%s - DDERR_SURFACELOST   ", ctext);
+      break;
+    case DDERR_UNSUPPORTED:
+      kprintf(1, (unsigned char *) "%s - DDERR_UNSUPPORTED   ", ctext);
+      break;
+    case DDERR_WASSTILLDRAWING:
+      kprintf(1, (unsigned char *) "%s - DDERR_WASSTILLDRAWING   ", ctext);
+      break;
+    default:
+      kprintf(1, (unsigned char *) "%s - TAK TO JE NEJAKA PICOVINA   ",
+        ctext);
+      break;
+  }
 }
 
 // Small utility function to find the LowBit and Number of Bits in a supplied Mask
-void ProcessBits( DWORD Mask, WORD* LowBit, WORD* NumBits )
+void ProcessBits(DWORD Mask, WORD * LowBit, WORD * NumBits)
 {
-   DWORD TestMask = 1;
-   for( *LowBit = 0; *LowBit < 32; ( *LowBit )++ )
-   {
-      if( Mask & TestMask )
-         break;
-      TestMask <<= 1;
-   }
+  DWORD TestMask = 1;
 
-   TestMask <<= 1;
-   for( *NumBits = 1; *NumBits < 32; ( *NumBits )++ )
-   {
-      if( !( Mask & TestMask ))
-         break;
-      TestMask <<= 1;
-   }
+  for (*LowBit = 0; *LowBit < 32; (*LowBit)++) {
+    if (Mask & TestMask)
+      break;
+    TestMask <<= 1;
+  }
+
+  TestMask <<= 1;
+  for (*NumBits = 1; *NumBits < 32; (*NumBits)++) {
+    if (!(Mask & TestMask))
+      break;
+    TestMask <<= 1;
+  }
 }
 
 BOOL StorePixelFormat()
 {
-   // Define a PixelFormat variable, clear it and set the dwSize variable, as usual.
-   DDPIXELFORMAT DDPixelFormat;
-   ZeroMemory( &DDPixelFormat, sizeof( DDPixelFormat ));
-   DDPixelFormat.dwSize = sizeof( DDPixelFormat );
+  // Define a PixelFormat variable, clear it and set the dwSize variable, as usual.
+  DDPIXELFORMAT DDPixelFormat;
 
-   // Fill the PixelFormat from the information for the Primary Surface
-   if( FAILED( (g_pDisplay->GetBackBuffer())->GetPixelFormat( &DDPixelFormat)))
-   {
-      // Fatal error. The program should exit nicely
-      return FALSE;
-   }
+  ZeroMemory(&DDPixelFormat, sizeof(DDPixelFormat));
+  DDPixelFormat.dwSize = sizeof(DDPixelFormat);
 
-   // Save the Low Bit and Number of Bits
-   ProcessBits( DDPixelFormat.dwRBitMask, &LowRedBit, &NumberRedBits);
-   ProcessBits( DDPixelFormat.dwGBitMask, &LowGreenBit, &NumberGreenBits);
-   ProcessBits( DDPixelFormat.dwBBitMask, &LowBlueBit, &NumberBlueBits);
+  // Fill the PixelFormat from the information for the Primary Surface
+  if (FAILED((g_pDisplay->GetBackBuffer())->GetPixelFormat(&DDPixelFormat))) {
+    // Fatal error. The program should exit nicely
+    return FALSE;
+  }
 
-   return TRUE;
+  // Save the Low Bit and Number of Bits
+  ProcessBits(DDPixelFormat.dwRBitMask, &LowRedBit, &NumberRedBits);
+  ProcessBits(DDPixelFormat.dwGBitMask, &LowGreenBit, &NumberGreenBits);
+  ProcessBits(DDPixelFormat.dwBBitMask, &LowBlueBit, &NumberBlueBits);
+
+  return TRUE;
 }
 
 HRESULT TurnonCursor(VOID)
 {
-	HRESULT hr;
+  HRESULT hr;
 
-	if(!g_pMouse)
-		return(E_POINTER);
+  if (!g_pMouse)
+    return (E_POINTER);
 
-	if(FAILED(hr = g_pMouse->Acquire() ) )
-		return hr;
+  if (FAILED(hr = g_pMouse->Acquire()))
+    return hr;
 
-	return S_OK;
+  return S_OK;
 }
 
 HRESULT TurnoffCursor(VOID)
 {
-	HRESULT hr;
+  HRESULT hr;
 
-	if(!g_pMouse)
-		return(E_POINTER);
+  if (!g_pMouse)
+    return (E_POINTER);
 
-	if(FAILED(hr = g_pMouse->Unacquire() ) )
-		return hr;
+  if (FAILED(hr = g_pMouse->Unacquire()))
+    return hr;
 
-	return S_OK;
+  return S_OK;
 }
 
 /*extern "C" HRESULT ddxUpdateMouse(VOID)
@@ -338,16 +331,16 @@ HRESULT TurnoffCursor(VOID)
 
 extern "C" HRESULT ddxUpdateMouse(VOID)
 {
-	spracuj_spravy(1);
+  spracuj_spravy(1);
 
-	dim.dx = mi.dx;
-	dim.dy = mi.dy;
+  dim.dx = mi.dx;
+  dim.dy = mi.dy;
 
-	dim.x = mi.x;
-	dim.y = mi.y;
-	
-	dim.rx = mi.x - start_x;
-	dim.ry = mi.y - start_y;
+  dim.x = mi.x;
+  dim.y = mi.y;
+
+  dim.rx = mi.x - start_x;
+  dim.ry = mi.y - start_y;
 /*
 	if(dim.x < dim.x_min)
 		dim.x = dim.x_min;
@@ -362,52 +355,48 @@ extern "C" HRESULT ddxUpdateMouse(VOID)
 			dim.y = dim.y_max;
 */
 
-	dim.t1 = dim.dt1 = mi.t1;
-	dim.t2 = dim.dt2 = mi.t2;
+  dim.t1 = dim.dt1 = mi.t1;
+  dim.t2 = dim.dt2 = mi.t2;
 
-	if(!dim.t1)
-		dim.lt1 = 0;
+  if (!dim.t1)
+    dim.lt1 = 0;
 
-	if(!dim.t2)
-		dim.lt2 = 0;
+  if (!dim.t2)
+    dim.lt2 = 0;
 
-	if(dim.t1 && dim.lt1)
-		dim.t1 = 0;
+  if (dim.t1 && dim.lt1)
+    dim.t1 = 0;
 
-	if(dim.t2 && dim.lt2)
-		dim.t2 = 0;
+  if (dim.t2 && dim.lt2)
+    dim.t2 = 0;
 
-	if(!dim.lt1 && dim.t1)
-	{
-		dim.lt1 = 1;
-		dim.tf1 = 1;
-	}
+  if (!dim.lt1 && dim.t1) {
+    dim.lt1 = 1;
+    dim.tf1 = 1;
+  }
 
-	if(!dim.lt2 && dim.t2)
-	{
-		dim.lt2 = 1;
-		dim.tf2 = 1;
-	}
+  if (!dim.lt2 && dim.t2) {
+    dim.lt2 = 1;
+    dim.tf2 = 1;
+  }
 
-	return S_OK;
+  return S_OK;
 }
 
 
 VOID FreeDirectInput(VOID)
 {
-	TurnoffCursor();
+  TurnoffCursor();
 
-	if(g_pMouse)
-	{
-		g_pMouse->Release();
-		g_pMouse = NULL;
-	}
-	
-	if(i_pDInput)
-	{
-		i_pDInput->Release();
-		i_pDInput = NULL;
-	}
+  if (g_pMouse) {
+    g_pMouse->Release();
+    g_pMouse = NULL;
+  }
+
+  if (i_pDInput) {
+    i_pDInput->Release();
+    i_pDInput = NULL;
+  }
 }
 
 HRESULT InitDirectInput(HWND hWnd)
@@ -435,12 +424,12 @@ HRESULT InitDirectInput(HWND hWnd)
 		return hr;
 	}*/
 
-	dim.x_min = 0; 
-	dim.x_max = 1024;
-	dim.y_min = 0; 
-	dim.y_max = 768;
-	dim.x = dim.y = dim.t1 = dim.t2 = 0;
-	dim.lt1 = dim.lt2 = 0;
+  dim.x_min = 0;
+  dim.x_max = 1024;
+  dim.y_min = 0;
+  dim.y_max = 768;
+  dim.x = dim.y = dim.t1 = dim.t2 = 0;
+  dim.lt1 = dim.lt2 = 0;
 
 /*	if( FAILED( TurnonCursor( ) ) )
 	{
@@ -448,17 +437,17 @@ HRESULT InitDirectInput(HWND hWnd)
 		return hr;
 	}*/
 
-	return S_OK;
+  return S_OK;
 }
 
 extern "C" HRESULT DisplayFramePure()
 {
-	HRESULT hr;
+  HRESULT hr;
 
-    if( FAILED( hr = g_pDisplay->Present() ) )
-        return hr;
+  if (FAILED(hr = g_pDisplay->Present()))
+    return hr;
 
-	return S_OK;
+  return S_OK;
 }
 
 //-----------------------------------------------------------------------------
@@ -468,138 +457,133 @@ extern "C" HRESULT DisplayFramePure()
 //-----------------------------------------------------------------------------
 extern "C" HRESULT DisplayFrame()
 {
-	RECT r;
-    HRESULT hr;
-	int i_Act = g_pDisplay->GetActBuffer();
+  RECT r;
+  HRESULT hr;
+  int i_Act = g_pDisplay->GetActBuffer();
 
-    // We are in fullscreen mode, so perform a flip and return 
-    // any errors like DDERR_SURFACELOST
-	r.left = 0;
-	r.top = 0;
-	r.right = ddxGetWidth(i_CursorDDX);
-	r.bottom = ddxGetHight(i_CursorDDX);
+  // We are in fullscreen mode, so perform a flip and return 
+  // any errors like DDERR_SURFACELOST
+  r.left = 0;
+  r.top = 0;
+  r.right = ddxGetWidth(i_CursorDDX);
+  r.bottom = ddxGetHight(i_CursorDDX);
 
-	if(dim.rx + r.right >= 1024)
-		r.right -= dim.rx + r.right - 1024;
+  if (dim.rx + r.right >= 1024)
+    r.right -= dim.rx + r.right - 1024;
 
-	if(dim.y + r.bottom >= 768)
-		r.bottom -= dim.ry + r.bottom - 768;
+  if (dim.y + r.bottom >= 768)
+    r.bottom -= dim.ry + r.bottom - 768;
 
-	ddxBitBlt(i_Cursor[i_Act], 0, 0, r.right, r.bottom, HDC2DD, 
-			  dim.rx, 
-			  dim.ry);
+  ddxBitBlt(i_Cursor[i_Act], 0, 0, r.right, r.bottom, HDC2DD, dim.rx, dim.ry);
 
-	if(bDrawCursor)
-	{
-		ddx.surface[i_CursorDDX].g_pSurface->SetColorKey( TRANSCOLOR );
-	
-		g_pDisplay->ColorKeyBlt(dim.rx, dim.ry, ddx.surface[i_CursorDDX].g_pSurface->GetDDrawSurface(), &r);
-	}
+  if (bDrawCursor) {
+    ddx.surface[i_CursorDDX].g_pSurface->SetColorKey(TRANSCOLOR);
 
-	g_pDisplay->SetCursorX(i_Act, dim.rx);
-	g_pDisplay->SetCursorY(i_Act, dim.ry);
+    g_pDisplay->ColorKeyBlt(dim.rx, dim.ry,
+      ddx.surface[i_CursorDDX].g_pSurface->GetDDrawSurface(), &r);
+  }
 
-    if( FAILED( hr = g_pDisplay->Present() ) )
-        return hr;
+  g_pDisplay->SetCursorX(i_Act, dim.rx);
+  g_pDisplay->SetCursorY(i_Act, dim.ry);
 
-	if(!g_pDisplay->IsWindowed())
-	{
-		g_pDisplay->AddBufferCounter();
-		i_Act = g_pDisplay->GetActBuffer();
-	}
+  if (FAILED(hr = g_pDisplay->Present()))
+    return hr;
 
-	r.left = 0;
-	r.top = 0;
-	r.right = ddxGetWidth(i_CursorDDX);
-	r.bottom = ddxGetHight(i_CursorDDX);
+  if (!g_pDisplay->IsWindowed()) {
+    g_pDisplay->AddBufferCounter();
+    i_Act = g_pDisplay->GetActBuffer();
+  }
 
-	if(g_pDisplay->GetCursorX(i_Act) + r.right >= 1024)
-		r.right -= g_pDisplay->GetCursorX(i_Act) + r.right - 1024;
+  r.left = 0;
+  r.top = 0;
+  r.right = ddxGetWidth(i_CursorDDX);
+  r.bottom = ddxGetHight(i_CursorDDX);
 
-	if(g_pDisplay->GetCursorY(i_Act) + r.bottom >= 768)
-		r.bottom -= g_pDisplay->GetCursorY(i_Act) + r.bottom - 768;
+  if (g_pDisplay->GetCursorX(i_Act) + r.right >= 1024)
+    r.right -= g_pDisplay->GetCursorX(i_Act) + r.right - 1024;
+
+  if (g_pDisplay->GetCursorY(i_Act) + r.bottom >= 768)
+    r.bottom -= g_pDisplay->GetCursorY(i_Act) + r.bottom - 768;
 
 
-	g_pDisplay->Blt(g_pDisplay->GetCursorX(i_Act), g_pDisplay->GetCursorY(i_Act), ddx.surface[i_Cursor[i_Act]].g_pSurface, &r);
+  g_pDisplay->Blt(g_pDisplay->GetCursorX(i_Act),
+    g_pDisplay->GetCursorY(i_Act), ddx.surface[i_Cursor[i_Act]].g_pSurface,
+    &r);
 
-    return S_OK;
+  return S_OK;
 }
 
 //-----------------------------------------------------------------------------
 // Name: InitDirectDraw()
 // Desc: Create the DirectDraw object, and init the surfaces
 //-----------------------------------------------------------------------------
-extern "C" HRESULT InitDirectDraw( HWND hWnd , int x, int y, int bpp)
+extern "C" HRESULT InitDirectDraw(HWND hWnd, int x, int y, int bpp)
 {
-	int					i;
-    HRESULT             hr;
+  int i;
+  HRESULT hr;
 
-    g_pDisplay = new CDisplay();
-    
-	int	bWindowINI = !GetPrivateProfileInt("hra","fullscreen", 1, (const char *) ini_file);
-	
-	if(bWindowINI)
-	{
-		if( FAILED( hr = g_pDisplay->CreateWindowedDisplay( hWnd, x, y) ) )
-		{
-			char text[256];
+  g_pDisplay = new CDisplay();
 
-			sprintf(text, "%dx%dx%d.", x, y, bpp);
+  int bWindowINI =
+    !GetPrivateProfileInt("hra", "fullscreen", 1, (const char *) ini_file);
 
-			MyMessageBox(hwnd_hry, "##error_title", "##dxinit_error", text);
+  if (bWindowINI) {
+    if (FAILED(hr = g_pDisplay->CreateWindowedDisplay(hWnd, x, y))) {
+      char text[256];
 
-			return hr;
-		}
-	}
-	else
-		if( FAILED( hr = g_pDisplay->CreateFullScreenDisplay( hWnd, x, y, bpp) ) )
-		{
-			char text[256];
+      sprintf(text, "%dx%dx%d.", x, y, bpp);
 
-			sprintf(text, "%dx%dx%d.", x, y, bpp);
+      MyMessageBox(hwnd_hry, "##error_title", "##dxinit_error", text);
 
-			MyMessageBox(hwnd_hry, "##error_title", "##dxinit_error", text);
+      return hr;
+    }
+  }
+  else if (FAILED(hr = g_pDisplay->CreateFullScreenDisplay(hWnd, x, y, bpp))) {
+    char text[256];
 
-			return hr;
-		}
+    sprintf(text, "%dx%dx%d.", x, y, bpp);
 
-	g_pDisplay->Clear(0);
-	g_pDisplay->Present();
-	g_pDisplay->Clear(0);
+    MyMessageBox(hwnd_hry, "##error_title", "##dxinit_error", text);
 
-	if(!StorePixelFormat())
-	{
-		FreeDirectDraw();
-		return FALSE;
-	}
+    return hr;
+  }
 
-	kprintf(1, (unsigned char *) "PixelFormat = %d(%d), %d(%d), %d(%d)", NumberRedBits, LowRedBit, NumberGreenBits, LowGreenBit, NumberBlueBits, LowBlueBit);
-	
-	if( FAILED( hr = InitDirectInput( hWnd ) ) )
-	{
-        MessageBox( hWnd, TEXT("Unable to init directinput. "),
-                    TEXT("Berusky 2"), MB_ICONERROR | MB_OK );
-        return hr;
-	}
+  g_pDisplay->Clear(0);
+  g_pDisplay->Present();
+  g_pDisplay->Clear(0);
 
-	i = g_pDisplay->CheckFlipMode();
+  if (!StorePixelFormat()) {
+    FreeDirectDraw();
+    return FALSE;
+  }
 
-	if(i == 1)
-		kprintf(1, (unsigned char *) "FLIP MODE detected ...");
-	else
-		if(i == 2)
-			kprintf(1, (unsigned char *) "TRIPLE FLIP MODE detected ...");
-		else
-			kprintf(1, (unsigned char *) "BLIT MODE detected ...");
+  kprintf(1, (unsigned char *) "PixelFormat = %d(%d), %d(%d), %d(%d)",
+    NumberRedBits, LowRedBit, NumberGreenBits, LowGreenBit, NumberBlueBits,
+    LowBlueBit);
 
-	bDXAktivni = 1;
+  if (FAILED(hr = InitDirectInput(hWnd))) {
+    MessageBox(hWnd, TEXT("Unable to init directinput. "),
+      TEXT("Berusky 2"), MB_ICONERROR | MB_OK);
+    return hr;
+  }
 
-    return S_OK;
+  i = g_pDisplay->CheckFlipMode();
+
+  if (i == 1)
+    kprintf(1, (unsigned char *) "FLIP MODE detected ...");
+  else if (i == 2)
+    kprintf(1, (unsigned char *) "TRIPLE FLIP MODE detected ...");
+  else
+    kprintf(1, (unsigned char *) "BLIT MODE detected ...");
+
+  bDXAktivni = 1;
+
+  return S_OK;
 }
 
 extern "C" int ddxGetMode(void)
 {
-	return g_pDisplay->IsWindowed();
+  return g_pDisplay->IsWindowed();
 }
 
 //-----------------------------------------------------------------------------
@@ -608,11 +592,11 @@ extern "C" int ddxGetMode(void)
 //-----------------------------------------------------------------------------
 extern "C" VOID FreeDirectDraw()
 {
-	kprintf(1,(unsigned char *) "FreeDirectDraw...");
-	//FreeDirectInput();
-    SAFE_DELETE( g_pDisplay );
-	kprintf(1,(unsigned char *) "FreeDirectDraw DONE");
-	bDXAktivni = 0;
+  kprintf(1, (unsigned char *) "FreeDirectDraw...");
+  //FreeDirectInput();
+  SAFE_DELETE(g_pDisplay);
+  kprintf(1, (unsigned char *) "FreeDirectDraw DONE");
+  bDXAktivni = 0;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -620,34 +604,35 @@ extern "C" VOID FreeDirectDraw()
 //------------------------------------------------------------------------------------------------
 extern "C" int ddxInit(void)
 {
-	//int i;
+  //int i;
 
-	kprintf(1,(unsigned char *) "Kofola - init bitmap -");
+  kprintf(1, (unsigned char *) "Kofola - init bitmap -");
 
-	ddx.bm_count = NUM_OF_BITMAPS;
+  ddx.bm_count = NUM_OF_BITMAPS;
 
-	ddx.surface = (SURFACESTRUCT *) malloc((ddx.bm_count) * sizeof(SURFACESTRUCT));		
-	if (!ddx.surface)
-	{
-		kprintf(1,(unsigned char *) "Unable to allocate memory for bitmaps");
-		return 0;
-	}
-	else
-		ZeroMemory(ddx.surface, (ddx.bm_count) * sizeof(SURFACESTRUCT));	
-	
-	/*for(i=0;i<ddx.bm_count;i++)
-	{
-		ddx.surface[i].bLoad = 0;
-		ddx.surface[i].g_pSurface = NULL;
-	}*/
+  ddx.surface =
+    (SURFACESTRUCT *) malloc((ddx.bm_count) * sizeof(SURFACESTRUCT));
+  if (!ddx.surface) {
+    kprintf(1, (unsigned char *) "Unable to allocate memory for bitmaps");
+    return 0;
+  }
+  else
+    ZeroMemory(ddx.surface, (ddx.bm_count) * sizeof(SURFACESTRUCT));
 
-	GetPrivateProfileString("game","bitmap_dir","c:\\",ddx.bm_dir,256,(const char *) ini_file);
+  /*for(i=0;i<ddx.bm_count;i++)
+     {
+     ddx.surface[i].bLoad = 0;
+     ddx.surface[i].g_pSurface = NULL;
+     } */
 
-	ddxSetCursor(1);
-	ddxSetCursorSurface(0);
-	ddxSetFlip(1);
+  GetPrivateProfileString("game", "bitmap_dir", "c:\\", ddx.bm_dir, 256,
+    (const char *) ini_file);
 
-	return 1;
+  ddxSetCursor(1);
+  ddxSetCursorSurface(0);
+  ddxSetFlip(1);
+
+  return 1;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -655,26 +640,24 @@ extern "C" int ddxInit(void)
 //------------------------------------------------------------------------------------------------
 extern "C" void ddxRelease(void)
 {
-	int i;
+  int i;
 
-	kprintf(1,(unsigned char *) "Kofola: - Release Bitmap...");
-	for(i=0;i<ddx.bm_count;i++)
-		if(ddx.surface[i].bLoad)
-		{
-			kprintf(1,(unsigned char *) "Release Bitmapy[%d]...", i);
-			SAFE_DELETE( ddx.surface[i].g_pSurface );
-			ddx.surface[i].bLoad = 0;
-		}
+  kprintf(1, (unsigned char *) "Kofola: - Release Bitmap...");
+  for (i = 0; i < ddx.bm_count; i++)
+    if (ddx.surface[i].bLoad) {
+      kprintf(1, (unsigned char *) "Release Bitmapy[%d]...", i);
+      SAFE_DELETE(ddx.surface[i].g_pSurface);
+      ddx.surface[i].bLoad = 0;
+    }
 
-	kprintf(1,(unsigned char *) "free ((void *) ddx.surface);");
+  kprintf(1, (unsigned char *) "free ((void *) ddx.surface);");
 
-	if(ddx.surface)
-	{
-		free ((void *) ddx.surface);
-		ddx.surface = NULL;
-	}
+  if (ddx.surface) {
+    free((void *) ddx.surface);
+    ddx.surface = NULL;
+  }
 
-	kprintf(1,(unsigned char *) "release bitmap hotov");
+  kprintf(1, (unsigned char *) "release bitmap hotov");
 }
 
 //------------------------------------------------------------------------------------------------
@@ -682,13 +665,13 @@ extern "C" void ddxRelease(void)
 //------------------------------------------------------------------------------------------------
 extern "C" int ddxFindFreeSurface(void)
 {
-	int i;
+  int i;
 
-	for(i=0;i<ddx.bm_count;i++)
-		if(!ddx.surface[i].bLoad)
-			return i;
+  for (i = 0; i < ddx.bm_count; i++)
+    if (!ddx.surface[i].bLoad)
+      return i;
 
-	return -1;
+  return -1;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -696,21 +679,20 @@ extern "C" int ddxFindFreeSurface(void)
 //------------------------------------------------------------------------------------------------
 extern "C" int ddxReleaseBitmap(int iSurface)
 {
-	if(iSurface < 0)
-		return 1;
+  if (iSurface < 0)
+    return 1;
 
-	if(iSurface > (ddx.bm_count - 1))
-		return 0;
+  if (iSurface > (ddx.bm_count - 1))
+    return 0;
 
-	kprintf(1,(unsigned char *) "Release Bitmapy[%d]...", iSurface);
+  kprintf(1, (unsigned char *) "Release Bitmapy[%d]...", iSurface);
 
-	if(ddx.surface[iSurface].bLoad)
-	{
-		SAFE_DELETE(ddx.surface[iSurface].g_pSurface );
-		ddx.surface[iSurface].bLoad = 0;
-	}
+  if (ddx.surface[iSurface].bLoad) {
+    SAFE_DELETE(ddx.surface[iSurface].g_pSurface);
+    ddx.surface[iSurface].bLoad = 0;
+  }
 
-	return 1;
+  return 1;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -718,234 +700,232 @@ extern "C" int ddxReleaseBitmap(int iSurface)
 //------------------------------------------------------------------------------------------------
 extern "C" int ddxLoadList(char *pFileName, int bProgress)
 {
-	//HRESULT         hr;
-	int				c = 0;
-	char			text[256];
-	FILE			*file = 0;
-	DWORD			Eplased = 0;
-	DWORD			Start, Stop;
-	RECT			r = {0, 753, 0, 768};
+  //HRESULT         hr;
+  int c = 0;
+  char text[256];
+  FILE *file = 0;
+  DWORD Eplased = 0;
+  DWORD Start, Stop;
+  RECT r = { 0, 753, 0, 768 };
 
-	if(bProgress)
-	{
-		ddxSetCursor(0);
-		ddxSetFlip(0);
-	}
+  if (bProgress) {
+    ddxSetCursor(0);
+    ddxSetFlip(0);
+  }
 
-	kprintf(1, (unsigned char *) "ddxLoadList - achdir");
-	achdir(pBmpArchive, ddx.bm_dir);
+  kprintf(1, (unsigned char *) "ddxLoadList - achdir");
+  achdir(pBmpArchive, ddx.bm_dir);
 
-	kprintf(1, (unsigned char *) "ddxLoadList - aopen");
-	file = aopen(pBmpArchive, pFileName,"rb");
+  kprintf(1, (unsigned char *) "ddxLoadList - aopen");
+  file = aopen(pBmpArchive, pFileName, "rb");
 
-	kprintf(1,(unsigned char *) "Kofola: - Load bitmap pro herni menu");
+  kprintf(1, (unsigned char *) "Kofola: - Load bitmap pro herni menu");
 
-	if(!file)
-	{
-		kprintf(1,(unsigned char *) "File not found : %s",pFileName);
-		return 0;
-	}
-	else
-	{
-		Start = timeGetTime();
+  if (!file) {
+    kprintf(1, (unsigned char *) "File not found : %s", pFileName);
+    return 0;
+  }
+  else {
+    Start = timeGetTime();
 
-		while(!aeof(file))
-		{
-			agets(text,256,file);
-			if(!aeof(file))
-			{
-				text[strlen(text)-1] = '\0';
+    while (!aeof(file)) {
+      agets(text, 256, file);
+      if (!aeof(file)) {
+        text[strlen(text) - 1] = '\0';
 
-				kprintf(1, (unsigned char *) "Loading bitmap %s ...", text);
+        kprintf(1, (unsigned char *) "Loading bitmap %s ...", text);
 
-				ddxLoadBitmap(text, pBmpArchive);
-				/*hr = g_pDisplay->CreateSurfaceFromBitmapArchive(&ddx.surface[c].g_pSurface, text, pBmpArchive);
+        ddxLoadBitmap(text, pBmpArchive);
+        /*hr = g_pDisplay->CreateSurfaceFromBitmapArchive(&ddx.surface[c].g_pSurface, text, pBmpArchive);
 
-				if(hr == S_OK)
-				{
-					LPDDSURFACEDESC2	p_DDSD = NULL;
+           if(hr == S_OK)
+           {
+           LPDDSURFACEDESC2     p_DDSD = NULL;
 
-					ddx.surface[c].bLoad = 1;
-					p_DDSD = ddx.surface[c].g_pSurface->GetDDrawSurfaceDesc();
+           ddx.surface[c].bLoad = 1;
+           p_DDSD = ddx.surface[c].g_pSurface->GetDDrawSurfaceDesc();
 
-					if(p_DDSD)
-					{
-						ddx.surface[c].x = p_DDSD->dwWidth;
-						ddx.surface[c].y = p_DDSD->dwHeight;
-					}
-				}*/
-			}
+           if(p_DDSD)
+           {
+           ddx.surface[c].x = p_DDSD->dwWidth;
+           ddx.surface[c].y = p_DDSD->dwHeight;
+           }
+           } */
+      }
 
-			c++;
+      c++;
 
-			if(bProgress)
-			{
-				r.right = (int)floor(c * (1024 / 214.0f)); 
+      if (bProgress) {
+        r.right = (int) floor(c * (1024 / 214.0f));
 
-				ddxFillRectDisplay(&r, RGB(0, 47, 81));
-				DisplayFramePure();
-			}
-		}
-		
-		aclose(file);
+        ddxFillRectDisplay(&r, RGB(0, 47, 81));
+        DisplayFramePure();
+      }
+    }
 
-		Stop = timeGetTime();
-		Eplased = Stop - Start;
+    aclose(file);
 
-		kprintf(1, (unsigned char *) "--------------Total load time %.1f s -----------------", Eplased / 1000.0f);
+    Stop = timeGetTime();
+    Eplased = Stop - Start;
 
-		if(bProgress)
-		{
-			ddxSetCursor(1);
-			ddxSetFlip(1);
-		}
+    kprintf(1, (unsigned char *)
+      "--------------Total load time %.1f s -----------------",
+      Eplased / 1000.0f);
 
-		i_Cursor[0] = ddxFindFreeSurface();
-		ddxCreateSurface(ddxGetWidth(0), ddxGetHight(0), i_Cursor[0]);
+    if (bProgress) {
+      ddxSetCursor(1);
+      ddxSetFlip(1);
+    }
 
-		i_Cursor[1] = ddxFindFreeSurface();
-		ddxCreateSurface(ddxGetWidth(0), ddxGetHight(0), i_Cursor[1]);
+    i_Cursor[0] = ddxFindFreeSurface();
+    ddxCreateSurface(ddxGetWidth(0), ddxGetHight(0), i_Cursor[0]);
 
-		return 1;
-	}
+    i_Cursor[1] = ddxFindFreeSurface();
+    ddxCreateSurface(ddxGetWidth(0), ddxGetHight(0), i_Cursor[1]);
 
-	if(bProgress)
-	{
-		//ddxSetCursor(1);
-		ddxSetFlip(1);
-	}
+    return 1;
+  }
+
+  if (bProgress) {
+    //ddxSetCursor(1);
+    ddxSetFlip(1);
+  }
 }
 
 extern "C" void ddxResizeCursorBack(int iSurface)
 {
-	int idx1, idx2;
+  int idx1, idx2;
 
-	idx1 = ddxFindFreeSurface();
-	ddxCreateSurface(ddxGetWidth(iSurface), ddxGetHight(iSurface), idx1);
+  idx1 = ddxFindFreeSurface();
+  ddxCreateSurface(ddxGetWidth(iSurface), ddxGetHight(iSurface), idx1);
 
-	idx2 = ddxFindFreeSurface();
-	ddxCreateSurface(ddxGetWidth(iSurface), ddxGetHight(iSurface), idx2);
+  idx2 = ddxFindFreeSurface();
+  ddxCreateSurface(ddxGetWidth(iSurface), ddxGetHight(iSurface), idx2);
 
-	ddxReleaseBitmap(i_Cursor[0]);
-	ddxReleaseBitmap(i_Cursor[1]);
+  ddxReleaseBitmap(i_Cursor[0]);
+  ddxReleaseBitmap(i_Cursor[1]);
 
-	i_Cursor[0] = idx1;
-	i_Cursor[1] = idx2;
+  i_Cursor[0] = idx1;
+  i_Cursor[1] = idx2;
 
-	ddxBitBlt(i_Cursor[0], 0, 0, ddxGetWidth(i_Cursor[0]), ddxGetHight(i_Cursor[0]), HDC2DD, g_pDisplay->GetCursorX(0), g_pDisplay->GetCursorY(0));
-	ddxBitBlt(i_Cursor[1], 0, 0, ddxGetWidth(i_Cursor[1]), ddxGetHight(i_Cursor[1]), HDC2DD, g_pDisplay->GetCursorX(1), g_pDisplay->GetCursorY(1));
+  ddxBitBlt(i_Cursor[0], 0, 0, ddxGetWidth(i_Cursor[0]),
+    ddxGetHight(i_Cursor[0]), HDC2DD, g_pDisplay->GetCursorX(0),
+    g_pDisplay->GetCursorY(0));
+  ddxBitBlt(i_Cursor[1], 0, 0, ddxGetWidth(i_Cursor[1]),
+    ddxGetHight(i_Cursor[1]), HDC2DD, g_pDisplay->GetCursorX(1),
+    g_pDisplay->GetCursorY(1));
 }
 
 extern "C" void ddxSetCursorSurface(int iSurface)
 {
-	i_CursorDDX = iSurface;
+  i_CursorDDX = iSurface;
 }
 
 void ddxCreateSurfaceError(HRESULT hr)
 {
-	char text[256];
+  char text[256];
 
-	strcpy(text, "Protoze: ");
+  strcpy(text, "Protoze: ");
 
-	switch(hr)
-	{
-	case DDERR_INCOMPATIBLEPRIMARY:
-		strcat(text, "DDERR_INCOMPATIBLEPRIMARY");
-		break;
-	case DDERR_INVALIDCAPS :
-		strcat(text, "DDERR_INVALIDCAPS ");
-		break;
-	case DDERR_INVALIDOBJECT :
-		strcat(text, "DDERR_INVALIDOBJECT ");
-		break;
-	case DDERR_INVALIDPARAMS :
-		strcat(text, "DDERR_INVALIDPARAMS ");
-		break;
-	case DDERR_INVALIDPIXELFORMAT :
-		strcat(text, "DDERR_INVALIDPIXELFORMAT ");
-		break;
-	case DDERR_NOALPHAHW :
-		strcat(text, "DDERR_NOALPHAHW ");
-		break;
-	case DDERR_NOCOOPERATIVELEVELSET :
-		strcat(text, "DDERR_NOCOOPERATIVELEVELSET ");
-		break;
-	case DDERR_NODIRECTDRAWHW :
-		strcat(text, "DDERR_NODIRECTDRAWHW ");
-		break;
-	case DDERR_NOEMULATION :
-		strcat(text, "DDERR_NOEMULATION ");
-		break;
-	case DDERR_NOEXCLUSIVEMODE :
-		strcat(text, "DDERR_NOEXCLUSIVEMODE ");
-		break;
-	case DDERR_NOFLIPHW :
-		strcat(text, "DDERR_NOFLIPHW ");
-		break;
-	case DDERR_NOMIPMAPHW :
-		strcat(text, "DDERR_NOMIPMAPHW ");
-		break;
-	case DDERR_NOOVERLAYHW :
-		strcat(text, "DDERR_NOOVERLAYHW ");
-		break;
-	case DDERR_NOZBUFFERHW :
-		strcat(text, "DDERR_NOZBUFFERHW ");
-		break;
-	case DDERR_OUTOFMEMORY :
-		strcat(text, "DDERR_OUTOFMEMORY ");
-		break;
-	case DDERR_OUTOFVIDEOMEMORY :
-		strcat(text, "DDERR_OUTOFVIDEOMEMORY ");
-		break;
-	case DDERR_PRIMARYSURFACEALREADYEXISTS :
-		strcat(text, "DDERR_PRIMARYSURFACEALREADYEXISTS ");
-		break;
-	case DDERR_UNSUPPORTEDMODE :
-		strcat(text, "DDERR_UNSUPPORTEDMODE ");
-		break;
-	default:
-		strcat(text, "neznama chyba");
-		break;		
-	}
+  switch (hr) {
+    case DDERR_INCOMPATIBLEPRIMARY:
+      strcat(text, "DDERR_INCOMPATIBLEPRIMARY");
+      break;
+    case DDERR_INVALIDCAPS:
+      strcat(text, "DDERR_INVALIDCAPS ");
+      break;
+    case DDERR_INVALIDOBJECT:
+      strcat(text, "DDERR_INVALIDOBJECT ");
+      break;
+    case DDERR_INVALIDPARAMS:
+      strcat(text, "DDERR_INVALIDPARAMS ");
+      break;
+    case DDERR_INVALIDPIXELFORMAT:
+      strcat(text, "DDERR_INVALIDPIXELFORMAT ");
+      break;
+    case DDERR_NOALPHAHW:
+      strcat(text, "DDERR_NOALPHAHW ");
+      break;
+    case DDERR_NOCOOPERATIVELEVELSET:
+      strcat(text, "DDERR_NOCOOPERATIVELEVELSET ");
+      break;
+    case DDERR_NODIRECTDRAWHW:
+      strcat(text, "DDERR_NODIRECTDRAWHW ");
+      break;
+    case DDERR_NOEMULATION:
+      strcat(text, "DDERR_NOEMULATION ");
+      break;
+    case DDERR_NOEXCLUSIVEMODE:
+      strcat(text, "DDERR_NOEXCLUSIVEMODE ");
+      break;
+    case DDERR_NOFLIPHW:
+      strcat(text, "DDERR_NOFLIPHW ");
+      break;
+    case DDERR_NOMIPMAPHW:
+      strcat(text, "DDERR_NOMIPMAPHW ");
+      break;
+    case DDERR_NOOVERLAYHW:
+      strcat(text, "DDERR_NOOVERLAYHW ");
+      break;
+    case DDERR_NOZBUFFERHW:
+      strcat(text, "DDERR_NOZBUFFERHW ");
+      break;
+    case DDERR_OUTOFMEMORY:
+      strcat(text, "DDERR_OUTOFMEMORY ");
+      break;
+    case DDERR_OUTOFVIDEOMEMORY:
+      strcat(text, "DDERR_OUTOFVIDEOMEMORY ");
+      break;
+    case DDERR_PRIMARYSURFACEALREADYEXISTS:
+      strcat(text, "DDERR_PRIMARYSURFACEALREADYEXISTS ");
+      break;
+    case DDERR_UNSUPPORTEDMODE:
+      strcat(text, "DDERR_UNSUPPORTEDMODE ");
+      break;
+    default:
+      strcat(text, "neznama chyba");
+      break;
+  }
 
-	kprintf(1, (unsigned char *) "%s", text);
+  kprintf(1, (unsigned char *) "%s", text);
 }
 
 //------------------------------------------------------------------------------------------------
 // load bitmap from APAK
 //------------------------------------------------------------------------------------------------
-extern "C" int ddxLoadBitmap(char *pFileName, APAK_HANDLE *pHandle)
+extern "C" int ddxLoadBitmap(char *pFileName, APAK_HANDLE * pHandle)
 {
-	HRESULT         hr;
-	int				c = ddxFindFreeSurface();
+  HRESULT hr;
+  int c = ddxFindFreeSurface();
 
-	if(c < 0)
-		return -1;
+  if (c < 0)
+    return -1;
 
-	hr = g_pDisplay->CreateSurfaceFromBitmapArchive(&ddx.surface[c].g_pSurface, pFileName, pHandle);
+  hr =
+    g_pDisplay->CreateSurfaceFromBitmapArchive(&ddx.surface[c].g_pSurface,
+    pFileName, pHandle);
 
-	if(hr == S_OK)
-	{
-		LPDDSURFACEDESC2	p_DDSD = NULL;
+  if (hr == S_OK) {
+    LPDDSURFACEDESC2 p_DDSD = NULL;
 
-		ddx.surface[c].bLoad = 1;
-		p_DDSD = ddx.surface[c].g_pSurface->GetDDrawSurfaceDesc();
+    ddx.surface[c].bLoad = 1;
+    p_DDSD = ddx.surface[c].g_pSurface->GetDDrawSurfaceDesc();
 
-		if(p_DDSD)
-		{
-			ddx.surface[c].x = p_DDSD->dwWidth;
-			ddx.surface[c].y = p_DDSD->dwHeight;
-		}
-	}
-	else
-	{
-		kprintf(1, (unsigned char *) "Nepodarilo se vytvorit surface/nahrat bmp (ddxLoadBitmap '%s') idx = %d", pFileName, c);
-		ddxCreateSurfaceError(hr);
-		exit(0);
-		return -1;
-	}
+    if (p_DDSD) {
+      ddx.surface[c].x = p_DDSD->dwWidth;
+      ddx.surface[c].y = p_DDSD->dwHeight;
+    }
+  }
+  else {
+    kprintf(1, (unsigned char *)
+      "Nepodarilo se vytvorit surface/nahrat bmp (ddxLoadBitmap '%s') idx = %d",
+      pFileName, c);
+    ddxCreateSurfaceError(hr);
+    exit(0);
+    return -1;
+  }
 
-	return c;
+  return c;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -953,46 +933,46 @@ extern "C" int ddxLoadBitmap(char *pFileName, APAK_HANDLE *pHandle)
 //------------------------------------------------------------------------------------------------
 extern "C" int ddxCreateSurface(int x, int y, int idx)
 {
-	HRESULT         hr;
+  HRESULT hr;
 
-	if(idx < 0)
-	{
-		kprintf(1, (unsigned char *) "Neplatni index pro vytvoreni surfacy !!!! idx =  %d", idx);
-		exit(0);
-	}
-	else
-		kprintf(1, (unsigned char *) "ddxCreateSurface = %d", idx);
+  if (idx < 0) {
+    kprintf(1,
+      (unsigned char *) "Neplatni index pro vytvoreni surfacy !!!! idx =  %d",
+      idx);
+    exit(0);
+  }
+  else
+    kprintf(1, (unsigned char *) "ddxCreateSurface = %d", idx);
 
-	hr = g_pDisplay->CreateSurface(&ddx.surface[idx].g_pSurface, x, y);
+  hr = g_pDisplay->CreateSurface(&ddx.surface[idx].g_pSurface, x, y);
 
-	if(hr == S_OK)
-	{
-		ddx.surface[idx].g_pSurface->Clear( TRANSCOLOR );
-		ddx.surface[idx].bLoad = 1;
-		ddx.surface[idx].x = x;
-		ddx.surface[idx].y = y;
-	}
-	else
-	{
-		kprintf(1, (unsigned char *) "Nepodarilo se vytvorit surface %dx%x idx = %d", x, y, idx);
-		ddxCreateSurfaceError(hr);
-		exit(0);
-		return 0;
-	}
+  if (hr == S_OK) {
+    ddx.surface[idx].g_pSurface->Clear(TRANSCOLOR);
+    ddx.surface[idx].bLoad = 1;
+    ddx.surface[idx].x = x;
+    ddx.surface[idx].y = y;
+  }
+  else {
+    kprintf(1,
+      (unsigned char *) "Nepodarilo se vytvorit surface %dx%x idx = %d", x, y,
+      idx);
+    ddxCreateSurfaceError(hr);
+    exit(0);
+    return 0;
+  }
 
-	return idx;
+  return idx;
 }
 
-extern "C" void ddxAddRectItem(RECT_LINE *p_rl, RECT rect, int iLayer)
+extern "C" void ddxAddRectItem(RECT_LINE * p_rl, RECT rect, int iLayer)
 {
-	if(p_rl->rlast < DRAW_RECT_NUM)
-	{
-		p_rl->rect[p_rl->rlast].rect = rect;
-		p_rl->rect[p_rl->rlast].iLayer = iLayer;
-		p_rl->rect[p_rl->rlast].bUsed = 1;
+  if (p_rl->rlast < DRAW_RECT_NUM) {
+    p_rl->rect[p_rl->rlast].rect = rect;
+    p_rl->rect[p_rl->rlast].iLayer = iLayer;
+    p_rl->rect[p_rl->rlast].bUsed = 1;
 
-		p_rl->rlast++;
-	}
+    p_rl->rlast++;
+  }
 }
 
 
@@ -1001,26 +981,25 @@ extern "C" void ddxAddRectItem(RECT_LINE *p_rl, RECT rect, int iLayer)
 //------------------------------------------------------------------------------------------------
 extern "C" void ddxDrawDisplay(int *com, int layer)
 {
-	HRESULT hr;
+  HRESULT hr;
 
-	RECT r;
+  RECT r;
 
-	r.left = 0;
-	r.top = 0;
-	r.right = ddx.surface[com[1]].x;
-	r.bottom = ddx.surface[com[1]].y;
+  r.left = 0;
+  r.top = 0;
+  r.right = ddx.surface[com[1]].x;
+  r.bottom = ddx.surface[com[1]].y;
 
-	hr = g_pDisplay->Blt(com[2], com[3], ddx.surface[com[1]].g_pSurface, &r);
+  hr = g_pDisplay->Blt(com[2], com[3], ddx.surface[com[1]].g_pSurface, &r);
 
-	if(!g_pDisplay->IsWindowed() && bFlip)
-	{
-		DisplayFrame();
+  if (!g_pDisplay->IsWindowed() && bFlip) {
+    DisplayFrame();
 
-		hr = g_pDisplay->Blt(com[2], com[3], ddx.surface[com[1]].g_pSurface, &r);
-	}
+    hr = g_pDisplay->Blt(com[2], com[3], ddx.surface[com[1]].g_pSurface, &r);
+  }
 
-	if(hr != DD_OK)
-		ddxTiskniError("ddxDrawDisplay", hr);
+  if (hr != DD_OK)
+    ddxTiskniError("ddxDrawDisplay", hr);
 
 /*    if( hr == DDERR_SURFACELOST )
     {
@@ -1030,10 +1009,10 @@ extern "C" void ddxDrawDisplay(int *com, int layer)
 		if(hr != DD_OK)
 			kprintf(1, (unsigned char *) "ddxTransparentBltDisplay DDERR");*/
 
-	r.left = com[2];
-	r.top = com[3];
+  r.left = com[2];
+  r.top = com[3];
 
-	ddxAddRectItem(&rline, r, layer);
+  ddxAddRectItem(&rline, r, layer);
 }
 
 //------------------------------------------------------------------------------------------------
@@ -1041,28 +1020,31 @@ extern "C" void ddxDrawDisplay(int *com, int layer)
 //------------------------------------------------------------------------------------------------
 extern "C" void ddxDrawDisplayColorKey(int *com, int layer, COLORREF color)
 {
-	HRESULT hr;
+  HRESULT hr;
 
-	RECT r;
+  RECT r;
 
-	r.left = 0;
-	r.top = 0;
-	r.right = ddx.surface[com[1]].x;
-	r.bottom = ddx.surface[com[1]].y;
+  r.left = 0;
+  r.top = 0;
+  r.right = ddx.surface[com[1]].x;
+  r.bottom = ddx.surface[com[1]].y;
 
-	ddx.surface[com[1]].g_pSurface->SetColorKey( color );
+  ddx.surface[com[1]].g_pSurface->SetColorKey(color);
 
-	hr = g_pDisplay->ColorKeyBlt(com[2], com[3], ddx.surface[com[1]].g_pSurface->GetDDrawSurface(), &r);
+  hr =
+    g_pDisplay->ColorKeyBlt(com[2], com[3],
+    ddx.surface[com[1]].g_pSurface->GetDDrawSurface(), &r);
 
-	if(!g_pDisplay->IsWindowed() && bFlip)
-	{
-		DisplayFrame();
+  if (!g_pDisplay->IsWindowed() && bFlip) {
+    DisplayFrame();
 
-		hr = g_pDisplay->ColorKeyBlt(com[2], com[3], ddx.surface[com[1]].g_pSurface->GetDDrawSurface(), &r);
-	}
+    hr =
+      g_pDisplay->ColorKeyBlt(com[2], com[3],
+      ddx.surface[com[1]].g_pSurface->GetDDrawSurface(), &r);
+  }
 
-	if(hr != DD_OK)
-		ddxTiskniError("ddxDrawDisplayColorKey", hr);
+  if (hr != DD_OK)
+    ddxTiskniError("ddxDrawDisplayColorKey", hr);
 
 /*    if( hr == DDERR_SURFACELOST )
     {
@@ -1072,10 +1054,10 @@ extern "C" void ddxDrawDisplayColorKey(int *com, int layer, COLORREF color)
 		if(hr != DD_OK)
 			kprintf(1, (unsigned char *) "ddxTransparentBltDisplay DDERR");*/
 
-	r.left = com[2];
-	r.top = com[3];
+  r.left = com[2];
+  r.top = com[3];
 
-	ddxAddRectItem(&rline, r, layer);
+  ddxAddRectItem(&rline, r, layer);
 }
 
 //------------------------------------------------------------------------------------------------
@@ -1083,21 +1065,21 @@ extern "C" void ddxDrawDisplayColorKey(int *com, int layer, COLORREF color)
 //------------------------------------------------------------------------------------------------
 extern "C" void ddxDrawSurface(int iSurface, int *com, int layer)
 {
-	HRESULT hr;
-	CSurface* g_pSurface = ddx.surface[iSurface].g_pSurface;
-	RECT r;
+  HRESULT hr;
+  CSurface *g_pSurface = ddx.surface[iSurface].g_pSurface;
+  RECT r;
 
-	r.left = 0;
-	r.top = 0;
-	r.right = ddx.surface[com[1]].x;
-	r.bottom = ddx.surface[com[1]].y;
+  r.left = 0;
+  r.top = 0;
+  r.right = ddx.surface[com[1]].x;
+  r.bottom = ddx.surface[com[1]].y;
 
-	hr = g_pSurface->Blt(com[2], com[3], ddx.surface[com[1]].g_pSurface, &r);
+  hr = g_pSurface->Blt(com[2], com[3], ddx.surface[com[1]].g_pSurface, &r);
 
-	//kprintf(1, (unsigned char *) "ddxDrawSurface %d, %d, %d", com[1], com[2], com[3]);
+  //kprintf(1, (unsigned char *) "ddxDrawSurface %d, %d, %d", com[1], com[2], com[3]);
 
-	if(hr != DD_OK)
-		ddxTiskniError("ddxDrawSurface", hr);
+  if (hr != DD_OK)
+    ddxTiskniError("ddxDrawSurface", hr);
 
 /*    if( hr == DDERR_SURFACELOST )
     {
@@ -1107,32 +1089,35 @@ extern "C" void ddxDrawSurface(int iSurface, int *com, int layer)
 		if(hr != DD_OK)
 			kprintf(1, (unsigned char *) "ddxTransparentBltDisplay DDERR");*/
 
-	r.left = com[2];
-	r.top = com[3];
+  r.left = com[2];
+  r.top = com[3];
 
-	ddxAddRectItem(&rline, r, layer);
+  ddxAddRectItem(&rline, r, layer);
 }
 
 //------------------------------------------------------------------------------------------------
 // nakresli obrazek
 //------------------------------------------------------------------------------------------------
-extern "C" void ddxDrawSurfaceColorKey(int iSurface, int *com, int layer, COLORREF color)
+extern "C" void ddxDrawSurfaceColorKey(int iSurface, int *com, int layer,
+  COLORREF color)
 {
-	HRESULT hr;
-	CSurface* g_pSurface = ddx.surface[iSurface].g_pSurface;
-	RECT r;
+  HRESULT hr;
+  CSurface *g_pSurface = ddx.surface[iSurface].g_pSurface;
+  RECT r;
 
-	r.left = 0;
-	r.top = 0;
-	r.right = ddx.surface[com[1]].x;
-	r.bottom = ddx.surface[com[1]].y;
+  r.left = 0;
+  r.top = 0;
+  r.right = ddx.surface[com[1]].x;
+  r.bottom = ddx.surface[com[1]].y;
 
-	ddx.surface[com[1]].g_pSurface->SetColorKey( color );
+  ddx.surface[com[1]].g_pSurface->SetColorKey(color);
 
-	hr = g_pSurface->ColorKeyBlt(com[2], com[3], ddx.surface[com[1]].g_pSurface->GetDDrawSurface(), &r);
+  hr =
+    g_pSurface->ColorKeyBlt(com[2], com[3],
+    ddx.surface[com[1]].g_pSurface->GetDDrawSurface(), &r);
 
-	if(hr != DD_OK)
-		ddxTiskniError("ddxDrawSurfaceColorKey", hr);
+  if (hr != DD_OK)
+    ddxTiskniError("ddxDrawSurfaceColorKey", hr);
 
 /*    if( hr == DDERR_SURFACELOST )
     {
@@ -1142,341 +1127,347 @@ extern "C" void ddxDrawSurfaceColorKey(int iSurface, int *com, int layer, COLORR
 		if(hr != DD_OK)
 			kprintf(1, (unsigned char *) "ddxTransparentBltDisplay DDERR");*/
 
-	r.left = com[2];
-	r.top = com[3];
+  r.left = com[2];
+  r.top = com[3];
 
-	ddxAddRectItem(&rline, r, layer);
+  ddxAddRectItem(&rline, r, layer);
 }
 
 //------------------------------------------------------------------------------------------------
 // nakresli obrazek
 //------------------------------------------------------------------------------------------------
-extern "C" BOOL ddxTransparentBlt(
-			int dcDestSurface,  // handle to Dest DC
-			int nXOriginDest,   // x-coord of destination upper-left corner
-			int nYOriginDest,   // y-coord of destination upper-left corner
-			int nWidthDest,     // width of destination rectangle
-			int nHeightDest,    // height of destination rectangle
-			int dcSrcSurface,   // handle to source DC
-			int nXOriginSrc,    // x-coord of source upper-left corner
-			int nYOriginSrc,    // y-coord of source upper-left corner
-			int nWidthSrc,      // width of source rectangle
-			int nHeightSrc,     // height of source rectangle
-			UINT crTransparent  // color to make transparent
-		)
+extern "C" BOOL ddxTransparentBlt(int dcDestSurface,    // handle to Dest DC
+  int nXOriginDest,             // x-coord of destination upper-left corner
+  int nYOriginDest,             // y-coord of destination upper-left corner
+  int nWidthDest,               // width of destination rectangle
+  int nHeightDest,              // height of destination rectangle
+  int dcSrcSurface,             // handle to source DC
+  int nXOriginSrc,              // x-coord of source upper-left corner
+  int nYOriginSrc,              // y-coord of source upper-left corner
+  int nWidthSrc,                // width of source rectangle
+  int nHeightSrc,               // height of source rectangle
+  UINT crTransparent            // color to make transparent
+  )
 {
-	HRESULT hr;
-	CSurface* g_pSurfaceDest;
-	CSurface* g_pSurfaceSrc;
-	RECT r;
+  HRESULT hr;
+  CSurface *g_pSurfaceDest;
+  CSurface *g_pSurfaceSrc;
+  RECT r;
 
-	if(dcDestSurface == HDC2DD)
-		return ddxTransparentBltDisplay(nXOriginDest, nYOriginDest, nWidthDest, nHeightDest, dcSrcSurface, 
-										nXOriginSrc, nYOriginSrc, nWidthSrc, nHeightSrc, crTransparent);
+  if (dcDestSurface == HDC2DD)
+    return ddxTransparentBltDisplay(nXOriginDest, nYOriginDest, nWidthDest,
+      nHeightDest, dcSrcSurface, nXOriginSrc, nYOriginSrc, nWidthSrc,
+      nHeightSrc, crTransparent);
 
-  if(dcSrcSurface == -1)
+  if (dcSrcSurface == -1)
     return 0;
 
-	g_pSurfaceDest = ddx.surface[dcDestSurface].g_pSurface;
-	g_pSurfaceSrc = ddx.surface[dcSrcSurface].g_pSurface;
+  g_pSurfaceDest = ddx.surface[dcDestSurface].g_pSurface;
+  g_pSurfaceSrc = ddx.surface[dcSrcSurface].g_pSurface;
 
-	r.left = nXOriginSrc;
-	r.top = nYOriginSrc;
-	r.right = nXOriginSrc + nWidthSrc;
-	r.bottom = nYOriginSrc + nHeightSrc;
+  r.left = nXOriginSrc;
+  r.top = nYOriginSrc;
+  r.right = nXOriginSrc + nWidthSrc;
+  r.bottom = nYOriginSrc + nHeightSrc;
 
-	g_pSurfaceSrc->SetColorKey( crTransparent );
+  g_pSurfaceSrc->SetColorKey(crTransparent);
 
-	hr = g_pSurfaceDest->ColorKeyBlt(nXOriginDest, nYOriginDest, g_pSurfaceSrc->GetDDrawSurface(), &r);
+  hr =
+    g_pSurfaceDest->ColorKeyBlt(nXOriginDest, nYOriginDest,
+    g_pSurfaceSrc->GetDDrawSurface(), &r);
 
-	if(hr != DD_OK)
-	{
-		ddxTiskniError("ddxTransparentBlt", hr);
-		kprintf(1, (unsigned char *) "xs = %d, ys = %d, xd = %d, yd = %d, dx = %d, dy = %d", 
-					nXOriginSrc, nYOriginSrc, nXOriginDest, nYOriginDest, nWidthSrc, nHeightSrc);
-	}
+  if (hr != DD_OK) {
+    ddxTiskniError("ddxTransparentBlt", hr);
+    kprintf(1, (unsigned char *)
+      "xs = %d, ys = %d, xd = %d, yd = %d, dx = %d, dy = %d", nXOriginSrc,
+      nYOriginSrc, nXOriginDest, nYOriginDest, nWidthSrc, nHeightSrc);
+  }
 
-	return TRUE;
+  return TRUE;
 }
 
 //------------------------------------------------------------------------------------------------
 // nakresli obrazek
 //------------------------------------------------------------------------------------------------
-extern "C" BOOL ddxTransparentBltDisplay(
-			int nXOriginDest,   // x-coord of destination upper-left corner
-			int nYOriginDest,   // y-coord of destination upper-left corner
-			int nWidthDest,     // width of destination rectangle
-			int nHeightDest,    // height of destination rectangle
-			int dcSrcSurface,   // handle to source DC
-			int nXOriginSrc,    // x-coord of source upper-left corner
-			int nYOriginSrc,    // y-coord of source upper-left corner
-			int nWidthSrc,      // width of source rectangle
-			int nHeightSrc,     // height of source rectangle
-			UINT crTransparent  // color to make transparent
-		)
+extern "C" BOOL ddxTransparentBltDisplay(int nXOriginDest,      // x-coord of destination upper-left corner
+  int nYOriginDest,             // y-coord of destination upper-left corner
+  int nWidthDest,               // width of destination rectangle
+  int nHeightDest,              // height of destination rectangle
+  int dcSrcSurface,             // handle to source DC
+  int nXOriginSrc,              // x-coord of source upper-left corner
+  int nYOriginSrc,              // y-coord of source upper-left corner
+  int nWidthSrc,                // width of source rectangle
+  int nHeightSrc,               // height of source rectangle
+  UINT crTransparent            // color to make transparent
+  )
 {
-	HRESULT hr;
-	CSurface* g_pSurfaceSrc = ddx.surface[dcSrcSurface].g_pSurface;
-	RECT r;
+  HRESULT hr;
+  CSurface *g_pSurfaceSrc = ddx.surface[dcSrcSurface].g_pSurface;
+  RECT r;
 
-	if(dcSrcSurface == -1)
-		return 0;
-
-	r.left = nXOriginSrc;
-	r.top = nYOriginSrc;
-	r.right = nXOriginSrc + nWidthSrc;
-	r.bottom = nYOriginSrc + nHeightSrc;
-
-	g_pSurfaceSrc->SetColorKey( crTransparent );
-
-	hr = g_pDisplay->ColorKeyBlt(nXOriginDest, nYOriginDest, g_pSurfaceSrc->GetDDrawSurface(), &r);
-
-	if(!g_pDisplay->IsWindowed() && bFlip)
-	{
-		DisplayFrame();
-
-		hr = g_pDisplay->ColorKeyBlt(nXOriginDest, nYOriginDest, g_pSurfaceSrc->GetDDrawSurface(), &r);
-	}
-
-	if(hr != DD_OK)
-	{
-		ddxTiskniError("ddxTransparentBltDisplay", hr);
-		kprintf(1, (unsigned char *) "xs = %d, ys = %d, xd = %d, yd = %d, dx = %d, dy = %d", 
-					nXOriginSrc, nYOriginSrc, nXOriginDest, nYOriginDest, nWidthSrc, nHeightSrc);
-	}
-
-	return TRUE;
-}
-
-//------------------------------------------------------------------------------------------------
-// nakresli obrazek
-//------------------------------------------------------------------------------------------------
-extern "C" BOOL ddxBitBlt(
-			int dcDestSurface,  // handle to Dest DC
-			int nXOriginDest,   // x-coord of destination upper-left corner
-			int nYOriginDest,   // y-coord of destination upper-left corner
-			int nWidthDest,     // width of destination rectangle
-			int nHeightDest,    // height of destination rectangle
-			int dcSrcSurface,   // handle to source DC
-			int nXOriginSrc,    // x-coord of source upper-left corner
-			int nYOriginSrc     // y-coord of source upper-left corner
-		)
-{
-	HRESULT hr;
-	CSurface* g_pSurfaceDest;
-	CSurface* g_pSurfaceSrc;
-	RECT r;
-
-	if(dcDestSurface == HDC2DD)
-		return ddxBitBltDisplay(nXOriginDest, nYOriginDest, nWidthDest, nHeightDest, dcSrcSurface, nXOriginSrc, nYOriginSrc);
-
-	g_pSurfaceDest = ddx.surface[dcDestSurface].g_pSurface;
-
-	r.left = nXOriginSrc;
-	r.top = nYOriginSrc;
-	r.right = nXOriginSrc + nWidthDest;
-	r.bottom = nYOriginSrc + nHeightDest;
-
-	if(dcSrcSurface == HDC2DD)
-		hr = g_pSurfaceDest->Blt(nXOriginDest, nYOriginDest, g_pDisplay->GetBackBuffer(), &r);
-	else
-	{
-		g_pSurfaceSrc = ddx.surface[dcSrcSurface].g_pSurface;
-		hr = g_pSurfaceDest->Blt(nXOriginDest, nYOriginDest, g_pSurfaceSrc->GetDDrawSurface(), &r);
-	}
-
-	if(hr != DD_OK)
-	{
-		ddxTiskniError("ddxBitBlt", hr);
-
-		kprintf(1, (unsigned char *) "xs = %d, ys = %d, xd = %d, yd = %d, dx = %d, dy = %d", 
-					nXOriginSrc, nYOriginSrc, nXOriginDest, nYOriginDest, nWidthDest, nHeightDest);
-	}
-
-	return TRUE;
-}
-
-extern "C" BOOL ddxBitBltDisplay(
-			int nXOriginDest,   // x-coord of destination upper-left corner
-			int nYOriginDest,   // y-coord of destination upper-left corner
-			int nWidthDest,     // width of destination rectangle
-			int nHeightDest,    // height of destination rectangle
-			int dcSrcSurface,   // handle to source DC
-			int nXOriginSrc,    // x-coord of source upper-left corner
-			int nYOriginSrc     // y-coord of source upper-left corner
-		)
-{
-	HRESULT hr;
-	CSurface* g_pSurfaceSrc = ddx.surface[dcSrcSurface].g_pSurface;
-	RECT r;
-
-  if(dcSrcSurface == -1)
+  if (dcSrcSurface == -1)
     return 0;
 
-	r.left = nXOriginSrc;
-	r.top = nYOriginSrc;
-	r.right = nXOriginSrc + nWidthDest;
-	r.bottom = nYOriginSrc + nHeightDest;
+  r.left = nXOriginSrc;
+  r.top = nYOriginSrc;
+  r.right = nXOriginSrc + nWidthSrc;
+  r.bottom = nYOriginSrc + nHeightSrc;
 
-	hr = g_pDisplay->Blt(nXOriginDest, nYOriginDest, g_pSurfaceSrc->GetDDrawSurface(), &r);
+  g_pSurfaceSrc->SetColorKey(crTransparent);
 
-	if(!g_pDisplay->IsWindowed() && bFlip)
-	{
-		DisplayFrame();
+  hr =
+    g_pDisplay->ColorKeyBlt(nXOriginDest, nYOriginDest,
+    g_pSurfaceSrc->GetDDrawSurface(), &r);
 
-		hr = g_pDisplay->Blt(nXOriginDest, nYOriginDest, g_pSurfaceSrc->GetDDrawSurface(), &r);
-	}
+  if (!g_pDisplay->IsWindowed() && bFlip) {
+    DisplayFrame();
 
-	if(hr != DD_OK)
-	{
-		ddxTiskniError("ddxBitBltDisplay", hr);
+    hr =
+      g_pDisplay->ColorKeyBlt(nXOriginDest, nYOriginDest,
+      g_pSurfaceSrc->GetDDrawSurface(), &r);
+  }
 
-		kprintf(1, (unsigned char *) "xs = %d, ys = %d, xd = %d, yd = %d, dx = %d, dy = %d", 
-					nXOriginSrc, nYOriginSrc, nXOriginDest, nYOriginDest, nWidthDest, nHeightDest);
-	}
+  if (hr != DD_OK) {
+    ddxTiskniError("ddxTransparentBltDisplay", hr);
+    kprintf(1, (unsigned char *)
+      "xs = %d, ys = %d, xd = %d, yd = %d, dx = %d, dy = %d", nXOriginSrc,
+      nYOriginSrc, nXOriginDest, nYOriginDest, nWidthSrc, nHeightSrc);
+  }
 
-	return TRUE;
+  return TRUE;
+}
+
+//------------------------------------------------------------------------------------------------
+// nakresli obrazek
+//------------------------------------------------------------------------------------------------
+extern "C" BOOL ddxBitBlt(int dcDestSurface,    // handle to Dest DC
+  int nXOriginDest,             // x-coord of destination upper-left corner
+  int nYOriginDest,             // y-coord of destination upper-left corner
+  int nWidthDest,               // width of destination rectangle
+  int nHeightDest,              // height of destination rectangle
+  int dcSrcSurface,             // handle to source DC
+  int nXOriginSrc,              // x-coord of source upper-left corner
+  int nYOriginSrc               // y-coord of source upper-left corner
+  )
+{
+  HRESULT hr;
+  CSurface *g_pSurfaceDest;
+  CSurface *g_pSurfaceSrc;
+  RECT r;
+
+  if (dcDestSurface == HDC2DD)
+    return ddxBitBltDisplay(nXOriginDest, nYOriginDest, nWidthDest,
+      nHeightDest, dcSrcSurface, nXOriginSrc, nYOriginSrc);
+
+  g_pSurfaceDest = ddx.surface[dcDestSurface].g_pSurface;
+
+  r.left = nXOriginSrc;
+  r.top = nYOriginSrc;
+  r.right = nXOriginSrc + nWidthDest;
+  r.bottom = nYOriginSrc + nHeightDest;
+
+  if (dcSrcSurface == HDC2DD)
+    hr =
+      g_pSurfaceDest->Blt(nXOriginDest, nYOriginDest,
+      g_pDisplay->GetBackBuffer(), &r);
+  else {
+    g_pSurfaceSrc = ddx.surface[dcSrcSurface].g_pSurface;
+    hr =
+      g_pSurfaceDest->Blt(nXOriginDest, nYOriginDest,
+      g_pSurfaceSrc->GetDDrawSurface(), &r);
+  }
+
+  if (hr != DD_OK) {
+    ddxTiskniError("ddxBitBlt", hr);
+
+    kprintf(1, (unsigned char *)
+      "xs = %d, ys = %d, xd = %d, yd = %d, dx = %d, dy = %d", nXOriginSrc,
+      nYOriginSrc, nXOriginDest, nYOriginDest, nWidthDest, nHeightDest);
+  }
+
+  return TRUE;
+}
+
+extern "C" BOOL ddxBitBltDisplay(int nXOriginDest,      // x-coord of destination upper-left corner
+  int nYOriginDest,             // y-coord of destination upper-left corner
+  int nWidthDest,               // width of destination rectangle
+  int nHeightDest,              // height of destination rectangle
+  int dcSrcSurface,             // handle to source DC
+  int nXOriginSrc,              // x-coord of source upper-left corner
+  int nYOriginSrc               // y-coord of source upper-left corner
+  )
+{
+  HRESULT hr;
+  CSurface *g_pSurfaceSrc = ddx.surface[dcSrcSurface].g_pSurface;
+  RECT r;
+
+  if (dcSrcSurface == -1)
+    return 0;
+
+  r.left = nXOriginSrc;
+  r.top = nYOriginSrc;
+  r.right = nXOriginSrc + nWidthDest;
+  r.bottom = nYOriginSrc + nHeightDest;
+
+  hr =
+    g_pDisplay->Blt(nXOriginDest, nYOriginDest,
+    g_pSurfaceSrc->GetDDrawSurface(), &r);
+
+  if (!g_pDisplay->IsWindowed() && bFlip) {
+    DisplayFrame();
+
+    hr =
+      g_pDisplay->Blt(nXOriginDest, nYOriginDest,
+      g_pSurfaceSrc->GetDDrawSurface(), &r);
+  }
+
+  if (hr != DD_OK) {
+    ddxTiskniError("ddxBitBltDisplay", hr);
+
+    kprintf(1, (unsigned char *)
+      "xs = %d, ys = %d, xd = %d, yd = %d, dx = %d, dy = %d", nXOriginSrc,
+      nYOriginSrc, nXOriginDest, nYOriginDest, nWidthDest, nHeightDest);
+  }
+
+  return TRUE;
 }
 
 extern "C" int ddxGetWidth(int iSurface)
 {
-	return ddx.surface[iSurface].x;
+  return ddx.surface[iSurface].x;
 }
 
 extern "C" int ddxGetHight(int iSurface)
 {
-	return ddx.surface[iSurface].y;
+  return ddx.surface[iSurface].y;
 }
 
 extern "C" void ddxCleareSurface(int iSurface)
 {
-	ddx.surface[iSurface].g_pSurface->Clear( RGB (255, 0, 255) );
+  ddx.surface[iSurface].g_pSurface->Clear(RGB(255, 0, 255));
 }
 
 extern "C" void ddxCleareSurfaceColor(int iSurface, COLORREF color)
 {
-	HRESULT	hr = ddx.surface[iSurface].g_pSurface->Clear( color );
+  HRESULT hr = ddx.surface[iSurface].g_pSurface->Clear(color);
 
-	if(hr != DD_OK)
-		kprintf(1, (unsigned char *) "Clear iSurface = %d vyvolal CHYBU!!!", iSurface);
+  if (hr != DD_OK)
+    kprintf(1, (unsigned char *) "Clear iSurface = %d vyvolal CHYBU!!!",
+      iSurface);
 }
 
 extern "C" void ddxCleareSurfaceColorDisplay(COLORREF color)
 {
-	HRESULT	hr = g_pDisplay->Clear( color );
+  HRESULT hr = g_pDisplay->Clear(color);
 
-	if(hr != DD_OK)
-		kprintf(1, (unsigned char *) "Clear g_pDisplay vyvolal CHYBU!!!");
+  if (hr != DD_OK)
+    kprintf(1, (unsigned char *) "Clear g_pDisplay vyvolal CHYBU!!!");
 }
 
-extern "C" void ddxFillRect(int iSurface, RECT *rect, COLORREF color)
+extern "C" void ddxFillRect(int iSurface, RECT * rect, COLORREF color)
 {
-	ddx.surface[iSurface].g_pSurface->FillRect(rect, color);
+  ddx.surface[iSurface].g_pSurface->FillRect(rect, color);
 }
 
-extern "C" void ddxFillRectDisplay(RECT *rect, COLORREF color)
+extern "C" void ddxFillRectDisplay(RECT * rect, COLORREF color)
 {
-	g_pDisplay->FillRect(rect, color);
+  g_pDisplay->FillRect(rect, color);
 }
 
-extern "C" HRESULT ddxStretchBltDisplay(RECT *rDest, int iSurface, RECT *rSource)
+extern "C" HRESULT ddxStretchBltDisplay(RECT * rDest, int iSurface,
+  RECT * rSource)
 {
-	return g_pDisplay->StretchBlt(rDest, ddx.surface[iSurface].g_pSurface, rSource);
+  return g_pDisplay->StretchBlt(rDest, ddx.surface[iSurface].g_pSurface,
+    rSource);
 }
 
-extern "C" HRESULT ddxStretchBlt(int iSDest, RECT *rDest, int iSSource, RECT *rSource)
+extern "C" HRESULT ddxStretchBlt(int iSDest, RECT * rDest, int iSSource,
+  RECT * rSource)
 {
-	if(iSDest < 0 || iSSource < 0)
-		return 0;
+  if (iSDest < 0 || iSSource < 0)
+    return 0;
 
-	return ddx.surface[iSDest].g_pSurface->MyStretchBlt(rDest, ddx.surface[iSSource].g_pSurface, rSource);
+  return ddx.surface[iSDest].g_pSurface->MyStretchBlt(rDest,
+    ddx.surface[iSSource].g_pSurface, rSource);
 }
 
-extern "C" BOOL ddxRestore(int *p_CompositDC, int *p_FontDC, int *p_BackDC, 
-						   int *p_iCompositDC, int *p_iFontDC, int *p_iBackDC, 
-						   char *p_cBrutalRestart, AUDIO_DATA *p_ad)
+extern "C" BOOL ddxRestore(int *p_CompositDC, int *p_FontDC, int *p_BackDC,
+  int *p_iCompositDC, int *p_iFontDC, int *p_iBackDC,
+  char *p_cBrutalRestart, AUDIO_DATA * p_ad)
 {
-	int i;
+  int i;
 
-	/*if(key[K_S])
-	{
-		key[K_S] = 0;
-		ddxSaveSurfaces();
-	}*/
+  /*if(key[K_S])
+     {
+     key[K_S] = 0;
+     ddxSaveSurfaces();
+     } */
 
-	if(karmin_aktivni && timeGetTime() - dwLastMenuMusicCheck > 20000)
-	{
-		if(!ogg_playing() && !cCheckMusicExeption)
-			ap_Play_Song(0, 0, p_ad);
+  if (karmin_aktivni && timeGetTime() - dwLastMenuMusicCheck > 20000) {
+    if (!ogg_playing() && !cCheckMusicExeption)
+      ap_Play_Song(0, 0, p_ad);
 
-		dwLastMenuMusicCheck = timeGetTime();
-	}
+    dwLastMenuMusicCheck = timeGetTime();
+  }
 
-	if(bLastGameState != karmin_aktivni)
-	{
-		bLastGameState = karmin_aktivni;
-	
-		if(bLastGameState)
-		{
-			if(!bWindowMenu)
-			{
-				//restoruju surfacy;
-				g_pDisplay->GetDirectDraw()->RestoreAllSurfaces();
+  if (bLastGameState != karmin_aktivni) {
+    bLastGameState = karmin_aktivni;
 
-				// release vsech surfacu
-				for(i=0;i<ddx.bm_count;i++)
-					if(ddx.surface[i].bLoad)
-					{
-						SAFE_DELETE( ddx.surface[i].g_pSurface );
-						memset(&ddx.surface[i], 0, sizeof(SURFACESTRUCT));
+    if (bLastGameState) {
+      if (!bWindowMenu) {
+        //restoruju surfacy;
+        g_pDisplay->GetDirectDraw()->RestoreAllSurfaces();
 
-						//ddx.surface[i].bLoad = 0;
-					}
+        // release vsech surfacu
+        for (i = 0; i < ddx.bm_count; i++)
+          if (ddx.surface[i].bLoad) {
+            SAFE_DELETE(ddx.surface[i].g_pSurface);
+            memset(&ddx.surface[i], 0, sizeof(SURFACESTRUCT));
 
-				ddxLoadList("2d_load.dat", 0);
-				*p_iCompositDC = ddxFindFreeSurface();
-				*p_CompositDC = ddxCreateSurface(1024, 768, *p_iCompositDC);
-				*p_iFontDC = ddxFindFreeSurface();
-				*p_FontDC = ddxCreateSurface(1024, 768, *p_iFontDC);
-				*p_iBackDC = ddxFindFreeSurface();
-				*p_BackDC = ddxCreateSurface(1024, 768, *p_iBackDC);
+            //ddx.surface[i].bLoad = 0;
+          }
 
-				*p_cBrutalRestart = 1;
+        ddxLoadList("2d_load.dat", 0);
+        *p_iCompositDC = ddxFindFreeSurface();
+        *p_CompositDC = ddxCreateSurface(1024, 768, *p_iCompositDC);
+        *p_iFontDC = ddxFindFreeSurface();
+        *p_FontDC = ddxCreateSurface(1024, 768, *p_iFontDC);
+        *p_iBackDC = ddxFindFreeSurface();
+        *p_BackDC = ddxCreateSurface(1024, 768, *p_iBackDC);
 
-				SetCursor(FALSE);
-				ddxSetFlip(TRUE);
-				ddxSetCursor(TRUE);
-				ddxSetCursorSurface(0);
-				ddxResizeCursorBack(0);
-			}
+        *p_cBrutalRestart = 1;
 
-			if(!ogg_playing())
-				ap_Play_Song(0, 0, p_ad);
+        SetCursor(FALSE);
+        ddxSetFlip(TRUE);
+        ddxSetCursor(TRUE);
+        ddxSetCursorSurface(0);
+        ddxResizeCursorBack(0);
+      }
 
-			if(bWindowMenu)
-			{
-				BringWindowToTop(hwnd_hry);
-				SetForegroundWindow(hwnd_hry);
-				SetFocus(hwnd_hry);
-			}
+      if (!ogg_playing())
+        ap_Play_Song(0, 0, p_ad);
 
-			if(!bWindowMenu)
-				return TRUE;
-			else
-				return FALSE;
-		}
-		else
-		{
-			adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
-			adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
-			ap_Stop_Song(p_ad);
-		}
-	}
+      if (bWindowMenu) {
+        BringWindowToTop(hwnd_hry);
+        SetForegroundWindow(hwnd_hry);
+        SetFocus(hwnd_hry);
+      }
 
-	if(MenuCheckBossExit())
-	{
-		gl_Kofola_End(1);
-	}
+      if (!bWindowMenu)
+        return TRUE;
+      else
+        return FALSE;
+    }
+    else {
+      adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
+      adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES, UNDEFINED_VALUE);
+      ap_Stop_Song(p_ad);
+    }
+  }
 
-	return FALSE;
+  if (MenuCheckBossExit()) {
+    gl_Kofola_End(1);
+  }
+
+  return FALSE;
 }

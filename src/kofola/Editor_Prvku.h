@@ -3,8 +3,8 @@
 
 #include "object.h"
 
-extern OBJECTDESC		*Object;
-extern SECONDDATADESC	*SecondData;
+extern OBJECTDESC *Object;
+extern SECONDDATADESC *SecondData;
 
 OBJECTDESC *ko_Nahraj_herni_prvky(void);
 void ko_Uvolni_herni_prvky(void);

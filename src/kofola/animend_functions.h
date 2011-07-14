@@ -5,17 +5,17 @@
 
 typedef struct
 {
-	LEVELINFO	*p_Level;
-	void		*pParam;
-	int			iParam;
-	char		bParam;
-	char		bRCamera;
-	int			viParam1[3];
-	int			viParam2[3];
+  LEVELINFO *p_Level;
+  void *pParam;
+  int iParam;
+  char bParam;
+  char bRCamera;
+  int viParam1[3];
+  int viParam2[3];
 } POINTERSTRUCTURE;
 
 void anmend_PadBedny(int param, int param2, void *pParam);
-void anmend_ExplozeBedny(int param, int param2,void *pParam);
+void anmend_ExplozeBedny(int param, int param2, void *pParam);
 void anmend_Lift(int param, int param2, void *p_param);
 void anmend_Steps(int param, int param2, void *p_param);
 void anmend_StepsSikmina(int param, int param2, void *p_param);

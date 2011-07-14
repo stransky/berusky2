@@ -25,7 +25,8 @@ Comments:
 
 
 
-typedef HRESULT (*MIPcallback)(void * data, int miplevel, DWORD size);
+typedef HRESULT(*MIPcallback) (void *data, int miplevel, DWORD size);
+
 // call back
 // pointer to data
 // mip level
@@ -36,15 +37,14 @@ typedef HRESULT (*MIPcallback)(void * data, int miplevel, DWORD size);
    Compresses an image with a user supplied callback with the data for each MIP level created
    Only supports input of RGB 24 or ARGB 32 bpp
 */
-HRESULT nvDXTcompress(unsigned char * raw_data, // pointer to data (24 or 32 bit)
-                unsigned long w, // width in texels
-                unsigned long h, // height in texels
-                DWORD pitch,
-                DWORD TextureFormat, // list below
-                bool bGenMipMaps,    // auto gen MIP maps
-                bool bDither,
-                DWORD depth, // 3 or 4
-                MIPcallback callback = 0);   // callback for generated levels
+HRESULT nvDXTcompress(unsigned char *raw_data,  // pointer to data (24 or 32 bit)
+  unsigned long w,              // width in texels
+  unsigned long h,              // height in texels
+  DWORD pitch, DWORD TextureFormat,     // list below
+  bool bGenMipMaps,             // auto gen MIP maps
+  bool bDither, DWORD depth,    // 3 or 4
+  MIPcallback callback = 0);    // callback for generated levels
+
 // if callback is == 0 (or not specified), then WriteDTXnFile is called with all file info
 //
 // You must write the routines (or provide stubs)
@@ -52,8 +52,8 @@ HRESULT nvDXTcompress(unsigned char * raw_data, // pointer to data (24 or 32 bit
 // void ReadDTXnFile(count, buffer);
 // 
 //
-void WriteDTXnFile(DWORD count, void * buffer);
-void ReadDTXnFile(DWORD count, void * buffer);
+void WriteDTXnFile(DWORD count, void *buffer);
+void ReadDTXnFile(DWORD count, void *buffer);
 
 
 // TextureFormat
@@ -110,17 +110,18 @@ HRESULT LoadAllMipSurfaces(void * data, int iLevel)
 */
 
 
-unsigned char * nvDXTdecompress(int & w, int & h, int & depth, int & total_width, int & rowBytes);
+unsigned char *nvDXTdecompress(int &w, int &h, int &depth, int &total_width,
+  int &rowBytes);
 
 
 enum ColorFormat
 {
-	COLOR_RGB,
-	COLOR_ARGB,
-	COLOR_BGR,
-	COLOR_BGRA,
-	COLOR_RGBA,
-	COLOR_ABGR,
+  COLOR_RGB,
+  COLOR_ARGB,
+  COLOR_BGR,
+  COLOR_BGRA,
+  COLOR_RGBA,
+  COLOR_ABGR,
 };
 
 #endif

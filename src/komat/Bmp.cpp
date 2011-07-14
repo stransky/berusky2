@@ -19,7 +19,7 @@ The code in this file is subject to the RunicSoft source code licence
 
 **************************************************************************/
 
-#include <stdio.h>       // for memset
+#include <stdio.h>              // for memset
 #include "3d_all.h"
 
 /*******************************************************************
@@ -52,52 +52,52 @@ padded with 0x00 chars up to the next DWORD boundary
 
 *******************************************************************/
 
-byte* ConvertRGBToBMPBuffer ( byte* Buffer, int width, int height, int* newsize)
+byte *ConvertRGBToBMPBuffer(byte * Buffer, int width, int height,
+  int *newsize)
 {
-	int padding = 0;
-	int scanlinebytes = width * 3;
+  int padding = 0;
+  int scanlinebytes = width * 3;
   int psw;
-	long bufpos = 0;
-	long newpos = 0;
-  byte* newbuf;
-  int  x,y;
+  long bufpos = 0;
+  long newpos = 0;
+  byte *newbuf;
+  int x, y;
 
-	// first make sure the parameters are valid
-	if ( ( NULL == Buffer ) || ( width == 0 ) || ( height == 0 ) )
-		return NULL;
+  // first make sure the parameters are valid
+  if ((NULL == Buffer) || (width == 0) || (height == 0))
+    return NULL;
 
-	// now we have to find with how many bytes
-	// we have to pad for the next DWORD boundary	
+  // now we have to find with how many bytes
+  // we have to pad for the next DWORD boundary   
 
-	while ( ( scanlinebytes + padding ) % 4 != 0 )     // DWORD = 4 bytes
-		padding++;
-	// get the padded scanline width
-	psw = scanlinebytes + padding;
-	
-	// we can already store the size of the new padded buffer
-	*newsize = height * psw;
+  while ((scanlinebytes + padding) % 4 != 0)    // DWORD = 4 bytes
+    padding++;
+  // get the padded scanline width
+  psw = scanlinebytes + padding;
 
-	// and create new buffer
-	newbuf = (byte *)malloc(sizeof(byte)*(*newsize));
-  	
-	// fill the buffer with zero bytes then we dont have to add
-	// extra padding zero bytes later on
-	memset ( newbuf, 0, *newsize );
+  // we can already store the size of the new padded buffer
+  *newsize = height * psw;
 
-	// now we loop trough all bytes of the original buffer, 
-	// swap the R and B bytes and the scanlines
-	for ( y = 0; y < height; y++ )
-		for ( x = 0; x < 3 * width; x+=3 )
-		{
-			bufpos = y * 3 * width + x;     // position in original buffer
-			newpos = y * psw + x;           // position in padded buffer
+  // and create new buffer
+  newbuf = (byte *) malloc(sizeof(byte) * (*newsize));
 
-			newbuf[newpos]   = Buffer[bufpos];   // swap r and b
-			newbuf[newpos+1] = Buffer[bufpos+1]; // g stays
-			newbuf[newpos+2] = Buffer[bufpos+2]; // swap b and r
-		}
+  // fill the buffer with zero bytes then we dont have to add
+  // extra padding zero bytes later on
+  memset(newbuf, 0, *newsize);
 
-	return newbuf;
+  // now we loop trough all bytes of the original buffer, 
+  // swap the R and B bytes and the scanlines
+  for (y = 0; y < height; y++)
+    for (x = 0; x < 3 * width; x += 3) {
+      bufpos = y * 3 * width + x;       // position in original buffer
+      newpos = y * psw + x;     // position in padded buffer
+
+      newbuf[newpos] = Buffer[bufpos];  // swap r and b
+      newbuf[newpos + 1] = Buffer[bufpos + 1];  // g stays
+      newbuf[newpos + 2] = Buffer[bufpos + 2];  // swap b and r
+    }
+
+  return newbuf;
 }
 
 /***************************************************************
@@ -127,41 +127,41 @@ width * height RGB triplets.
 
 *****************************************************************/
 
-byte* ConvertBMPToRGBBuffer ( byte* Buffer, int width, int height )
+byte *ConvertBMPToRGBBuffer(byte * Buffer, int width, int height)
 {
-	int  padding = 0;
-	int  scanlinebytes = width * 3;
-  int  psw;
+  int padding = 0;
+  int scanlinebytes = width * 3;
+  int psw;
   byte *newbuf;
   byte *p_p1, *p_p2;
-  int  x,y;
+  int x, y;
 
   // first make sure the parameters are valid
-	if ( ( NULL == Buffer ) || ( width == 0 ) || ( height == 0 ) )
-		return NULL;
+  if ((NULL == Buffer) || (width == 0) || (height == 0))
+    return NULL;
 
-	// find the number of padding bytes
-		
-	while((scanlinebytes + padding)%4 != 0)     // DWORD = 4 bytes
-		padding++;
-	
+  // find the number of padding bytes
+
+  while ((scanlinebytes + padding) % 4 != 0)    // DWORD = 4 bytes
+    padding++;
+
   // get the padded scanline width
-	psw = scanlinebytes + padding;
+  psw = scanlinebytes + padding;
 
-	// create new buffer
-	newbuf = (byte *)malloc(sizeof(byte)*width*height*3);
-  
-  for (y = 0; y < height; y++ ) {
-    p_p1 = newbuf+y*scanlinebytes;
-    p_p2 = Buffer+y*psw;
-    for (x = 0; x < width; x++, p_p1+=3, p_p2+=3) {
+  // create new buffer
+  newbuf = (byte *) malloc(sizeof(byte) * width * height * 3);
+
+  for (y = 0; y < height; y++) {
+    p_p1 = newbuf + y * scanlinebytes;
+    p_p2 = Buffer + y * psw;
+    for (x = 0; x < width; x++, p_p1 += 3, p_p2 += 3) {
       p_p1[0] = p_p2[0];
       p_p1[1] = p_p2[1];
       p_p1[2] = p_p2[2];
-		}
+    }
   }
 
-	return newbuf;
+  return newbuf;
 }
 
 /***************************************************************
@@ -175,56 +175,54 @@ On error the return value is FALSE.
 
 ***************************************************************/
 
-int SaveBMP(FILE *file, byte* Buffer, int width, int height, int paddedsize )
+int SaveBMP(FILE * file, byte * Buffer, int width, int height, int paddedsize)
 {
-	// declare bmp structures 
-	BITMAPFILEHEADER bmfh;
-	BITMAPINFOHEADER info;
-	
-	// andinitialize them to zero
-	memset ( &bmfh, 0, sizeof (BITMAPFILEHEADER ) );
-	memset ( &info, 0, sizeof (BITMAPINFOHEADER ) );
-	
-	// fill the fileheader with data
-	bmfh.bfType = 0x4d42;       // 0x4d42 = 'BM'
-	bmfh.bfReserved1 = 0;
-	bmfh.bfReserved2 = 0;
-	bmfh.bfSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + paddedsize;
-	bmfh.bfOffBits = 0x36;		// number of bytes to start of bitmap bits
-	
-	// fill the infoheader
+  // declare bmp structures 
+  BITMAPFILEHEADER bmfh;
+  BITMAPINFOHEADER info;
 
-	info.biSize = sizeof(BITMAPINFOHEADER);
-	info.biWidth = width;
-	info.biHeight = height;
-	info.biPlanes = 1;			// we only have one bitplane
-	info.biBitCount = 24;		// RGB mode is 24 bits
-	info.biCompression = BI_RGB;	
-	info.biSizeImage = 0;		// can be 0 for 24 bit images
-	info.biXPelsPerMeter = 0x0ec4;     // paint and PSP use this values
-	info.biYPelsPerMeter = 0x0ec4;     
-	info.biClrUsed = 0;			// we are in RGB mode and have no palette
-	info.biClrImportant = 0;    // all colors are important
-	
-	// write file header
-	if(!fwrite(&bmfh,sizeof(BITMAPFILEHEADER), 1, file))
-  {	
-		return FALSE;
-	}
+  // andinitialize them to zero
+  memset(&bmfh, 0, sizeof(BITMAPFILEHEADER));
+  memset(&info, 0, sizeof(BITMAPINFOHEADER));
 
-	// write infoheader
-	if(!fwrite(&info,sizeof(BITMAPINFOHEADER),1,file))
-	{	
-		return FALSE;
-	}
+  // fill the fileheader with data
+  bmfh.bfType = 0x4d42;         // 0x4d42 = 'BM'
+  bmfh.bfReserved1 = 0;
+  bmfh.bfReserved2 = 0;
+  bmfh.bfSize =
+    sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + paddedsize;
+  bmfh.bfOffBits = 0x36;        // number of bytes to start of bitmap bits
 
-	// write image data
-	if(!fwrite(Buffer, paddedsize, 1, file))
-	{	
-		return FALSE;
-	}
+  // fill the infoheader
 
-	return TRUE;
+  info.biSize = sizeof(BITMAPINFOHEADER);
+  info.biWidth = width;
+  info.biHeight = height;
+  info.biPlanes = 1;            // we only have one bitplane
+  info.biBitCount = 24;         // RGB mode is 24 bits
+  info.biCompression = BI_RGB;
+  info.biSizeImage = 0;         // can be 0 for 24 bit images
+  info.biXPelsPerMeter = 0x0ec4;        // paint and PSP use this values
+  info.biYPelsPerMeter = 0x0ec4;
+  info.biClrUsed = 0;           // we are in RGB mode and have no palette
+  info.biClrImportant = 0;      // all colors are important
+
+  // write file header
+  if (!fwrite(&bmfh, sizeof(BITMAPFILEHEADER), 1, file)) {
+    return FALSE;
+  }
+
+  // write infoheader
+  if (!fwrite(&info, sizeof(BITMAPINFOHEADER), 1, file)) {
+    return FALSE;
+  }
+
+  // write image data
+  if (!fwrite(Buffer, paddedsize, 1, file)) {
+    return FALSE;
+  }
+
+  return TRUE;
 }
 
 /*******************************************************************
@@ -241,51 +239,48 @@ On error the return value is NULL.
   NOTE: make sure you [] delete the returned array at end of 
 		program!!!
 *******************************************************************/
-byte* LoadBMP(KFILE *file, int* width, int* height, int* size)
+byte *LoadBMP(KFILE * file, int *width, int *height, int *size)
 {
-	// declare bitmap structures
-	BITMAPFILEHEADER bmpheader;
-	BITMAPINFOHEADER bmpinfo;
-  byte* Buffer;
-  	
+  // declare bitmap structures
+  BITMAPFILEHEADER bmpheader;
+  BITMAPINFOHEADER bmpinfo;
+  byte *Buffer;
+
   kread(&bmpheader, sizeof(BITMAPFILEHEADER), 1, file);
   kread(&bmpinfo, sizeof(BITMAPINFOHEADER), 1, file);
-	
-	// check if file is actually a bmp
-	if ( bmpheader.bfType != 'MB' )
-	{
-		return(NULL);
-	}
 
-	// get image measurements
-	*width   = bmpinfo.biWidth;
-	*height  = abs ( bmpinfo.biHeight );
+  // check if file is actually a bmp
+  if (bmpheader.bfType != 'MB') {
+    return (NULL);
+  }
 
-	// check if bmp is uncompressed
-	if ( bmpinfo.biCompression != BI_RGB )
-	{
-		return(NULL);
-	}
+  // get image measurements
+  *width = bmpinfo.biWidth;
+  *height = abs(bmpinfo.biHeight);
 
-	// check if we have 24 bit bmp
-	if(bmpinfo.biBitCount != 24)
-	{
-		return(NULL);
-	}
-	
-	// create buffer to hold the data
-	*size = bmpheader.bfSize - bmpheader.bfOffBits;
-	Buffer = (byte *)mmalloc(sizeof(byte)*(*size));  
+  // check if bmp is uncompressed
+  if (bmpinfo.biCompression != BI_RGB) {
+    return (NULL);
+  }
 
-	// move file pointer to start of bitmap data
-	//aseek(1,file, start+bmpheader.bfOffBits, SEEK_SET);
-	
-  // read bmp data	
-  if(!kread(Buffer,*size,1,file)) {
+  // check if we have 24 bit bmp
+  if (bmpinfo.biBitCount != 24) {
+    return (NULL);
+  }
+
+  // create buffer to hold the data
+  *size = bmpheader.bfSize - bmpheader.bfOffBits;
+  Buffer = (byte *) mmalloc(sizeof(byte) * (*size));
+
+  // move file pointer to start of bitmap data
+  //aseek(1,file, start+bmpheader.bfOffBits, SEEK_SET);
+
+  // read bmp data      
+  if (!kread(Buffer, *size, 1, file)) {
     free(Buffer);
-		return(NULL);
-	}
+    return (NULL);
+  }
 
-	// everything successful here: close file and return buffer
-	return(Buffer);
+  // everything successful here: close file and return buffer
+  return (Buffer);
 }

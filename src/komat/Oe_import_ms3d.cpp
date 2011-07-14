@@ -13,41 +13,41 @@
 
 #include "dbgwnd.h"
 
-EDIT_KONTEJNER * ms3d_import(byte *p_file, byte *p_dir)
+EDIT_KONTEJNER *ms3d_import(byte * p_file, byte * p_dir)
 {
   EDIT_KONTEJNER *p_kont;
-  FILE  *f;
-  byte  *p_buffer;
-  byte  *p_akt;
+  FILE *f;
+  byte *p_buffer;
+  byte *p_akt;
   struct MS3DHeader *pHeader;
-  int    velikost;
+  int velikost;
 
   _chdir(p_dir);
-  f = fopen(p_file,"rb");
-  if(!f)
-    return(NULL);
+  f = fopen(p_file, "rb");
+  if (!f)
+    return (NULL);
 
-  fseek(f,0,SEEK_END);
+  fseek(f, 0, SEEK_END);
   velikost = ftell(f);
-  fseek(f,0,SEEK_SET);
+  fseek(f, 0, SEEK_SET);
 
-  p_buffer = malloc(sizeof(byte)*velikost);
+  p_buffer = malloc(sizeof(byte) * velikost);
   mtest(p_buffer);
-  fread(p_buffer,sizeof(byte),velikost,f);
+  fread(p_buffer, sizeof(byte), velikost, f);
 
   p_akt = p_buffer;
-	pHeader = (struct MS3DHeader *)p_akt;
+  pHeader = (struct MS3DHeader *) p_akt;
 
   p_akt += sizeof(struct MS3DHeader);
 
-  if(strncmp(pHeader->m_ID, "MS3D000000", 10 ) != 0 ) {
-    kprintf(TRUE,"Neodpovida hlavicka - nejedna se o MilkShape soubor.");
-		return(NULL);
+  if (strncmp(pHeader->m_ID, "MS3D000000", 10) != 0) {
+    kprintf(TRUE, "Neodpovida hlavicka - nejedna se o MilkShape soubor.");
+    return (NULL);
   }
 
-  if(pHeader->m_version < 3 || pHeader->m_version > 4 ) {
-    kprintf(TRUE,"Spatna verze souboru (%d)",pHeader->m_version);
-		return(NULL); // "Unhandled file version. Only Milkshape3D Version 1.3 and 1.4 is supported." );
+  if (pHeader->m_version < 3 || pHeader->m_version > 4) {
+    kprintf(TRUE, "Spatna verze souboru (%d)", pHeader->m_version);
+    return (NULL);              // "Unhandled file version. Only Milkshape3D Version 1.3 and 1.4 is supported." );
   }
 
 
@@ -55,7 +55,7 @@ EDIT_KONTEJNER * ms3d_import(byte *p_file, byte *p_dir)
 
 
 
-  return(p_kont);
+  return (p_kont);
 }
 
 /*

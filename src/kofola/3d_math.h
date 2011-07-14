@@ -2,28 +2,28 @@
 #define __3D_MATHEMATIC_
 
 
-	// Calculate lungth of vector
-	float Vector_Length(float *Vector);
+        // Calculate lungth of vector
+float Vector_Length(float *Vector);
 
-	// Normalize vector
-	float Normalize_Vector(float *Vector);
+        // Normalize vector
+float Normalize_Vector(float *Vector);
 
-	// Add two vectors
-	void Add_Vector(float *Vector1, float *Vector2, float *vResult);
-	
-	// Sub two vectors
-	void Sub_Vector(float *Vector1, float *Vector2, float *vResult);
+        // Add two vectors
+void Add_Vector(float *Vector1, float *Vector2, float *vResult);
 
-	// Multiple vector with constant
-	void Multiple_Vector(float *Vector, float Const);
+        // Sub two vectors
+void Sub_Vector(float *Vector1, float *Vector2, float *vResult);
 
-	// Make vectors
-	void Make_Vector(float *Point1, float *Point2, float *vResult);
+        // Multiple vector with constant
+void Multiple_Vector(float *Vector, float Const);
 
-	// Make normal 3D vector (axe Y is static)
-	void Normal_Vector(float *Vector, float *vResult);
+        // Make vectors
+void Make_Vector(float *Point1, float *Point2, float *vResult);
 
-	// Calculate inverse vector
-	void Inverse_Vector(float *Vector, float *vResult, unsigned int uiDimension);
+        // Make normal 3D vector (axe Y is static)
+void Normal_Vector(float *Vector, float *vResult);
+
+        // Calculate inverse vector
+void Inverse_Vector(float *Vector, float *vResult, unsigned int uiDimension);
 
 #endif

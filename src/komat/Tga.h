@@ -18,6 +18,7 @@
 #ifndef _TGA_H
 #define _TGA_H
 
-unsigned int tgaLoad(APAK_HANDLE *pHandle, char *filename, int mipmap, GLenum format);
+unsigned int tgaLoad(APAK_HANDLE * pHandle, char *filename, int mipmap,
+  GLenum format);
 
 #endif

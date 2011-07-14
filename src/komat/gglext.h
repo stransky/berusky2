@@ -528,12 +528,13 @@ extern PFNGLGETBUFFERPOINTERVARBPROC glGetBufferPointervARB;
 #define KARTA_ATI      1
 #define KARTA_NVIDIA   2
 
-typedef struct _EXTENSION_FLAGS {
+typedef struct _EXTENSION_FLAGS
+{
 
   const char *p_vend;
   const char *p_rend;
   const char *p_ver;
-  int   karta;
+  int karta;
 
 } EXTENSION_FLAGS;
 
@@ -563,27 +564,27 @@ extern int extlist_ati_vertex_array_object;
 extern int extlist_ati_element_array;
 extern int extlist_ati_pn_triangles;
 extern int extlist_arb_vertex_buffer;
-extern int  extlist_ati_draw_buffers;
+extern int extlist_ati_draw_buffers;
 
 
-int gl_load_extension(HW_KONFIG *p_hwconf);
-int gl_init_extension(HW_KONFIG *p_hwconf);
-int gl_free_extension(HW_KONFIG *p_hwconf);
-int gl_is_extension(HW_KONFIG *p_conf, char *p_text);
-int gl_init_multitexture(HW_KONFIG *p_conf);
-int gl_init_blend_color(HW_KONFIG *p_conf);
-int gl_init_blend_minmax(HW_KONFIG *p_conf);
-int gl_init_fog_coord(HW_KONFIG *p_conf);
-int gl_init_secondary_color(HW_KONFIG *p_conf);
-int gl_init_fence(HW_KONFIG *p_conf);
-int gl_init_register_combiners(HW_KONFIG *p_conf);
-int gl_init_vertex_array_range(HW_KONFIG *p_conf);
-int gl_init_texture_compression(HW_KONFIG *p_conf);
-int gl_init_text_edge_clamp(HW_KONFIG *p_conf);
-int gl_init_clip_volume_hit(HW_KONFIG *p_conf);
-int gl_init_ati_pn_triangles(HW_KONFIG *p_conf);
-int gl_init_text_filter_anisotropic(HW_KONFIG *p_conf);
-int gl_init_ati_draw_buffers(HW_KONFIG *p_conf);
+int gl_load_extension(HW_KONFIG * p_hwconf);
+int gl_init_extension(HW_KONFIG * p_hwconf);
+int gl_free_extension(HW_KONFIG * p_hwconf);
+int gl_is_extension(HW_KONFIG * p_conf, char *p_text);
+int gl_init_multitexture(HW_KONFIG * p_conf);
+int gl_init_blend_color(HW_KONFIG * p_conf);
+int gl_init_blend_minmax(HW_KONFIG * p_conf);
+int gl_init_fog_coord(HW_KONFIG * p_conf);
+int gl_init_secondary_color(HW_KONFIG * p_conf);
+int gl_init_fence(HW_KONFIG * p_conf);
+int gl_init_register_combiners(HW_KONFIG * p_conf);
+int gl_init_vertex_array_range(HW_KONFIG * p_conf);
+int gl_init_texture_compression(HW_KONFIG * p_conf);
+int gl_init_text_edge_clamp(HW_KONFIG * p_conf);
+int gl_init_clip_volume_hit(HW_KONFIG * p_conf);
+int gl_init_ati_pn_triangles(HW_KONFIG * p_conf);
+int gl_init_text_filter_anisotropic(HW_KONFIG * p_conf);
+int gl_init_ati_draw_buffers(HW_KONFIG * p_conf);
 int gl_ext_default(void);
 
 

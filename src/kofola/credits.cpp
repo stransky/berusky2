@@ -8,25 +8,23 @@
 
 #define CREDIT_SURFACES 150
 
-typedef struct 
+typedef struct
 {
-	int	iSurface;
-	int	x;
-	int	y;
+  int iSurface;
+  int x;
+  int y;
 } CREDIT_SURFACE;
 
-extern B2_FONT	b2_2d_font;
-extern APAK_HANDLE		*pBmpArchive;
-extern APAK_HANDLE		*pDataArchive;
+extern B2_FONT b2_2d_font;
+extern APAK_HANDLE *pBmpArchive;
+extern APAK_HANDLE *pDataArchive;
 
-extern	   char cBrutalRestart;
-extern	   int CompositDC;
-extern	   int FontDC;
-extern	   int BackDC;
+extern char cBrutalRestart;
+extern int CompositDC;
+extern int FontDC;
+extern int BackDC;
 
-extern	int		iCompositDC,
-				iFontDC,
-				iBackDC;
+extern int iCompositDC, iFontDC, iBackDC;
 
 extern char cFontFile[5][64];
 
@@ -35,149 +33,151 @@ void DrawClock(int *iClock, int i);
 
 int cr_Set_Text_Center(int hdc, char *text, int isection, RECT r)
 {
-	int xp, yp;
-	int tx, ty;
-	WCHAR wc[128];
-	int h;
+  int xp, yp;
+  int tx, ty;
+  WCHAR wc[128];
+  int h;
 
-	h = ddxCreateSurface(1024, 110, ddxFindFreeSurface());
+  h = ddxCreateSurface(1024, 110, ddxFindFreeSurface());
 
-	MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
+  MultiByteToWideChar(CP_ACP, 0, text, strlen(text) + 1, wc,
+    sizeof(wc) / sizeof(wc[0]));
 
-	fn_Draw_MessageA(h, 0, 0, &b2_2d_font.gt, &b2_2d_font.ts, wc, isection, &tx, &ty);
+  fn_Draw_MessageA(h, 0, 0, &b2_2d_font.gt, &b2_2d_font.ts, wc, isection, &tx,
+    &ty);
 
-	xp = ftoi(((r.right - r.left) - tx) / 2.0f);
-	//yp = ftoi(((r.bottom - r.top) - ty) / 2.0f);
-	yp = 0;
+  xp = ftoi(((r.right - r.left) - tx) / 2.0f);
+  //yp = ftoi(((r.bottom - r.top) - ty) / 2.0f);
+  yp = 0;
 
-	ddxTransparentBlt(hdc, r.left + xp, r.top + yp, tx, ty, h, 0, 0, tx, 90, TRANSCOLOR);
-	
-	ddxReleaseBitmap(h);
+  ddxTransparentBlt(hdc, r.left + xp, r.top + yp, tx, ty, h, 0, 0, tx, 90,
+    TRANSCOLOR);
 
-	return 1;
+  ddxReleaseBitmap(h);
+
+  return 1;
 }
 
-int cr_Set_Text_CenterW(int hdc, WCHAR *text, int isection, RECT r)
+int cr_Set_Text_CenterW(int hdc, WCHAR * text, int isection, RECT r)
 {
-	int xp, yp;
-	int tx, ty;
-	WCHAR wc[128];
-	int h;
+  int xp, yp;
+  int tx, ty;
+  WCHAR wc[128];
+  int h;
 
-	h = ddxCreateSurface(1024, 110, ddxFindFreeSurface());
+  h = ddxCreateSurface(1024, 110, ddxFindFreeSurface());
 
-	MultiByteToWideChar( CP_ACP, 0, (char *)text, strlen((char *)text)+1, wc, sizeof(wc)/sizeof(wc[0]) );
+  MultiByteToWideChar(CP_ACP, 0, (char *) text, strlen((char *) text) + 1, wc,
+    sizeof(wc) / sizeof(wc[0]));
 
-	fn_Draw_MessageA(h, 0, 0, &b2_2d_font.gt, &b2_2d_font.ts, text, isection, &tx, &ty);
+  fn_Draw_MessageA(h, 0, 0, &b2_2d_font.gt, &b2_2d_font.ts, text, isection,
+    &tx, &ty);
 
-	xp = ftoi(((r.right - r.left) - tx) / 2.0f);
-	yp = 0;
+  xp = ftoi(((r.right - r.left) - tx) / 2.0f);
+  yp = 0;
 
-	ddxTransparentBlt(hdc, r.left + xp, r.top + yp, tx, ty, h, 0, 0, tx, 90, TRANSCOLOR);
-	
-	ddxReleaseBitmap(h);
+  ddxTransparentBlt(hdc, r.left + xp, r.top + yp, tx, ty, h, 0, 0, tx, 90,
+    TRANSCOLOR);
 
-	return 1;
+  ddxReleaseBitmap(h);
+
+  return 1;
 }
 
 void cr_DrawSurface(int iDest, int iSour, int *y)
 {
-	int xp = ftoi((1024 - ddxGetWidth(iSour)) / 2.0f);
+  int xp = ftoi((1024 - ddxGetWidth(iSour)) / 2.0f);
 
-	ddxBitBlt(iDest, xp, *y, ddxGetWidth(iSour), ddxGetHight(iSour), iSour, 0, 0);
+  ddxBitBlt(iDest, xp, *y, ddxGetWidth(iSour), ddxGetHight(iSour), iSour, 0,
+    0);
 
-	
-	(*y) += ddxGetHight(iSour);
+
+  (*y) += ddxGetHight(iSour);
 }
 
 void cr_Cleare(int iSurface)
 {
-	int idx = ddxCreateSurface(1024, 100, ddxFindFreeSurface());
-	int i,y=0;
+  int idx = ddxCreateSurface(1024, 100, ddxFindFreeSurface());
+  int i, y = 0;
 
-	//ddxCleareSurfaceColor(iSurface, RGB(255, 0, 255));
-	if(idx == -1)
-	{
-		ddxCleareSurfaceColor(iSurface, 0);
-		kprintf(1, "cr_Cleare probehl neuspesne!!!");
-		return;
-	}
+  //ddxCleareSurfaceColor(iSurface, RGB(255, 0, 255));
+  if (idx == -1) {
+    ddxCleareSurfaceColor(iSurface, 0);
+    kprintf(1, "cr_Cleare probehl neuspesne!!!");
+    return;
+  }
 
-	ddxCleareSurfaceColor(idx, 0);
-	
-	for(i=0;i<ddxGetHight(iSurface);i+=100)
-	{
-		ddxBitBlt(iSurface, 0, i, 1024, 100, idx, 0, 0);
-	}
+  ddxCleareSurfaceColor(idx, 0);
 
-	ddxBitBlt(iSurface, 0, ddxGetHight(iSurface)-100, 1024, 100, idx, 0, 0);
-	ddxReleaseBitmap(idx);
+  for (i = 0; i < ddxGetHight(iSurface); i += 100) {
+    ddxBitBlt(iSurface, 0, i, 1024, 100, idx, 0, 0);
+  }
+
+  ddxBitBlt(iSurface, 0, ddxGetHight(iSurface) - 100, 1024, 100, idx, 0, 0);
+  ddxReleaseBitmap(idx);
 }
 
-void cr_Release_Bitmaps(CREDIT_SURFACE *p_cs, int *iClock)
+void cr_Release_Bitmaps(CREDIT_SURFACE * p_cs, int *iClock)
 {
-	int i;
+  int i;
 
-	for(i=0;i<CREDIT_SURFACES;i++)
-		if(p_cs->iSurface != -1)
-			ddxReleaseBitmap(p_cs->iSurface);
+  for (i = 0; i < CREDIT_SURFACES; i++)
+    if (p_cs->iSurface != -1)
+      ddxReleaseBitmap(p_cs->iSurface);
 
-	ddxResizeCursorBack(0);
-	ddxSetCursorSurface(0);
+  ddxResizeCursorBack(0);
+  ddxSetCursorSurface(0);
 
-	for(i=0;i<12;i++)
-		if(iClock[i] != -1)
-		{
-			ddxReleaseBitmap(iClock[i]);
-			iClock[i] = -1;
-		}
+  for (i = 0; i < 12; i++)
+    if (iClock[i] != -1) {
+      ddxReleaseBitmap(iClock[i]);
+      iClock[i] = -1;
+    }
 
 }
 
-void cr_Set_Surface(CREDIT_SURFACE *p_cs, int y)
+void cr_Set_Surface(CREDIT_SURFACE * p_cs, int y)
 {
-	if(p_cs->iSurface == -1)
-		return;
-	
-	p_cs->y = y;
-	p_cs->x = ftoi((1024 - ddxGetWidth(p_cs->iSurface)) / 2.0f);
+  if (p_cs->iSurface == -1)
+    return;
+
+  p_cs->y = y;
+  p_cs->x = ftoi((1024 - ddxGetWidth(p_cs->iSurface)) / 2.0f);
 }
 
-void cr_Draw_Creadits(CREDIT_SURFACE *cs, int y)
+void cr_Draw_Creadits(CREDIT_SURFACE * cs, int y)
 {
-	int	dy;
-	int i;
+  int dy;
+  int i;
 
-	ddxCleareSurfaceColorDisplay(0);
+  ddxCleareSurfaceColorDisplay(0);
 
-	for(i=0;i<CREDIT_SURFACES;i++)
-		if(cs[i].iSurface != -1)
-			if((cs[i].y + ddxGetHight(cs[i].iSurface)) > y && (cs[i].y < y + 768))
-			{
-				dy = cs[i].y - y;
+  for (i = 0; i < CREDIT_SURFACES; i++)
+    if (cs[i].iSurface != -1)
+      if ((cs[i].y + ddxGetHight(cs[i].iSurface)) > y && (cs[i].y < y + 768)) {
+        dy = cs[i].y - y;
 
-				if(dy < 0)	//obrazek vyjizdi nahore ven
-					ddxBitBltDisplay(cs[i].x, 0, ddxGetWidth(cs[i].iSurface), ddxGetHight(cs[i].iSurface) + dy,
-									 cs[i].iSurface, 0, dy * -1);
-				else
-					if(cs[i].y + ddxGetHight(cs[i].iSurface) > y + 768)	//obrazek vjizni zespodu
-					{
-						int dm = (cs[i].y + ddxGetHight(cs[i].iSurface)) - (y + 768);
+        if (dy < 0)             //obrazek vyjizdi nahore ven
+          ddxBitBltDisplay(cs[i].x, 0, ddxGetWidth(cs[i].iSurface),
+            ddxGetHight(cs[i].iSurface) + dy, cs[i].iSurface, 0, dy * -1);
+        else if (cs[i].y + ddxGetHight(cs[i].iSurface) > y + 768)       //obrazek vjizni zespodu
+        {
+          int dm = (cs[i].y + ddxGetHight(cs[i].iSurface)) - (y + 768);
 
-						ddxBitBltDisplay(cs[i].x, dy, ddxGetWidth(cs[i].iSurface), ddxGetHight(cs[i].iSurface) - dm,
-										 cs[i].iSurface, 0, 0);
-					}
-					else
-						ddxBitBltDisplay(cs[i].x, dy, ddxGetWidth(cs[i].iSurface), ddxGetHight(cs[i].iSurface),
-										 cs[i].iSurface, 0, 0);
+          ddxBitBltDisplay(cs[i].x, dy, ddxGetWidth(cs[i].iSurface),
+            ddxGetHight(cs[i].iSurface) - dm, cs[i].iSurface, 0, 0);
+        }
+        else
+          ddxBitBltDisplay(cs[i].x, dy, ddxGetWidth(cs[i].iSurface),
+            ddxGetHight(cs[i].iSurface), cs[i].iSurface, 0, 0);
 
-			}
+      }
 
-	DisplayFrame();
-	spracuj_spravy(0);
+  DisplayFrame();
+  spracuj_spravy(0);
 }
 
-int cr_Credits(HWND hWnd, AUDIO_DATA *p_ad)
+int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 {
 /*
 	DWORD	dwStart, dwStop, dwEplased = 0;
@@ -437,10 +437,10 @@ int cr_Credits(HWND hWnd, AUDIO_DATA *p_ad)
 	key[K_ESC] = 0;
 	apakclose(hArchive);
 */
-	return 0;
+  return 0;
 }
 
-int cr_CreditsUNI(HWND hWnd, AUDIO_DATA *p_ad)
+int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 {
 /*
 	DWORD	dwStart, dwStop, dwEplased = 0;
@@ -702,5 +702,5 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA *p_ad)
 	key[K_ESC] = 0;
 	apakclose(hArchive);
 */
-	return 0;
+  return 0;
 }

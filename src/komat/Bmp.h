@@ -19,31 +19,35 @@ The code in this file is subject to the RunicSoft source code licence
 
 **************************************************************************/
 
-typedef struct tagBITMAPFILEHEADER {
-	WORD    bfType __attribute__ ((packed));
-	DWORD   bfSize __attribute__ ((packed));
-	WORD    bfReserved1 __attribute__ ((packed));
-	WORD    bfReserved2 __attribute__ ((packed));
-	DWORD   bfOffBits __attribute__ ((packed));
-} BITMAPFILEHEADER ;
+typedef struct tagBITMAPFILEHEADER
+{
+  WORD bfType __attribute__ ((packed));
+  DWORD bfSize __attribute__ ((packed));
+  WORD bfReserved1 __attribute__ ((packed));
+  WORD bfReserved2 __attribute__ ((packed));
+  DWORD bfOffBits __attribute__ ((packed));
+} BITMAPFILEHEADER;
 
-typedef struct tagBITMAPINFOHEADER{
-	DWORD  biSize;
-	DWORD  biWidth;
-	DWORD  biHeight;
-	WORD   biPlanes;
-	WORD   biBitCount;
-	DWORD  biCompression;
-	DWORD  biSizeImage;
-	DWORD  biXPelsPerMeter;
-	DWORD  biYPelsPerMeter;
-	DWORD  biClrUsed;
-	DWORD  biClrImportant;
+typedef struct tagBITMAPINFOHEADER
+{
+  DWORD biSize;
+  DWORD biWidth;
+  DWORD biHeight;
+  WORD biPlanes;
+  WORD biBitCount;
+  DWORD biCompression;
+  DWORD biSizeImage;
+  DWORD biXPelsPerMeter;
+  DWORD biYPelsPerMeter;
+  DWORD biClrUsed;
+  DWORD biClrImportant;
 } BITMAPINFOHEADER;
 
 #define BI_RGB 0
 
-byte* ConvertRGBToBMPBuffer ( byte* Buffer, int width, int height, int* newsize);
-byte* ConvertBMPToRGBBuffer ( byte* Buffer, int width, int height );
-int   SaveBMP(FILE *file, byte* Buffer, int width, int height, int paddedsize );
-byte* LoadBMP(KFILE *file, int* width, int* height, int* size);
+byte *ConvertRGBToBMPBuffer(byte * Buffer, int width, int height,
+  int *newsize);
+byte *ConvertBMPToRGBBuffer(byte * Buffer, int width, int height);
+int SaveBMP(FILE * file, byte * Buffer, int width, int height,
+  int paddedsize);
+byte *LoadBMP(KFILE * file, int *width, int *height, int *size);

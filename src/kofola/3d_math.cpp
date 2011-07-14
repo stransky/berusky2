@@ -8,9 +8,9 @@
 //------------------------------------------------------------------------------------------------
 void Normal_Vector(float *Vector, float *vResult)
 {
-	vResult[0] = -1 * Vector[2];
-	vResult[1] = Vector[1];
-	vResult[2] = Vector[0];
+  vResult[0] = -1 * Vector[2];
+  vResult[1] = Vector[1];
+  vResult[2] = Vector[0];
 }
 
 //------------------------------------------------------------------------------------------------
@@ -18,10 +18,10 @@ void Normal_Vector(float *Vector, float *vResult)
 //------------------------------------------------------------------------------------------------
 void Inverse_Vector(float *Vector, float *vResult, unsigned int uiDimension)
 {
-	unsigned int i;
+  unsigned int i;
 
-	for(i=0;i<uiDimension;i++)
-		vResult[i] = Vector[i] * -1; 
+  for (i = 0; i < uiDimension; i++)
+    vResult[i] = Vector[i] * -1;
 }
 
 
@@ -30,7 +30,8 @@ void Inverse_Vector(float *Vector, float *vResult, unsigned int uiDimension)
 //------------------------------------------------------------------------------------------------
 float Vector_Length(float *Vector)
 {
-	return (float)sqrt(Vector[0]*Vector[0] + Vector[1]*Vector[1] + Vector[2]*Vector[2]);
+  return (float) sqrt(Vector[0] * Vector[0] + Vector[1] * Vector[1] +
+    Vector[2] * Vector[2]);
 }
 
 //------------------------------------------------------------------------------------------------
@@ -39,15 +40,16 @@ float Vector_Length(float *Vector)
 float Normalize_Vector(float *Vector)
 {
 
-	float size = Vector_Length(Vector);
+  float size = Vector_Length(Vector);
 
-	if(size == 0) return 0.0f;
+  if (size == 0)
+    return 0.0f;
 
-	Vector[0] /= size;
-	Vector[1] /= size;
-	Vector[2] /= size;
- 
-	return size;
+  Vector[0] /= size;
+  Vector[1] /= size;
+  Vector[2] /= size;
+
+  return size;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -55,9 +57,9 @@ float Normalize_Vector(float *Vector)
 //------------------------------------------------------------------------------------------------
 void Add_Vector(float *Vector1, float *Vector2, float *vResult)
 {
-	vResult[0] = Vector1[0] + Vector2[0];
-	vResult[1] = Vector1[1] + Vector2[1];
-	vResult[2] = Vector1[2] + Vector2[2];
+  vResult[0] = Vector1[0] + Vector2[0];
+  vResult[1] = Vector1[1] + Vector2[1];
+  vResult[2] = Vector1[2] + Vector2[2];
 }
 
 //------------------------------------------------------------------------------------------------
@@ -65,9 +67,9 @@ void Add_Vector(float *Vector1, float *Vector2, float *vResult)
 //------------------------------------------------------------------------------------------------
 void Sub_Vector(float *Vector1, float *Vector2, float *vResult)
 {
-	vResult[0] = Vector1[0] - Vector2[0];
-	vResult[1] = Vector1[1] - Vector2[1];
-	vResult[2] = Vector1[2] - Vector2[2];
+  vResult[0] = Vector1[0] - Vector2[0];
+  vResult[1] = Vector1[1] - Vector2[1];
+  vResult[2] = Vector1[2] - Vector2[2];
 }
 
 //------------------------------------------------------------------------------------------------
@@ -75,9 +77,9 @@ void Sub_Vector(float *Vector1, float *Vector2, float *vResult)
 //------------------------------------------------------------------------------------------------
 void Multiple_Vector(float *Vector, float Const)
 {
-	Vector[0] *= Const;
-	Vector[1] *= Const;
-	Vector[2] *= Const;
+  Vector[0] *= Const;
+  Vector[1] *= Const;
+  Vector[2] *= Const;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -85,7 +87,7 @@ void Multiple_Vector(float *Vector, float Const)
 //------------------------------------------------------------------------------------------------
 void Make_Vector(float *Point1, float *Point2, float *vResult)
 {
-	vResult[0] = Point2[0] - Point1[0];
-	vResult[1] = Point2[1] - Point1[1];
-	vResult[2] = Point2[2] - Point1[2];
+  vResult[0] = Point2[0] - Point1[0];
+  vResult[1] = Point2[1] - Point1[1];
+  vResult[2] = Point2[2] - Point1[2];
 }

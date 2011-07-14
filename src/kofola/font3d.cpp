@@ -12,17 +12,18 @@
 //#pragma comment(lib,"Msimg32.lib")
 
 B2_FONT b2_3d_font;
-extern _3D_DATA		_3dd;
+extern _3D_DATA _3dd;
 
 void fn2_Release_Font(void);
-void Uni2Char(WCHAR *cUni, char *cText, int ctsize);
+void Uni2Char(WCHAR * cUni, char *cText, int ctsize);
 
 
-int fn2_Find_Char(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts, int *top, int *left, int *bottom, int *right, int *ycor, WCHAR cWChar,
-				 float xbmp, float ybmp)
+int fn2_Find_Char(GAME_TRIGER * gt, TRIGER_STRUCTURE * ts, int *top,
+  int *left, int *bottom, int *right, int *ycor, WCHAR cWChar, float xbmp,
+  float ybmp)
 {
-	float *l, *t, *r, *b, *y;
-	int i;
+  float *l, *t, *r, *b, *y;
+  int i;
 
 /*	for(i=0;i<gt->lastcommand;i++)
 		switch(gt->command[i].iCommand)
@@ -53,920 +54,904 @@ int fn2_Find_Char(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts, int *top, int *left, in
 				break;
 		}*/
 
-	if(cWChar > b2_3d_font.iMaxCharValue)
-		return 0;
+  if (cWChar > b2_3d_font.iMaxCharValue)
+    return 0;
 
-	i = b2_3d_font.pTTable[cWChar];
+  i = b2_3d_font.pTTable[cWChar];
 
-	if(i < 0)
-		return 0;
-	else
-	{
-		l = (float *)&gt->command[i].Parametr[1].Value;
-		t = (float *)&gt->command[i].Parametr[2].Value;
-		r = (float *)&gt->command[i].Parametr[3].Value;
-		b = (float *)&gt->command[i].Parametr[4].Value;
-		y = (float *)&gt->command[i].Parametr[5].Value;
+  if (i < 0)
+    return 0;
+  else {
+    l = (float *) &gt->command[i].Parametr[1].Value;
+    t = (float *) &gt->command[i].Parametr[2].Value;
+    r = (float *) &gt->command[i].Parametr[3].Value;
+    b = (float *) &gt->command[i].Parametr[4].Value;
+    y = (float *) &gt->command[i].Parametr[5].Value;
 
-		*left = ftoi((*l) * xbmp);
-		*top = ftoi((*t) * ybmp);
-		*right = ftoi((*r) * xbmp);
-		*bottom = ftoi((*b) * ybmp);
-		*ycor = ftoi((*y) * ybmp);		
-	}
+    *left = ftoi((*l) * xbmp);
+    *top = ftoi((*t) * ybmp);
+    *right = ftoi((*r) * xbmp);
+    *bottom = ftoi((*b) * ybmp);
+    *ycor = ftoi((*y) * ybmp);
+  }
 
-	return 1;
+  return 1;
 }
 
-int fn2_Create_TTable(int iMaxCharValue, GAME_TRIGER *gt, TRIGER_STRUCTURE *ts)
+int fn2_Create_TTable(int iMaxCharValue, GAME_TRIGER * gt,
+  TRIGER_STRUCTURE * ts)
 {
-	int i;
+  int i;
 
-	b2_3d_font.pTTable = (int *) malloc((iMaxCharValue + 1)* sizeof(int));
+  b2_3d_font.pTTable = (int *) malloc((iMaxCharValue + 1) * sizeof(int));
 
-	if(!b2_3d_font.pTTable)
-		return 0;
+  if (!b2_3d_font.pTTable)
+    return 0;
 
-	for(i=0;i<iMaxCharValue + 1;i++)
-		b2_3d_font.pTTable[i] = -1;
+  for (i = 0; i < iMaxCharValue + 1; i++)
+    b2_3d_font.pTTable[i] = -1;
 
-	for(i=0;i<gt->lastcommand;i++)
-		switch(gt->command[i].iCommand)
-		{
-			case 1:
-				if(gt->command[i].Parametr[0].Value < (unsigned) iMaxCharValue + 1)
-						b2_3d_font.pTTable[(int)gt->command[i].Parametr[0].Value] = i;
-				break;
-		}
+  for (i = 0; i < gt->lastcommand; i++)
+    switch (gt->command[i].iCommand) {
+      case 1:
+        if (gt->command[i].Parametr[0].Value < (unsigned) iMaxCharValue + 1)
+          b2_3d_font.pTTable[(int) gt->command[i].Parametr[0].Value] = i;
+        break;
+    }
 
-	b2_3d_font.iMaxCharValue = iMaxCharValue;
-	return 1;
+  b2_3d_font.iMaxCharValue = iMaxCharValue;
+  return 1;
 }
 
-int fn2_Set_Font_Params(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts)
+int fn2_Set_Font_Params(GAME_TRIGER * gt, TRIGER_STRUCTURE * ts)
 {
-	int iMaxCharValue = 0;
-	int i;
+  int iMaxCharValue = 0;
+  int i;
 
-	for(i=0;i<gt->lastcommand;i++)
-		switch(gt->command[i].iCommand)
-		{
-			case 1:
-				if((int)gt->command[i].Parametr[0].Value > iMaxCharValue)
-					iMaxCharValue = (int)gt->command[i].Parametr[0].Value;
-				break;
-			case 2:
-				{
-					if(gt->command[i].LastParam > 2 &&
-					   gt->command[i].Parametr[0].Type == 0)
-						b2_3d_font.tcolor = RGB(gt->command[i].Parametr[0].Value, 
-											 gt->command[i].Parametr[1].Value,
-											 gt->command[i].Parametr[2].Value);
-				}
-				break;
-			case 3:
-				{
-					if(gt->command[i].LastParam > 0 &&
-					   gt->command[i].Parametr[0].Type == 0)
-						b2_3d_font.iYPlus = gt->command[i].Parametr[0].Value;
-				}
-				break;
-			case 6:
-				{
-					if(gt->command[i].LastParam > 0 &&
-					   gt->command[i].Parametr[0].Type == 0)
-						b2_3d_font.iXPlus = gt->command[i].Parametr[0].Value;
-				}
-				break;
-		}
+  for (i = 0; i < gt->lastcommand; i++)
+    switch (gt->command[i].iCommand) {
+      case 1:
+        if ((int) gt->command[i].Parametr[0].Value > iMaxCharValue)
+          iMaxCharValue = (int) gt->command[i].Parametr[0].Value;
+        break;
+      case 2:
+        {
+          if (gt->command[i].LastParam > 2 &&
+            gt->command[i].Parametr[0].Type == 0)
+            b2_3d_font.tcolor = RGB(gt->command[i].Parametr[0].Value,
+              gt->command[i].Parametr[1].Value,
+              gt->command[i].Parametr[2].Value);
+        }
+        break;
+      case 3:
+        {
+          if (gt->command[i].LastParam > 0 &&
+            gt->command[i].Parametr[0].Type == 0)
+            b2_3d_font.iYPlus = gt->command[i].Parametr[0].Value;
+        }
+        break;
+      case 6:
+        {
+          if (gt->command[i].LastParam > 0 &&
+            gt->command[i].Parametr[0].Type == 0)
+            b2_3d_font.iXPlus = gt->command[i].Parametr[0].Value;
+        }
+        break;
+    }
 
-	if(!fn2_Create_TTable(iMaxCharValue, gt, ts))
-		return 0;
+  if (!fn2_Create_TTable(iMaxCharValue, gt, ts))
+    return 0;
 
-	return 1;
+  return 1;
 }
 
-int fn2_Set_Font_Bmps(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts)
+int fn2_Set_Font_Bmps(GAME_TRIGER * gt, TRIGER_STRUCTURE * ts)
 {
-	char text[256];
-	int i;
+  char text[256];
+  int i;
 
-	txt_trida(TEXT_MENU);
+  txt_trida(TEXT_MENU);
 
-	for(i=0;i<gt->lastcommand;i++)
-		switch(gt->command[i].iCommand)
-		{
-			case 4:
-				{
-					if(gt->command[i].LastParam > 1 &&
-					   gt->command[i].Parametr[1].Type == 2)
-					{
-					   memset(text, 0, 256);
+  for (i = 0; i < gt->lastcommand; i++)
+    switch (gt->command[i].iCommand) {
+      case 4:
+        {
+          if (gt->command[i].LastParam > 1 &&
+            gt->command[i].Parametr[1].Type == 2) {
+            memset(text, 0, 256);
 
-            WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK | WC_DEFAULTCHAR, 
-                      (wchar_t *)ts->StrTable[gt->command[i].Parametr[1].Value],
-											wcslen((wchar_t *)ts->StrTable[gt->command[i].Parametr[1].Value]),
-											text, 256, NULL, NULL);
+            WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK | WC_DEFAULTCHAR,
+              (wchar_t *) ts->StrTable[gt->command[i].Parametr[1].Value],
+              wcslen((wchar_t *) ts->StrTable[gt->command[i].Parametr[1].
+                  Value]), text, 256, NULL, NULL);
 
-					   b2_3d_font.iBitmap[gt->command[i].Parametr[0].Value] = ddx2LoadBitmap(text, b2_3d_font.pArchive);
-					   //_2d_APAK_Load_Bitmap(text, b2_3d_font.pArchive);
-					}  
-				}
-				break;
-			case 5:
-				{
-					if(gt->command[i].LastParam > 1 &&
-					   gt->command[i].Parametr[1].Type == 2)
-					{
-					
-					   memset(text, 0, 256);
+            b2_3d_font.iBitmap[gt->command[i].Parametr[0].Value] =
+              ddx2LoadBitmap(text, b2_3d_font.pArchive);
+            //_2d_APAK_Load_Bitmap(text, b2_3d_font.pArchive);
+          }
+        }
+        break;
+      case 5:
+        {
+          if (gt->command[i].LastParam > 1 &&
+            gt->command[i].Parametr[1].Type == 2) {
 
-					   WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK | WC_DEFAULTCHAR, 
-                      (wchar_t *)ts->StrTable[gt->command[i].Parametr[1].Value], 
-											wcslen((wchar_t *)ts->StrTable[gt->command[i].Parametr[1].Value]),
-											text, 256, NULL, NULL);
+            memset(text, 0, 256);
+
+            WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK | WC_DEFAULTCHAR,
+              (wchar_t *) ts->StrTable[gt->command[i].Parametr[1].Value],
+              wcslen((wchar_t *) ts->StrTable[gt->command[i].Parametr[1].
+                  Value]), text, 256, NULL, NULL);
 
 
-						txt_nahraj_texturu_z_func(b2_3d_font.pArchive, text, 
-							&b2_3d_font.tex[gt->command[i].Parametr[0].Value], 1, 0, 
-							&b2_3d_font.konf[gt->command[i].Parametr[0].Value],bmp_nahraj);
-					}
-				}
-				break;
-		}
+            txt_nahraj_texturu_z_func(b2_3d_font.pArchive, text,
+              &b2_3d_font.tex[gt->command[i].Parametr[0].Value], 1, 0,
+              &b2_3d_font.konf[gt->command[i].Parametr[0].Value], bmp_nahraj);
+          }
+        }
+        break;
+    }
 
-	return 0;
+  return 0;
 }
 
-void fn2_Draw_Message(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, TRIGER_STRUCTURE *ts, WCHAR *cFile, 
-					 WCHAR *cStop, int iSection, int *iXmax, int *iYmax)
+void fn2_Draw_Message(int iSurface, int iXpos, int iYpos, GAME_TRIGER * gt,
+  TRIGER_STRUCTURE * ts, WCHAR * cFile, WCHAR * cStop, int iSection,
+  int *iXmax, int *iYmax)
 {
-	WCHAR	wtext[1024];
-	int		i;
-	int		top, bottom, left, right, ycor;
+  WCHAR wtext[1024];
+  int i;
+  int top, bottom, left, right, ycor;
 
-	int		x = iXpos, y = iYpos - b2_3d_font.iYPlus;
+  int x = iXpos, y = iYpos - b2_3d_font.iYPlus;
 
-	*iXmax = x;
-	*iYmax = y;
+  *iXmax = x;
+  *iYmax = y;
 
-	i = wcslen(cFile);
+  i = wcslen(cFile);
 
-	cFile = wcsstr((WCHAR *) b2_3d_font.pTBuffer, cFile);
-	
-	if(!cFile)
-		return;
+  cFile = wcsstr((WCHAR *) b2_3d_font.pTBuffer, cFile);
 
-	cStop = wcsstr(cFile, cStop);
+  if (!cFile)
+    return;
 
-	if(!cStop)
-		return;
+  cStop = wcsstr(cFile, cStop);
 
-	ZeroMemory(wtext, 1024 * sizeof(WCHAR));
-	wcsncpy(wtext, cFile + i,  cStop - cFile - i);
+  if (!cStop)
+    return;
 
-		for(i=0;i<(int)wcslen(wtext);i++)
-		{
-			if(wtext[i] == 32)
-			{
-				//x+= 50;
-				x+=b2_3d_font.iXPlus;
-				continue;
-			}
-			else
-				if(wtext[i] == 10)
-				{
-					//y+= 17;
-					y+= b2_3d_font.iYPlus;
-					x = iXpos;
+  ZeroMemory(wtext, 1024 * sizeof(WCHAR));
+  wcsncpy(wtext, cFile + i, cStop - cFile - i);
 
-					*iYmax = y;
-					continue;
-				}
-				else
-					if(fn2_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor, wtext[i], 
-									(float)ddx2GetWidth(b2_3d_font.iBitmap[iSection]),
-									(float)ddx2GetHeight(b2_3d_font.iBitmap[iSection])))
-					{		
-						/*TransparentBltU(hdc, x, y + ycor, right - left + 1, bottom - top + 1, _2dd.bitmap[b2_3d_font.iBitmap[iSection]].bitmapDC, 
-										left, top, right - left + 1, bottom - top + 1, b2_3d_font.tcolor);*/
+  for (i = 0; i < (int) wcslen(wtext); i++) {
+    if (wtext[i] == 32) {
+      //x+= 50;
+      x += b2_3d_font.iXPlus;
+      continue;
+    }
+    else if (wtext[i] == 10) {
+      //y+= 17;
+      y += b2_3d_font.iYPlus;
+      x = iXpos;
 
-						ddx2TransparentBlt(iSurface, x, y + ycor, right - left + 1, bottom - top + 1, 
-										   b2_3d_font.iBitmap[iSection],left, top, right - left +1, 
-										   bottom - top +1, b2_3d_font.tcolor);
+      *iYmax = y;
+      continue;
+    }
+    else
+      if (fn2_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor, wtext[i],
+        (float) ddx2GetWidth(b2_3d_font.iBitmap[iSection]),
+        (float) ddx2GetHeight(b2_3d_font.iBitmap[iSection]))) {
+      /*TransparentBltU(hdc, x, y + ycor, right - left + 1, bottom - top + 1, _2dd.bitmap[b2_3d_font.iBitmap[iSection]].bitmapDC, 
+         left, top, right - left + 1, bottom - top + 1, b2_3d_font.tcolor); */
 
-						x += right - left + 2;
+      ddx2TransparentBlt(iSurface, x, y + ycor, right - left + 1,
+        bottom - top + 1, b2_3d_font.iBitmap[iSection], left, top,
+        right - left + 1, bottom - top + 1, b2_3d_font.tcolor);
 
-						if(x > *iXmax)
-							*iXmax = x;
-					}
-		}
+      x += right - left + 2;
+
+      if (x > *iXmax)
+        *iXmax = x;
+    }
+  }
 }
 
 typedef struct
 {
-	int		xStart;
-	int		xEnd;
-	WCHAR	*wcWord;
-	int		wLen;
+  int xStart;
+  int xEnd;
+  WCHAR *wcWord;
+  int wLen;
 } TEXT_WORLD;
 
 int end_char(WCHAR wChar)
 {
-	if(wChar == 10 || wChar == 13 || wChar == 32)
-		return 1;
-	else
-		return 0;
+  if (wChar == 10 || wChar == 13 || wChar == 32)
+    return 1;
+  else
+    return 0;
 }
 
-void fn2_Draw_Format_Line(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts, TEXT_WORLD *tWord, int iWordl, 
-						  int x, int y, int xmax, int iSection, int iSurface, char bFormat)
+void fn2_Draw_Format_Line(GAME_TRIGER * gt, TRIGER_STRUCTURE * ts,
+  TEXT_WORLD * tWord, int iWordl, int x, int y, int xmax, int iSection,
+  int iSurface, char bFormat)
 {
-	int	top, bottom, left, right, ycor;
-	int i, j;
-	int sx;
+  int top, bottom, left, right, ycor;
+  int i, j;
+  int sx;
 
-	float fp = 0;
-	float f = 0;
+  float fp = 0;
+  float f = 0;
 
-	if(bFormat)
-		fp = (xmax - tWord[iWordl-1].xEnd) / (float)(iWordl - 1);
+  if (bFormat)
+    fp = (xmax - tWord[iWordl - 1].xEnd) / (float) (iWordl - 1);
 
-	if(!iWordl)
-		return;
+  if (!iWordl)
+    return;
 
-	for(i=0;i<iWordl;i++)
-	{
-		sx = tWord[i].xStart + ftoi(f);
+  for (i = 0; i < iWordl; i++) {
+    sx = tWord[i].xStart + ftoi(f);
 
-		for(j=0;j<128;j++)
-		{
-			if(!tWord[i].wcWord)
-				return;
+    for (j = 0; j < 128; j++) {
+      if (!tWord[i].wcWord)
+        return;
 
-			if(!end_char(tWord[i].wcWord[j]))
-			{
-				if(fn2_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor, tWord[i].wcWord[j], 
-								(float)ddx2GetWidth(b2_3d_font.iBitmap[iSection]),
-								(float)ddx2GetHeight(b2_3d_font.iBitmap[iSection])))
-				{
-					ddx2TransparentBlt(iSurface, sx, y + ycor, right - left + 1, bottom - top + 1, 
-									   b2_3d_font.iBitmap[iSection],left, top, right - left +1, 
-									   bottom - top +1, b2_3d_font.tcolor);
+      if (!end_char(tWord[i].wcWord[j])) {
+        if (fn2_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor,
+            tWord[i].wcWord[j],
+            (float) ddx2GetWidth(b2_3d_font.iBitmap[iSection]),
+            (float) ddx2GetHeight(b2_3d_font.iBitmap[iSection]))) {
+          ddx2TransparentBlt(iSurface, sx, y + ycor, right - left + 1,
+            bottom - top + 1, b2_3d_font.iBitmap[iSection], left, top,
+            right - left + 1, bottom - top + 1, b2_3d_font.tcolor);
 
-					sx += right - left + 2;
-				}
-			}
-			else
-				break;
-		}
+          sx += right - left + 2;
+        }
+      }
+      else
+        break;
+    }
 
-		f += fp;
-	}
+    f += fp;
+  }
 }
 
-void fn2_Draw_MessageRECT(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, TRIGER_STRUCTURE *ts, WCHAR *cFile, 
-					      WCHAR *cStop, int iSection, int *iXmax, int *iYmax, RECT *pR)
+void fn2_Draw_MessageRECT(int iSurface, int iXpos, int iYpos,
+  GAME_TRIGER * gt, TRIGER_STRUCTURE * ts, WCHAR * cFile, WCHAR * cStop,
+  int iSection, int *iXmax, int *iYmax, RECT * pR)
 {
-	//rovnatko...................
-	TEXT_WORLD	tWord[64];
-	int			iWordl = 0;
-	//rovnatko...................
+  //rovnatko...................
+  TEXT_WORLD tWord[64];
+  int iWordl = 0;
 
-	WCHAR	wtext[2024];
-	int		i;
-	int		top, bottom, left, right, ycor;
-	
-	int		x = iXpos, y = iYpos - b2_3d_font.iYPlus;
-	int		lx;
+  //rovnatko...................
 
-	ZeroMemory(tWord, 64 * sizeof(TEXT_WORLD));
-	*iXmax = x;
-	*iYmax = y;
+  WCHAR wtext[2024];
+  int i;
+  int top, bottom, left, right, ycor;
 
-	i = wcslen(cFile);
+  int x = iXpos, y = iYpos - b2_3d_font.iYPlus;
+  int lx;
 
-	cFile = wcsstr((WCHAR *) b2_3d_font.pTBuffer, cFile);
-	
-	if(!cFile)
-		return;
+  ZeroMemory(tWord, 64 * sizeof(TEXT_WORLD));
+  *iXmax = x;
+  *iYmax = y;
 
-	cStop = wcsstr(cFile, cStop);
+  i = wcslen(cFile);
 
-	if(!cStop)
-		return;
+  cFile = wcsstr((WCHAR *) b2_3d_font.pTBuffer, cFile);
 
-	ZeroMemory(wtext, 2024 * sizeof(WCHAR));
-	wcsncpy(wtext, cFile + i,  cStop - cFile - i);
+  if (!cFile)
+    return;
 
-		for(i=0;i<(int)wcslen(wtext);i++)
-		{
-			if(wtext[i] == 32)
-			{
-				x+=b2_3d_font.iXPlus;
+  cStop = wcsstr(cFile, cStop);
 
-				//pokud posledni pismeno nebyla mezera ani enter, tak konec slova
-				if(!end_char(wtext[i-1]))
-				{
-					tWord[iWordl].xEnd = x - b2_3d_font.iXPlus;
-					tWord[iWordl].wLen = &wtext[i] - tWord[iWordl].wcWord;
-					iWordl++;
-				}
+  if (!cStop)
+    return;
 
-				continue;
-			}
-			else
-				if(wtext[i] == 10)
-				{
-					//y+= 17;
-					y+= b2_3d_font.iYPlus;
-					x = iXpos;
+  ZeroMemory(wtext, 2024 * sizeof(WCHAR));
+  wcsncpy(wtext, cFile + i, cStop - cFile - i);
 
-					*iYmax = y;
+  for (i = 0; i < (int) wcslen(wtext); i++) {
+    if (wtext[i] == 32) {
+      x += b2_3d_font.iXPlus;
 
-					if(!end_char(wtext[i-1]))
-					{
-						tWord[iWordl].xEnd = x - b2_3d_font.iXPlus;
-						tWord[iWordl].wLen = &wtext[i] - tWord[iWordl].wcWord;
-						iWordl++;
-					}
+      //pokud posledni pismeno nebyla mezera ani enter, tak konec slova
+      if (!end_char(wtext[i - 1])) {
+        tWord[iWordl].xEnd = x - b2_3d_font.iXPlus;
+        tWord[iWordl].wLen = &wtext[i] - tWord[iWordl].wcWord;
+        iWordl++;
+      }
 
-					fn2_Draw_Format_Line(gt, ts, tWord, iWordl+1, pR->left, y - b2_3d_font.iYPlus, pR->right, iSection, iSurface, 0);
+      continue;
+    }
+    else if (wtext[i] == 10) {
+      //y+= 17;
+      y += b2_3d_font.iYPlus;
+      x = iXpos;
 
-					ZeroMemory(tWord, 64 * sizeof(TEXT_WORLD));
-					iWordl = 0;
-					continue;
-				}
-				else
-					if(fn2_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor, wtext[i], 
-									(float)ddx2GetWidth(b2_3d_font.iBitmap[iSection]),
-									(float)ddx2GetHeight(b2_3d_font.iBitmap[iSection])))
-					{
-						//pretekl sem?
-						if(x + right - left + 2 > pR->right)
-						{
-							if(tWord[iWordl].xStart)
-							{
-								lx = x - tWord[iWordl].xStart;
-								x = pR->left + (x - tWord[iWordl].xStart);
-							}
-							else
-								x = pR->left;
+      *iYmax = y;
 
-							if(iWordl > 0)
-							{
-								if(tWord[iWordl-1].wLen == 1)
-								{
-									if(!tWord[iWordl].xStart)
-									{
-										fn2_Draw_Format_Line(gt, ts, tWord, iWordl - 1, pR->left, y, pR->right, iSection, iSurface, 1);
-	
-										y+= b2_3d_font.iYPlus;
-										ZeroMemory(&tWord[0], sizeof(TEXT_WORLD));
+      if (!end_char(wtext[i - 1])) {
+        tWord[iWordl].xEnd = x - b2_3d_font.iXPlus;
+        tWord[iWordl].wLen = &wtext[i] - tWord[iWordl].wcWord;
+        iWordl++;
+      }
 
-										tWord[0].wcWord = tWord[iWordl - 1].wcWord;
-										tWord[0].xEnd = pR->left + (tWord[iWordl - 1].xEnd - tWord[iWordl - 1].xStart);
-										tWord[0].xStart = pR->left;
-										tWord[0].wLen = tWord[iWordl - 1].wLen;
+      fn2_Draw_Format_Line(gt, ts, tWord, iWordl + 1, pR->left,
+        y - b2_3d_font.iYPlus, pR->right, iSection, iSurface, 0);
 
-										ZeroMemory(&tWord[1], 63 * sizeof(TEXT_WORLD));
+      ZeroMemory(tWord, 64 * sizeof(TEXT_WORLD));
+      iWordl = 0;
+      continue;
+    }
+    else
+      if (fn2_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor, wtext[i],
+        (float) ddx2GetWidth(b2_3d_font.iBitmap[iSection]),
+        (float) ddx2GetHeight(b2_3d_font.iBitmap[iSection]))) {
+      //pretekl sem?
+      if (x + right - left + 2 > pR->right) {
+        if (tWord[iWordl].xStart) {
+          lx = x - tWord[iWordl].xStart;
+          x = pR->left + (x - tWord[iWordl].xStart);
+        }
+        else
+          x = pR->left;
 
-										x = tWord[0].xEnd + b2_3d_font.iXPlus;
+        if (iWordl > 0) {
+          if (tWord[iWordl - 1].wLen == 1) {
+            if (!tWord[iWordl].xStart) {
+              fn2_Draw_Format_Line(gt, ts, tWord, iWordl - 1, pR->left, y,
+                pR->right, iSection, iSurface, 1);
 
-										iWordl = 1;
-									}
-									else
-									{
-										fn2_Draw_Format_Line(gt, ts, tWord, iWordl - 1, pR->left, y, pR->right, iSection, iSurface, 1);
-	
-										y+= b2_3d_font.iYPlus;
-										ZeroMemory(&tWord[0], sizeof(TEXT_WORLD));
+              y += b2_3d_font.iYPlus;
+              ZeroMemory(&tWord[0], sizeof(TEXT_WORLD));
 
-										tWord[0].wcWord = tWord[iWordl - 1].wcWord;
-										tWord[0].xEnd = pR->left + (tWord[iWordl - 1].xEnd - tWord[iWordl - 1].xStart);
-										tWord[0].xStart = pR->left;
-										tWord[0].wLen = tWord[iWordl - 1].wLen;
+              tWord[0].wcWord = tWord[iWordl - 1].wcWord;
+              tWord[0].xEnd =
+                pR->left + (tWord[iWordl - 1].xEnd - tWord[iWordl -
+                  1].xStart);
+              tWord[0].xStart = pR->left;
+              tWord[0].wLen = tWord[iWordl - 1].wLen;
 
-										ZeroMemory(&tWord[1], sizeof(TEXT_WORLD));
+              ZeroMemory(&tWord[1], 63 * sizeof(TEXT_WORLD));
 
-										tWord[1].wcWord = tWord[iWordl].wcWord;
-										tWord[1].xStart = tWord[0].xEnd + (tWord[iWordl].xStart - tWord[iWordl - 1].xEnd);
+              x = tWord[0].xEnd + b2_3d_font.iXPlus;
 
-										ZeroMemory(&tWord[2], 62 * sizeof(TEXT_WORLD));
+              iWordl = 1;
+            }
+            else {
+              fn2_Draw_Format_Line(gt, ts, tWord, iWordl - 1, pR->left, y,
+                pR->right, iSection, iSurface, 1);
 
-										x = tWord[1].xStart + lx;
+              y += b2_3d_font.iYPlus;
+              ZeroMemory(&tWord[0], sizeof(TEXT_WORLD));
 
-										iWordl = 1;
-									}
-								}
-								else
-								{
-									FN2_DRAW_MESSAGERECT_NORMAL_FORMAT_LINE:
+              tWord[0].wcWord = tWord[iWordl - 1].wcWord;
+              tWord[0].xEnd =
+                pR->left + (tWord[iWordl - 1].xEnd - tWord[iWordl -
+                  1].xStart);
+              tWord[0].xStart = pR->left;
+              tWord[0].wLen = tWord[iWordl - 1].wLen;
 
-									fn2_Draw_Format_Line(gt, ts, tWord, iWordl, pR->left, y, pR->right, iSection, iSurface, 1);
+              ZeroMemory(&tWord[1], sizeof(TEXT_WORLD));
 
-									y+= b2_3d_font.iYPlus;
-									ZeroMemory(&tWord[0], sizeof(TEXT_WORLD));
+              tWord[1].wcWord = tWord[iWordl].wcWord;
+              tWord[1].xStart =
+                tWord[0].xEnd + (tWord[iWordl].xStart - tWord[iWordl -
+                  1].xEnd);
 
-									tWord[0].wcWord = tWord[iWordl].wcWord;
-									tWord[0].xStart = pR->left;
+              ZeroMemory(&tWord[2], 62 * sizeof(TEXT_WORLD));
 
-									ZeroMemory(&tWord[1], 63 * sizeof(TEXT_WORLD));
+              x = tWord[1].xStart + lx;
 
-									iWordl = 0;
-								}
-							}
-							else
-								goto FN2_DRAW_MESSAGERECT_NORMAL_FORMAT_LINE;
+              iWordl = 1;
+            }
+          }
+          else {
+          FN2_DRAW_MESSAGERECT_NORMAL_FORMAT_LINE:
 
-							*iYmax = y;
-						}			
+            fn2_Draw_Format_Line(gt, ts, tWord, iWordl, pR->left, y,
+              pR->right, iSection, iSurface, 1);
 
-						/*ddx2TransparentBlt(iSurface, x, y + ycor, right - left + 1, bottom - top + 1, 
-										   b2_3d_font.iBitmap[iSection],left, top, right - left +1, 
-										   bottom - top +1, b2_3d_font.tcolor);*/
+            y += b2_3d_font.iYPlus;
+            ZeroMemory(&tWord[0], sizeof(TEXT_WORLD));
 
-						//pokud posledni pismeno byla mezera nebo enter, tak zacatek slova
-						if(end_char(wtext[i-1]))
-						{
-							tWord[iWordl].xStart = x;
-							tWord[iWordl].wcWord = &wtext[i];
-						}
+            tWord[0].wcWord = tWord[iWordl].wcWord;
+            tWord[0].xStart = pR->left;
 
-						x += right - left + 2;
+            ZeroMemory(&tWord[1], 63 * sizeof(TEXT_WORLD));
 
-						if(x > *iXmax)
-							*iXmax = x;
-					}
-		}
+            iWordl = 0;
+          }
+        }
+        else
+          goto FN2_DRAW_MESSAGERECT_NORMAL_FORMAT_LINE;
+
+        *iYmax = y;
+      }
+
+      /*ddx2TransparentBlt(iSurface, x, y + ycor, right - left + 1, bottom - top + 1, 
+         b2_3d_font.iBitmap[iSection],left, top, right - left +1, 
+         bottom - top +1, b2_3d_font.tcolor); */
+
+      //pokud posledni pismeno byla mezera nebo enter, tak zacatek slova
+      if (end_char(wtext[i - 1])) {
+        tWord[iWordl].xStart = x;
+        tWord[iWordl].wcWord = &wtext[i];
+      }
+
+      x += right - left + 2;
+
+      if (x > *iXmax)
+        *iXmax = x;
+    }
+  }
 }
 
-void fn2_Draw_MessageA(int iSurface, int iXpos, int iYpos, GAME_TRIGER *gt, TRIGER_STRUCTURE *ts, WCHAR *cText, 
-					 int iSection, int *iXmax, int *iYmax)
+void fn2_Draw_MessageA(int iSurface, int iXpos, int iYpos, GAME_TRIGER * gt,
+  TRIGER_STRUCTURE * ts, WCHAR * cText, int iSection, int *iXmax, int *iYmax)
 {
-	WCHAR	wtext[1024];
-	int		i;
-	int		top, bottom, left, right, ycor;
+  WCHAR wtext[1024];
+  int i;
+  int top, bottom, left, right, ycor;
 
-	int		x = iXpos, y = iYpos;
+  int x = iXpos, y = iYpos;
 
-	*iXmax = x;
-	*iYmax = y;
+  *iXmax = x;
+  *iYmax = y;
 
-	ZeroMemory(wtext, 1024 * sizeof(WCHAR));
-	wcsncpy(wtext, cText,  wcslen(cText));
+  ZeroMemory(wtext, 1024 * sizeof(WCHAR));
+  wcsncpy(wtext, cText, wcslen(cText));
 
-		for(i=0;i<(int)wcslen(wtext);i++)
-		{
-			if(wtext[i] == 32)
-			{
-				//x+= 50;
-				x+=b2_3d_font.iXPlus;
-				continue;
-			}
-			else
-				if(wtext[i] == 10)
-				{
-					//y+= 17;
-					y+= b2_3d_font.iYPlus;
-					x = iXpos;
+  for (i = 0; i < (int) wcslen(wtext); i++) {
+    if (wtext[i] == 32) {
+      //x+= 50;
+      x += b2_3d_font.iXPlus;
+      continue;
+    }
+    else if (wtext[i] == 10) {
+      //y+= 17;
+      y += b2_3d_font.iYPlus;
+      x = iXpos;
 
-					*iYmax = y;
-					continue;
-				}
-				else
-					if(fn2_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor, wtext[i], 
-									(float)ddx2GetWidth(b2_3d_font.iBitmap[iSection]),
-									(float)ddx2GetHeight(b2_3d_font.iBitmap[iSection])))
-					{		
-						/*TransparentBltU(hdc, x, y + ycor, right - left + 1, bottom - top + 1, _2dd.bitmap[b2_3d_font.iBitmap[iSection]].bitmapDC, 
-										left, top, right - left + 1, bottom - top + 1, b2_3d_font.tcolor);*/
+      *iYmax = y;
+      continue;
+    }
+    else
+      if (fn2_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor, wtext[i],
+        (float) ddx2GetWidth(b2_3d_font.iBitmap[iSection]),
+        (float) ddx2GetHeight(b2_3d_font.iBitmap[iSection]))) {
+      /*TransparentBltU(hdc, x, y + ycor, right - left + 1, bottom - top + 1, _2dd.bitmap[b2_3d_font.iBitmap[iSection]].bitmapDC, 
+         left, top, right - left + 1, bottom - top + 1, b2_3d_font.tcolor); */
 
-						ddx2TransparentBlt(iSurface, x, y + ycor, right - left + 1, bottom - top + 1, 
-										  b2_3d_font.iBitmap[iSection],left, top, right - left +1, 
-										  bottom - top +1, b2_3d_font.tcolor);
+      ddx2TransparentBlt(iSurface, x, y + ycor, right - left + 1,
+        bottom - top + 1, b2_3d_font.iBitmap[iSection], left, top,
+        right - left + 1, bottom - top + 1, b2_3d_font.tcolor);
 
-						x += right - left + 2;
+      x += right - left + 2;
 
-						if(x > *iXmax)
-							*iXmax = x;
-					}
-		}
+      if (x > *iXmax)
+        *iXmax = x;
+    }
+  }
 }
 
-void fn2_Set_Char(unsigned int *pTexture, int iXSize, int iYSize, int iXpos, int iYpos, 
-				 unsigned int *pSource, int iXSSize, int iYSSize,
-				 int iCXSize, int iCYSize, int iXCpos, int iYCpos)
+void fn2_Set_Char(unsigned int *pTexture, int iXSize, int iYSize, int iXpos,
+  int iYpos, unsigned int *pSource, int iXSSize, int iYSSize, int iCXSize,
+  int iCYSize, int iXCpos, int iYCpos)
 {
-	unsigned int *pT = &pTexture[(iXSize * (iYSize - iYpos)) - (iXSize - iXpos)];
-	unsigned int *pS = &pSource[(iXSSize * (iYSSize - iYCpos)) - (iXSSize - iXCpos)];
+  unsigned int *pT =
+    &pTexture[(iXSize * (iYSize - iYpos)) - (iXSize - iXpos)];
+  unsigned int *pS =
+    &pSource[(iXSSize * (iYSSize - iYCpos)) - (iXSSize - iXCpos)];
 
-	int y;
+  int y;
 
-	for(y = iYCpos; y < iYCpos + iCYSize;y++)
-	{
-		memcpy((void *) pT, (void *) pS, iCXSize * sizeof(unsigned int));
+  for (y = iYCpos; y < iYCpos + iCYSize; y++) {
+    memcpy((void *) pT, (void *) pS, iCXSize * sizeof(unsigned int));
 
-		pT -= iXSize;
-		pS -= iXSSize;
-	}
+    pT -= iXSize;
+    pS -= iXSSize;
+  }
 }
 
-void fn2_Gen_Texture(byte **lpTexture, int iXSize, int iYSize, int iXpos, int iYpos, GAME_TRIGER *gt, 
-					TRIGER_STRUCTURE *ts, WCHAR *cFile, WCHAR *cStop, int iSection, int *iXres,
-					int *iYres)
+void fn2_Gen_Texture(byte ** lpTexture, int iXSize, int iYSize, int iXpos,
+  int iYpos, GAME_TRIGER * gt, TRIGER_STRUCTURE * ts, WCHAR * cFile,
+  WCHAR * cStop, int iSection, int *iXres, int *iYres)
 {
-	WCHAR	wtext[1024];
-	int		i;
-	int		top, bottom, left, right, ycor;
-	byte	*pT = NULL;
+  WCHAR wtext[1024];
+  int i;
+  int top, bottom, left, right, ycor;
+  byte *pT = NULL;
 
-	int		x = iXpos, y = iYpos - b2_3d_font.iYPlus;
+  int x = iXpos, y = iYpos - b2_3d_font.iYPlus;
 
-	*iXres = iXpos;
-	*iYres = iYpos;
+  *iXres = iXpos;
+  *iYres = iYpos;
 
-	i = wcslen(cFile);
+  i = wcslen(cFile);
 
-	cFile = wcsstr((WCHAR *) b2_3d_font.pTBuffer, cFile);
-	
-	if(!cFile)
-		return;
+  cFile = wcsstr((WCHAR *) b2_3d_font.pTBuffer, cFile);
 
-	cStop = wcsstr(cFile, cStop);
+  if (!cFile)
+    return;
 
-	if(!cStop)
-		return;
+  cStop = wcsstr(cFile, cStop);
 
-	ZeroMemory(wtext, 1024 * sizeof(WCHAR));
-	wcsncpy(wtext, cFile + i,  cStop - cFile - i);
+  if (!cStop)
+    return;
 
-	pT = (byte	*) malloc(iXSize * iYSize * sizeof(unsigned int));
+  ZeroMemory(wtext, 1024 * sizeof(WCHAR));
+  wcsncpy(wtext, cFile + i, cStop - cFile - i);
 
-	if(!pT)
-		return;
-	
-	*lpTexture = pT;
+  pT = (byte *) malloc(iXSize * iYSize * sizeof(unsigned int));
 
-	ZeroMemory(pT, iXSize * iYSize * sizeof(unsigned int));
+  if (!pT)
+    return;
 
-		for(i=0;i<(int)wcslen(wtext);i++)
-		{
-			if(wtext[i] == 32)
-			{
-				x+= b2_3d_font.iXPlus;
-				continue;
-			}
-			else
-				if(wtext[i] == 10)
-				{
-					//y+= 17;
-					y+= b2_3d_font.iYPlus;
-					// *iYres = y;
-					x = iXpos;
-					continue;
-				}          
-				else if(fn2_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor, wtext[i],
-									(float)b2_3d_font.tex[iSection].p_bmp->x,
-									(float)b2_3d_font.tex[iSection].p_bmp->y))
-					{          
-						if(b2_3d_font.tex[iSection].p_bmp)
-						{
-							fn2_Set_Char((unsigned int *)pT, iXSize, iYSize, x, y + ycor, 
-									    (unsigned int *)b2_3d_font.tex[iSection].p_bmp->data, 
-										b2_3d_font.tex[iSection].p_bmp->x, b2_3d_font.tex[iSection].p_bmp->y,
-										right - left, bottom - top, left, top);
-						}
+  *lpTexture = pT;
 
-						x += right - left + 2;
+  ZeroMemory(pT, iXSize * iYSize * sizeof(unsigned int));
 
-						if(x > *iXres)
-							*iXres = x;
+  for (i = 0; i < (int) wcslen(wtext); i++) {
+    if (wtext[i] == 32) {
+      x += b2_3d_font.iXPlus;
+      continue;
+    }
+    else if (wtext[i] == 10) {
+      //y+= 17;
+      y += b2_3d_font.iYPlus;
+      // *iYres = y;
+      x = iXpos;
+      continue;
+    }
+    else if (fn2_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor,
+        wtext[i], (float) b2_3d_font.tex[iSection].p_bmp->x,
+        (float) b2_3d_font.tex[iSection].p_bmp->y)) {
+      if (b2_3d_font.tex[iSection].p_bmp) {
+        fn2_Set_Char((unsigned int *) pT, iXSize, iYSize, x, y + ycor,
+          (unsigned int *) b2_3d_font.tex[iSection].p_bmp->data,
+          b2_3d_font.tex[iSection].p_bmp->x,
+          b2_3d_font.tex[iSection].p_bmp->y, right - left, bottom - top, left,
+          top);
+      }
 
-						if(bottom - top > *iYres)
-							*iYres = bottom - top;
-					}          
-		}
+      x += right - left + 2;
+
+      if (x > *iXres)
+        *iXres = x;
+
+      if (bottom - top > *iYres)
+        *iYres = bottom - top;
+    }
+  }
 }
 
-int fn2_Open_Archive(char *cFile, APAK_HANDLE **pAHandle, char *cAppName, char *cKeyName)
+int fn2_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *cAppName,
+  char *cKeyName)
 {
-	int	e;
-	char text[256];
+  int e;
+  char text[256];
 
-	GetPrivateProfileString(cAppName,cKeyName,"c:\\",text,256,ini_file);
-  working_file_translate(text,256);
-	chdir((text));
+  GetPrivateProfileString(cAppName, cKeyName, "c:\\", text, 256, ini_file);
+  working_file_translate(text, 256);
+  chdir((text));
 
   apak_dir_correction(text);
-	(*pAHandle) = apakopen(cFile, text, &e);
+  (*pAHandle) = apakopen(cFile, text, &e);
 
-	if(!(*pAHandle))
-	{
-		kprintf(1, "Unable to open archive %s", cFile);
+  if (!(*pAHandle)) {
+    kprintf(1, "Unable to open archive %s", cFile);
 
-		switch(e)
-		{
-		case APAK_FILE_NOT_FOUND:
-			kprintf(1, "Reason: File not found");
-			break;
-		case APAK_UNABLE_TO_READ:
-			kprintf(1, "Reason: Unable to read from file");
-			break;
-		case APAK_VERSION_MISMATCH:
-			kprintf(1, "Reason: Version mismatch");
-			break;
-		case APAK_OUT_OF_MEMORY:
-			kprintf(1, "Reason: Out of memory");
-			break;
-		}
+    switch (e) {
+      case APAK_FILE_NOT_FOUND:
+        kprintf(1, "Reason: File not found");
+        break;
+      case APAK_UNABLE_TO_READ:
+        kprintf(1, "Reason: Unable to read from file");
+        break;
+      case APAK_VERSION_MISMATCH:
+        kprintf(1, "Reason: Version mismatch");
+        break;
+      case APAK_OUT_OF_MEMORY:
+        kprintf(1, "Reason: Out of memory");
+        break;
+    }
 
-		assert(0);
+    assert(0);
     abort();
-	}
+  }
 
-	achdir((*pAHandle), text);
+  achdir((*pAHandle), text);
 
-	kprintf(1, "APAK: %s", cFile);
-	kprintf(1, "Velikost AFAT: %.1fKB", (*pAHandle)->FileHeader.apuISizeofFAT / 1000.0f);
-	kprintf(1, "Velikost Archivu: %.1fMB", (*pAHandle)->FileHeader.apuLSizeofPAK / 1000000.0f);
-	kprintf(1, "Souboru: %d", (*pAHandle)->FileHeader.apuICountofFiles);
-	kprintf(1, "Adresaru: %d", (*pAHandle)->FileHeader.apuICountofDirectiories);
-	kprintf(1, "Uzlu: %d", (*pAHandle)->FileHeader.apuICountofNodes);
+  kprintf(1, "APAK: %s", cFile);
+  kprintf(1, "Velikost AFAT: %.1fKB",
+    (*pAHandle)->FileHeader.apuISizeofFAT / 1000.0f);
+  kprintf(1, "Velikost Archivu: %.1fMB",
+    (*pAHandle)->FileHeader.apuLSizeofPAK / 1000000.0f);
+  kprintf(1, "Souboru: %d", (*pAHandle)->FileHeader.apuICountofFiles);
+  kprintf(1, "Adresaru: %d", (*pAHandle)->FileHeader.apuICountofDirectiories);
+  kprintf(1, "Uzlu: %d", (*pAHandle)->FileHeader.apuICountofNodes);
 
-	return 1;
+  return 1;
 }
 
-int fn2_Load_Grammar(char *pFile, GRAMMAR *pGr)
+int fn2_Load_Grammar(char *pFile, GRAMMAR * pGr)
 {
-	FILE	*file;
-	char	text[256];
-	
-	file = aopen(b2_3d_font.pArchive, pFile, "rb");
+  FILE *file;
+  char text[256];
 
-	if(!file)
-		return 0;
+  file = aopen(b2_3d_font.pArchive, pFile, "rb");
 
-	pGr->LastMask = 0;
+  if (!file)
+    return 0;
 
-	while(!aeof(file))
-	{
-		agets(text,256,file);
-		gr_Add_Mask(text, pGr);
-		strcpy(text,"");
-	}
+  pGr->LastMask = 0;
 
-	aclose(file);
-	return 1;
+  while (!aeof(file)) {
+    agets(text, 256, file);
+    gr_Add_Mask(text, pGr);
+    strcpy(text, "");
+  }
+
+  aclose(file);
+  return 1;
 }
 
-char fn2_Load_Triger(char *pFile, GAME_TRIGER *pTriger, GRAMMAR *pGr, TRIGER_STRUCTURE *pTStruct)
+char fn2_Load_Triger(char *pFile, GAME_TRIGER * pTriger, GRAMMAR * pGr,
+  TRIGER_STRUCTURE * pTStruct)
 {
-	FILE	*file;
-	char	text[256];
-	WCHAR	wtext[128];
-  word  wotext[128];
+  FILE *file;
+  char text[256];
+  WCHAR wtext[128];
+  word wotext[128];
 
-	
-	pTriger->lastcommand = 0;
 
-	file = aopen(b2_3d_font.pArchive, pFile, "rb");
+  pTriger->lastcommand = 0;
 
-	aunicode(file);
+  file = aopen(b2_3d_font.pArchive, pFile, "rb");
 
-	if(!file)
-		return 0;
+  aunicode(file);
 
-	aseek(file, 2, SEEK_SET);
+  if (!file)
+    return 0;
 
-	while(!aeof(file))
-	{
-		memset(wtext, 0, 128 * sizeof(WCHAR));
-		agets((char *) wotext,256,file);
-		wchar_windows_to_linux(wotext, 128, wtext);
-		trig_Parse_LineU(wtext, &pTriger->command[pTriger->lastcommand], pTriger, pGr, pTStruct);		
-	}
+  aseek(file, 2, SEEK_SET);
 
-	aclose(file);
-	return 1;
+  while (!aeof(file)) {
+    memset(wtext, 0, 128 * sizeof(WCHAR));
+    agets((char *) wotext, 256, file);
+    wchar_windows_to_linux(wotext, 128, wtext);
+    trig_Parse_LineU(wtext, &pTriger->command[pTriger->lastcommand], pTriger,
+      pGr, pTStruct);
+  }
+
+  aclose(file);
+  return 1;
 }
 
 int fn2_Set_Font(char *cPAK)
 {
-	int i;
+  int i;
 
-	memset(&b2_3d_font, 0, sizeof(B2_FONT));
+  memset(&b2_3d_font, 0, sizeof(B2_FONT));
 
-	if(!fn2_Open_Archive(cPAK, &b2_3d_font.pArchive,"game","bitmap_dir"))
-		return 0;
+  if (!fn2_Open_Archive(cPAK, &b2_3d_font.pArchive, "game", "bitmap_dir"))
+    return 0;
 
-	b2_3d_font.file = aopen(b2_3d_font.pArchive, "texts.txt", "rb");
+  b2_3d_font.file = aopen(b2_3d_font.pArchive, "texts.txt", "rb");
 
-	if(!b2_3d_font.file)
-	{
-		apakclose(b2_3d_font.pArchive);
-		return 0;
-	}
-	else
-	{
+  if (!b2_3d_font.file) {
+    apakclose(b2_3d_font.pArchive);
+    return 0;
+  }
+  else {
     int iTSize;
-		agetbuffer(b2_3d_font.file, (char **)&b2_3d_font.pTBuffer, &iTSize);
-    b2_3d_font.pTBuffer = wchar_windows_to_linux((word *)b2_3d_font.pTBuffer, iTSize);
 
-		if(!b2_3d_font.pTBuffer)
-		{
-			apakclose(b2_3d_font.pArchive);
-			return 0;
-		}
-	}
+    agetbuffer(b2_3d_font.file, (char **) &b2_3d_font.pTBuffer, &iTSize);
+    b2_3d_font.pTBuffer =
+      wchar_windows_to_linux((word *) b2_3d_font.pTBuffer, iTSize);
 
-	if(!fn2_Load_Grammar("font_grammar.txt", &b2_3d_font.gr))
-		return 0;
+    if (!b2_3d_font.pTBuffer) {
+      apakclose(b2_3d_font.pArchive);
+      return 0;
+    }
+  }
 
-	b2_3d_font.ts.LastStr = 0;
-	b2_3d_font.ts.sizeofT = 0;
-	b2_3d_font.ts.pTriger = NULL;
-	
-	if(!fn2_Load_Triger("font_def.txt", &b2_3d_font.gt, &b2_3d_font.gr, &b2_3d_font.ts))
-		return 0;
+  if (!fn2_Load_Grammar("font_grammar.txt", &b2_3d_font.gr))
+    return 0;
 
-	for(i=0;i<FONT_MAX_BMP;i++)
-		b2_3d_font.iBitmap[i] = -1;
+  b2_3d_font.ts.LastStr = 0;
+  b2_3d_font.ts.sizeofT = 0;
+  b2_3d_font.ts.pTriger = NULL;
 
-	b2_3d_font.pTTable = NULL;
-	
-	if(!fn2_Set_Font_Params(&b2_3d_font.gt, &b2_3d_font.ts))
-		return 0;
+  if (!fn2_Load_Triger("font_def.txt", &b2_3d_font.gt, &b2_3d_font.gr,
+      &b2_3d_font.ts))
+    return 0;
 
-	return 1;
+  for (i = 0; i < FONT_MAX_BMP; i++)
+    b2_3d_font.iBitmap[i] = -1;
+
+  b2_3d_font.pTTable = NULL;
+
+  if (!fn2_Set_Font_Params(&b2_3d_font.gt, &b2_3d_font.ts))
+    return 0;
+
+  return 1;
 }
 
 int fn2_Load_Bitmaps(void)
 {
-	if(!b2_3d_font.pArchive)
-		return 0;
+  if (!b2_3d_font.pArchive)
+    return 0;
 
-	kom_set_default_text_config(0,0,1,0,0,1);
-	fn2_Set_Font_Bmps(&b2_3d_font.gt, &b2_3d_font.ts);
-	kom_ret_default_text_config();
+  kom_set_default_text_config(0, 0, 1, 0, 0, 1);
+  fn2_Set_Font_Bmps(&b2_3d_font.gt, &b2_3d_font.ts);
+  kom_ret_default_text_config();
 
-	return 1;
+  return 1;
 }
 
 void fn2_Release_Font(void)
 {
-	int i;
+  int i;
 
-	aclose(b2_3d_font.file);
-	apakclose(b2_3d_font.pArchive);
+  aclose(b2_3d_font.file);
+  apakclose(b2_3d_font.pArchive);
 
-//	if(_2dd.bitmap)
-		for(i=0;i<FONT_MAX_BMP;i++)
-			if(b2_3d_font.iBitmap[i] != -1)
-			{
-				ddx2ReleaseBitmap(b2_3d_font.iBitmap[i]);
-				//_2d_Release_Bitmap(b2_3d_font.iBitmap[i]);
-			}
+//      if(_2dd.bitmap)
+  for (i = 0; i < FONT_MAX_BMP; i++)
+    if (b2_3d_font.iBitmap[i] != -1) {
+      ddx2ReleaseBitmap(b2_3d_font.iBitmap[i]);
+      //_2d_Release_Bitmap(b2_3d_font.iBitmap[i]);
+    }
 
-	for(i=0;i<FONT_MAX_BMP;i++)
-		if(b2_3d_font.tex[i].load)
-		{
-			txt_zrus_texturu_ram(&b2_3d_font.tex[i]);
-			b2_3d_font.tex[i].load = 0;
-		}
+  for (i = 0; i < FONT_MAX_BMP; i++)
+    if (b2_3d_font.tex[i].load) {
+      txt_zrus_texturu_ram(&b2_3d_font.tex[i]);
+      b2_3d_font.tex[i].load = 0;
+    }
 
-	//b2_3d_font.iTSize = 0;
+  //b2_3d_font.iTSize = 0;
 
-	if(b2_3d_font.pTTable)
-		free((void *) b2_3d_font.pTTable);
+  if (b2_3d_font.pTTable)
+    free((void *) b2_3d_font.pTTable);
 
-	b2_3d_font.pTTable = NULL;
+  b2_3d_font.pTTable = NULL;
 }
 
 void fn2_Release_3d_Textures_Full(void)
 {
-	int i;
+  int i;
 
-	for(i=133;i<_3dd.last;i++)
-	{
-		txt_zrus_texturu(&_3dd.p_texture[i]);
-		_3dd.p_texture[i].text = -1;
-		free((void *) _3dd.p_sysramtexture[i].data);
-	}
+  for (i = 133; i < _3dd.last; i++) {
+    txt_zrus_texturu(&_3dd.p_texture[i]);
+    _3dd.p_texture[i].text = -1;
+    free((void *) _3dd.p_sysramtexture[i].data);
+  }
 
-	_3dd.last = 133;
+  _3dd.last = 133;
 }
 
 void fn2_Release_3d_Textures_RAM(void)
 {
-	int i;
+  int i;
 
-	for(i=133;i<_3dd.last;i++)
-	{
-		free((void *) _3dd.p_sysramtexture[i].data);
-		_3dd.p_sysramtexture[i].data = NULL;
-	}
+  for (i = 133; i < _3dd.last; i++) {
+    free((void *) _3dd.p_sysramtexture[i].data);
+    _3dd.p_sysramtexture[i].data = NULL;
+  }
 
-	_3dd.last = 133;
+  _3dd.last = 133;
 }
 
 void fn2_Release_3d_Textures(void)
 {
-	int i;
+  int i;
 
-	for(i=133;i<_3dd.last;i++)
-	{
-		txt_zrus_texturu(&_3dd.p_texture[i]);
-		_3dd.p_texture[i].text = -1;
-	}
+  for (i = 133; i < _3dd.last; i++) {
+    txt_zrus_texturu(&_3dd.p_texture[i]);
+    _3dd.p_texture[i].text = -1;
+  }
 }
 
 void fn2_Test(int hdc)
 {
-	int x, y;
+  int x, y;
 
-	WCHAR wc[64];
-	WCHAR ws[64];
+  WCHAR wc[64];
+  WCHAR ws[64];
 
-	MultiByteToWideChar( CP_ACP, 0, "##message1", strlen("##message1")+1, wc, sizeof(wc)/sizeof(wc[0]));
-	MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]));
+  MultiByteToWideChar(CP_ACP, 0, "##message1", strlen("##message1") + 1, wc,
+    sizeof(wc) / sizeof(wc[0]));
+  MultiByteToWideChar(CP_ACP, 0, "##endofmessage",
+    strlen("##endofmessage") + 1, ws, sizeof(ws) / sizeof(ws[0]));
 
-	fn2_Draw_Message(hdc, 360, 230, &b2_3d_font.gt, &b2_3d_font.ts, wc, ws, 0, &x, &y);
+  fn2_Draw_Message(hdc, 360, 230, &b2_3d_font.gt, &b2_3d_font.ts, wc, ws, 0,
+    &x, &y);
 }
 
 void fn2_Test2(int hdc)
 {
-	int x, y;
+  int x, y;
 
-	WCHAR wc[64];
-	WCHAR ws[64];
+  WCHAR wc[64];
+  WCHAR ws[64];
 
-	MultiByteToWideChar( CP_ACP, 0, "##settings", strlen("##settings")+1, wc, sizeof(wc)/sizeof(wc[0]));
-	MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]));
+  MultiByteToWideChar(CP_ACP, 0, "##settings", strlen("##settings") + 1, wc,
+    sizeof(wc) / sizeof(wc[0]));
+  MultiByteToWideChar(CP_ACP, 0, "##endofmessage",
+    strlen("##endofmessage") + 1, ws, sizeof(ws) / sizeof(ws[0]));
 
-	fn2_Draw_Message(hdc, 800, 600, &b2_3d_font.gt, &b2_3d_font.ts, wc, ws, 0, &x, &y);
+  fn2_Draw_Message(hdc, 800, 600, &b2_3d_font.gt, &b2_3d_font.ts, wc, ws, 0,
+    &x, &y);
 }
 
-int fn2_Text_Blt(int hdc, WCHAR *ws, WCHAR *wc, int iSurface, int iSection, int *i)
+int fn2_Text_Blt(int hdc, WCHAR * ws, WCHAR * wc, int iSurface, int iSection,
+  int *i)
 {
-	int x, y;
-	int tmpDC;
+  int x, y;
+  int tmpDC;
 
-	//BitBlt(fDC,0,0,1024,200,NULL,0,0,WHITENESS);
+  //BitBlt(fDC,0,0,1024,200,NULL,0,0,WHITENESS);
 
 /*	{
 		RECT r = {-1, -1, 1025, 201};
 		_2d_Fill_Rect(fDC, r, RGB(255, 0, 255));
 	}*/
 
-	fn2_Draw_Message(iSurface, 0, 0, &b2_3d_font.gt, &b2_3d_font.ts, wc, ws, iSection, &x, &y);	
-	
-	//*i = _2d_Find_Free_Surface();
-	*i = ddx2FindFreeSurface();
+  fn2_Draw_Message(iSurface, 0, 0, &b2_3d_font.gt, &b2_3d_font.ts, wc, ws,
+    iSection, &x, &y);
 
-	//tmpDC = fn2_CreateDC(hdc, x, y, *i);
-	tmpDC = ddx2CreateSurface(x, y, *i);
+  //*i = _2d_Find_Free_Surface();
+  *i = ddx2FindFreeSurface();
 
-	if(!tmpDC)
-		return 0;
-	else
-		ddx2TransparentBlt(tmpDC, 0, 0, x, y, iSurface, 0, 0, x, y, TRANSCOLOR);
+  //tmpDC = fn2_CreateDC(hdc, x, y, *i);
+  tmpDC = ddx2CreateSurface(x, y, *i);
 
-		//TransparentBltU(tmpDC, 0, 0, x, y, fDC, 0, 0, x, y, RGB(255, 0, 255));
+  if (!tmpDC)
+    return 0;
+  else
+    ddx2TransparentBlt(tmpDC, 0, 0, x, y, iSurface, 0, 0, x, y, TRANSCOLOR);
 
-	return 1;
+  //TransparentBltU(tmpDC, 0, 0, x, y, fDC, 0, 0, x, y, RGB(255, 0, 255));
+
+  return 1;
 }
 
 int fn2_Gen_Menu_Text(int iSection, int hdc, char *cText, int *i1, int *i2)
 {
-	WCHAR wc[64];
-	WCHAR ws[64];
-	//int sidx = _2d_Find_Free_Surface();
-	int sidx = ddx2FindFreeSurface();
-	//HDC	fDC = fn2_CreateDC(hdc, 1024, 200, sidx);
-	int	fDC = ddx2CreateSurface(1024, 200, sidx);
+  WCHAR wc[64];
+  WCHAR ws[64];
 
-	if(!fDC)
-		return -1;
+  //int sidx = _2d_Find_Free_Surface();
+  int sidx = ddx2FindFreeSurface();
 
-	MultiByteToWideChar( CP_ACP, 0, cText, strlen(cText)+1, wc, sizeof(wc)/sizeof(wc[0]) );
-	MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]) );
+  //HDC   fDC = fn2_CreateDC(hdc, 1024, 200, sidx);
+  int fDC = ddx2CreateSurface(1024, 200, sidx);
 
-	if(!fn2_Text_Blt(hdc, ws, wc, fDC, iSection, i1))
-	{
-		ddx2ReleaseBitmap(sidx);
-		return -1;
-	}
+  if (!fDC)
+    return -1;
 
-	if(!fn2_Text_Blt(hdc, ws, wc, fDC, iSection+1, i2))
-	{
-		ddx2ReleaseBitmap(sidx);
-		return -1;
-	}
+  MultiByteToWideChar(CP_ACP, 0, cText, strlen(cText) + 1, wc,
+    sizeof(wc) / sizeof(wc[0]));
+  MultiByteToWideChar(CP_ACP, 0, "##endofmessage",
+    strlen("##endofmessage") + 1, ws, sizeof(ws) / sizeof(ws[0]));
 
-	ddx2ReleaseBitmap(sidx);
+  if (!fn2_Text_Blt(hdc, ws, wc, fDC, iSection, i1)) {
+    ddx2ReleaseBitmap(sidx);
+    return -1;
+  }
 
-	return sidx;
+  if (!fn2_Text_Blt(hdc, ws, wc, fDC, iSection + 1, i2)) {
+    ddx2ReleaseBitmap(sidx);
+    return -1;
+  }
+
+  ddx2ReleaseBitmap(sidx);
+
+  return sidx;
 }
 
 int fn2_Gen_Menu_Texts(int iSection, int hdc)
@@ -1013,12 +998,12 @@ int fn2_Gen_Menu_Texts(int iSection, int hdc)
 
 	ddx2_Release_Bitmap(sidx);*/
 
-	return 1;
+  return 1;
 }
 
 int fn2_Gen_Menu(void)
 {
-	return fn2_Gen_Menu_Texts(0, HDC2DD);
+  return fn2_Gen_Menu_Texts(0, HDC2DD);
 }
 
 #define FONT_X_MAX 1024
@@ -1026,192 +1011,192 @@ int fn2_Gen_Menu(void)
 
 int fn2_Up(int iValue)
 {
-	int i, x = 4;
+  int i, x = 4;
 
-	for(i=3;i<12;i++)
-	{
-		x = x * 2;
+  for (i = 3; i < 12; i++) {
+    x = x * 2;
 
-		if(x > iValue)
-			return x;
-	}
+    if (x > iValue)
+      return x;
+  }
 
-	return FONT_X_MAX;
+  return FONT_X_MAX;
 }
 
-int fn2_Blt(byte *pT, byte **pD, int ix, int iy)
+int fn2_Blt(byte * pT, byte ** pD, int ix, int iy)
 {
-	int y;
-	unsigned int *puT = (unsigned int *)pT+(FONT_X_MAX * (FONT_Y_MAX - 1));
-	unsigned int *puD;
+  int y;
+  unsigned int *puT = (unsigned int *) pT + (FONT_X_MAX * (FONT_Y_MAX - 1));
+  unsigned int *puD;
 
-	*pD = (byte *) malloc(ix * iy * sizeof(unsigned int));
+  *pD = (byte *) malloc(ix * iy * sizeof(unsigned int));
 
-	if(!(*pD))
-		return 0;
+  if (!(*pD))
+    return 0;
 
-	memset((*pD), 0, ix * iy * sizeof(unsigned int));
+  memset((*pD), 0, ix * iy * sizeof(unsigned int));
 
-	puD = (unsigned int *)(*pD)+(ix * (iy - 1));
+  puD = (unsigned int *) (*pD) + (ix * (iy - 1));
 
-	for(y = 0; y<iy;y++)
-	{
-		
-		memcpy((void *) puD, (void *) puT, ix * sizeof(unsigned int));
+  for (y = 0; y < iy; y++) {
 
-		puT -= FONT_X_MAX;
-		puD -= ix;
-	}
+    memcpy((void *) puD, (void *) puT, ix * sizeof(unsigned int));
 
-	for(y=0;y<FONT_X_MAX * FONT_Y_MAX;y++)
-		if(pT[y])
-			pT[y] = pT[y];
+    puT -= FONT_X_MAX;
+    puD -= ix;
+  }
 
-	free((void *) pT);
+  for (y = 0; y < FONT_X_MAX * FONT_Y_MAX; y++)
+    if (pT[y])
+      pT[y] = pT[y];
 
-	return 1;
+  free((void *) pT);
+
+  return 1;
 }
 
-int fn2_Put_in_3d_List(int text, EDIT_TEXT *p_tex, EDIT_TEXT_KONFIG *p_konf, int x, int y, char *pMem, int ox, int oy)
+int fn2_Put_in_3d_List(int text, EDIT_TEXT * p_tex, EDIT_TEXT_KONFIG * p_konf,
+  int x, int y, char *pMem, int ox, int oy)
 {
-	memcpy(&_3dd.p_texture[_3dd.last], p_tex, sizeof(EDIT_TEXT));
-	memcpy(&_3dd.p_sysramtexture[_3dd.last].konf, p_konf, sizeof(EDIT_TEXT_KONFIG));
+  memcpy(&_3dd.p_texture[_3dd.last], p_tex, sizeof(EDIT_TEXT));
+  memcpy(&_3dd.p_sysramtexture[_3dd.last].konf, p_konf,
+    sizeof(EDIT_TEXT_KONFIG));
 
-	_3dd.p_texture[_3dd.last].text = text;
-	
-	_3dd.p_sysramtexture[_3dd.last].data = pMem;
-	_3dd.p_sysramtexture[_3dd.last].x = x;
-	_3dd.p_sysramtexture[_3dd.last].y = y;
+  _3dd.p_texture[_3dd.last].text = text;
 
-	_3dd.p_sysramtexture[_3dd.last].tx = ox;
-	_3dd.p_sysramtexture[_3dd.last].ty = oy;
+  _3dd.p_sysramtexture[_3dd.last].data = pMem;
+  _3dd.p_sysramtexture[_3dd.last].x = x;
+  _3dd.p_sysramtexture[_3dd.last].y = y;
 
-	_3dd.p_sysramtexture[_3dd.last].bSLoaded = 0;
-	_3dd.p_sysramtexture[_3dd.last].bVLoaded = 0;
+  _3dd.p_sysramtexture[_3dd.last].tx = ox;
+  _3dd.p_sysramtexture[_3dd.last].ty = oy;
 
-	_3dd.last++;
+  _3dd.p_sysramtexture[_3dd.last].bSLoaded = 0;
+  _3dd.p_sysramtexture[_3dd.last].bVLoaded = 0;
 
-	return _3dd.last-1;
+  _3dd.last++;
+
+  return _3dd.last - 1;
 }
 
 int fn2_Get_Font_Texture(int iSection, char *cText)
 {
-	int	tx, ty;
-	int Xmax, Ymax;
+  int tx, ty;
+  int Xmax, Ymax;
 
-	byte *pT = NULL;
-	byte *pnT = NULL;
+  byte *pT = NULL;
+  byte *pnT = NULL;
 
-	WCHAR wc[64];
-	WCHAR ws[64];
+  WCHAR wc[64];
+  WCHAR ws[64];
 
-	MultiByteToWideChar( CP_ACP, 0, cText, strlen(cText)+1, wc, sizeof(wc)/sizeof(wc[0]) );
-	MultiByteToWideChar( CP_ACP, 0, "##endofmessage", strlen("##endofmessage")+1, ws, sizeof(ws)/sizeof(ws[0]) );
+  MultiByteToWideChar(CP_ACP, 0, cText, strlen(cText) + 1, wc,
+    sizeof(wc) / sizeof(wc[0]));
+  MultiByteToWideChar(CP_ACP, 0, "##endofmessage",
+    strlen("##endofmessage") + 1, ws, sizeof(ws) / sizeof(ws[0]));
 
-	fn2_Gen_Texture(&pT, FONT_X_MAX, FONT_Y_MAX, 0, 0, &b2_3d_font.gt, &b2_3d_font.ts, wc, ws, iSection, &Xmax, &Ymax);
+  fn2_Gen_Texture(&pT, FONT_X_MAX, FONT_Y_MAX, 0, 0, &b2_3d_font.gt,
+    &b2_3d_font.ts, wc, ws, iSection, &Xmax, &Ymax);
 
-	tx = Xmax;
-	ty = Ymax;
-	Xmax = fn2_Up(Xmax);
-	Ymax = fn2_Up(Ymax);
+  tx = Xmax;
+  ty = Ymax;
+  Xmax = fn2_Up(Xmax);
+  Ymax = fn2_Up(Ymax);
 
-	fn2_Blt(pT, &pnT, Xmax, Ymax);
+  fn2_Blt(pT, &pnT, Xmax, Ymax);
 
-	/*glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, b2_3d_font.tex.p_bmp->x, b2_3d_font.tex.p_bmp->y, 0, GL_RGBA, GL_UNSIGNED_BYTE, 
-				 b2_3d_font.tex.p_bmp->data);*/
+  /*glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, b2_3d_font.tex.p_bmp->x, b2_3d_font.tex.p_bmp->y, 0, GL_RGBA, GL_UNSIGNED_BYTE, 
+     b2_3d_font.tex.p_bmp->data); */
 
-	return fn2_Put_in_3d_List(b2_3d_font.tex[iSection].text, &b2_3d_font.tex[iSection], &b2_3d_font.konf[iSection], Xmax, Ymax, pnT, tx, ty);
+  return fn2_Put_in_3d_List(b2_3d_font.tex[iSection].text,
+    &b2_3d_font.tex[iSection], &b2_3d_font.konf[iSection], Xmax, Ymax, pnT,
+    tx, ty);
 }
 
 void fn2_Load_Textures_From_RAM(void)
 {
-	int i;
+  int i;
 
-	for(i=133;i<_3dd.last;i++)
-	{
-		glGenTextures(1, &_3dd.p_texture[i].text);
-		glBindTexture(GL_TEXTURE_2D, _3dd.p_texture[i].text);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _3dd.p_sysramtexture[i].x, _3dd.p_sysramtexture[i].y, 
-					 0, GL_RGBA, GL_UNSIGNED_BYTE, _3dd.p_sysramtexture[i].data);
+  for (i = 133; i < _3dd.last; i++) {
+    glGenTextures(1, &_3dd.p_texture[i].text);
+    glBindTexture(GL_TEXTURE_2D, _3dd.p_texture[i].text);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _3dd.p_sysramtexture[i].x,
+      _3dd.p_sysramtexture[i].y, 0, GL_RGBA, GL_UNSIGNED_BYTE,
+      _3dd.p_sysramtexture[i].data);
 
-	    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); 
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
-	}
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+  }
 }
 
 void fn2_Texture(int iSection)
 {
-	int i;
+  int i;
 
-	for(i=0;i<=iSection;i++)
-		fn2_Get_Font_Texture(i, "##restartlevel");
+  for (i = 0; i <= iSection; i++)
+    fn2_Get_Font_Texture(i, "##restartlevel");
 
-	for(i=0;i<=iSection;i++)
-		fn2_Get_Font_Texture(i, "##mainmenu");
+  for (i = 0; i <= iSection; i++)
+    fn2_Get_Font_Texture(i, "##mainmenu");
 
-	for(i=0;i<=iSection;i++)
-		fn2_Get_Font_Texture(i, "##settings");
+  for (i = 0; i <= iSection; i++)
+    fn2_Get_Font_Texture(i, "##settings");
 
-	for(i=0;i<=iSection;i++)
-		fn2_Get_Font_Texture(i, "##recorddemo");
+  for (i = 0; i <= iSection; i++)
+    fn2_Get_Font_Texture(i, "##recorddemo");
 
-	for(i=0;i<=iSection;i++)
-		fn2_Get_Font_Texture(i, "##back");
+  for (i = 0; i <= iSection; i++)
+    fn2_Get_Font_Texture(i, "##back");
 }
 
 //int fn2_Find_Char(GAME_TRIGER *gt, TRIGER_STRUCTURE *ts, int *top, int *left, int *bottom, int *right, int *ycor, WCHAR cWChar)
 void fn2_Convert_Rect(char *cFile, int xmax, int ymax)
 {
-	FILE *f;
-	FILE *fi;
-	GAME_TRIGER *gt = &b2_3d_font.gt;
-	TRIGER_STRUCTURE *ts = &b2_3d_font.ts;
-	int i;
-	char text[256];
-	char textt[256];
-	char t[32];
-	float *fl1, *fl2, *fl3, *fl4, *fl5;
+  FILE *f;
+  FILE *fi;
+  GAME_TRIGER *gt = &b2_3d_font.gt;
+  TRIGER_STRUCTURE *ts = &b2_3d_font.ts;
+  int i;
+  char text[256];
+  char textt[256];
+  char t[32];
+  float *fl1, *fl2, *fl3, *fl4, *fl5;
 
-	f = fopen("fontout.txt","w");
-	fi = fopen("font_def.txt","r");
+  f = fopen("fontout.txt", "w");
+  fi = fopen("font_def.txt", "r");
 
-	for(i=0;i<gt->lastcommand;i++)
-		switch(gt->command[i].iCommand)
-		{
-			case 1:
-				{
-					if(gt->command[i].LastParam > 5 &&
-					   gt->command[i].Parametr[0].Type == 3)
-					{
-						fgets(textt, 256, fi);
-						strncpy(t, textt, 10);
-						t[10] = '\0';
-						strcpy(text,"");
+  for (i = 0; i < gt->lastcommand; i++)
+    switch (gt->command[i].iCommand) {
+      case 1:
+        {
+          if (gt->command[i].LastParam > 5 &&
+            gt->command[i].Parametr[0].Type == 3) {
+            fgets(textt, 256, fi);
+            strncpy(t, textt, 10);
+            t[10] = '\0';
+            strcpy(text, "");
 
-						fl1 = (float *)&gt->command[i].Parametr[1].Value;
-						fl2 = (float *)&gt->command[i].Parametr[2].Value;
-						fl3 = (float *)&gt->command[i].Parametr[3].Value;
-						fl4 = (float *)&gt->command[i].Parametr[4].Value;
-						fl5 = (float *)&gt->command[i].Parametr[5].Value;
+            fl1 = (float *) &gt->command[i].Parametr[1].Value;
+            fl2 = (float *) &gt->command[i].Parametr[2].Value;
+            fl3 = (float *) &gt->command[i].Parametr[3].Value;
+            fl4 = (float *) &gt->command[i].Parametr[4].Value;
+            fl5 = (float *) &gt->command[i].Parametr[5].Value;
 
-						sprintf(text, "%s %f, %f, %f, %f, %f);\n", t,
-														    (*fl1) * 0.75f,
-															(*fl2) * 0.75f,
-															(*fl3) * 0.75f,
-															(*fl4) * 0.75f,
-															(*fl5) * 0.75f);
+            sprintf(text, "%s %f, %f, %f, %f, %f);\n", t,
+              (*fl1) * 0.75f,
+              (*fl2) * 0.75f, (*fl3) * 0.75f, (*fl4) * 0.75f, (*fl5) * 0.75f);
 
-						fputs(text, f);
-					}
-				}
-				break;
-		}
+            fputs(text, f);
+          }
+        }
+        break;
+    }
 
-	fclose(fi);
-	fclose(f);
-	return;
+  fclose(fi);
+  fclose(f);
+  return;
 }
 
 void fn2_Draw_Line(int x1, int y1, int x2, int y2, COLORREF color, HDC hdc)

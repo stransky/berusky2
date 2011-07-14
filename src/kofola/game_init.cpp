@@ -15,10 +15,10 @@
 #include "Berusky_universal.h"
 
 extern HW_KONFIG hwconf;
-extern APAK_HANDLE	*pSndArchive;
+extern APAK_HANDLE *pSndArchive;
 
-int		iWinVer = 0;
-extern HWND	hwnd_hry;
+int iWinVer = 0;
+extern HWND hwnd_hry;
 
 void gi_Set_Win_Version(void)
 {
@@ -36,55 +36,57 @@ void gi_Set_Win_Version(void)
 */
 }
 
-int gi_Open_Archive(char *cFile, APAK_HANDLE **pAHandle, char *cAppName, char *cKeyName)
+int gi_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *cAppName,
+  char *cKeyName)
 {
-	int	e;
-	char text[256];
+  int e;
+  char text[256];
 
-	GetPrivateProfileString(cAppName,cKeyName,"c:\\",text,256,ini_file);
-  working_file_translate(text,256);
-	chdir((text));
+  GetPrivateProfileString(cAppName, cKeyName, "c:\\", text, 256, ini_file);
+  working_file_translate(text, 256);
+  chdir((text));
 
   apak_dir_correction(text);
   (*pAHandle) = apakopen(cFile, text, &e);
-	
-	if(!(*pAHandle))
-	{
-		kprintf(1, "Unable to open archive %s", cFile);
 
-		switch(e)
-		{
-		case APAK_FILE_NOT_FOUND:
-			kprintf(1, "Reason: File not found");
-			break;
-		case APAK_UNABLE_TO_READ:
-			kprintf(1, "Reason: Unable to read from file");
-			break;
-		case APAK_VERSION_MISMATCH:
-			kprintf(1, "Reason: Version mismatch");
-			break;
-		case APAK_OUT_OF_MEMORY:
-			kprintf(1, "Reason: Out of memory");
-			break;
-		}
+  if (!(*pAHandle)) {
+    kprintf(1, "Unable to open archive %s", cFile);
 
-		assert(0);
+    switch (e) {
+      case APAK_FILE_NOT_FOUND:
+        kprintf(1, "Reason: File not found");
+        break;
+      case APAK_UNABLE_TO_READ:
+        kprintf(1, "Reason: Unable to read from file");
+        break;
+      case APAK_VERSION_MISMATCH:
+        kprintf(1, "Reason: Version mismatch");
+        break;
+      case APAK_OUT_OF_MEMORY:
+        kprintf(1, "Reason: Out of memory");
+        break;
+    }
+
+    assert(0);
     abort();
-	}
+  }
 
-	kprintf(1, "APAK: %s", cFile);
-	kprintf(1, "Velikost AFAT: %.1fKB", (*pAHandle)->FileHeader.apuISizeofFAT / 1000.0f);
-	kprintf(1, "Velikost Archivu: %.1fMB", (*pAHandle)->FileHeader.apuLSizeofPAK / 1000000.0f);
-	kprintf(1, "Souboru: %d", (*pAHandle)->FileHeader.apuICountofFiles);
-	kprintf(1, "Adresaru: %d", (*pAHandle)->FileHeader.apuICountofDirectiories);
-	kprintf(1, "Uzlu: %d", (*pAHandle)->FileHeader.apuICountofNodes);
+  kprintf(1, "APAK: %s", cFile);
+  kprintf(1, "Velikost AFAT: %.1fKB",
+    (*pAHandle)->FileHeader.apuISizeofFAT / 1000.0f);
+  kprintf(1, "Velikost Archivu: %.1fMB",
+    (*pAHandle)->FileHeader.apuLSizeofPAK / 1000000.0f);
+  kprintf(1, "Souboru: %d", (*pAHandle)->FileHeader.apuICountofFiles);
+  kprintf(1, "Adresaru: %d", (*pAHandle)->FileHeader.apuICountofDirectiories);
+  kprintf(1, "Uzlu: %d", (*pAHandle)->FileHeader.apuICountofNodes);
 
-	return 1;
+  return 1;
 }
 
 int gi_Get_Max_Resolution_Frequency(int xPels, int yPels, int Bits)
 {
-	int i=0, f=0;
+  int i = 0, f = 0;
+
 /*
 	DEVMODE dmSettings;
 	
@@ -103,12 +105,13 @@ int gi_Get_Max_Resolution_Frequency(int xPels, int yPels, int Bits)
 		i++;
 	}
 */
-	return f;
+  return f;
 }
 
 int gi_Get_Max_Resolution_Bpp(int xPels, int yPels)
 {
-	int i=0, f=0;
+  int i = 0, f = 0;
+
 /*
 	DEVMODE dmSettings;
 	
@@ -127,7 +130,7 @@ int gi_Get_Max_Resolution_Bpp(int xPels, int yPels)
 		i++;
 	}
 */
-	return f;
+  return f;
 }
 
 int gi_Change_Grafic_Test(int xPels, int yPels, int Bits, int freq)
@@ -182,7 +185,8 @@ int gi_Change_Grafic_Test(int xPels, int yPels, int Bits, int freq)
 
 int gi_Get_Max_Freq(int xPels, int yPels, int bpp)
 {
-	int i=0, f[100], c=0;
+  int i = 0, f[100], c = 0;
+
 /*
 	DEVMODE dmSettings;
 
@@ -225,7 +229,8 @@ int gi_Get_Max_Freq(int xPels, int yPels, int bpp)
 */
 }
 
-int gi_Change_Grafic_Mode(int xPels, int yPels, int Bits, int freq, DWORD dwflags)
+int gi_Change_Grafic_Mode(int xPels, int yPels, int Bits, int freq,
+  DWORD dwflags)
 {
 /*
 	long l;
@@ -278,6 +283,7 @@ int gi_Change_Grafic_Mode(int xPels, int yPels, int Bits, int freq, DWORD dwflag
 		return 1;
 */
 }
+
 /*
 int gi_EnumDisplaySettings(DEVMODE *pdevmode)
 {
@@ -285,7 +291,7 @@ int gi_EnumDisplaySettings(DEVMODE *pdevmode)
 }
 */
 
-void gi_APAK_Load(unsigned long mem, struct _finddata_t* pData)
+void gi_APAK_Load(unsigned long mem, struct _finddata_t *pData)
 {
 /*
 	char *pMem;

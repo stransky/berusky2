@@ -4,33 +4,36 @@
 
 #include "3d_all.h"
 
-void glDefaultFunkce(void) { }
+void glDefaultFunkce(void)
+{
+}
 
-int  extlist_multitexture;
-int  extlist_blend_color;
-int  extlist_blend_minmax;
-int  extlist_fog_coord;
-int  extlist_secondary_color;
-int  extlist_fence;
-int  extlist_register_combiners;
-int  extlist_text_compresion;
-int  extlist_text_sharp;
-int  extlist_text_edge_clamp;
-int  extlist_text_env_combine;
-int  extlist_text_env_dot3;
-int  extlist_text_filter_anisotropic;
-int  extlist_vertex_array_range;
-int  extlist_vertex_array;
-int  extlist_indicie_array;
-int  extlist_vertex_array_packed;
-int  extlist_clip_volume_hit;
-int  extlist_ati_env_bump;
-int  extlist_ati_env_bump_unit[6];
-int  extlist_ati_vertex_array_object;
-int  extlist_ati_element_array;
-int  extlist_ati_pn_triangles;
-int  extlist_arb_vertex_buffer;
-int  extlist_ati_draw_buffers;
+int extlist_multitexture;
+int extlist_blend_color;
+int extlist_blend_minmax;
+int extlist_fog_coord;
+int extlist_secondary_color;
+int extlist_fence;
+int extlist_register_combiners;
+int extlist_text_compresion;
+int extlist_text_sharp;
+int extlist_text_edge_clamp;
+int extlist_text_env_combine;
+int extlist_text_env_dot3;
+int extlist_text_filter_anisotropic;
+int extlist_vertex_array_range;
+int extlist_vertex_array;
+int extlist_indicie_array;
+int extlist_vertex_array_packed;
+int extlist_clip_volume_hit;
+int extlist_ati_env_bump;
+int extlist_ati_env_bump_unit[6];
+int extlist_ati_vertex_array_object;
+int extlist_ati_element_array;
+int extlist_ati_pn_triangles;
+int extlist_arb_vertex_buffer;
+int extlist_ati_draw_buffers;
+
 /*
 void (APIENTRY * glBlendColor) (GLclampf, GLclampf, GLclampf, GLclampf);
 void (APIENTRY * glBlendEquation) (GLenum);
@@ -1110,7 +1113,7 @@ int gl_init_extension(HW_KONFIG *p_hwconf)
   extlist_vertex_array_packed = gl_init_vertex_array_packed(p_hwconf);
   extlist_ati_pn_triangles = gl_init_ati_pn_triangles(p_hwconf);
   extlist_ati_draw_buffers = gl_init_ati_draw_buffers(p_hwconf);  
-*/  
+*/
 /*
   if(hwconf.vertex_arrays) {
     extlist_ati_vertex_array_object = gl_init_vertex_array_object(p_hwconf);

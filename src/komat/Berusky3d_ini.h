@@ -9,13 +9,14 @@ extern dword system_timer;
 extern dword system_kurzor;
 extern dword obsluha_okna;
 extern dword play_demo;
-extern char  ini_file[300];
-extern int   mouse_move;
+extern char ini_file[300];
+extern int mouse_move;
 
 void konec(int konec);
-int  spracuj_spravy(int param);
+int spracuj_spravy(int param);
+
 //void nastav_okno(HW_KONFIG *p_conf, int menu);
-int  nahraj_konfig(void);
+int nahraj_konfig(void);
 
 void minimalizuj_hru(void);
 void maximalizuj_hru(void);

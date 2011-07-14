@@ -13,55 +13,55 @@
 
 const int NUM_OF_BITMAPS = 700;
 
-static _2D_DATA		_2dd;
+static _2D_DATA _2dd;
 
-extern APAK_HANDLE		*pBmpArchive;
-extern int				iWinVer;
-extern int				iActualScene;
+extern APAK_HANDLE *pBmpArchive;
+extern int iWinVer;
+extern int iActualScene;
 
 //#pragma comment(lib,"msimg32.lib")
 
 //HMODULE g_hMSIModule = NULL; 
 //LPTRANSPARENTBLT g_pTransparentBlt = NULL; 
 
-extern char			CurrentWorkingDirectory[256];
+extern char CurrentWorkingDirectory[256];
 
 //------------------------------------------------------------------------------------------------
 // init 2d
 //------------------------------------------------------------------------------------------------
 int _2d_Init(void)
 {
-	int i;
+  int i;
 
-	kprintf(1,"Kofola - init bitmap -");
+  kprintf(1, "Kofola - init bitmap -");
 
-	_2dd.bm_count = NUM_OF_BITMAPS;
-	//_2dd.hDC = GetDC(hwnd_hry);
+  _2dd.bm_count = NUM_OF_BITMAPS;
+  //_2dd.hDC = GetDC(hwnd_hry);
 
-	//kprintf(1,"GetDC() returned %d", GetLastError());
+  //kprintf(1,"GetDC() returned %d", GetLastError());
 
-	//_2dd.hWnd = hwnd_hry;
+  //_2dd.hWnd = hwnd_hry;
 /*
 	if(!_2dd.hDC)
 		kprintf(1,"Nepodarilo se nacist DC");
 */
-	_2dd.bitmap = (BITMAPSTRUCT *) malloc((_2dd.bm_count) * sizeof(BITMAPSTRUCT));		
-	if (!_2dd.bitmap)
-	{
-		//MessageBox(hWnd,"Unable to allocate memory for bitmaps","Error",MB_OK);
-		kprintf(1,"Unable to allocate memory for bitmaps");
-		return 0;
-	}
-	
-	for(i=0;i<_2dd.bm_count;i++)
-	{
-		//_2dd.bitmap[i].bitmapDC = NULL;
-		_2dd.bitmap[i].bLoad = 0;
-	}
+  _2dd.bitmap =
+    (BITMAPSTRUCT *) malloc((_2dd.bm_count) * sizeof(BITMAPSTRUCT));
+  if (!_2dd.bitmap) {
+    //MessageBox(hWnd,"Unable to allocate memory for bitmaps","Error",MB_OK);
+    kprintf(1, "Unable to allocate memory for bitmaps");
+    return 0;
+  }
 
-	GetPrivateProfileString("game","bitmap_dir","c:\\",_2dd.bm_dir,256,ini_file);
-  working_file_translate(_2dd.bm_dir,256);
-	return 1;
+  for (i = 0; i < _2dd.bm_count; i++) {
+    //_2dd.bitmap[i].bitmapDC = NULL;
+    _2dd.bitmap[i].bLoad = 0;
+  }
+
+  GetPrivateProfileString("game", "bitmap_dir", "c:\\", _2dd.bm_dir, 256,
+    ini_file);
+  working_file_translate(_2dd.bm_dir, 256);
+  return 1;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -106,13 +106,13 @@ void _2d_Release(void)
 //------------------------------------------------------------------------------------------------
 int _2d_Find_Free_Surface(void)
 {
-	int i;
+  int i;
 
-	for(i=0;i<_2dd.bm_count;i++)
-		if(!_2dd.bitmap[i].bLoad)
-			return i;
+  for (i = 0; i < _2dd.bm_count; i++)
+    if (!_2dd.bitmap[i].bLoad)
+      return i;
 
-	return -1;
+  return -1;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -120,13 +120,13 @@ int _2d_Find_Free_Surface(void)
 //------------------------------------------------------------------------------------------------
 int _2d_Load_Bitmap(char *p_File_Name)
 {
-	//HBITMAP hbitmap;
-	int		pointer;
+  //HBITMAP hbitmap;
+  int pointer;
 
-	pointer = _2d_Find_Free_Surface();
+  pointer = _2d_Find_Free_Surface();
 
-	if(pointer == -1)
-		return -1;
+  if (pointer == -1)
+    return -1;
 /* TODO
 	_2dd.bitmap[pointer].hbitmap = (HBITMAP)LoadImage(hinst,p_File_Name,IMAGE_BITMAP,0,0,LR_LOADFROMFILE);
 	
@@ -153,9 +153,9 @@ int _2d_Load_Bitmap(char *p_File_Name)
 	DeleteObject(hbitmap);	
 */
 
-	_2dd.bitmap[pointer].bLoad = 1;
+  _2dd.bitmap[pointer].bLoad = 1;
 
-	return pointer;
+  return pointer;
 }
 
 /*int _2d_APAK_Load_Bitmap(char *p_File_Name, char bSeek)
@@ -331,7 +331,7 @@ int _2d_Load_Bitmap(char *p_File_Name)
 }
 */
 
-int _2d_APAK_Load_Bitmap(char *p_File_Name, APAK_HANDLE *pHandle)
+int _2d_APAK_Load_Bitmap(char *p_File_Name, APAK_HANDLE * pHandle)
 {
 /*
 	long				size;
@@ -412,7 +412,7 @@ int _2d_APAK_Load_Bitmap(char *p_File_Name, APAK_HANDLE *pHandle)
 			  DIB_RGB_COLORS);
 
 	free((void *) pBmp);
-*/	
+*/
 /*	if(!DeleteObject(hDIB))
 		kprintf(1,"!DeleteObject(hDIB) v _2d_APAK_Load_Bitmap");*/
 /*
@@ -422,7 +422,7 @@ int _2d_APAK_Load_Bitmap(char *p_File_Name, APAK_HANDLE *pHandle)
 	_2dd.bitmap[pointer].bLoad = 1;
   
 	return pointer;
-*/	
+*/
 }
 
 
@@ -521,7 +521,7 @@ int _2d_Release_Bitmap(int pointer)
 		_2dd.bitmap[pointer].bitmapDC = NULL;
 	}
 */
-	return 1;
+  return 1;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -529,80 +529,73 @@ int _2d_Release_Bitmap(int pointer)
 //------------------------------------------------------------------------------------------------
 int _2d_Load_List(char *p_File_Name)
 {
-	char	text[256];
-	FILE	*file = 0;
+  char text[256];
+  FILE *file = 0;
 
-	chdir((_2dd.bm_dir));
+  chdir((_2dd.bm_dir));
 
-	file = fopen(p_File_Name,"r");
+  file = fopen(p_File_Name, "r");
 
-	kprintf(1,"Kofola: - Load bitmap pro herni menu");
+  kprintf(1, "Kofola: - Load bitmap pro herni menu");
 
-	if(!file)
-	{
-		//MessageBox(_3dd.hWnd,"File not found","Error",MB_OK);
-		kprintf(1,"File not found : %s",p_File_Name);
-		return 0;
-	}
-	else
-	{
-		while(!feof(file))
-		{
-			fgets(text,256,file);
-			if(!feof(file))
-			{
-				text[strlen(text)-1] = '\0';
-				_2d_Load_Bitmap(text);
-				//kprintf(1,"Bitmap %s loaded.",text);
-			}
-		}
-		fclose(file);
+  if (!file) {
+    //MessageBox(_3dd.hWnd,"File not found","Error",MB_OK);
+    kprintf(1, "File not found : %s", p_File_Name);
+    return 0;
+  }
+  else {
+    while (!feof(file)) {
+      fgets(text, 256, file);
+      if (!feof(file)) {
+        text[strlen(text) - 1] = '\0';
+        _2d_Load_Bitmap(text);
+        //kprintf(1,"Bitmap %s loaded.",text);
+      }
+    }
+    fclose(file);
 
-		return 1;
-	}
+    return 1;
+  }
 }
 
 int _2d_APAK_Load_List(char *p_File_Name)
 {
-	char	text[256];
-	FILE	*file = 0;
-	DWORD	Eplased = 0;
-	DWORD	Start, Stop;
+  char text[256];
+  FILE *file = 0;
+  DWORD Eplased = 0;
+  DWORD Start, Stop;
 
-	achdir(pBmpArchive, _2dd.bm_dir);
+  achdir(pBmpArchive, _2dd.bm_dir);
 
-	file = aopen(pBmpArchive, p_File_Name,"rb");
+  file = aopen(pBmpArchive, p_File_Name, "rb");
 
-	kprintf(1,"Kofola: - Load bitmap pro herni menu");
+  kprintf(1, "Kofola: - Load bitmap pro herni menu");
 
-	if(!file)
-	{
-		//MessageBox(_3dd.hWnd,"File not found","Error",MB_OK);
-		kprintf(1,"File not found : %s",p_File_Name);
-		return 0;
-	}
-	else
-	{
-		Start = timeGetTime();
+  if (!file) {
+    //MessageBox(_3dd.hWnd,"File not found","Error",MB_OK);
+    kprintf(1, "File not found : %s", p_File_Name);
+    return 0;
+  }
+  else {
+    Start = timeGetTime();
 
-		while(!aeof(file))
-		{
-			agets(text,256,file);
-			if(!aeof(file))
-			{
-				text[strlen(text)-1] = '\0';
-				_2d_APAK_Load_Bitmap(text, pBmpArchive);
-				//kprintf(1,"Bitmap %s loaded.",text);
-			}
-		}
-		
-		aclose(file);
+    while (!aeof(file)) {
+      agets(text, 256, file);
+      if (!aeof(file)) {
+        text[strlen(text) - 1] = '\0';
+        _2d_APAK_Load_Bitmap(text, pBmpArchive);
+        //kprintf(1,"Bitmap %s loaded.",text);
+      }
+    }
 
-		Stop = timeGetTime();
-		kprintf(1, "--------------Total load time %.1f s -----------------", Eplased / 1000.0f);
-	
-		return 1;
-	}
+    aclose(file);
+
+    Stop = timeGetTime();
+    kprintf(1, "--------------Total load time %.1f s -----------------",
+      Eplased / 1000.0f);
+
+    return 1;
+  }
 
 /*	DWORD	Eplased = 0;
 	DWORD	Start, Stop;
@@ -708,48 +701,47 @@ int _2d_APAK_Load_List(char *p_File_Name)
 
 void _2d_Draw_Load_Screen(void)
 {
-	int i;
+  int i;
 
-	//schovej_konzoli();
-	
-	_2d_Init();
-	_2d_Blackness();
-	chdir((_2dd.bm_dir));
-	achdir(pBmpArchive, _2dd.bm_dir);
+  //schovej_konzoli();
 
-	if(iActualScene < 13)
-	{
-		char text[256];
+  _2d_Init();
+  _2d_Blackness();
+  chdir((_2dd.bm_dir));
+  achdir(pBmpArchive, _2dd.bm_dir);
 
-		sprintf(text, "scene%d.bmp", iActualScene);
+  if (iActualScene < 13) {
+    char text[256];
 
-		i = _2d_APAK_Load_Bitmap(text, pBmpArchive);
-	}
-	else
-		i = _2d_APAK_Load_Bitmap("LoadScreen.bmp", pBmpArchive);
+    sprintf(text, "scene%d.bmp", iActualScene);
+
+    i = _2d_APAK_Load_Bitmap(text, pBmpArchive);
+  }
+  else
+    i = _2d_APAK_Load_Bitmap("LoadScreen.bmp", pBmpArchive);
 /*
 	SetStretchBltMode(_2dd.hDC, HALFTONE);
 	//SetBrushOrgEx(_2dd.hDC, 0, 0, NULL);
 	StretchBlt(_2dd.hDC, 0, 0, hwconf.xres, hwconf.yres, _2dd.bitmap[i].bitmapDC,0,0,1024, 768, SRCCOPY);
 */
-	_2d_Release_Bitmap(i);
-	//_2dd.ProgressBmp = _2d_Load_Bitmap("LoadScreen3.bmp");
+  _2d_Release_Bitmap(i);
+  //_2dd.ProgressBmp = _2d_Load_Bitmap("LoadScreen3.bmp");
 
-	//_2d_Release();
+  //_2d_Release();
 }
 
 void _2d_Init_Load_Progress_Bar(int iNumOfItems)
 {
-	_2dd.ProgressStatus = 0;
-	_2dd.ProgressPlus = 100.0f / (float)iNumOfItems;
+  _2dd.ProgressStatus = 0;
+  _2dd.ProgressPlus = 100.0f / (float) iNumOfItems;
 }
 
 void _2d_Add_Progress(float fPercent)
 {
-	if(fPercent >= 0)
-		_2dd.ProgressStatus += fPercent;
-	else
-		_2dd.ProgressStatus += _2dd.ProgressPlus;
+  if (fPercent >= 0)
+    _2dd.ProgressStatus += fPercent;
+  else
+    _2dd.ProgressStatus += _2dd.ProgressPlus;
 }
 
 void _2d_Draw_Progress(int x, int y)
@@ -795,67 +787,65 @@ void _2d_Draw_Progress(int x, int y)
 
 void _2d_Release_Progress(void)
 {
-	_2d_Release();
+  _2d_Release();
 }
 
 void _2d_Blackness(void)
 {
-	//BitBlt(_2dd.hDC, 0, 0, hwconf.xres, hwconf.yres, NULL, 0, 0, BLACKNESS);
+  //BitBlt(_2dd.hDC, 0, 0, hwconf.xres, hwconf.yres, NULL, 0, 0, BLACKNESS);
 }
 
 
-void _2d_Clear_RectLine(RECT_LINE *p_rl)
+void _2d_Clear_RectLine(RECT_LINE * p_rl)
 {
-	memset(p_rl, 0, sizeof(RECT_LINE));
-	p_rl->rlast = 0;
+  memset(p_rl, 0, sizeof(RECT_LINE));
+  p_rl->rlast = 0;
 }
 
-int _2d_Is_InRectLine(RECT *rline, RECT *p_r, int size)
+int _2d_Is_InRectLine(RECT * rline, RECT * p_r, int size)
 {
-	int i;
+  int i;
 
-	for(i=0;i<size;i++)
-		if(rline[i].bottom == p_r->bottom &&
-		   rline[i].left == p_r->left &&
-		   rline[i].right == p_r->right &&
-		   rline[i].top == p_r->top)
-		   return 1;
+  for (i = 0; i < size; i++)
+    if (rline[i].bottom == p_r->bottom &&
+      rline[i].left == p_r->left &&
+      rline[i].right == p_r->right && rline[i].top == p_r->top)
+      return 1;
 
-	return 0;
+  return 0;
 }
 
-void _2d_Add_RectItem_IfNPresent(RECT_LINE *p_rl, RECT rect, int iLayer)
+void _2d_Add_RectItem_IfNPresent(RECT_LINE * p_rl, RECT rect, int iLayer)
 {
-	int i;
+  int i;
 
-	for(i=0;i<p_rl->rlast;i++)
-		if(p_rl->rect[i].rect.bottom == rect.bottom &&
-		   p_rl->rect[i].rect.left == rect.left &&
-		   p_rl->rect[i].rect.right == rect.right &&
-		   p_rl->rect[i].rect.top == rect.top)
-		   return;
+  for (i = 0; i < p_rl->rlast; i++)
+    if (p_rl->rect[i].rect.bottom == rect.bottom &&
+      p_rl->rect[i].rect.left == rect.left &&
+      p_rl->rect[i].rect.right == rect.right &&
+      p_rl->rect[i].rect.top == rect.top)
+      return;
 
-	if(p_rl->rlast < DRAW_RECT_NUM)
-	{
-		p_rl->rect[p_rl->rlast].rect = rect;
-		p_rl->rect[p_rl->rlast].iLayer = iLayer;
-		p_rl->rect[p_rl->rlast].bUsed = 1;
+  if (p_rl->rlast < DRAW_RECT_NUM) {
+    p_rl->rect[p_rl->rlast].rect = rect;
+    p_rl->rect[p_rl->rlast].iLayer = iLayer;
+    p_rl->rect[p_rl->rlast].bUsed = 1;
 
-		p_rl->rlast++;
-	}
+    p_rl->rlast++;
+  }
 }
 
-void _2d_Add_RectItem(RECT_LINE *p_rl, RECT rect, int iLayer)
+void _2d_Add_RectItem(RECT_LINE * p_rl, RECT rect, int iLayer)
 {
-	if(p_rl->rlast < DRAW_RECT_NUM)
-	{
-		p_rl->rect[p_rl->rlast].rect = rect;
-		p_rl->rect[p_rl->rlast].iLayer = iLayer;
-		p_rl->rect[p_rl->rlast].bUsed = 1;
+  if (p_rl->rlast < DRAW_RECT_NUM) {
+    p_rl->rect[p_rl->rlast].rect = rect;
+    p_rl->rect[p_rl->rlast].iLayer = iLayer;
+    p_rl->rect[p_rl->rlast].bUsed = 1;
 
-		p_rl->rlast++;
-	}
+    p_rl->rlast++;
+  }
 }
+
 /*
 BOOL TransparentBltU98(
      HDC dcDest,         // handle to Dest DC
@@ -1068,7 +1058,7 @@ int LoadTransparentBlt(void)
 		return 0;
 	}*/
 
-	return 1;
+  return 1;
 }
 
 void UnloadTransparentBlt(void)

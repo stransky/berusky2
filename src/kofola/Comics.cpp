@@ -8,25 +8,26 @@
 
 typedef struct
 {
-	int iPicture;
-	int	iTimeToNextPicture;
-	int	xPos;
-	int yPos;
+  int iPicture;
+  int iTimeToNextPicture;
+  int xPos;
+  int yPos;
 } COMICS_PICTURE;
 
 #define DARKEN_ADD  -200
 
 static char bCimicsEnd;
-static int  iActualBmp;
-static unsigned int	uiTimerID;
+static int iActualBmp;
+static unsigned int uiTimerID;
 static COMICS_PICTURE cmcs_Picture[64];
+
 /*static MCI_DGV_OPEN_PARMS		mciOpen;
 static MCI_DGV_WINDOW_PARMS		mciWindow; 
 static DWORD					wDeviceID = 0;
 static DWORD					wError;*/
 
-extern _2D_DATA			_2dd;
-extern APAK_HANDLE		*pBmpArchive;
+extern _2D_DATA _2dd;
+extern APAK_HANDLE *pBmpArchive;
 
 void cmcs_Draw(int iIndex, int xPos, int yPos)
 {
@@ -38,139 +39,139 @@ void cmcs_Draw(int iIndex, int xPos, int yPos)
 */
 }
 
-void cmcs_Read_Line(char *pLine, COMICS_PICTURE *pPicture)
+void cmcs_Read_Line(char *pLine, COMICS_PICTURE * pPicture)
 {
-	int p = 0;
-	char expression[MAX_PATH];
+  int p = 0;
+  char expression[MAX_PATH];
 
-	p = Find_Next_Expresion(pLine, p, expression);
-	pPicture->xPos = atoi(expression);
-	p = Find_Next_Expresion(pLine, p, expression);
-	pPicture->yPos = atoi(expression);
-	p = Find_Next_Expresion(pLine, p, expression);
-	pPicture->iTimeToNextPicture = atoi(expression);
+  p = Find_Next_Expresion(pLine, p, expression);
+  pPicture->xPos = atoi(expression);
+  p = Find_Next_Expresion(pLine, p, expression);
+  pPicture->yPos = atoi(expression);
+  p = Find_Next_Expresion(pLine, p, expression);
+  pPicture->iTimeToNextPicture = atoi(expression);
 }
 
 void cmcs_Next_Picture(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime)
 {
-	COMICS_PICTURE *pPicture = &cmcs_Picture[iActualBmp];
-  
+  COMICS_PICTURE *pPicture = &cmcs_Picture[iActualBmp];
+
   KillTimer(NULL, uiTimerID);
 
-	if(pPicture->iPicture == -1)
-	{
-		bCimicsEnd = 1;
-		return;
-	}
+  if (pPicture->iPicture == -1) {
+    bCimicsEnd = 1;
+    return;
+  }
 
-	if(!pPicture->iTimeToNextPicture)
-	{
-		cmcs_Draw(pPicture->iPicture, pPicture->xPos, pPicture->yPos);
+  if (!pPicture->iTimeToNextPicture) {
+    cmcs_Draw(pPicture->iPicture, pPicture->xPos, pPicture->yPos);
 
-		iActualBmp++;
-		pPicture = &cmcs_Picture[iActualBmp];
-	}
-	
-	cmcs_Draw(pPicture->iPicture, pPicture->xPos, pPicture->yPos);
-	
-  
-	uiTimerID = SetTimer(NULL, 0, pPicture->iTimeToNextPicture, (TIMERPROC)cmcs_Next_Picture);
+    iActualBmp++;
+    pPicture = &cmcs_Picture[iActualBmp];
+  }
 
-	iActualBmp++;
+  cmcs_Draw(pPicture->iPicture, pPicture->xPos, pPicture->yPos);
+
+
+  uiTimerID =
+    SetTimer(NULL, 0, pPicture->iTimeToNextPicture,
+    (TIMERPROC) cmcs_Next_Picture);
+
+  iActualBmp++;
 }
 
-void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA *p_ad, char bMusic)
+void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA * p_ad, char bMusic)
 {
-	int i;
-	char text[MAX_PATH] = "";
-	FILE *file;
+  int i;
+  char text[MAX_PATH] = "";
+  FILE *file;
 
-	bCimicsEnd = 0;
-	iActualBmp = 0;
+  bCimicsEnd = 0;
+  iActualBmp = 0;
 
-	file = fopen(cFile, "r");
+  file = fopen(cFile, "r");
 
-	if(!file)
-		return;
+  if (!file)
+    return;
 
-	_2d_Init();
+  _2d_Init();
 
-	for(i=0;i<64;i++)
-		cmcs_Picture[i].iPicture = -1;
+  for (i = 0; i < 64; i++)
+    cmcs_Picture[i].iPicture = -1;
 
-	chdir((_2dd.bm_dir));
+  chdir((_2dd.bm_dir));
 
-	while(strcmp(text,"LOAD_END"))
-	{
-		fgets(text,MAX_PATH,file);
-		text[strlen(text)-1] = '\0';
+  while (strcmp(text, "LOAD_END")) {
+    fgets(text, MAX_PATH, file);
+    text[strlen(text) - 1] = '\0';
 
-		if(!strcmp(text,"LOAD_END"))
-			break;
+    if (!strcmp(text, "LOAD_END"))
+      break;
 
-		i = _2d_APAK_Load_Bitmap(text, pBmpArchive);
-	}
+    i = _2d_APAK_Load_Bitmap(text, pBmpArchive);
+  }
 
-	i = 0;
+  i = 0;
 
-	while(strcmp(text,"COMICS_END"))
-	{
-		fgets(text,MAX_PATH,file);
-		text[strlen(text)-1] = '\0';
-		cmcs_Read_Line(text, &cmcs_Picture[i]);
-		cmcs_Picture[i].iPicture = i+1;
-		i++;
-	}
+  while (strcmp(text, "COMICS_END")) {
+    fgets(text, MAX_PATH, file);
+    text[strlen(text) - 1] = '\0';
+    cmcs_Read_Line(text, &cmcs_Picture[i]);
+    cmcs_Picture[i].iPicture = i + 1;
+    i++;
+  }
 
-	fclose(file);
+  fclose(file);
 /* TODO
 	if(bMusic)
 		if (p_ad->bAudio && p_ad->Music_Gain >= 0.05f)
 			ap_Setup_and_Play_Song(1,0, p_ad);
 */
-	cmcs_Draw(0, 0, 0);
+  cmcs_Draw(0, 0, 0);
 
 /*	if(bMusic)
 		if (p_ad->bAudio && p_ad->Music_Gain >= 0.05f)
 			adas_OGG_Play_Stream();*/
 
-	cmcs_Draw(cmcs_Picture[0].iPicture, cmcs_Picture[0].xPos, cmcs_Picture[0].yPos);
+  cmcs_Draw(cmcs_Picture[0].iPicture, cmcs_Picture[0].xPos,
+    cmcs_Picture[0].yPos);
 
-	uiTimerID = SetTimer(NULL, 0, (UINT)cmcs_Picture[0].iTimeToNextPicture, (TIMERPROC)cmcs_Next_Picture);
-	
-	iActualBmp++;
+  uiTimerID =
+    SetTimer(NULL, 0, (UINT) cmcs_Picture[0].iTimeToNextPicture,
+    (TIMERPROC) cmcs_Next_Picture);
 
-	while(!bCimicsEnd)
-	{
-		spracuj_spravy(0);
-		if(key[K_ESC])
-		{
-			key[K_ESC] = 0;
-			bCimicsEnd = 1;
-		}
+  iActualBmp++;
 
-		Sleep(10);
-	}
+  while (!bCimicsEnd) {
+    spracuj_spravy(0);
+    if (key[K_ESC]) {
+      key[K_ESC] = 0;
+      bCimicsEnd = 1;
+    }
+
+    Sleep(10);
+  }
 
 /* TODO
 	if(bMusic)
 		if(ogg_playing())
 			ap_Stop_Song(p_ad);
 */
-	KillTimer(NULL, uiTimerID);
+  KillTimer(NULL, uiTimerID);
 
-	_2d_Release();
+  _2d_Release();
 }
 
-void cmcs_Play_Intro(char *cFile, HWND hWnd, AUDIO_DATA *p_ad)
+void cmcs_Play_Intro(char *cFile, HWND hWnd, AUDIO_DATA * p_ad)
 {
-	char dir[MAX_PATH];
+  char dir[MAX_PATH];
 
-	GetPrivateProfileString("game","data_dir","c:\\",dir,MAX_PATH,ini_file);
+  GetPrivateProfileString("game", "data_dir", "c:\\", dir, MAX_PATH,
+    ini_file);
   working_file_translate(dir, MAX_PATH);
-	chdir((dir));
+  chdir((dir));
 
-	cmcs_Start_Comics("gamelogo.txt", hWnd, p_ad, 0);
+  cmcs_Start_Comics("gamelogo.txt", hWnd, p_ad, 0);
 }
 
 /*DWORD cmcs_Play_Movie(DWORD wDevID, DWORD dwFrom, DWORD dwTo) 
@@ -231,7 +232,7 @@ void cmcs_Game_Up(void)
 */
 }
 
-void cmcs_Play_Video(char *pFile, long dwVideoTime, AUDIO_DATA *p_ad)
+void cmcs_Play_Video(char *pFile, long dwVideoTime, AUDIO_DATA * p_ad)
 {
 /*
 	int done = 0;
@@ -290,33 +291,31 @@ void cmcs_Play_Video(char *pFile, long dwVideoTime, AUDIO_DATA *p_ad)
 */
 }
 
-void cmcs_Start_Picture(int Index, long time, AUDIO_DATA *p_ad, char bMusic)
+void cmcs_Start_Picture(int Index, long time, AUDIO_DATA * p_ad, char bMusic)
 {
-	long timecnt = 0;
-	char bCimicsEnd = 0;
+  long timecnt = 0;
+  char bCimicsEnd = 0;
 
-	cmcs_Draw(Index, 0, 0);
+  cmcs_Draw(Index, 0, 0);
 
 /*	if(bMusic)
 		if (p_ad->bAudio && p_ad->Music_Gain >= 0.05f)
 			adas_OGG_Play_Stream();*/
 
-	while(!bCimicsEnd)
-	{
-		spracuj_spravy(0);
-		if(key[K_ESC])
-		{
-			key[K_ESC] = 0;
-			bCimicsEnd = 1;
-		}
+  while (!bCimicsEnd) {
+    spracuj_spravy(0);
+    if (key[K_ESC]) {
+      key[K_ESC] = 0;
+      bCimicsEnd = 1;
+    }
 
-		Sleep(10);
+    Sleep(10);
 
-		timecnt+=10;
+    timecnt += 10;
 
-		if(timecnt > time)
-			bCimicsEnd = 1;
-	}
+    if (timecnt > time)
+      bCimicsEnd = 1;
+  }
 /* TODO
 	if(bMusic)
 		if(ogg_playing())

@@ -1,15 +1,16 @@
 /* Strip interface :-(((
    Skurvena NVIDA a to jeji posrany c++
-*/
-
+*/  
+  
 //#include "mss_on.h"
 #include "strip.h"
 #include "assert.h"
 #include "mmalloc.h"
-
-extern "C" int NvGenerateStrips(unsigned short *p_in_indices, unsigned int   in_numIndices,
-                     STRIP_FACE     **p_facer, unsigned short *p_facenum)
+extern "C" int NvGenerateStrips(unsigned short *p_in_indices,
+  unsigned int in_numIndices, STRIP_FACE ** p_facer,
+  unsigned short *p_facenum) 
 {
+  
 /*
   STRIP_FACE     *p_face;
   PrimitiveGroup *p_primGroups;
@@ -41,6 +42,6 @@ extern "C" int NvGenerateStrips(unsigned short *p_in_indices, unsigned int   in_
   *p_facenum = numGroups;
 
   delete[] p_primGroups;
-*/
-  return(1);
-}
+*/ 
+    return (1);
+}
