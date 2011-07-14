@@ -120,6 +120,12 @@ unsigned int timeGetTime(void);
 extern RECT_LINE rline;
 extern RECT	rDrawRect[DRAW_RECT_NUM];
 
+
+//------------------------------------------------------------------------------------------------
+// Draw all
+//------------------------------------------------------------------------------------------------
+void ddxPublish(void);
+
 //-----------------------------------------------------------------------------
 // Name: DisplayFrame()
 // Desc: Blts a the sprites to the back buffer, then flips the 
@@ -244,6 +250,9 @@ void ddxSaveSurface(int idx);
 void ddxCleareSurfaceColorDisplay(COLORREF color);
 
 int ddxGetMode(void);
+
+void InitDirectDraw( HWND hWnd , int x, int y, int bpp);
+void FreeDirectDraw();
 
 char MenuCheckBossExit(void);
 

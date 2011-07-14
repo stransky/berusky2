@@ -331,65 +331,59 @@ void AnimationEvent(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime, AUDIO_DATA
 			for(i=0;i<rline.rlast;i++)
 			{
 				dr = &rline.rect[i];
-
-				ddxTransparentBlt(BackDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
-							      FontDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
+				ddxTransparentBlt(BackDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom,
+							      FontDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom,
 							      TRANSCOLOR);
 			}
 
 			for(i=0;i<rline.rlast;i++)
 			{
 				dr = &rline.rect[i];
-
 				ddxTransparentBlt(CompositDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom,
-							    BackDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
+							    BackDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom,
 							    TRANSCOLOR);
 			}
 		}
-		else
+		else {
 			for(i=0;i<rline.rlast;i++)
 			{
 				dr = &rline.rect[i];
-      
-				ddxTransparentBlt(CompositDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
-							      FontDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
+				ddxTransparentBlt(CompositDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom,
+							      FontDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom,
 							      TRANSCOLOR);
-
 			}
+    }
 
-			ddxSetFlip(0);
+    ddxSetFlip(0);
 
-			for(j=0;j<2;j++)
-			{
-				for(i=0;i<rline.rlast;i++)
-				{
-					dr = &rline.rect[i];
+    for(i=0;i<rline.rlast;i++)
+    {
+      dr = &rline.rect[i];
+      ddxTransparentBltDisplay(dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
+                   CompositDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
+                   TRANSCOLOR);
 
-					ddxTransparentBltDisplay(dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
-											 CompositDC, dr->rect.left,  dr->rect.top,  dr->rect.right, dr->rect.bottom, 
-											 TRANSCOLOR);
+    }
 
-				}
+    ddxUpdateMouse();
 
-				ddxUpdateMouse();
+    DisplayFrame();
 
-				if(!j)
-					DisplayFrame();
+    ddxSetFlip(1);
 
-			}
-
-			ddxSetFlip(1);
-
-			bAnim = 1;
+    bAnim = 1;
 	}
 	
 	timercntframe += e;
 
+/* TODO -> WTF?
+   TODO -> simple blit, not flip
 	if(!bAnim && (dim.dx || dim.dy) && timercntframe > 9)
 	{
 		timercntframe = 0;
 		DisplayFrame();
 	}
+*/
 
 	dwLTime = dwTime;
 	timercnt+=e;
@@ -820,7 +814,7 @@ int RunLevel(HWND hWnd, AUDIO_DATA *p_ad, int cpu, char *lvl, char *env)
 	Sleep(1000);
 
 	ddxRelease();
-	//FreeDirectDraw();
+	FreeDirectDraw();
 
 	ShowCursor(FALSE);
 	
@@ -883,7 +877,7 @@ int RunLevel(HWND hWnd, AUDIO_DATA *p_ad, int cpu, char *lvl, char *env)
 	ddxInit();
 	spracuj_spravy(0);
 	kprintf(1, "InitDirectDraw");
-	//InitDirectDraw(NULL, 1024, 768, GetPrivateProfileInt("hra", "menu_bpp", 16, ini_file));
+	InitDirectDraw(NULL, 1024, 768, GetPrivateProfileInt("hra", "menu_bpp", 16, ini_file));
 	spracuj_spravy(0);
 	kprintf(1, "ddxLoadList");
 	ddxLoadList("2d_load.dat", 0);
@@ -6735,7 +6729,7 @@ void RunMenu(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 {
 	DWORD	dwEplased = 0, dwStart, dwStop;
 
-	char    bStop = 1;
+	char  bStop = 1;
 	char	dir[256];
 	int		lastcmd, lastanm, i, j;
 	CMD_LINE	*res = NULL;
@@ -6743,7 +6737,7 @@ void RunMenu(char *p_File_Name, HWND hWnd, AUDIO_DATA *p_ad, int cpu)
 	char	in, click = 0;
 	int		anmid = -1, resid = -1, anbind = -1;
 	int		bind;
-	int		cStartCount = 0;
+	int		cStartCount = 1; // TODO -> 0
 
 
 	res = (CMD_LINE *) malloc(RES_NUM * sizeof(CMD_LINE));
@@ -6868,7 +6862,7 @@ BEGIN_MENU:
 		{
 			int iWave = AddAnimation(&res[i], p_ad, 0, 0);
 
-			//kprintf(1, "COM_RUNANIMATION = %d, iWAVE = %d", i, iWave);
+			kprintf(1, "COM_RUNANIMATION = %d, iWAVE = %d", i, iWave);
 
 			if(iWave != -1)
 			{
@@ -6921,7 +6915,7 @@ BEGIN_MENU:
 	resid = -1;
 	anbind = -1;
 	bind = -1;
-	lastabv = -1;
+	lastabv = -1; // posledni animace -> co bezi?
 	in = 0;
 	bStop = 1;
 	spracuj_spravy(0);
@@ -6935,7 +6929,7 @@ BEGIN_MENU:
 		//pohnul mysi
 		if(dim.dx || dim.dy)
 		{
-			//dostala se mys do akcni oblasti (OnAbove)?
+      //dostala se mys do akcni oblasti (OnAbove)?
 			if(!click)
 			for(i=0;i<lastcmd;i++)
 			if(res[i].iParam[0] == COM_ONABOVE)
@@ -6948,17 +6942,24 @@ BEGIN_MENU:
 					//spusteni animace v OnAbove
 					if(i != lastabv)
 					{
+            kprintf(1,"**** On above, start animace - res[%d] ****",i);            
 						if(in)
 						{
+              // There's already running one - stop it
+              kprintf(1,"**** Stopping %d ****",lastabv);
+            
 							Stop(&res[lastabv]);
 
+              // Draw frame 0 -> clear the animation from screen
 							if(!res[lastabv].iLayer)
 							{
+                kprintf(1,"    Clearing from screen");
 								ddxDrawSurface(CompositDC, res[lastabv].iAnim[0], 3);
 								ddxDrawDisplay(res[lastabv].iAnim[0], 0);
 							}
 							else
 							{
+                kprintf(1,"    Clearing from FontDC");
 								ddxDrawDisplayColorKey(res[lastabv].iAnim[0], 0, TRANSCOLOR);
 								ddxDrawSurface(FontDC, res[lastabv].iAnim[0], 3);
 								//menucommand_DrawT(_2dd.hDC, res[lastabv].iAnim[0]);
@@ -6968,11 +6969,12 @@ BEGIN_MENU:
 
 						CheckAnimation(&res[i], p_ad);
 
-						lastabv = i;
+						lastabv = i; // set last animation
 						AddAnimation(&res[i], p_ad, 0, 1);
 						in = 1;
 
 						bind = ChooseBidedAnimation(res, i+1, p_ad);
+            kprintf(1,"**** bind = %d",bind);
 
 						if(bind != -1)
 						{
@@ -6991,6 +6993,8 @@ BEGIN_MENU:
 					{
 						// odesel z oblasti, ktera byla aktivni -> stop animace					
 						// a odznaceni oblasti
+            kprintf(1,"**** Stop animace,lastabv = %d",lastabv);
+          
 						Stop(&res[i]);
 
 						if(!res[i].iLayer)
@@ -7051,6 +7055,8 @@ BEGIN_MENU:
 		//stlacil leve tlacitko
 		if(dim.t1 && !click)
 		{
+      kprintf(1,"**** Click on ****, lastcmd = %d, dim.x = %d, dim.y = %d",lastcmd,dim.x,dim.y);
+        
 			//dostala se mys do akcni oblasti (OnClick)?
 			for(i=0;i<lastcmd;i++)
 			if(res[i].iParam[0] == COM_ONCLICK)

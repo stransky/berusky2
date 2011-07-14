@@ -12819,8 +12819,8 @@ void gl_Kofola_End(int DirectX)
 	}
 	else
 	{
-		//ddxRelease();
-		//FreeDirectDraw();
+		ddxRelease();
+		FreeDirectDraw();
 	}
 
 	kprintf(1, "apakclose pGDataArchive");

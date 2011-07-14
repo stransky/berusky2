@@ -119,9 +119,10 @@ int DisplayFrame()
   
   
   g_pDisplay->Blt(g_pDisplay->GetCursorX(i_Act), g_pDisplay->GetCursorY(i_Act), ddx.surface[i_Cursor[i_Act]].g_pSurface, &r);
-  
+    
   return S_OK;
   */
+  ddxPublish();
 }
 
 void ddxSetCursorSurface(int iSurface)
@@ -261,8 +262,7 @@ void ddxDrawDisplayColorKey(int *com, int layer, COLORREF color)
 }
 void ddxDrawDisplay(int *com, int layer)
 {
-  ddx2DrawDisplay(com, layer);
-  ddxPublish();
+  ddx2DrawDisplay(com, layer);  
 }
 void ddxDrawSurface(int iSurface, int *com, int layer)
 {
@@ -302,7 +302,6 @@ BOOL ddxTransparentBlt(
                 nWidthSrc,
                 nHeightSrc,
                 crTransparent);
-  ddxPublish();
   return(ret);
 }
 
@@ -330,7 +329,6 @@ BOOL ddxTransparentBltDisplay(
                 nWidthSrc,
                 nHeightSrc,
                 crTransparent);
-  ddxPublish();
   return(ret);
 }
 
@@ -374,7 +372,6 @@ BOOL ddxBitBltDisplay(
                 dcSrcSurface,
                 nXOriginSrc,
                 nYOriginSrc);
-  ddxPublish();
   return(ret);
 }
 
@@ -402,7 +399,6 @@ void ddxFillRect(int iSurface, RECT *rect, COLORREF color)
 void ddxFillRectDisplay(RECT *rect, COLORREF color)
 {
   ddx2FillRect(DDX2_BACK_BUFFER, rect, color);
-  ddxPublish();
 }
 void ddxAddRectItem(void *p_rl, RECT rect, int iLayer)
 {
@@ -429,6 +425,7 @@ int ddxUpdateMouse(void)
 	dim.rx = mi.x - start_x;
 	dim.ry = mi.y - start_y;
 
+/* TODO?
 	if(dim.x < dim.x_min)
 		dim.x = dim.x_min;
 	else
@@ -440,7 +437,7 @@ int ddxUpdateMouse(void)
 	else
 		if(dim.y > dim.y_max)
 			dim.y = dim.y_max;
-
+*/
 
 	dim.t1 = dim.dt1 = mi.t1;
 	dim.t2 = dim.dt2 = mi.t2;
@@ -527,7 +524,9 @@ BOOL ddxRestore(int *p_CompositDC, int *p_FontDC, int *p_BackDC, int *p_iComposi
 						//ddx.surface[i].bLoad = 0;
 					}
         }
-
+*/
+        assert(0);
+      
 				ddxLoadList("2d_load.dat", 0);
 				*p_iCompositDC = ddxFindFreeSurface();
 				*p_CompositDC = ddxCreateSurface(1024, 768, *p_iCompositDC);
@@ -537,7 +536,7 @@ BOOL ddxRestore(int *p_CompositDC, int *p_FontDC, int *p_BackDC, int *p_iComposi
 				*p_BackDC = ddxCreateSurface(1024, 768, *p_iBackDC);
 
 				*p_cBrutalRestart = 1;
-*/
+
 				SetCursor(FALSE);
 				ddxSetFlip(TRUE);
 				ddxSetCursor(TRUE);
@@ -590,6 +589,16 @@ void ddxCleareSurfaceColorDisplay(COLORREF color)
 int ddxGetMode(void)
 {
   return(TRUE);
+}
+
+void InitDirectDraw( HWND hWnd , int x, int y, int bpp)
+{
+	bDXAktivni = 1;
+}
+
+void FreeDirectDraw()
+{
+	bDXAktivni = 0;
 }
 
 int ogg_playing(void)

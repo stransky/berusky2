@@ -348,7 +348,7 @@ extern "C" HRESULT ddxUpdateMouse(VOID)
 	
 	dim.rx = mi.x - start_x;
 	dim.ry = mi.y - start_y;
-
+/*
 	if(dim.x < dim.x_min)
 		dim.x = dim.x_min;
 	else
@@ -360,7 +360,7 @@ extern "C" HRESULT ddxUpdateMouse(VOID)
 	else
 		if(dim.y > dim.y_max)
 			dim.y = dim.y_max;
-
+*/
 
 	dim.t1 = dim.dt1 = mi.t1;
 	dim.t2 = dim.dt2 = mi.t2;

@@ -29,6 +29,6 @@ typedef struct _LIST_ITEM_
 	long				timespamp;
 } LIST_ITEM_;
 
-	int FillStringList(char *cmask, LIST_ITEM_ **list, int *isize);
+int FillStringList(char *cmask, LIST_ITEM_ **list, int *isize);
 
 #endif

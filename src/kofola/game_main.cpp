@@ -308,10 +308,9 @@ int	winmain_Game_Run(char *p_Level_Name)
 			cmcs_Game_Up();
 		}
 #endif
-/*
-		if(FAILED(InitDirectDraw(1024, 768, GetPrivateProfileInt("hra", "menu_bpp", 16, ini_file))))
-			return 0;
-*/		
+
+		InitDirectDraw(NULL, 1024, 768, GetPrivateProfileInt("hra", "menu_bpp", 16, ini_file));
+
 		spracuj_spravy(0);
 /*
 		if(!bWindowMenu)
@@ -423,7 +422,7 @@ int	winmain_Game_Run(char *p_Level_Name)
 		/*_2d_Blackness();
 		_2d_Release();*/
 		ddxRelease();
-		//FreeDirectDraw();
+		FreeDirectDraw();
 	}
 	else
 	{

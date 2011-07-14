@@ -123,8 +123,10 @@ void demo_Release(DEMOSTRUCTURE *p_Demo)
 	DEMOKEYFRAME* p_Frame, *p_Next;
 
 	p_Frame = p_Demo->p_First;
-	p_Next = p_Demo->p_First->p_Next;
+  if(!p_Frame)
+    return;
 
+	p_Next = p_Demo->p_First->p_Next;
 	while(p_Frame)
 	{
 		kprintf(1, "Release Demo Frame Vkey = %d", p_Frame->Key);
