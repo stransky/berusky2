@@ -7,17 +7,37 @@
 
 PLAYER_PROFILE pPlayerProfile;
 
+int pr_DiscToProfile(PLAYER_PROFILE_DISC * disc, PLAYER_PROFILE * prof)
+{
+  prof->iVer = disc->iVer;
+  memcpy(prof->cScene, disc->cScene, sizeof(disc->cScene));
+  memcpy(prof->cMovie, disc->cMovie, sizeof(disc->cMovie));
+  memcpy(prof->cLevel, disc->cLevel, sizeof(disc->cLevel));
+  memcpy(prof->Reserved, disc->Reserved, sizeof(disc->Reserved));
+  wchar_windows_to_linux(disc->cName, PLAYER_NAME_LENGTH, prof->cName);
+}
+
+int pr_ProfileToDisc(PLAYER_PROFILE * prof, PLAYER_PROFILE_DISC * disc)
+{
+  disc->iVer = prof->iVer;
+  memcpy(disc->cScene, prof->cScene, sizeof(disc->cScene));
+  memcpy(disc->cMovie, prof->cMovie, sizeof(disc->cMovie));
+  memcpy(disc->cLevel, prof->cLevel, sizeof(disc->cLevel));
+  memcpy(disc->Reserved, prof->Reserved, sizeof(disc->Reserved));
+  wchar_linux_to_windows(prof->cName, PLAYER_NAME_LENGTH, disc->cName);
+}
+
 int pr_GetPlayerName(char *cFile, WCHAR * cName)
 {
   FILE *file;
-  PLAYER_PROFILE Profile;
+  PLAYER_PROFILE_DISC Profile;
 
   file = fopen(cFile, "rb");
 
   if (!file)
     return 0;
 
-  if (!fread(&Profile, sizeof(PLAYER_PROFILE), 1, file)) {
+  if (!fread(&Profile, sizeof(PLAYER_PROFILE_DISC), 1, file)) {
     fclose(file);
     return 0;
   }
@@ -28,8 +48,8 @@ int pr_GetPlayerName(char *cFile, WCHAR * cName)
   }
 
   fclose(file);
-
-  wcscpy(cName, Profile.cName);
+  
+  wchar_windows_to_linux(Profile.cName, PLAYER_NAME_LENGTH, cName);
 
   return 1;
 }
@@ -69,11 +89,11 @@ int pr_CreateProfile(WCHAR * cPlayerName)
   //int                           i;
   char cFile[256];
   FILE *file;
-  PLAYER_PROFILE Profile;
+  PLAYER_PROFILE_DISC Profile;
   char dir[256];
 
   ZeroMemory(cFile, 256);
-  ZeroMemory(&Profile, sizeof(PLAYER_PROFILE));
+  ZeroMemory(&Profile, sizeof(PLAYER_PROFILE_DISC));
 
   GetPrivateProfileString("game", "profile_dir", "c:\\", dir, 256, ini_file);
   working_file_translate(dir, 256);
@@ -92,7 +112,7 @@ int pr_CreateProfile(WCHAR * cPlayerName)
   }
 
   Profile.iVer = PROFILE_VER;
-  wcscpy(Profile.cName, cPlayerName);
+  wchar_windows_to_linux(Profile.cName, PLAYER_NAME_LENGTH, cPlayerName);
 
   //tyto sceny povazovat za zapocate
   Profile.cScene[0] = 1;        //Tutorial
@@ -122,7 +142,7 @@ int pr_CreateProfile(WCHAR * cPlayerName)
   /*for(i=0;i<33;i++)
      Profile.cLevel[i] = 1; */
 
-  if (!fwrite(&Profile, sizeof(PLAYER_PROFILE), 1, file)) {
+  if (!fwrite(&Profile, sizeof(PLAYER_PROFILE_DISC), 1, file)) {
     kprintf(1, "!fwrite");
     fclose(file);
     return 0;
@@ -130,7 +150,7 @@ int pr_CreateProfile(WCHAR * cPlayerName)
 
   fclose(file);
 
-  memcpy(&pPlayerProfile, &Profile, sizeof(PLAYER_PROFILE));
+  memcpy(&pPlayerProfile, &Profile, sizeof(PLAYER_PROFILE_DISC));
 
   WritePrivateProfileString("hra", "last_profile", cFile, ini_file);
 
@@ -139,10 +159,11 @@ int pr_CreateProfile(WCHAR * cPlayerName)
 
 int pr_ReadProfile(char *cFileName, PLAYER_PROFILE * pProfile)
 {
-  FILE *file;
+  PLAYER_PROFILE_DISC disc;
   char dir[256];
+  FILE *file;
 
-  ZeroMemory(pProfile, sizeof(PLAYER_PROFILE));
+  ZeroMemory(&disc, sizeof(PLAYER_PROFILE_DISC));
 
   GetPrivateProfileString("game", "profile_dir", "c:\\", dir, 256, ini_file);
   working_file_translate(dir, 256);
@@ -162,10 +183,12 @@ int pr_ReadProfile(char *cFileName, PLAYER_PROFILE * pProfile)
   if (!file)
     return 0;
 
-  if (!fread(pProfile, sizeof(PLAYER_PROFILE), 1, file)) {
+  if (!fread(&disc, sizeof(PLAYER_PROFILE), 1, file)) {
     fclose(file);
     return 0;
   }
+
+  pr_DiscToProfile(&disc, pProfile);
 
   if (pProfile->iVer != PROFILE_VER) {
     fclose(file);
@@ -175,23 +198,6 @@ int pr_ReadProfile(char *cFileName, PLAYER_PROFILE * pProfile)
   fclose(file);
 
   WritePrivateProfileString("hra", "last_profile", cFileName, ini_file);
-
-  /*{
-     int i;
-
-     for(i=0;i<13;i++)
-     pProfile->cScene[i] = 1;
-
-     for(i=0;i<9;i++)
-     pProfile->cMovie[i] = 1;
-
-     for(i=0;i<85;i++)
-     pProfile->cLevel[i] = 1;
-
-     for(i=200;i<220;i++)
-     pProfile->cLevel[i] = 1;
-
-     } */
 
   return 1;
 }
@@ -257,7 +263,9 @@ int pr_SaveProfile(PLAYER_PROFILE * pProfile)
   if (!file)
     return 0;
 
-  if (!fwrite(pProfile, sizeof(PLAYER_PROFILE), 1, file)) {
+  PLAYER_PROFILE_DISC tmp;
+  pr_ProfileToDisc(pProfile, &tmp);
+  if (!fwrite(&tmp, sizeof(PLAYER_PROFILE_DISC), 1, file)) {
     fclose(file);
     return 0;
   }

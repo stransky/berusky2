@@ -27,6 +27,11 @@
 #include "menu_def.h"
 #include "Tools.h"
 
+#ifdef LINUX
+#include <dirent.h>
+#include <fnmatch.h>
+#endif
+
 #define HDC2DD		-1
 #define RES_NUM 200
 
@@ -4578,8 +4583,7 @@ int RunMenuNewGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   bBackDC = 0;
 
   ddxCleareSurface(BackDC);
-  ddxBitBlt(BackDC, 0, 0, ddxGetWidth(BackDC), ddxGetHight(BackDC), FontDC, 0,
-    0);
+  ddxBitBlt(BackDC, 0, 0, ddxGetWidth(BackDC), ddxGetHight(BackDC), FontDC, 0, 0);
   ddxCleareSurface(FontDC);
 
   //kprintf(1, "bitblt");
@@ -4733,9 +4737,9 @@ BEGIN_MENU_NEWGAME:
     //pohnul mysi
     if (dim.dx || dim.dy) {
       //dostala se mys do akcni oblasti (OnAbove)?
-      if (!click)
-        for (i = 0; i < lastcmd; i++)
-          if (res[i].iParam[0] == COM_ONABOVE)
+      if (!click) {
+        for (i = 0; i < lastcmd; i++) {
+          if (res[i].iParam[0] == COM_ONABOVE) {
             if ((dim.x >= res[i].iParam[1]) &&
               (dim.x <= res[i].iParam[3]) &&
               (dim.y >= res[i].iParam[2]) && (dim.y <= res[i].iParam[4])) {
@@ -4819,7 +4823,9 @@ BEGIN_MENU_NEWGAME:
 
               strcpy(dir, "");
             }
-
+          }
+        }
+      }
       dim.dx = 0;
       dim.dy = 0;
     }
@@ -4829,8 +4835,8 @@ BEGIN_MENU_NEWGAME:
     //stlacil leve tlacitko
     if (dim.t1 && !click) {
       //dostala se mys do akcni oblasti (OnClick)?
-      for (i = 0; i < lastcmd; i++)
-        if (res[i].iParam[0] == COM_ONCLICK)
+      for (i = 0; i < lastcmd; i++) {
+        if (res[i].iParam[0] == COM_ONCLICK) {
           if ((dim.x >= res[i].iParam[1]) &&
             (dim.x <= res[i].iParam[3]) &&
             (dim.y >= res[i].iParam[2]) && (dim.y <= res[i].iParam[4])) {
@@ -4853,7 +4859,8 @@ BEGIN_MENU_NEWGAME:
               anmid = 31;
             }
           }
-
+        }
+      }
       dim.t1 = 0;
     }
 
@@ -5001,55 +5008,45 @@ int compare(const void *arg1, const void *arg2)
   return pP2->timespamp - pP1->timespamp;
 }
 
-int FillStringList(char *cmask, LIST_ITEM_ ** list, int *isize)
+#ifdef LINUX
+static char *p_file_mask;
+
+int filter(const struct dirent *file)
 {
-  int c = 0;
-  long Done, error;
-  struct _finddata_t Data;
-
-/* TODO
-	Done = _findfirst(cmask ,&Data);
-	error = Done;
-		
-	while(error != -1)
-	{
-		c++;
-		error = _findnext(Done,&Data);
-	}
-
-	_findclose(Done); 
-*/
-  if (!c) {
-    (*isize) = c;
+  return(!fnmatch(p_file_mask, file->d_name, 0));
+}
+  
+int FillStringList(char *cmask, LIST_ITEM_ ** list, int *isize)
+{  
+  struct dirent **namelist;
+  int i;
+    
+  p_file_mask = cmask;
+  int c = scandir(".", &namelist, &filter, alphasort); 
+  
+  if (c < 0) {
+    (*isize) = 0;
     return 0;
   }
 
   (*list) = (LIST_ITEM_ *) malloc(c * sizeof(LIST_ITEM_));
   memset((*list), 0, c * sizeof(LIST_ITEM_));
 
-
-  c = 0;
-/*	
-	Done = _findfirst(cmask ,&Data);
-	error = Done;
-		
-	while(error != -1)
-	{
-		strcpy((*list)[c].text, Data.name);
-		(*list)[c].timespamp = Data.time_create;
-
-		c++;
-		error = _findnext(Done,&Data);
-	}
-
-	_findclose(Done); 
-*/
+  for(i = 0; i < c; i++) {
+      strcpy((*list)[i].text, namelist[i]->d_name);
+      // TODO -> timestamp
+      //(*list)[c].timespamp = namelist[i]->time_create;
+      free(namelist[i]);
+  } 
+  free(namelist);
+    
   qsort((*list), c, sizeof(LIST_ITEM_), compare);
 
   (*isize) = c;
 
   return c;
 }
+#endif
 
 int FillComboProfiles(COMBO_CONTROL * p_co, int *iSel)
 {
@@ -6400,7 +6397,7 @@ void RunMenu(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   char in, click = 0;
   int anmid = -1, resid = -1, anbind = -1;
   int bind;
-  int cStartCount = 1;          // TODO -> 0
+  int cStartCount = 0;
 
 
   res = (CMD_LINE *) malloc(RES_NUM * sizeof(CMD_LINE));

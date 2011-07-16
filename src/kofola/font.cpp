@@ -499,7 +499,7 @@ char fn_Load_Triger(char *pFile, GAME_TRIGER * pTriger, GRAMMAR * pGr,
   while (!aeof(file)) {
     memset(wtext, 0, 128 * sizeof(WCHAR));
     agets((char *) wotext, 256, file);
-    wchar_windows_to_linux(wotext, 256, wtext);
+    wchar_windows_to_linux(wotext, 128, wtext);
     trig_Parse_LineU(wtext, &pTriger->command[pTriger->lastcommand], pTriger,
       pGr, pTStruct);
   }

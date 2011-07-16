@@ -343,13 +343,14 @@ inline void null_free(void **p_mem)
 void apak_dir_correction(char *dir);
 
 wchar_t *wchar_windows_to_linux(word * p_in, int bytes_in_len);
-void wchar_windows_to_linux(word * p_in, int bytes_in_len, wchar_t * p_out);
+void wchar_windows_to_linux(word * p_in, int str_len, wchar_t * p_out);
+void wchar_linux_to_windows(wchar_t * p_in, int str_len, word * p_out);
+
 
 typedef SDL_TimerID TIMER_ID;
 
 typedef void (*TIMERPROC) (HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime);
-TIMER_ID SetTimer(HWND hWnd, TIMER_ID nIDEvent, UINT uElapse,
-  TIMERPROC lpTimerFunc);
+TIMER_ID SetTimer(HWND hWnd, TIMER_ID nIDEvent, UINT uElapse, TIMERPROC lpTimerFunc);
 UINT KillTimer(HWND hWnd, TIMER_ID uIDEvent);
 
 void working_dir_init(void);

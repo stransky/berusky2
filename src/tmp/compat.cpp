@@ -669,11 +669,19 @@ int GetPrivateProfileInt(const char *lpAppName, // section name
   return (ini_read_int(lpFileName, lpKeyName, nDefault));
 }
 
-void wchar_windows_to_linux(word * p_in, int bytes_in_len, wchar_t * p_out)
+void wchar_windows_to_linux(word * p_in, int str_len, wchar_t * p_out)
 {
   int i;
 
-  for (i = 0; i < bytes_in_len / 2; i++)
+  for (i = 0; i < str_len; i++)
+    *p_out++ = *p_in++;
+}
+
+void wchar_linux_to_windows(wchar_t * p_in, int str_len, word * p_out)
+{
+  int i;
+
+  for (i = 0; i < str_len; i++)
     *p_out++ = *p_in++;
 }
 
@@ -682,7 +690,7 @@ wchar_t *wchar_windows_to_linux(word * p_in, int bytes_in_len)
 {
   wchar_t *p_tmp = (wchar_t *) mmalloc(bytes_in_len * 2);
 
-  wchar_windows_to_linux(p_in, bytes_in_len, p_tmp);
+  wchar_windows_to_linux(p_in, bytes_in_len/2, p_tmp);
   return (p_tmp);
 }
 
