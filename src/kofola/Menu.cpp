@@ -6676,9 +6676,6 @@ BEGIN_MENU:
 
     //stlacil leve tlacitko
     if (dim.t1 && !click) {
-      kprintf(1, "**** Click on ****, lastcmd = %d, dim.x = %d, dim.y = %d",
-        lastcmd, dim.x, dim.y);
-
       //dostala se mys do akcni oblasti (OnClick)?
       for (i = 0; i < lastcmd; i++)
         if (res[i].iParam[0] == COM_ONCLICK)

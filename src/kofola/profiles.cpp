@@ -183,7 +183,7 @@ int pr_ReadProfile(char *cFileName, PLAYER_PROFILE * pProfile)
   if (!file)
     return 0;
 
-  if (!fread(&disc, sizeof(PLAYER_PROFILE), 1, file)) {
+  if (!fread(&disc, sizeof(PLAYER_PROFILE_DISC), 1, file)) {
     fclose(file);
     return 0;
   }
