@@ -62,7 +62,6 @@ extern HW_KONFIG hwconf;
 MOUSE_INFO dim;
 
 static ANIMATION anm[32];
-static SDL_TimerID ATimer_ID = 0;
 static DWORD timercnt = 0;
 static DWORD timercntframe = 0;
 static DWORD dwLTime;
@@ -276,11 +275,10 @@ int RectCross(RECT_LINE * p_rl, int idx)
 //------------------------------------------------------------------------------------------------
 // provede animace
 //------------------------------------------------------------------------------------------------
-void AnimationEvent(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime,
-  AUDIO_DATA * p_ad)
+void AnimationEvent(DWORD dwTime, AUDIO_DATA * p_ad)
 {
   DRAW_RECT *dr;
-  int i, j;
+  int i;
   char bAnim = 0;
   DWORD e;
 
@@ -364,34 +362,6 @@ void AnimationEvent(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime,
   timercnt += e;
 
   _2d_Clear_RectLine(&rline);
-}
-
-//------------------------------------------------------------------------------------------------
-// spusti timer na animace
-//------------------------------------------------------------------------------------------------
-void StartAnimationTimer(void)
-{
-  int i;
-
-  for (i = 0; i < 32; i++)
-    anm[i].cmd = NULL;
-
-  ATimer_ID = SetTimer(NULL, 0, 30, (TIMERPROC) AnimationEvent);
-  dwLTime = timeGetTime();
-}
-
-
-//------------------------------------------------------------------------------------------------
-// stopne timer na animace
-//------------------------------------------------------------------------------------------------
-void StopAnimationTimer(void)
-{
-  int i;
-
-  KillTimer(NULL, ATimer_ID);
-
-  for (i = 0; i < 32; i++)
-    anm[i].cmd = NULL;
 }
 
 void InitRandomJumps(CMD_LINE * cmd)
@@ -650,15 +620,13 @@ void StretchAnimation(RECT * rStart, RECT * rFinish, int iSurface, int iSpeed,
        rDraw.right >= rFinish->right)
        done = 1; */
 
-    if (ddxRestore(&CompositDC, &FontDC, &BackDC, &iCompositDC, &iFontDC,
-        &iBackDC, &cBrutalRestart, p_ad))
+    if (ddxRestore(p_ad))
       return;
   }
 
   ddxStretchBltDisplay(rFinish, iSurface, &rBmp);
   DisplayFrame();
   ddxStretchBltDisplay(rFinish, iSurface, &rBmp);
-//      StartAnimationTimer();
 }
 
 //------------------------------------------------------------------------------------------------
@@ -2063,7 +2031,6 @@ MENU_SETTING_BRUTAL_RESTART:
   in = 0;
 
   //CreateFontAnimations(res, &lastcmd);
-  //StartAnimationTimer();
 
   DrawClock(iClock, 1);
   // privede prikazy, ketere se maji provest na zacatku a, kresleni, flip,
@@ -2638,7 +2605,7 @@ MENU_SETTING_BRUTAL_RESTART:
 
     spracuj_spravy(0);
     ddxUpdateMouse();
-    AnimationEvent(hWnd, 0, 0, dwStop, p_ad);
+    AnimationEvent(dwStop, p_ad);
 
     if (dim.tf1) {
       dim.t1 = 1;
@@ -2650,8 +2617,7 @@ MENU_SETTING_BRUTAL_RESTART:
       dim.tf2 = 0;
     }
 
-    if (ddxRestore(&CompositDC, &FontDC, &BackDC, &iCompositDC, &iFontDC,
-        &iBackDC, &cBrutalRestart, p_ad))
+    if (ddxRestore(p_ad))
       goto MENU_SETTING_BRUTAL_RESTART;
   }
 
@@ -3463,7 +3429,7 @@ BEGIN_MENU_NEWGAMESCENE:
 
     spracuj_spravy(0);
     ddxUpdateMouse();
-    AnimationEvent(NULL, 0, 0, dwStop, p_ad);
+    AnimationEvent(dwStop, p_ad);
 
     if (dim.tf1) {
       dim.t1 = 1;
@@ -3475,8 +3441,7 @@ BEGIN_MENU_NEWGAMESCENE:
       dim.tf2 = 0;
     }
 
-    if (ddxRestore(&CompositDC, &FontDC, &BackDC, &iCompositDC, &iFontDC,
-        &iBackDC, &cBrutalRestart, p_ad)) {
+    if (ddxRestore(p_ad)) {
       StopAll();
       FreeAnimations(res, RES_NUM);
       goto BEGIN_MENU_NEWGAMESCENE_BRUTAL;
@@ -4536,7 +4501,7 @@ BRUTAL_RESTART_SCENE_MAP_MENU:
 
     spracuj_spravy(0);
     ddxUpdateMouse();
-    AnimationEvent(NULL, 0, 0, dwStop, p_ad);
+    AnimationEvent(dwStop, p_ad);
 
     if (dim.tf1) {
       dim.t1 = 1;
@@ -4548,8 +4513,7 @@ BRUTAL_RESTART_SCENE_MAP_MENU:
       dim.tf2 = 0;
     }
 
-    if (ddxRestore(&CompositDC, &FontDC, &BackDC, &iCompositDC, &iFontDC,
-        &iBackDC, &cBrutalRestart, p_ad)) {
+    if (ddxRestore(p_ad)) {
       StopAll();
       FreeAnimations(res, RES_NUM);
       goto BRUTAL_RESTART_SCENE_MAP_MENU;
@@ -4977,7 +4941,7 @@ BEGIN_MENU_NEWGAME:
 
     spracuj_spravy(0);
     ddxUpdateMouse();
-    AnimationEvent(NULL, 0, 0, dwStop, p_ad);
+    AnimationEvent(dwStop, p_ad);
 
     if (dim.tf1) {
       dim.t1 = 1;
@@ -4989,8 +4953,7 @@ BEGIN_MENU_NEWGAME:
       dim.tf2 = 0;
     }
 
-    if (ddxRestore(&CompositDC, &FontDC, &BackDC, &iCompositDC, &iFontDC,
-        &iBackDC, &cBrutalRestart, p_ad)) {
+    if (ddxRestore(p_ad)) {
       fn_Release_Font(0);
       free((void *) res);
       return 1;
@@ -5337,7 +5300,6 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   //fn_Release_Font();
 
   //kprintf(1, "CreateFontAnimations");
-  //StartAnimationTimer();
 
   // privede prikazy, ketere se maji provest na zacatku a, kresleni, flip,
   // animace na OnAbove
@@ -5794,7 +5756,7 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
 
     spracuj_spravy(0);
     ddxUpdateMouse();
-    AnimationEvent(NULL, 0, 0, dwStop, p_ad);
+    AnimationEvent(dwStop, p_ad);
 
     if (dim.tf1) {
       dim.t1 = 1;
@@ -5806,8 +5768,7 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
       dim.tf2 = 0;
     }
 
-    if (ddxRestore(&CompositDC, &FontDC, &BackDC, &iCompositDC, &iFontDC,
-        &iBackDC, &cBrutalRestart, p_ad)) {
+    if (ddxRestore(p_ad)) {
       cRestartMainMenu = 1;
       key[K_ESC] = 1;
     }
@@ -5913,9 +5874,6 @@ void RunMenuLoadGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
 
   //kprintf(1, "fn_Set_Font");
   CreateFontAnimations(res, &lastcmd);
-
-  //kprintf(1, "CreateFontAnimations");
-  //StartAnimationTimer();
 
   // privede prikazy, ketere se maji provest na zacatku a, kresleni, flip,
   // animace na OnAbove
@@ -6238,7 +6196,7 @@ BEGIN_MENU_LOAD:
 
     spracuj_spravy(0);
     ddxUpdateMouse();
-    AnimationEvent(NULL, 0, 0, dwStop, p_ad);
+    AnimationEvent(dwStop, p_ad);
 
     if (dim.tf1) {
       dim.t1 = 1;
@@ -6250,8 +6208,7 @@ BEGIN_MENU_LOAD:
       dim.tf2 = 0;
     }
 
-    if (ddxRestore(&CompositDC, &FontDC, &BackDC, &iCompositDC, &iFontDC,
-        &iBackDC, &cBrutalRestart, p_ad)) {
+    if (ddxRestore(p_ad)) {
       cRestartMainMenu = 1;
       key[K_ESC] = 1;
     }
@@ -6628,21 +6585,16 @@ BEGIN_MENU:
               (dim.y >= res[i].iParam[2]) && (dim.y <= res[i].iParam[4])) {
               //spusteni animace v OnAbove
               if (i != lastabv) {
-                kprintf(1, "**** On above, start animace - res[%d] ****", i);
                 if (in) {
                   // There's already running one - stop it
-                  kprintf(1, "**** Stopping %d ****", lastabv);
-
                   Stop(&res[lastabv]);
 
                   // Draw frame 0 -> clear the animation from screen
                   if (!res[lastabv].iLayer) {
-                    kprintf(1, "    Clearing from screen");
                     ddxDrawSurface(CompositDC, res[lastabv].iAnim[0], 3);
                     ddxDrawDisplay(res[lastabv].iAnim[0], 0);
                   }
                   else {
-                    kprintf(1, "    Clearing from FontDC");
                     ddxDrawDisplayColorKey(res[lastabv].iAnim[0], 0,
                       TRANSCOLOR);
                     ddxDrawSurface(FontDC, res[lastabv].iAnim[0], 3);
@@ -6658,7 +6610,6 @@ BEGIN_MENU:
                 in = 1;
 
                 bind = ChooseBidedAnimation(res, i + 1, p_ad);
-                kprintf(1, "**** bind = %d", bind);
 
                 if (bind != -1) {
                   CheckAnimation(&res[bind], p_ad);
@@ -6674,8 +6625,6 @@ BEGIN_MENU:
             else if (lastabv == i) {
               // odesel z oblasti, ktera byla aktivni -> stop animace                                 
               // a odznaceni oblasti
-              kprintf(1, "**** Stop animace,lastabv = %d", lastabv);
-
               Stop(&res[i]);
 
               if (!res[i].iLayer) {
@@ -6873,13 +6822,14 @@ BEGIN_MENU:
     if (timercnt > 500) {
       timercnt = 0;
 
-      for (i = 0; i < lastcmd; i++)
-        if (res[i].iParam[0] == COM_RANDOMANIMATION)
-          if (rand() % 200 <= res[i].iParam[1] &&
-            strcmp(dir, res[i].cParam[0])) {
+      for (i = 0; i < lastcmd; i++) {
+        if (res[i].iParam[0] == COM_RANDOMANIMATION) {
+          if (rand() % 200 <= res[i].iParam[1] && strcmp(dir, res[i].cParam[0])) {
             CheckAnimation(&res[i], p_ad);
             AddAnimation(&res[i], p_ad, 0, 0);
           }
+        }
+      }
     }
 
     dwStop = timeGetTime();
@@ -6888,7 +6838,7 @@ BEGIN_MENU:
 
     spracuj_spravy(0);
     ddxUpdateMouse();
-    AnimationEvent(NULL, 0, 0, dwStop, p_ad);
+    AnimationEvent(dwStop, p_ad);
 
     if (dim.tf1) {
       dim.t1 = 1;
@@ -6900,8 +6850,7 @@ BEGIN_MENU:
       dim.tf2 = 0;
     }
 
-    if (ddxRestore(&CompositDC, &FontDC, &BackDC, &iCompositDC, &iFontDC,
-        &iBackDC, &cBrutalRestart, p_ad))
+    if (ddxRestore(p_ad))
       goto RUN_MENU_BRUTAL_RESTART;
 
 //              updatuj_pozici_mysi();
@@ -6921,7 +6870,6 @@ __QUIT:
 	adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
 */
   StopAll();
-//      StopAnimationTimer();
 
   ddxReleaseBitmap(iCompositDC);
   ddxReleaseBitmap(iFontDC);
@@ -7348,7 +7296,7 @@ BEGIN_MENU_CHILDNEWGAME:
 
     spracuj_spravy(0);
     ddxUpdateMouse();
-    AnimationEvent(NULL, 0, 0, dwStop, p_ad);
+    AnimationEvent(dwStop, p_ad);
 
     if (dim.tf1) {
       dim.t1 = 1;
@@ -7360,8 +7308,7 @@ BEGIN_MENU_CHILDNEWGAME:
       dim.tf2 = 0;
     }
 
-    if (ddxRestore(&CompositDC, &FontDC, &BackDC, &iCompositDC, &iFontDC,
-        &iBackDC, &cBrutalRestart, p_ad)) {
+    if (ddxRestore(p_ad)) {
       cRestartMainMenu = 1;
       key[K_ESC] = 1;
     }
@@ -7477,7 +7424,6 @@ void RunMenuStartGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   fn_Release_Font(1);
 
   //kprintf(1, "CreateFontAnimations");
-  //StartAnimationTimer();
 
   // privede prikazy, ketere se maji provest na zacatku a, kresleni, flip,
   // animace na OnAbove
@@ -7805,7 +7751,7 @@ BEGIN_MENU_NEWGAME:
 
     spracuj_spravy(0);
     ddxUpdateMouse();
-    AnimationEvent(NULL, 0, 0, dwStop, p_ad);
+    AnimationEvent(dwStop, p_ad);
 
     if (dim.tf1) {
       dim.t1 = 1;
@@ -7817,8 +7763,7 @@ BEGIN_MENU_NEWGAME:
       dim.tf2 = 0;
     }
 
-    if (ddxRestore(&CompositDC, &FontDC, &BackDC, &iCompositDC, &iFontDC,
-        &iBackDC, &cBrutalRestart, p_ad)) {
+    if (ddxRestore(p_ad)) {
       cRestartMainMenu = 1;
       key[K_ESC] = 1;
     }
@@ -8329,7 +8274,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
       _2d_Add_RectItem(&rline, rr, 0);
     }
 
-    AnimationEvent(NULL, 0, 0, dwStop, p_ad);
+    AnimationEvent(dwStop, p_ad);
 
     if (dim.tf1) {
       dim.t1 = 1;
@@ -8346,8 +8291,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
     dwEplased = dwStop - dwStart;
     //kprintf(1, "%d", dwEplased);
 
-    if (ddxRestore(&CompositDC, &FontDC, &BackDC, &iCompositDC, &iFontDC,
-        &iBackDC, &cBrutalRestart, p_ad))
+    if (ddxRestore(p_ad))
       return 1;
   }
 
@@ -8522,8 +8466,7 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
       dwStart -= ftoi(iSongTime / (float) bmpc);
     }
 
-    if (ddxRestore(&CompositDC, &FontDC, &BackDC, &iCompositDC, &iFontDC,
-        &iBackDC, &cBrutalRestart, p_ad)) {
+    if (ddxRestore(p_ad)) {
       cCheckMusicExeption = 0;
       return 1;
     }

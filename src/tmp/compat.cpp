@@ -410,20 +410,6 @@ int ddxUpdateMouse(void)
   dim.rx = mi.x - start_x;
   dim.ry = mi.y - start_y;
 
-/* TODO?
-	if(dim.x < dim.x_min)
-		dim.x = dim.x_min;
-	else
-		if(dim.x > dim.x_max)
-			dim.x = dim.x_max;	
-	
-	if(dim.y < dim.y_min)
-		dim.y = dim.y_min;
-	else
-		if(dim.y > dim.y_max)
-			dim.y = dim.y_max;
-*/
-
   dim.t1 = dim.dt1 = mi.t1;
   dim.t2 = dim.dt2 = mi.t2;
 
@@ -466,9 +452,7 @@ void ddxResizeCursorBack(int iSurface)
 {
 }
 
-BOOL ddxRestore(int *p_CompositDC, int *p_FontDC, int *p_BackDC,
-  int *p_iCompositDC, int *p_iFontDC, int *p_iBackDC, char *p_cBrutalRestart,
-  AUDIO_DATA * p_ad)
+BOOL ddxRestore(AUDIO_DATA * p_ad)
 {
   int i;
 
@@ -493,49 +477,12 @@ BOOL ddxRestore(int *p_CompositDC, int *p_FontDC, int *p_BackDC,
     // Game is restored
     if (bLastGameState) {
       if (!bWindowMenu) {
-/*
-				//restoruju surfacy;
-				g_pDisplay->GetDirectDraw()->RestoreAllSurfaces();
-
-				// release vsech surfacu
-				for(i=0;i<ddx.bm_count;i++) {
-					if(ddx.surface[i].bLoad)
-					{
-						SAFE_DELETE( ddx.surface[i].g_pSurface );
-						memset(&ddx.surface[i], 0, sizeof(SURFACESTRUCT));
-
-						//ddx.surface[i].bLoad = 0;
-					}
-        }
-*/
         assert(0);
-
-        ddxLoadList("2d_load.dat", 0);
-        *p_iCompositDC = ddxFindFreeSurface();
-        *p_CompositDC = ddxCreateSurface(1024, 768, *p_iCompositDC);
-        *p_iFontDC = ddxFindFreeSurface();
-        *p_FontDC = ddxCreateSurface(1024, 768, *p_iFontDC);
-        *p_iBackDC = ddxFindFreeSurface();
-        *p_BackDC = ddxCreateSurface(1024, 768, *p_iBackDC);
-
-        *p_cBrutalRestart = 1;
-
-        SetCursor(FALSE);
-        ddxSetFlip(TRUE);
-        ddxSetCursor(TRUE);
-        ddxSetCursorSurface(0);
-        ddxResizeCursorBack(0);
       }
 /*
 			if(!ogg_playing())
 				ap_Play_Song(0, 0, p_ad);
 */
-      if (bWindowMenu) {
-        //BringWindowToTop(hwnd_hry);
-        //SetForegroundWindow(hwnd_hry);
-        //SetFocus(hwnd_hry);
-      }
-
       if (!bWindowMenu)
         return TRUE;
       else

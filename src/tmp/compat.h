@@ -78,9 +78,6 @@ inline void ZeroMemory(void *mem, int size)
 
 typedef struct _MOUSE_INFO
 {
-
-  int x_min, x_max;
-  int y_min, y_max;
   int x_res, y_res;
 
   int x, y;
@@ -243,9 +240,7 @@ void ddxSetCursor(char bSwitch);
 void ddxResizeCursorBack(int iSurface);
 void ddxSetCursorSurface(int iSurface);
 
-BOOL ddxRestore(int *p_CompositDC, int *p_FontDC, int *p_BackDC,
-  int *p_iCompositDC, int *p_iFontDC, int *p_iBackDC, char *p_cBrutalRestart,
-  AUDIO_DATA * p_ad);
+BOOL ddxRestore(AUDIO_DATA * p_ad);
 
 void ddxSaveSurface(int idx);
 
