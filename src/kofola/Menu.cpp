@@ -337,8 +337,6 @@ void AnimationEvent(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime,
       }
     }
 
-    ddxSetFlip(0);
-
     for (i = 0; i < rline.rlast; i++) {
       dr = &rline.rect[i];
       ddxTransparentBltDisplay(dr->rect.left, dr->rect.top, dr->rect.right,
@@ -351,21 +349,16 @@ void AnimationEvent(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime,
 
     DisplayFrame();
 
-    ddxSetFlip(1);
-
     bAnim = 1;
   }
 
   timercntframe += e;
 
-/* TODO -> WTF?
-   TODO -> simple blit, not flip
 	if(!bAnim && (dim.dx || dim.dy) && timercntframe > 9)
 	{
 		timercntframe = 0;
 		DisplayFrame();
 	}
-*/
 
   dwLTime = dwTime;
   timercnt += e;

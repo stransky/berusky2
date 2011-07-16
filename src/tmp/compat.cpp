@@ -165,18 +165,9 @@ void ddxRelease(void)
   }
 }
 
-/*
-void am_Flip(LEVELINFO *p_Level, ANIMATION_MODULE *p_am, char bAll, RECT_LINE *rline, int rsize, int bTutor, int bTText, int ty)
-*/
 void ddxPublish(void)
 {
   int i, x = 0;
-  float s[2];
-
-  s[0] = (float) hwconf.xres / 1024.0f;
-  s[1] = (float) hwconf.yres / 768.0f;
-
-  char bAll = TRUE;
 
   /*
      RECT       r;
@@ -202,11 +193,7 @@ void ddxPublish(void)
   }
 
   spracuj_spravy(0);
-
-  if (bAll)
-    ddx2RenderujVse(p_ber);
-  else
-    ddx2RenderujMenu(p_ber);
+  ddx2RenderujVse(p_ber);
 
   flip();
 
