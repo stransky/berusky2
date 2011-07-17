@@ -1,9 +1,8 @@
-- kresli se to do FontDC? -> jak se to z otho dostane na obrazovku?
-
 - spatne ovladani b1, pri ruznych smerech to je blbe (jen po c ->center na berusku)
 
 wchar_windows_to_linux -> mem leaky
 
 - nastavit fps! (v ini souboru)
+  - pro menu i pro hru
 - hwconf -> nastavit tam to rozliseni, 1024/768
 - ini -> pridelat podporu sekci

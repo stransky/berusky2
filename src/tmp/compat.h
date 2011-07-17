@@ -110,7 +110,8 @@ typedef struct
 
 void Sleep(int ms);
 
-char *itoa(int base, char *buf, int d);
+//char *itoa(int base, char *buf, int d);
+char *itoa(int d, char *buf, int base);
 
 void timeGetTimeInit(void);
 unsigned int timeGetTime(void);

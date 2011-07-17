@@ -741,7 +741,7 @@ int RunLevel(HWND hWnd, AUDIO_DATA * p_ad, int cpu, char *lvl, char *env)
 		ap_Stop_Song(p_ad);
 	}
 */
-  Sleep(1000);
+//  Sleep(1000);
 
   ddxRelease();
   FreeDirectDraw();
@@ -4454,7 +4454,7 @@ BRUTAL_RESTART_SCENE_MAP_MENU:
 
           kprintf(1, "Kliknuto na level : %s", res[resid].cParam[1]);
 
-          sprintf(cLevel, "Level%d.lv6", iActualLevel);
+          sprintf(cLevel, "level%d.lv6", iActualLevel);
 
           if (RunLevel(NULL, p_ad, cpu, cLevel, "RUN_LEVEL") == 1) {
             pPlayerProfile.cLevel[iActualLevel] = 1;
@@ -5174,9 +5174,6 @@ int FillListLoad(LIST_VIEW_CONTROL * p_li, char *mask, char bAdd,
 
   int x = 0;
   int c = 0;
-
-  //long Done, error;
-  //struct _finddata_t    Data;
 
   LIST_ITEM_ *list;
   int isize;

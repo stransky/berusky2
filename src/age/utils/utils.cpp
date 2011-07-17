@@ -95,7 +95,7 @@ int  get_colors(char *p_ini_file, int default_color_depth)
   return(ini_read_int(p_ini_file, INI_COLOR, default_color_depth));
 }
 
-void itoa(int base, char *buf, int d)
+char *itoa(int d, char *buf, int base)
 {
   char *p = buf;
   char *p1, *p2;
@@ -132,6 +132,8 @@ void itoa(int base, char *buf, int d)
     p1++;
     p2--;
   }
+
+  return(buf);
 }
 
 /*
