@@ -10699,11 +10699,8 @@ PLAY_LEVEL_START:
     int icamanimrestart =
       GetPrivateProfileInt("hra", "camera_intro", 0, ini_file);
 
-    if (!bRestart)
-      icamanimrestart = 1;
-
-    // TODO
-    icamanimrestart = 0;
+    if (bRestart)
+      icamanimrestart = 0;
 
     GetPrivateProfileString("game", "game_data_dir", "c:\\", file, 255,
       ini_file);

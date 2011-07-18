@@ -26,7 +26,7 @@ inline void sdl_maxlook_korekce(DYN_LIGHT * p_light, float min, float max,
   float dosah)
 {
   p_light->min = min;           // utlum je od 0 do 1
-  if (dosah > max) {
+  if (dosah >= max) {
     p_light->max = max;
     p_light->dosah = max;
     p_light->look_max = 255;
