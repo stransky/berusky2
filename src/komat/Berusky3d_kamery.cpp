@@ -1173,17 +1173,29 @@ int kam_3ds_cti_klic(AnimHandle handle, float time, BOD * p_p, BOD * p_t,
 
   dtime = ftoi(time * p_track->endtime);
 
-  if (p_track->pos_keys)
+  if (p_track->pos_keys) {
     key_track_interpolace_bod(p_p, p_track->p_pos, p_track->p_pkeys, dtime,
       p_track->endtime, p_track->pos_keys, loop);
-  if (p_track->trg_keys)
+  }
+  else {
+    p_p->set(0.0f);
+  }
+
+  if (p_track->trg_keys) {
     key_track_interpolace_bod(p_t, p_track->p_trg, p_track->p_tkeys, dtime,
       p_track->endtime, p_track->trg_keys, loop);
-  if (p_track->roll_keys)
+  }
+  else {
+    p_t->set(0.0f);
+  }
+
+  if (p_track->roll_keys) {
     key_track_interpolace_float(p_roll, p_track->p_roll, p_track->p_rlkeys,
       dtime, p_track->endtime, p_track->roll_keys, loop);
-  else
+  }
+  else {
     *p_roll = 0.0f;
+  }
 
   return (TRUE);
 }
@@ -1212,15 +1224,27 @@ int kam_pol_cti_klic(AnimHandle handle, float time, BOD * p_t, float *p_r,
 
   dtime = ftoi(time * p_track->endtime);
 
-  if (p_track->pos_keys)
+  if (p_track->pos_keys) {
     key_track_interpolace_bod(p_t, p_track->p_pos, p_track->p_pkeys, dtime,
       p_track->endtime, p_track->pos_keys, loop);
-  if (p_track->quat_keys)
+  }
+  else {
+    p_t->set(0.0f);
+  }
+
+  if (p_track->quat_keys) {
     key_track_interpolace_quat(&q, p_track->p_quat, p_track->p_qkeys, dtime,
       p_track->endtime, p_track->quat_keys, loop);
-  if (p_track->roll_keys)
+  }
+
+  if (p_track->roll_keys) {
     key_track_interpolace_float(p_vzdal, p_track->p_roll, p_track->p_rlkeys,
       dtime, p_track->endtime, p_track->roll_keys, loop);
+  }
+  else {
+    *p_vzdal = 0;
+  }
+  
   quat_to_euler(&q, p_r, p_fi);
 
   return (TRUE);

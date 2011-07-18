@@ -1,3 +1,6 @@
+if (!icamanimrestart) { -> nastavit fi/rfi pro defaultni uhel, bez kamery (ne 0!!)
+p_track->p_roll[] -> vzdal!!
+
 - spatne ovladani b1, pri ruznych smerech to je blbe (jen po c ->center na berusku)
 
 wchar_windows_to_linux -> mem leaky
