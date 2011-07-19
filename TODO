@@ -1,5 +1,7 @@
-if (!icamanimrestart) { -> nastavit fi/rfi pro defaultni uhel, bez kamery (ne 0!!)
-p_track->p_roll[] -> vzdal!!
+- profile save
+- ini file saves (last used profile)
+- crash after level end
+- keyboard repeat on
 
 - spatne ovladani b1, pri ruznych smerech to je blbe (jen po c ->center na berusku)
 

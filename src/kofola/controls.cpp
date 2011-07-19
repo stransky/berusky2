@@ -3325,45 +3325,14 @@ int draw_edit(CONTROL_EDIT * p_ed, int x, int y, int hdc, int xcor, int ycor)
   return xt;
 }
 
-int InputCodePage()
-{
-/*
- HKL inputLocale = GetKeyboardLayout(0);
- LANGID inputLang = LOWORD(inputLocale);
- char sCodePage[10];
- int res = GetLocaleInfo(MAKELCID(inputLang, SORT_DEFAULT),
-   LOCALE_IDEFAULTANSICODEPAGE, sCodePage, sizeof(sCodePage));
- if (!res)
-  return 0;
- return atoi(sCodePage);
-*/
-}
-
-
-//WCHAR co_ToUnicode(WPARAM wScanCode)
+// It's actually ascii character
 WCHAR co_ToUnicode(int wScanCode)
 {
-  WCHAR result[2];
-
-  /*UINT sc = 0;
-     int nc;
-     static BYTE State[256];
-     unsigned int flags = 0;
-
-     if (GetKeyboardState(State)==FALSE)
-     return -1;
-
-     nc = ToUnicode(key_pressed,sc,State,result,2, flags);
-
-     if (nc==-1 || !nc) 
-     result[0] = 0; */
-
-  int i = InputCodePage();
-
-//      MultiByteToWideChar( InputCodePage() , MB_PRECOMPOSED, &key_pressed, 1, result, sizeof(result)/sizeof(result[0]) );
-
+  WCHAR res;
+  char c = wScanCode;
+  mbrtowc(&res, &c, 1, NULL);
   key_pressed = 0;
-  return result[0];
+  return res;
 }
 
 int co_Handle_Edit(CONTROL_EDIT * p_ed, int x, int y, int hdc, int xcor,

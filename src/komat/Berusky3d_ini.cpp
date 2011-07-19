@@ -322,19 +322,22 @@ int spracuj_spravy(int param)
 
   while (SDL_PollEvent(&event)) {
     switch (event.type) {
-      case SDL_KEYDOWN:
+      case  SDL_KEYDOWN:
         {
           int keycode = event.key.keysym.sym;
 
           key[keycode] = TRUE;
+          key[0] = TRUE;
 
           SDLMod mod = SDL_GetModState();
 
           key[K_SHIFT] = mod & KMOD_SHIFT;
           key[K_CTRL] = mod & KMOD_CTRL;
           key[K_ALT] = mod & KMOD_ALT;
-          kprintf(TRUE, "key = %d, shift = %d, ctrl = %d, alt = %d", keycode,
-            key[K_SHIFT], key[K_CTRL], key[K_ALT]);
+       
+          // store ascii character for GUI interface
+          // ASCI only, we may change it to unicode someday
+          key_pressed = keycode;
         }
         break;
       case SDL_KEYUP:
@@ -342,14 +345,13 @@ int spracuj_spravy(int param)
           int keycode = event.key.keysym.sym;
 
           key[keycode] = FALSE;
+          key[0] = FALSE;
 
           SDLMod mod = SDL_GetModState();
 
           key[K_SHIFT] = mod & KMOD_SHIFT;
           key[K_CTRL] = mod & KMOD_CTRL;
           key[K_ALT] = mod & KMOD_ALT;
-          kprintf(TRUE, "key = %d, shift = %d, ctrl = %d, alt = %d", keycode,
-            key[K_SHIFT], key[K_CTRL], key[K_ALT]);
         }
         break;
       case SDL_MOUSEMOTION:
