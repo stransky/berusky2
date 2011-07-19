@@ -81,6 +81,20 @@ void gl_error(void)
   }
 }
 
+void sdl_start(void)
+{
+  pprintf("SDL Init...");
+  if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER)) {
+    pprintf("SDL initialization failed: %s\n", SDL_GetError());
+  } 
+
+  // Some default SDL config
+  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY,SDL_DEFAULT_REPEAT_INTERVAL);
+
+  // Disable for now
+  SDL_EnableUNICODE(FALSE);
+}
+
 // -------------------------------------------------------
 //  Graphics configuration
 // -------------------------------------------------------
@@ -472,22 +486,14 @@ graph3d::graph3d(GRAPH_TYPE type)
   : graph_type(type)
 {   
   set();
-  
-  pprintf("SDL Init...");
-  if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER)) {
-    pprintf("SDL Video initialization failed: %s\n", SDL_GetError());
-  }  
+  sdl_start();
 }
 
 graph3d::graph3d(GRAPH_TYPE type, tpos width, tpos height, int screen_depth, bool full_screen)
   : graph_type(type)
 {  
-  set(width, height, screen_depth, full_screen);
-  
-  pprintf("SDL Init...");
-  if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER)) {
-    pprintf("SDL Video initialization failed: %s\n", SDL_GetError());
-  }  
+  set(width, height, screen_depth, full_screen);  
+  sdl_start();
 }
 
 graph3d::~graph3d(void)

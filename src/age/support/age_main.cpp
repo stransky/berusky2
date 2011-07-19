@@ -200,8 +200,7 @@ age_main::age_main(AGE_EVENT_FUNC p_callback)
   frame = 0;
   
   srand(current_time_get());
-  callback_set(p_callback);
-  inp.key_repeat_set(FALSE);
+  callback_set(p_callback);  
 }
 
 age_main::~age_main(void)
