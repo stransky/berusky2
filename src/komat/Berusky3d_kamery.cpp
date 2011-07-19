@@ -1177,18 +1177,10 @@ int kam_3ds_cti_klic(AnimHandle handle, float time, BOD * p_p, BOD * p_t,
     key_track_interpolace_bod(p_p, p_track->p_pos, p_track->p_pkeys, dtime,
       p_track->endtime, p_track->pos_keys, loop);
   }
-  else {
-    p_p->set(0.0f);
-  }
-
   if (p_track->trg_keys) {
     key_track_interpolace_bod(p_t, p_track->p_trg, p_track->p_tkeys, dtime,
       p_track->endtime, p_track->trg_keys, loop);
   }
-  else {
-    p_t->set(0.0f);
-  }
-
   if (p_track->roll_keys) {
     key_track_interpolace_float(p_roll, p_track->p_roll, p_track->p_rlkeys,
       dtime, p_track->endtime, p_track->roll_keys, loop);

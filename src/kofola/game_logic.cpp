@@ -10725,7 +10725,7 @@ PLAY_LEVEL_START:
 
 
       if (!icamanimrestart) {
-        BOD p_p, p_t;
+        BOD p_p(0,10,0), p_t(0,0,0); // default camera values
         float p_roll = 0;
 
         if (kam_3ds_cti_klic(cameraanim, 1, &p_p, &p_t, &p_roll) != K_CHYBA) {
@@ -11140,8 +11140,8 @@ PLAY_LEVEL_START:
     }
 
     //if(key[control.menu] && cameraflag != -1 && !camera.flag && bCamera)
-    if (key[control.menu] && cameraflag != -1 && bCamera) {
-      BOD p_p, p_t;
+    if (key[control.menu] && cameraflag != -1 && bCamera) {      
+      BOD p_p(0,10,0), p_t(0,0,0); // default camera values
       float p_roll = 0;
 
       key[control.menu] = 0;
