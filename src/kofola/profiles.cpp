@@ -3,6 +3,11 @@
 #include "3d_all.h"
 #include "Berusky3d_kofola_interface.h"
 
+#ifdef LINUX
+#include <dirent.h>
+#include <fnmatch.h>
+#endif
+
 #include "profiles.h"
 
 PLAYER_PROFILE pPlayerProfile;
@@ -202,9 +207,59 @@ int pr_ReadProfile(char *cFileName, PLAYER_PROFILE * pProfile)
   return 1;
 }
 
+#ifdef LINUX
+static const char *p_file_mask;
+
+static int filter(const struct dirent *file)
+{
+  return(!fnmatch(p_file_mask, file->d_name, 0));
+}
+
 int pr_FindFileToProfile(WCHAR * wName, char *cFile)
 {
-/*
+  struct dirent **namelist;
+  int ret = FALSE;
+  int i;
+	
+  p_file_mask = "*.prf";
+  int c = scandir(".", &namelist, &filter, alphasort);
+  if (c < 0) {
+    return 0;
+  }
+
+  for(i = 0; i < c; i++) {
+    FILE *file = fopen(namelist[i]->d_name, "rb");
+
+    if(file)
+    {
+      PLAYER_PROFILE_DISC	tmp;
+      fread(&tmp, sizeof(tmp), 1, file);
+      fclose(file);
+
+      PLAYER_PROFILE Profile;
+      pr_DiscToProfile(&tmp, &Profile);
+    
+      if(!wcscmp(Profile.cName, wName))
+      {
+        strcpy(cFile, namelist[i]->d_name);
+        ret = TRUE;
+        break;
+      }
+    }
+  } 
+
+  for(i = 0; i < c; i++) {
+      free(namelist[i]);
+  } 
+  free(namelist);
+
+  return ret;
+}
+#endif
+
+#ifdef WINDOWS
+int pr_FindFileToProfile(WCHAR * wName, char *cFile)
+{
 	PLAYER_PROFILE	Profile;
 	FILE *file;
 	long Done, error;
@@ -236,9 +291,10 @@ int pr_FindFileToProfile(WCHAR * wName, char *cFile)
 		}
 	}
 	_findclose(Done); 
-*/
+
   return 0;
 }
+#endif
 
 int pr_SaveProfile(PLAYER_PROFILE * pProfile)
 {

@@ -5011,7 +5011,7 @@ int compare(const void *arg1, const void *arg2)
 #ifdef LINUX
 static char *p_file_mask;
 
-int filter(const struct dirent *file)
+static int filter(const struct dirent *file)
 {
   return(!fnmatch(p_file_mask, file->d_name, 0));
 }

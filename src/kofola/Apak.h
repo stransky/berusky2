@@ -19,7 +19,7 @@ int achdir(APAK_HANDLE * pHandle, const char *dirname);
 char *agetcwd(APAK_HANDLE * pHandle, char *buffer, int maxlen);
 
 long afindfirst(APAK_HANDLE * pHandle, char *filespec,
-  struct _finddata_t *fileinfo);
+                struct _finddata_t *fileinfo);
 
 int afindnext(long handle, struct _finddata_t *fileinfo);
 
