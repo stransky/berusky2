@@ -5067,7 +5067,7 @@ int FillComboProfiles(COMBO_CONTROL * p_co, int *iSel)
   working_file_translate(dir, 256);
 
   GetPrivateProfileString("hra", "last_profile", "c:\\", cprofile, 128,
-    ini_file);
+  ini_file);
   chdir((dir));
 
   FillStringList("*.prf", &list, &isize);

@@ -237,6 +237,7 @@ void ffile::close(void)
 {
   if(f) {
     fclose(f);
+    f = NULL;
   }
 }
 
@@ -419,6 +420,7 @@ void gzhandle::close(void)
 {
   if(f) {
     gzclose(f);
+    f = NULL;
   }  
 }
 

@@ -117,7 +117,7 @@ int pr_CreateProfile(WCHAR * cPlayerName)
   }
 
   Profile.iVer = PROFILE_VER;
-  wchar_windows_to_linux(Profile.cName, PLAYER_NAME_LENGTH, cPlayerName);
+  wchar_linux_to_windows(cPlayerName, PLAYER_NAME_LENGTH, Profile.cName);
 
   //tyto sceny povazovat za zapocate
   Profile.cScene[0] = 1;        //Tutorial

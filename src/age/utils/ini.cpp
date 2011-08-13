@@ -101,7 +101,7 @@ char *ini_read_string_section(FFILE f, const char *p_section,
   char section[MAX_TOKEN_LEN];
   bool section_found = FALSE;
 
-  fseek(f, SEEK_SET, 0);
+  fseek(f, 0, SEEK_SET);
   while (fgets(line, MAX_TOKEN_LEN, f)) {
     if(!section_found) {
       section_found = (bool)read_section(line, section, MAX_TOKEN_LEN);
@@ -134,7 +134,7 @@ char *ini_read_string(FFILE f, const char *p_template, char *p_out,
 {
   char line[MAX_TOKEN_LEN];
 
-  fseek(f, SEEK_SET, 0);
+  fseek(f, 0, SEEK_SET);
   while (fgets(line, MAX_TOKEN_LEN, f)) {
     int len = is_token(line, p_template);
     char *p_rest;
@@ -158,7 +158,7 @@ bool ini_find_string_section(FFILE f, const char *p_section,
   long file_last_line_end = 0;
 
   file_pos = 0;
-  fseek(f, SEEK_SET, 0);
+  fseek(f, 0, SEEK_SET);
   while (fgets(line, MAX_TOKEN_LEN, f)) {
     if(!section_found) {
       section_found = (bool)read_section(line, section, MAX_TOKEN_LEN);
@@ -205,13 +205,13 @@ int ini_write_string_section(FFILE f_in, FFILE f_out, const char *p_section,
   
   int found = ini_find_string_section(f_in, p_section, p_template, &file_start, &file_end);
 
-  fseek(f_in, SEEK_SET, 0);
-  fseek(f_out, SEEK_SET, 0);
+  fseek(f_in, 0, SEEK_SET);
+  fseek(f_out, 0, SEEK_SET);
 
   if(found) {
     file_copy(f_in, f_out, file_start);
     fprintf(f_out,"%s = %s\n",p_template, p_value);
-    fseek(f_in, SEEK_SET, file_end);
+    fseek(f_in, file_end, SEEK_SET);
     file_copy(f_in, f_out);
   }
   else {
@@ -228,7 +228,7 @@ bool ini_write_string_section(const char *p_file, const char *p_section,
 {
   int ret;
 
-  FFILE f_orig(NULL, p_file, "rw", FALSE);
+  FFILE f_orig(NULL, p_file, "r", FALSE);
   if (!f_orig)
     return(FALSE);
     
@@ -243,6 +243,9 @@ bool ini_write_string_section(const char *p_file, const char *p_section,
     return(FALSE);  
   }
     
+  f_orig.close();
+  f_orig.open(NULL, p_file, "w", FALSE);
+
   ret = ini_write_string_section(f_new, f_orig, p_section, p_template, p_value);
   
   fclose(f_orig);

@@ -651,7 +651,9 @@ char *strupr(char *string)
 void GetPrivateProfileString(const char *lpAppName,     // section name
   const char *lpKeyName,        // key name
   const char *lpDefault,        // default key value
-  char *lpReturnedString, int nSize, const char *lpFileName     // ini file name
+  char *lpReturnedString, 
+  int nSize, 
+  const char *lpFileName     // ini file name
   )
 {  
   ini_read_string_section(lpFileName, lpAppName, lpKeyName, 
