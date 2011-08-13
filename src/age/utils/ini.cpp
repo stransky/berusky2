@@ -93,6 +93,41 @@ char *ini_read_param(char *p_line, char *p_param, int max_len)
   return (p_start);
 }
 
+char *ini_read_string_section(FFILE f, const char *p_section,
+                              const char *p_template, char *p_out,
+                              int max_len, const char *p_default)
+{
+  char line[MAX_TOKEN_LEN];
+  char section[MAX_TOKEN_LEN];
+  bool section_found = FALSE;
+
+  fseek(f, SEEK_SET, 0);
+  while (fgets(line, MAX_TOKEN_LEN, f)) {
+    if(!section_found) {
+      section_found = (bool)read_section(line, section, MAX_TOKEN_LEN);
+      if(section_found) {
+        section_found = !strncasecmp(p_section, section, MAX_TOKEN_LEN);
+      }
+      if(section_found)
+        continue;
+    }
+    
+    if(section_found && is_section(line)) {
+      // we hit next section - so it's not found
+      break;
+    }
+  
+    if(section_found) {
+      int len = is_token(line, p_template);
+      char *p_rest;
+      if (len && (p_rest = ini_skip_separator(line + len))) {
+        return (ini_read_param(p_rest, p_out, max_len));
+      }
+    }
+  }
+
+  return p_default ? (strcpy(p_out, p_default)) : NULL;
+}
 
 char *ini_read_string(FFILE f, const char *p_template, char *p_out,
                       int max_len, const char *p_default)
@@ -108,107 +143,137 @@ char *ini_read_string(FFILE f, const char *p_template, char *p_out,
     }
   }
 
-  return (strcpy(p_out, p_default));
-}
-
-char *ini_read_string(const char *p_file, const char *p_template, char *p_out,
-                      int max_len, const char *p_default)
-{
-  char line[MAX_TOKEN_LEN];
-  FFILE f(NULL, p_file, "r", FALSE);
-
-  if (!f)
-    return (strcpy(p_out, p_default));
-
-  while (fgets(line, MAX_TOKEN_LEN, f)) {
-    int len = is_token(line, p_template);
-    char *p_rest;
-    if (len && (p_rest = ini_skip_separator(line + len))) {
-      fclose(f);
-      return (ini_read_param(p_rest, p_out, max_len));
-    }
-  }
-
-  fclose(f);
-  return (strcpy(p_out, p_default));
+  return p_default ? (strcpy(p_out, p_default)) : NULL;
 }
 
 int ini_read_int(FFILE f, const char *p_template, int dflt)
 {
   char line[MAX_TOKEN_LEN];
-
-  fseek(f, SEEK_SET, 0);
-  while (fgets(line, MAX_TOKEN_LEN, f)) {
-    int len = is_token(line, p_template);
-    char *p_rest;
-    if (len && (p_rest = ini_skip_separator(line + len))) {
-      return (atoi(ini_remove_end_of_line(p_rest)));
-    }
-  }
-  return (dflt);
+  char *ret = ini_read_string(f, p_template, line, MAX_TOKEN_LEN, NULL);
+  return ret ? atoi(ini_remove_end_of_line(ret)) : dflt;
 }
 
-int ini_read_int(const char *p_file, const char *p_template, int dflt)
+int ini_read_int_section(FFILE f, const char *p_section, const char *p_template, int dflt)
 {
   char line[MAX_TOKEN_LEN];
-  FFILE f(NULL, p_file, "r", FALSE);
-
-  if (!f)
-    return (dflt);
-
-  while (fgets(line, MAX_TOKEN_LEN, f)) {
-    int len = is_token(line, p_template);
-    char *p_rest;
-    if (len && (p_rest = ini_skip_separator(line + len))) {
-      fclose(f);
-      return (atoi(ini_remove_end_of_line(p_rest)));
-    }
-  }
-  fclose(f);
-  return (dflt);
+  char *ret = ini_read_string_section(f, p_section, p_template, line, MAX_TOKEN_LEN, NULL);
+  return ret ? atoi(ini_remove_end_of_line(ret)) : dflt;
 }
 
 float ini_read_float(FFILE f, const char *p_template, float dflt)
 {
   char line[MAX_TOKEN_LEN];
-
-  fseek(f, SEEK_SET, 0);
-  while (fgets(line, MAX_TOKEN_LEN, f)) {
-    int len = is_token(line, p_template);
-    char *p_rest;
-    if (len && (p_rest = ini_skip_separator(line + len))) {
-      return (atof(ini_remove_end_of_line(p_rest)));
-    }
-  }
-  return (dflt);
+  char *ret = ini_read_string(f, p_template, line, MAX_TOKEN_LEN, NULL);
+  return ret ? atof(ini_remove_end_of_line(ret)) : dflt;
 }
 
-float ini_read_float(const char *p_file, const char *p_template, int dflt)
+float ini_read_float_section(FFILE f, const char *p_section, const char *p_template, float dflt)
 {
   char line[MAX_TOKEN_LEN];
+  char *ret = ini_read_string_section(f, p_section, p_template, line, MAX_TOKEN_LEN, NULL);
+  return ret ? atof(ini_remove_end_of_line(ret)) : dflt;
+}
+
+char *ini_read_string(const char *p_file, const char *p_template, char *p_out,
+                      int max_len, const char *p_default)
+{
   FFILE f(NULL, p_file, "r", FALSE);
 
   if (!f)
+    return p_default ? (strcpy(p_out, p_default)) : NULL;
+
+  char *ret = ini_read_string(f, p_template, p_out, max_len, p_default);
+
+  fclose(f);
+  return (ret);
+}
+
+char *ini_read_string_section(const char *p_file, const char *p_section, 
+                              const char *p_template, char *p_out,
+                              int max_len, const char *p_default)
+{
+  FFILE f(NULL, p_file, "r", FALSE);
+
+  if (!f)
+    return p_default ? (strcpy(p_out, p_default)) : NULL;
+
+  char *ret = ini_read_string_section(f, p_section, p_template,
+                                      p_out, max_len, p_default);
+  fclose(f);
+  return (ret);
+}
+
+int ini_read_int(const char *p_file, const char *p_template, int dflt)
+{
+  FFILE f(NULL, p_file, "r", FALSE);
+  if (!f)
     return (dflt);
 
-  while (fgets(line, MAX_TOKEN_LEN, f)) {
-    int len = is_token(line, p_template);
-    char *p_rest;
-    if (len && (p_rest = ini_skip_separator(line + len))) {
-      fclose(f);
-      return (atof(ini_remove_end_of_line(p_rest)));
-    }
-  }
+  int ret = ini_read_int(f, p_template, dflt);
+  
   fclose(f);
-  return (dflt);
+  return (ret);
+}
+
+int ini_read_int_section(const char *p_file, const char *p_section, 
+                         const char *p_template, int dflt)
+{
+  FFILE f(NULL, p_file, "r", FALSE);
+  if (!f)
+    return (dflt);
+
+  int ret = ini_read_int_section(f, p_section, p_template, dflt);
+  
+  fclose(f);
+  return (ret);
+}
+
+float ini_read_float(const char *p_file, const char *p_template, float dflt)
+{
+  FFILE f(NULL, p_file, "r", FALSE);
+  if (!f)
+    return (dflt);
+
+  int ret = ini_read_float(f, p_template, dflt);
+  
+  fclose(f);
+  return (ret);
+}
+
+float ini_read_float_section(const char *p_file, const char *p_section, 
+                             const char *p_template, float dflt)
+{
+  FFILE f(NULL, p_file, "r", FALSE);
+  if (!f)
+    return (dflt);
+
+  int ret = ini_read_float_section(f, p_section, p_template, dflt);
+  
+  fclose(f);
+  return (ret);
 }
 
 int ini_read_bool(FFILE f, const char *p_template, int dflt)
 {
   char line[MAX_TOKEN_LEN];
+  
+  if (ini_read_string(f, p_template, line, MAX_TOKEN_LEN, NULL))
+    return (dflt);
+  else {
+    if (is_token(line, TOKEN_FALSE1) || is_token(line, TOKEN_FALSE2))
+      return (FALSE);
+    else if (is_token(line, TOKEN_TRUE1) || is_token(line, TOKEN_TRUE2))
+      return (TRUE);
+    else
+      return (dflt);
+  }
+}
 
-  ini_read_string(f, p_template, line, MAX_TOKEN_LEN, "");
-  if (line[0] == '\0')
+int ini_read_bool_section(FFILE f, const char *p_section, const char *p_template, int dflt)
+{
+  char line[MAX_TOKEN_LEN];
+  
+  if (!ini_read_string_section(f, p_section, p_template, line, MAX_TOKEN_LEN, NULL))
     return (dflt);
   else {
     if (is_token(line, TOKEN_FALSE1) || is_token(line, TOKEN_FALSE2))
@@ -222,27 +287,29 @@ int ini_read_bool(FFILE f, const char *p_template, int dflt)
 
 int ini_read_bool(const char *p_file, const char *p_template, int dflt)
 {
-  char line[MAX_TOKEN_LEN];
   FFILE f(NULL, p_file, "r", FALSE);
 
   if (!f)
     return (dflt);
 
-  ini_read_string(f, p_template, line, MAX_TOKEN_LEN, "");
-  fclose(f);
+  int ret = ini_read_bool(f, p_template, dflt);
 
-  if (line[0] == '\0')
-    return (dflt);
-  else {
-    if (is_token(line, TOKEN_FALSE1) || is_token(line, TOKEN_FALSE2))
-      return (FALSE);
-    else if (is_token(line, TOKEN_TRUE1) || is_token(line, TOKEN_TRUE2))
-      return (TRUE);
-    else
-      return (dflt);
-  }
+  fclose(f);
+  return(ret);
 }
 
+int ini_read_bool_section(const char *p_file, const char *p_section, const char *p_template, int dflt)
+{
+  FFILE f(NULL, p_file, "r", FALSE);
+
+  if (!f)
+    return (dflt);
+
+  int ret = ini_read_bool_section(f, p_section, p_template, dflt);
+
+  fclose(f);
+  return(ret);
+}
 
 /* Check if the given string is a token
 */
@@ -283,6 +350,43 @@ int read_token(FFILE f_in, char *p_line, size_t max, char separator)
   *p_line = 0;
 
   return (c == separator);
+}
+
+/* Check if the given string is a section (a string between [])
+*/
+int is_section(const char *p_line)
+{
+  char *p_start = ini_skip_spaces((char *)p_line);
+
+  if(p_start[0] != '[')
+    return(FALSE);
+  
+  return((int)strchr(p_start+1,']'));
+}
+
+/* Reading section (between []) from file
+*/
+char * read_section(char *p_line, char *p_section, int max_len)
+{
+  char *p_start = ini_skip_spaces(p_line);
+  char *p_end;
+
+  if(p_start[0] != '[')
+    return(NULL);
+  
+  p_start++;
+  
+  if(!(p_end = strchr(p_start,']')))
+    return(NULL);
+  
+  int len = p_end - p_start;
+  if(len+1 >= max_len)
+    return(NULL);
+  
+  strncpy(p_section, p_start, len);
+  p_section[len] = '\0';
+  
+  return(p_section);
 }
 
 FFILE ini_open(const char *p_file, bool safe)

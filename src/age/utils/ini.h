@@ -61,16 +61,31 @@ void  ini_close(FFILE f);
 char *ini_read_string(FFILE f, const char *p_template, char *p_out, int max_len, const char *p_default);
 char *ini_read_string(const char *p_file, const char *p_template, char *p_out, int max_len, const char *p_default);
 
+char *ini_read_string_section(FFILE f, const char *p_section, const char *p_template, char *p_out, int max_len, const char *p_default);
+char *ini_read_string_section(const char *p_file, const char *p_section, const char *p_template, char *p_out, int max_len, const char *p_default);
+
 int   ini_read_int(FFILE f, const char *p_template, int dflt);
 int   ini_read_int(const char *p_file, const char *p_template, int dflt);
+
+int   ini_read_int_section(FFILE f, const char *p_section, const char *p_template, int dflt);
+int   ini_read_int_section(const char *p_file, const char *p_section, const char *p_template, int dflt);
 
 float ini_read_float(FFILE f, const char *p_template, float dflt);
 float ini_read_float(const char *p_file, const char *p_template, int dflt);
 
+float ini_read_float_section(FFILE f, const char *p_section, const char *p_template, float dflt);
+float ini_read_float_section(const char *p_file, const char *p_section, const char *p_template, int dflt);
+
 int   ini_read_bool(FFILE f, const char *p_template, int dflt);
 int   ini_read_bool(const char *p_file, const char *p_template, int dflt);
 
+int   ini_read_bool_section(FFILE f, const char *p_section, const char *p_template, int dflt);
+int   ini_read_bool_section(const char *p_file, const char *p_section, const char *p_template, int dflt);
+
 int   is_token(const char *p_line, const char *p_token);
 int   read_token(FFILE f_in, char *p_line, size_t max, char separator);
+
+int   is_section(const char *p_line);
+char *read_section(char *p_line, char *p_section, int max_len);
 
 #endif  // __INI_H__

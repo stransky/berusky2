@@ -457,10 +457,9 @@ static int texture_format_translate(char *p_name)
        "FORMAT_LUM_ALPHA4",
        "FORMAT_ALPHA",
        "FORMAT_LIGHTMAP"};
-
-  //strupr(p_name);
+  
   for(i = 0; i < (int)(sizeof(format_string)/sizeof(format_string[0])); i++) {
-    if(!strcmp(format_string[i],(const char *)p_name)) {
+    if(!strcasecmp(format_string[i],(const char *)p_name)) {
       return(i);      
     }
   }  
@@ -475,9 +474,8 @@ static bool texture_type_translate(char *p_name, GLenum *p_type)
        "GL_TEXTURE_2D",
        "GL_TEXTURE_1D"};
 
-  //_strupr(p_name);
   for(i = 0; i < (int)(sizeof(type_string)/sizeof(type_string[0])); i++) {
-    if(!strcmp(type_string[i],(const char *)p_name)) {
+    if(!strcasecmp(type_string[i],(const char *)p_name)) {
       *p_type = i;
       return(TRUE);
     }

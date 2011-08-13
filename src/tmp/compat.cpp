@@ -651,9 +651,9 @@ void GetPrivateProfileString(const char *lpAppName,     // section name
   const char *lpDefault,        // default key value
   char *lpReturnedString, int nSize, const char *lpFileName     // ini file name
   )
-{
-  // lpAppName -> unused
-  ini_read_string(lpFileName, lpKeyName, lpReturnedString, nSize, lpDefault);
+{  
+  ini_read_string_section(lpFileName, lpAppName, lpKeyName, 
+                          lpReturnedString, nSize, lpDefault);
 }
 
 int WritePrivateProfileString(const char *lpAppName,    // section name
@@ -665,8 +665,7 @@ int WritePrivateProfileString(const char *lpAppName,    // section name
 int GetPrivateProfileInt(const char *lpAppName, // section name
   const char *lpKeyName, int nDefault, const char *lpFileName)
 {
-  // lpAppName -> unused
-  return (ini_read_int(lpFileName, lpKeyName, nDefault));
+  return(ini_read_int_section(lpFileName, lpAppName, lpKeyName, nDefault));
 }
 
 void wchar_windows_to_linux(word * p_in, int str_len, wchar_t * p_out)

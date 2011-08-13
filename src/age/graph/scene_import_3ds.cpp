@@ -2425,7 +2425,7 @@ void *ds_vyrob_chunk_material_texture(EDIT_MATERIAL *p_mat, int *p_velikost)
  
   head.id = CHUNK_MAPFILE;
   head.len = sizeof(head)+strlen(p_mat->textfile[0])+1;
-  _strupr(p_mat->textfile[0]);
+  strupr(p_mat->textfile[0]);
   prid_add_copy(&prd,sizeof(head),&head);
   prid_add_copy(&prd,strlen(p_mat->textfile[0])+1,p_mat->textfile[0]);
 
