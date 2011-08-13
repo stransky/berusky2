@@ -228,6 +228,11 @@ public:
     open(p_dir, p_file, p_mode, safe);
   }
     
+  ffile(FILE *f)
+  {
+    this->f = f;
+  }
+
 } FFILE;
 
 
@@ -531,5 +536,7 @@ inline void * int2void(int value)
   void *p_tmp = (void *)value;
   return(p_tmp);
 }
+
+bool file_copy(FFILE f_in, FFILE f_out, int len = 0);
 
 #endif // __UTILS_H__

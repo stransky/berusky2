@@ -661,7 +661,7 @@ void GetPrivateProfileString(const char *lpAppName,     // section name
 int WritePrivateProfileString(const char *lpAppName,    // section name
   const char *lpKeyName, const char *lpString, const char *lpFileName)
 {
-
+  return(ini_write_string_section(lpFileName, lpAppName, lpKeyName, lpString));
 }
 
 int GetPrivateProfileInt(const char *lpAppName, // section name

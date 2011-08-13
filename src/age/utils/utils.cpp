@@ -665,6 +665,36 @@ t_length mmhandle::read_string(char * p_string, t_length max_lenght)
     General file interface
   ----------------------------------------------------------------------------
 */
+#define FILE_BUF_SIZE 4096
+
+bool file_copy(FFILE f_in, FFILE f_out, int len)
+{  
+  char buffer[FILE_BUF_SIZE];
+  int  readed;
+    
+  if(len) {
+    int to_read;    
+    do {
+      len -= FILE_BUF_SIZE;
+      to_read = (len < 0) ? len+FILE_BUF_SIZE : FILE_BUF_SIZE;
+          
+      if((readed = fread(buffer,1,to_read,f_in))) {
+        fwrite(buffer,1,readed,f_out);
+      }
+    
+      if(readed != to_read) {
+        pperror(1,"file_copy - missing data?");
+      }
+    } while(to_read == FILE_BUF_SIZE);
+  }
+  else {
+    while((readed = fread(buffer,1,FILE_BUF_SIZE,f_in))) {
+      fwrite(buffer,1,readed,f_out);
+    }
+  }
+
+  return(TRUE);
+}
 
 bool file_copy(char *p_src, char *p_src_dir, char *p_dest, char *p_dest_dir, bool safe)
 {
@@ -673,17 +703,12 @@ bool file_copy(char *p_src, char *p_src_dir, char *p_dest, char *p_dest_dir, boo
     return(FALSE);
 
   FFILE dst(p_dest_dir, p_dest, "wb", safe);
-  if(!dst) {    
+  if(!dst) {
     src.close();
     return(FALSE);
   }
-  
-  char buffer[4096];
-  int  readed;
-  
-  while((readed = fread(buffer,1,4096,src))) {
-    fwrite(buffer,1,readed,dst);
-  }
+
+  file_copy(src, dst);
 
   src.close();
   dst.close();

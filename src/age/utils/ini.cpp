@@ -197,24 +197,58 @@ bool ini_find_string_section(FFILE f, const char *p_section,
   return(FALSE);
 }
 
-char *ini_write_string_section(FFILE f, const char *p_section,
-                               const char *p_template, char *p_value)
+int ini_write_string_section(FFILE f_in, FFILE f_out, const char *p_section,
+                             const char *p_template, const char *p_value)
 {
   long file_start, 
        file_end;
+  
+  int found = ini_find_string_section(f_in, p_section, p_template, &file_start, &file_end);
 
-  int found = ini_find_string_section(f, p_section, p_template, &file_start, &file_end);
+  fseek(f_in, SEEK_SET, 0);
+  fseek(f_out, SEEK_SET, 0);
 
   if(found) {
-  
+    file_copy(f_in, f_out, file_start);
+    fprintf(f_out,"%s = %s\n",p_template, p_value);
+    fseek(f_in, SEEK_SET, file_end);
+    file_copy(f_in, f_out);
+  }
+  else {
+    file_copy(f_in, f_out);
+    fprintf(f_out,"\n[%s]\n",p_section);
+    fprintf(f_out,"%s = %s\n",p_template, p_value);
   }
 
-  fprintf(f,"\n[%s]\n",p_section);
-  fprintf(f,"%s = %s\n",p_template, p_value);
+  return(TRUE);
+}
 
-  if(found) {
+bool ini_write_string_section(const char *p_file, const char *p_section, 
+                              const char *p_template, const char *p_value)
+{
+  int ret;
+
+  FFILE f_orig(NULL, p_file, "rw", FALSE);
+  if (!f_orig)
+    return(FALSE);
+    
+  FFILE f_new(tmpfile());
+  if (!f_new)
+    return(FALSE);
   
+  ret = file_copy(f_orig, f_new);
+  if(!ret) {
+    fclose(f_orig);
+    fclose(f_new);
+    return(FALSE);  
   }
+    
+  ret = ini_write_string_section(f_new, f_orig, p_section, p_template, p_value);
+  
+  fclose(f_orig);
+  fclose(f_new);
+  
+  return (ret);
 }
 
 int ini_read_int(FFILE f, const char *p_template, int dflt)
