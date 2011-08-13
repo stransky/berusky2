@@ -88,4 +88,6 @@ int   read_token(FFILE f_in, char *p_line, size_t max, char separator);
 int   is_section(const char *p_line);
 char *read_section(char *p_line, char *p_section, int max_len);
 
+bool is_empty(const char *p_line);
+
 #endif  // __INI_H__

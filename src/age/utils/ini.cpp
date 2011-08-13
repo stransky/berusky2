@@ -146,6 +146,77 @@ char *ini_read_string(FFILE f, const char *p_template, char *p_out,
   return p_default ? (strcpy(p_out, p_default)) : NULL;
 }
 
+bool ini_find_string_section(FFILE f, const char *p_section,
+                             const char *p_template,
+                             long *p_file_start, long *p_file_end)
+{
+  char line[MAX_TOKEN_LEN];
+  char section[MAX_TOKEN_LEN];
+  bool section_found = FALSE;
+  long file_pos;
+  long file_last_line_start = 0;
+  long file_last_line_end = 0;
+
+  file_pos = 0;
+  fseek(f, SEEK_SET, 0);
+  while (fgets(line, MAX_TOKEN_LEN, f)) {
+    if(!section_found) {
+      section_found = (bool)read_section(line, section, MAX_TOKEN_LEN);
+      if(section_found) {
+        section_found = !strncasecmp(p_section, section, MAX_TOKEN_LEN);
+      }
+      if(section_found)
+        continue;
+    }
+    
+    // Cache last non-section line from recent section
+    if(section_found && !is_section(line) && !is_empty(line)) {
+      file_last_line_start = file_pos;
+      file_last_line_end = ftell(f);
+    }
+  
+    if(section_found && is_section(line)) {
+      // we hit next section - so it's not found,
+      // create a new entry
+      *p_file_start = file_last_line_start;
+      *p_file_end = file_last_line_end;
+      return(TRUE);
+    }
+  
+    // Replace this line
+    if(section_found && is_token(line, p_template)) {
+      *p_file_start = file_pos;
+      *p_file_end = ftell(f);
+      return(TRUE);
+    }
+  
+    file_pos = ftell(f);
+  }
+
+  // no section -> create a new one
+  return(FALSE);
+}
+
+char *ini_write_string_section(FFILE f, const char *p_section,
+                               const char *p_template, char *p_value)
+{
+  long file_start, 
+       file_end;
+
+  int found = ini_find_string_section(f, p_section, p_template, &file_start, &file_end);
+
+  if(found) {
+  
+  }
+
+  fprintf(f,"\n[%s]\n",p_section);
+  fprintf(f,"%s = %s\n",p_template, p_value);
+
+  if(found) {
+  
+  }
+}
+
 int ini_read_int(FFILE f, const char *p_template, int dflt)
 {
   char line[MAX_TOKEN_LEN];
@@ -387,6 +458,12 @@ char * read_section(char *p_line, char *p_section, int max_len)
   p_section[len] = '\0';
   
   return(p_section);
+}
+
+bool is_empty(const char *p_line)
+{
+  char *p_start = ini_skip_spaces((char *)p_line);
+  return(!p_start[0]);
 }
 
 FFILE ini_open(const char *p_file, bool safe)

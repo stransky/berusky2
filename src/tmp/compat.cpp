@@ -644,6 +644,8 @@ void SetCursor(void *tmp)
 
 char *strupr(char *string)
 {
+  // TODO
+  assert(0);
 }
 
 void GetPrivateProfileString(const char *lpAppName,     // section name

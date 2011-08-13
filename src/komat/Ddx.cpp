@@ -87,10 +87,9 @@ int preloz_texture_format(int *p_format, char *p_string)
     "FORMAT_ALFA",
     "FORMAT_LIGHTMAPY"
   };
-
-  strupr(p_string);
+  
   for (i = 0; i < FORMAT_POCET; i++) {
-    if (!strcmp(format_string[i], p_string)) {
+    if (!strcasecmp(format_string[i], p_string)) {
       *p_format = i;
       return (TRUE);
     }
