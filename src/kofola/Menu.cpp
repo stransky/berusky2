@@ -2,6 +2,7 @@
 // 0.0.1
 //------------------------------------------------------------------------------------------------
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include "3d_all.h"
 #include "Berusky3d_kofola_interface.h"
@@ -28,6 +29,9 @@
 #include "Tools.h"
 
 #ifdef LINUX
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <time.h>
 #include <dirent.h>
 #include <fnmatch.h>
 #endif
@@ -5020,6 +5024,7 @@ int FillStringList(char *cmask, LIST_ITEM_ ** list, int *isize)
 {  
   struct dirent **namelist;
   int i;
+  struct stat sb;
     
   p_file_mask = cmask;
   int c = scandir(".", &namelist, &filter, alphasort); 
@@ -5034,8 +5039,12 @@ int FillStringList(char *cmask, LIST_ITEM_ ** list, int *isize)
 
   for(i = 0; i < c; i++) {
       strcpy((*list)[i].text, namelist[i]->d_name);
-      // TODO -> timestamp
-      //(*list)[c].timespamp = namelist[i]->time_create;
+      if(!stat(namelist[i]->d_name, &sb)) {
+        (*list)[c].timespamp = sb.st_mtime;
+      }
+      else {
+        (*list)[c].timespamp = 0;
+      }
       free(namelist[i]);
   } 
   free(namelist);

@@ -91,7 +91,6 @@ int pr_FindFreeFileName(char *cFile)
 
 int pr_CreateProfile(WCHAR * cPlayerName)
 {
-  //int                           i;
   char cFile[256];
   FILE *file;
   PLAYER_PROFILE_DISC Profile;
