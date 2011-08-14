@@ -163,7 +163,7 @@ int ddxLoadList(char *pFileName, int bProgress);
 //------------------------------------------------------------------------------------------------
 // load bitmap from APAK
 //------------------------------------------------------------------------------------------------
-int ddxLoadBitmap(char *pFileName, APAK_HANDLE * pHandle);
+int ddxLoadBitmap(const char *pFileName, APAK_HANDLE * pHandle);
 
 //------------------------------------------------------------------------------------------------
 // Create Surface

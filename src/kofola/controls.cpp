@@ -32,10 +32,9 @@ HDC_PROGRES_CONTROL hdcPR;
 HDC_FRAME_CONTROL hdcFR;
 
 void co_Del_Combo_List(COMBO_CONTROL * p_co, int hdc, int xcor, int ycor);
-
+/*
 HDC co_CreateDC(HDC hdc, int x, int y, HDC_INFO * pdcinfo)
 {
-/*
 	HDC				hdcBack = NULL;
 	HBITMAP			hback_bitmap = NULL;
 	BITMAP			back_bitmap;
@@ -68,21 +67,20 @@ HDC co_CreateDC(HDC hdc, int x, int y, HDC_INFO * pdcinfo)
 	BitBlt(hdcBack,0,0,x,y,NULL,0,0,BLACKNESS);
 
 	return hdcBack;
-  */
 }
 
 int co_Release_Bitmap(HDC_INFO * pdcinfo)
 {
-/*
 	if(!pdcinfo)
 		return 1;
 
 	SelectObject(pdcinfo->hdc,pdcinfo->hbitmapold);	
-    DeleteObject(pdcinfo->hbitmap); 
+  DeleteObject(pdcinfo->hbitmap); 
 	DeleteDC(pdcinfo->hdc);
-*/
+
   return 1;
 }
+*/
 
 int co_Load_Graphic(int combo_var)
 {
@@ -169,15 +167,16 @@ int co_Release_Graphic(void)
   return 1;
 }
 
+/*
 void co_Frame_Draw(HDC hdc, int x, int y, int xr, int yr)
 {
-/*
 	TransparentBltU(hdc, x, y, xr, yr, _2dd.bitmap[hdcFR.hdcFrame].bitmapDC, 
-				   0, 0,  _2dd.bitmap[hdcFR.hdcFrame].bitmap.bmWidth, _2dd.bitmap[hdcFR.hdcFrame].bitmap.bmHeight, 
-				   RGB(238, 77, 0));
-*/
+                  0, 0,
+                  _2dd.bitmap[hdcFR.hdcFrame].bitmap.bmWidth,
+                  _2dd.bitmap[hdcFR.hdcFrame].bitmap.bmHeight,
+                  RGB(238, 77, 0));
 }
-
+*/
 
 void co_Combo_Draw(int hdc, COMBO_CONTROL * p_co, int xcor, int ycor)
 {
@@ -233,11 +232,10 @@ void co_Combo_Draw(int hdc, COMBO_CONTROL * p_co, int xcor, int ycor)
       if (p_co->bList) {
         ddxBitBlt(hdc, ax + xcor, ay + ycor, ddxGetWidth(hdcCO.hdcComboMid),
           ddxGetHight(hdcCO.hdcComboMid), hdcCO.hdcComboMid, 0, 0);
-/*
+
 			if(p_co->pItem)
 				ddxTransparentBlt(hdc, ax + xcor + 5, ay + ycor + 3, ddxGetWidth(p_co->pItem[c].Norm), ddxGetHight(p_co->pItem[c].Norm),
 								  p_co->pItem[c].Norm, 0, 0, ddxGetWidth(p_co->pItem[c].Norm), ddxGetHight(p_co->pItem[c].Norm), TRANSCOLOR);
-*/
       }
 
       c++;
@@ -360,19 +358,15 @@ void co_Combo_Draw_List(int hdc, COMBO_CONTROL * p_co, int xcor, int ycor,
     while (ay < ly + maxlisthight) {
       if (p_co->bList) {
         if (c == p_co->CSelected && c != p_co->Selected) {
-          if (p_co->pItem) {
-            /*
-               ddxTransparentBlt(hdc, ax + xcor + 5, ay + ycor + 3, ddxGetWidth(p_co->pItem[c].Sel), ddxGetHight(p_co->pItem[c].Sel),
-               p_co->pItem[c].Sel, 0, 0, ddxGetWidth(p_co->pItem[c].Sel), ddxGetHight(p_co->pItem[c].Sel), TRANSCOLOR);
-             */
+          if (p_co->pItem) {            
+             ddxTransparentBlt(hdc, ax + xcor + 5, ay + ycor + 3, ddxGetWidth(p_co->pItem[c].Sel), ddxGetHight(p_co->pItem[c].Sel),
+             p_co->pItem[c].Sel, 0, 0, ddxGetWidth(p_co->pItem[c].Sel), ddxGetHight(p_co->pItem[c].Sel), TRANSCOLOR);
           }
         }
         else {
           if (p_co->pItem) {
-            /*
-               ddxTransparentBlt(hdc, ax + xcor + 5, ay + ycor + 3, ddxGetWidth(p_co->pItem[c].Norm), ddxGetHight(p_co->pItem[c].Norm),
-               p_co->pItem[c].Norm, 0, 0, ddxGetWidth(p_co->pItem[c].Norm), ddxGetHight(p_co->pItem[c].Norm), TRANSCOLOR);
-             */
+             ddxTransparentBlt(hdc, ax + xcor + 5, ay + ycor + 3, ddxGetWidth(p_co->pItem[c].Norm), ddxGetHight(p_co->pItem[c].Norm),
+             p_co->pItem[c].Norm, 0, 0, ddxGetWidth(p_co->pItem[c].Norm), ddxGetHight(p_co->pItem[c].Norm), TRANSCOLOR);
           }
         }
       }
@@ -620,10 +614,9 @@ int co_Combo_Drop_Set_Sel(int hdc, COMBO_DROP_CONTROL * p_co, int i)
   if (p_co->pItem) {
     /*TransparentBltU(hdc, p_co->x + 5, p_co->y + 7, p_co->pItem[p_co->Selected].Norm.x, p_co->pItem[p_co->Selected].Norm.y,
        p_co->pItem[p_co->Selected].Norm.hdc, 0, 0, p_co->pItem[p_co->Selected].Norm.x, p_co->pItem[p_co->Selected].Norm.y, TRANSCOLOR); */
-/*
+  
 		ddxTransparentBlt(hdc, p_co->x + 5, p_co->y + 7, ddxGetWidth(p_co->pItem[p_co->Selected].Norm), ddxGetHight(p_co->pItem[p_co->Selected].Norm),
 					      p_co->pItem[p_co->Selected].Norm, 0, 0, ddxGetWidth(p_co->pItem[p_co->Selected].Norm), ddxGetHight(p_co->pItem[p_co->Selected].Norm), TRANSCOLOR);
-*/
   }
 
   return 1;
@@ -892,7 +885,7 @@ int co_Combo_Open(int hdc, COMBO_CONTROL * p_co, int xcor, int ycor)
     p_co->ListMaxHightR =
       (p_co->CounfOfItems * 25) + ddxGetHight(hdcCO.hdcComboEnd);
 
-//      kprintf(1, "p_co->CounfOfItems = %d, p_co->ListMaxHightR = %d", p_co->CounfOfItems, p_co->ListMaxHightR);
+  // kprintf(1, "p_co->CounfOfItems = %d, p_co->ListMaxHightR = %d", p_co->CounfOfItems, p_co->ListMaxHightR);
 
   //co_CreateDC(hdc, p_co->WidthR, p_co->ListMaxHightR, p_co->pBDC);
   *p_co->pBDC =
@@ -2166,7 +2159,6 @@ int co_Handle_Combo_Drop(COMBO_DROP_CONTROL * p_co, char bFocus, int x, int y,
 int co_Handle_Combo(COMBO_CONTROL * p_co, char bFocus, int x, int y, int hdc,
   int xcor, int ycor, char b_list)
 {
-/*
 	int c = 0;
 	RECT r;
 
@@ -2353,15 +2345,14 @@ int co_Handle_Combo(COMBO_CONTROL * p_co, char bFocus, int x, int y, int hdc,
 
 	if(dim.t1)
 	if(co_Rect_Hit(p_co->coDownRect, x, y))
-	{
-  */
+	{  
   /*r.left = p_co->x + xcor;
      r.top = p_co->y + ddxGetHight(hdcCO.hdcCombo) + ycor;
      r.right = p_co->WidthR;
      r.bottom = p_co->ListMaxHightR;
 
      _2d_Add_RectItem(&rline, r, 1); */
-/*
+
 		if(p_co->bList)
 		{
 			p_co->Selected = p_co->OSelected;
@@ -2462,7 +2453,6 @@ int co_Handle_Combo(COMBO_CONTROL * p_co, char bFocus, int x, int y, int hdc,
 	}
 
 	return c;
-*/
 }
 
 int co_Handle_Button(BUTTON_CONTROL * p_bu, int x, int y)
@@ -2477,7 +2467,6 @@ int co_Handle_Button(BUTTON_CONTROL * p_bu, int x, int y)
 
 int co_Handle_Checkbox(CHECKBOX_CONTROL * p_ch, int x, int y)
 {
-/*
 	RECT r;
 	int bmpx;
 	int	bmpDC;
@@ -2526,7 +2515,7 @@ int co_Handle_Checkbox(CHECKBOX_CONTROL * p_ch, int x, int y)
 	}
 
 	p_ch->bChange = 0;
-  */
+
   return 0;
 }
 
@@ -2778,7 +2767,6 @@ void co_delete(char *cfile)
 int co_Handle_List(LIST_VIEW_CONTROL * p_li, int x, int y, int hdc, int xcor,
   int ycor)
 {
-/*
 	int xp = 0;
 	int	xt = 0;
 
@@ -3087,8 +3075,7 @@ HANDLE_LISTVIEW:
 			free((void *) cfile);
 	}
 
-	return c;
-  */
+	return c;  
 }
 
 int co_Is_Button_Activated(CONTROL_LIST_ITEM * p_list, int lsize, int id)
@@ -3343,7 +3330,7 @@ int co_Handle_Edit(CONTROL_EDIT * p_ed, int x, int y, int hdc, int xcor,
   if (bBlockList)
     return 0;
 
-  if (dim.t1)
+  if (dim.t1) {
     if (co_Rect_Hit(p_ed->rect, x, y)) {
       if (!p_ed->bActive) {
         p_ed->pTime = t;
@@ -3360,6 +3347,7 @@ int co_Handle_Edit(CONTROL_EDIT * p_ed, int x, int y, int hdc, int xcor,
       p_ed->bActive = 0;
       goto CO_HANDLE_DRAW;
     }
+  }
 
   if (p_ed->bActive) {
     spracuj_spravy(0);

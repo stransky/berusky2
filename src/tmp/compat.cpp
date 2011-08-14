@@ -227,7 +227,7 @@ int ddxLoadList(char *pFileName, int bProgress)
   return (1);
 }
 
-int ddxLoadBitmap(char *pFileName, APAK_HANDLE * pHandle)
+int ddxLoadBitmap(const char *pFileName, APAK_HANDLE * pHandle)
 {
   return (ddx2LoadBitmap(pFileName, pHandle));
 }

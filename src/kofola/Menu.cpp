@@ -4893,19 +4893,19 @@ BEGIN_MENU_NEWGAME:
           key[K_ENTER] = 0;
 
           if (!wcslen(pName)) {
-            int iComboActSel =
-              co_Combo_Get_Sel_Not_Opend(citem, CLIST_ITEMC, 0);
+            int iComboActSel = co_Combo_Get_Sel_Not_Opend(citem, CLIST_ITEMC, 0);
 
             kprintf(1, "%d", iComboActSel);
-            if (iComboActSel != -1)
-              if (citem[1].p_combo->pItem)
-                if (citem[1].p_combo->pItem[iComboActSel].text)
-                  if (pr_ReadProfile(citem[1].p_combo->pItem[iComboActSel].
-                      text, &pPlayerProfile)) {
-                    WritePrivateProfileString("hra", "last_profile",
-                      citem[1].p_combo->pItem[iComboActSel].text, ini_file);
+            if (iComboActSel != -1) {
+              if (citem[1].p_combo->pItem) {
+                if (citem[1].p_combo->pItem[iComboActSel].text) {
+                  if (pr_ReadProfile(citem[1].p_combo->pItem[iComboActSel].text, &pPlayerProfile)) {
+                    WritePrivateProfileString("hra", "last_profile",citem[1].p_combo->pItem[iComboActSel].text, ini_file);
                     c++;
                   }
+                }
+              }
+            }
           }
           else if (pr_CreateProfile(pName))
             c++;
@@ -5039,12 +5039,7 @@ int FillStringList(char *cmask, LIST_ITEM_ ** list, int *isize)
 
   for(i = 0; i < c; i++) {
       strcpy((*list)[i].text, namelist[i]->d_name);
-      if(!stat(namelist[i]->d_name, &sb)) {
-        (*list)[c].timespamp = sb.st_mtime;
-      }
-      else {
-        (*list)[c].timespamp = 0;
-      }
+      (*list)[c].timespamp = !stat(namelist[i]->d_name, &sb) ? sb.st_mtime : 0;
       free(namelist[i]);
   } 
   free(namelist);
