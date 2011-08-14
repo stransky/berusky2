@@ -772,6 +772,9 @@ int kd_visibility(BOD * p_min, BOD * p_max, GLMATRIX * p_m)
   int i, j, xplane, yplane, xa, ya, m;
   float x, y, z, xt, yt, zt, w, fx, fy, fw;
 
+  if(!kd_min_max_valid(p_min, p_max))
+    return(FALSE);
+
   // ... // -> vyrobeni 8 hranicnich bodu krychle  
   xplane = 0;                   // -2, -1, 1, 2
   yplane = 0;                   // -2, -1, 1, 2
@@ -827,6 +830,9 @@ int kd_visibility_full(BOD * p_min, BOD * p_max, GLMATRIX * p_m)
   int i, j, xplane, yplane, xa, ya, m;
   int hits = 0;
   float x, y, z, xt, yt, zt, w, fx, fy, fw;
+
+  if(!kd_min_max_valid(p_min, p_max))
+    return(FALSE);
 
   // ... // -> vyrobeni 8 hranicnich bodu krychle  
   xplane = 0;                   // -2, -1, 1, 2
