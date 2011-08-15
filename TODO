@@ -1,3 +1,5 @@
+- crash at level end -> it's still here
+
 - spatne ovladani b1, pri ruznych smerech to je blbe (jen po c ->center na berusku)
 
 wchar_windows_to_linux -> mem leaky
