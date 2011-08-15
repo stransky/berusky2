@@ -26,8 +26,8 @@
   $tar xzf berusky2-data-version.tar.gz
   $cd berusky2-data-version
 
-  It contains data pack with some levels and graphics and built binary for 
-  Fedora 14. If you build your own binary just replace it.
+  It contains data pack with some first three scenes, tutorial and training levels.
+  Build your own binary and copy it to berusky2-data-version directory.
 
 3. Game run
 
