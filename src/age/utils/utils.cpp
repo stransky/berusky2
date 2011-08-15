@@ -169,6 +169,15 @@ char * return_path(const char *p_dir, const char *p_file, char *p_buffer, int ma
   return(p_buffer);
 }
 
+char * path_correction(char *p_file, int max_lenght)
+{
+  char tmp[MAX_FILENAME];
+  return_path(NULL, p_file, tmp, MAX_FILENAME);
+  assert(strlen(tmp) < max_lenght);
+  strcpy(p_file, tmp);
+  return(p_file);
+}
+
 /* Create a path */
 char * return_path_ext(const char *p_file, const char *p_cwd, 
                        char *p_buffer, int max_lenght)

@@ -28,7 +28,7 @@ anjuta.compatibility.level=1
 project.name=berusky2
 project.type=GENERIC
 project.target.type=EXECUTABLE
-project.version=1.0
+project.version=0.3
 project.author=Martin Stransky
 project.source.target=berusky2
 project.has.gettext=1
@@ -146,8 +146,6 @@ module.source.files=\
 	kofola/volume.h\
 	kofola/water.cpp\
 	kofola/water.h\
-	kofola/zconf.h\
-	kofola/zlib.h\
 	komat/3d_all.h\
 	komat/3d_typy.h\
 	komat/3dinterface.cpp\
@@ -386,7 +384,10 @@ module.source.files=\
 	komat/obbo.cpp\
 	komat/obbo.h\
 	komat/Kdtree.cpp\
-	komat/Kdtree.h
+	komat/Kdtree.h\
+	komat/Matrix.h\
+	komat/Vektor.h\
+	kofola/ambient_sounds.h
 
 module.pixmap.name=pixmaps
 module.pixmap.type=

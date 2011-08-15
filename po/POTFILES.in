@@ -80,8 +80,6 @@ src/kofola/volume.cpp
 src/kofola/volume.h
 src/kofola/water.cpp
 src/kofola/water.h
-src/kofola/zconf.h
-src/kofola/zlib.h
 src/komat/3d_all.h
 src/komat/3d_typy.h
 src/komat/3dinterface.cpp
@@ -321,5 +319,8 @@ src/komat/obbo.cpp
 src/komat/obbo.h
 src/komat/Kdtree.cpp
 src/komat/Kdtree.h
+src/komat/Matrix.h
+src/komat/Vektor.h
+src/kofola/ambient_sounds.h
 
 

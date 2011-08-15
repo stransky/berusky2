@@ -658,6 +658,7 @@ void GetPrivateProfileString(const char *lpAppName,     // section name
 { 
   ini_read_string_section(lpFileName, lpAppName, lpKeyName, 
                           lpReturnedString, nSize, lpDefault);
+  path_correction(lpReturnedString, nSize);
 }
 
 int WritePrivateProfileString(const char *lpAppName,    // section name

@@ -95,8 +95,6 @@ berusky2_SOURCES = \
 	kofola/volume.h\
 	kofola/water.cpp\
 	kofola/water.h\
-	kofola/zconf.h\
-	kofola/zlib.h\
 	komat/3d_all.h\
 	komat/3d_typy.h\
 	komat/3dinterface.cpp\
@@ -335,7 +333,10 @@ berusky2_SOURCES = \
 	komat/obbo.cpp\
 	komat/obbo.h\
 	komat/Kdtree.cpp\
-	komat/Kdtree.h
+	komat/Kdtree.h\
+	komat/Matrix.h\
+	komat/Vektor.h\
+	kofola/ambient_sounds.h
 
 berusky2_LDFLAGS = 
 

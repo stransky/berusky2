@@ -101,6 +101,7 @@ typedef unsigned int t_length;
 /* General file interface
 */
 
+char * path_correction(char *p_file, int max_lenght);
 char * return_path(const char *p_dir, const char *p_file, char *p_buffer, int max_lenght);
 char * return_path_ext(const char *p_file, const char *p_cwd, char *p_buffer, int max_lenght);
 char * return_dir(const char *p_file, char *p_buffer, int max_lenght);
