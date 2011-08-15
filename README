@@ -7,7 +7,7 @@
 
   Berusky2 is developed on Fedora 14/i386. It may or may not build/run
   on other distros/platform. Feel free to send feedback/patches.
-  
+
   Build of berusky2 code:
 
   Install devel packages for libraries (SDL, SDL_Image, GL, GLU, X11, zlib).
@@ -18,11 +18,11 @@
   $cd berusky2-version
   $./configure
   $make
-  
+
 2. Configuration
 
   Download berusky2-data-version.tar.gz, extract it somewhere:
-  
+
   $tar xzf berusky2-data-version.tar.gz
   $cd berusky2-data-version
 
@@ -30,6 +30,8 @@
   Fedora 14. If you build your own binary just replace it.
 
 3. Game run
+
+  ./berusky2                - runs main game
 
   ./berusky2 level_name.lv6 - runs user level named "level_name" 
                               from game directory.
@@ -57,7 +59,7 @@
 5. Game keys
 
   Arrows      - Move selected bug
-        
+
   Tabulator   - Switch among the bugs
 
   Space       - On/Off bug visibility
@@ -73,8 +75,8 @@
   F3          - Load level
 
 
-Mouse:  
-  
+Mouse:
+
   left shift + mouse motion - camera move
   left ctrl + mouse motion  - camera rotation
   mouse wheel               - camera zoom
