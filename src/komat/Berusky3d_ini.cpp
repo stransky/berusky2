@@ -217,12 +217,12 @@ void process_params(G_KONFIG * p_ber, int argc, char **argv)
 }
 
 /*
-  Config file initialization:
+  Config file initialization
 
-  1) - try to copy 
+  1) Check used refined ini file (-i param)
+  2) try the one from ~./berusky2
+  3) check local config dir
 */
-
-
 char ini_file_dirs[][MAX_FILENAME] = 
 {  
   "", // ~./berusky2

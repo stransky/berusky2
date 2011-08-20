@@ -24,11 +24,11 @@ void maximalizuj_hru(void);
 #define INI_USER_DIRECTORY      "~/.berusky2"
 #define INI_SAVES_DIRECTORY     "~/.berusky2/Save"
 #define INI_PROFFILE_DIRECTORY  "~/.berusky2/Save/profiles"
-#define INI_FILE_GLOBAL         "/var/games/berusky2/"INI_FILE_NAME
-#define INI_FILE_USER           "~/.berusky2/"INI_FILE_NAME
+#define INI_FILE_GLOBAL_DIR     "/var/games/berusky2/"
+
+#define INI_FILE_GLOBAL         INI_FILE_GLOBAL_DIR INI_FILE_NAME
+#define INI_FILE_USER           INI_USER_DIRECTORY INI_FILE_NAME
 #define INI_FILE_LOCAL          "./"INI_FILE_NAME
 #endif
-
-const char *config_file(bool configure = FALSE);
 
 #endif
