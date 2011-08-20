@@ -512,11 +512,8 @@ typedef struct _KD_BUNKA {
 
 void kd_strom_zrus(KD_BUNKA * p_prvni)
 {
-  KD_BUNKA *p_next = p_prvni->p_next;
-
-  free(p_prvni);
-
-
+  //KD_BUNKA *p_next = p_prvni->p_next;
+  //free(p_prvni);
 }
 
 void kd_strom_tiskni(KD_BUNKA * p_prvni, int hloubka)

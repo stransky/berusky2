@@ -238,7 +238,7 @@ void nastav_konfig(HW_KONFIG * p_hwconf, TXT_KONFIG * p_txt)
 
 /* load hw konfigu
 */
-int nahraj_device_config(char *p_file, char *p_sekce, HW_KONFIG * p_conf)
+int nahraj_device_config(const char *p_file, const char *p_sekce, HW_KONFIG * p_conf)
 {
   p_conf->xres = GetPrivateProfileInt(p_sekce, "xres", 1024, p_file);
   p_conf->yres = GetPrivateProfileInt(p_sekce, "yres", 768, p_file);
@@ -259,8 +259,7 @@ int nahraj_device_config(char *p_file, char *p_sekce, HW_KONFIG * p_conf)
   return (TRUE);
 }
 
-int nahraj_universal_device_config(char *p_file, char *p_sekce,
-  HW_KONFIG * p_conf)
+int nahraj_universal_device_config(const char *p_file, const char *p_sekce, HW_KONFIG * p_conf)
 {
   p_conf->pn_triangles =
     GetPrivateProfileInt(p_sekce, "pn_triangles", 0, p_file);
@@ -271,7 +270,7 @@ int nahraj_universal_device_config(char *p_file, char *p_sekce,
 
 /* load konfigu textur
 */
-int nahraj_texture_config(char *p_file, TXT_KONFIG * p_txt)
+int nahraj_texture_config(const char *p_file, TXT_KONFIG * p_txt)
 {
   char pom[200];
   int i;

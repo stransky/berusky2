@@ -110,8 +110,8 @@ char * return_file(const char *p_path, char *p_buffer, int max_lenght);
 bool   dir_create(const char *p_dir);
 char * dir_home_get(char *p_dir, int max);
 
-bool   file_copy(char *p_src, char *p_src_dir, char *p_dest, char *p_dest_dir, bool safe = TRUE);
-bool   file_exists(char *p_dir, char *p_file);
+bool   file_copy(const char *p_src, const char *p_src_dir, const char *p_dest, const char *p_dest_dir, bool safe = TRUE);
+bool   file_exists(const char *p_dir, const char *p_file);
 
 int    file_size_get(char * p_dir, char * p_file);
 

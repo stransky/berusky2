@@ -4,7 +4,6 @@
 #ifndef __BERINI_H
 #define __BERINI_H
 
-#define INI_FILE (p_ber->ini_file)
 extern int mouse_move;
 
 void konec(int konec);
@@ -16,9 +15,20 @@ int nahraj_konfig(void);
 void minimalizuj_hru(void);
 void maximalizuj_hru(void);
 
-//HWND zavri_okno(HWND hwnd);
-
 #define XRES_MENU 1024
 #define YRES_MENU 768
+
+#define INI_FILE_NAME           "berusky3d.ini"
+
+#ifdef LINUX
+#define INI_USER_DIRECTORY      "~/.berusky2"
+#define INI_SAVES_DIRECTORY     "~/.berusky2/Save"
+#define INI_PROFFILE_DIRECTORY  "~/.berusky2/Save/profiles"
+#define INI_FILE_GLOBAL         "/var/games/berusky2/"INI_FILE_NAME
+#define INI_FILE_USER           "~/.berusky2/"INI_FILE_NAME
+#define INI_FILE_LOCAL          "./"INI_FILE_NAME
+#endif
+
+const char *config_file(bool configure = FALSE);
 
 #endif

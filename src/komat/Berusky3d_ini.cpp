@@ -97,14 +97,13 @@ int kom_graf_init(void)
 //    nastav_okno(&hwconf,FALSE);
     if (!grf_prehod_mod_hra(&hwconf))
       return (FALSE);
-//    hwnd_hry = zavri_okno(hwnd_hry);
 //    hwnd_hry = otevri_okno(hinst,hwconf.fullscreen,0,0,&hwconf);
   }
 
   /* Nahodi grafiku
    */
   if (!grf_start(ini_file))
-    chyba("Inicializace");
+    pperror(1,"Inicializace");
 
   /* Nahozeni renderovacich funkci
    */
@@ -217,53 +216,95 @@ void process_params(G_KONFIG * p_ber, int argc, char **argv)
   }
 }
 
-#define INI_FILE_NAME "berusky3d.ini"
+/*
+  Config file initialization:
+
+  1) - try to copy 
+*/
+
 
 char ini_file_dirs[][MAX_FILENAME] = 
-{
-  "", // set by user
+{  
+  "", // ~./berusky2
   "", // current working dir
   "/var/games/berusky2/"
 };
 
 void ini_file_init(void)
 {
-  unsigned int i = 1;
-
   if(ini_file[0]) {
-    strcpy(ini_file_dirs[0],ini_file);
-    i = 0;
+    if(!efile(ini_file)) {
+      pperror(1,"Unable to open ini file '%s'!",ini_file);
+    }    
   }
-
-  for(; i < sizeof(ini_file_dirs)/sizeof(ini_file_dirs[0]); i++) {
-    if(i == 1) {
-      getcwd(ini_file_dirs[i], MAX_FILENAME);
-      strcat(ini_file_dirs[i],"/");
-    }
-    if(i) {
-      strcat(ini_file_dirs[i], INI_FILE_NAME);
-    }
-    pprintfnl("Trying to open ini file at %s...",ini_file_dirs[i]);
-    if(efile(ini_file_dirs[i])) {
-      pprintf("OK");
-      strcpy(ini_file, ini_file_dirs[i]);
-      return;
-    }
-    else {
-      pprintf("FAILED");
-    }
-  }  
+  else {
+    for(unsigned int i = 0; 
+        i < sizeof(ini_file_dirs)/sizeof(ini_file_dirs[0]); 
+        i++) 
+    {
   
-  pperror(1,"Unable to open any ini file!");
+      // ~./berusky2
+      if(i == 0) {
+        return_path(INI_USER_DIRECTORY, "", ini_file_dirs[i], MAX_FILENAME);
+      } 
+  
+      // current working directory init
+      if(i == 1) {
+        getcwd(ini_file_dirs[i], MAX_FILENAME);
+        strcat(ini_file_dirs[i],"/");
+      }
+  
+      strcat(ini_file_dirs[i], INI_FILE_NAME);
+  
+      pprintfnl("Trying to open ini file at %s...",ini_file_dirs[i]);
+      if(efile(ini_file_dirs[i])) {
+        pprintf("OK");
+        strcpy(ini_file, ini_file_dirs[i]);
+        return;
+      }
+      else {
+        pprintf("FAILED");
+      }
+    }  
+    
+    pperror(1,"Unable to open any ini file!");
+  }
 }
 
 void debug_file_init(void)
 {
   if (GetPrivateProfileInt("debug", "debug_file", 0, ini_file)) {
     char pom[200];
-    GetPrivateProfileString("hra", "log_file", "c:\\berusky2log.txt", pom, 200, ini_file);
+    GetPrivateProfileString("hra", "log_file", "~/.berusky2/berusky2log.txt", pom, 200, ini_file);
     p_ber->debug_file = fopen(pom, "a");
   }
+}
+
+/* It tries to create the user directory (~./berusky2)
+ * and copy berusky3d.ini file there
+ *
+ */
+void user_directory_create(void)
+{
+  // Check ~./berusky2
+  dir_create(INI_USER_DIRECTORY);
+  dir_create(INI_SAVES_DIRECTORY);
+  dir_create(INI_PROFFILE_DIRECTORY);
+
+  // Check ~./berusky2/berusky3d.ini
+  pprintfnl("Checking %s/%s...",INI_USER_DIRECTORY,INI_FILE_NAME);
+  if(!file_exists(INI_USER_DIRECTORY,INI_FILE_NAME)) {
+    pprintfnl("missing, try to copy it from %s...",INI_FILE_GLOBAL);
+    bool ret = file_copy(INI_FILE_GLOBAL, NULL, INI_FILE_NAME, INI_USER_DIRECTORY,FALSE);
+    if(ret) {
+      pprintf("OK");
+    } else {
+      print_errno(TRUE);
+      pprintf("FAILED");
+    }
+  } else {
+    pprintf("OK");
+  }  
 }
 
 int main(int argc, char **argv)
@@ -275,10 +316,12 @@ int main(int argc, char **argv)
 
   print_banner();
   process_params(p_ber, argc, argv);
+
+  user_directory_create();
   ini_file_init();
 
   working_dir_init();
-  debug_file_init();
+  debug_file_init();  
 
   nahraj_konfig();
   ber_konfiguruj_berusky(&ber);

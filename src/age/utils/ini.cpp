@@ -244,9 +244,10 @@ bool ini_write_string_section(const char *p_file, const char *p_section,
   }
     
   f_orig.close();
-  f_orig.open(NULL, p_file, "w", FALSE);
-
-  ret = ini_write_string_section(f_new, f_orig, p_section, p_template, p_value);
+  
+  if(f_orig.open(NULL, p_file, "w", FALSE)) {
+    ret = ini_write_string_section(f_new, f_orig, p_section, p_template, p_value);
+  }
   
   fclose(f_orig);
   fclose(f_new);

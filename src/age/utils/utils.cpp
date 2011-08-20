@@ -707,7 +707,8 @@ bool file_copy(FFILE f_in, FFILE f_out, int len)
   return(TRUE);
 }
 
-bool file_copy(char *p_src, char *p_src_dir, char *p_dest, char *p_dest_dir, bool safe)
+bool file_copy(const char *p_src, const char *p_src_dir, 
+               const char *p_dest, const char *p_dest_dir, bool safe)
 {
   FFILE src(p_src_dir,  p_src,  "rb", safe);
   if(!src)
@@ -727,7 +728,7 @@ bool file_copy(char *p_src, char *p_src_dir, char *p_dest, char *p_dest_dir, boo
   return(TRUE);
 }
 
-bool file_exists(char * p_dir, char * p_file)
+bool file_exists(const char * p_dir, const char * p_file)
 {
   FFILE f(p_dir, p_file, "rb", FALSE);
   if(!(f)) {
@@ -763,7 +764,7 @@ char * dir_home_get(char *p_dir, int max)
   return(p_dir);
 }
 
-bool dir_create(char *p_dir)
+bool dir_create(const char *p_dir)
 {
   assert(p_dir);
 
