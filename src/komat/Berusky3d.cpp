@@ -182,14 +182,7 @@ void ber_konfiguruj_berusky(G_KONFIG * p_ber)
 {
   char pom[200];
   int i;
-
-  // vysmazime to
-  FILE *f = p_ber->debug_file;
-
-  memset(p_ber, 0, sizeof(G_KONFIG));
-
-  p_ber->debug_file = f;
-
+  
   p_ber->conf_barva_pozadi = 0xff000000;
 
   p_ber->kam_omezeni =
@@ -1269,7 +1262,7 @@ int ber_ovladani_mysi(G_KONFIG * p_ber, int *p_zmena)
 
 void ber_klavesy_hra(G_KONFIG * p_ber)
 {
-  if (!karmin_aktivni)
+  if (!p_ber->karmin_aktivni)
     return;
 
   if (PRCameraFlag) {

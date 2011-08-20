@@ -4,12 +4,7 @@
 #ifndef __BERINI_H
 #define __BERINI_H
 
-extern dword karmin_aktivni;
-extern dword system_timer;
-extern dword system_kurzor;
-extern dword obsluha_okna;
-extern dword play_demo;
-extern char ini_file[300];
+#define INI_FILE (p_ber->ini_file)
 extern int mouse_move;
 
 void konec(int konec);

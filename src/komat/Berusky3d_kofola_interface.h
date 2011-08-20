@@ -30,20 +30,10 @@
 #include "Berusky3d_animace.h"
 
 extern G_KONFIG ber, *p_ber;
-extern char ini_file[300];
 
 /* Load indicie pro slider - 0-100%
 */
 extern float kom_load_progres;
-
-/*
-  Promene validni po ber_graf_init()
-
-  tyhle promeny muzes pouzivat po zavolani funkce ber_graf_init,
-  jsou v nich aktualni hodnoty...
-*/
-extern dword system_timer;      // systemovy casovac
-extern dword karmin_aktivni;    // TRUE pokud sou ber aktivni (na popredi)
 
 
 /********************************************************************** 

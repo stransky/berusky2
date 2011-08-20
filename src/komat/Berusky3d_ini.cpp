@@ -8,7 +8,6 @@
 #include <time.h>
 #include <assert.h>
 
-#define _GNU_SOURCE
 #include <fenv.h>
 
 #include "3d_all.h"
@@ -25,21 +24,13 @@
 #include "Berusky3d_animace.h"
 #include "Berusky3d_kofola_interface.h"
 
-dword system_timer = 0;
-dword system_kurzor = 0;
-dword karmin_aktivni = 1;
-dword obsluha_okna = 0;
-dword play_demo = 0;
-HWND hwnd_hry;
-HINSTANCE hinst;
-char ini_file[300];
-int mouse_move = FALSE;
+#include "config.h"
 
 #ifdef DEBUG_OKNO
 dword start_debug;
 #endif
 
-char work_dir[200] = ".";
+char ini_file[MAX_FILENAME] = "";
 
 void flip(void)
 {
@@ -123,10 +114,6 @@ int kom_graf_init(void)
    */
   spracuj_spravy(TRUE);
 
-  /* Nahodim svoji obsluhu okna
-   */
-  obsluha_okna = TRUE;
-
   return (TRUE);
 }
 
@@ -143,10 +130,6 @@ void kom_ret_default_text_config(void)
 void kom_graf_konec(int menu)
 {
   kprintf(TRUE, "kom_graf_konec...");
-
-  /* Shodim svoji obsluhu okna
-   */
-  obsluha_okna = FALSE;
 
   /* Shodim GL
    */
@@ -197,32 +180,107 @@ void quat_test(void)
   assert(r == 0 && RAD2DEG(fi) == 30);
 }
 
+void print_banner(void)
+{
+  printf("Berusky2 v.%s (C) Anakreon 2011, http://www.anakreon.cz/\n",VERSION);
+  printf("This is free software; see the source for copying conditions.\n");
+  printf("There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n");
+}
+
+void print_help(void)
+{
+  printf("Using: berusky2 [-h][-i file_name.ini][level.lv6]\n\n");
+  printf("  -h --help                         Print help\n");
+  printf("  -i --ini-file  file_name.ini      Define game ini file\n");
+  printf("\n");
+  exit(0);
+}
+
+void process_params(G_KONFIG * p_ber, int argc, char **argv)
+{
+  int i;
+
+  for(i = 1; i < argc; i++) {
+    if(!strcasecmp(argv[i],"-h") || !strcasecmp(argv[i],"--help")) {
+      print_help();
+    }
+    else if(!strcasecmp(argv[i],"-i") || !strcasecmp(argv[i],"--ini-file")) {
+      i++;
+      if(i < argc) {
+        strcpy(ini_file, argv[i]);
+      }    
+    }
+    else { // it's a level name?
+      strcpy(p_ber->level_name, argv[i]);      
+      pprintf("Custom level set - %s",p_ber->level_name);
+    }
+  }
+}
+
+#define INI_FILE_NAME "berusky3d.ini"
+
+char ini_file_dirs[][MAX_FILENAME] = 
+{
+  "", // set by user
+  "", // current working dir
+  "/var/games/berusky2/"
+};
+
+void ini_file_init(void)
+{
+  unsigned int i = 1;
+
+  if(ini_file[0]) {
+    strcpy(ini_file_dirs[0],ini_file);
+    i = 0;
+  }
+
+  for(; i < sizeof(ini_file_dirs)/sizeof(ini_file_dirs[0]); i++) {
+    if(i == 1) {
+      getcwd(ini_file_dirs[i], MAX_FILENAME);
+      strcat(ini_file_dirs[i],"/");
+    }
+    if(i) {
+      strcat(ini_file_dirs[i], INI_FILE_NAME);
+    }
+    pprintfnl("Trying to open ini file at %s...",ini_file_dirs[i]);
+    if(efile(ini_file_dirs[i])) {
+      pprintf("OK");
+      strcpy(ini_file, ini_file_dirs[i]);
+      return;
+    }
+    else {
+      pprintf("FAILED");
+    }
+  }  
+  
+  pperror(1,"Unable to open any ini file!");
+}
+
+void debug_file_init(void)
+{
+  if (GetPrivateProfileInt("debug", "debug_file", 0, ini_file)) {
+    char pom[200];
+    GetPrivateProfileString("hra", "log_file", "c:\\berusky2log.txt", pom, 200, ini_file);
+    p_ber->debug_file = fopen(pom, "a");
+  }
+}
+
 int main(int argc, char **argv)
 {
-  char *p_level;
-  char pom[200];
-
   //feenableexcept(FE_DIVBYZERO|FE_INEXACT|FE_INVALID|FE_OVERFLOW|FE_UNDERFLOW);
   feenableexcept(FE_DIVBYZERO | FE_INVALID);
 
   //quat_test();
 
-  working_dir_init();
+  print_banner();
+  process_params(p_ber, argc, argv);
+  ini_file_init();
 
-  getcwd(ini_file, 500);
-  strcat(ini_file, "//berusky3d.ini");
-  if (!efile(ini_file)) {
-    strcpy(ini_file, "berusky3d.ini");
-  }
+  working_dir_init();
+  debug_file_init();
 
   nahraj_konfig();
-
-  if (GetPrivateProfileInt("debug", "debug_file", 0, ini_file)) {
-    GetPrivateProfileString("hra", "log_file", "c:\\berusky2log.txt", pom,
-      500, ini_file);
-    p_ber->debug_file = fopen(pom, "a");
-  }
-
   ber_konfiguruj_berusky(&ber);
 
   AGE_MAIN *p_age = p_ber->p_age = new AGE_MAIN(main_callback);
@@ -253,9 +311,8 @@ int main(int argc, char **argv)
   }
   
   glstav_reset();
-
-  p_level = (argc > 1) ? argv[1] : "";
-  winmain_Game_Run(p_level);
+  
+  winmain_Game_Run(p_ber->level_name);
 
   return (TRUE);
 }
@@ -381,12 +438,12 @@ int spracuj_spravy(int param)
       case SDL_ACTIVEEVENT:
         if (event.active.state & SDL_APPACTIVE) {
           if (event.active.gain) {
-            karmin_aktivni = TRUE;
-            system_kurzor = FALSE;
+            p_ber->karmin_aktivni = TRUE;
+            p_ber->system_kurzor = FALSE;
           }
           else {
-            karmin_aktivni = FALSE;
-            system_kurzor = TRUE;
+            p_ber->karmin_aktivni = FALSE;
+            p_ber->system_kurzor = TRUE;
           }
         }
         break;

@@ -101,7 +101,7 @@ void kprintf(char log, const char *p_text, ...);
 void kprintfl(char log, const char *p_text, ...);
 void ddw(char *p_text, ...);
 
-extern char ini_file[300];
+extern char ini_file[MAX_FILENAME];
 
 typedef struct
 {

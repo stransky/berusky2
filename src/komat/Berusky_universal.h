@@ -145,8 +145,6 @@ typedef int ChapadloHandle;     // handle na chapadlo
 #define MAX_PODTRID            30
 #define MAX_TRID_JMENO         50
 
-extern char ini_file[300];      // ini soubor
-
 #define DELICKA_CASU           1
 
 // pokud je objekt s guid staticky vraci 1

@@ -13,7 +13,7 @@ typedef struct
 
 typedef struct
 {
-  char StrTable[256][64];       //tabulka retezcu
+  char StrTable[256][256];      //tabulka retezcu
   int LastStr;                  //posledni string
   GAME_TRIGER *pTriger;         //ukazatel na pole trigru
   int sizeofT;                  //pocet polozek v poli

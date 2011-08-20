@@ -277,9 +277,8 @@ typedef struct _EDIT_OKNO
 #define SFL_ROTACE       0x0002
 #define SFL_ZOOM         0x0004
 
-typedef struct _G_KONFIG
+typedef struct g_config
 {
-
   // Interface to 3D engine
   AGE_MAIN *p_age;
 
@@ -530,6 +529,19 @@ typedef struct _G_KONFIG
   int ref_pos;
   int ref_rot;
   int ref_zmena;
+
+  // local config
+  int   system_kurzor;
+  int   karmin_aktivni;
+  int   mouse_move;
+  
+  char  level_name[MAX_FILENAME];
+
+  g_config(void)
+  {
+    memset(this, 0, sizeof(*this));
+    karmin_aktivni = 1;  
+  }
 
 } G_KONFIG;
 

@@ -18,7 +18,6 @@ extern HW_KONFIG hwconf;
 extern APAK_HANDLE *pSndArchive;
 
 int iWinVer = 0;
-extern HWND hwnd_hry;
 
 void gi_Set_Win_Version(void)
 {

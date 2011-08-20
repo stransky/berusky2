@@ -454,8 +454,6 @@ void ddxResizeCursorBack(int iSurface)
 
 BOOL ddxRestore(AUDIO_DATA * p_ad)
 {
-  int i;
-
   /*if(key[K_S])
      {
      key[K_S] = 0;
@@ -471,14 +469,16 @@ BOOL ddxRestore(AUDIO_DATA * p_ad)
 	}
 */
 
-  if (bLastGameState != karmin_aktivni) {
-    bLastGameState = karmin_aktivni;
+  if (bLastGameState != p_ber->karmin_aktivni) {
+    bLastGameState = p_ber->karmin_aktivni;
 
     // Game is restored
     if (bLastGameState) {
+    /*
       if (!bWindowMenu) {
         assert(0);
       }
+    */
 /*
 			if(!ogg_playing())
 				ap_Play_Song(0, 0, p_ad);

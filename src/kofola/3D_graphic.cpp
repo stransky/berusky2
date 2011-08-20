@@ -54,11 +54,9 @@ int _3d_Init(void)
     _3dd.p_sysramtexture[i].bVLoaded = 0;
   }
 
-  GetPrivateProfileString("game", "bitmap_dir", "c:\\", _3dd.bm_dir, 256,
-    ini_file);
+  GetPrivateProfileString("game", "bitmap_dir", "c:\\", _3dd.bm_dir, 256, ini_file);
   working_file_translate(_3dd.bm_dir, 256);
-  _3dd.bMenuVRAMLoad =
-    GetPrivateProfileInt("hra", "menu_vram_load", 0, ini_file);
+  _3dd.bMenuVRAMLoad = GetPrivateProfileInt("hra", "menu_vram_load", 0, ini_file);
 
   return 1;
 }
