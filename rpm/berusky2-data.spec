@@ -2,7 +2,7 @@
 
 Summary:        A datafile for Berusky
 Name:           berusky2-data
-Version:        0.3
+Version:        0.4
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          Amusements/Games
@@ -38,11 +38,7 @@ mv game_data %{buildroot}%{_datadir}/%{game_name}
 mv items %{buildroot}%{_datadir}/%{game_name}
 mv materials %{buildroot}%{_datadir}/%{game_name}
 mv out %{buildroot}%{_datadir}/%{game_name}
-mv Save %{buildroot}%{_datadir}/%{game_name}
 mv textures %{buildroot}%{_datadir}/%{game_name}
-
-mkdir -p %{buildroot}/var/games/%{game_name}
-install -m 644 berusky3d.ini %{buildroot}/var/games/%{game_name}
 
 %clean
 rm -rf %{buildroot}
@@ -51,10 +47,11 @@ rm -rf %{buildroot}
 %defattr(-, root, root)
 %dir %{_datadir}/%{game_name}
 %{_datadir}/%{game_name}/*
-%dir /var/games/%{game_name}
-/var/games/%{game_name}/*
 
 %changelog
+* Sat Aug 20 2011 Martin Stransky <stransky@redhat.com> 0.4-1
+- ini file and save/profile dir were moved to binary package
+
 * Mon Aug 15 2011 Martin Stransky <stransky@redhat.com> 0.3-1
 - initial build
 

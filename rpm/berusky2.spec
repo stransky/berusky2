@@ -7,6 +7,7 @@ Group:          Amusements/Games
 Source:         http://www.anakreon.cz/download/%{name}-%{version}.tar.gz
 Source1:        berusky2.desktop
 Source2:        berusky2.png
+Source3:        berusky3d.ini
 URL:            http://www.anakreon.cz/en/Berusky2.htm
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:       berusky2-data
@@ -46,6 +47,9 @@ pushd %{buildroot}/usr/doc/%{name}
 mv * %{buildroot}%{_docdir}/%{name}-%{version}
 popd
 
+mkdir -p %{buildroot}/var/games/%{game_name}
+install -m 644 %{SOURCE3} %{buildroot}/var/games/%{game_name}
+
 rm -rf %{buildroot}/%{_datadir}/%{name}
 
 # Install icon and desktop file
@@ -76,6 +80,8 @@ fi
 %{_bindir}/berusky2
 %{_datadir}/applications/fedora-berusky2.desktop
 %{_datadir}/icons/hicolor/32x32/apps/berusky2.png
+%dir /var/games/%{game_name}
+/var/games/%{game_name}/*
 
 %changelog
 * Mon Aug 15 2011 Martin Stransky <stransky@redhat.com> 0.3-1
