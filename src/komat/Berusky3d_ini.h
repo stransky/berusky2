@@ -8,8 +8,6 @@ extern int mouse_move;
 
 void konec(int konec);
 int spracuj_spravy(int param);
-
-//void nastav_okno(HW_KONFIG *p_conf, int menu);
 int nahraj_konfig(void);
 
 void minimalizuj_hru(void);
