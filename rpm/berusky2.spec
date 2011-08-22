@@ -74,7 +74,6 @@ fi
 %files
 %doc %dir %{_docdir}/%{name}-%{version}
 %doc %{_docdir}/%{name}-%{version}/*
-%doc README COPYING NEWS AUTHORS
 %{_bindir}/berusky2
 %{_datadir}/applications/fedora-berusky2.desktop
 %{_datadir}/icons/hicolor/32x32/apps/berusky2.png
