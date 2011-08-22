@@ -1,3 +1,5 @@
+- pridat .dektop soubor a ikonu do tarbalu (pridat do projeku)
+- /var/games/berusky2 -> moznost zmenit misto defaultniho ini souboru
 - spatne ovladani b1, pri ruznych smerech to je blbe (jen po c ->center na berusku)
 
 wchar_windows_to_linux -> mem leaky

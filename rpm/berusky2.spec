@@ -1,8 +1,8 @@
-Summary:        Sokoban clone
 Name:           berusky2
 Version:        0.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        GPLv2+
+Summary:        Sokoban clone
 Group:          Amusements/Games
 Source:         http://www.anakreon.cz/download/%{name}-%{version}.tar.gz
 Source1:        berusky2.desktop
@@ -17,7 +17,7 @@ BuildRequires:  SDL-devel
 BuildRequires:  SDL_image-devel
 BuildRequires:  gtk2-devel
 BuildRequires:  desktop-file-utils
-
+ExclusiveArch:  %{ix86}
 
 %description
 Berusky 2 is a game that challenges your visual/spatial thinking
@@ -26,10 +26,8 @@ you'll go through an adventure full of various puzzles spread across
 nine episodes. Individual episodes differ in appearance and difficulty,
 which increases throughout the game.
 
-This package contains a binary for the game.
-
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q
 
 %build
 %configure \
@@ -53,10 +51,10 @@ install -m 644 %{SOURCE3} %{buildroot}/var/games/%{name}
 rm -rf %{buildroot}/%{_datadir}/%{name}
 
 # Install icon and desktop file
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/32x32/apps
-cp %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/32x32/apps
+mkdir -p %{buildroot}/%{_datadir}/icons/hicolor/32x32/apps
+cp %{SOURCE2} %{buildroot}/%{_datadir}/icons/hicolor/32x32/apps
 
-desktop-file-install --vendor fedora --dir $RPM_BUILD_ROOT%{_datadir}/applications --add-category X-Fedora %{SOURCE1}
+desktop-file-install --vendor fedora --dir %{buildroot}/%{_datadir}/applications --add-category X-Fedora %{SOURCE1}
 
 %clean
 rm -rf %{buildroot}
@@ -74,9 +72,9 @@ if [ -x %{_bindir}/gtk-update-icon-cache ]; then
 fi
 
 %files
-%defattr(-, root, root)
 %doc %dir %{_docdir}/%{name}-%{version}
 %doc %{_docdir}/%{name}-%{version}/*
+%doc README COPYING NEWS AUTHORS
 %{_bindir}/berusky2
 %{_datadir}/applications/fedora-berusky2.desktop
 %{_datadir}/icons/hicolor/32x32/apps/berusky2.png
@@ -84,6 +82,9 @@ fi
 /var/games/%{name}/*
 
 %changelog
+* Mon Aug 22 2011 Martin Stransky <stransky@redhat.com> 0.3-3
+- spec polished
+
 * Mon Aug 15 2011 Martin Stransky <stransky@redhat.com> 0.3-2
 - fixed ini file location
 

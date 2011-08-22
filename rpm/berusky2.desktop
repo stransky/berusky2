@@ -7,5 +7,5 @@ Exec=berusky2
 StartupNotify=false
 Terminal=false
 Type=Application
-Icon=berusky2.png
+Icon=berusky2
 Categories=Game;LogicGame;
