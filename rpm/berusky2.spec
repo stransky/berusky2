@@ -54,7 +54,7 @@ rm -rf %{buildroot}/%{_datadir}/%{name}
 mkdir -p %{buildroot}/%{_datadir}/icons/hicolor/32x32/apps
 cp %{SOURCE2} %{buildroot}/%{_datadir}/icons/hicolor/32x32/apps
 
-desktop-file-install --vendor fedora --dir %{buildroot}/%{_datadir}/applications --add-category X-Fedora %{SOURCE1}
+desktop-file-install --dir %{buildroot}/%{_datadir}/applications --add-category X-Fedora %{SOURCE1}
 
 %clean
 rm -rf %{buildroot}
@@ -75,7 +75,7 @@ fi
 %doc %dir %{_docdir}/%{name}-%{version}
 %doc %{_docdir}/%{name}-%{version}/*
 %{_bindir}/berusky2
-%{_datadir}/applications/fedora-berusky2.desktop
+%{_datadir}/applications/berusky2.desktop
 %{_datadir}/icons/hicolor/32x32/apps/berusky2.png
 %dir /var/games/%{name}
 /var/games/%{name}/*
