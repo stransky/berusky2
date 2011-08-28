@@ -28,7 +28,7 @@ anjuta.compatibility.level=1
 project.name=berusky2
 project.type=GENERIC
 project.target.type=EXECUTABLE
-project.version=0.3
+project.version=0.4
 project.author=Martin Stransky
 project.source.target=berusky2
 project.has.gettext=1
@@ -39,7 +39,7 @@ project.excluded.modules=intl
 project.config.extra.modules.before=
 project.config.extra.modules.after=
 project.config.blocked=0
-project.config.disable.overwriting=0 0 0 0 0 0 0 0 0 
+project.config.disable.overwriting=1 0 0 0 0 0 0 0 0 
 
 project.menu.entry=berusky2 Version 0.1
 project.menu.group=Applications
@@ -395,7 +395,12 @@ module.pixmap.files=
 
 module.data.name=data
 module.data.type=
-module.data.files=
+module.data.files=\
+	berusky2-data.spec\
+	berusky2.desktop\
+	berusky2.png\
+	berusky2.spec\
+	berusky3d.ini
 
 module.help.name=help
 module.help.type=

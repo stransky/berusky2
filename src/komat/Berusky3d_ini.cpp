@@ -189,8 +189,8 @@ void print_banner(void)
 void print_help(void)
 {
   printf("Using: berusky2 [-h][-i file_name.ini][level.lv6]\n\n");
-  printf("  -h --help                         Print help\n");
-  printf("  -i --ini-file  file_name.ini      Define game ini file\n");
+  printf("  -h --help                           Print help\n");
+  printf("  -i --ini-file file_name.ini         Set game ini file (It overides the default one in ~user/.berusky2/berusky3d.ini)\n");
   printf("\n");
   exit(0);
 }
