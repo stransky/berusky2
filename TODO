@@ -1,6 +1,12 @@
+<mcrha> stransky, netestuje, pac configure prosel a pak pri buildu: In file included from komat/3d_all.h:17:0,
+<mcrha>                  from kofola/3D_graphic.cpp:6:
+<mcrha> age/graph/age.h:36:27: fatal error: SDL/SDL_image.h: No such file or directory
+
 - pridat .dektop soubor a ikonu do tarbalu (pridat do projeku)
 - /var/games/berusky2 -> moznost zmenit misto defaultniho ini souboru
 - spatne ovladani b1, pri ruznych smerech to je blbe (jen po c ->center na berusku)
+
+- hudba/zvuky -> pridat
 
 wchar_windows_to_linux -> mem leaky
 

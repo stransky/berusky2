@@ -10,7 +10,7 @@
 #include "2D_graphic.h"
 #include "3D_graphic.h"
 #include "3D_menus.h"
-#include "menu.h"
+#include "Menu.h"
 #include "Comics.h"
 #include "font.h"
 #include "Apak.h"

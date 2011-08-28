@@ -11,7 +11,7 @@
 #include "Command.h"
 #include "3D_graphic.h"
 #include "2D_graphic.h"
-#include "menu.h"
+#include "Menu.h"
 #include "Comics.h"
 #include "credits.h"
 #include "font.h"
