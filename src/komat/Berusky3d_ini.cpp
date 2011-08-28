@@ -226,8 +226,8 @@ void process_params(G_KONFIG * p_ber, int argc, char **argv)
 char ini_file_dirs[][MAX_FILENAME] = 
 {  
   "", // ~./berusky2
-  "", // current working dir
-  "/var/games/berusky2/"
+  "", // current working dir  
+  INI_FILE_GLOBAL_DIR
 };
 
 void ini_file_init(void)
@@ -289,7 +289,7 @@ void user_directory_create(void)
   // Check ~./berusky2
   dir_create(INI_USER_DIRECTORY);
   dir_create(INI_SAVES_DIRECTORY);
-  dir_create(INI_PROFFILE_DIRECTORY);
+  dir_create(INI_PROFILE_DIRECTORY);
 
   // Check ~./berusky2/berusky3d.ini
   pprintfnl("Checking %s/%s...",INI_USER_DIRECTORY,INI_FILE_NAME);

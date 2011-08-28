@@ -98,3 +98,27 @@
 
 /* Version number of package */
 #undef VERSION
+
+/* Game ini file name */
+#undef INI_FILE_NAME
+
+/* ~/.berusky2 */
+#undef INI_USER_DIRECTORY
+
+/* ~/.berusky2/Save */
+#undef INI_SAVES_DIRECTORY
+
+/* ~/.berusky2/Save/profiles */
+#undef INI_PROFILE_DIRECTORY
+
+/* /var/games/berusky2/ */
+#undef INI_FILE_GLOBAL_DIR
+
+/* /var/games/berusky2/berusky3d.ini */
+#undef INI_FILE_GLOBAL
+
+// ~/.berusky2/berusky3d.ini
+#undef INI_FILE_USER
+
+// ./berusky3d.ini
+#undef INI_FILE_LOCAL
