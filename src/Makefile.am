@@ -340,6 +340,5 @@ berusky2_SOURCES = \
 
 berusky2_LDFLAGS = 
 
-berusky2_LDADD = \
-	 -lGL -lz -lGLU -lSDL -lSDL_image -lX11
+berusky2_LDADD = 
 

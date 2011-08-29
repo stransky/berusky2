@@ -400,7 +400,8 @@ module.data.files=\
 	berusky2.desktop\
 	berusky2.png\
 	berusky2.spec\
-	berusky3d.ini
+	berusky3d.ini\
+	berusky3d-local.ini
 
 module.help.name=help
 module.help.type=
@@ -423,16 +424,10 @@ compiler.options.include.paths=\
 	age/utils\
 	generator
 compiler.options.library.paths=
-compiler.options.libraries=\
-	GL\
-	z\
-	GLU\
-	SDL\
-	SDL_image\
-	X11
-compiler.options.libraries.selected=1 1 1 1 1 1 
+compiler.options.libraries=
+compiler.options.libraries.selected=
 compiler.options.defines=
-compiler.options.defines.selected=1 1 1 1 1 1 
+compiler.options.defines.selected=
 compiler.options.warning.buttons=0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 
 compiler.options.optimize.buttons=1 0 0 0 
 compiler.options.other.buttons=1 0 

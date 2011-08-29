@@ -1,6 +1,39 @@
-<mcrha> stransky, netestuje, pac configure prosel a pak pri buildu: In file included from komat/3d_all.h:17:0,
-<mcrha>                  from kofola/3D_graphic.cpp:6:
-<mcrha> age/graph/age.h:36:27: fatal error: SDL/SDL_image.h: No such file or directory
+-> how-to -> for binary in game data pack
+
+<mcrha> stransky, nastaveni nefunguje, a je v nem jeden text cesky
+<mcrha> stransky, neukazuji se popisky klaves v nastaveni, treba pro sipky
+<mcrha> stransky, jak ma fungovat 2d ovladani berdy? hadam, ze sipka 
+doleva/doprava s ni tak i hybe, ale tim, ze se mi nedrzi nastaveni, tak se porad krouti jak motovidlo.
+<stransky> mcrha, jako open source jsou uvolneny zatim jen prvni 
+3 sceny, tutorial, trenink. 2D by melo byt zaple defaultne
+<mcrha> stransky, zajimavy je, ze z hlavniho menu nastaveni vypada tak, 
+jak jsem ho nechal, ale kdyz to zavolam ze "hry", tak to nastaveni je v kyblu, vsechno je odskrtnuty
+<mcrha> stransky, no to tvy default berusky3d,ini ani nemluv, ja nedival, 
+jak jsi resil GetPrivateProfileString, ale treba uvod nema jmeno sekce, 
+na konci mas dve sekce stejnyho jmena [soundengine] sekce v nem neexistuje - jo mimochodem, zvuky nehraji
+<mcrha> stransky, u decek na jakysi ATI taky nerenderuje dobre, treba ve hre 
+to menu vlevo nahore se ukaze "nerozmazane" jen, kdyz je nad nim mys. 
+A ten jakoze "kour kvuli zime" jim kresli jako ctverecky
+<mcrha> stransky, Load scene - dynamic items....
+<mcrha>            - Load project....
+<mcrha>            - Scene-Material neni
+<mcrha> stransky, to posledni to je normalni?
+<rbiba> sochotni: pokud vim tak z vpnky se scratch primountovat neda
+<mcrha> stransky, pak mam par takovych: Chyba dir /usr/share/berusky2/textures/stul...
+* aokuliar (~aokuliar@dhcp-0-245.brq.redhat.com) has joined #brno
+<sochotni> mcrha: no aspon na download je http interface
+<mcrha> stransky, ale to muze byt tim, ze jsem mu v ini rekl, ze neni texturedir=/ ale texturedir=/usr/share/berusky2/textures
+<mcrha> stransky, Chyba otevreni pak file /usr/share/berusky2/textures/kanal.pak...
+<mcrha> Chyba otevreni pak file /usr/share/berusky2/textures/voda.pak...
+<mcrha> Chyba otevreni pak file /usr/share/berusky2/textures/silnice.pak...
+<mcrha> Chyba otevreni pak file /usr/share/berusky2/textures/bazina.pak...
+<mcrha> Chyba otevreni pak file /usr/share/berusky2/textures/les.pak...
+<mcrha> stransky, File komat/Keyframe.cpp Line 3137 Chyba otevreni souboru 
+'/usr/share/berusky2/game_data/tu_01.sik' v /usr/share/berusky2/game_data
+<mcrha> stransky, tohle nevim jestli je videt i na 32bit: Load scene - static items....
+<mcrha> Nesouhlasi verze poly !! Ulozte ho znova.
+<mcrha> ten jsem tam resil, aspon pri nacitani, ale kofola testoval 
+sizeof i na neukladanych strukturach, coz jsem jednoduse zaremoval
 
 - configure script -> definice defaultniho adresare
 

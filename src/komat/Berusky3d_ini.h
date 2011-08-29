@@ -16,12 +16,12 @@ void maximalizuj_hru(void);
 #define XRES_MENU 1024
 #define YRES_MENU 768
 
+/* Moved to config.h
 #ifndef INI_FILE_NAME
 #define INI_FILE_NAME           "berusky3d.ini"
 #endif
 
 #ifdef LINUX
-
 #ifndef INI_USER_DIRECTORY
 #define INI_USER_DIRECTORY      "~/.berusky2"
 #endif
@@ -52,7 +52,7 @@ void maximalizuj_hru(void);
 #ifndef INI_FILE_LOCAL
 #define INI_FILE_LOCAL          "./"INI_FILE_NAME
 #endif
-
 #endif
+*/
 
 #endif

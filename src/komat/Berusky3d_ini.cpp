@@ -31,6 +31,7 @@ dword start_debug;
 #endif
 
 char ini_file[MAX_FILENAME] = "";
+bool create_user_data = TRUE;
 
 void flip(void)
 {
@@ -188,9 +189,13 @@ void print_banner(void)
 
 void print_help(void)
 {
-  printf("Using: berusky2 [-h][-i file_name.ini][level.lv6]\n\n");
+  printf("Using: berusky2 [OPTIONS][LEVEL_NAME]\n");
+  printf("\nOptions:\n");
   printf("  -h --help                           Print help\n");
   printf("  -i --ini-file file_name.ini         Set game ini file (It overides the default one in ~user/.berusky2/berusky3d.ini)\n");
+  printf("  -l --no-local-copy                  Don't create local config at ~user/.berusky2\n");
+  printf("\nLevel name:\n");
+  printf("  level_name.lv6                      Run this level (from game dir) instead of default menu\n");
   printf("\n");
   exit(0);
 }
@@ -208,8 +213,9 @@ void process_params(G_KONFIG * p_ber, int argc, char **argv)
       if(i < argc) {
         strcpy(ini_file, argv[i]);
       }    
-    }
-    else { // it's a level name?
+    } else  if(!strcasecmp(argv[i],"-l") || !strcasecmp(argv[i],"--no-local-copy")) {
+      create_user_data = FALSE;
+    } else { // it's a level name?
       strcpy(p_ber->level_name, argv[i]);      
       pprintf("Custom level set - %s",p_ber->level_name);
     }
@@ -235,7 +241,14 @@ void ini_file_init(void)
   if(ini_file[0]) {
     if(!efile(ini_file)) {
       pperror(1,"Unable to open ini file '%s'!",ini_file);
-    }    
+    } else {
+      char tmp_ini[MAX_PATH];
+      if(!realpath(ini_file, tmp_ini)) {
+        pperror(1,"Unable to resolve ini file path! (%s)",ini_file);
+      }
+      strcpy(ini_file, tmp_ini);
+      pprintf("Using custom ini file: %s",ini_file);
+    }
   }
   else {
     for(unsigned int i = 0; 
@@ -317,7 +330,10 @@ int main(int argc, char **argv)
   print_banner();
   process_params(p_ber, argc, argv);
 
-  user_directory_create();
+  if(create_user_data) {
+    user_directory_create();
+  }
+
   ini_file_init();
 
   working_dir_init();

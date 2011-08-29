@@ -6,35 +6,69 @@
 1. Compilation
 
   Berusky2 is developed on Fedora 14/i386. It may or may not build/run
-  on other distros/platform. Feel free to send feedback/patches.
+  on other distros/platform. Feel free to send feedback/patches 
+  to stransky@anakreon.cz.
 
-  Build of berusky2 code:
+  1.1 - Build of berusky2 code from tar.gz:
 
-  Install devel packages for libraries (SDL, SDL_Image, GL, GLU, X11, zlib).
+    * Install devel packages for libraries (SDL, SDL_Image, GL, GLU, X11, zlib).
+  
+    * Download berusky2-version.tar.gz and extract it and rebuild by:
+  
+      $tar xzf berusky2-version.tar.gz
+      $cd berusky2-version
+      $./configure
+      $make
 
-  Download berusky2-version.tar.gz and extract it and rebuild by:
-
-  $tar xzf berusky2-version.tar.gz
-  $cd berusky2-version
-  $./configure
-  $make
-
+  1.2 - Build of berusky2 code from src.rpm package:
+  
+    * Download berusky2-version.src.rpm and run:
+    
+      $rpmbuild --rebuild berusky2-version.src.rpm
+    
+    * Install the built game binary as root by:
+    
+      $su -
+      #rpm -ihv berusky2-version.arch.rpm
+  
 2. Configuration
 
-  Download berusky2-data-version.tar.gz, extract it somewhere:
+  2.1 - Configuration/installation from tar.gz:
 
-  $tar xzf berusky2-data-version.tar.gz
-  $cd berusky2-data-version
-
-  It contains data pack with some first three scenes, tutorial and training levels.
-  Build your own binary and copy it to berusky2-data-version directory.
+    * Download berusky2-data-version.tar.gz and extract it somewhere:
+      
+      $tar xzf berusky2-data-version.tar.gz
+      $cd berusky2-data-version
+    
+    * Grab berusky3d-local.ini from berusky2-version.tar.gz (it's in the data dir) 
+      and copy it to created berusky2-data-version directory.
+    
+    * Grab the binary (from 1.1) and copy it to your berusky2-data-version dir.
+    
+  2.2 - Configuration/installation from src.rpm:
+  
+    * Download berusky2-data-version.src.rpm and run:
+    
+      $rpmbuild --rebuild berusky2-data-version.src.rpm
+      
+    * Install the built rpm file as root by:
+    
+      $su -
+      #rpm -ihv berusky2-data-version.arch.rpm
 
 3. Game run
 
-  ./berusky2                - runs main game
+  3.1 - Run from local installation (in berusky2-data-version dir):
 
-  ./berusky2 level_name.lv6 - runs user level named "level_name" 
-                              from game directory.
+    $./berusky2 -i berusky3d-local.ini -l                - runs main game    
+    $./berusky2 -i berusky3d-local.ini -l level_name.lv6 - runs user level named "level_name" 
+                                                           from game directory.
+
+  3.2. - Run from installed rpm packages:
+  
+    $berusky2                 - runs main game
+    $berusky2 level_name.lv6  - runs user level named "level_name" 
+                                from game directory.
 
 4. Game Rules
 

@@ -4,7 +4,7 @@ dnl If you don't want it to overwrite it,
 dnl 	Please disable it in the Anjuta project configuration
 
 AC_INIT(configure.in)
-AM_INIT_AUTOMAKE(berusky2, 0.3)
+AM_INIT_AUTOMAKE(berusky2, 0.4)
 AM_CONFIG_HEADER(config.h)
 AM_MAINTAINER_MODE
 
@@ -26,10 +26,26 @@ AM_GLIB_GNU_GETTEXT
 
 AM_PROG_LIBTOOL
 
-PKG_CHECK_MODULES(PACKAGE, [SDL_image])
-AC_SUBST(PACKAGE_CFLAGS)
-AC_SUBST(PACKAGE_LIBS)
+PKG_CHECK_MODULES(LIBRARIES, [sdl SDL_image gl glu x11 zlib])
+AC_SUBST(LIBRARIES_CFLAGS)
+AC_SUBST(LIBRARIES_LIBS)
 
+CFLAGS="$CFLAGS $LIBRARIES_CFLAGS"
+CXXFLAGS="$CXXFLAGS $LIBRARIES_CFLAGS"
+LDFLAGS="$LDFLAGS $LIBRARIES_LIBS"
+
+AC_SUBST(CFLAGS)
+AC_SUBST(CXXFLAGS)
+AC_SUBST(LDFLAGS)
+
+AC_DEFINE_UNQUOTED([INI_FILE_NAME], ["berusky3d.ini"], [Default game ini file.])
+AC_DEFINE_UNQUOTED([INI_USER_DIRECTORY], ["~/.berusky2"], [Default user directory location.])
+AC_DEFINE_UNQUOTED([INI_SAVES_DIRECTORY], ["~/.berusky2/Save"], [Default game saves.])
+AC_DEFINE_UNQUOTED([INI_PROFILE_DIRECTORY], ["~/.berusky2/Save/profiles"], [Default profile dir.])
+AC_DEFINE_UNQUOTED([INI_FILE_GLOBAL_DIR], ["/var/games/berusky2"], [Default game ini file dir.])
+AC_DEFINE_UNQUOTED([INI_FILE_GLOBAL], ["/var/games/berusky2/berusky3d.ini"], [Default global game ini file.])
+AC_DEFINE_UNQUOTED([INI_FILE_USER], ["~/.berusky2/berusky3d.ini"], [Default per-user game ini file.])
+AC_DEFINE_UNQUOTED([INI_FILE_LOCAL], ["./berusky3d.ini"], [Default local game ini file.])
 
 dnl Set PACKAGE_LOCALE_DIR in config.h.
 if test "x${prefix}" = "xNONE"; then
@@ -100,4 +116,3 @@ po/Makefile.in
 src/Makefile
 data/Makefile
 ])
-
