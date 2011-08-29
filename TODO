@@ -33,12 +33,7 @@ A ten jakoze "kour kvuli zime" jim kresli jako ctverecky
 <mcrha> ten jsem tam resil, aspon pri nacitani, ale kofola testoval 
 sizeof i na neukladanych strukturach, coz jsem jednoduse zaremoval
 
-- configure script -> definice defaultniho adresare
-
-- pridat .dektop soubor a ikonu do tarbalu (pridat do projeku)
-- /var/games/berusky2 -> moznost zmenit misto defaultniho ini souboru
 - spatne ovladani b1, pri ruznych smerech to je blbe (jen po c ->center na berusku)
-
 - hudba/zvuky -> pridat
 
 wchar_windows_to_linux -> mem leaky
