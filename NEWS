@@ -1,5 +1,12 @@
-* 0.3 - added game menu, new levels/tutorial, first "playable" release
+* 0.4 
+    - local installation fixes
+    - build script updated (better directory configuration, build flags from pkg-config)
 
-* 0.2 - switched to english version, fixed help/settings/hints rendering
+* 0.3 
+    - added game menu, new levels/tutorial, first "playable" release
 
-* 0.1 - first linux release
+* 0.2 
+    - switched to english version, fixed help/settings/hints rendering
+
+* 0.1 
+    - first linux release

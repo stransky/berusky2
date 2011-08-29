@@ -38,14 +38,45 @@ AC_SUBST(CFLAGS)
 AC_SUBST(CXXFLAGS)
 AC_SUBST(LDFLAGS)
 
-AC_DEFINE_UNQUOTED([INI_FILE_NAME], ["berusky3d.ini"], [Default game ini file.])
-AC_DEFINE_UNQUOTED([INI_USER_DIRECTORY], ["~/.berusky2"], [Default user directory location.])
-AC_DEFINE_UNQUOTED([INI_SAVES_DIRECTORY], ["~/.berusky2/Save"], [Default game saves.])
-AC_DEFINE_UNQUOTED([INI_PROFILE_DIRECTORY], ["~/.berusky2/Save/profiles"], [Default profile dir.])
-AC_DEFINE_UNQUOTED([INI_FILE_GLOBAL_DIR], ["/var/games/berusky2"], [Default game ini file dir.])
-AC_DEFINE_UNQUOTED([INI_FILE_GLOBAL], ["/var/games/berusky2/berusky3d.ini"], [Default global game ini file.])
-AC_DEFINE_UNQUOTED([INI_FILE_USER], ["~/.berusky2/berusky3d.ini"], [Default per-user game ini file.])
-AC_DEFINE_UNQUOTED([INI_FILE_LOCAL], ["./berusky3d.ini"], [Default local game ini file.])
+AC_ARG_WITH([user_directory],
+AS_HELP_STRING([--with-user-directory=DIR], [User directory location (default is ~/.berusky2)]))
+if test "x$with_user_directory" != x; then
+  AC_DEFINE_UNQUOTED([INI_USER_DIRECTORY], [$with_user_directory], [Default user directory location.])
+else
+  AC_DEFINE_UNQUOTED([INI_USER_DIRECTORY], ["~/.berusky2"], [Default user directory location.])
+fi
+
+AC_ARG_WITH([saves_directory],
+AS_HELP_STRING([--with-saves-directory=DIR], [Game saves dir (default is ~/.berusky2/Save)]))
+if test "x$with_saves_directory" != x; then
+  AC_DEFINE_UNQUOTED([INI_SAVES_DIRECTORY], [$with_saves_directory], [Game saves dir])
+else
+  AC_DEFINE_UNQUOTED([INI_SAVES_DIRECTORY], ["~/.berusky2/Save"], [Game saves dir])
+fi
+
+AC_ARG_WITH([profile_directory],
+AS_HELP_STRING([--with-profile-directory=DIR], [User profiles dir (default is ~/.berusky2/Save/profiles)]))
+if test "x$with_profile_directory" != x; then
+  AC_DEFINE_UNQUOTED([INI_PROFILE_DIRECTORY], [$with_profile_directory], [User profile dir.])
+else
+  AC_DEFINE_UNQUOTED([INI_PROFILE_DIRECTORY], ["~/.berusky2/Save/profiles"], [User profile dir.])
+fi
+
+AC_ARG_WITH([ini_file],
+AS_HELP_STRING([--with-ini-file=NAME], [Define ini file name (default is berusky3d.ini)]))
+if test "x$with_ini_file" != x; then
+  AC_DEFINE_UNQUOTED([INI_FILE_NAME], [$with_ini_file], [Game ini file])  
+else
+  AC_DEFINE_UNQUOTED([INI_FILE_NAME], ["berusky3d.ini"], [Game ini file])
+fi
+  
+AC_ARG_WITH([ini_file_global_dir],
+AS_HELP_STRING([--with-ini-file-global-dir=DIR], [Location of global ini file (default is /var/games/berusky2)]))
+if test "x$with_ini_file_global_dir" != x; then
+  AC_DEFINE_UNQUOTED([INI_FILE_GLOBAL_DIR], [$with_ini_file_global_dir], [Global ini file dir.])
+else
+  AC_DEFINE_UNQUOTED([INI_FILE_GLOBAL_DIR], ["/var/games/berusky2"], [Global ini file dir.])
+fi
 
 dnl Set PACKAGE_LOCALE_DIR in config.h.
 if test "x${prefix}" = "xNONE"; then

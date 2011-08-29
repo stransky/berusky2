@@ -65,25 +65,16 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
-/* Default global game ini file. */
-#undef INI_FILE_GLOBAL
-
-/* Default game ini file dir. */
+/* Global ini file dir. */
 #undef INI_FILE_GLOBAL_DIR
 
-/* Default local game ini file. */
-#undef INI_FILE_LOCAL
-
-/* Default game ini file. */
+/* Game ini file */
 #undef INI_FILE_NAME
 
-/* Default per-user game ini file. */
-#undef INI_FILE_USER
-
-/* Default profile dir. */
+/* User profile dir. */
 #undef INI_PROFILE_DIRECTORY
 
-/* Default game saves. */
+/* Game saves dir */
 #undef INI_SAVES_DIRECTORY
 
 /* Default user directory location. */

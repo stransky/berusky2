@@ -38,21 +38,13 @@ void maximalizuj_hru(void);
 #define INI_FILE_GLOBAL_DIR     "/var/games/berusky2/"
 #endif
 
-// /var/games/berusky2/berusky3d.ini
-#ifndef INI_FILE_GLOBAL
-#define INI_FILE_GLOBAL         INI_FILE_GLOBAL_DIR INI_FILE_NAME
-#endif
-
-// ~/.berusky2/berusky3d.ini
-#ifndef INI_FILE_USER
-#define INI_FILE_USER           INI_USER_DIRECTORY INI_FILE_NAME
-#endif
-
-// ./berusky3d.ini
-#ifndef INI_FILE_LOCAL
-#define INI_FILE_LOCAL          "./"INI_FILE_NAME
-#endif
 #endif
 */
+
+#ifdef LINUX
+#define INI_FILE_GLOBAL         INI_FILE_GLOBAL_DIR INI_FILE_NAME
+#define INI_FILE_USER           INI_USER_DIRECTORY INI_FILE_NAME
+#define INI_FILE_LOCAL          "./"INI_FILE_NAME
+#endif
 
 #endif
