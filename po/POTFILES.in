@@ -302,7 +302,6 @@ src/komat/kfile.cpp
 src/komat/Mat3d.h
 src/komat/3dmath.h
 src/komat/3dproject.h
-src/komat/mesh_flags.h
 src/komat/Keyframe.h
 src/komat/Quat.h
 src/komat/Berusky3d_animace.cpp

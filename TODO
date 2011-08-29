@@ -1,3 +1,10 @@
+Pad -> nemuze zapisovat do ini souboru
+
+Checking ~/.berusky2/berusky3d.ini...missing, try to copy it from /var/games/berusky2berusky3d.ini...
+No such file or directory
+FAILED
+
+
 <mcrha> stransky, nastaveni nefunguje, a je v nem jeden text cesky
 <mcrha> stransky, neukazuji se popisky klaves v nastaveni, treba pro sipky
 <mcrha> stransky, jak ma fungovat 2d ovladani berdy? hadam, ze sipka 

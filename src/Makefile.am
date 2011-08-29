@@ -317,7 +317,6 @@ berusky2_SOURCES = \
 	komat/Mat3d.h\
 	komat/3dmath.h\
 	komat/3dproject.h\
-	komat/mesh_flags.h\
 	komat/Keyframe.h\
 	komat/Quat.h\
 	komat/Berusky3d_animace.cpp\

@@ -264,10 +264,9 @@ void ini_file_init(void)
       // current working directory init
       if(i == 1) {
         getcwd(ini_file_dirs[i], MAX_FILENAME);
-        strcat(ini_file_dirs[i],"/");
       }
   
-      strcat(ini_file_dirs[i], INI_FILE_NAME);
+      strcat(ini_file_dirs[i], "/"INI_FILE_NAME);
   
       pprintfnl("Trying to open ini file at %s...",ini_file_dirs[i]);
       if(efile(ini_file_dirs[i])) {
