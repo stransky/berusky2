@@ -1,14 +1,11 @@
+debug how-to page -> jak ladit ty pady
 Pad -> nemuze zapisovat do ini souboru
-
-Checking ~/.berusky2/berusky3d.ini...missing, try to copy it from /var/games/berusky2berusky3d.ini...
-No such file or directory
-FAILED
-
 
 <mcrha> stransky, nastaveni nefunguje, a je v nem jeden text cesky
 <mcrha> stransky, neukazuji se popisky klaves v nastaveni, treba pro sipky
 <mcrha> stransky, jak ma fungovat 2d ovladani berdy? hadam, ze sipka 
-doleva/doprava s ni tak i hybe, ale tim, ze se mi nedrzi nastaveni, tak se porad krouti jak motovidlo.
+doleva/doprava s ni tak i hybe, ale tim, ze se mi nedrzi nastaveni, 
+tak se porad krouti jak motovidlo.
 <stransky> mcrha, jako open source jsou uvolneny zatim jen prvni 
 3 sceny, tutorial, trenink. 2D by melo byt zaple defaultne
 <mcrha> stransky, zajimavy je, ze z hlavniho menu nastaveni vypada tak, 
@@ -23,16 +20,9 @@ A ten jakoze "kour kvuli zime" jim kresli jako ctverecky
 <mcrha>            - Load project....
 <mcrha>            - Scene-Material neni
 <mcrha> stransky, to posledni to je normalni?
-<rbiba> sochotni: pokud vim tak z vpnky se scratch primountovat neda
 <mcrha> stransky, pak mam par takovych: Chyba dir /usr/share/berusky2/textures/stul...
-* aokuliar (~aokuliar@dhcp-0-245.brq.redhat.com) has joined #brno
-<sochotni> mcrha: no aspon na download je http interface
 <mcrha> stransky, ale to muze byt tim, ze jsem mu v ini rekl, ze neni texturedir=/ ale texturedir=/usr/share/berusky2/textures
 <mcrha> stransky, Chyba otevreni pak file /usr/share/berusky2/textures/kanal.pak...
-<mcrha> Chyba otevreni pak file /usr/share/berusky2/textures/voda.pak...
-<mcrha> Chyba otevreni pak file /usr/share/berusky2/textures/silnice.pak...
-<mcrha> Chyba otevreni pak file /usr/share/berusky2/textures/bazina.pak...
-<mcrha> Chyba otevreni pak file /usr/share/berusky2/textures/les.pak...
 <mcrha> stransky, File komat/Keyframe.cpp Line 3137 Chyba otevreni souboru 
 '/usr/share/berusky2/game_data/tu_01.sik' v /usr/share/berusky2/game_data
 <mcrha> stransky, tohle nevim jestli je videt i na 32bit: Load scene - static items....
