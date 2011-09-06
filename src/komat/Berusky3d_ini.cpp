@@ -316,14 +316,13 @@ void user_directory_create(void)
     }
   } else {
     pprintf("OK");
-  }  
+  }
 }
 
 int main(int argc, char **argv)
 {
   //feenableexcept(FE_DIVBYZERO|FE_INEXACT|FE_INVALID|FE_OVERFLOW|FE_UNDERFLOW);
-  feenableexcept(FE_DIVBYZERO | FE_INVALID);
-
+  //feenableexcept(FE_DIVBYZERO|FE_INVALID);  
   //quat_test();
 
   print_banner();
@@ -385,14 +384,14 @@ inline void nacti_polohu_mysi(int nx, int ny)
 
 inline void nacti_tlacitka_mysi(int num, bool state)
 {
-  kprintf(TRUE, "nacti_tlacitka_mysi(): num = %d, state = %d", num, state);
+  //kprintf(TRUE, "nacti_tlacitka_mysi(): num = %d, state = %d", num, state);
   switch (num) {
     case 1:
-      kprintf(TRUE, "nacti_tlacitka_mysi(): mi.t1 = %d", state);
+      //kprintf(TRUE, "nacti_tlacitka_mysi(): mi.t1 = %d", state);
       mi.ot1 = mi.dt1 = mi.t1 = state;
       break;
     case 3:
-      kprintf(TRUE, "nacti_tlacitka_mysi(): mi.t2 = %d", state);
+      //kprintf(TRUE, "nacti_tlacitka_mysi(): mi.t2 = %d", state);
       mi.ot2 = mi.dt2 = mi.t2 = state;
       break;
     case 4:
@@ -405,11 +404,11 @@ inline void nacti_tlacitka_mysi(int num, bool state)
           PRCameraFlagChange = FALSE;
 
           if (num == 4) {
-            kprintf(TRUE, "nacti_tlacitka_mysi(): key[K_PLUS] = %d", TRUE);
+            //kprintf(TRUE, "nacti_tlacitka_mysi(): key[K_PLUS] = %d", TRUE);
             key[K_PLUS] = TRUE;
           }
           else {
-            kprintf(TRUE, "nacti_tlacitka_mysi(): key[K_MINUS] = %d", TRUE);
+            //kprintf(TRUE, "nacti_tlacitka_mysi(): key[K_MINUS] = %d", TRUE);
             key[K_MINUS] = TRUE;
           }
         }

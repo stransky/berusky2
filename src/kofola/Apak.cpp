@@ -10,15 +10,36 @@
 void apakCheck(void)
 {
   assert(sizeof(APAKFILEHEADER) == 428);
-  assert(sizeof(APAKFILE) == 284);
-  assert(sizeof(APAKDIRECTORY) == 272);
-  assert(sizeof(APAKNODE) == 280);
+  assert(sizeof(APAKFILE_DISK) == 284);
+  assert(sizeof(APAKDIRECTORY_DISK) == 272);
+  assert(sizeof(APAKNODE_DISK) == 280);
   assert(sizeof(APAKFILENODE) == 8);
-  assert(sizeof(APAK_HANDLE) == 700);
-  assert(sizeof(APAK_FILE_HANDLE) == 28);
-  assert(sizeof(APAK_STREAM_TYPE) == 8);
-  assert(sizeof(APAK_FIND) == 272);
-  assert(sizeof(APAK_FIND_SWITCH) == 8);
+}
+
+void apakfile_from_disk(APAKFILE_DISK *src, APAKFILE *desc)
+{
+  memset(desc,0,sizeof(APAKFILE));
+  memcpy(desc->cName, src->cName, sizeof(desc->cName));
+  desc->uattFileAttribute = src->uattFileAttribute;
+  desc->apuLFileLocation = src->apuLFileLocation;
+  desc->apuLSizeofFile = src->apuLSizeofFile;
+  desc->apuLRealSizeofFile = src->apuLRealSizeofFile;
+  desc->bNotCompressed = src->bNotCompressed;
+}
+
+void apakdirectory_from_disk(APAKDIRECTORY_DISK *src, APAKDIRECTORY *desc)
+{
+  memset(desc,0,sizeof(APAKDIRECTORY));
+  memcpy(desc->cName, src->cName, sizeof(desc->cName));
+  desc->uattDirAttribute = src->uattDirAttribute;
+} 
+
+void apaknode_from_disk(APAKNODE_DISK *src, APAKNODE *desc)
+{
+  memset(desc,0,sizeof(APAKNODE));
+  memcpy(desc->cWDir, src->cWDir, sizeof(desc->cWDir));
+  desc->apuLSizeofFile = src->apuLSizeofFile;
+  desc->apuLSizeofDirectory = src->apuLSizeofDirectory;
 }
 
 inline void ZeroMemory(void *mem, int size)
@@ -83,7 +104,9 @@ void apakCreateNode(APAK_HANDLE * pHandle, char bFirst, APAKNODE * pPrevNode,
   if (pCpyNode)
     *pCpyNode = pNode;
 
-  iRet = fread(pNode, sizeof(APAKNODE), 1, pHandle->pFILE);
+  APAKNODE_DISK tmp;
+  iRet = fread(&tmp, sizeof(APAKNODE_DISK), 1, pHandle->pFILE);
+  apaknode_from_disk(&tmp, pNode);
 
   if (apakReadError(iRet, pHandle))
     return;
@@ -153,9 +176,10 @@ void apakCreateNode(APAK_HANDLE * pHandle, char bFirst, APAKNODE * pPrevNode,
       apakError(pHandle, "AFAT corrupted");
       return;
     }
-
-    iRet =
-      fread(&pNode->apakFile[iLastFile], sizeof(APAKFILE), 1, pHandle->pFILE);
+    
+    APAKFILE_DISK tmp;
+    iRet = fread(&tmp, sizeof(APAKFILE_DISK), 1, pHandle->pFILE);
+    apakfile_from_disk(&tmp, &pNode->apakFile[iLastFile]);
 
     if (apakReadError(iRet, pHandle))
       return;
@@ -176,9 +200,9 @@ void apakCreateNode(APAK_HANDLE * pHandle, char bFirst, APAKNODE * pPrevNode,
       return;
     }
 
-    iRet =
-      fread(&pNode->apakDirectory[iLastDir], sizeof(APAKDIRECTORY), 1,
-      pHandle->pFILE);
+    APAKDIRECTORY_DISK tmp;
+    iRet = fread(&tmp, sizeof(APAKDIRECTORY_DISK), 1, pHandle->pFILE);
+    apakdirectory_from_disk(&tmp, &pNode->apakDirectory[iLastDir]);
 
     if (apakReadError(iRet, pHandle))
       return;

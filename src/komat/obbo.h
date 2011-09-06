@@ -81,7 +81,6 @@ inline float obb_vzdal_rovina_z(OBB_OLD * p_obb, float z)
 inline float obb_vzdal_bod(OBB_OLD * p_obb, BOD * p_bod)
 {
   BOD v, v1, v2;
-  float len;
 
   vektor_sub(p_bod, &p_obb->obb_stred, &v1);
 
@@ -90,7 +89,7 @@ inline float obb_vzdal_bod(OBB_OLD * p_obb, BOD * p_bod)
   v.z = vektor_dot_product(p_obb->obb + 2, &v1);
 
   v2 = v1;
-  len = vektor_norm_mult_vektor(&v2, &p_obb->obb_len);
+  vektor_norm_mult_vektor(&v2, &p_obb->obb_len);
 
   if (fabsf(v1.x) <= fabsf(v2.x) &&
     fabsf(v1.y) <= fabsf(v2.y) && fabsf(v1.z) <= fabsf(v2.z)) {
@@ -104,11 +103,10 @@ inline float obb_vzdal_bod(OBB_OLD * p_obb, BOD * p_bod)
 inline float obb_vzdal_bod_aabb(OBB_OLD * p_obb, BOD * p_bod)
 {
   BOD v1, v2;
-  float len;
 
   vektor_sub(p_bod, &p_obb->obb_stred, &v1);
   v2 = v1;
-  len = vektor_norm_mult_vektor(&v2, &p_obb->obb_len);
+  vektor_norm_mult_vektor(&v2, &p_obb->obb_len);
 
   if (fabsf(v1.x) <= fabsf(v2.x) &&
     fabsf(v1.y) <= fabsf(v2.y) && fabsf(v1.z) <= fabsf(v2.z)) {

@@ -220,7 +220,6 @@ public:
   float dist(VECT *p_vert)
   {
     VECT  v,v1,v2;
-    float tmp_len;
     
     v1 = *p_vert - center;
     
@@ -229,7 +228,7 @@ public:
     v.z = vect_dot_product(dir[2],v1);
     
     v2 = v1;
-    tmp_len = v2.norm();
+    v2.norm();
     v2 *= len;
     
     if(fabsf(v1.x) <= fabsf(v2.x) &&

@@ -7,7 +7,6 @@
 
 typedef unsigned char apBite;
 typedef unsigned int apuInt;
-typedef unsigned long apuLong;
 
 typedef struct _APAKFILEHEADER
 {
@@ -18,7 +17,7 @@ typedef struct _APAKFILEHEADER
   apuInt apuICountofFiles;
   apuInt apuICountofDirectiories;
   apuInt apuICountofNodes;
-  apuLong apuLSizeofPAK;
+  apuInt apuLSizeofPAK;
   int iReserved[100];
 } APAKFILEHEADER;
 
@@ -27,12 +26,24 @@ typedef struct _APAKFILE
   char cName[256];
   time_t ttCreateTime;
   apuInt uattFileAttribute;
-  apuLong apuLFileLocation;
-  apuLong apuLSizeofFile;
-  apuLong apuLRealSizeofFile;
+  apuInt apuLFileLocation;
+  apuInt apuLSizeofFile;
+  apuInt apuLRealSizeofFile;
   char bNotCompressed;
   struct _APAKFILE *pNext;
 } APAKFILE;
+
+typedef struct _APAKFILE_DISK
+{
+  char cName[256];
+  apuInt tmp;
+  apuInt uattFileAttribute;
+  apuInt apuLFileLocation;
+  apuInt apuLSizeofFile;
+  apuInt apuLRealSizeofFile;
+  char bNotCompressed;
+  apuInt tmp1;
+} APAKFILE_DISK;
 
 struct apaknode;
 typedef struct apaknode APAKNODE;
@@ -46,21 +57,41 @@ typedef struct _APAKDIRECTORY
   struct _APAKDIRECTORY *pNext;
 } APAKDIRECTORY;
 
+typedef struct _APAKDIRECTORY_DISK
+{
+  char cName[256];
+  apuInt tmp;
+  apuInt uattDirAttribute;
+  apuInt tmp1;
+  apuInt tmp2;
+} APAKDIRECTORY_DISK;
+
 typedef struct apaknode
 {
   char cWDir[256];
-  apuLong apuLSizeofFile;
+  apuInt apuLSizeofFile;
   APAKFILE *apakFile;
-  apuLong apuLSizeofDirectory;
+  apuInt apuLSizeofDirectory;
   APAKDIRECTORY *apakDirectory;
   APAKNODE *pPreviousNode;
   APAKNODE *pNextNode;
 } APAKNODE;
 
+typedef struct apaknode_disk
+{
+  char cWDir[256];
+  apuInt apuLSizeofFile;
+  apuInt tmp;
+  apuInt apuLSizeofDirectory;
+  apuInt tmp1;
+  apuInt tmp2;
+  apuInt tmp3;
+} APAKNODE_DISK;
+
 typedef struct _APAKFILENODE
 {
   int iNextItem;
-  apuLong apuLfSeek;
+  apuInt apuLfSeek;
 } APAKFILENODE;
 
 typedef struct _APAK_HANDLE
@@ -75,9 +106,9 @@ typedef struct _APAK_HANDLE
 
 typedef struct _APAK_FILE_HANDLE
 {
-  apuLong apuLfStartofFile;
-  apuLong apuLfEndofFile;
-  apuLong apuLfCursor;
+  apuInt apuLfStartofFile;
+  apuInt apuLfEndofFile;
+  apuInt apuLfCursor;
   char bUni;
   char bEof;
   char *pBuffer;

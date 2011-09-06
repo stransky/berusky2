@@ -703,7 +703,6 @@ char fn2_Load_Triger(char *pFile, GAME_TRIGER * pTriger, GRAMMAR * pGr,
   TRIGER_STRUCTURE * pTStruct)
 {
   FILE *file;
-  char text[256];
   WCHAR wtext[128];
   word wotext[128];
 

@@ -19,7 +19,7 @@ int acheckstream(FILE * stream)
     return 1;
 }
 
-void agetbuffer(FILE * stream, char **pBuffer, apuLong * psize)
+void agetbuffer(FILE * stream, char **pBuffer, apuInt * psize)
 {
   APAK_STREAM_TYPE *pAStream = (APAK_STREAM_TYPE *) stream;
   APAK_FILE_HANDLE *pFHandle;

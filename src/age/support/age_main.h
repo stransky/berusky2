@@ -354,46 +354,8 @@ public:
     p_callback = p_fnc;
   }
 
-  /*
-   * Main event stream - is cleared every frame
-   */
-private:  
-  
-  EVENT_STREAM  estream;
-
-public:
-  
-  GAME_EVENT * event_get(void)
-  {
-    static GAME_EVENT ev;
-        
-    while(!estream.empty()) {
-      ev = estream.get();
-      
-      if(ev.type_get() != EV_CALLBACK)
-        return(&ev);
-      
-      INPUT_EVENT_FUNC p_func = (INPUT_EVENT_FUNC)ev.param_pointer_get(0);
-      p_func(this);
-    }
-        
-    return(NULL);
-  }
-
-  void event_add(GAME_EVENT *p_event)
-  {
-    estream.add(p_event);
-  }
-  
-  void event_wait_set(bool state)
-  {
-    flag_set(LOOP_EVENT_WAIT,state);    
-  }  
-
 private:
   
-  void event_loop(void);
-
   /*
    * Main timer class
    */
@@ -407,19 +369,7 @@ public:
   {
     return(&ltimer);
   }
-
-  // Input class - process input from system
-private:  
-  
-  INPUT inp;
-
-public:
-  
-  INPUT * input_get(void)
-  {
-    return(&inp);
-  }
-  
+ 
   /*
    * Frame interface
    */
@@ -453,13 +403,7 @@ public:
 public:
   // Draw single frame
   bool draw(void);
-
-  // Run single frame (i.e.: process events/render/wait)
-  bool frame_run(void);
-
-  // Run all frames
-  void run(void);
-  
+ 
 public:
 
   age_main(AGE_EVENT_FUNC p_callback = NULL);

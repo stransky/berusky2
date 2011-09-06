@@ -676,14 +676,38 @@ void lo_chunk_preved_zrcadlo(EDIT_KONTEJNER ** p_kont, int kontnum,
 
 }
 
+/*
+typedef struct _ZDRCADLO_DESC_POLY
+{
+  int zrcadlo_k;              // kontejner zrcadla
+  int zrcadlo_o;                // objekt zrcadla
+  int id_kont;                  // id kontejneru
+  int poly;                     // poly ktereho se to tyka
+  struct _ZDRCADLO_DESC_POLY *p_next;
+
+} ZDRCADLO_DESC_POLY;
+*/
 void lo_chunk_save_zrcadlo_sub(FFILE f, ZDRCADLO_DESC_POLY * p_desc)
 {
   OUT_CHUNK ch;
 
   ch.typ = CHUNK_ZRCADLO_3_POLOZKA;
-  ch.velikost = sizeof(ch) + sizeof(p_desc[0]);
+  ch.velikost = sizeof(ch)+ 
+                sizeof(int)+
+                sizeof(int)+
+                sizeof(int)+
+                sizeof(int)+
+                sizeof(int);
+
   ffwrite(&ch, sizeof(ch), 1, f);
-  ffwrite(p_desc, sizeof(p_desc[0]), 1, f);
+
+  ffwrite(p_desc->zrcadlo_k, sizeof(p_desc->zrcadlo_k), 1, f);
+  ffwrite(p_desc->zrcadlo_o, sizeof(p_desc->zrcadlo_o), 1, f);
+  ffwrite(p_desc->id_kont, sizeof(p_desc->id_kont), 1, f);
+  ffwrite(p_desc->poly, sizeof(p_desc->poly), 1, f);
+
+  int tmp;
+  ffwrite(&tmp, sizeof(int), 1, f);
 }
 
 void lo_chunk_save_zrcadlo(FFILE f, ZDRCADLO_DESC * p_desc)
@@ -4985,10 +5009,8 @@ int lo_load_chunky(FFILE f)
   while ((ret = ffread(&ch, sizeof(ch), 1, f)) && ret > 0) {
     load = 0;
 
+    pprintf("ch.typ = %d",ch.typ);
     assert(ch.typ >= 0 && ch.typ <= CHUNK_KAMSET_2);
-
-    if (ch.typ == 58)
-      ch.typ = 58;
 
     for (i = 0; i < (int) (sizeof(chload) / sizeof(chload[0])); i++) {
       if (chload[i].chunk == ch.typ) {

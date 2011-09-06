@@ -124,13 +124,12 @@ typedef struct _KEY_POINT_3DS
   } MATERIAL;
   typedef struct _ZDRCADLO_DESC_POLY
 {
-  int zrcadlo_k;              // kontejner zrcadla
+  int zrcadlo_k;              // kontejner zrcadla
   int zrcadlo_o;                // objekt zrcadla
   int id_kont;                  // id kontejneru
-  int poly;                     // poly ktereho se to tyka
-    struct _ZDRCADLO_DESC_POLY *p_next;
- } ZDRCADLO_DESC_POLY;
-  typedef struct _ZDRCADLO_DESC
+  int poly;                     // poly ktereho se to tyka  struct _ZDRCADLO_DESC_POLY *p_next;
+} ZDRCADLO_DESC_POLY;
+  typedef struct _ZDRCADLO_DESC
 {
   
     // Zustava - popisuje rovine zrcadlo

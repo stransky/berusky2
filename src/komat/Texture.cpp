@@ -953,7 +953,7 @@ byte *file_read(APAK_HANDLE * pHandle, char *p_file, int *p_read)
 {
   char *p_buffer;
   char *pBuffer;
-  apuLong psize;
+  apuInt psize;
   FILE *f;
   int v;
 

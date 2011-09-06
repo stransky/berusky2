@@ -157,7 +157,6 @@
 
 // Loop/events
 #include "timer.h"
-#include "events.h"
 #include "input.h"
 #include "age_main.h"
 

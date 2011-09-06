@@ -525,7 +525,7 @@ public:
 // -------------------------------------------------------
 // ugly hack
 // -------------------------------------------------------
-
+/*
 inline int void2int(void *p_value)
 {
   int *p_tmp = (int *)(&p_value);
@@ -537,7 +537,7 @@ inline void * int2void(int value)
   void *p_tmp = (void *)value;
   return(p_tmp);
 }
-
+*/
 bool file_copy(FFILE f_in, FFILE f_out, int len = 0);
 
 #endif // __UTILS_H__

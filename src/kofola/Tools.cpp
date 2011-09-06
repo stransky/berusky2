@@ -171,7 +171,7 @@ void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
   char odir[MAX_PATH + 1];
   char dir[MAX_PATH + 1];
   int error;
-  unsigned long ulsize;
+  apuInt ulsize;
 
   char Text[1024];
   char Caption[1024];

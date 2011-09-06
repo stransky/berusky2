@@ -524,10 +524,8 @@ int fn_Set_Font(char *cPAK)
     return 0;
   }
   else {
-    agetbuffer(b2_2d_font.file, (char **) &b2_2d_font.pTBuffer,
-      &b2_2d_font.iTSize);
-    b2_2d_font.pTBuffer =
-      wchar_windows_to_linux((word *) b2_2d_font.pTBuffer, b2_2d_font.iTSize);
+    agetbuffer(b2_2d_font.file, (char **) &b2_2d_font.pTBuffer, &b2_2d_font.iTSize);
+    b2_2d_font.pTBuffer = wchar_windows_to_linux((word *) b2_2d_font.pTBuffer, b2_2d_font.iTSize);
 
     if (!b2_2d_font.pTBuffer) {
       apakclose(b2_2d_font.pArchive);

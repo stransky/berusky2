@@ -48,7 +48,7 @@ int aseek(FILE * stream, long offset, int origin);
 // nasledujici funkce funguji pouze na astream
 //----------------------------------------------------------------------------------
 // vrati pointer na file buffer a jeho velikost
-void agetbuffer(FILE * stream, char **pBuffer, apuLong * psize);
+void agetbuffer(FILE * stream, char **pBuffer, apuInt * psize);
 
 // vraci to stejne co _find_first, krome lastwrite a last acces
 // void agetfiledata(FILE *stream, struct _finddata_t *fileinfo);

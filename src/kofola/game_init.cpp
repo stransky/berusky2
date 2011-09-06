@@ -294,7 +294,7 @@ void gi_APAK_Load(unsigned long mem, struct _finddata_t *pData)
 {
 /*
 	char *pMem;
-	apuLong size;
+	apuInt size;
 	FILE *file;
 	
 	if(!pData)
