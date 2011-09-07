@@ -57,17 +57,20 @@ typedef struct _VERTEX_ARRAYS
   int ati_start_text[MAT_TEXTUR];
   int arb_handle_indicie;
 } VERTEX_ARRAYS;
+
 typedef struct _NORMALBOD
 {
   float x, y, z;
   dword diff;
 } NORMALBOD;
+
 typedef struct _MUJ_BOD_FLARE
 {
   float x, y, z, rhw;
   dword diff;
   float tu1, tv1;
 } MUJ_BOD_FLARE;
+
 typedef struct _DXBOD
 {
   float x, y, z;
@@ -105,6 +108,7 @@ typedef struct _ROTKEY
   float y;
   float z;
 } ROTKEY;
+
 typedef struct _MATERIAL
 {
   float ambient_r;
@@ -122,6 +126,7 @@ typedef struct _MATERIAL
   float faktor_b;
   float faktor_a;
 } MATERIAL;
+
 typedef struct _ZDRCADLO_DESC_POLY
 {
   int zrcadlo_k;                // kontejner zrcadla
@@ -130,6 +135,7 @@ typedef struct _ZDRCADLO_DESC_POLY
   int poly;                     // poly ktereho se to tyka  
   struct _ZDRCADLO_DESC_POLY *p_next;
 } ZDRCADLO_DESC_POLY;
+
 typedef struct _ZDRCADLO_DESC
 {
   // Zustava - popisuje rovine zrcadlo
@@ -138,6 +144,7 @@ typedef struct _ZDRCADLO_DESC
   ROVINAD r[5];                 // 4 plochy klipovaci pyramidy
   ZDRCADLO_DESC_POLY *p_poly;
 } ZDRCADLO_DESC;
+
 typedef struct _OBB_OLD
 {
   BOD obb[3];                   // obb smerovy vektory
@@ -156,6 +163,7 @@ typedef struct _MULTITEXT_FLAG
   GLenum mod;
   GLint param;
 } MULTITEXT_FLAG;
+
 typedef struct _OLD_MULTITEXT_FLAG
 {
   dword a_arg1, a_op, a_arg2;
@@ -172,6 +180,7 @@ typedef struct _EDIT_STATE_ALFA_BLOK
   int alfa_pruhledny;
   int funkce;
 } EDIT_STATE_ALFA_BLOK;
+
 typedef struct _EDIT_STATE_TEXT_BLOK
 {
   char jmeno[MAX_JMENO];        // jmeno bloku
@@ -1231,7 +1240,6 @@ typedef struct _LIGHTMAP_FACE
   int nu, nv;                   // pocet kroku
 } LIGHTMAP_FACE;
 
-
 // pouze na staticke objekty
 typedef struct _EDIT_MESH_POLY
 {                               //celej kontejner    
@@ -1269,6 +1277,44 @@ typedef struct _EDIT_MESH_POLY
 
   VERTEX_ARRAYS varray;         // vertex-arrays
 } EDIT_MESH_POLY;
+
+// used as a template for poly loading
+typedef struct _EDIT_MESH_POLY_DISK
+{                               //celej kontejner    
+  char jmeno[MAX_JMENO];        // jmeno poly
+  int facenum;                  // co face to objekt
+  int tmp;
+
+  int tmp1;
+  int tmp2;
+  dword m1flag;                 // flag materialu -> stejne jako u kontejneru
+  dword m2flag;                 // flag mat 2 -> stejne jako u kontejneru
+  dword kflag;                  // flag kontejneru
+  dword k2flag;                 // flag kontejneru
+  int material;                 // material poly
+  int kont;                     // cislo kontejneru, ze ktereho bylo poly vyrobeno
+  int poly;                     // poradove cislo poly v seznamu polyu
+
+  int tmp3;
+  int lightnum;                 // pocet lightmap
+  int tmp4;
+  int tmp5;
+  char kreslit;
+  int mail;                     // mailbox poly :)
+  OBB_OLD obb;
+  // Svetla poly - dynamicke 
+  int tmp6;
+  int lightmax;                 // velikost pole na svetla
+  int lightakt;                 // aktualni vekikost
+
+  // Svetla poly - extra-dynamicke
+  int top_edlight;              // top-svetlo
+  int tmp7;
+  int edlightmax;               // velikost pole na extra svetla
+  int edlightakt;               // aktualni velikost
+
+  VERTEX_ARRAYS varray;         // vertex-arrays
+} EDIT_MESH_POLY_DISK;
 
 typedef struct _PRVEK_DATABAZE
 {                               // prvek, ktery je v aktivni databazi prvku

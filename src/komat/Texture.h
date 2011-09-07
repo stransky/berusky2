@@ -26,7 +26,6 @@ typedef RBITMAP bitmapa;
 
 typedef struct _EDIT_TEXT_OLD
 {
-
   char jmeno[MAX_JMENO];        //jmeno textury
   bitmapa *p_bmp;               // pointer na bitmapu textury
   GLuint text;                  // jmeno textury
@@ -48,6 +47,29 @@ typedef struct _EDIT_TEXT_OLD
   int floyd_transp;
 
 } EDIT_TEXT, EDIT_TEXT_OLD;
+
+typedef struct _EDIT_TEXT_DISK
+{
+  char jmeno[MAX_JMENO];        // jmeno textury
+  int  tmp;
+  GLuint text;                  // jmeno textury
+  GLenum typ;                   // typ textury (1D/2D)
+  byte load;                    // = 1 text je nahrana, 0 - neni nahrana
+  int flag;                     // flag - TEXT_GEN_DOT3/....
+  int flag2;                    // flag - pouzita/flare...
+  GLint format;                 // format texury
+  int trida;                    // trida textury
+  int mip;                      // mip_mapping
+  int mip_filtr;                // filtr aplikovany na mip-mapy
+  int std_filtr;                // std filtr
+  GLint wrap_x;                 // wrap/clamp
+  GLint wrap_y;
+  int bump;
+  int alfa_stage;               // alfa-stage z textury
+  int no_cull;                  // bez culingu
+  int floyd;
+  int floyd_transp;
+} EDIT_TEXT_DISK;
 
 // Konfigurace textury pro nahrani z disku (format&pod.)
 typedef struct _EDIT_TEXT_KONFIG
@@ -250,5 +272,7 @@ void bmp_to_16bit(bitmapa * p_bmp, byte maska, int pruh);
 */
 
 void txt_trida(int trida);
+
+void edit_text_from_disk(EDIT_TEXT_DISK *p_src, EDIT_TEXT *p_desc);
 
 #endif

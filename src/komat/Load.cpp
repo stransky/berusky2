@@ -3043,6 +3043,29 @@ void lo_poly_oznac_zrcadlo(EDIT_MESH_POLY * p_poly)
   p_poly->kflag |= KONT_ZRCADLO;
 }
 
+void edit_mesh_poly_from_disk(EDIT_MESH_POLY_DISK *src, EDIT_MESH_POLY *desc)
+{  
+  memcpy(desc->jmeno, src->jmeno, sizeof(desc->jmeno));
+  desc->facenum = src->facenum;
+  desc->m1flag = src->m1flag;
+  desc->m2flag = src->m2flag;
+  desc->kflag = src->kflag;
+  desc->k2flag = src->k2flag;
+  desc->material = src->material;
+  desc->kont = src->kont;
+  desc->poly = src->poly;
+  desc->lightnum = src->lightnum;
+  desc->kreslit = src->kreslit;
+  desc->mail = src->mail;
+  desc->obb = src->obb;
+  desc->lightmax = src->lightmax;
+  desc->lightakt = src->lightakt;
+  desc->top_edlight = src->top_edlight;
+  desc->edlightmax = src->edlightmax;
+  desc->edlightakt = src->edlightakt;
+  desc->varray = src->varray;
+}
+
 FFILE lo_poly_file_vyrob(char *p_file, int filenum, int velikost)
 {
   FFILE f;
@@ -3091,6 +3114,7 @@ void lo_poly_uloz(FFILE f, EDIT_MESH_POLY * p_poly, EDIT_TEXT * p_light)
   for (i = 0; i < p_poly->lightnum; i++) {
     p_poly->p_light[i] = (EDIT_TEXT *) (p_poly->p_light[i] - p_light);
   }
+  // TODO - 64bit
   ffwrite(p_poly->p_light, sizeof(p_poly->p_light[0]), p_poly->lightnum, f);
   ffwrite(p_poly->p_lightnum, sizeof(p_poly->p_lightnum[0]), p_poly->lightnum,
     f);
@@ -3102,27 +3126,36 @@ void lo_poly_uloz(FFILE f, EDIT_MESH_POLY * p_poly, EDIT_TEXT * p_light)
 void lo_poly_nahraj_indir(FFILE f, EDIT_MESH_POLY * p_poly,
   EDIT_TEXT * p_light)
 {
+  EDIT_MESH_POLY_DISK poly_disk;
   int i;
 
-  ffread(p_poly, sizeof(p_poly[0]), 1, f);
+  ffread(&poly_disk, sizeof(poly_disk), 1, f);
+  edit_mesh_poly_from_disk(&poly_disk, p_poly);
+
   p_poly->mail = 0;
 
-  p_poly->p_koord =
-    (TEXT_KOORD *) mmalloc(sizeof(p_poly->p_koord[0]) * p_poly->facenum);
+  p_poly->p_koord = (TEXT_KOORD *) mmalloc(sizeof(p_poly->p_koord[0])*p_poly->facenum);
   ffread(p_poly->p_koord, sizeof(p_poly->p_koord[0]), p_poly->facenum, f);
 
-  p_poly->p_light =
-    (EDIT_TEXT **) mmalloc(sizeof(p_poly->p_light[0]) * p_poly->lightnum);
-  p_poly->p_lightnum =
-    (int *) mmalloc(sizeof(p_poly->p_lightnum[0]) * p_poly->lightnum);
+  p_poly->p_light = (EDIT_TEXT **) mmalloc(sizeof(p_poly->p_light[0])*p_poly->lightnum);
+  p_poly->p_lightnum = (int *) mmalloc(sizeof(p_poly->p_lightnum[0])*p_poly->lightnum);
 
-  ffread(p_poly->p_light, sizeof(p_poly->p_light[0]), p_poly->lightnum, f);
-  ffread(p_poly->p_lightnum, sizeof(p_poly->p_lightnum[0]), p_poly->lightnum,
-    f);
+  int *p_tmp = mmalloc(sizeof(int)*p_poly->lightnum);
+  ffread(p_tmp, sizeof(int), p_poly->lightnum, f);
+  ffread(p_poly->p_lightnum, sizeof(p_poly->p_lightnum[0]), p_poly->lightnum, f);
 
   for (i = 0; i < p_poly->lightnum; i++) {
-    p_poly->p_light[i] = p_light + (int) p_poly->p_light[i];
+    p_poly->p_light[i] = p_light + p_tmp[i];
   }
+
+  ffree(p_tmp);
+}
+
+void load_poly_check(void)
+{
+  assert(sizeof(EDIT_MESH_POLY_DISK) == 372);
+  assert(sizeof(TEXT_KOORD) == 120);
+  assert(sizeof(EDIT_TEXT_DISK) == 124);
 }
 
 EDIT_MESH_POLY *lo_nahraj_poly_list(char *p_file, int *p_polynum,
@@ -3133,7 +3166,9 @@ EDIT_MESH_POLY *lo_nahraj_poly_list(char *p_file, int *p_polynum,
   int i, filenum, mat, mn;
   FFILE f;
 
-  if (!(f = lo_poly_file_otevri(p_file, &filenum, sizeof(p_poly[0])))) {
+  load_poly_check();
+
+  if (!(f = lo_poly_file_otevri(p_file, &filenum, sizeof(EDIT_MESH_POLY_DISK)))) {
     *p_polynum = 0;
     return (NULL);
   }
@@ -3147,6 +3182,7 @@ EDIT_MESH_POLY *lo_nahraj_poly_list(char *p_file, int *p_polynum,
     assert(0);
     chyba("Pamet!");
   }
+
   for (i = 0; i < filenum; i++) {
     ffread(material, sizeof(char), 50, f);
     lo_poly_nahraj_indir(f, p_poly + i, p_light);

@@ -1130,3 +1130,9 @@ void bmp_to_16bit(bitmapa * p_bmp, byte maska, int pruhl)
     }
   }
 }
+
+void edit_text_from_disk(EDIT_TEXT_DISK *p_src, EDIT_TEXT *p_desc)
+{
+  memcpy(p_desc->jmeno, p_src->jmeno, sizeof(p_src->jmeno));
+  memcpy(&p_desc->text, &p_src->text, sizeof(EDIT_TEXT_DISK)-offsetof(EDIT_TEXT_DISK,text));
+}
