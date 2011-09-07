@@ -182,7 +182,7 @@ void ber_konfiguruj_berusky(G_KONFIG * p_ber)
 {
   char pom[200];
   int i;
-  
+
   p_ber->conf_barva_pozadi = 0xff000000;
 
   p_ber->kam_omezeni =

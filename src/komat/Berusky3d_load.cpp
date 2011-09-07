@@ -650,8 +650,8 @@ int ber_nahraj_scenu(G_KONFIG * p_ber, char *p_jmeno, char *p_dir, int reload,
 
     p_ber->conf_barva_pozadi = lc.barva_pozadi;
     p_ber->conf_barva_pozadi_pouzit =
-      p_ber->conf_barva_pozadi_pouzit_default ? TRUE : lc.
-      barva_pozadi_aktivni;
+      p_ber->
+      conf_barva_pozadi_pouzit_default ? TRUE : lc.barva_pozadi_aktivni;
     p_ber->zm = lc.zm;
 
     p_ber->kam.min = kam.min;

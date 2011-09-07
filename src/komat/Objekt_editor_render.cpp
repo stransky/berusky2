@@ -1218,8 +1218,9 @@ void oe_kresli_objekt_kosti_rec_body(K_EDITOR * p_cnf,
 
   set_matrix_2d(OXRES, OYRES);
 
-  calc_3d_2d_matrix(p_kont->kflag & KONT_KEYFRAME ? &p_obj->
-    m : kont_world_matrix(p_kont), p_cnf->p_camera, p_cnf->p_project, &m);
+  calc_3d_2d_matrix(p_kont->
+    kflag & KONT_KEYFRAME ? &p_obj->m : kont_world_matrix(p_kont),
+    p_cnf->p_camera, p_cnf->p_project, &m);
 
   for (v = 0; v < p_joint->vertexnum; v++) {
     p_vert = (BOD *) (p_obj->p_vertex + p_ind[v]);

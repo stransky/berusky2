@@ -531,19 +531,20 @@ typedef struct g_config
   int ref_zmena;
 
   // local config
-  int   system_kurzor;
-  int   karmin_aktivni;
-  int   mouse_move;
-  
-  char  level_name[MAX_FILENAME];
+  int system_kurzor;
+  int karmin_aktivni;
+  int mouse_move;
 
-  g_config(void)
+  char level_name[MAX_FILENAME];
+
+    g_config(void)
   {
     memset(this, 0, sizeof(*this));
-    karmin_aktivni = 1;  
+    karmin_aktivni = 1;
   }
 
-} G_KONFIG;
+}
+G_KONFIG;
 
 #define OXRES       hwconf.xres
 #define OYRES       hwconf.yres

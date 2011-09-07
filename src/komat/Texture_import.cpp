@@ -1,16 +1,16 @@
 /* Import textur
-*/  
+*/
 #include "3d_all.h"
 static KFILE *file_load;
 
- 
+
 /*
   Importni interface soubory pro textury DDS
   vraci pocet plan -> 3/4
-*/ 
-int txt_dds_to_bmp(APAK_HANDLE * pHandle, char *p_file, void **p_return) 
+*/
+int txt_dds_to_bmp(APAK_HANDLE * pHandle, char *p_file, void **p_return)
 {
-  
+
 /*
   unsigned char   *p_data;
   unsigned char   *p_rd;
@@ -68,14 +68,14 @@ int txt_dds_to_bmp(APAK_HANDLE * pHandle, char *p_file, void **p_return)
   free(p_rd);
   kclose(file_load);
   return(planes);
-  */ 
-    *p_return = NULL;
+  */
+  *p_return = NULL;
   return (0);
 }
 
-  void WriteDTXnFile(DWORD count, void *buffer) 
+void WriteDTXnFile(DWORD count, void *buffer)
 {
- }  void ReadDTXnFile(DWORD count, void *buffer) 
+} void ReadDTXnFile(DWORD count, void *buffer)
 {
   kread(buffer, sizeof(byte), count, file_load);
 }

@@ -1410,8 +1410,8 @@ void mesh_calc_varray(GAME_MESH_OLD * p_mesh)
   int vertexu = p_mesh->vertexnum;
   int m2flag = p_mesh->p_data->m2flag;
   int last, norm = glstav_pn_triangles
-    || p_mesh->p_data->
-    m2flag & (MAT2_CALC_MAP1 | MAT2_CALC_MAP2 | MAT2_CALC_MAP3 |
+    || p_mesh->
+    p_data->m2flag & (MAT2_CALC_MAP1 | MAT2_CALC_MAP2 | MAT2_CALC_MAP3 |
     MAT2_CALC_MAP4);
 
   if (gl_ext::extlist_vertex_array) {
@@ -1628,8 +1628,8 @@ GAME_MESH_OLD *edit_to_mesh(GAME_MESH_DATA * p_mesh_data,
     p_kont->bodu);
   strcpy(p_mesh->jmeno, p_kont->jmeno);
   p_mesh->p_data->kflag |=
-    (p_kont->kflag & KONT_STATIC ? p_kont->kflag : p_kont->
-    kflag | KONT_POHYB);
+    (p_kont->kflag & KONT_STATIC ? p_kont->
+    kflag : p_kont->kflag | KONT_POHYB);
   p_mesh->p_data->m1flag |= p_kont->m1flag;
   p_mesh->p_data->m2flag |= p_kont->m2flag;
   p_mesh->objektu = p_kont->objektu;
@@ -3064,12 +3064,12 @@ FFILE lo_poly_file_otevri(char *p_file, int *p_filenum, int velikost)
   int vel;
 
   if (!(f = ffopen(p_file, "rb"))) {
-    pperror(1,"Unable to open file %s", p_file);    
+    pperror(1, "Unable to open file %s", p_file);
   }
   ffread(p_filenum, sizeof(int), 1, f);
   ffread(&vel, sizeof(int), 1, f);
   if (vel != velikost) {
-    pperror(1,"Wrong poly version (%s)! Save it again.",p_file);
+    pperror(1, "Wrong poly version (%s)! Save it again.", p_file);
     ffclose(f);
     return (NULL);
   }

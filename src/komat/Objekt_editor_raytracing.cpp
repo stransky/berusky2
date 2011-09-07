@@ -1812,8 +1812,8 @@ void ray_prepocitej_staticke_osvetleni(K_EDITOR * p_cnf, int ticho)
         /* stiny/bez stinu
          */
         shadow =
-          (p_cnf->p_poly[p].kflag & KONT_NO_SELF_SHADOW) ? FALSE : p_cnf->ray.
-          stiny;
+          (p_cnf->p_poly[p].kflag & KONT_NO_SELF_SHADOW) ? FALSE : p_cnf->
+          ray.stiny;
 
         /* Predpocitani spekularnich barev
          */

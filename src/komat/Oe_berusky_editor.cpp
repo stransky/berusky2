@@ -546,8 +546,8 @@ void be_renderuj_scenu(K_EDITOR * p_cnf)
       if (p_bnf->p_prv_lev[i]) {
         set_matrix_world(&p_bnf->p_prv_lev[i]->m);
         s =
-          ber_je_objekt_staticky(p_bnf->p_prv_lev[i]->p_prv_databaze->
-          guid) ? KONT_NEVID_STENA : KONT_NEVID_PRVEK;
+          ber_je_objekt_staticky(p_bnf->p_prv_lev[i]->
+          p_prv_databaze->guid) ? KONT_NEVID_STENA : KONT_NEVID_PRVEK;
         be_kresli_berusky_kontejner(p_cnf, p_bnf->p_kont[s]);
       }
     }
@@ -706,9 +706,10 @@ void be_prikaz_posun_varianty_lista(K_EDITOR * p_cnf, int smer)
 int be_mys_do_policka_levelu(K_EDITOR * p_cnf, BOD3D * p_bod)
 {
   B_KONFIG *p_bnf = &p_cnf->bnf;
-  ROVINA r =
-    { 0.0f, 1.0f, 0.0f,
-      (float) (-p_bnf->grid.akt_patro * Y_PRVEK) - Y_ZACATEK };
+
+  ROVINA r = { 0.0f, 1.0f, 0.0f,
+    (float) (-p_bnf->grid.akt_patro * Y_PRVEK) - Y_ZACATEK
+  };
   BOD a, b, p;
   int x, y, z;
 

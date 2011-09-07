@@ -692,8 +692,8 @@ void ber_kresli_mesh_vertex_multitext_specular(GAME_MESH_OLD * p_mesh,
 
   p_vertex_pos = p_mesh->p_vertex_pos;
   p_vertex_normal = (glstav_pn_triangles
-    || p_mesh->p_data->
-    m2flag & (MAT2_CALC_MAP1 | MAT2_CALC_MAP2 | MAT2_CALC_MAP3 |
+    || p_mesh->
+    p_data->m2flag & (MAT2_CALC_MAP1 | MAT2_CALC_MAP2 | MAT2_CALC_MAP3 |
       MAT2_CALC_MAP4)) ? p_mesh->p_vertex_norm : NULL;
 
   for (i = 0; i < o; i++, p_vflag++) {  // kresli to po objektech
@@ -797,8 +797,8 @@ void ber_kresli_mesh_vertex_multitext(GAME_MESH_OLD * p_mesh,
 
   p_vertex_pos = p_mesh->p_vertex_pos;
   p_vertex_normal = glstav_pn_triangles
-    || p_mesh->p_data->
-    m2flag & (MAT2_CALC_MAP1 | MAT2_CALC_MAP2 | MAT2_CALC_MAP3 |
+    || p_mesh->
+    p_data->m2flag & (MAT2_CALC_MAP1 | MAT2_CALC_MAP2 | MAT2_CALC_MAP3 |
     MAT2_CALC_MAP4) ? p_mesh->p_vertex_norm : NULL;
 
   for (i = 0; i < o; i++, p_vflag++) {  // kresli to po objektech
@@ -817,8 +817,8 @@ void ber_kresli_mesh_vertex_multitext(GAME_MESH_OLD * p_mesh,
           p_vertex_text4 = p_map[ind];
         if (glstav_diffuse)
           p_vertex_diff =
-            kflag & KONT_DRAW_VODA ? p_mesh->p_vertex_diff_voda : p_mesh->
-            p_vertex_diff;
+            kflag & KONT_DRAW_VODA ? p_mesh->
+            p_vertex_diff_voda : p_mesh->p_vertex_diff;
       }
 
 #ifdef DEBUG_MOD
@@ -905,8 +905,8 @@ void ber_kresli_mesh_vertex(GAME_MESH_OLD * p_mesh, EDIT_MATERIAL ** p_mt)
           p_vertex_text1 = p_map[ind];
         if (glstav_diffuse)
           p_vertex_diff =
-            kflag & KONT_DRAW_VODA ? p_mesh->p_vertex_diff_voda : p_mesh->
-            p_vertex_diff;
+            kflag & KONT_DRAW_VODA ? p_mesh->
+            p_vertex_diff_voda : p_mesh->p_vertex_diff;
       }
 
 
@@ -1379,8 +1379,7 @@ void ber_kresli_poly_vertex_multitext_specular(EDIT_MESH_POLY * p_poly,
   int l, i, last = 0;
   int kflag = p_poly->kflag;
   int norm = glstav_pn_triangles
-    || p_poly->
-    m2flag & (MAT2_CALC_MAP1 | MAT2_CALC_MAP2 | MAT2_CALC_MAP3 |
+    || p_poly->m2flag & (MAT2_CALC_MAP1 | MAT2_CALC_MAP2 | MAT2_CALC_MAP3 |
     MAT2_CALC_MAP4);
   int spec = (p_amat->flag2 & (MAT2_SPECULAR | MAT2_ENV_SPEC)
     || kflag & KONT_DRAW_SPEC);
@@ -1436,8 +1435,7 @@ void ber_kresli_poly_vertex_multitext(EDIT_MESH_POLY * p_poly,
   TEXT_KOORD *p_koord;
   int l, i, last = 0;
   int norm = glstav_pn_triangles
-    || p_poly->
-    m2flag & (MAT2_CALC_MAP1 | MAT2_CALC_MAP2 | MAT2_CALC_MAP3 |
+    || p_poly->m2flag & (MAT2_CALC_MAP1 | MAT2_CALC_MAP2 | MAT2_CALC_MAP3 |
     MAT2_CALC_MAP4);
   int *p_int, ind;
 
@@ -1489,8 +1487,7 @@ void ber_kresli_poly_vertex(EDIT_MESH_POLY * p_poly, EDIT_MATERIAL ** p_mat)
   TEXT_KOORD *p_koord;
   int l, i, last = 0;
   int norm = glstav_pn_triangles
-    || p_poly->
-    m2flag & (MAT2_CALC_MAP1 | MAT2_CALC_MAP2 | MAT2_CALC_MAP3 |
+    || p_poly->m2flag & (MAT2_CALC_MAP1 | MAT2_CALC_MAP2 | MAT2_CALC_MAP3 |
     MAT2_CALC_MAP4);
 
   assert(p_mat[p_poly->material]);

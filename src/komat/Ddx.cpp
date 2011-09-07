@@ -87,7 +87,7 @@ int preloz_texture_format(int *p_format, char *p_string)
     "FORMAT_ALFA",
     "FORMAT_LIGHTMAPY"
   };
-  
+
   for (i = 0; i < FORMAT_POCET; i++) {
     if (!strcasecmp(format_string[i], p_string)) {
       *p_format = i;
@@ -238,7 +238,8 @@ void nastav_konfig(HW_KONFIG * p_hwconf, TXT_KONFIG * p_txt)
 
 /* load hw konfigu
 */
-int nahraj_device_config(const char *p_file, const char *p_sekce, HW_KONFIG * p_conf)
+int nahraj_device_config(const char *p_file, const char *p_sekce,
+  HW_KONFIG * p_conf)
 {
   p_conf->xres = GetPrivateProfileInt(p_sekce, "xres", 1024, p_file);
   p_conf->yres = GetPrivateProfileInt(p_sekce, "yres", 768, p_file);
@@ -259,7 +260,8 @@ int nahraj_device_config(const char *p_file, const char *p_sekce, HW_KONFIG * p_
   return (TRUE);
 }
 
-int nahraj_universal_device_config(const char *p_file, const char *p_sekce, HW_KONFIG * p_conf)
+int nahraj_universal_device_config(const char *p_file, const char *p_sekce,
+  HW_KONFIG * p_conf)
 {
   p_conf->pn_triangles =
     GetPrivateProfileInt(p_sekce, "pn_triangles", 0, p_file);

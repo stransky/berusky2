@@ -173,20 +173,20 @@ extern char *MSS_DEL_FILENAME;
 extern char *MSS_DEL_FUNCTION;
 
 /* Overloaded and redefined operators */
-void *operator  new(size_t s);
-void *operator  new(size_t s, const char *filename, const char *function,
+void *operator   new(size_t s);
+void *operator   new(size_t s, const char *filename, const char *function,
   unsigned long line);
-void operator  delete(void *p)
+void operator   delete(void *p)
 #ifdef MSS_USE_EXCEPTIONS
 throw()
 #endif
 ;                               /* Yes, this semicolon has to be here! */
 
 #ifdef MSS_DEFINE_NEW_DELETE_ARRAY
-     void *operator  new[] (size_t s);
-     void *operator  new[] (size_t s, const char *filename,
+     void *operator   new[] (size_t s);
+     void *operator   new[] (size_t s, const char *filename,
   const char *function, unsigned long line);
-     void operator  delete[] (void *p)
+     void operator   delete[] (void *p)
 #ifdef MSS_USE_EXCEPTIONS
 throw()
 #endif                          /* !MSS_USE_EXCEPTIONS */

@@ -580,7 +580,8 @@ int par_vloz_kour_stopu(ParHandle ph, PAR_KOUR_STOPA * p_part, int pocet)
 HnizdoHandle par_vloz_hnizdo(ParHandle ph)
 {
   PARMETAC *p_par = (PARMETAC *) ph;
-  PARMETAC_HNIZDO *p_hnizdo = (PARMETAC_HNIZDO *) mmalloc(sizeof(p_hnizdo[0]));
+  PARMETAC_HNIZDO *p_hnizdo =
+    (PARMETAC_HNIZDO *) mmalloc(sizeof(p_hnizdo[0]));
   p_par->hnum++;
   p_hnizdo->p_next = p_par->p_hnizdo;
   if (p_hnizdo->p_next)
@@ -918,8 +919,9 @@ int pe_updatuj_kour_stopa(G_KONFIG * p_ber, PARMETAC * p_mt)
     /* Pridani nove castice (pokud je na ne cas)
        - vezmu ji v seznamu volnych castic
      */
-    if (p_hnizdo->p_pivot && 
-       (int) atime - (int) p_hnizdo->time_last >= (int) p_hnizdo->time_interval) {
+    if (p_hnizdo->p_pivot &&
+      (int) atime - (int) p_hnizdo->time_last >=
+      (int) p_hnizdo->time_interval) {
       p_hnizdo->time_last = atime;
 
       if (!p_mt->p_first)
@@ -1130,7 +1132,7 @@ int pe_updatuj_kour_stopa(G_KONFIG * p_ber, PARMETAC * p_mt)
     else {
       p_mt->hnum++;
     }
-  
+
     p_hnizdo = p_tmp;
   }
 

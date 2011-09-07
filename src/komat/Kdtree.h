@@ -296,7 +296,7 @@ inline void kd_min_max_bod(BOD * p_a, BOD * p_min, BOD * p_max)
 
 inline int kd_min_max_valid(BOD * p_min, BOD * p_max)
 {
-  return(p_min->x < p_max->x && p_min->y < p_max->y && p_min->z < p_max->z);
+  return (p_min->x < p_max->x && p_min->y < p_max->y && p_min->z < p_max->z);
 }
 
 #endif

@@ -2643,8 +2643,9 @@ void oe_prikaz_posun_group_vertex(K_EDITOR * p_cnf)
     chyba("Nedostatek pameti.");
 
   for (i = 0; i < p_cnf->groupnum; i++)
-    calc_transf_3d_2d_matrix(kont_world_matrix(p_cnf->p_kont[p_cnf->
-          p_group[i].k]), p_cnf->p_camera, p_cnf->p_project, p_mat + i);
+    calc_transf_3d_2d_matrix(kont_world_matrix(p_cnf->
+        p_kont[p_cnf->p_group[i].k]), p_cnf->p_camera, p_cnf->p_project,
+      p_mat + i);
 
   *p_cnf->p_vzdal = oe_stredni_vzdalenost_ve_scene(p_cnf);
 
@@ -6544,8 +6545,8 @@ void oe_prikaz_exportuj_scenu(K_EDITOR * p_cnf)
 __inline static int oe_kontroluj_objekt(K_EDITOR * p_cnf, EDIT_OBJEKT * p_obj,
   int k, int o)
 {
-  return (p_cnf->p_kont[k] ? p_cnf->p_kont[k]->p_obj[o] ? p_cnf->p_kont[k]->
-    p_obj[o] == p_obj : FALSE : FALSE);
+  return (p_cnf->p_kont[k] ? p_cnf->p_kont[k]->p_obj[o] ? p_cnf->
+    p_kont[k]->p_obj[o] == p_obj : FALSE : FALSE);
 }
 
 JOINT *oe_kost_vyrob(K_EDITOR * p_cnf, EDIT_OBJEKT * p_obj, int *p_k,

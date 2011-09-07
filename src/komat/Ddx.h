@@ -104,8 +104,10 @@ int grf_start(char *p_file);
 int grf_stop();
 
 void nastav_konfig(HW_KONFIG * p_hwconf, TXT_KONFIG * p_txt);
-int nahraj_device_config(const char *p_file, const char *p_sekce, HW_KONFIG * p_conf);
-int nahraj_universal_device_config(const char *p_file, const char *p_sekce, HW_KONFIG * p_conf);
+int nahraj_device_config(const char *p_file, const char *p_sekce,
+  HW_KONFIG * p_conf);
+int nahraj_universal_device_config(const char *p_file, const char *p_sekce,
+  HW_KONFIG * p_conf);
 int nahraj_texture_config(const char *p_file, TXT_KONFIG * p_txt);
 void ddw_surf(int x, int y, const char *fmt, ...);
 void ddw_surf_xy(int x, int y, const char *fmt, ...);

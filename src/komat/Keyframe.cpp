@@ -1208,8 +1208,8 @@ static float key_najdi_otcovy_scaly(HIERARCHY_TRACK_INFO * p_track)
     return ((p_track->scs_keys) ? p_track->p_scale[0].x : 1.0f);
   else
     return ((p_track->scs_keys) ? p_track->p_scale[0].x *
-      key_najdi_otcovy_scaly(p_track->
-        p_otec) : key_najdi_otcovy_scaly(p_track->p_otec));
+      key_najdi_otcovy_scaly(p_track->p_otec) :
+      key_najdi_otcovy_scaly(p_track->p_otec));
 }
 
 static void key_tri_to_local(HIERARCHY_TRACK_INFO * p_track)

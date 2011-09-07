@@ -342,8 +342,8 @@ int be_nacti_prvky(B_KONFIG * p_bnf)
         if (p_bnf->p_kont[k]) {
           strcpy(p_bnf->p_kont[k]->jmeno, p_file);
           p_bnf->p_kont[k]->kflag |=
-            (ber_je_objekt_staticky(p_prv->
-              guid)) ? KONT_STATICKY_PRVEK : KONT_DYNAMICKY_PRVEK;
+            (ber_je_objekt_staticky(p_prv->guid)) ? KONT_STATICKY_PRVEK :
+            KONT_DYNAMICKY_PRVEK;
           p_prv->kont = k;
           p_prv->p_kont = p_bnf->p_kont[k];
         }
@@ -810,8 +810,8 @@ int be_prvek_bunky_na_disk(B_KONFIG * p_bnf, PRVEK_LEVELU * p_lev,
     p_disk->Vazba2 = p_lev->Vazba2;
 
     p_disk->mesh = (p_lev->mesh != K_CHYBA
-      && p_cnf->p_kont[p_lev->mesh]) ? p_cnf->p_kont[p_lev->mesh]->
-      kontejner_ID : K_CHYBA;
+      && p_cnf->p_kont[p_lev->mesh]) ? p_cnf->p_kont[p_lev->
+      mesh]->kontejner_ID : K_CHYBA;
   }
   else {
     memset(p_disk, 0, sizeof(BUNKA_LEVELU_DISK));

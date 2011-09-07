@@ -750,9 +750,9 @@ float oe_stredni_vzdalenost_ve_scene(K_EDITOR * p_cnf)
   bodu = 0;
 
   if (akt_editor == GAME_EDITOR) {
-    ROVINA r =
-      { 0.0f, 1.0f, 0.0f,
-        (float) (-p_bnf->grid.akt_patro * Y_PRVEK - p_bnf->y_start) };
+    ROVINA r = { 0.0f, 1.0f, 0.0f,
+      (float) (-p_bnf->grid.akt_patro * Y_PRVEK - p_bnf->y_start)
+    };
     transf_2d_3d((float) OXRES / 2, (float) OYRES / 2, 0, &a.x, &a.y, &a.z,
       p_cnf->p_camera, p_cnf->p_project, OXRES, OYRES, OXSTART, OYSTART);
     transf_2d_3d((float) OXRES / 2, (float) OYRES / 2, 1.0f, &b.x, &b.y, &b.z,
@@ -857,9 +857,9 @@ float oe_stredni_vzdalenost_ve_scene_vybr(K_EDITOR * p_cnf)
   bodu = 0;
 
   if (akt_editor == GAME_EDITOR) {
-    ROVINA r =
-      { 0.0f, 1.0f, 0.0f,
-        (float) (-p_bnf->grid.akt_patro * Y_PRVEK - p_bnf->y_start) };
+    ROVINA r = { 0.0f, 1.0f, 0.0f,
+      (float) (-p_bnf->grid.akt_patro * Y_PRVEK - p_bnf->y_start)
+    };
     transf_2d_3d((float) OXRES / 2, (float) OYRES / 2, 0, &a.x, &a.y, &a.z,
       p_cnf->p_camera, p_cnf->p_project, OXRES, OYRES, OXSTART, OYSTART);
     transf_2d_3d((float) OXRES / 2, (float) OYRES / 2, 1.0f, &b.x, &b.y, &b.z,
@@ -3816,8 +3816,7 @@ int oe_intersect_scena(K_EDITOR * p_cnf, BOD * p_orig, BOD * p_dir,
   *p_t = FLT_MAX;
 
   for (k = 0; k < p_cnf->max_kont; k++) {
-    if (p_cnf->
-      p_kont[k]
+    if (p_cnf->p_kont[k]
       /*&& p_cnf->p_kont[k]->kreslit/* && intersect_kont_fast(p_cnf->p_kont[k],p_orig,p_dir) */
       ) {
       if (intersect_kont(p_cnf->p_kont[k], p_orig, p_dir, &o, &f, &vzdal)
@@ -4092,8 +4091,8 @@ int oe_prikaz_vyber_mysi_mesh(K_EDITOR * p_cnf)
       p_cnf->jcf.p_joint_animace_akt =
         p_cnf->p_kont[k]->p_obj[o]->p_joit_animace;
       p_cnf->jcf.p_joint_akt =
-        p_cnf->jcf.p_joint_animace_akt ? p_cnf->jcf.p_joint_animace_akt->
-        p_child : NULL;
+        p_cnf->jcf.p_joint_animace_akt ? p_cnf->jcf.
+        p_joint_animace_akt->p_child : NULL;
     }
 
     doe_joint_animace_vloz_objekt(p_cnf);

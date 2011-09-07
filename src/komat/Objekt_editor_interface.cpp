@@ -944,66 +944,69 @@ BOOL CALLBACK doe_calback_dialog_kontejner(HWND hDlg, UINT msg, WPARAM wParam,
 
         // bez stinu
         CheckDlgButton(hDlg, IDC_CHECK2,
-          p_cnf->p_kont[k]->
-          kflag & KONT_NO_DRAW_SHADOW ? BST_CHECKED : BST_UNCHECKED);
+          p_cnf->
+          p_kont[k]->kflag & KONT_NO_DRAW_SHADOW ? BST_CHECKED :
+          BST_UNCHECKED);
         CheckDlgButton(hDlg, IDC_CHECK25,
-          p_cnf->p_kont[k]->
-          kflag & KONT_NO_SELF_SHADOW ? BST_CHECKED : BST_UNCHECKED);
+          p_cnf->
+          p_kont[k]->kflag & KONT_NO_SELF_SHADOW ? BST_CHECKED :
+          BST_UNCHECKED);
 
         // vertex-light
         CheckDlgButton(hDlg, IDC_CHECK3,
-          p_cnf->p_kont[k]->
-          kflag & KONT_VERTEX_LIGHT ? BST_CHECKED : BST_UNCHECKED);
+          p_cnf->
+          p_kont[k]->kflag & KONT_VERTEX_LIGHT ? BST_CHECKED : BST_UNCHECKED);
 
         // mlha kontejneru
         CheckDlgButton(hDlg, IDC_CHECK6,
-          p_cnf->p_kont[k]->
-          kflag & KONT_NO_FOG ? BST_CHECKED : BST_UNCHECKED);
+          p_cnf->
+          p_kont[k]->kflag & KONT_NO_FOG ? BST_CHECKED : BST_UNCHECKED);
 
         // brutal-normal
         CheckDlgButton(hDlg, IDC_CHECK7,
-          p_cnf->p_kont[k]->
-          kflag & KONT_BRUTALNORMAL ? BST_CHECKED : BST_UNCHECKED);
+          p_cnf->
+          p_kont[k]->kflag & KONT_BRUTALNORMAL ? BST_CHECKED : BST_UNCHECKED);
 
         // dynamicky prvek
         CheckDlgButton(hDlg, IDC_CHECK5,
-          p_cnf->p_kont[k]->
-          kflag & KONT_KEYFRAME ? BST_CHECKED : BST_UNCHECKED);
+          p_cnf->
+          p_kont[k]->kflag & KONT_KEYFRAME ? BST_CHECKED : BST_UNCHECKED);
 
         // zrcadlo
         CheckDlgButton(hDlg, IDC_CHECK1,
-          p_cnf->p_kont[k]->
-          kflag & KONT_ZRCADLO ? BST_CHECKED : BST_UNCHECKED);
+          p_cnf->
+          p_kont[k]->kflag & KONT_ZRCADLO ? BST_CHECKED : BST_UNCHECKED);
 
         // pruhledny
         CheckDlgButton(hDlg, IDC_CHECK4,
-          p_cnf->p_kont[k]->
-          m1flag & MAT_PRUHLEDNY ? BST_CHECKED : BST_UNCHECKED);
+          p_cnf->
+          p_kont[k]->m1flag & MAT_PRUHLEDNY ? BST_CHECKED : BST_UNCHECKED);
 
         // MpMatrix
         CheckDlgButton(hDlg, IDC_CHECK8,
-          p_cnf->p_kont[k]->
-          kflag & KONT_MPMATRIX ? BST_CHECKED : BST_UNCHECKED);
+          p_cnf->
+          p_kont[k]->kflag & KONT_MPMATRIX ? BST_CHECKED : BST_UNCHECKED);
 
         // Polygon-offset
         CheckDlgButton(hDlg, IDC_CHECK9,
-          p_cnf->p_kont[k]->
-          kflag & KONT_PLG_OFFSET ? BST_CHECKED : BST_UNCHECKED);
+          p_cnf->
+          p_kont[k]->kflag & KONT_PLG_OFFSET ? BST_CHECKED : BST_UNCHECKED);
 
         // normal anim
         CheckDlgButton(hDlg, IDC_CHECK10,
-          p_cnf->p_kont[k]->
-          kflag & KONT_NORMAL_ANIM ? BST_CHECKED : BST_UNCHECKED);
+          p_cnf->
+          p_kont[k]->kflag & KONT_NORMAL_ANIM ? BST_CHECKED : BST_UNCHECKED);
 
         // Dist-animace
         CheckDlgButton(hDlg, IDC_CHECK11,
-          p_cnf->p_kont[k]->
-          k2flag & KONT2_NO_PHONG ? BST_CHECKED : BST_UNCHECKED);
+          p_cnf->
+          p_kont[k]->k2flag & KONT2_NO_PHONG ? BST_CHECKED : BST_UNCHECKED);
 
         // Pos-scale animace
         CheckDlgButton(hDlg, IDC_CHECK26,
-          p_cnf->p_kont[k]->
-          kflag & KONT_NORMAL_ANIM_POS ? BST_CHECKED : BST_UNCHECKED);
+          p_cnf->
+          p_kont[k]->kflag & KONT_NORMAL_ANIM_POS ? BST_CHECKED :
+          BST_UNCHECKED);
 
         // Flag kontejneru
         sprintf(pom, "0x%x", p_cnf->p_kont[k]->kflag);
@@ -6304,11 +6307,11 @@ void doe_updatuj_lista_objekty_last(K_EDITOR * p_cnf)
     if (p_cnf->p_kont[p_cnf->vybr_kont_last]) {
       SetDlgItemText(hDlg, IDC_EDIT8,
         p_cnf->p_kont[p_cnf->vybr_kont_last]->jmeno);
-      if (p_cnf->p_kont[p_cnf->vybr_kont_last]->p_obj[p_cnf->
-          vybr_objekt_last])
+      if (p_cnf->p_kont[p_cnf->vybr_kont_last]->
+        p_obj[p_cnf->vybr_objekt_last])
         SetDlgItemText(hDlg, IDC_EDIT13,
-          p_cnf->p_kont[p_cnf->vybr_kont_last]->p_obj[p_cnf->
-            vybr_objekt_last]->jmeno);
+          p_cnf->p_kont[p_cnf->vybr_kont_last]->
+          p_obj[p_cnf->vybr_objekt_last]->jmeno);
       else
         SetDlgItemText(hDlg, IDC_EDIT13, "Nic");
     }
@@ -7819,8 +7822,8 @@ BOOL CALLBACK doe_calback_konfigurace_animace(HWND hDlg, UINT msg,
               if (p_sim->keynum) {
                 p_sim->flag =
                   IsDlgButtonChecked(hDlg,
-                  IDC_CHECK1) ? p_sim->flag | GK_LOOP : p_sim->
-                  flag & ~GK_LOOP;
+                  IDC_CHECK1) ? p_sim->
+                  flag | GK_LOOP : p_sim->flag & ~GK_LOOP;
               }
             }
             break;
@@ -8658,8 +8661,8 @@ BOOL CALLBACK doe_calback_konfigurace_animace_joint(HWND hDlg, UINT msg,
             if (p_anim) {
               p_anim->flag =
                 IsDlgButtonChecked(hDlg,
-                IDC_CHECK1) ? p_anim->flag | GK_LOOP : p_anim->
-                flag & ~GK_LOOP;
+                IDC_CHECK1) ? p_anim->
+                flag | GK_LOOP : p_anim->flag & ~GK_LOOP;
             }
             break;
           }
@@ -11477,8 +11480,8 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace(HWND hDlg, UINT msg,
             if (!p_mat)
               break;
             p_track =
-              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->akmat.
-                par1]];
+              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
+                akmat.par1]];
             if (p_track) {
               if (!ddwquetot(hwnd_aplikace, "Mazba?",
                   "Smazat aktualni animaci ?"))
@@ -11492,8 +11495,8 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace(HWND hDlg, UINT msg,
                 key_zrus_material_animace(p_mat->p_atext[p_cnf->akmat.par1] +
                   p_mat->atextakt[p_cnf->akmat.par1]);
                 p_track =
-                  p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
-                    akmat.par1]] = key_text_nahraj(pom, ".");
+                  p_mat->p_atext[p_cnf->akmat.par1][p_mat->
+                  atextakt[p_cnf->akmat.par1]] = key_text_nahraj(pom, ".");
               }
               doe_text_animace_pln_listbox(hDlg, p_cnf);
               doe_init_textury_animace(hDlg, p_mat);
@@ -11510,8 +11513,8 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace(HWND hDlg, UINT msg,
             if (!p_mat)
               break;
             p_track =
-              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->akmat.
-                par1]];
+              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
+                akmat.par1]];
             if (!p_track)
               break;
             if (doe_dialog_save(pom, 200, "Ulozit animaci jako", "*.tam",
@@ -11531,8 +11534,8 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace(HWND hDlg, UINT msg,
             if (!p_mat)
               break;
             p_track =
-              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->akmat.
-                par1]];
+              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
+                akmat.par1]];
             if (p_track) {
               if (!ddwquetot(hwnd_aplikace, "Mazba?",
                   "Smazat aktualni animaci ?"))
@@ -11543,8 +11546,9 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace(HWND hDlg, UINT msg,
               framenum = atoi(pom);
               if (framenum) {
                 p_track =
-                  p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
-                    akmat.par1]] = key_vyrob_material_animace(0, 0, 0, 0);
+                  p_mat->p_atext[p_cnf->akmat.par1][p_mat->
+                  atextakt[p_cnf->akmat.par1]] =
+                  key_vyrob_material_animace(0, 0, 0, 0);
                 p_track->endtime = calc_endtime(framenum);
               }
               doe_text_animace_pln_listbox(hDlg, p_cnf);
@@ -11563,14 +11567,14 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace(HWND hDlg, UINT msg,
             if (!p_mat)
               break;
             p_track =
-              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->akmat.
-                par1]];
+              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
+                akmat.par1]];
             if (p_track) {
               pom[0] = 0;
               if (doe_cti_jmeno_ext(hDlg, pom, "Pocet framu animace")) {
                 p_track =
-                  p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
-                    akmat.par1]];
+                  p_mat->p_atext[p_cnf->akmat.par1][p_mat->
+                  atextakt[p_cnf->akmat.par1]];
                 p_track->endtime = calc_endtime(atoi(pom));
               }
             }
@@ -11585,8 +11589,8 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace(HWND hDlg, UINT msg,
             if (!p_mat)
               break;
             p_track =
-              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->akmat.
-                par1]];
+              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
+                akmat.par1]];
             if (!p_track)
               break;
             if (ddwqueto(hwnd_aplikace, "Smazat animaci textury?")) {
@@ -11648,8 +11652,8 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace(HWND hDlg, UINT msg,
           {
             EDIT_MATERIAL *p_mat = p_cnf->p_mat[p_cnf->km.vybr_mat];
             ANIM_TEXT *p_track =
-              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->akmat.
-                par1]];
+              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
+                akmat.par1]];
             if (p_track) {
               p_track->flag =
                 doe_get_check_flag(hDlg, IDC_CHECK9, p_track->flag,
@@ -11664,8 +11668,8 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace(HWND hDlg, UINT msg,
             if (!p_mat)
               break;
             p_track =
-              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->akmat.
-                par1]];
+              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
+                akmat.par1]];
             if (!p_track)
               break;
             if (p_track->endtime) {
@@ -11683,8 +11687,8 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace(HWND hDlg, UINT msg,
             if (!p_mat)
               break;
             p_track =
-              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->akmat.
-                par1]];
+              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
+                akmat.par1]];
             if (!p_track)
               break;
             if (p_track->endtime) {
@@ -11703,8 +11707,8 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace(HWND hDlg, UINT msg,
             if (!p_mat)
               break;
             p_track =
-              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->akmat.
-                par1]];
+              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
+                akmat.par1]];
             if (!p_track)
               break;
             if (p_track->endtime) {
@@ -11723,8 +11727,8 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace(HWND hDlg, UINT msg,
             if (!p_mat)
               break;
             p_track =
-              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->akmat.
-                par1]];
+              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
+                akmat.par1]];
             if (!p_track)
               break;
             if (p_track->endtime) {
@@ -11745,8 +11749,8 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace(HWND hDlg, UINT msg,
             if (!p_mat)
               break;
             p_track =
-              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->akmat.
-                par1]];
+              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
+                akmat.par1]];
             if (!p_track)
               break;
             if (p_track->endtime) {
@@ -11769,14 +11773,14 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace(HWND hDlg, UINT msg,
             if (!p_mat)
               break;
             p_track =
-              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->akmat.
-                par1]];
+              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
+                akmat.par1]];
             if (!p_track)
               break;
             p_track->flag =
               IsDlgButtonChecked(hDlg,
-              IDC_CHECK5) ? p_track->flag | GK_LOOP : p_track->
-              flag & ~GK_LOOP;
+              IDC_CHECK5) ? p_track->
+              flag | GK_LOOP : p_track->flag & ~GK_LOOP;
             break;
           }
         case IDC_CHECK1:       // pos key
@@ -11789,8 +11793,8 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace(HWND hDlg, UINT msg,
             if (!p_mat)
               break;
             p_track =
-              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->akmat.
-                par1]];
+              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
+                akmat.par1]];
             if (!p_track)
               break;
 
@@ -11826,8 +11830,8 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace(HWND hDlg, UINT msg,
             if (!p_mat)
               break;
             p_track =
-              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->akmat.
-                par1]];
+              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
+                akmat.par1]];
             if (!p_track)
               break;
 
@@ -11862,8 +11866,8 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace(HWND hDlg, UINT msg,
             if (!p_mat)
               break;
             p_track =
-              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->akmat.
-                par1]];
+              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
+                akmat.par1]];
             if (!p_track)
               break;
 
@@ -11895,8 +11899,8 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace(HWND hDlg, UINT msg,
             if (!p_mat)
               break;
             p_track =
-              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->akmat.
-                par1]];
+              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
+                akmat.par1]];
             if (!p_track)
               break;
 
@@ -11934,8 +11938,8 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace(HWND hDlg, UINT msg,
             if (!p_mat)
               break;
             p_track =
-              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->akmat.
-                par1]];
+              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
+                akmat.par1]];
             if (!p_track || !p_track->endtime)
               break;
             p_ttext = p_mat->ttext + p_cnf->akmat.par1;
@@ -11955,8 +11959,8 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace(HWND hDlg, UINT msg,
             if (!p_mat)
               break;
             p_track =
-              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->akmat.
-                par1]];
+              p_mat->p_atext[p_cnf->akmat.par1][p_mat->atextakt[p_cnf->
+                akmat.par1]];
             if (!p_track || !p_track->endtime)
               break;
             p_ttext = p_mat->ttext + p_cnf->akmat.par1;
@@ -12086,8 +12090,8 @@ BOOL CALLBACK doe_calback_konfigurace_text_animace_editace(HWND hDlg,
                 int i;
 
                 for (i = 0; i < p_cnf->groupfacenum; i++) {
-                  transformuj_kontejner_text_coord(p_cnf->p_kont[p_cnf->
-                      p_group_face[i].k], &m, flag);
+                  transformuj_kontejner_text_coord(p_cnf->
+                    p_kont[p_cnf->p_group_face[i].k], &m, flag);
                 }
               }
             }
@@ -12902,14 +12906,14 @@ BOOL CALLBACK doe_calback_bocni_lista_prvky(HWND hDlg, UINT msg,
         p_cnf->bnf.kp.akt_prvek = FALSE;
 
         CheckDlgButton(hDlg, IDC_CHECK1,
-          (p_cnf->bnf.cnf.
-            kreslit_stinove_objekty) ? BST_CHECKED : BST_UNCHECKED);
+          (p_cnf->bnf.
+            cnf.kreslit_stinove_objekty) ? BST_CHECKED : BST_UNCHECKED);
         CheckDlgButton(hDlg, IDC_CHECK2,
-          (p_cnf->bnf.cnf.
-            kreslit_dynamicke_objekty) ? BST_CHECKED : BST_UNCHECKED);
+          (p_cnf->bnf.
+            cnf.kreslit_dynamicke_objekty) ? BST_CHECKED : BST_UNCHECKED);
         CheckDlgButton(hDlg, IDC_CHECK3,
-          (p_cnf->bnf.cnf.
-            kreslit_staticke_objekty) ? BST_CHECKED : BST_UNCHECKED);
+          (p_cnf->bnf.
+            cnf.kreslit_staticke_objekty) ? BST_CHECKED : BST_UNCHECKED);
         CheckDlgButton(hDlg, IDC_CHECK4,
           (p_cnf->bnf.cnf.kostka) ? BST_CHECKED : BST_UNCHECKED);
 
@@ -13726,6 +13730,7 @@ int cti_text_flag(HWND hDlg, int cnt)
   int ret =
     SendMessage(hCombo, CB_GETITEMDATA, SendMessage(hCombo, CB_GETCURSEL,
       (WPARAM) 0, 0), 0);
+
   return (ret == CB_ERR ? 0 : ret);
 }
 
@@ -13869,12 +13874,12 @@ void vyber_mat_struct(HWND hDlg, EDIT_MATERIAL * p_tmm)
     IDC_CHECK10) ? (p_tmm->flag | MAT_SYSTEM) : (p_tmm->flag & ~MAT_SYSTEM);
   p_tmm->flag =
     IsDlgButtonChecked(hDlg,
-    IDC_CHECK7) ? (p_tmm->flag | MAT_NO_ZMASK) : (p_tmm->
-    flag & ~MAT_NO_ZMASK);
+    IDC_CHECK7) ? (p_tmm->
+    flag | MAT_NO_ZMASK) : (p_tmm->flag & ~MAT_NO_ZMASK);
   p_tmm->flag =
     IsDlgButtonChecked(hDlg,
-    IDC_CHECK9) ? (p_tmm->flag | MAT_NO_ZTEST) : (p_tmm->
-    flag & ~MAT_NO_ZTEST);
+    IDC_CHECK9) ? (p_tmm->
+    flag | MAT_NO_ZTEST) : (p_tmm->flag & ~MAT_NO_ZTEST);
   p_tmm->flag =
     IsDlgButtonChecked(hDlg,
     IDC_CHECK11) ? (p_tmm->flag | MAT_NO_CULL) : (p_tmm->flag & ~MAT_NO_CULL);
@@ -14493,20 +14498,20 @@ BOOL CALLBACK doe_calback_frame_prop(HWND hDlg, UINT msg, WPARAM wParam,
 
             p_frame->flag =
               IsDlgButtonChecked(hDlg,
-              IDC_CHECK1) ? p_frame->flag | FRAME_EVENT : p_frame->
-              flag & ~FRAME_EVENT;
+              IDC_CHECK1) ? p_frame->
+              flag | FRAME_EVENT : p_frame->flag & ~FRAME_EVENT;
             p_frame->flag =
               IsDlgButtonChecked(hDlg,
-              IDC_CHECK2) ? p_frame->flag | FRAME_TEXTURA : p_frame->
-              flag & ~FRAME_TEXTURA;
+              IDC_CHECK2) ? p_frame->
+              flag | FRAME_TEXTURA : p_frame->flag & ~FRAME_TEXTURA;
             p_frame->flag =
               IsDlgButtonChecked(hDlg,
-              IDC_CHECK3) ? p_frame->flag | FRAME_ALFA_FAKTOR : p_frame->
-              flag & ~FRAME_ALFA_FAKTOR;
+              IDC_CHECK3) ? p_frame->
+              flag | FRAME_ALFA_FAKTOR : p_frame->flag & ~FRAME_ALFA_FAKTOR;
             p_frame->flag =
               IsDlgButtonChecked(hDlg,
-              IDC_CHECK4) ? p_frame->flag | FRAME_POSUN : p_frame->
-              flag & ~FRAME_POSUN;
+              IDC_CHECK4) ? p_frame->
+              flag | FRAME_POSUN : p_frame->flag & ~FRAME_POSUN;
 
             GetWindowText(GetDlgItem(hDlg, IDC_EDIT9), pom, 20);
             p_frame->u = (float) atof(pom);
@@ -14674,8 +14679,8 @@ BOOL CALLBACK doe_callback_editor_materialu_frame(HWND hDlg, UINT msg,
         case IDC_CHECK1:       // frame animace ON/OFF
           tmm.flag =
             IsDlgButtonChecked(hDlg,
-            IDC_CHECK1) ? tmm.flag | MAT_ANIM_FRAME : tmm.
-            flag & ~MAT_ANIM_FRAME;
+            IDC_CHECK1) ? tmm.
+            flag | MAT_ANIM_FRAME : tmm.flag & ~MAT_ANIM_FRAME;
           break;
         case IDC_CHECK2:
           tmm.flag =
@@ -14775,26 +14780,26 @@ void doe_material_vyber_barvy(HWND hDlg, EDIT_MATERIAL * p_tmm)
     IDC_CHECK3) ? p_tmm->flag2 | MAT2_DIFFUSE : p_tmm->flag2 & ~MAT2_DIFFUSE;
   p_tmm->flag2 =
     IsDlgButtonChecked(hDlg,
-    IDC_CHECK4) ? p_tmm->flag2 | MAT2_SPECULAR : p_tmm->
-    flag2 & ~MAT2_SPECULAR;
+    IDC_CHECK4) ? p_tmm->
+    flag2 | MAT2_SPECULAR : p_tmm->flag2 & ~MAT2_SPECULAR;
 
   p_tmm->flag2 =
     IsDlgButtonChecked(hDlg,
-    IDC_CHECK25) ? p_tmm->flag2 | MAT2_DIFFUSE_RAY : p_tmm->
-    flag2 & ~MAT2_DIFFUSE_RAY;
+    IDC_CHECK25) ? p_tmm->
+    flag2 | MAT2_DIFFUSE_RAY : p_tmm->flag2 & ~MAT2_DIFFUSE_RAY;
   p_tmm->flag2 =
     IsDlgButtonChecked(hDlg,
-    IDC_CHECK6) ? p_tmm->flag2 | MAT2_SPECULAR_RAY : p_tmm->
-    flag2 & ~MAT2_SPECULAR_RAY;
+    IDC_CHECK6) ? p_tmm->
+    flag2 | MAT2_SPECULAR_RAY : p_tmm->flag2 & ~MAT2_SPECULAR_RAY;
 
   p_tmm->flag2 =
     IsDlgButtonChecked(hDlg,
-    IDC_CHECK1) ? p_tmm->flag2 | MAT2_ENV_SPEC : p_tmm->
-    flag2 & ~MAT2_ENV_SPEC;
+    IDC_CHECK1) ? p_tmm->
+    flag2 | MAT2_ENV_SPEC : p_tmm->flag2 & ~MAT2_ENV_SPEC;
   p_tmm->flag2 =
     IsDlgButtonChecked(hDlg,
-    IDC_CHECK2) ? p_tmm->flag2 | MAT2_ENV_SPEC_OBE : p_tmm->
-    flag2 & ~MAT2_ENV_SPEC_OBE;
+    IDC_CHECK2) ? p_tmm->
+    flag2 | MAT2_ENV_SPEC_OBE : p_tmm->flag2 & ~MAT2_ENV_SPEC_OBE;
   GetDlgItemText(hDlg, IDC_EDIT8, pom, 30);
   sscanf(pom, "%x", &barva);
   rgb_float(barva, &p_tmm->env_r);
@@ -14940,8 +14945,7 @@ void doe_material_vyber_textmapping(HWND hDlg, EDIT_MATERIAL * p_tmm,
     doe_get_check_flag(hDlg, IDC_RADIO4, p_tmm->flag,
     glstav_texgen_eye_lin_flagy[akt_text]);
 
-  if (p_tmm->
-    flag & (glstav_texgen_sphere_flagy[akt_text] |
+  if (p_tmm->flag & (glstav_texgen_sphere_flagy[akt_text] |
       glstav_texgen_eye_lin_flagy[akt_text])) {
     p_tmm->flag2 |= glstav_texgen_on[akt_text];
   }
@@ -15219,39 +15223,39 @@ BOOL CALLBACK doe_callback_editor_materialu_flagy(HWND hDlg, UINT msg,
 
             p_tmm->flag2 =
               IsDlgButtonChecked(hDlg,
-              IDC_CHECK2) ? p_tmm->flag2 | MAT2_MAP1 : p_tmm->
-              flag2 & ~MAT2_MAP1;
+              IDC_CHECK2) ? p_tmm->
+              flag2 | MAT2_MAP1 : p_tmm->flag2 & ~MAT2_MAP1;
             p_tmm->flag2 =
               IsDlgButtonChecked(hDlg,
-              IDC_CHECK3) ? p_tmm->flag2 | MAT2_CALC_MAP1 : p_tmm->
-              flag2 & ~MAT2_CALC_MAP1;
+              IDC_CHECK3) ? p_tmm->
+              flag2 | MAT2_CALC_MAP1 : p_tmm->flag2 & ~MAT2_CALC_MAP1;
 
             p_tmm->flag2 =
               IsDlgButtonChecked(hDlg,
-              IDC_CHECK4) ? p_tmm->flag2 | MAT2_MAP2 : p_tmm->
-              flag2 & ~MAT2_MAP2;
+              IDC_CHECK4) ? p_tmm->
+              flag2 | MAT2_MAP2 : p_tmm->flag2 & ~MAT2_MAP2;
             p_tmm->flag2 =
               IsDlgButtonChecked(hDlg,
-              IDC_CHECK5) ? p_tmm->flag2 | MAT2_CALC_MAP2 : p_tmm->
-              flag2 & ~MAT2_CALC_MAP2;
+              IDC_CHECK5) ? p_tmm->
+              flag2 | MAT2_CALC_MAP2 : p_tmm->flag2 & ~MAT2_CALC_MAP2;
 
             p_tmm->flag2 =
               IsDlgButtonChecked(hDlg,
-              IDC_CHECK25) ? p_tmm->flag2 | MAT2_MAP3 : p_tmm->
-              flag2 & ~MAT2_MAP3;
+              IDC_CHECK25) ? p_tmm->
+              flag2 | MAT2_MAP3 : p_tmm->flag2 & ~MAT2_MAP3;
             p_tmm->flag2 =
               IsDlgButtonChecked(hDlg,
-              IDC_CHECK8) ? p_tmm->flag2 | MAT2_CALC_MAP3 : p_tmm->
-              flag2 & ~MAT2_CALC_MAP3;
+              IDC_CHECK8) ? p_tmm->
+              flag2 | MAT2_CALC_MAP3 : p_tmm->flag2 & ~MAT2_CALC_MAP3;
 
             p_tmm->flag2 =
               IsDlgButtonChecked(hDlg,
-              IDC_CHECK28) ? p_tmm->flag2 | MAT2_MAP4 : p_tmm->
-              flag2 & ~MAT2_MAP4;
+              IDC_CHECK28) ? p_tmm->
+              flag2 | MAT2_MAP4 : p_tmm->flag2 & ~MAT2_MAP4;
             p_tmm->flag2 =
               IsDlgButtonChecked(hDlg,
-              IDC_CHECK26) ? p_tmm->flag2 | MAT2_CALC_MAP4 : p_tmm->
-              flag2 & ~MAT2_CALC_MAP4;
+              IDC_CHECK26) ? p_tmm->
+              flag2 | MAT2_CALC_MAP4 : p_tmm->flag2 & ~MAT2_CALC_MAP4;
 
             p_tmm->flag =
               doe_get_check_flag(hDlg, IDC_CHECK1, p_tmm->flag, MAT_SCENE);
@@ -16970,6 +16974,7 @@ void doe_cti_flare_gen_vyber(HWND hDlg, FLARE_GEN * p_gen)
     int i =
       SendMessage(hCombo2, CB_GETITEMDATA, SendMessage(hCombo2, CB_GETCURSEL,
         0, 0), 0);
+
     p_gen->p_slight = p_cnf->light + i;
     p_gen->p = p_gen->p_slight->p;
   }

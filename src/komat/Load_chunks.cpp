@@ -692,12 +692,8 @@ void lo_chunk_save_zrcadlo_sub(FFILE f, ZDRCADLO_DESC_POLY * p_desc)
   OUT_CHUNK ch;
 
   ch.typ = CHUNK_ZRCADLO_3_POLOZKA;
-  ch.velikost = sizeof(ch)+ 
-                sizeof(int)+
-                sizeof(int)+
-                sizeof(int)+
-                sizeof(int)+
-                sizeof(int);
+  ch.velikost = sizeof(ch) +
+    sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int);
 
   ffwrite(&ch, sizeof(ch), 1, f);
 
@@ -707,6 +703,7 @@ void lo_chunk_save_zrcadlo_sub(FFILE f, ZDRCADLO_DESC_POLY * p_desc)
   ffwrite(&p_desc->poly, sizeof(p_desc->poly), 1, f);
 
   int tmp;
+
   ffwrite(&tmp, sizeof(int), 1, f);
 }
 
@@ -728,18 +725,16 @@ void lo_chunk_save_zrcadlo(FFILE f, ZDRCADLO_DESC * p_desc)
   OUT_CHUNK ch;
 
   ch.typ = CHUNK_ZRCADLO_3;
-  ch.velikost = sizeof(ch) + 
-                sizeof(GLMATRIX) +
-                sizeof(BOD)*4 +
-                sizeof(ROVINAD)*5 +
-                sizeof(int);
+  ch.velikost = sizeof(ch) +
+    sizeof(GLMATRIX) + sizeof(BOD) * 4 + sizeof(ROVINAD) * 5 + sizeof(int);
 
   ffwrite(&ch, sizeof(ch), 1, f);
   ffwrite(&p_desc->ref, sizeof(GLMATRIX), 1, f);
-  ffwrite(p_desc->p, sizeof(BOD)*4, 1, f);
-  ffwrite(p_desc->r, sizeof(ROVINAD)*5, 1, f);
+  ffwrite(p_desc->p, sizeof(BOD) * 4, 1, f);
+  ffwrite(p_desc->r, sizeof(ROVINAD) * 5, 1, f);
 
   int tmp;
+
   ffwrite(&tmp, sizeof(tmp), 1, f);
 
   p_poly = p_desc->p_poly;
@@ -1257,8 +1252,8 @@ int lo_chunk_save_keyframe_node(FFILE f, HIERARCHY_TRACK_INFO * p_node)
   if (p_node) {
     strcpy(jmeno, ((EDIT_OBJEKT *) (p_node->p_obj))->jmeno);
     strcpy(otec,
-      p_node->p_otec ? ((EDIT_OBJEKT *) (p_node->p_otec->p_obj))->
-      jmeno : ROOT_NODE_JMENO);
+      p_node->p_otec ? ((EDIT_OBJEKT *) (p_node->p_otec->
+          p_obj))->jmeno : ROOT_NODE_JMENO);
 
     ch.typ = CHUNK_KEYFRAME_NODE;
     ch.velikost = sizeof(ch) +
@@ -3371,13 +3366,13 @@ int lo_chunk_load_zrcadlo_3_sub(FFILE f, OUT_CHUNK * p_ch)
 
   if (p_zrcadlolist && p_ch->typ == CHUNK_ZRCADLO_3_POLOZKA) {
     p_poly = (ZDRCADLO_DESC_POLY *) mmalloc(sizeof(p_poly[0]));
-  
+
     ffread(&p_poly->zrcadlo_k, sizeof(p_poly->zrcadlo_k), 1, f);
     ffread(&p_poly->zrcadlo_o, sizeof(p_poly->zrcadlo_o), 1, f);
     ffread(&p_poly->id_kont, sizeof(p_poly->id_kont), 1, f);
-    ffread(&p_poly->poly, sizeof(p_poly->poly), 1, f);  
+    ffread(&p_poly->poly, sizeof(p_poly->poly), 1, f);
     ffseek(f, 4, SEEK_CUR);
-  
+
     p_poly->p_next = p_zrcadlolist->p_poly;
     p_zrcadlolist->p_poly = p_poly;
     return (TRUE);
@@ -5047,7 +5042,7 @@ int lo_load_chunky(FFILE f)
   while ((ret = ffread(&ch, sizeof(ch), 1, f)) && ret > 0) {
     load = 0;
 
-    pprintf("ch.typ = %d",ch.typ);
+    pprintf("ch.typ = %d", ch.typ);
     assert(ch.typ >= 0 && ch.typ <= CHUNK_KAMSET_2);
 
     for (i = 0; i < (int) (sizeof(chload) / sizeof(chload[0])); i++) {

@@ -1067,8 +1067,8 @@ void mesh_vertex_array_upload_ati(GAME_MESH_OLD * p_mesh)
     k2flag = p_mesh->p_data->k2flag,
     m2flag = p_mesh->p_data->m2flag, kflag = p_mesh->p_data->kflag;
   int norm = glstav_pn_triangles
-    || p_mesh->p_data->
-    m2flag & (MAT2_CALC_MAP1 | MAT2_CALC_MAP2 | MAT2_CALC_MAP3 |
+    || p_mesh->
+    p_data->m2flag & (MAT2_CALC_MAP1 | MAT2_CALC_MAP2 | MAT2_CALC_MAP3 |
     MAT2_CALC_MAP4);
 
   if (k2flag & KONT2_UPDATE_POS)
@@ -1168,8 +1168,7 @@ void poly_vertex_array_set_ati(EDIT_MESH_POLY * p_poly)
   int spec = p_poly->m2flag & (MAT2_SPECULAR | MAT2_ENV_SPEC)
     || p_poly->kflag & KONT_DRAW_SPEC;
   int norm = glstav_pn_triangles
-    || p_poly->
-    m2flag & (MAT2_CALC_MAP1 | MAT2_CALC_MAP2 | MAT2_CALC_MAP3 |
+    || p_poly->m2flag & (MAT2_CALC_MAP1 | MAT2_CALC_MAP2 | MAT2_CALC_MAP3 |
     MAT2_CALC_MAP4);
   int *p_int, ind;
 
@@ -1428,8 +1427,8 @@ void mesh_vertex_array_upload_arb(GAME_MESH_OLD * p_mesh)
     k2flag = p_mesh->p_data->k2flag,
     m2flag = p_mesh->p_data->m2flag, kflag = p_mesh->p_data->kflag;
   int norm = glstav_pn_triangles
-    || p_mesh->p_data->
-    m2flag & (MAT2_CALC_MAP1 | MAT2_CALC_MAP2 | MAT2_CALC_MAP3 |
+    || p_mesh->
+    p_data->m2flag & (MAT2_CALC_MAP1 | MAT2_CALC_MAP2 | MAT2_CALC_MAP3 |
     MAT2_CALC_MAP4);
 
   if (k2flag & KONT2_UPDATE_NEW) {
@@ -1535,8 +1534,7 @@ void poly_vertex_array_set_arb(EDIT_MESH_POLY * p_poly)
   int spec = p_poly->m2flag & (MAT2_SPECULAR | MAT2_ENV_SPEC)
     || p_poly->kflag & KONT_DRAW_SPEC;
   int norm = glstav_pn_triangles
-    || p_poly->
-    m2flag & (MAT2_CALC_MAP1 | MAT2_CALC_MAP2 | MAT2_CALC_MAP3 |
+    || p_poly->m2flag & (MAT2_CALC_MAP1 | MAT2_CALC_MAP2 | MAT2_CALC_MAP3 |
     MAT2_CALC_MAP4);
   int *p_int, ind;
 

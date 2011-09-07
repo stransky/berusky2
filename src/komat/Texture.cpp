@@ -239,8 +239,8 @@ bitmapa *txt_bmp2textura(bitmapa * p_bmp, EDIT_TEXT_OLD * p_text,
         GL_UNSIGNED_BYTE, p_bmp->data);
     }
     glTexParameteri(p_text->typ, GL_TEXTURE_MIN_FILTER,
-      (p_text->
-        mip_filtr) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR_MIPMAP_NEAREST);
+      (p_text->mip_filtr) ? GL_LINEAR_MIPMAP_LINEAR :
+      GL_LINEAR_MIPMAP_NEAREST);
     glTexParameteri(p_text->typ, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   }
   else {
@@ -440,14 +440,14 @@ int txt_nahraj_format(APAK_HANDLE * pAHandle, const char *p_file,
   if (p_text->typ == GL_TEXTURE_1D) {
     p_text->format =
       (format !=
-      K_CHYBA) ? txconf.format1d[format] : (p_text->alfa) ? txconf.
-      format1d[FORMAT_RGBA1] : txconf.format1d[FORMAT_RGB];
+      K_CHYBA) ? txconf.format1d[format] : (p_text->
+      alfa) ? txconf.format1d[FORMAT_RGBA1] : txconf.format1d[FORMAT_RGB];
   }
   else {
     p_text->format =
       (format !=
-      K_CHYBA) ? txconf.format2d[format] : (p_text->alfa) ? txconf.
-      format2d[FORMAT_RGBA1] : txconf.format2d[FORMAT_RGB];
+      K_CHYBA) ? txconf.format2d[format] : (p_text->
+      alfa) ? txconf.format2d[FORMAT_RGBA1] : txconf.format2d[FORMAT_RGB];
   }
 
   return (TRUE);

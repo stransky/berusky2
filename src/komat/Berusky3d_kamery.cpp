@@ -1236,7 +1236,7 @@ int kam_pol_cti_klic(AnimHandle handle, float time, BOD * p_t, float *p_r,
   else {
     *p_vzdal = 0;
   }
-  
+
   quat_to_euler(&q, p_r, p_fi);
 
   return (TRUE);

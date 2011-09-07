@@ -394,22 +394,22 @@ void ddx2RenderujDevice(G_KONFIG * p_ber, DDX2_SURFACE_DEVICE * p_dev)
   glPixelStorei(GL_UNPACK_ROW_LENGTH, p_dev->p_back_buffer->x);
 
   if (p_rlist && p_dev->rnum) {
-  
+
     tx = p_hw->text_x;
     ty = p_hw->text_y;
-  
+
     tkx = tx + p_hw->text_dx;
     tky = ty + p_hw->text_dy;
-  
+
     p_text_start = p_dev->p_back_buffer->data;
-  
+
     for (i = 0; i < p_dev->rnum; i++, p_rlist++) {
-  
+
       rx = p_rlist->left;
       ry = p_rlist->top;
       rkx = rx + p_rlist->right;
       rky = ry + p_rlist->bottom;
-  
+
       if (rx < tx)
         rx = tx;
       if (ry < ty)
@@ -418,7 +418,7 @@ void ddx2RenderujDevice(G_KONFIG * p_ber, DDX2_SURFACE_DEVICE * p_dev)
         rx = tkx;
       if (ry > tky)
         ry = tky;
-  
+
       if (rkx < tx)
         rkx = tx;
       if (rky < ty)
@@ -427,18 +427,18 @@ void ddx2RenderujDevice(G_KONFIG * p_ber, DDX2_SURFACE_DEVICE * p_dev)
         rkx = tkx;
       if (rky > tky)
         rky = tky;
-  
+
       vdx = rkx - rx;
       vdy = rky - ry;
-  
+
       if (vdx && vdy) {
-        glTexSubImage2D(GL_TEXTURE_2D,    // target
-          0,                      // level (MIP map?)
-          rx - tx, ry - ty,       // xoffset / yoffset
-          vdx, vdy,               // width / height
-          GL_RGBA,                // format
-          GL_UNSIGNED_BYTE,       // data type
-          p_text_start + rx + ry * p_hw->back_dx);        // pixel data
+        glTexSubImage2D(GL_TEXTURE_2D,  // target
+          0,                    // level (MIP map?)
+          rx - tx, ry - ty,     // xoffset / yoffset
+          vdx, vdy,             // width / height
+          GL_RGBA,              // format
+          GL_UNSIGNED_BYTE,     // data type
+          p_text_start + rx + ry * p_hw->back_dx);      // pixel data
       }
     }
   }

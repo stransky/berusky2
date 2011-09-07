@@ -104,7 +104,7 @@ int kom_graf_init(void)
   /* Nahodi grafiku
    */
   if (!grf_start(ini_file))
-    pperror(1,"Inicializace");
+    pperror(1, "Inicializace");
 
   /* Nahozeni renderovacich funkci
    */
@@ -182,9 +182,11 @@ void quat_test(void)
 
 void print_banner(void)
 {
-  printf("Berusky2 v.%s (C) Anakreon 2011, http://www.anakreon.cz/\n",VERSION);
+  printf("Berusky2 v.%s (C) Anakreon 2011, http://www.anakreon.cz/\n",
+    VERSION);
   printf("This is free software; see the source for copying conditions.\n");
-  printf("There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n");
+  printf
+    ("There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n");
 }
 
 void print_help(void)
@@ -192,10 +194,13 @@ void print_help(void)
   printf("Using: berusky2 [OPTIONS][LEVEL_NAME]\n");
   printf("\nOptions:\n");
   printf("  -h --help                           Print help\n");
-  printf("  -i --ini-file file_name.ini         Set game ini file (It overides the default one in ~user/.berusky2/berusky3d.ini)\n");
-  printf("  -l --no-local-copy                  Don't create local config at ~user/.berusky2\n");
+  printf
+    ("  -i --ini-file file_name.ini         Set game ini file (It overides the default one in ~user/.berusky2/berusky3d.ini)\n");
+  printf
+    ("  -l --no-local-copy                  Don't create local config at ~user/.berusky2\n");
   printf("\nLevel name:\n");
-  printf("  level_name.lv6                      Run this level (from game dir) instead of default menu\n");
+  printf
+    ("  level_name.lv6                      Run this level (from game dir) instead of default menu\n");
   printf("\n");
   exit(0);
 }
@@ -204,20 +209,23 @@ void process_params(G_KONFIG * p_ber, int argc, char **argv)
 {
   int i;
 
-  for(i = 1; i < argc; i++) {
-    if(!strcasecmp(argv[i],"-h") || !strcasecmp(argv[i],"--help")) {
+  for (i = 1; i < argc; i++) {
+    if (!strcasecmp(argv[i], "-h") || !strcasecmp(argv[i], "--help")) {
       print_help();
     }
-    else if(!strcasecmp(argv[i],"-i") || !strcasecmp(argv[i],"--ini-file")) {
+    else if (!strcasecmp(argv[i], "-i") || !strcasecmp(argv[i], "--ini-file")) {
       i++;
-      if(i < argc) {
+      if (i < argc) {
         strcpy(ini_file, argv[i]);
-      }    
-    } else  if(!strcasecmp(argv[i],"-l") || !strcasecmp(argv[i],"--no-local-copy")) {
+      }
+    }
+    else if (!strcasecmp(argv[i], "-l")
+      || !strcasecmp(argv[i], "--no-local-copy")) {
       create_user_data = FALSE;
-    } else { // it's a level name?
-      strcpy(p_ber->level_name, argv[i]);      
-      pprintf("Custom level set - %s",p_ber->level_name);
+    }
+    else {                      // it's a level name?
+      strcpy(p_ber->level_name, argv[i]);
+      pprintf("Custom level set - %s", p_ber->level_name);
     }
   }
 }
@@ -229,47 +237,46 @@ void process_params(G_KONFIG * p_ber, int argc, char **argv)
   2) try the one from ~./berusky2
   3) check local config dir
 */
-char ini_file_dirs[][MAX_FILENAME] = 
-{  
-  "", // ~./berusky2
-  "", // current working dir  
+char ini_file_dirs[][MAX_FILENAME] = {
+  "",                           // ~./berusky2
+  "",                           // current working dir  
   INI_FILE_GLOBAL_DIR
 };
 
 void ini_file_init(void)
 {
-  if(ini_file[0]) {
-    if(!efile(ini_file)) {
-      pperror(1,"Unable to open ini file '%s'!",ini_file);
-    } else {
+  if (ini_file[0]) {
+    if (!efile(ini_file)) {
+      pperror(1, "Unable to open ini file '%s'!", ini_file);
+    }
+    else {
       char tmp_ini[MAX_PATH];
-      if(!realpath(ini_file, tmp_ini)) {
-        pperror(1,"Unable to resolve ini file path! (%s)",ini_file);
+
+      if (!realpath(ini_file, tmp_ini)) {
+        pperror(1, "Unable to resolve ini file path! (%s)", ini_file);
       }
       strcpy(ini_file, tmp_ini);
-      pprintf("Using custom ini file: %s",ini_file);
+      pprintf("Using custom ini file: %s", ini_file);
     }
   }
   else {
-    for(unsigned int i = 0; 
-        i < sizeof(ini_file_dirs)/sizeof(ini_file_dirs[0]); 
-        i++) 
-    {
-  
+    for (unsigned int i = 0;
+      i < sizeof(ini_file_dirs) / sizeof(ini_file_dirs[0]); i++) {
+
       // ~./berusky2
-      if(i == 0) {
+      if (i == 0) {
         return_path(INI_USER_DIRECTORY, "", ini_file_dirs[i], MAX_FILENAME);
-      } 
-  
+      }
+
       // current working directory init
-      if(i == 1) {
+      if (i == 1) {
         getcwd(ini_file_dirs[i], MAX_FILENAME);
       }
-  
-      strcat(ini_file_dirs[i], "/"INI_FILE_NAME);
-  
-      pprintfnl("Trying to open ini file at %s...",ini_file_dirs[i]);
-      if(efile(ini_file_dirs[i])) {
+
+      strcat(ini_file_dirs[i], "/" INI_FILE_NAME);
+
+      pprintfnl("Trying to open ini file at %s...", ini_file_dirs[i]);
+      if (efile(ini_file_dirs[i])) {
         pprintf("OK");
         strcpy(ini_file, ini_file_dirs[i]);
         return;
@@ -277,9 +284,9 @@ void ini_file_init(void)
       else {
         pprintf("FAILED");
       }
-    }  
-    
-    pperror(1,"Unable to open any ini file!");
+    }
+
+    pperror(1, "Unable to open any ini file!");
   }
 }
 
@@ -287,7 +294,9 @@ void debug_file_init(void)
 {
   if (GetPrivateProfileInt("debug", "debug_file", 0, ini_file)) {
     char pom[200];
-    GetPrivateProfileString("hra", "log_file", "~/.berusky2/berusky2log.txt", pom, 200, ini_file);
+
+    GetPrivateProfileString("hra", "log_file", "~/.berusky2/berusky2log.txt",
+      pom, 200, ini_file);
     p_ber->debug_file = fopen(pom, "a");
   }
 }
@@ -304,17 +313,21 @@ void user_directory_create(void)
   dir_create(INI_PROFILE_DIRECTORY);
 
   // Check ~./berusky2/berusky3d.ini
-  pprintfnl("Checking %s/%s...",INI_USER_DIRECTORY,INI_FILE_NAME);
-  if(!file_exists(INI_USER_DIRECTORY,INI_FILE_NAME)) {
-    pprintfnl("missing, try to copy it from %s...",INI_FILE_GLOBAL);
-    bool ret = file_copy(INI_FILE_GLOBAL, NULL, INI_FILE_NAME, INI_USER_DIRECTORY,FALSE);
-    if(ret) {
+  pprintfnl("Checking %s/%s...", INI_USER_DIRECTORY, INI_FILE_NAME);
+  if (!file_exists(INI_USER_DIRECTORY, INI_FILE_NAME)) {
+    pprintfnl("missing, try to copy it from %s...", INI_FILE_GLOBAL);
+    bool ret =
+      file_copy(INI_FILE_GLOBAL, NULL, INI_FILE_NAME, INI_USER_DIRECTORY,
+      FALSE);
+    if (ret) {
       pprintf("OK");
-    } else {
+    }
+    else {
       print_errno(TRUE);
       pprintf("FAILED");
     }
-  } else {
+  }
+  else {
     pprintf("OK");
   }
 }
@@ -328,14 +341,14 @@ int main(int argc, char **argv)
   print_banner();
   process_params(p_ber, argc, argv);
 
-  if(create_user_data) {
+  if (create_user_data) {
     user_directory_create();
   }
 
   ini_file_init();
 
   working_dir_init();
-  debug_file_init();  
+  debug_file_init();
 
   nahraj_konfig();
   ber_konfiguruj_berusky(&ber);
@@ -366,9 +379,9 @@ int main(int argc, char **argv)
     p_grf->config_draw_pivots(TRUE);
     p_grf->config_draw_selection(TRUE);
   }
-  
+
   glstav_reset();
-  
+
   winmain_Game_Run(p_ber->level_name);
 
   return (TRUE);
@@ -436,7 +449,7 @@ int spracuj_spravy(int param)
 
   while (SDL_PollEvent(&event)) {
     switch (event.type) {
-      case  SDL_KEYDOWN:
+      case SDL_KEYDOWN:
         {
           int keycode = event.key.keysym.sym;
 
@@ -448,7 +461,7 @@ int spracuj_spravy(int param)
           key[K_SHIFT] = mod & KMOD_SHIFT;
           key[K_CTRL] = mod & KMOD_CTRL;
           key[K_ALT] = mod & KMOD_ALT;
-       
+
           // store ascii character for GUI interface
           // ASCI only, we may change it to unicode someday
           key_pressed = keycode;
