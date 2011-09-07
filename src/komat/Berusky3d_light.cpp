@@ -3142,13 +3142,13 @@ nasel:
 
   p_light->akt = TRUE;
   p_light->flag = flag | EDL_ZMENA_GLOBAL;
-/*
-  if(flag|EDL_MESH_LIGHT && meshnum) {
-    p_light->p_lmesh = mmalloc(sizeof(p_light->p_lmesh[0])*meshnum);
+
+  if (flag | EDL_MESH_LIGHT && meshnum) {
+    p_light->p_lmesh = mmalloc(sizeof(p_light->p_lmesh[0]) * meshnum);
     p_light->lmeshnum = meshnum;
     p_light->lmeshakt = 0;
   }
-*/
+
   p_ber->kamera.zmena = TRUE;
   p_ber->edl_new = TRUE;
   return (l);
@@ -3161,17 +3161,16 @@ ExtraLightHandle edl_svetlo_zrus_meshe(ExtraLightHandle lh)
   GAME_MESH_OLD *p_mesh;
   int i;
 
-/*
-  if(!p_light->akt)
-    return(FALSE);
-  else {    
+  if (!p_light->akt)
+    return (FALSE);
+  else {
     p_ber->edl_new = TRUE;
 
     // Zruseni meshu
-    if(p_light->flag|EDL_MESH_LIGHT && p_light->lmeshnum) {
-      for(i = 0; i < p_light->lmeshakt; i++) {
+    if (p_light->flag | EDL_MESH_LIGHT && p_light->lmeshnum) {
+      for (i = 0; i < p_light->lmeshakt; i++) {
         p_mesh = p_ber->p_mesh[p_light->p_lmesh[i]];
-        if(p_mesh) {
+        if (p_mesh) {
           p_data = p_mesh->p_data;
           p_data->kflag &= ~KONT_DRAW_LIGHT;
           p_data->kflag |= KONT_POHYB;
@@ -3180,10 +3179,9 @@ ExtraLightHandle edl_svetlo_zrus_meshe(ExtraLightHandle lh)
       }
       null_free(&p_light->p_lmesh);
       p_light->lmeshnum = p_light->lmeshakt = 0;
-    }        
-    return(TRUE);
+    }
+    return (TRUE);
   }
-  */
 }
 
 
