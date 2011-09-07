@@ -2973,19 +2973,20 @@ int sdl_poly_updatuj_lightmap(G_KONFIG * p_ber, EDIT_MESH_POLY * p_poly)
 }
 
 void sdl_save_lightmap(EDIT_MESH_POLY * p_poly, int p)
-{                               /*
-                                   char pom[200];
-                                   int l;
-                                   chdir("e:\\");
-                                   for(l = 0; l < p_poly->lightnum; l++) {
-                                   sprintf(pom,"poly%dlight%d.bmp",p,l);
-                                   bmp_uloz(pom,p_poly->p_light[l]->p_bmp);
-                                   }
-                                   for(l = 0; l < p_poly->facenum/3; l++) {
-                                   sprintf(pom,"poly%dfacelight%d.bmp",p,l);
-                                   bmp_uloz(pom,p_poly->p_ind[l].p_bmp);
-                                   }
-                                 */
+{
+  char pom[200];
+  int l;
+
+  chdir("/home/komat");
+  for (l = 0; l < p_poly->lightnum; l++) {
+    sprintf(pom, "poly%dlight%d.bmp", p, l);
+    bmp_uloz(pom, p_poly->p_light[l]->p_bmp);
+  }
+  for (l = 0; l < p_poly->facenum / 3; l++) {
+    sprintf(pom, "poly%dfacelight%d.bmp", p, l);
+    bmp_uloz(pom, p_poly->p_ind[l].p_bmp);
+  }
+
 }
 
 inline void sdl_updatuj_poly(G_KONFIG * p_ber, EDIT_MESH_POLY * p_poly,
