@@ -1,3 +1,6 @@
+* 0.5
+    - fixed 64-bit builds
+
 * 0.4 
     - local installation fixes
     - build script updated (better directory configuration, build flags from pkg-config)
