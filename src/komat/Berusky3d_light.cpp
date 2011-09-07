@@ -2954,18 +2954,19 @@ int sdl_poly_updatuj_lightmap(G_KONFIG * p_ber, EDIT_MESH_POLY * p_poly)
 
     for (i = last; i < ln; i++)
       up += p_lf[i].upload;
-    /*
-       if(up) {
-       glBindTexture(p_poly->p_light[l]->typ, p_poly->p_light[l]->text);
-       for(i = last; i < ln; i++) {
-       if(p_lf[i].upload) {          
-       glTexSubImage2D(p_poly->p_light[l]->typ, 0, p_lf[i].u-1, p_lf[i].v-1, p_lf[i].nu+2,
-       p_lf[i].nv+2, GL_RGBA, GL_UNSIGNED_BYTE, p_lf[i].p_bmp->data);
-       uploaded += p_lf[i].p_bmp->x*p_lf[i].p_bmp->y*4;
-       }
-       } 
-       }
-     */
+
+    if (up) {
+      glBindTexture(p_poly->p_light[l]->typ, p_poly->p_light[l]->text);
+      for (i = last; i < ln; i++) {
+        if (p_lf[i].upload) {
+          glTexSubImage2D(p_poly->p_light[l]->typ, 0, p_lf[i].u - 1,
+            p_lf[i].v - 1, p_lf[i].nu + 2, p_lf[i].nv + 2, GL_RGBA,
+            GL_UNSIGNED_BYTE, p_lf[i].p_bmp->data);
+          uploaded += p_lf[i].p_bmp->x * p_lf[i].p_bmp->y * 4;
+        }
+      }
+    }
+
     last += p_poly->p_lightnum[l] / 3;
   }
   return (uploaded);
@@ -3031,41 +3032,43 @@ void dl_transformuj_svetla(G_KONFIG * p_ber)
   int kamera_zmena = p_ber->kamera.zmena || p_ber->kamera.zmena_last;
   int i;
 
-/*  
-  for(i = 0; i < p_ber->dl_lightnum; i++) {
-    p_light = p_ber->p_dlight+i;
-    if(p_light->akt && p_light->flag&SDL_MESH) {
+
+  for (i = 0; i < p_ber->dl_lightnum; i++) {
+    p_light = p_ber->p_dlight + i;
+    if (p_light->akt && p_light->flag & SDL_MESH) {
       p_data = p_light->p_mesh_data;
-      if(p_data->kflag&KONT_POHYB) {
+      if (p_data->kflag & KONT_POHYB) {
         p_mesh = p_data->p_mesh;
-        transformuj_bod_matici_bod(&p_light->np,&p_mesh->m,&p_light->tp);
-      }     
+        transformuj_bod_matici_bod(&p_light->np, &p_mesh->m, &p_light->tp);
+      }
     }
   }
 
-  for(i = 0; i < p_ber->edl_lightnum; i++) {
-    p_edlight = p_ber->p_edlight+i;
-    if(p_edlight->akt) {
-      if(p_edlight->flag&EDL_MESH) {
+  for (i = 0; i < p_ber->edl_lightnum; i++) {
+    p_edlight = p_ber->p_edlight + i;
+    if (p_edlight->akt) {
+      if (p_edlight->flag & EDL_MESH) {
         p_data = p_edlight->p_mesh_data;
-        if(p_data->kflag&KONT_POHYB) {
+        if (p_data->kflag & KONT_POHYB) {
           p_mesh = p_data->p_mesh;
-          transformuj_bod_matici_bod(&p_edlight->np,&p_mesh->m,&p_edlight->tp);
-        }     
-      } else if(p_edlight->flag&EDL_CAMERA_POINT && kamera_zmena) {
+          transformuj_bod_matici_bod(&p_edlight->np, &p_mesh->m,
+            &p_edlight->tp);
+        }
+      }
+      else if (p_edlight->flag & EDL_CAMERA_POINT && kamera_zmena) {
         p_edlight->tp.x = p_ber->p_invcam->_41;
         p_edlight->tp.y = p_ber->p_invcam->_42;
         p_edlight->tp.z = p_ber->p_invcam->_43;
         p_ber->edl_recalc = TRUE;
         p_edlight->flag |= EDL_ZMENA_GLOBAL;
       }
-      if(p_edlight->flag&(EDL_CAMERA_POINT|EDL_ZMENA_CAMERA) && kamera_zmena) {
+      if (p_edlight->flag & (EDL_CAMERA_POINT | EDL_ZMENA_CAMERA)
+        && kamera_zmena) {
         p_ber->edl_recalc = TRUE;
         p_edlight->flag |= EDL_ZMENA_GLOBAL;
       }
     }
   }
-  */
 }
 
 void dl_updatuj(G_KONFIG * p_ber)
@@ -3369,34 +3372,36 @@ ExtraLightHandle edl_svetlo_uzavri_meshe(ExtraLightHandle lh)
   GAME_MESH_DATA *p_data;
   int i, flags;
 
-/*
-  if(lh < p_ber->edl_lightnum && p_light->akt && p_light->flag|EDL_MESH_LIGHT) {
-    
+
+  if (lh < p_ber->edl_lightnum && p_light->akt
+    && p_light->flag | EDL_MESH_LIGHT) {
+
     flags = p_light->flag;
-    
-    for(i = 0; i < p_light->lmeshakt; i++) {
+
+    for (i = 0; i < p_light->lmeshakt; i++) {
       p_mesh = p_ber->p_mesh[p_light->p_lmesh[i]];
       p_data = p_mesh->p_data;
       assert(p_mesh);
 
-      if(flags&(EDL_SPEC_MOD|EDL_SPEC_SET|EDL_SPEC_ADD|EDL_SPEC_SUB)) {
+      if (flags & (EDL_SPEC_MOD | EDL_SPEC_SET | EDL_SPEC_ADD | EDL_SPEC_SUB)) {
         p_data->kflag |= KONT_DRAW_SPEC;
-        if(!(p_data->m2flag&MAT2_SPECULAR)) {
-          p_mesh->p_vertex_spec = mmalloc(sizeof(p_mesh->p_vertex_spec[0])*p_mesh->vertexnum);
+        if (!(p_data->m2flag & MAT2_SPECULAR)) {
+          p_mesh->p_vertex_spec =
+            mmalloc(sizeof(p_mesh->p_vertex_spec[0]) * p_mesh->vertexnum);
         }
-      }      
-      
-      if(flags&EDL_PRUHL_LIGHT) {
+      }
+
+      if (flags & EDL_PRUHL_LIGHT) {
         p_data->kflag |= KONT_DRAW_PRUHL;
       }
-      
+
       p_data->kflag |= KONT_DRAW_LIGHT;
     }
-    return(lh);
-  } else {    
-    return(K_CHYBA);
+    return (lh);
   }
-  */
+  else {
+    return (K_CHYBA);
+  }
 }
 
 
@@ -3690,98 +3695,112 @@ void edla_updatuj(G_KONFIG * p_ber)
   Prepocitam seznamy svetel -> pouze pri update
 */
 int edl_mesh_pridej_svetla(G_KONFIG * p_ber, GAME_MESH_OLD * p_mesh)
-{                               /* 
-                                   GAME_MESH_DATA  *p_data = p_mesh->p_data;
-                                   EXTRA_DYN_LIGHT *p_light;
-                                   EXTRA_DYN_LIGHT *p_light_dyn[MAX_FLARE_SVETEL*2];
-                                   dword            flags = 0;
-                                   float            vzdal;
-                                   int              flag;
-                                   int              lightnum = 0;
-                                   int              i;
-                                   int              kflag = p_data->kflag;
+{
+  GAME_MESH_DATA *p_data = p_mesh->p_data;
+  EXTRA_DYN_LIGHT *p_light;
+  EXTRA_DYN_LIGHT *p_light_dyn[MAX_FLARE_SVETEL * 2];
+  dword flags = 0;
+  float vzdal;
+  int flag;
+  int lightnum = 0;
+  int i;
+  int kflag = p_data->kflag;
 
-                                   if(kflag&(KONT_POHYB|KONT_VIDITELNY_ZMENA) || p_ber->edl_recalc || p_ber->edl_new) {
+  if (kflag & (KONT_POHYB | KONT_VIDITELNY_ZMENA) || p_ber->edl_recalc
+    || p_ber->edl_new) {
 
-                                   // Zaradim dynamicke svetla
-                                   lightnum = 0;
-                                   for(i = 0; i < p_ber->edl_lightnum; i++) {
-                                   p_light = p_ber->p_edlight+i;
-                                   if(p_light->akt) {      
-                                   flag = p_light->flag;
-                                   if(!(flag&EDL_SCENA)) {
-                                   if(flag&EDL_MESH_LIGHT) {
-                                   if(kflag&KONT_DRAW_LIGHT && p_data->top_edlight == i) {
-                                   p_light_dyn[lightnum++] = p_light;
-                                   flags |= p_light->flag;
-                                   }
-                                   } else if(flag&EDL_DOSAH) {
-                                   if(flag&EDL_BODOVE) {
-                                   if(p_light->dosah > obb_vzdal_bod(&p_mesh->obb_world,&p_light->tp)) {
-                                   p_light_dyn[lightnum++] = p_light;
-                                   flags |= p_light->flag;
-                                   }
-                                   } else if(flag&(EDL_PLOSNE_X|EDL_PLOSNE_Y|EDL_PLOSNE_Z)) {
-                                   if(flag&EDL_PLOSNE_X) {
-                                   vzdal = obb_vzdal_rovina_x(&p_mesh->obb_world,p_light->tp.x);
-                                   } else if(flag&EDL_PLOSNE_Y) {
-                                   vzdal = obb_vzdal_rovina_y(&p_mesh->obb_world,p_light->tp.y);
-                                   } else {
-                                   vzdal = obb_vzdal_rovina_z(&p_mesh->obb_world,p_light->tp.z);
-                                   }
-                                   if(p_light->dosah > vzdal) {
-                                   p_light_dyn[lightnum++] = p_light;
-                                   flags |= p_light->flag;
-                                   }
-                                   }
-                                   }
-                                   } else {        
-                                   p_light_dyn[lightnum++] = p_light;
-                                   flags |= p_light->flag;           
-                                   }
-                                   }
-                                   }
+    // Zaradim dynamicke svetla
+    lightnum = 0;
+    for (i = 0; i < p_ber->edl_lightnum; i++) {
+      p_light = p_ber->p_edlight + i;
+      if (p_light->akt) {
+        flag = p_light->flag;
+        if (!(flag & EDL_SCENA)) {
+          if (flag & EDL_MESH_LIGHT) {
+            if (kflag & KONT_DRAW_LIGHT && p_data->top_edlight == i) {
+              p_light_dyn[lightnum++] = p_light;
+              flags |= p_light->flag;
+            }
+          }
+          else if (flag & EDL_DOSAH) {
+            if (flag & EDL_BODOVE) {
+              if (p_light->dosah > obb_vzdal_bod(&p_mesh->obb_world,
+                  &p_light->tp)) {
+                p_light_dyn[lightnum++] = p_light;
+                flags |= p_light->flag;
+              }
+            }
+            else if (flag & (EDL_PLOSNE_X | EDL_PLOSNE_Y | EDL_PLOSNE_Z)) {
+              if (flag & EDL_PLOSNE_X) {
+                vzdal = obb_vzdal_rovina_x(&p_mesh->obb_world, p_light->tp.x);
+              }
+              else if (flag & EDL_PLOSNE_Y) {
+                vzdal = obb_vzdal_rovina_y(&p_mesh->obb_world, p_light->tp.y);
+              }
+              else {
+                vzdal = obb_vzdal_rovina_z(&p_mesh->obb_world, p_light->tp.z);
+              }
+              if (p_light->dosah > vzdal) {
+                p_light_dyn[lightnum++] = p_light;
+                flags |= p_light->flag;
+              }
+            }
+          }
+        }
+        else {
+          p_light_dyn[lightnum++] = p_light;
+          flags |= p_light->flag;
+        }
+      }
+    }
 
-                                   if(!lightnum) {
-                                   null_free((void **)&p_data->p_edlight);
-                                   p_data->edlightnum = p_data->edlightmax = 0;
-                                   if(!(kflag&KONT_DRAW_LIGHT)) {
-                                   p_data->kflag &=~(KONT_DRAW_SPEC);
-                                   p_data->kflag &=~(KONT_DRAW_PRUHL);
-                                   if(!(p_data->m2flag&(MAT2_SPECULAR|MAT2_ENV_SPEC)) && p_mesh->p_vertex_spec) {
-                                   free(p_mesh->p_vertex_spec);
-                                   p_mesh->p_vertex_spec = NULL;
-                                   }
-                                   }
-                                   } else {
-                                   // Nastav ostrou spekularni barvu
-                                   if(flags&(EDL_SPEC_MOD|EDL_SPEC_SET|EDL_SPEC_ADD|EDL_SPEC_SUB)) {
-                                   p_data->kflag |= KONT_DRAW_SPEC;
-                                   if(!p_mesh->p_vertex_spec) {
-                                   p_mesh->p_vertex_spec = mmalloc(sizeof(p_mesh->p_vertex_spec[0])*p_mesh->vertexnum);
-                                   }
-                                   }
+    if (!lightnum) {
+      null_free((void **) &p_data->p_edlight);
+      p_data->edlightnum = p_data->edlightmax = 0;
+      if (!(kflag & KONT_DRAW_LIGHT)) {
+        p_data->kflag &= ~(KONT_DRAW_SPEC);
+        p_data->kflag &= ~(KONT_DRAW_PRUHL);
+        if (!(p_data->m2flag & (MAT2_SPECULAR | MAT2_ENV_SPEC))
+          && p_mesh->p_vertex_spec) {
+          free(p_mesh->p_vertex_spec);
+          p_mesh->p_vertex_spec = NULL;
+        }
+      }
+    }
+    else {
+      // Nastav ostrou spekularni barvu
+      if (flags & (EDL_SPEC_MOD | EDL_SPEC_SET | EDL_SPEC_ADD | EDL_SPEC_SUB)) {
+        p_data->kflag |= KONT_DRAW_SPEC;
+        if (!p_mesh->p_vertex_spec) {
+          p_mesh->p_vertex_spec =
+            mmalloc(sizeof(p_mesh->p_vertex_spec[0]) * p_mesh->vertexnum);
+        }
+      }
 
-                                   if(flags&EDL_PRUHL_LIGHT) {
-                                   p_data->kflag |= KONT_DRAW_PRUHL;
-                                   }
+      if (flags & EDL_PRUHL_LIGHT) {
+        p_data->kflag |= KONT_DRAW_PRUHL;
+      }
 
-                                   if(lightnum >= p_data->edlightmax) {
-                                   null_free((void **)&p_data->p_edlight);
-                                   i += (lightnum>>1)+10;
-                                   p_data->p_edlight = mmalloc(sizeof(p_data->p_edlight[0])*i);
-                                   p_data->edlightmax = i;
-                                   memcpy(p_data->p_edlight,p_light_dyn,sizeof(p_data->p_edlight[0])*lightnum);
-                                   } else {      
-                                   memcpy(p_data->p_edlight,p_light_dyn,sizeof(p_data->p_edlight[0])*lightnum);
-                                   }    
-                                   p_data->edlightnum = lightnum;
-                                   } 
-                                   return(TRUE);
-                                   } else {
-                                   return(FALSE);
-                                   }
-                                 */
+      if (lightnum >= p_data->edlightmax) {
+        null_free((void **) &p_data->p_edlight);
+        i += (lightnum >> 1) + 10;
+        p_data->p_edlight = mmalloc(sizeof(p_data->p_edlight[0]) * i);
+        p_data->edlightmax = i;
+        memcpy(p_data->p_edlight, p_light_dyn,
+          sizeof(p_data->p_edlight[0]) * lightnum);
+      }
+      else {
+        memcpy(p_data->p_edlight, p_light_dyn,
+          sizeof(p_data->p_edlight[0]) * lightnum);
+      }
+      p_data->edlightnum = lightnum;
+    }
+    return (TRUE);
+  }
+  else {
+    return (FALSE);
+  }
+
 }
 
 
@@ -3833,20 +3852,18 @@ FlareHandle kom_flare_vyrob(int flag)
 {
   LENS_FLARE *p_flare;
 
-/*
   p_flare = mmalloc(sizeof(p_flare[0]));
-  
+
   p_flare->p_next = p_ber->p_flare;
   p_flare->p_prev = NULL;
-  if(p_ber->p_flare) {
+  if (p_ber->p_flare) {
     p_ber->p_flare->p_prev = p_flare;
   }
 
   p_ber->p_flare = p_flare;
   p_flare->zflag = flag;
   p_flare->p_svetlo = NULL;
-  return((int)p_flare);
-*/
+  return ((int) p_flare);
 }
 
 void kom_flare_zrus(FlareHandle fh)
