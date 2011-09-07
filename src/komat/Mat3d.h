@@ -131,13 +131,12 @@ typedef struct _KEY_POINT_3DS
 } ZDRCADLO_DESC_POLY;
   typedef struct _ZDRCADLO_DESC
 {
-  
-    // Zustava - popisuje rovine zrcadlo
+  // Zustava - popisuje rovine zrcadlo
   GLMATRIX ref;                 // reflexni matice
   BOD p[4];                     // 4 body roviny zrcadla
   ROVINAD r[5];                 // 4 plochy klipovaci pyramidy
-   ZDRCADLO_DESC_POLY * p_poly;
- } ZDRCADLO_DESC;
+     ZDRCADLO_DESC_POLY * p_poly;
+} ZDRCADLO_DESC;
  typedef struct _OBB_OLD
 {
   BOD obb[3];                 // obb smerovy vektory
@@ -1229,36 +1228,30 @@ typedef struct _MESH_OBALKY {
 
  
 // pouze na staticke objekty
-  typedef struct _EDIT_MESH_POLY
-{                               //celej kontejner
-  char jmeno[MAX_JMENO];       // jmeno poly
-  int facenum;                 // co face to objekt
+typedef struct _EDIT_MESH_POLY
+{                               //celej kontejner    char jmeno[MAX_JMENO];       // jmeno poly
+    int facenum;                 // co face to objekt
   TEXT_KOORD *p_koord;          // list texture koordinatu - plosky po 3
 
-  LIGHTMAP_FACE * p_ind;       // lightmapovaci indicie, je jich facenum/3
+    LIGHTMAP_FACE * p_ind;       // lightmapovaci indicie, je jich facenum/3
   dword *p_fsous;               // sousedni plosky
   dword m1flag;                 // flag materialu -> stejne jako u kontejneru
   dword m2flag;                 // flag mat 2 -> stejne jako u kontejneru
   dword kflag;                  // flag kontejneru
   dword k2flag;                 // flag kontejneru
-  int material;                // material poly
+    int material;                // material poly
   int kont;                     // cislo kontejneru, ze ktereho bylo poly vyrobeno
   int poly;                     // poradove cislo poly v seznamu polyu
 
   MLZNA_KOSTKA * p_mlha;       // mlzna kostka polyho
   int lightnum;                // pocet lightmap
   int *p_lightnum;              // pocty light-map
-  EDIT_TEXT **p_light;          // pole  light-map
-  char kreslit;
-  int mail;                    // mailbox poly :)
-
-  OBB_OLD obb;
-   
+  EDIT_TEXT **p_light;          // pole  light-map    char kreslit;  int mail;                    // mailbox poly :)
+    OBB_OLD obb;   
     // Svetla poly - dynamicke 
   void **p_dlight;              // pole svetel meshu 
   int lightmax;                 // velikost pole na svetla
   int lightakt;                 // aktualni vekikost
-
   
     // Svetla poly - extra-dynamicke
   int top_edlight;              // top-svetlo
@@ -1269,7 +1262,7 @@ typedef struct _MESH_OBALKY {
   VERTEX_ARRAYS varray;        // vertex-arrays
 } EDIT_MESH_POLY;
 
-  typedef struct _PRVEK_DATABAZE
+ typedef struct _PRVEK_DATABAZE
 {                               // prvek, ktery je v aktivni databazi prvku
   int kont;
   int guid;

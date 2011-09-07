@@ -701,25 +701,46 @@ void lo_chunk_save_zrcadlo_sub(FFILE f, ZDRCADLO_DESC_POLY * p_desc)
 
   ffwrite(&ch, sizeof(ch), 1, f);
 
-  ffwrite(p_desc->zrcadlo_k, sizeof(p_desc->zrcadlo_k), 1, f);
-  ffwrite(p_desc->zrcadlo_o, sizeof(p_desc->zrcadlo_o), 1, f);
-  ffwrite(p_desc->id_kont, sizeof(p_desc->id_kont), 1, f);
-  ffwrite(p_desc->poly, sizeof(p_desc->poly), 1, f);
+  ffwrite(&p_desc->zrcadlo_k, sizeof(p_desc->zrcadlo_k), 1, f);
+  ffwrite(&p_desc->zrcadlo_o, sizeof(p_desc->zrcadlo_o), 1, f);
+  ffwrite(&p_desc->id_kont, sizeof(p_desc->id_kont), 1, f);
+  ffwrite(&p_desc->poly, sizeof(p_desc->poly), 1, f);
 
   int tmp;
   ffwrite(&tmp, sizeof(int), 1, f);
 }
 
+/*
+typedef struct _ZDRCADLO_DESC
+{
+  // Zustava - popisuje rovine zrcadlo
+  GLMATRIX ref;                 // reflexni matice
+  BOD p[4];                     // 4 body roviny zrcadla
+  ROVINAD r[5];                 // 4 plochy klipovaci pyramidy
+   
+  ZDRCADLO_DESC_POLY * p_poly;
+
+} ZDRCADLO_DESC;
+*/
 void lo_chunk_save_zrcadlo(FFILE f, ZDRCADLO_DESC * p_desc)
 {
   ZDRCADLO_DESC_POLY *p_poly;
   OUT_CHUNK ch;
 
   ch.typ = CHUNK_ZRCADLO_3;
-  ch.velikost = sizeof(ch) + sizeof(ZDRCADLO_DESC);
+  ch.velikost = sizeof(ch) + 
+                sizeof(GLMATRIX) +
+                sizeof(BOD)*4 +
+                sizeof(ROVINAD)*5 +
+                sizeof(int);
 
   ffwrite(&ch, sizeof(ch), 1, f);
-  ffwrite(p_desc, sizeof(ZDRCADLO_DESC), 1, f);
+  ffwrite(&p_desc->ref, sizeof(GLMATRIX), 1, f);
+  ffwrite(p_desc->p, sizeof(BOD)*4, 1, f);
+  ffwrite(p_desc->r, sizeof(ROVINAD)*5, 1, f);
+
+  int tmp;
+  ffwrite(&tmp, sizeof(tmp), 1, f);
 
   p_poly = p_desc->p_poly;
   while (p_poly) {
@@ -3333,13 +3354,30 @@ int lo_chunk_load_zrcadlo_2(FFILE f, OUT_CHUNK *p_ch)
 }
 */
 
+/*
+typedef struct _ZDRCADLO_DESC_POLY
+{
+  int zrcadlo_k;              // kontejner zrcadla
+  int zrcadlo_o;                // objekt zrcadla
+  int id_kont;                  // id kontejneru
+  int poly;                     // poly ktereho se to tyka
+  struct _ZDRCADLO_DESC_POLY *p_next;
+
+} ZDRCADLO_DESC_POLY;
+*/
 int lo_chunk_load_zrcadlo_3_sub(FFILE f, OUT_CHUNK * p_ch)
 {
   ZDRCADLO_DESC_POLY *p_poly;
 
   if (p_zrcadlolist && p_ch->typ == CHUNK_ZRCADLO_3_POLOZKA) {
     p_poly = (ZDRCADLO_DESC_POLY *) mmalloc(sizeof(p_poly[0]));
-    ffread(p_poly, sizeof(p_poly[0]), 1, f);
+  
+    ffread(&p_poly->zrcadlo_k, sizeof(p_poly->zrcadlo_k), 1, f);
+    ffread(&p_poly->zrcadlo_o, sizeof(p_poly->zrcadlo_o), 1, f);
+    ffread(&p_poly->id_kont, sizeof(p_poly->id_kont), 1, f);
+    ffread(&p_poly->poly, sizeof(p_poly->poly), 1, f);  
+    ffseek(f, 4, SEEK_CUR);
+  
     p_poly->p_next = p_zrcadlolist->p_poly;
     p_zrcadlolist->p_poly = p_poly;
     return (TRUE);

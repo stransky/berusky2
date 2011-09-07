@@ -3064,14 +3064,12 @@ FFILE lo_poly_file_otevri(char *p_file, int *p_filenum, int velikost)
   int vel;
 
   if (!(f = ffopen(p_file, "rb"))) {
-    kprintf(1, "Unable to open file %s", p_file);
-    assert(0);
-    chyba("file");
+    pperror(1,"Unable to open file %s", p_file);    
   }
   ffread(p_filenum, sizeof(int), 1, f);
   ffread(&vel, sizeof(int), 1, f);
   if (vel != velikost) {
-    ddw("Nesouhlasi verze poly !! Ulozte ho znova.");
+    pperror(1,"Wrong poly version (%s)! Save it again.",p_file);
     ffclose(f);
     return (NULL);
   }
