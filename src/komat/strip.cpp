@@ -6,8 +6,8 @@
 #include "strip.h"
 #include "assert.h"
 #include "mmalloc.h"
-extern "C" int NvGenerateStrips(unsigned short *p_in_indices,
-  unsigned int in_numIndices, STRIP_FACE ** p_facer,
+extern "C" int NvGenerateStrips(unsigned short *p_in_indices,
+  unsigned int in_numIndices, STRIP_FACE ** p_facer,
   unsigned short *p_facenum) 
 {
   
@@ -44,4 +44,4 @@
   delete[] p_primGroups;
 */ 
     return (1);
-}
+}
