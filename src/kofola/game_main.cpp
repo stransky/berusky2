@@ -56,56 +56,18 @@ void winmain_Test(void)
 
 int winmain_Check_Window_Menu(void)
 {
-/*
-	DEVMODE dmSettings;
-
 	if(!GetPrivateProfileInt("hra","fullscreen", 1, (const char *) ini_file))
-	{
-		memset(&dmSettings,0,sizeof(dmSettings));
-		dmSettings.dmSize = sizeof(DEVMODE);
-
-		if(!EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dmSettings))
-			return 1;
-	
-		if(dmSettings.dmPelsWidth < 1024 || dmSettings.dmPelsHeight < 768)  
+	{    
+    const SDL_VideoInfo *info = SDL_GetVideoInfo();
+  
+		if(info->current_w < 1024 || info->current_h < 768)  
 		{
-			MessageBox(NULL, "Desktop resolution must be at least 1024x768.", "Error", MB_OK);
-			return 0;
+			pperror(0, "Desktop resolution must be at least 1024x768.");
+      return 0;
 		}
 	}
-*/
   return 1;
 }
-
-/*
-int winmain_Check_Window_Menu(void)
-{
-	DEVMODE dmSettings;
-
-	if(GetPrivateProfileInt("hra","windowmenu", 0, (const char *) ini_file))
-		WritePrivateProfileString("hra","fullscreen","0",ini_file);
-
-	if(!GetPrivateProfileInt("hra","fullscreen", 0, (const char *) ini_file))
-		WritePrivateProfileString("hra","windowmenu","1",ini_file);
-
-	if(GetPrivateProfileInt("hra","fullscreen", 0, (const char *) ini_file))
-	{
-		memset(&dmSettings,0,sizeof(dmSettings));
-		dmSettings.dmSize = sizeof(DEVMODE);
-		
-		if(!EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dmSettings))
-			return 1;
-
-		if(dmSettings.dmPelsWidth < 1024 || dmSettings.dmPelsHeight < 768 &&
-		   GetPrivateProfileInt("hra","windowmenu", 0, (const char *) ini_file))
-		{
-			MessageBox(NULL, "Desktop resolution must be at least 1024x768.", "Error", MB_OK);
-			return 0;
-		}
-	}
-
-	return 1;
-}*/
 
 //------------------------------------------------------------------------------------------------
 // kostra behu hry
