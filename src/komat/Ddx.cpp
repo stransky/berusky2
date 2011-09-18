@@ -245,17 +245,15 @@ int nahraj_device_config(const char *p_file, const char *p_sekce,
   p_conf->yres = GetPrivateProfileInt(p_sekce, "yres", 768, p_file);
   p_conf->bpp = GetPrivateProfileInt(p_sekce, "bpp", 32, p_file);
   p_conf->fullscreen = GetPrivateProfileInt(p_sekce, "fullscreen", 1, p_file);
+  p_conf->game_fps = GetPrivateProfileInt(p_sekce, "game_fps", 60, p_file);
 
   p_conf->frekvence = GetPrivateProfileInt(p_sekce, "freq", 0, p_file);
-  p_conf->safe_frekvence =
-    GetPrivateProfileInt(p_sekce, "safe_freq", 0, p_file);
+  p_conf->safe_frekvence = GetPrivateProfileInt(p_sekce, "safe_freq", 0, p_file);
   p_conf->ditering = GetPrivateProfileInt(p_sekce, "ditering", 0, p_file);
   p_conf->typ_mlhy = GetPrivateProfileInt(p_sekce, "typ_mlhy", 0, p_file);
-  p_conf->bump_mapping =
-    GetPrivateProfileInt(p_sekce, "bump_mapping", 0, p_file);
+  p_conf->bump_mapping = GetPrivateProfileInt(p_sekce, "bump_mapping", 0, p_file);
   p_conf->bump_mapping_typ = AUTO_BUMP_DOT3;
-  p_conf->vertex_arrays =
-    GetPrivateProfileInt(p_sekce, "vertex_arrays", 0, p_file);
+  p_conf->vertex_arrays = GetPrivateProfileInt(p_sekce, "vertex_arrays", 0, p_file);
 
   return (TRUE);
 }

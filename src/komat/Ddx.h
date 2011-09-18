@@ -13,6 +13,7 @@ typedef struct _HW_KONFIG
   int xres;                     // rozliseni obrazovky
   int yres;
   int bpp;
+  int game_fps;
   int ditering;
   int typ_mlhy;
   int pn_triangles;

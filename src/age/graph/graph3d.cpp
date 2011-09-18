@@ -600,15 +600,18 @@ bool graph3d_sdl::screen_create(void)
   //flag |= SDL_RESIZABLE;     /* Disable window resizing */
 
   /* This checks to see if surfaces can be stored in memory */
-  if ( videoInfo->hw_available )
-      flag |= SDL_HWSURFACE;
+  if(videoInfo->hw_available)
+    flag |= SDL_HWSURFACE;
   else
-      flag |= SDL_SWSURFACE;
+    flag |= SDL_SWSURFACE;
 
   /* This checks if hardware blits can be done */
-  if ( videoInfo->blit_hw )
-      flag |= SDL_HWACCEL;
+  if(videoInfo->blit_hw )
+    flag |= SDL_HWACCEL;
 
+  if(graphics_fullscreen)
+    flag |= SDL_FULLSCREEN;
+  
   /* Sets up OpenGL double buffering */
   SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
   
