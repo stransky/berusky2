@@ -84,39 +84,6 @@ int nahraj_konfig(void)
   return (TRUE);
 }
 
-int kom_graf_init(void)
-{
-  int full;
-
-  nahraj_konfig();
-
-  full = hwconf.fullscreen;
-
-  /* Nahodi graficky rezim
-   */
-  if (full) {
-//    nastav_okno(&hwconf,FALSE);
-    if (!grf_prehod_mod_hra(&hwconf))
-      return (FALSE);
-//    hwnd_hry = otevri_okno(hinst,hwconf.fullscreen,0,0,&hwconf);
-  }
-
-  /* Nahodi grafiku
-   */
-  if (!grf_start(ini_file))
-    pperror(1, "Inicializace");
-
-  /* Nahozeni renderovacich funkci
-   */
-  ber_nahod_render_funkce();
-
-  /* Vyflushni veci z fronty
-   */
-  spracuj_spravy(TRUE);
-
-  return (TRUE);
-}
-
 void kom_ret_default_text_config(void)
 {
   txconf.text_mip_mapping =
@@ -133,21 +100,11 @@ void kom_graf_konec(int menu)
 
   /* Shodim GL
    */
-  konec(FALSE);
-
-  if (menu) {                   // - zpet do menu - full screen
-    grf_prehod_mod_menu();
-//    nastav_okno(&hwconf,TRUE);
-    spracuj_spravy(0);
-  }
+  konec(FALSE);  
 }
 
 void konec(int konec)
 {
-  /* Stop grafiky
-   */
-  grf_stop();
-
   /* Zapne kurzor
    */
   zapni_kurzor();
@@ -294,9 +251,7 @@ void debug_file_init(void)
 {
   if (GetPrivateProfileInt("debug", "debug_file", 0, ini_file)) {
     char pom[200];
-
-    GetPrivateProfileString("hra", "log_file", "~/.berusky2/berusky2log.txt",
-      pom, 200, ini_file);
+    GetPrivateProfileString("hra", "log_file", "~/.berusky2/default_game_log.txt", pom, 200, ini_file);
     p_ber->debug_file = fopen(pom, "a");
   }
 }
@@ -351,13 +306,18 @@ int main(int argc, char **argv)
   debug_file_init();
 
   nahraj_konfig();
-  ber_konfiguruj_berusky(&ber);
 
   AGE_MAIN *p_age = p_ber->p_age = new AGE_MAIN(main_callback);
 
-  p_age->graph_set(XRES_MENU, YRES_MENU);
+  p_age->graph_set(hwconf.xres, hwconf.yres, hwconf.bpp, hwconf.fullscreen);
   if (!p_age->graph_screen_create())
     return (FALSE);
+  
+  if (!grf_start(ini_file))
+    pperror(1, "Inicializace");
+  
+  ber_nahod_render_funkce();
+  ber_konfiguruj_berusky(&ber);
 
   timeGetTimeInit();
 
@@ -382,7 +342,7 @@ int main(int argc, char **argv)
 
   glstav_reset();
 
-  winmain_Game_Run(p_ber->level_name);
+  winmain_Game_Run(p_ber->level_name);  
 
   return (TRUE);
 }

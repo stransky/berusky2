@@ -148,7 +148,6 @@ int ber_nastav_material_single_nic(EDIT_MATERIAL * p_smat,
 int ber_nastav_material_single_poly_nic(EDIT_MATERIAL * p_smat,
   EDIT_MATERIAL * p_mat, dword kflag);
 void ber_ini_vertex_arrays(void);
-void ber_ini_nic(void);
 void ber_test_render_mysi(void);
 extern EDIT_MATERIAL *__p_last_mat;
 void pe_renderuj(G_KONFIG * p_ber);

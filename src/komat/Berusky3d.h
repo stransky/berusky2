@@ -548,8 +548,8 @@ G_KONFIG;
 
 #define OXRES       hwconf.xres
 #define OYRES       hwconf.yres
-#define OXSTART     hwconf.xstart
-#define OYSTART     hwconf.ystart
+#define OXSTART     0
+#define OYSTART     0
 
 void ber_updatuj_fps(G_KONFIG * p_ber);
 void ber_konfiguruj_berusky(G_KONFIG * p_ber);

@@ -6,15 +6,12 @@
 
 typedef struct _HW_KONFIG
 {
-
   int fullscreen;
   int frekvence;
   int safe_frekvence;
 
   int xres;                     // rozliseni obrazovky
   int yres;
-  int xstart;                   // start
-  int ystart;
   int bpp;
   int ditering;
   int typ_mlhy;
@@ -24,16 +21,10 @@ typedef struct _HW_KONFIG
   int bump_mapping_typ;
   int vertex_arrays;
 
-  // TODO
-  //HDC    hDC;
-  //HGLRC  hRC;
   char **p_ext;
   int extnum;
   int perspective;
   GLuint font_baze;
-
-  // TODO
-  //PIXELFORMATDESCRIPTOR pfd;
 
 } HW_KONFIG;
 
@@ -85,21 +76,11 @@ typedef struct _TXT_KONFIG
 extern HW_KONFIG hwconf;
 extern TXT_KONFIG txconf;
 
-/*
-#define  XRES              (hwconf.xres)
-#define  YRES              (hwconf.yres)
-*/
-
 #define  TXT_HI_RES_LOW_X  128
 #define  TXT_HI_RES_LOW_Y  128
 
 #define  TXT_SEKCE        "textury"
 
-int gl_init(HW_KONFIG * p_conf);
-int gl_stop(HW_KONFIG * p_conf);
-int grf_prehod_mod_hra(HW_KONFIG * p_conf);
-int grf_prehod_mod_zpet(HW_KONFIG * p_conf);
-int grf_prehod_mod_menu(void);
 int grf_start(char *p_file);
 int grf_stop();
 

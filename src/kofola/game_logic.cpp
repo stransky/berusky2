@@ -12611,8 +12611,6 @@ void gl_Kofola_End(int DirectX)
 
     kprintf(1, "_3d_Release");
     _3d_Release();
-    kprintf(1, "kom_graf_konec");
-    kom_graf_konec(0);
   }
   else {
     ddxRelease();

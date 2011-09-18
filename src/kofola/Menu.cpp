@@ -727,7 +727,7 @@ int SceneDone(void)
 int RunLevel(HWND hWnd, AUDIO_DATA * p_ad, int cpu, char *lvl, char *env)
 {
   int ret;
-  unsigned int Timer_ID;
+  TIMER_ID Timer_ID;
   char cenv[64];
   float f = 0;                  //p_ad->Music_Gain;
 
@@ -752,7 +752,7 @@ int RunLevel(HWND hWnd, AUDIO_DATA * p_ad, int cpu, char *lvl, char *env)
 
   ShowCursor(FALSE);
 
-  if (kom_graf_init()) {
+  {
     RunMenuLoadScreen2();
     RunMenuLoadScreenInitBar(15);
     RunMenuLoadScreenAddProgress(-1);
@@ -787,17 +787,6 @@ int RunLevel(HWND hWnd, AUDIO_DATA * p_ad, int cpu, char *lvl, char *env)
 
     kprintf(1, "_3d_Release");
     _3d_Release();
-    kprintf(1, "kom_graf_konec");
-    kom_graf_konec(!bWindowMenu);
-    spracuj_spravy(0);
-    //maximalizuj_okno(NULL);
-    ShowCursor(TRUE);
-    spracuj_spravy(0);
-  }
-  else {
-    //----------------------- MessageBox ......
-    kprintf(1, "kom_graf_init - nepodarilo se nahodit");
-    MyMessageBox(NULL, "##error_title", "##kom_graf_init_error", "");
     spracuj_spravy(0);
     //maximalizuj_okno(NULL);
     ShowCursor(TRUE);

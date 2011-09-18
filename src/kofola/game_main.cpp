@@ -75,7 +75,7 @@ int winmain_Check_Window_Menu(void)
 int winmain_Game_Run(char *p_Level_Name)
 {
   char dir[256];
-  unsigned int Timer_ID;
+  TIMER_ID Timer_ID;
   int cpu;
   char bGame = strlen(p_Level_Name);
   char bConsole = GetPrivateProfileInt("debug", "start-konzole", 0, ini_file);
@@ -287,11 +287,6 @@ int winmain_Game_Run(char *p_Level_Name)
   }
 
   if (bGame) {
-    if (!kom_graf_init()) {
-      kprintf(1, "kom_graf_init -  nepodarilo se nahodit");
-      exit(0);
-    }
-
     //kom_prvnotni_init();
 
     //_2d_Init(hWnd);
@@ -384,7 +379,6 @@ int winmain_Game_Run(char *p_Level_Name)
   else {
     //fn_Release_Font();
     _3d_Release();
-    kom_graf_konec(0);
   }
 
   //kprintf(1, "cmcs_Play_Intro");

@@ -29,7 +29,7 @@ typedef struct
   long Frame_Counter;           // stores number of created DEMOKEYFRAMEs+1
   DWORD Start;                  // start time
   DWORD Finish;                 // finist time
-  SDL_TimerID Timer_ID;         // Timer ID for next frame
+  TIMER_ID Timer_ID;         // Timer ID for next frame
   int bOvladaniBerusek1;
   long dwTimeCounter;
 } DEMOSTRUCTURE;

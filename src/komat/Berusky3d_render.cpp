@@ -88,10 +88,6 @@ void ber_ini_vertex_arrays(void)
   glEnable(GL_VERTEX_ARRAY_EXT);
 }
 
-void ber_ini_nic(void)
-{
-}
-
 // urci jestli jsou flare viditelne
 void ber_viditelnost_flare(G_KONFIG * p_ber, LENS_FLARE * p_flare)
 {

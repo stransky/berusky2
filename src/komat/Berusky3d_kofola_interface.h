@@ -35,15 +35,6 @@ extern G_KONFIG ber, *p_ber;
 */
 extern float kom_load_progres;
 
-
-/********************************************************************** 
-  Inicializace - myslim celkem jasny funkce
- **********************************************************************
-*/
-int kom_graf_init(void);        // nahodi DirectX
-void kom_graf_konec(int menu);  // zrusi DirectX
-
-
 /**********************************************************************
   Load a zruseni levelu - to je taky urcite jasny
  **********************************************************************
