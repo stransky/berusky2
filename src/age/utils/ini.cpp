@@ -165,8 +165,10 @@ bool ini_find_string_section(FFILE f, const char *p_section,
       if(section_found) {
         section_found = !strncasecmp(p_section, section, MAX_TOKEN_LEN);
       }
-      if(section_found)
+      if(section_found) {
+        file_pos = ftell(f);
         continue;
+      }
     }
     
     // Cache last non-section line from recent section
@@ -189,7 +191,7 @@ bool ini_find_string_section(FFILE f, const char *p_section,
       *p_file_end = ftell(f);
       return(TRUE);
     }
-  
+    
     file_pos = ftell(f);
   }
 

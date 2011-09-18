@@ -1,8 +1,12 @@
-level7.lv6
+> wrong ini save
+> asm code in lighting -> writting to ligtmap updates
+> debug how-to page
+> sounds/music
+> hwconf -> game resolution/fulscreen
+> fps setting (in ini file?)
+> wchar_windows_to_linux -> mem leaks?
 
--> zapis APAK veci na disk -> 64-bit!!
-
-debug how-to page -> jak ladit ty pady
+> zapis APAK veci na disk -> 64-bit
 
 <mcrha> stransky, nastaveni nefunguje, a je v nem jeden text cesky
 <mcrha> stransky, neukazuji se popisky klaves v nastaveni, treba pro sipky
@@ -19,26 +23,7 @@ na konci mas dve sekce stejnyho jmena [soundengine] sekce v nem neexistuje - jo 
 <mcrha> stransky, u decek na jakysi ATI taky nerenderuje dobre, treba ve hre 
 to menu vlevo nahore se ukaze "nerozmazane" jen, kdyz je nad nim mys. 
 A ten jakoze "kour kvuli zime" jim kresli jako ctverecky
-<mcrha> stransky, Load scene - dynamic items....
-<mcrha>            - Load project....
-<mcrha>            - Scene-Material neni
-<mcrha> stransky, to posledni to je normalni?
-<mcrha> stransky, pak mam par takovych: Chyba dir /usr/share/berusky2/textures/stul...
-<mcrha> stransky, ale to muze byt tim, ze jsem mu v ini rekl, ze neni texturedir=/ ale texturedir=/usr/share/berusky2/textures
-<mcrha> stransky, Chyba otevreni pak file /usr/share/berusky2/textures/kanal.pak...
 <mcrha> stransky, File komat/Keyframe.cpp Line 3137 Chyba otevreni souboru 
 '/usr/share/berusky2/game_data/tu_01.sik' v /usr/share/berusky2/game_data
-<mcrha> stransky, tohle nevim jestli je videt i na 32bit: Load scene - static items....
-<mcrha> Nesouhlasi verze poly !! Ulozte ho znova.
-<mcrha> ten jsem tam resil, aspon pri nacitani, ale kofola testoval 
-sizeof i na neukladanych strukturach, coz jsem jednoduse zaremoval
 
 - spatne ovladani b1, pri ruznych smerech to je blbe (jen po c ->center na berusku)
-- hudba/zvuky -> pridat
-
-wchar_windows_to_linux -> mem leaky
-
-- nastavit fps! (v ini souboru)
-  - pro menu i pro hru
-- hwconf -> nastavit tam to rozliseni, 1024/768
-- ini -> pridelat podporu sekci

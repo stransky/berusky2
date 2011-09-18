@@ -1074,7 +1074,6 @@ inline void add_posun_rgba(byte * p_baze, int r, int g, int b, int posun)
 238, 77, 0
 */
 
-
 #define BARVA1 (RGB(255,0,255))
 #define BARVA2 (RGB(238,77,0))
 #define BARVA3 (RGB(237,77,0))

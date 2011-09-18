@@ -1061,87 +1061,58 @@ void SetTab(int iTab, int iLTab, CONTROL_LIST_ITEM * p_list, int lsize,
   DisplayFrame();
 }
 
-int CheckRozliseni(ROZLISENI * res, int roz_size, DWORD x, DWORD y, DWORD bpp)
-{
-  int i;
-
-  for (i = 0; i < roz_size; i++)
-    if (res[i].x == x && res[i].y == y && res[i].bpp == bpp)
-      return 1;
-
-  return 0;
-}
-
 void EnumRozliseni(ROZLISENI ** res, int *roz_size)
 {
-/*
-	int i=0 , j=0;
-	DEVMODE dmSettings;
-	
-	memset(&dmSettings,0,sizeof(dmSettings));
-	dmSettings.dmSize = sizeof(DEVMODE);
+  SDL_Rect** modes;
+  int i;
 
-	kprintf(1, "Detekce rozliseni ---------------------------------------------------- ");
+  kprintf(1, "Screen resolutions:");
 
-	while(EnumDisplaySettings(NULL,i,&dmSettings))
+  modes = SDL_ListModes(NULL,SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_OPENGL|SDL_FULLSCREEN);
+
+  if(!modes) {
+    // No available resolutions?
+    res = NULL;
+    roz_size = 0;
+    return;
+  }
+
+  if (modes == (SDL_Rect**)-1) {
+    // Actually not very useful 
+    res = NULL;
+    roz_size = 0;
+  }
+
+  for(i = 0; modes[i]; i++)
 	{
-		kprintf(1, "%d x %d x %d [%dHz]", dmSettings.dmPelsWidth, dmSettings.dmPelsHeight, dmSettings.dmBitsPerPel, dmSettings.dmDisplayFrequency);
-
-		memset(&dmSettings,0,sizeof(dmSettings));
-		dmSettings.dmSize = sizeof(DEVMODE);
-
-		i++;
+		kprintf(1, "%d x %d", modes[i]->w, modes[i]->h);
 	}
 
 	(*roz_size) = i;
 
 	kprintf(1, "Pocet rozliseni = %d", i);
 
-	(*res) = malloc((*roz_size) * sizeof(ROZLISENI));
+	(*res) = (ROZLISENI *)mmalloc((*roz_size) * sizeof(ROZLISENI));
 
 	memset((*res), 0, (*roz_size) * sizeof(ROZLISENI));
 
-	j = 0;
-	i = 0;
+  const SDL_VideoInfo *info = SDL_GetVideoInfo();
+  int bpp = info->vfmt->BitsPerPixel;
 
-	while(EnumDisplaySettings(NULL,i,&dmSettings))
+  int j = 0;
+  for(i = 0; modes[i]; i++)
 	{
-		if(dmSettings.dmBitsPerPel > 8 && dmSettings.dmPelsWidth > 600)
+		if(modes[i]->w > 600)
 		{
-			if(CheckRozliseni((*res), j, dmSettings.dmPelsWidth, dmSettings.dmPelsHeight, dmSettings.dmBitsPerPel))
-			{
-				kprintf(1, "Skip (%d x %d x %d)", dmSettings.dmPelsWidth, dmSettings.dmPelsHeight, dmSettings.dmBitsPerPel);
-				goto NEXT_ENUM;
-			}
-*/
-  /*if(j > 0)
-     if((*res)[j-1].bpp == dmSettings.dmBitsPerPel &&
-     (*res)[j-1].x == dmSettings.dmPelsWidth &&
-     (*res)[j-1].y == dmSettings.dmPelsHeight)
-     {
-     kprintf(1, "Skip (%d x %d x %d)", dmSettings.dmPelsWidth, dmSettings.dmPelsHeight, dmSettings.dmBitsPerPel);
-     goto NEXT_ENUM;
-     } */
-/*
-			(*res)[j].bpp = dmSettings.dmBitsPerPel;
-			(*res)[j].x = dmSettings.dmPelsWidth;
-			(*res)[j].y = dmSettings.dmPelsHeight;
-			(*res)[j].freq = dmSettings.dmDisplayFrequency;
+			(*res)[j].bpp = bpp;
+			(*res)[j].x = modes[i]->w;
+			(*res)[j].y = modes[i]->h;
+			(*res)[j].freq = 0;
 			j++;
 
-			kprintf(1, "ComboAddItem (%d x %d x %d)", dmSettings.dmPelsWidth, dmSettings.dmPelsHeight, dmSettings.dmBitsPerPel);
-
-			if(j >= (*roz_size))
-				break;
+			kprintf(1, "ComboAddItem (%d x %d x %d)", modes[i]->w, modes[i]->h, bpp);
 		}
-
-		NEXT_ENUM:
-
-		memset(&dmSettings,0,sizeof(dmSettings));
-		dmSettings.dmSize = sizeof(DEVMODE);
-		i++;
-	}
-*/
+  }
 }
 
 void Key2String(int k, char *text)
@@ -1954,7 +1925,7 @@ void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
 {
   DWORD dwEplased = 0, dwStart, dwStop;
 
-  ROZLISENI *roz;
+  ROZLISENI *roz = NULL;
   int roz_size = 0;
   int ActiveTab = 0;
   int hdcTab[TAB_NUM];
