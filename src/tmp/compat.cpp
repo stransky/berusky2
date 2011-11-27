@@ -148,6 +148,9 @@ int ddxInit(void)
     ddx2DeviceSetBackBufferSize(1024, 768);
     ddx2DeviceSetBackBufferRect(0, 0, 1024, 768);
     ddx2DeviceSetTextRenderRec(0, 0, 1024, 768);
+  
+    //TODO
+    //ddx2DeviceSetScreenRec(0, 0, hwconf.xres, hwconf.yres);
     ddx2DeviceSetScreenRec(0, 0, 1024, 768);
     ddx2DeviceSetRender(TRUE);
 

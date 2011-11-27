@@ -335,7 +335,9 @@ berusky2_SOURCES = \
 	komat/Kdtree.h\
 	komat/Matrix.h\
 	komat/Vektor.h\
-	kofola/ambient_sounds.h
+	kofola/ambient_sounds.h\
+	komat/json_export.cpp\
+	komat/json_export.h
 
 berusky2_LDFLAGS = 
 

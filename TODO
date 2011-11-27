@@ -1,3 +1,12 @@
+- nefunguji animace!! (z menu)
+  - nikde!! (ani ve fedore) -> chyba v ini souboru??
+
+int ddxInit(void)
+//TODO
+//ddx2DeviceSetScreenRec(0, 0, hwconf.xres, hwconf.yres);
+ddx2DeviceSetScreenRec(0, 0, 1024, 768);
+
+
 > asm code in lighting -> writting to ligtmap updates
 > debug how-to page
 > sounds/music

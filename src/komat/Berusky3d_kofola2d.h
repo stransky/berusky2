@@ -28,13 +28,19 @@ typedef struct _DDX2_SURFACE_DEVICE_3D
   BODUV map[4];                 // Mapovaci koordinaty v texture
 
   int back_dx,                  // Rozmery back-bufferu
-    back_dy;
+      back_dy;
 
   int text_x,                   // Pozice a rozmery textury v Back-bufferu
-    text_y, text_dx, text_dy, text_real_dx, text_real_dy;
+      text_y, 
+      text_dx, 
+      text_dy, 
+      text_real_dx, 
+      text_real_dy;
 
   int scr_x,                    // Rozmery a pozice device na obrazovce
-    scr_y, scr_kx, scr_ky;
+      scr_y, 
+      scr_kx, 
+      scr_ky;
 
 } DDX2_SURFACE_DEVICE_3D;
 

@@ -321,5 +321,7 @@ src/komat/Kdtree.h
 src/komat/Matrix.h
 src/komat/Vektor.h
 src/kofola/ambient_sounds.h
+src/komat/json_export.cpp
+src/komat/json_export.h
 
 
