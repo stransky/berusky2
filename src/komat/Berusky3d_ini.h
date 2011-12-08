@@ -5,6 +5,7 @@
 #define __BERINI_H
 
 extern int mouse_move;
+extern bool export_level;
 
 void konec(int konec);
 int spracuj_spravy(int param);

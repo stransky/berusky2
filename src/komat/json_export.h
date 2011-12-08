@@ -24,3 +24,16 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
+
+#ifndef __JSON_EXPORT_H__
+#define __JSON_EXPORT_H__
+
+void json_export_start(char *p_file);
+void json_export_end(void);
+
+void json_export_level(EDIT_KONTEJNER **p_kont, int max_kont,
+                       EDIT_MATERIAL ** p_mat, int max_mat);
+void json_export_poly(EDIT_MESH_POLY *p_poly, int polynum, 
+                      EDIT_MATERIAL ** p_mat, int max_mat);
+                      
+#endif // __JSON_EXPORT_H__

@@ -19,6 +19,8 @@
 #include "Berusky3d_kofola_interface.h"
 #include "Berusky3d_render.h"
 
+#include "json_export.h"
+
 /* Voda ma guid 12
 */
 int ber_je_objekt_voda(int guid)
@@ -646,7 +648,8 @@ int ber_nahraj_scenu(G_KONFIG * p_ber, char *p_jmeno, char *p_dir, int reload,
       &ambient, &p_ber->p_mlha,
       p_ber->p_dlight, MAX_FLARE_SVETEL,
       p_ber->p_edlight, MAX_FLARE_SVETEL,
-      &p_ber->env, &kam, &lc, LOAD_ALL, FALSE)) {
+      &p_ber->env, &kam, &lc, LOAD_ALL, FALSE)) 
+  {
 
     p_ber->conf_barva_pozadi = lc.barva_pozadi;
     p_ber->conf_barva_pozadi_pouzit =
@@ -681,12 +684,16 @@ int ber_nahraj_scenu(G_KONFIG * p_ber, char *p_jmeno, char *p_dir, int reload,
     for (k = 0; k < MAX_BERUSKY_KONTEJNERU; k++) {
       if (p_kont[k]) {
         if (ber_je_mesh_beruska(k, p_berusky, bernum, tmp)) {
-          lo_zrus_material_kont(p_kont[k], p_ber->p_mat,
-            MAX_CELKEM_MATERIALU);
+          lo_zrus_material_kont(p_kont[k], p_ber->p_mat, MAX_CELKEM_MATERIALU);
         }
       }
     }
 
+    if(export_level) {
+      json_export_level(p_kont, MAX_BERUSKY_KONTEJNERU,
+                        p_ber->p_mat, MAX_CELKEM_MATERIALU);
+    }
+  
     // prekopiruje kontejnery-meshe 1:1
     for (k = 0, m = 0, p = -1; k < MAX_BERUSKY_KONTEJNERU; k++) {
       if (p_kont[k]) {
@@ -771,6 +778,11 @@ void ber_nahraj_poly(G_KONFIG * p_ber, char *p_jmeno, char *p_dir)
     poly_pridej_vertex_array(p_ber->p_poly + i);
     amat_pridej_poly(p_ber, i);
     lo_poly_flaguj_materialy(p_ber->p_poly + i, p_ber->p_mat);
+  }
+
+  if(export_level) {
+    json_export_poly(p_ber->p_poly, p_ber->polynum,
+                     p_ber->p_mat, MAX_CELKEM_MATERIALU);
   }
 
   /* Flagovani zrcadla

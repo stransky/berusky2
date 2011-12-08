@@ -100,7 +100,7 @@ am_berusky2_OBJECTS = 3D_graphic.$(OBJEXT) 3D_menus.$(OBJEXT) \
 	kfile.$(OBJEXT) Berusky3d_animace.$(OBJEXT) 3dmath.$(OBJEXT) \
 	3dproject.$(OBJEXT) Mat3d.$(OBJEXT) Keyframe.$(OBJEXT) \
 	Texture.$(OBJEXT) Texture_import.$(OBJEXT) obbo.$(OBJEXT) \
-	Kdtree.$(OBJEXT)
+	Kdtree.$(OBJEXT) json_export.$(OBJEXT)
 berusky2_OBJECTS = $(am_berusky2_OBJECTS)
 berusky2_DEPENDENCIES =
 berusky2_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -613,7 +613,9 @@ berusky2_SOURCES = \
 	komat/Kdtree.h\
 	komat/Matrix.h\
 	komat/Vektor.h\
-	kofola/ambient_sounds.h
+	kofola/ambient_sounds.h\
+	komat/json_export.cpp\
+	komat/json_export.h
 
 berusky2_LDFLAGS = 
 berusky2_LDADD = 
@@ -788,6 +790,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ini.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/input.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/intersect.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/json_export.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kfile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lighting.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/load_level.Po@am__quote@
@@ -2780,6 +2783,20 @@ Kdtree.obj: komat/Kdtree.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Kdtree.cpp' object='Kdtree.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Kdtree.obj `if test -f 'komat/Kdtree.cpp'; then $(CYGPATH_W) 'komat/Kdtree.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Kdtree.cpp'; fi`
+
+json_export.o: komat/json_export.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT json_export.o -MD -MP -MF $(DEPDIR)/json_export.Tpo -c -o json_export.o `test -f 'komat/json_export.cpp' || echo '$(srcdir)/'`komat/json_export.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/json_export.Tpo $(DEPDIR)/json_export.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/json_export.cpp' object='json_export.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o json_export.o `test -f 'komat/json_export.cpp' || echo '$(srcdir)/'`komat/json_export.cpp
+
+json_export.obj: komat/json_export.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT json_export.obj -MD -MP -MF $(DEPDIR)/json_export.Tpo -c -o json_export.obj `if test -f 'komat/json_export.cpp'; then $(CYGPATH_W) 'komat/json_export.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/json_export.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/json_export.Tpo $(DEPDIR)/json_export.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/json_export.cpp' object='json_export.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o json_export.obj `if test -f 'komat/json_export.cpp'; then $(CYGPATH_W) 'komat/json_export.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/json_export.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

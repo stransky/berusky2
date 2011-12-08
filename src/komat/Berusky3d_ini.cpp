@@ -25,6 +25,7 @@
 #include "Berusky3d_kofola_interface.h"
 
 #include "config.h"
+#include "json_export.h"
 
 #ifdef DEBUG_OKNO
 dword start_debug;
@@ -32,6 +33,8 @@ dword start_debug;
 
 char ini_file[MAX_FILENAME] = "";
 bool create_user_data = TRUE;
+bool export_level = FALSE;
+char export_level_file[MAX_FILENAME] = "";
 
 void flip(void)
 {
@@ -158,6 +161,8 @@ void print_help(void)
   printf("\nLevel name:\n");
   printf
     ("  level_name.lv6                      Run this level (from game dir) instead of default menu\n");
+  printf
+    ("  -e --export                         Export loaded level\n");
   printf("\n");
   exit(0);
 }
@@ -176,9 +181,15 @@ void process_params(G_KONFIG * p_ber, int argc, char **argv)
         strcpy(ini_file, argv[i]);
       }
     }
-    else if (!strcasecmp(argv[i], "-l")
-      || !strcasecmp(argv[i], "--no-local-copy")) {
+    else if (!strcasecmp(argv[i], "-l") || !strcasecmp(argv[i], "--no-local-copy")) {
       create_user_data = FALSE;
+    }
+    else if (!strcasecmp(argv[i], "-e") || !strcasecmp(argv[i], "--export")) {
+      export_level = TRUE;
+      i++;
+      if (i < argc) {
+        strcpy(export_level_file, argv[i]);
+      }
     }
     else {                      // it's a level name?
       strcpy(p_ber->level_name, argv[i]);
@@ -342,7 +353,15 @@ int main(int argc, char **argv)
 
   glstav_reset();
 
+  if(export_level) {
+    json_export_start(export_level_file);
+  }
+
   winmain_Game_Run(p_ber->level_name);  
+
+  if(export_level) {
+    json_export_end();
+  }
 
   return (TRUE);
 }
