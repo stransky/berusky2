@@ -388,7 +388,21 @@ module.source.files=\
 	komat/Vektor.h\
 	kofola/ambient_sounds.h\
 	komat/json_export.cpp\
-	komat/json_export.h
+	komat/json_export.h\
+	kofola/ambient_sounds.cpp\
+	kofola/audio_plug-in.cpp\
+	kofola/audio_plug-in.h\
+	adas/3d_math_k.c\
+	adas/3d_math_k.h\
+	adas/Adas.c\
+	adas/Adas.h\
+	adas/adas_types.h\
+	adas/ogg_io.c\
+	adas/ogg_io.h\
+	adas/ogg_stream.c\
+	adas/ogg_stream.h\
+	tmp/compat_mini.cpp\
+	tmp/compat_mini.h
 
 module.pixmap.name=pixmaps
 module.pixmap.type=
@@ -423,16 +437,17 @@ compiler.options.include.paths=\
 	age/include\
 	age/support\
 	age/utils\
-	generator
+	generator\
+	adas
 compiler.options.library.paths=
 compiler.options.libraries=
 compiler.options.libraries.selected=
 compiler.options.defines=
 compiler.options.defines.selected=
-compiler.options.warning.buttons=0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 
+compiler.options.warning.buttons=0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
 compiler.options.optimize.buttons=1 0 0 0 
 compiler.options.other.buttons=1 0 
-compiler.options.other.c.flags=-D_DEBUG -fpermissive
+compiler.options.other.c.flags=-D_DEBUG -fpermissive -w
 compiler.options.other.l.flags=
 compiler.options.other.l.libs=
 

@@ -179,7 +179,6 @@ void cr_Draw_Creadits(CREDIT_SURFACE * cs, int y)
 
 int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 {
-/*
 	DWORD	dwStart, dwStop, dwEplased = 0;
 	int		y = 868;
 	int		dy = 868*2 + 2000;
@@ -414,7 +413,7 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 		dwStop = timeGetTime();
 		dwEplased = dwStop - dwStart;
 
-		if(ddxRestore(&CompositDC, &FontDC, &BackDC, &iCompositDC, &iFontDC, &iBackDC, &cBrutalRestart, p_ad))
+		if(ddxRestore(p_ad))
 		{
 			ddxSetFlip(1);
 			ddxSetCursor(1);
@@ -436,13 +435,12 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 	ddxSetFlip(1);
 	key[K_ESC] = 0;
 	apakclose(hArchive);
-*/
+
   return 0;
 }
 
 int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 {
-/*
 	DWORD	dwStart, dwStop, dwEplased = 0;
 	int		y = 868;
 	int		dy = 868*2 + 2000;
@@ -679,7 +677,7 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 		dwStop = timeGetTime();
 		dwEplased = dwStop - dwStart;
 
-		if(ddxRestore(&CompositDC, &FontDC, &BackDC, &iCompositDC, &iFontDC, &iBackDC, &cBrutalRestart, p_ad))
+		if(ddxRestore(p_ad))
 		{
 			ddxSetFlip(1);
 			ddxSetCursor(1);
@@ -701,6 +699,6 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 	ddxSetFlip(1);
 	key[K_ESC] = 0;
 	apakclose(hArchive);
-*/
+
   return 0;
 }

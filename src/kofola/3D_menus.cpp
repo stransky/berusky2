@@ -25,7 +25,7 @@
 
 extern ANIMATION_MODULE am;
 
-//extern  AUDIO_DATA ad;
+extern  AUDIO_DATA ad;
 extern _2D_DATA _2dd;
 extern _3D_DATA _3dd;
 extern G_KONFIG ber;
@@ -102,7 +102,7 @@ typedef struct
 
 _3D_ANIMATION_STRUCTURE _3DAnimationStruct;
 
-//extern AUDIO_DATA             ad;
+extern AUDIO_DATA ad;
 int iTopLedgeDL;
 int iInventoryDL;
 HINT_TEXTURE pHintTexture[26];

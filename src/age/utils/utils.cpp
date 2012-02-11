@@ -95,47 +95,6 @@ int  get_colors(char *p_ini_file, int default_color_depth)
   return(ini_read_int(p_ini_file, INI_COLOR, default_color_depth));
 }
 
-char *itoa(int d, char *buf, int base)
-{
-  char *p = buf;
-  char *p1, *p2;
-  unsigned long ud = d;
-  int divisor = 10;
-
-/* If %d is specified and D is minus, put `-' in the head. */
-  if (base == 'd' && d < 0) {
-    *p++ = '-';
-    buf++;
-    ud = -d;
-  }
-  else if (base == 'x')
-    divisor = 16;
-
-  /* Divide UD by DIVISOR until UD == 0. */
-  do {
-    int remainder = ud % divisor;
-
-    *p++ = (remainder < 10) ? remainder + '0' : remainder + 'A' - 10;
-  }
-  while (ud /= divisor);
-
-  /* Terminate BUF. */
-  *p = 0;
-
-  /* Reverse BUF. */
-  p1 = buf;
-  p2 = p - 1;
-  while (p1 < p2) {
-    char tmp = *p1;
-    *p1 = *p2;
-    *p2 = tmp;
-    p1++;
-    p2--;
-  }
-
-  return(buf);
-}
-
 /*
   File interface
 */
@@ -173,7 +132,7 @@ char * path_correction(char *p_file, int max_lenght)
 {
   char tmp[MAX_FILENAME];
   return_path(NULL, p_file, tmp, MAX_FILENAME);
-  assert(strlen(tmp) < max_lenght);
+  assert(strlen(tmp) < (unsigned)max_lenght);
   strcpy(p_file, tmp);
   return(p_file);
 }
@@ -737,6 +696,30 @@ bool file_exists(const char * p_dir, const char * p_file)
   else {
     f.close();
     return(TRUE);
+  }
+}
+
+t_length file_size_get(char * p_dir, char * p_file)
+{
+  FFILE f(p_dir, p_file, "rb", FALSE);
+  if(!(f)) {
+    return(FALSE);
+  } 
+  else {
+    t_length size = f.size_get();
+    f.close();
+    return(size);
+  }
+}
+
+t_length file_size_get(FILE *f)
+{
+  FFILE f_handle(f);
+  if(!(f_handle)) {
+    return(FALSE);
+  } 
+  else {
+    return(f_handle.size_get());
   }
 }
 

@@ -43,12 +43,14 @@
 #include <limits.h>
 #include <zlib.h>
 
+#ifndef  MAX_FILENAME_LENGTH
 #define  MAX_FILENAME_LENGTH  200
 
 #if PATH_MAX > MAX_FILENAME_LENGTH
 #define  MAX_FILENAME         MAX_FILENAME_LENGTH
 #else
 #define  MAX_FILENAME         PATH_MAX
+#endif
 #endif
 
 #ifndef  FALSE
@@ -113,7 +115,8 @@ char * dir_home_get(char *p_dir, int max);
 bool   file_copy(const char *p_src, const char *p_src_dir, const char *p_dest, const char *p_dest_dir, bool safe = TRUE);
 bool   file_exists(const char *p_dir, const char *p_file);
 
-int    file_size_get(char * p_dir, char * p_file);
+t_length file_size_get(char * p_dir, char * p_file);
+t_length file_size_get(FILE *f);
 
 void   print_errno(bool new_line = FALSE);
 

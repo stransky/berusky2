@@ -51,7 +51,7 @@ extern "C"
     int Max_Sources;
     _SOURCE *p_Source;
     EAX_DATA Eax;
-    HWND hWnd;
+    //HWND hWnd;
   } AUDIO_DATA;
 
   // Init

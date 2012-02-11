@@ -100,7 +100,10 @@ am_berusky2_OBJECTS = 3D_graphic.$(OBJEXT) 3D_menus.$(OBJEXT) \
 	kfile.$(OBJEXT) Berusky3d_animace.$(OBJEXT) 3dmath.$(OBJEXT) \
 	3dproject.$(OBJEXT) Mat3d.$(OBJEXT) Keyframe.$(OBJEXT) \
 	Texture.$(OBJEXT) Texture_import.$(OBJEXT) obbo.$(OBJEXT) \
-	Kdtree.$(OBJEXT) json_export.$(OBJEXT)
+	Kdtree.$(OBJEXT) json_export.$(OBJEXT) \
+	ambient_sounds.$(OBJEXT) audio_plug-in.$(OBJEXT) \
+	3d_math_k.$(OBJEXT) Adas.$(OBJEXT) ogg_io.$(OBJEXT) \
+	ogg_stream.$(OBJEXT) compat_mini.$(OBJEXT)
 berusky2_OBJECTS = $(am_berusky2_OBJECTS)
 berusky2_DEPENDENCIES =
 berusky2_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -110,15 +113,6 @@ DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
-CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
-LTCXXCOMPILE = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
-CXXLD = $(CXX)
-CXXLINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
-	$(LDFLAGS) -o $@
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 LTCOMPILE = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
@@ -127,6 +121,15 @@ LTCOMPILE = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
+CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+LTCXXCOMPILE = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+CXXLD = $(CXX)
+CXXLINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
 SOURCES = $(berusky2_SOURCES)
 DIST_SOURCES = $(berusky2_SOURCES)
@@ -285,16 +288,16 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 INCLUDES = \
-	 -Ikomat -Ikofola -Itmp -Iage/graph -Iage/include -Iage/support -Iage/utils -Igenerator
+	 -Ikomat -Ikofola -Itmp -Iage/graph -Iage/include -Iage/support -Iage/utils -Igenerator -Iadas
 
 AM_CFLAGS = \
-	-D_DEBUG -fpermissive\
-	 -Wall\
+	-D_DEBUG -fpermissive -w\
+	 -w\
 	 -g
 
 AM_CXXFLAGS = \
-	-D_DEBUG -fpermissive\
-	 -Wall\
+	-D_DEBUG -fpermissive -w\
+	 -w\
 	 -g
 
 berusky2_SOURCES = \
@@ -615,14 +618,28 @@ berusky2_SOURCES = \
 	komat/Vektor.h\
 	kofola/ambient_sounds.h\
 	komat/json_export.cpp\
-	komat/json_export.h
+	komat/json_export.h\
+	kofola/ambient_sounds.cpp\
+	kofola/audio_plug-in.cpp\
+	kofola/audio_plug-in.h\
+	adas/3d_math_k.c\
+	adas/3d_math_k.h\
+	adas/Adas.c\
+	adas/Adas.h\
+	adas/adas_types.h\
+	adas/ogg_io.c\
+	adas/ogg_io.h\
+	adas/ogg_stream.c\
+	adas/ogg_stream.h\
+	tmp/compat_mini.cpp\
+	tmp/compat_mini.h
 
 berusky2_LDFLAGS = 
 berusky2_LDADD = 
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .cpp .lo .o .obj
+.SUFFIXES: .c .cpp .lo .o .obj
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -710,9 +727,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3D_graphic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3D_menus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3d_math.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3d_math_k.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3dinterface.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3dmath.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3dproject.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Adas.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Apak.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Apakio.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Berusky3d.Po@am__quote@
@@ -751,6 +770,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/age.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/age_main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/alpha.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ambient_sounds.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/animation.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/animation_time.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/animation_track.Po@am__quote@
@@ -761,6 +781,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/apakdir.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/apakfind.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/apakstream.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/audio_plug-in.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bitmap.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/box.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/camera.Po@am__quote@
@@ -769,6 +790,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/color.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/color_hsv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/compat.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/compat_mini.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/controls.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/controls3d.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/credits.Po@am__quote@
@@ -816,6 +838,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/object_scene.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/object_transformation.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/object_world.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ogg_io.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ogg_stream.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/polar.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/print.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/profiles.Po@am__quote@
@@ -844,6 +868,83 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/volume.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/water.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/world_interface.Po@am__quote@
+
+.c.o:
+@am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(COMPILE) -c $<
+
+.c.obj:
+@am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(COMPILE) -c `$(CYGPATH_W) '$<'`
+
+.c.lo:
+@am__fastdepCC_TRUE@	$(LTCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
+
+3d_math_k.o: adas/3d_math_k.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT 3d_math_k.o -MD -MP -MF $(DEPDIR)/3d_math_k.Tpo -c -o 3d_math_k.o `test -f 'adas/3d_math_k.c' || echo '$(srcdir)/'`adas/3d_math_k.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/3d_math_k.Tpo $(DEPDIR)/3d_math_k.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='adas/3d_math_k.c' object='3d_math_k.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o 3d_math_k.o `test -f 'adas/3d_math_k.c' || echo '$(srcdir)/'`adas/3d_math_k.c
+
+3d_math_k.obj: adas/3d_math_k.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT 3d_math_k.obj -MD -MP -MF $(DEPDIR)/3d_math_k.Tpo -c -o 3d_math_k.obj `if test -f 'adas/3d_math_k.c'; then $(CYGPATH_W) 'adas/3d_math_k.c'; else $(CYGPATH_W) '$(srcdir)/adas/3d_math_k.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/3d_math_k.Tpo $(DEPDIR)/3d_math_k.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='adas/3d_math_k.c' object='3d_math_k.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o 3d_math_k.obj `if test -f 'adas/3d_math_k.c'; then $(CYGPATH_W) 'adas/3d_math_k.c'; else $(CYGPATH_W) '$(srcdir)/adas/3d_math_k.c'; fi`
+
+Adas.o: adas/Adas.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Adas.o -MD -MP -MF $(DEPDIR)/Adas.Tpo -c -o Adas.o `test -f 'adas/Adas.c' || echo '$(srcdir)/'`adas/Adas.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Adas.Tpo $(DEPDIR)/Adas.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='adas/Adas.c' object='Adas.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Adas.o `test -f 'adas/Adas.c' || echo '$(srcdir)/'`adas/Adas.c
+
+Adas.obj: adas/Adas.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Adas.obj -MD -MP -MF $(DEPDIR)/Adas.Tpo -c -o Adas.obj `if test -f 'adas/Adas.c'; then $(CYGPATH_W) 'adas/Adas.c'; else $(CYGPATH_W) '$(srcdir)/adas/Adas.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Adas.Tpo $(DEPDIR)/Adas.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='adas/Adas.c' object='Adas.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Adas.obj `if test -f 'adas/Adas.c'; then $(CYGPATH_W) 'adas/Adas.c'; else $(CYGPATH_W) '$(srcdir)/adas/Adas.c'; fi`
+
+ogg_io.o: adas/ogg_io.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ogg_io.o -MD -MP -MF $(DEPDIR)/ogg_io.Tpo -c -o ogg_io.o `test -f 'adas/ogg_io.c' || echo '$(srcdir)/'`adas/ogg_io.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/ogg_io.Tpo $(DEPDIR)/ogg_io.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='adas/ogg_io.c' object='ogg_io.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ogg_io.o `test -f 'adas/ogg_io.c' || echo '$(srcdir)/'`adas/ogg_io.c
+
+ogg_io.obj: adas/ogg_io.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ogg_io.obj -MD -MP -MF $(DEPDIR)/ogg_io.Tpo -c -o ogg_io.obj `if test -f 'adas/ogg_io.c'; then $(CYGPATH_W) 'adas/ogg_io.c'; else $(CYGPATH_W) '$(srcdir)/adas/ogg_io.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/ogg_io.Tpo $(DEPDIR)/ogg_io.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='adas/ogg_io.c' object='ogg_io.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ogg_io.obj `if test -f 'adas/ogg_io.c'; then $(CYGPATH_W) 'adas/ogg_io.c'; else $(CYGPATH_W) '$(srcdir)/adas/ogg_io.c'; fi`
+
+ogg_stream.o: adas/ogg_stream.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ogg_stream.o -MD -MP -MF $(DEPDIR)/ogg_stream.Tpo -c -o ogg_stream.o `test -f 'adas/ogg_stream.c' || echo '$(srcdir)/'`adas/ogg_stream.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/ogg_stream.Tpo $(DEPDIR)/ogg_stream.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='adas/ogg_stream.c' object='ogg_stream.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ogg_stream.o `test -f 'adas/ogg_stream.c' || echo '$(srcdir)/'`adas/ogg_stream.c
+
+ogg_stream.obj: adas/ogg_stream.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ogg_stream.obj -MD -MP -MF $(DEPDIR)/ogg_stream.Tpo -c -o ogg_stream.obj `if test -f 'adas/ogg_stream.c'; then $(CYGPATH_W) 'adas/ogg_stream.c'; else $(CYGPATH_W) '$(srcdir)/adas/ogg_stream.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/ogg_stream.Tpo $(DEPDIR)/ogg_stream.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='adas/ogg_stream.c' object='ogg_stream.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ogg_stream.obj `if test -f 'adas/ogg_stream.c'; then $(CYGPATH_W) 'adas/ogg_stream.c'; else $(CYGPATH_W) '$(srcdir)/adas/ogg_stream.c'; fi`
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -2797,6 +2898,48 @@ json_export.obj: komat/json_export.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/json_export.cpp' object='json_export.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o json_export.obj `if test -f 'komat/json_export.cpp'; then $(CYGPATH_W) 'komat/json_export.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/json_export.cpp'; fi`
+
+ambient_sounds.o: kofola/ambient_sounds.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ambient_sounds.o -MD -MP -MF $(DEPDIR)/ambient_sounds.Tpo -c -o ambient_sounds.o `test -f 'kofola/ambient_sounds.cpp' || echo '$(srcdir)/'`kofola/ambient_sounds.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/ambient_sounds.Tpo $(DEPDIR)/ambient_sounds.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='kofola/ambient_sounds.cpp' object='ambient_sounds.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ambient_sounds.o `test -f 'kofola/ambient_sounds.cpp' || echo '$(srcdir)/'`kofola/ambient_sounds.cpp
+
+ambient_sounds.obj: kofola/ambient_sounds.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ambient_sounds.obj -MD -MP -MF $(DEPDIR)/ambient_sounds.Tpo -c -o ambient_sounds.obj `if test -f 'kofola/ambient_sounds.cpp'; then $(CYGPATH_W) 'kofola/ambient_sounds.cpp'; else $(CYGPATH_W) '$(srcdir)/kofola/ambient_sounds.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/ambient_sounds.Tpo $(DEPDIR)/ambient_sounds.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='kofola/ambient_sounds.cpp' object='ambient_sounds.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ambient_sounds.obj `if test -f 'kofola/ambient_sounds.cpp'; then $(CYGPATH_W) 'kofola/ambient_sounds.cpp'; else $(CYGPATH_W) '$(srcdir)/kofola/ambient_sounds.cpp'; fi`
+
+audio_plug-in.o: kofola/audio_plug-in.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT audio_plug-in.o -MD -MP -MF $(DEPDIR)/audio_plug-in.Tpo -c -o audio_plug-in.o `test -f 'kofola/audio_plug-in.cpp' || echo '$(srcdir)/'`kofola/audio_plug-in.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/audio_plug-in.Tpo $(DEPDIR)/audio_plug-in.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='kofola/audio_plug-in.cpp' object='audio_plug-in.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o audio_plug-in.o `test -f 'kofola/audio_plug-in.cpp' || echo '$(srcdir)/'`kofola/audio_plug-in.cpp
+
+audio_plug-in.obj: kofola/audio_plug-in.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT audio_plug-in.obj -MD -MP -MF $(DEPDIR)/audio_plug-in.Tpo -c -o audio_plug-in.obj `if test -f 'kofola/audio_plug-in.cpp'; then $(CYGPATH_W) 'kofola/audio_plug-in.cpp'; else $(CYGPATH_W) '$(srcdir)/kofola/audio_plug-in.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/audio_plug-in.Tpo $(DEPDIR)/audio_plug-in.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='kofola/audio_plug-in.cpp' object='audio_plug-in.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o audio_plug-in.obj `if test -f 'kofola/audio_plug-in.cpp'; then $(CYGPATH_W) 'kofola/audio_plug-in.cpp'; else $(CYGPATH_W) '$(srcdir)/kofola/audio_plug-in.cpp'; fi`
+
+compat_mini.o: tmp/compat_mini.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT compat_mini.o -MD -MP -MF $(DEPDIR)/compat_mini.Tpo -c -o compat_mini.o `test -f 'tmp/compat_mini.cpp' || echo '$(srcdir)/'`tmp/compat_mini.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/compat_mini.Tpo $(DEPDIR)/compat_mini.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tmp/compat_mini.cpp' object='compat_mini.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o compat_mini.o `test -f 'tmp/compat_mini.cpp' || echo '$(srcdir)/'`tmp/compat_mini.cpp
+
+compat_mini.obj: tmp/compat_mini.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT compat_mini.obj -MD -MP -MF $(DEPDIR)/compat_mini.Tpo -c -o compat_mini.obj `if test -f 'tmp/compat_mini.cpp'; then $(CYGPATH_W) 'tmp/compat_mini.cpp'; else $(CYGPATH_W) '$(srcdir)/tmp/compat_mini.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/compat_mini.Tpo $(DEPDIR)/compat_mini.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tmp/compat_mini.cpp' object='compat_mini.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o compat_mini.obj `if test -f 'tmp/compat_mini.cpp'; then $(CYGPATH_W) 'tmp/compat_mini.cpp'; else $(CYGPATH_W) '$(srcdir)/tmp/compat_mini.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

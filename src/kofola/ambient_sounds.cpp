@@ -1,15 +1,13 @@
 //------------------------------------------------------------------------------------------------
 // version 0.0.1
 //------------------------------------------------------------------------------------------------
-#include "..\\komat\\mss_on.h"
-#include "ambient_sounds.h"
 #include "adas.h"
+#include "audio_plug-in.h"
+#include "ambient_sounds.h"
 
-//#include <d3d.h>
-#include <windows.h>
 #include <math.h>
 
-#include "..\komat\3d_all.h"
+#include "3d_all.h"
 #include "Object.h"
 
 static long amb_counter[3];

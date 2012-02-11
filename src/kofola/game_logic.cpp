@@ -27,6 +27,7 @@
 #include "game_init.h"
 #include "Tools.h"
 #include "Menu2.h"
+#include "Adas.h"
 
 extern HINT_STATE sHint;
 extern KUK_STATE sKuk;
@@ -80,7 +81,7 @@ typedef struct
 char bSet_Frame_Rate;
 ANIMATION_MODULE am;
 
-//AUDIO_DATA                    ad;
+AUDIO_DATA ad;
 DEMOSTRUCTURE Demo;
 ANIMATION_QUEUE_SET queue_set[3];
 ANIMATION_QUEUE_SET *p_set = NULL;
@@ -9443,7 +9444,6 @@ void gl_Flip(AUDIO_DATA * pad, LEVELINFO * p_Level, int *Frame_Rate_Counter,
 {
   float orientation[6];
 
-/*
 	if(timeGetTime() - p_Level->dwLastMusicCheck > 10000)
 	{
 		if(!ogg_playing() && (pad->Music_Gain > 0.05f) && (!p_Level->bExit) && karmin_aktivni)
@@ -9451,17 +9451,17 @@ void gl_Flip(AUDIO_DATA * pad, LEVELINFO * p_Level, int *Frame_Rate_Counter,
 		
 		p_Level->dwLastMusicCheck = timeGetTime();
 	}
-*/
+
   (*Frame_Rate_Counter)++;
 
   if (bSet_Frame_Rate) {
     am.frame_per_quater = (float) (*Frame_Rate_Counter);
     bSet_Frame_Rate = 0;
     (*Frame_Rate_Counter) = 0;
-/*
+
 		if(karmin_aktivni)
 			as_Do_Ambient_Sounds(p_Level->Environment.id,pad,p_Level);
-*/
+
     if (*bCursor) {
       (*Cursor_Time_Out)++;
       if ((*Cursor_Time_Out) > 20) {
@@ -10372,7 +10372,7 @@ PLAY_LEVEL_START:
   Bind_Keys(&control);
 
 //      Level.hWnd = hwnd_hry;
-//      Level.p_ad = &ad;
+  Level.p_ad = &ad;
 //      ad                 = *p_ad;
 
   kprintf(1, "_3d_Scale_Factor: X = %f, Y = %f", _3d_Scale_Factor[0],
@@ -10499,8 +10499,8 @@ PLAY_LEVEL_START:
     kprintf(1, "Unable to init animation module");
     return -1;
   }
-//      else
-//              am.p_ad = p_ad;
+  else
+    am.p_ad = p_ad;
 
   RunMenuLoadScreenAddProgress(-1);
   RunMenuLoadScreenDrawProgress(-1, -1);
@@ -10621,8 +10621,8 @@ PLAY_LEVEL_START:
   if (Level.Actual_Item != -1)
     gl_Create_SelectionFlek(Level.Level[Level.Actual_Item], &Level);
 
-//      adas_Set_Listener_Environment(Level.Environment.room);
-//      as_Start(Level.Environment.id,p_ad,&Level);
+   adas_Set_Listener_Environment(Level.Environment.room);
+   as_Start(Level.Environment.id,p_ad,&Level);
 
   //schovej_konzoli();
 
@@ -10635,7 +10635,7 @@ PLAY_LEVEL_START:
 
   //kprintf(1,"16...");
   kam_get_float(orientation);
-//      adas_Set_Listener_Orientation(orientation);
+  adas_Set_Listener_Orientation(orientation);
 
   kprintf(1, "demo_Init...");
   if (!demo) {
@@ -10751,8 +10751,8 @@ PLAY_LEVEL_START:
   Level.dwStartTime = timeGetTime();
 
   kprintf(1, "ap_Play_Song...");
-//      ogg_gain(p_ad->Music_Gain);
-//      ap_Play_Song(0,1,p_ad);
+  ogg_gain(p_ad->Music_Gain);
+  ap_Play_Song(0,1,p_ad);
 
   Level.dwLastMusicCheck = timeGetTime();
   kprintf(1, "ap_Play_Song DONE...");
@@ -10773,8 +10773,7 @@ PLAY_LEVEL_START:
 
           PRCameraFlag = 0;
           ZeroMemory(cText, 128);
-          RunMenuLoadGameLoad2("Mmload_game_load3d.txt",
-            NULL /*Level.p_ad */ , &Level, &am, 1, cText);
+          RunMenuLoadGameLoad2("Mmload_game_load3d.txt", Level.p_ad, &Level, &am, 1, cText);
           PRCameraFlag = 1;
 
           if (wcslen(cText)) {
@@ -10804,7 +10803,7 @@ PLAY_LEVEL_START:
         fn_Load_Textures_From_RAM();
         Level.bMenuRunning = 1;
         _3d_Start_Animation(14, NULL, &iMenuAnimation);
-        //              ap_Play_Sound(0,1,0, fpos, gl_Choose_Wave_Index(23), NULL, p_ad);
+        ap_Play_Sound(0,1,0, fpos, gl_Choose_Wave_Index(23), NULL, p_ad);
 
         /*Level.Level_Exit = 2;
            Level.lLevel_Exitc = 0; */
@@ -10836,8 +10835,7 @@ PLAY_LEVEL_START:
 
       if (key[control.next_song]) {
         key[control.next_song] = 0;
-
-//                      ap_Stop_Song(&ad);
+        ap_Stop_Song(&ad);
       }
 
       if (key[control.visibility]) {
@@ -11074,7 +11072,7 @@ PLAY_LEVEL_START:
       if (key[control.camera_fast_turn_left])
         camera_Fast_Turn(control.camera_fast_turn_left, 1, &cameraflag,
           am.frame_per_quater);
-/*
+/* TODO?
 		if (key[control.camera_zoom_in])
 			camera_Zoom(control.camera_zoom_in, 0, &cameraflag, am.frame_per_quater);
 
@@ -11199,8 +11197,7 @@ PLAY_LEVEL_START:
           sHint.bHint = 0;
           ZeroMemory(cText, 128);
           PRCameraFlag = 0;
-          RunMenuLoadGameLoad2("Mmload_game_loads3d.txt",
-            NULL /*Level.p_ad */ , &Level, &am, 0, cText);
+          RunMenuLoadGameLoad2("Mmload_game_loads3d.txt", Level.p_ad, &Level, &am, 0, cText);
           PRCameraFlag = 1;
 
           if (wcslen(cText))
@@ -12403,12 +12400,12 @@ PLAY_LEVEL_START:
   kprintf(1, "am_Do_Star_Lights_Release");
   am_Do_Star_Lights_Release(&Level);
   kprintf(1, "adas_Release_Source");
-//      adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
-//      adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
+  adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
+  adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE);
 
   kprintf(1, "adas_Is_OGG_Stream_Playing");
   if (Level.Level_Exit != 5)
-/*
+
 	if(ogg_playing())
 	{
 		float f = p_ad->Music_Gain;
@@ -12419,13 +12416,13 @@ PLAY_LEVEL_START:
 			Sleep(25);
 		}
 	}
-*/
-    kprintf(1, "ap_Stop_Song");
-//      ap_Stop_Song(&ad);
+
+  kprintf(1, "ap_Stop_Song");
+  ap_Stop_Song(&ad);
   kprintf(1, "demo_Release");
   demo_Release(&Demo);
   kprintf(1, "adas_Set_Listener_Environment");
-//      adas_Set_Listener_Environment(EAX_ENVIRONMENT_GENERIC);
+  adas_Set_Listener_Environment(EAX_ENVIRONMENT_GENERIC);
   kprintf(1, "am_Stop_Beetle_Animations");
   am_Stop_Beetle_Animations(&Level);
   kprintf(1, "am_Release_Animate_Items");
@@ -12497,7 +12494,7 @@ PLAY_LEVEL_START:
   Return = Level.Level_Exit;
 
   kprintf(1, "adas_Release_Loaded_Data");
-//      adas_Release_Loaded_Data();
+  adas_Release_Loaded_Data();
   kprintf(1, "ap_Load_Sound_List");
   ap_Load_Sound_List(p_ad, "basicset.dat", 0);
 
@@ -12506,7 +12503,7 @@ PLAY_LEVEL_START:
     RunMenuLoadScreenRelease(3);
   }
 
-//    adas_Set_Listener_Environment(EAX_ENVIRONMENT_GENERIC);
+  adas_Set_Listener_Environment(EAX_ENVIRONMENT_GENERIC);
 
   if (Level.Level_Exit == 5)
     exit(0);
@@ -12518,13 +12515,13 @@ void gl_Kofola_Minimalize(void)
 {
   Level.bGameResume = 0;
   kprintf(1, "game suspended");
-//      adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
-//      adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE);
-/*
+  adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
+  adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE);
+
 	if(ogg_playing())
 		ap_Stop_Song(&ad);
-*/
-//      adas_Set_Listener_Environment(0);
+
+  adas_Set_Listener_Environment(0);
 }
 
 void gl_Kofola_Maximalize(void)
@@ -12573,7 +12570,7 @@ void gl_Kofola_End(int DirectX)
     kprintf(1, "demo_Release");
     demo_Release(&Demo);
     kprintf(1, "adas_Set_Listener_Environment");
-//              adas_Set_Listener_Environment(EAX_ENVIRONMENT_GENERIC);
+    adas_Set_Listener_Environment(EAX_ENVIRONMENT_GENERIC);
     kprintf(1, "am_Stop_Beetle_Animations");
     am_Stop_Beetle_Animations(&Level);
     kprintf(1, "am_Release_Animate_Items");
@@ -12607,7 +12604,7 @@ void gl_Kofola_End(int DirectX)
     //adas_Release_Loaded_Data();
 
     kprintf(1, "_3d_Release_Hints");
-    //_3d_Release_Hints(pHintTexture, 26);
+    _3d_Release_Hints(pHintTexture, 26);
 
     kprintf(1, "_3d_Release");
     _3d_Release();
@@ -12633,10 +12630,10 @@ void gl_Kofola_End(int DirectX)
   //kprintf(1, "apakclose FONT");
   //fn_Release_Font();
 
-//      adas_Set_Listener_Environment(EAX_ENVIRONMENT_GENERIC);
-//      adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
-//      adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
-/*		
+  adas_Set_Listener_Environment(EAX_ENVIRONMENT_GENERIC);
+  adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
+  adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
+
 	kprintf(1, "ap_Stop_Song");
 	ap_Stop_Song(&ad);
 	kprintf(1, "gi_Release_Sound_Engine");
@@ -12647,7 +12644,7 @@ void gl_Kofola_End(int DirectX)
 	ap_Release_Material_List(&ad);
 	kprintf(1, "ap_Release");
 	ap_Release(&ad);
-*/
+
 //      ChangeDisplaySettings(NULL,0);
 //      ShowWindow(hwnd_hry, SW_MAXIMIZE);
   spracuj_spravy(0);

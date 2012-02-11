@@ -41,19 +41,6 @@ char bDXAktivni = 0;
 
 char cFontFile[5][64];
 
-void winmain_Test(void)
-{
-  DWORD s, f, e;
-  FILE *file;
-
-  s = timeGetTime();
-
-  file = aopen(pBmpArchive, "d:\\Berusky II\\bitmap\\LoadScreen.bmp", "rb");
-
-  f = timeGetTime();
-  e = f - s;
-}
-
 int winmain_Check_Window_Menu(void)
 {
 	if(!GetPrivateProfileInt("hra","fullscreen", 1, (const char *) ini_file))
@@ -233,29 +220,15 @@ int winmain_Game_Run(char *p_Level_Name)
   }
 #endif
 
-//      cpu = (int)ceil(tools_Base_Priority(tools_Get_CPU_Speed()));
+  //cpu = (int)ceil(tools_Base_Priority(tools_Get_CPU_Speed()));
+  //kprintf(1, "OGG Decompression Thread Priority: %d", cpu);
 
-  kprintf(1, "OGG Decompression Thread Priority: %d", cpu);
-/*
 	gi_Init_Sound_Engine(&ad);
 	chdir(ad.Music_Dir);
 	ap_Load_Play_List("Play_List.dat",&ad);
 	chdir(ad.Sound_Dir);
-*/
+
   ap_Load_Material_List("Material.dat", &ad);
-  //ap_Play_Song(22,0,&ad);
-
-  /*ogg_open("c:\\AnakreoN\\Berusky II\\Music\\Freemind.ogg");
-
-     if(!ogg_playback())
-     return 0;
-
-     while(ogg_playing())
-     {
-     Sleep(10);
-     }
-
-     ogg_release(); */
 
   iMaxBpp = gi_Get_Max_Resolution_Bpp(1024, 768);
   iMaxFreq = gi_Get_Max_Freq(1024, 768, iMaxBpp);

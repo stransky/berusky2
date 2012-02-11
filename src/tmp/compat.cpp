@@ -1,4 +1,32 @@
-#include<sys/time.h>
+/*
+ *        .þÛÛþ þ    þ þÛÛþ.     þ    þ þÛÛÛþ.  þÛÛÛþ .þÛÛþ. þ    þ
+ *       .þ   Û Ûþ.  Û Û   þ.    Û    Û Û    þ  Û.    Û.   Û Ûþ.  Û
+ *       Û    Û Û Û  Û Û    Û    Û   þ. Û.   Û  Û     Û    Û Û Û  Û
+ *     .þþÛÛÛÛþ Û  Û Û þÛÛÛÛþþ.  þþÛÛ.  þþÛÛþ.  þÛ    Û    Û Û  Û Û
+ *    .Û      Û Û  .þÛ Û      Û. Û   Û  Û    Û  Û.    þ.   Û Û  .þÛ
+ *    þ.      þ þ    þ þ      .þ þ   .þ þ    .þ þÛÛÛþ .þÛÛþ. þ    þ
+ *
+ * Berusky (C) AnakreoN
+ * Martin Stransky <stransky@anakreon.cz> 
+ * Michal Simonik <simonik@anakreon.cz> 
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ */
+
+#include <sys/time.h>
 
 #include "3d_all.h"
 #include "ini.h"
@@ -19,6 +47,8 @@
 #include "Berusky3d_kamery.h"
 
 #include "Berusky3d_kofola2d.h"
+
+char cCheckMusicExeption = 0;
 
 void Sleep(int ms)
 {
@@ -455,14 +485,15 @@ void ddxResizeCursorBack(int iSurface)
 {
 }
 
-BOOL ddxRestore(AUDIO_DATA * p_ad)
+bool ddxRestore(AUDIO_DATA * p_ad)
 {
   /*if(key[K_S])
      {
      key[K_S] = 0;
      ddxSaveSurfaces();
      } */
-/*
+  static dword dwLastMenuMusicCheck = 0;
+
 	if(karmin_aktivni && timeGetTime() - dwLastMenuMusicCheck > 20000)
 	{
 		if(!ogg_playing() && !cCheckMusicExeption)
@@ -470,7 +501,6 @@ BOOL ddxRestore(AUDIO_DATA * p_ad)
 
 		dwLastMenuMusicCheck = timeGetTime();
 	}
-*/
 
   if (bLastGameState != p_ber->karmin_aktivni) {
     bLastGameState = p_ber->karmin_aktivni;
@@ -482,21 +512,18 @@ BOOL ddxRestore(AUDIO_DATA * p_ad)
         assert(0);
       }
     */
-/*
 			if(!ogg_playing())
 				ap_Play_Song(0, 0, p_ad);
-*/
+
       if (!bWindowMenu)
         return TRUE;
       else
         return FALSE;
     }
     else {
-      /*
-         adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
-         adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
-         ap_Stop_Song(p_ad);
-       */
+      adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
+      adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
+      ap_Stop_Song(p_ad);
     }
   }
 
@@ -529,10 +556,6 @@ void InitDirectDraw(HWND hWnd, int x, int y, int bpp)
 void FreeDirectDraw()
 {
   bDXAktivni = 0;
-}
-
-int ogg_playing(void)
-{
 }
 
 char *strlwr(char *cFile)
@@ -569,71 +592,6 @@ int WideCharToMultiByte(int CodePage,
   int cbMultiByte, char *lpDefaultChar, int *lpUsedDefaultChar)
 {
   return (wcstombs(lpMultiByteStr, lpWideCharStr, cbMultiByte));
-}
-
-// Audio interface
-// Init
-void ap_Init(AUDIO_DATA * p_ad)
-{
-}
-
-// Release
-void ap_Release(AUDIO_DATA * p_ad)
-{
-}
-
-// loades play list
-int ap_Load_Play_List(char *p_File_Name, AUDIO_DATA * p_ad)
-{
-}
-
-// Releases play list
-void ap_Release_Play_List(AUDIO_DATA * p_ad)
-{
-}
-
-// playes ogg song
-int ap_Play_Song(int Index, char Random, AUDIO_DATA * p_ad)
-{
-}
-
-int ap_Setup_and_Play_Song(int Index, char Random, AUDIO_DATA * p_ad)
-{
-}
-
-// stops ogg song
-void ap_Stop_Song(AUDIO_DATA * p_ad)
-{
-}
-
-// Plays sound
-int ap_Play_Sound(int Type, char Relative, char bAmbient, float *p_Pos,
-  int Wave_Index, void *p_eax, AUDIO_DATA * p_ad)
-{
-}
-
-// Releases materail list
-void ap_Release_Material_List(AUDIO_DATA * p_ad)
-{
-}
-
-// loades material list
-int ap_Load_Material_List(char *p_File_Name, AUDIO_DATA * p_ad)
-{
-}
-
-// count environment
-void ap_Count_Environment(AUDIO_DATA * p_ad, void *p_Level)
-{
-}
-
-// load environment
-int ap_Load_Environment(char *p_Env_Name, void *p_Level, AUDIO_DATA * p_ad)
-{
-}
-
-int ap_Load_Sound_List(AUDIO_DATA * p_ad, char *cFile, int iStart)
-{
 }
 
 void ShowCursor(bool state)
@@ -746,4 +704,9 @@ void working_file_translate(char *p_file, int size)
     PATH_MAX);
   assert(size <= PATH_MAX);
   strcpy(p_file, current_working_dir_file);
+}
+
+int GetFileSize(FILE *f, dword *size)
+{
+  *size = file_size_get(f);
 }

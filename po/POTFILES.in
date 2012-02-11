@@ -323,5 +323,19 @@ src/komat/Vektor.h
 src/kofola/ambient_sounds.h
 src/komat/json_export.cpp
 src/komat/json_export.h
+src/kofola/ambient_sounds.cpp
+src/kofola/audio_plug-in.cpp
+src/kofola/audio_plug-in.h
+src/adas/3d_math_k.c
+src/adas/3d_math_k.h
+src/adas/Adas.c
+src/adas/Adas.h
+src/adas/adas_types.h
+src/adas/ogg_io.c
+src/adas/ogg_io.h
+src/adas/ogg_stream.c
+src/adas/ogg_stream.h
+src/tmp/compat_mini.cpp
+src/tmp/compat_mini.h
 
 

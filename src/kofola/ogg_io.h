@@ -1,7 +1,7 @@
 #ifndef __ogg_h__
 #define __ogg_h__
 
-#include "al.h"
+#include <AL/al.h>
 #include "ogg.h"
 #include "vorbisfile.h"
 

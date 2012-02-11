@@ -1,24 +1,18 @@
 //------------------------------------------------------------------------------------------------
 // version 0.0.2
 //------------------------------------------------------------------------------------------------
-#include "..\\komat\\mss_on.h"
 #include <stdio.h>
-
-#include <direct.h>
-//#include <d3d.h>
-#include <windows.h>
 #include <math.h>
 
-#include "..\komat\3d_all.h"
+#include "3d_all.h"
 #include "adas.h"
 #include "audio_plug-in.h"
 #include "Object.h"
-#include "apak.h"
-#include "tools.h"
+#include "Apak.h"
+#include "Tools.h"
 
 extern APAK_HANDLE *pSndArchive;
-extern HWND hwnd_hry;
-extern dword karmin_aktivni;
+//extern HWND hwnd_hry;
 
 //------------------------------------------------------------------------------------------------
 // Init
@@ -64,7 +58,7 @@ void ap_Release(AUDIO_DATA * p_ad)
 void ap_Load_Sample(int iCount, char *cFile)
 {
   char *pMem;
-  long size;
+  apuInt size;
   FILE *file;
 
   if (!cFile)
@@ -149,7 +143,7 @@ int ap_Load_Play_List(char *p_File_Name, AUDIO_DATA * p_ad)
   file = fopen(p_File_Name, "r");
   if (!file) {
     //MessageBox(p_ad->hWnd,"Play list file not found","Error", MB_OK);
-    MyMessageBox(hwnd_hry, "##error_title", "##play_list_error", "");
+    MyMessageBox(NULL, "##error_title", "##play_list_error", "");
     kprintf(1, "Play list file not found");
     return 0;
   }
@@ -163,7 +157,7 @@ int ap_Load_Play_List(char *p_File_Name, AUDIO_DATA * p_ad)
   if (!p_ad->p_Play_List) {
     //MessageBox(p_ad->hWnd,"Unable to allocate memory for play list","Error",MB_OK);
     kprintf(1, "Unable to allocate memory for play list");
-    MyMessageBox(hwnd_hry, "##error_title", "##play_list_error", "");
+    MyMessageBox(NULL, "##error_title", "##play_list_error", "");
     return 0;
   }
 
@@ -516,12 +510,14 @@ void ap_Count_Environment(AUDIO_DATA * p_ad, void *p_Level)
             sl_pos[1] > (p_L->Size[1] - 1) ||
             sl_pos[1] < 0 ||
             sl_pos[2] > (p_L->Size[2] - 1) || sl_pos[2] < 0) {
+            /*
             adas_Set_Source_Obstruction(PARTICULAR_SOUND_SOURCE,
               UNDEFINED_VALUE, p_ad->p_Source[i].Source,
               EAXBUFFER_DEFAULTOBSTRUCTION);
             adas_Set_Source_ObstructionLF(PARTICULAR_SOUND_SOURCE,
               UNDEFINED_VALUE, p_ad->p_Source[i].Source,
               EAXBUFFER_DEFAULTOBSTRUCTIONLFRATIO);
+            */
             t_end = 1;
             break;
           }
@@ -538,21 +534,25 @@ void ap_Count_Environment(AUDIO_DATA * p_ad, void *p_Level)
             material = p_L->Level[m_pos]->p_Object->Material - 1;
             if (material > 0) {
               material--;
+            /*
               adas_Set_Source_Obstruction(PARTICULAR_SOUND_SOURCE,
                 UNDEFINED_VALUE, p_ad->p_Source[i].Source,
                 p_ad->p_Material[material].Obstruction);
               adas_Set_Source_ObstructionLF(PARTICULAR_SOUND_SOURCE,
                 UNDEFINED_VALUE, p_ad->p_Source[i].Source,
                 p_ad->p_Material[material].ObstructionLF);
+            */
             }
           }
           else {
+          /*
             adas_Set_Source_Obstruction(PARTICULAR_SOUND_SOURCE,
               UNDEFINED_VALUE, p_ad->p_Source[i].Source,
               EAXBUFFER_DEFAULTOBSTRUCTION);
             adas_Set_Source_ObstructionLF(PARTICULAR_SOUND_SOURCE,
               UNDEFINED_VALUE, p_ad->p_Source[i].Source,
               EAXBUFFER_DEFAULTOBSTRUCTIONLFRATIO);
+          */
           }
       }
 }
@@ -575,7 +575,7 @@ int ap_Load_Material_List(char *p_File_Name, AUDIO_DATA * p_ad)
   file = aopen(pSndArchive, p_File_Name, "r");
   if (!file) {
     //MessageBox(p_ad->hWnd,"Material list file not found","Error", MB_OK);
-    MyMessageBox(hwnd_hry, "##error_title", "##material_list_error", "");
+    MyMessageBox(NULL, "##error_title", "##material_list_error", "");
     kprintf(1, "Material list file not found");
     return 0;
   }
@@ -589,7 +589,7 @@ int ap_Load_Material_List(char *p_File_Name, AUDIO_DATA * p_ad)
   if (!p_ad->p_Material) {
     //MessageBox(p_ad->hWnd,"Unable to allocate memory for material list","Error",MB_OK);
     kprintf(1, "Unable to allocate memory for material list");
-    MyMessageBox(hwnd_hry, "##error_title", "##material_list_error", "");
+    MyMessageBox(NULL, "##error_title", "##material_list_error", "");
     return 0;
   }
 
@@ -638,12 +638,8 @@ int ap_Load_Environment(char *p_Env_Name, void *p_Level, AUDIO_DATA * p_ad)
     aclose(file);
     return 1;
   }
-  else {
-    char text[100];
-
-    sprintf(text, "%s not found", p_Env_Name);
-    MessageBox(p_L->hWnd, text, "Error", MB_OK);
-    kprintf(1, text);
+  else {    
+    kprintf(1, "%s not found", p_Env_Name);
     return 0;
   }
 }

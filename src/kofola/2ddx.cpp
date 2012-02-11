@@ -57,8 +57,6 @@ LPDIRECTINPUTDEVICE8 g_pMouse = NULL;
 DIMOUSESTATE MouseState;
 extern "C" char bDXAktivni;
 
-DWORD dwLastMenuMusicCheck = 0;
-
 // These variables are set in StorePixelFormat and should be defined
 // elsewhere(global, member variable, etc...)
 WORD NumberRedBits, NumberGreenBits, NumberBlueBits;

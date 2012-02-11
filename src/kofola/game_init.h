@@ -3,8 +3,9 @@
 
 #include <stdio.h>
 #include "Apak.h"
+#include "audio_plug-in.h"
 
-//void gi_Init_Sound_Engine(HWND hWnd, AUDIO_DATA *p_ad);
+void gi_Init_Sound_Engine(AUDIO_DATA *p_ad);
 void gi_Release_Sound_Engine(void);
 int gi_Get_Max_Resolution_Bpp(int xPels, int yPels);
 

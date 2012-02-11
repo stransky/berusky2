@@ -1,5 +1,9 @@
+ap_Play_Song() - povolit
+- klikani mysi do obrazovky
+
 - nefunguji animace!! (z menu)
   - nikde!! (ani ve fedore) -> chyba v ini souboru??
+- ESC -> nefunguje exit
 
 int ddxInit(void)
 //TODO

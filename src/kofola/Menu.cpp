@@ -96,8 +96,6 @@ extern int gi_Change_Grafic_Mode(int xPels, int yPels, int Bits, int freq,
 extern int iMaxBpp;
 extern int iMaxFreq;
 
-char cCheckMusicExeption = 0;
-
 void RunMenuSceneMap(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu,
   char *cSceneBmp, char *cSceneAnim, int iScene, int iLevelStart,
   int iNumOfLevels, char *cLevelList, int xTV, int yTV, char bLoadGame,
@@ -184,8 +182,8 @@ void DrawFrame(CMD_LINE * cmd, AUDIO_DATA * p_ad)
     float p[3] = { 0, 0, 0 };
 
     //kprintf(1, "Play");
-//    if(karmin_aktivni)
-//                ap_Play_Sound(0, 1, 0, p, 147 + (rand()%2), NULL, p_ad);
+    if(karmin_aktivni)
+      ap_Play_Sound(0, 1, 0, p, 147 + (rand()%2), NULL, p_ad);
   }
 
   if (!cmd->iLayer) {
@@ -301,7 +299,7 @@ void AnimationEvent(DWORD dwTime, AUDIO_DATA * p_ad)
 
         if (anm[i].iWave > -1) {
           //kprintf(1, "%d", anm[i].iWave);
-          //adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, anm[i].iWave);
+          adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, anm[i].iWave);
         }
 
         anm[i].iWave = -1;
@@ -425,17 +423,15 @@ int AddAnimation(CMD_LINE * cmd, AUDIO_DATA * p_ad, char bOnlyOnes,
 
         if (cmd->iParam[r + 2] < 0) {
           if (cmd->iParam[2] >= 0) {
-//                                              adas_Get_Listener_Position(pos);
-
-//                                              if(karmin_aktivni)
-//                                                ap_Play_Sound(0,1,0,pos,cmd->iParam[2], NULL, p_ad);
+            adas_Get_Listener_Position(pos);  
+            if(karmin_aktivni)
+              ap_Play_Sound(0,1,0,pos,cmd->iParam[2], NULL, p_ad);
           }
         }
         else {
-//                                      adas_Get_Listener_Position(pos);
-
-          //if(karmin_aktivni)
-          //ap_Play_Sound(0,1,0,pos,cmd->iParam[r+2], NULL, p_ad);
+          adas_Get_Listener_Position(pos);
+          if(karmin_aktivni)
+            ap_Play_Sound(0,1,0,pos,cmd->iParam[r+2], NULL, p_ad);
         }
       }
 
@@ -648,17 +644,15 @@ int mPlaySound(CMD_LINE * cmd, AUDIO_DATA * p_ad, int type)
 
   if (cmd->iParam[r + 1] < 0) {
     if (cmd->iParam[1] >= 0) {
-      //adas_Get_Listener_Position(pos);
-
-      //if(karmin_aktivni)
-      //ret = ap_Play_Sound(type,1,0,pos,cmd->iParam[1], NULL, p_ad);
+      adas_Get_Listener_Position(pos);
+      if(karmin_aktivni)
+        ret = ap_Play_Sound(type,1,0,pos,cmd->iParam[1], NULL, p_ad);
     }
   }
   else {
-//              adas_Get_Listener_Position(pos);
-
-    //if(karmin_aktivni)
-    //ret = ap_Play_Sound(type,1,0,pos,cmd->iParam[r+1], NULL, p_ad);
+    adas_Get_Listener_Position(pos);
+    if(karmin_aktivni)
+      ret = ap_Play_Sound(type,1,0,pos,cmd->iParam[r+1], NULL, p_ad);
   }
 
   return ret;
@@ -729,10 +723,10 @@ int RunLevel(HWND hWnd, AUDIO_DATA * p_ad, int cpu, char *lvl, char *env)
   int ret;
   TIMER_ID Timer_ID;
   char cenv[64];
-  float f = 0;                  //p_ad->Music_Gain;
+  float f = p_ad->Music_Gain;
 
   strcpy(cenv, env);
-/*
+
 	if(ogg_playing())
 	{
 		while(f >= 0.05f)
@@ -744,8 +738,8 @@ int RunLevel(HWND hWnd, AUDIO_DATA * p_ad, int cpu, char *lvl, char *env)
 
 		ap_Stop_Song(p_ad);
 	}
-*/
-//  Sleep(1000);
+
+  //Sleep(1000);
 
   ddxRelease();
   FreeDirectDraw();
@@ -768,10 +762,10 @@ int RunLevel(HWND hWnd, AUDIO_DATA * p_ad, int cpu, char *lvl, char *env)
     _3d_Load_Indikace();
 
     Timer_ID = SetTimer(NULL, 0, 250, (TIMERPROC) gl_Set_Frame_Rate);
-/*  
+
 		adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
 		adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
-*/
+
     ret = gl_Run_Level(lvl, cenv, NULL, cpu);
 
     if (ret == 1)
@@ -837,7 +831,7 @@ int RunLevel(HWND hWnd, AUDIO_DATA * p_ad, int cpu, char *lvl, char *env)
         pr_SaveProfile(&pProfile);
       }
 
-      //ogg_gain(p_ad->Music_Gain);
+      ogg_gain(p_ad->Music_Gain);
       RunMenuComix("menu_comix.txt", NULL, p_ad, iActualScene);
 
       if (iActualScene < 9)
@@ -851,17 +845,17 @@ int RunLevel(HWND hWnd, AUDIO_DATA * p_ad, int cpu, char *lvl, char *env)
       }
     }
     else {
-      //ap_Play_Song(0,0,p_ad);
+      ap_Play_Song(0,0,p_ad);
       //adas_OGG_Set_Priority(cpu);
     }
   else {
-    //ap_Play_Song(0,0,p_ad);
+    ap_Play_Song(0,0,p_ad);
     //adas_OGG_Set_Priority(cpu);
   }
 #endif
 
 #ifdef __DEMO
-  //ap_Play_Song(0,0,p_ad);
+  ap_Play_Song(0,0,p_ad);
 #endif
 
   cBrutalRestart = 1;
@@ -876,10 +870,10 @@ void Credits(HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   char dir[256];
 
   StopAll();
-/*
+
 	if(ogg_playing())
 		ap_Stop_Song(p_ad);
-*/
+
   SetCursor(NULL);
   _2d_Release();
 
@@ -893,7 +887,7 @@ void Credits(HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   _2d_Init();
   _2d_APAK_Load_List("2d_load.dat");
 
-  //ap_Play_Song(0,0,p_ad);
+  ap_Play_Song(0,0,p_ad);
   //adas_OGG_Set_Priority(cpu);
 
   GetPrivateProfileString("game", "data_dir", "c:\\", dir, 256, ini_file);
@@ -2331,20 +2325,20 @@ MENU_SETTING_BRUTAL_RESTART:
     co_Handle_Controls(citem, CLIST_ITEMC, dim.x - TAB_X, dim.y - TAB_Y,
       HDC2DD, TAB_X, TAB_Y);
 
-/*
+
 		if(co_Progres_Changed(citem, CLIST_ITEMC, 4))
 			p_ad->Sound_Gain = co_Progres_Get(citem, CLIST_ITEMC, 4) / 100.0f;
-*/
+
 
     if (co_Progres_Changed(citem, CLIST_ITEMC, 6)) {
       float f = co_Progres_Get(citem, CLIST_ITEMC, 6) / 100.0f;
 
-      //ogg_gain(f);
-      //p_ad->Music_Gain = f;
+      ogg_gain(f);
+      p_ad->Music_Gain = f;
 
       if (f >= 0.05f && !ogg_playing()) {
-        //      p_ad->Music_Gain = f;
-        //ap_Play_Song(0,0,p_ad);
+        p_ad->Music_Gain = f;
+        ap_Play_Song(0,0,p_ad);
       }
 
     }
@@ -2366,8 +2360,8 @@ MENU_SETTING_BRUTAL_RESTART:
       if (co_List_Get_Clck(citem, CLIST_ITEMC, 0, &p_li) == 1) {
         float pos[3] = { 0, 0, 0 };
 
-        //if(karmin_aktivni)
-        //ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, p_ad);
+        if(karmin_aktivni)
+          ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, p_ad);
 
         SetCharMenu(p_li);
       }
@@ -2460,8 +2454,8 @@ MENU_SETTING_BRUTAL_RESTART:
         if (!strcmp(res[resid].cParam[1], "OK")) {
           float pos[3] = { 0, 0, 0 };
 
-          //if(karmin_aktivni)
-          //ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, p_ad);
+          if(karmin_aktivni)
+            ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, p_ad);
 
           SetMenuSettings(roz, citem, hdcTabUse);
           Save_ini();
@@ -2471,8 +2465,8 @@ MENU_SETTING_BRUTAL_RESTART:
         if (!strcmp(res[resid].cParam[1], "EXIT")) {
           float pos[3] = { 0, 0, 0 };
 
-          //if(karmin_aktivni)
-          //ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, p_ad);
+          if(karmin_aktivni)
+            ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, p_ad);
 
           key[K_ESC] = 1;
         }
@@ -2532,16 +2526,15 @@ MENU_SETTING_BRUTAL_RESTART:
 			}
 */
         resid = -1;
-
+        
         if (key[K_ESC]) {
-/*      
-				for(i=0;i<lastcmd;i++)
-					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
-					{
-						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
-						res[i].iParam[5] = -1;
-					}
-*/
+          for(i=0;i<lastcmd;i++) {
+            if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
+            {
+              adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
+              res[i].iParam[5] = -1;
+            }
+          }
           goto __QUIT;
         }
 
@@ -3346,14 +3339,13 @@ BEGIN_MENU_NEWGAMESCENE:
           key[K_ESC] = 1;
 
         if (key[K_ESC]) {
-/*
-				for(i=0;i<lastcmd;i++)
-					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
-					{
-						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
-						res[i].iParam[5] = -1;
-					}
-*/
+          for(i=0;i<lastcmd;i++) {
+            if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
+            {
+              adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
+              res[i].iParam[5] = -1;
+            }
+          }
           goto __QUIT;
         }
         else {
@@ -7842,7 +7834,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
   iClock = ddxLoadBitmap("clock1-1.bmp", pBmpArchive);
   ddxResizeCursorBack(iClock);
   DrawClock(&iClock, 0);
-/*
+
 	if(ogg_playing())
 	{
 		float f;
@@ -7858,7 +7850,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
 
 		ap_Stop_Song(p_ad);
 	}
-*/
+
   Sleep(1000);
 
   bBackDC = 0;
@@ -8012,10 +8004,10 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
   in = 0;
 
   spracuj_spravy(0);
-/*
+
 	if(ogg_playing())
 		ap_Stop_Song(p_ad);
-*/
+
   iSongTime = GetComixTime(iScene);
 
   //ap_Play_Song(iScene+1,0, p_ad);
@@ -8275,11 +8267,11 @@ __QUIT:
 
   FreeAnimations(res, RES_NUM);
   free((void *) res);
-/*
+
 	if(ogg_playing())
 		ap_Stop_Song(p_ad);
-*/
-  //ap_Play_Song(0, 0, p_ad);
+
+  ap_Play_Song(0, 0, p_ad);
 
   ddxSetFlip(TRUE);
 
@@ -8330,7 +8322,7 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
   iClock = ddxLoadBitmap("clock1-1.bmp", pBmpArchive);
   ddxResizeCursorBack(iClock);
   DrawClock(&iClock, 0);
-/*
+
 	if(ogg_playing())
 	{
 		float f;
@@ -8346,7 +8338,7 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
 
 		ap_Stop_Song(p_ad);
 	}
-*/
+
   ddxSetFlip(0);
 
   DrawClock(&iClock, 0);
@@ -8379,7 +8371,7 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
 
   iSongTime = GetComixTime(iScene);
 
-  //ap_Play_Song(iScene+1,0, p_ad);
+  ap_Play_Song(iScene+1,0, p_ad);
 
   dwStart = timeGetTime();
 
@@ -8426,16 +8418,16 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
       return 1;
     }
   }
-/*
+
 	adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
 	adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
-*/
+
   key[K_ESC] = 0;
 
   for (i = 0; i < 64; i++)
     if (bmp[i] != -1)
       ddxReleaseBitmap(bmp[i]);
-/*
+
 	if(ogg_playing())
 	{
 		float f;
@@ -8451,10 +8443,10 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
 
 		ap_Stop_Song(p_ad);
 	}
-*/
+
   Sleep(1000);
 
-  //ap_Play_Song(0, 0, p_ad);
+  ap_Play_Song(0, 0, p_ad);
 
   ddxCleareSurfaceColorDisplay(0);
   DisplayFrame();

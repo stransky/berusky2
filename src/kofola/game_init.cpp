@@ -3,6 +3,7 @@
 //------------------------------------------------------------------------------------------------
 #include <stdio.h>
 #include "Apak.h"
+#include "Adas.h"
 
 //------------------------------------------------------------------------------------------------
 // 0.0.1
@@ -292,7 +293,6 @@ int gi_EnumDisplaySettings(DEVMODE *pdevmode)
 
 void gi_APAK_Load(unsigned long mem, struct _finddata_t *pData)
 {
-/*
 	char *pMem;
 	apuInt size;
 	FILE *file;
@@ -316,14 +316,12 @@ void gi_APAK_Load(unsigned long mem, struct _finddata_t *pData)
 		adas_Load_NextMemory(pMem, pData->name);
 
 	aclose(file);
-*/
 }
 
 //------------------------------------------------------------------------------------------------
 // nahodi sound engine
 //------------------------------------------------------------------------------------------------
-/*
-void gi_Init_Sound_Engine(HWND hWnd, AUDIO_DATA *p_ad)
+void gi_Init_Sound_Engine(AUDIO_DATA *p_ad)
 {
 	char				text[256];
 	ADAS_INIT_DATA		init_data;
@@ -341,7 +339,7 @@ void gi_Init_Sound_Engine(HWND hWnd, AUDIO_DATA *p_ad)
 	init_data.Implementation = "DirectSound3D";
 
 	p_ad->Max_Sources = init_data.Channels;
-	p_ad->hWnd = hWnd;
+	//p_ad->hWnd = hWnd;
 	ap_Init(p_ad);
 
 	max_mem = GetPrivateProfileInt("soundengine","pre_load",0,ini_file);
@@ -405,7 +403,7 @@ void gi_Init_Sound_Engine(HWND hWnd, AUDIO_DATA *p_ad)
 			achdir(pSndArchive, init_data.Sound_Dir);
 
 			ap_Load_Sound_List(p_ad, "basicset.dat", 0);
-*/
+
 /*			kprintf(1,"Memory for waves: %.1fMB", max_mem / 1000000.0f);
 			kprintf(1,"Loading waves...");
 			Done = afindfirst(pSndArchive, "*.wav",&Data);
@@ -429,7 +427,7 @@ void gi_Init_Sound_Engine(HWND hWnd, AUDIO_DATA *p_ad)
 				error = afindnext(Done,&Data);
 			}
 			afindclose(Done);*/
-/*	
+	
 			kprintf(1,"Distance Model: AL_INVERSE_DISTANCE_CLAMPED");
 			adas_Set_Distance_Model(AL_INVERSE_DISTANCE_CLAMPED);
 			kprintf(1,"Doppler Factor: 1.0");
@@ -443,6 +441,7 @@ void gi_Init_Sound_Engine(HWND hWnd, AUDIO_DATA *p_ad)
 			adas_Set_Listener_Velocity(listenerVel);
 			adas_Set_Listener_Orientation(listenerOri);
 			adas_Set_Listener_Environment(0);
+
 			if (adas_Get_Last_Error(text,256))
 				{
 				//MyMessageBox(hwnd_hry, "##error_title", "##adas_init_error","");
@@ -454,17 +453,14 @@ void gi_Init_Sound_Engine(HWND hWnd, AUDIO_DATA *p_ad)
 	else
 		p_ad->bAudio = 0;
 }
-*/
 
 //------------------------------------------------------------------------------------------------
 // ukonci sound engine
 //------------------------------------------------------------------------------------------------
 void gi_Release_Sound_Engine(void)
 {
-/*
 	kprintf(1,"Release loaded waves...");
 	adas_Release_Loaded_Data();
 	kprintf(1,"Release sound engine...");
 	adas_Exit();
-*/
 }

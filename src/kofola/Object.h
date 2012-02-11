@@ -430,6 +430,7 @@ typedef struct
   char Level_Exit;              // exit z levelu
   char Throw_off;               // setrasat?
   int Base_Priority;            // Zakladni priotita podle rychlosti CPU
+  AUDIO_DATA *p_ad;             // Audio Data
   char Item_Lock;               // Zamikani predmetu
   char Move_Exeption;           // Vijimka z pravidel posunu
   ENVIRONMENT Environment;      // prostredi

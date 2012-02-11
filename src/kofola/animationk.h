@@ -31,7 +31,7 @@ typedef struct
   SIM_ANIMATION *p_animation;
   int Size_of_Anim;
   //HWND                  hWnd;
-  //AUDIO_DATA            *p_ad;
+  AUDIO_DATA            *p_ad;
   float frame_per_quater;
 } ANIMATION_MODULE;
 

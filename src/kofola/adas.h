@@ -7,11 +7,9 @@
 #include "adas_types.h"
 #include "ogg_stream.h"
 #include "ogg_io.h"
-#include "ac3_stream.h"
-#include "alut.h"
-#include "eax.h"
-#include "al.h"
-#include "alc.h"
+#include <AL/alut.h>
+#include <AL/al.h>
+#include <AL/alc.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -118,7 +116,7 @@ extern "C"
   void adas_Set_All_Source_Volume(float fValue);
 
   // set all listeners parametrs
-  int adas_Set_All_Listener_Properties(LPEAXLISTENERPROPERTIES lpData);
+  //int adas_Set_All_Listener_Properties(LPEAXLISTENERPROPERTIES lpData);
 
   // set listeners room
   int adas_Set_Listener_Room(long lValue);
@@ -142,7 +140,7 @@ extern "C"
   int adas_Set_Listener_Reflections_Delay(float fValue);
 
   // set listeners reverb
-  int adas_Set_Listener_Reverb(LONG lValue);
+  int adas_Set_Listener_Reverb(long lValue);
 
   // set listeners reverb delay
   int adas_Set_Listener_Reverb_Delay(float fValue);
@@ -181,7 +179,7 @@ extern "C"
   int adas_Set_Listener_Clip_DecayHF(int bValue);
 
   // get all listener properties
-  int adas_Get_All_Listener_Properties(LPEAXLISTENERPROPERTIES lpData);
+  //int adas_Get_All_Listener_Properties(LPEAXLISTENERPROPERTIES lpData);
 
   // get listener decay time
   int adas_Get_Listener_Decay_Time(float *pfValue);
@@ -202,8 +200,8 @@ extern "C"
   int adas_Set_Listener_Rolloff(float fValue);
 
   // set source properties
-  void adas_Set_Source_All_Properties(int Owner, int Type, int Index,
-    LPEAXBUFFERPROPERTIES lpData);
+  //void adas_Set_Source_All_Properties(int Owner, int Type, int Index,
+    //LPEAXBUFFERPROPERTIES lpData);
 
   // Set cube position
   void adas_Set_Bounding_Object_Position(int Owner, int Type, int Index,

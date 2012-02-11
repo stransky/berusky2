@@ -5,16 +5,16 @@
 ## 	Please disable it in the Anjuta project configuration
 
 INCLUDES =\
-	 -Ikomat -Ikofola -Itmp -Iage/graph -Iage/include -Iage/support -Iage/utils -Igenerator
+	 -Ikomat -Ikofola -Itmp -Iage/graph -Iage/include -Iage/support -Iage/utils -Igenerator -Iadas
 
 AM_CFLAGS =\
-	-D_DEBUG -fpermissive\
-	 -Wall\
+	-D_DEBUG -fpermissive -w\
+	 -w\
 	 -g
 
 AM_CXXFLAGS =\
-	-D_DEBUG -fpermissive\
-	 -Wall\
+	-D_DEBUG -fpermissive -w\
+	 -w\
 	 -g
 
 bin_PROGRAMS = berusky2
@@ -337,7 +337,21 @@ berusky2_SOURCES = \
 	komat/Vektor.h\
 	kofola/ambient_sounds.h\
 	komat/json_export.cpp\
-	komat/json_export.h
+	komat/json_export.h\
+	kofola/ambient_sounds.cpp\
+	kofola/audio_plug-in.cpp\
+	kofola/audio_plug-in.h\
+	adas/3d_math_k.c\
+	adas/3d_math_k.h\
+	adas/Adas.c\
+	adas/Adas.h\
+	adas/adas_types.h\
+	adas/ogg_io.c\
+	adas/ogg_io.h\
+	adas/ogg_stream.c\
+	adas/ogg_stream.h\
+	tmp/compat_mini.cpp\
+	tmp/compat_mini.h
 
 berusky2_LDFLAGS = 
 

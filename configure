@@ -17372,12 +17372,12 @@ if test -n "$LIBRARIES_CFLAGS"; then
     pkg_cv_LIBRARIES_CFLAGS="$LIBRARIES_CFLAGS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"sdl SDL_image gl glu x11 zlib\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "sdl SDL_image gl glu x11 zlib") 2>&5
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"sdl SDL_image gl glu x11 zlib openal freealut vorbisfile\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "sdl SDL_image gl glu x11 zlib openal freealut vorbisfile") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_LIBRARIES_CFLAGS=`$PKG_CONFIG --cflags "sdl SDL_image gl glu x11 zlib" 2>/dev/null`
+  pkg_cv_LIBRARIES_CFLAGS=`$PKG_CONFIG --cflags "sdl SDL_image gl glu x11 zlib openal freealut vorbisfile" 2>/dev/null`
 else
   pkg_failed=yes
 fi
@@ -17388,12 +17388,12 @@ if test -n "$LIBRARIES_LIBS"; then
     pkg_cv_LIBRARIES_LIBS="$LIBRARIES_LIBS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"sdl SDL_image gl glu x11 zlib\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "sdl SDL_image gl glu x11 zlib") 2>&5
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"sdl SDL_image gl glu x11 zlib openal freealut vorbisfile\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "sdl SDL_image gl glu x11 zlib openal freealut vorbisfile") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_LIBRARIES_LIBS=`$PKG_CONFIG --libs "sdl SDL_image gl glu x11 zlib" 2>/dev/null`
+  pkg_cv_LIBRARIES_LIBS=`$PKG_CONFIG --libs "sdl SDL_image gl glu x11 zlib openal freealut vorbisfile" 2>/dev/null`
 else
   pkg_failed=yes
 fi
@@ -17413,14 +17413,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        LIBRARIES_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors "sdl SDL_image gl glu x11 zlib" 2>&1`
+	        LIBRARIES_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors "sdl SDL_image gl glu x11 zlib openal freealut vorbisfile" 2>&1`
         else
-	        LIBRARIES_PKG_ERRORS=`$PKG_CONFIG --print-errors "sdl SDL_image gl glu x11 zlib" 2>&1`
+	        LIBRARIES_PKG_ERRORS=`$PKG_CONFIG --print-errors "sdl SDL_image gl glu x11 zlib openal freealut vorbisfile" 2>&1`
         fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$LIBRARIES_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (sdl SDL_image gl glu x11 zlib) were not met:
+	as_fn_error $? "Package requirements (sdl SDL_image gl glu x11 zlib openal freealut vorbisfile) were not met:
 
 $LIBRARIES_PKG_ERRORS
 

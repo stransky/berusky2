@@ -1,25 +1,37 @@
+/*
+ *        .þÛÛþ þ    þ þÛÛþ.     þ    þ þÛÛÛþ.  þÛÛÛþ .þÛÛþ. þ    þ
+ *       .þ   Û Ûþ.  Û Û   þ.    Û    Û Û    þ  Û.    Û.   Û Ûþ.  Û
+ *       Û    Û Û Û  Û Û    Û    Û   þ. Û.   Û  Û     Û    Û Û Û  Û
+ *     .þþÛÛÛÛþ Û  Û Û þÛÛÛÛþþ.  þþÛÛ.  þþÛÛþ.  þÛ    Û    Û Û  Û Û
+ *    .Û      Û Û  .þÛ Û      Û. Û   Û  Û    Û  Û.    þ.   Û Û  .þÛ
+ *    þ.      þ þ    þ þ      .þ þ   .þ þ    .þ þÛÛÛþ .þÛÛþ. þ    þ
+ *
+ * Berusky (C) AnakreoN
+ * Martin Stransky <stransky@anakreon.cz> 
+ * Michal Simonik <simonik@anakreon.cz> 
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ */
+
+#ifndef __COMPAT_H__
+#define __COMPAT_H__
+
+#include "compat_mini.h"
 #include "Apak.h"
 
-#define  MAX_JMENO       50
-
-#define  TRUE   (1==1)
-#define  FALSE  (1!=1)
-
-typedef unsigned char byte;
-typedef unsigned char BYTE;
-typedef unsigned short word;
-typedef unsigned short WORD;
-typedef unsigned int dword;
-typedef unsigned int COLORREF;
-typedef long LONG;
-typedef dword DWORD;
-typedef float FLOAT;
-typedef wchar_t WCHAR;
-typedef void *HWND;
-typedef void *HDC;
-typedef unsigned int UINT;
-typedef int BOOL;
-typedef void *HINSTANCE;
 typedef VECT2DF BODUV;
 typedef VECT3DF BOD;
 typedef VECT4DF WBOD;
@@ -31,7 +43,6 @@ typedef PLANE ROVINA;
 
 //typedef MATERIAL_TEXT   EDIT_TEXT;
 //typedef SURFACE_SW      bitmapa;
-typedef word FACE;
 
 typedef struct _ROVINAD
 {
@@ -68,53 +79,8 @@ typedef struct _RECT
 
 typedef void (*END_FUNKCE) (int param, int param2, void *p_param);
 
-inline void ZeroMemory(void *mem, int size)
-{
-  memset(mem, 0, size);
-}
-
-// default filename size
-#define MAX_PATH 255
-
-typedef struct _MOUSE_INFO
-{
-  int x_res, y_res;
-
-  int x, y;
-  int rx, ry;
-  int dx, dy;
-
-  int t1, t2;
-  int dt1, dt2;
-  int d1, d2;
-  int tf1, tf2;
-  int lt1, lt2;
-
-} MOUSE_INFO;
-
 #define RGB(r,g,b) int_rgb(r,g,b)
-#define CP_ACP     0
 #define TRANSCOLOR int_rgb(255, 0, 255)
-#define HDC2DD     -1
-
-void kprintf(char log, const char *p_text, ...);
-void kprintfl(char log, const char *p_text, ...);
-void ddw(char *p_text, ...);
-
-extern char ini_file[MAX_FILENAME];
-
-typedef struct
-{
-  int tmp;
-} AUDIO_DATA;
-
-void Sleep(int ms);
-
-//char *itoa(int base, char *buf, int d);
-char *itoa(int d, char *buf, int base);
-
-void timeGetTimeInit(void);
-unsigned int timeGetTime(void);
 
 //-----------------------------------------------------------------------------
 // ddx2 interface
@@ -241,7 +207,7 @@ void ddxSetCursor(char bSwitch);
 void ddxResizeCursorBack(int iSurface);
 void ddxSetCursorSurface(int iSurface);
 
-BOOL ddxRestore(AUDIO_DATA * p_ad);
+bool ddxRestore(AUDIO_DATA * p_ad);
 
 void ddxSaveSurface(int idx);
 
@@ -254,15 +220,9 @@ void FreeDirectDraw();
 
 char MenuCheckBossExit(void);
 
-int ogg_playing(void);
-
 char *strlwr(char *cFile);
 
 void dbgprintf(char *p_tmp, ...);
-
-#define MAKEWORD(a, b)      ((unsigned short)(((unsigned char)(a)) | ((unsigned short)((unsigned char)(b))) << 8))
-
-#define CP_ACP 0
 
 int MultiByteToWideChar(int CodePage,
   int dwFlags,
@@ -278,44 +238,6 @@ int WideCharToMultiByte(int CodePage,
   int cchWideChar,
   char *lpMultiByteStr,
   int cbMultiByte, char *lpDefaultChar, int *lpUsedDefaultChar);
-
-// Audio interface
-// Init
-void ap_Init(AUDIO_DATA * p_ad);
-
-// Release
-void ap_Release(AUDIO_DATA * p_ad);
-
-// loades play list
-int ap_Load_Play_List(char *p_File_Name, AUDIO_DATA * p_ad);
-
-// Releases play list
-void ap_Release_Play_List(AUDIO_DATA * p_ad);
-
-// playes ogg song
-int ap_Play_Song(int Index, char Random, AUDIO_DATA * p_ad);
-int ap_Setup_and_Play_Song(int Index, char Random, AUDIO_DATA * p_ad);
-
-// stops ogg song
-void ap_Stop_Song(AUDIO_DATA * p_ad);
-
-// Plays sound
-int ap_Play_Sound(int Type, char Relative, char bAmbient, float *p_Pos,
-  int Wave_Index, void *p_eax, AUDIO_DATA * p_ad);
-
-// Releases materail list
-void ap_Release_Material_List(AUDIO_DATA * p_ad);
-
-// loades material list
-int ap_Load_Material_List(char *p_File_Name, AUDIO_DATA * p_ad);
-
-// count environment
-void ap_Count_Environment(AUDIO_DATA * p_ad, void *p_Level);
-
-// load environment
-int ap_Load_Environment(char *p_Env_Name, void *p_Level, AUDIO_DATA * p_ad);
-
-int ap_Load_Sound_List(AUDIO_DATA * p_ad, char *cFile, int iStart);
 
 void ShowCursor(bool state);
 void SetCursor(void *tmp);
@@ -347,7 +269,6 @@ wchar_t *wchar_windows_to_linux(word * p_in, int bytes_in_len);
 void wchar_windows_to_linux(word * p_in, int str_len, wchar_t * p_out);
 void wchar_linux_to_windows(wchar_t * p_in, int str_len, word * p_out);
 
-
 typedef SDL_TimerID TIMER_ID;
 
 typedef void (*TIMERPROC) (HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime);
@@ -358,3 +279,7 @@ void working_dir_init(void);
 void working_file_translate(char *p_file, int size);
 char *working_file_get(const char *p_file);
 char *working_file_get(const char *p_file, char *p_target, int size);
+
+extern char cCheckMusicExeption;
+
+#endif //__COMPAT_H__

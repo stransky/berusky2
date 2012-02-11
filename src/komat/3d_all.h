@@ -23,6 +23,8 @@
 
 #include "level_environment.h"
 #include "Apak.h"
+#include "adas.h"
+#include "audio_plug-in.h"
 #include "compat.h"
 
 #include "kfile.h"

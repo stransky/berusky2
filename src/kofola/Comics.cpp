@@ -152,11 +152,10 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA * p_ad, char bMusic)
     Sleep(10);
   }
 
-/* TODO
 	if(bMusic)
 		if(ogg_playing())
 			ap_Stop_Song(p_ad);
-*/
+
   KillTimer(NULL, uiTimerID);
 
   _2d_Release();
@@ -316,9 +315,7 @@ void cmcs_Start_Picture(int Index, long time, AUDIO_DATA * p_ad, char bMusic)
     if (timecnt > time)
       bCimicsEnd = 1;
   }
-/* TODO
 	if(bMusic)
 		if(ogg_playing())
 			ap_Stop_Song(p_ad);
-*/
 }

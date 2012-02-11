@@ -38,7 +38,7 @@ extern int iActualLevel;
 extern int iActualScene;
 extern B2_FONT b2_3d_font;
 extern char cFontFile[5][64];
-AUDIO_DATA ad;
+extern AUDIO_DATA ad;
 extern int iLanguageVersion;
 
 typedef struct
@@ -1537,12 +1537,12 @@ void RunMenuSettings2(const char *p_File_Name, AUDIO_DATA * p_ad,
     co2_Handle_Controls(citem, CLIST_ITEMC, mi.x - TAB_X, mi.y - TAB_Y,
       HDC2DD, TAB_X, TAB_Y);
 
-/*
+
 		if(co2_Progres_Changed(citem, CLIST_ITEMC, 4))
 			ad.Sound_Gain = co2_Progres_Get(citem, CLIST_ITEMC, 4) / 100.0f;
-*/
+
     if (co2_Progres_Changed(citem, CLIST_ITEMC, 5)) {
-/* 
+
 			float laf = ad.Ambient_Gain;
 
 			ad.Ambient_Gain = co2_Progres_Get(citem, CLIST_ITEMC, 5) / 100.0f;
@@ -1553,12 +1553,11 @@ void RunMenuSettings2(const char *p_File_Name, AUDIO_DATA * p_ad,
 				adas_Release_Source(-1, LOOPING_TYPE, UNDEFINED_VALUE);
 				as_Start(p_Level->Environment.id, &ad, p_Level);
 			}
-*/
     }
 
 
     if (co2_Progres_Changed(citem, CLIST_ITEMC, 6)) {
-/*
+    
 			float f = co2_Progres_Get(citem, CLIST_ITEMC, 6) / 100.0f;
 
 			ogg_gain(f);
@@ -1571,10 +1570,9 @@ void RunMenuSettings2(const char *p_File_Name, AUDIO_DATA * p_ad,
 
 				ap_Stop_Song(&ad);
 				ap_Play_Song(0,1,&ad);
-				adas_OGG_Set_Priority(p_Level->Base_Priority);
-				ap_Play_Song(0,0,&ad);
+				//adas_OGG_Set_Priority(p_Level->Base_Priority);
+				//ap_Play_Song(0,0,&ad);
 			}
-*/
     }
 
     //stlacil leve tlacitko
@@ -1632,7 +1630,7 @@ void RunMenuSettings2(const char *p_File_Name, AUDIO_DATA * p_ad,
 
       if (co2_List_Get_Clck(citem, CLIST_ITEMC, 0, &p_li) == 1) {
         float pos[3] = { 0, 0, 0 };
-//                              ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
+        ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
         SetCharMenu2(p_li, p_Level, p_am, mix, miy);
       }
 
@@ -1674,13 +1672,13 @@ void RunMenuSettings2(const char *p_File_Name, AUDIO_DATA * p_ad,
 
         if (!strcmp(res[resid].cParam[1], "EXIT")) {
           float pos[3] = { 0, 0, 0 };
-//                              ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
+          ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
           key[K_ESC] = 1;
         }
 
         if (!strcmp(res[resid].cParam[1], "OK")) {
           float pos[3] = { 0, 0, 0 };
-//                              ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
+          ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
           SetMenuSettings2(citem, hdcTabUse);
           Save_ini();
           key[K_ESC] = 1;
@@ -1724,15 +1722,13 @@ void RunMenuSettings2(const char *p_File_Name, AUDIO_DATA * p_ad,
 
         resid = -1;
 
-        if (key[K_ESC]) {
-          /*
-             for(i=0;i<lastcmd;i++)
-             if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
-             {
-             adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
-             res[i].iParam[5] = -1;
-             }
-           */
+        if (key[K_ESC]) {          
+          for(i=0;i<lastcmd;i++) {
+            if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1) {
+              adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
+              res[i].iParam[5] = -1;
+            }
+          }
           goto __QUIT;
         }
       }

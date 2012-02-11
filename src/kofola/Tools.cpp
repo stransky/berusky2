@@ -218,6 +218,7 @@ void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
   strcat(Caption, addtext);
 
   //MessageBox(hWnd, (LPCTSTR) Text, (LPCTSTR) Caption, MB_OK);
+  kprintf(TRUE, Text);
 
   aclose(file);
   apakclose(hArchive);
