@@ -12521,7 +12521,7 @@ void gl_Kofola_Minimalize(void)
 	if(ogg_playing())
 		ap_Stop_Song(&ad);
 
-  adas_Set_Listener_Environment(0);
+  adas_Set_Listener_Environment(EAX_ENVIRONMENT_GENERIC);
 }
 
 void gl_Kofola_Maximalize(void)

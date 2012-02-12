@@ -1,3 +1,4 @@
+#include "compat_mini.h"
 #include "ogg_io.h"
 
    FILE*           oggFile;
@@ -9,9 +10,9 @@
    ALuint source;
    ALenum format;
 
-   unsigned long threadid;
-   void			 *thread;
-   char			 ogg_stop;
+   THREAD_ID     threadid;
+   THREAD_HANDLE thread;
+   char			     ogg_stop;
    
    extern char	 bDevice;
 
@@ -71,7 +72,6 @@ int ogg_open(char *file, float gain)
 
 void ogg_release()
 {
-#ifdef WINDOWS
   unsigned long exit_code = STILL_ACTIVE;
   
   if(!bDevice) return;
@@ -97,17 +97,12 @@ void ogg_release()
   ov_clear(&oggStream);
   
   fclose(oggFile);
-#endif  
 }
-
-
-
 
 char ogg_playback()
 {
  	if(!bDevice) return 0;
 
-#ifdef WINDOWS
 	if(ogg_playing())
         return 1;
         
@@ -124,14 +119,13 @@ char ogg_playback()
 	ogg_stop = 0;
 
 	thread = CreateThread( NULL, 0, ogg_proc, NULL, 0, &(threadid));
-	
 	if(!thread)
 		return 0;
 
 	SetThreadPriority(thread,THREAD_PRIORITY_HIGHEST);
 	//SetThreadPriority(thread,THREAD_PRIORITY_ABOVE_NORMAL);
-#endif
-    return 1;
+
+  return 1;
 }
 
 
@@ -209,9 +203,6 @@ char ogg_stream(ALuint buffer)
     
     return 1;
 }
-
-
-
 
 void ogg_empty()
 {

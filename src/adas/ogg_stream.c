@@ -4,6 +4,7 @@
 #include <AL/al.h>
 #include "ogg_stream.h"
 #include "vorbisfile.h"
+#include "compat_mini.h"
 
 #include <time.h>
 #include <math.h>
@@ -46,13 +47,13 @@ typedef struct
 	float					Pitch;				// pitch
 	float					Position[3];		// position of source
 	float					Velocity[3];		// velocity
-	unsigned long			ThreadID;			// Decompression/Play Thread ID
-	void					*Thread;			// pointer to D/P Thread
+	THREAD_ID     ThreadID;			// Decompression/Play Thread ID
+	THREAD_HANDLE Thread;			  // pointer to D/P Thread
 	int						Shot_down;			// shot down thred signal
 	char					bSetup;				// Stream was Set
 	void					*Setup_Flag;		// Flag to set, when setuping is done
-	void   				*Setup_Thread;		// pointer to Setup Thread
-	unsigned long			Setup_ThreadID;		// Setup Thread ID
+	THREAD_HANDLE  Setup_Thread;		// pointer to Setup Thread
+	THREAD_ID      Setup_ThreadID;		// Setup Thread ID
 }	ADAS_OGG_STRUCTURE;
 
 //------------------------------------------------------------------------------------------------
@@ -421,7 +422,7 @@ void adas_OGG_Set_Priority(int Priority)
 
 	if(Priority > 3)
 		Priority = 3;
-#ifdef WINDOWS
+
 	switch ( Priority )
 	{
 	case 3:
@@ -446,7 +447,6 @@ void adas_OGG_Set_Priority(int Priority)
 		SetThreadPriority(ogg.Thread,THREAD_PRIORITY_IDLE);
 		break;
 	}
-#endif
 }
 
 //----------------------------------------------------------------------------------------------
@@ -650,7 +650,6 @@ int adas_OGG_Proc( void *lpParameter )
 //------------------------------------------------------------------------------------------------
 void adas_OGG_Stop_Stream(void)
 {
-#ifdef WINDOWS
 	unsigned long Exit_Code = STILL_ACTIVE;
 
 	if(!bDevice) return;
@@ -664,7 +663,6 @@ void adas_OGG_Stop_Stream(void)
 	CloseHandle(ogg.Thread);
 	ogg.Thread = 0;
 	ogg.ThreadID = 0;
-#endif  
 }
 
 //------------------------------------------------------------------------------------------------

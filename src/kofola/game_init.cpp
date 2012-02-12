@@ -440,7 +440,7 @@ void gi_Init_Sound_Engine(AUDIO_DATA *p_ad)
 			adas_Set_Listener_Position(listenerPos);
 			adas_Set_Listener_Velocity(listenerVel);
 			adas_Set_Listener_Orientation(listenerOri);
-			adas_Set_Listener_Environment(0);
+			adas_Set_Listener_Environment(EAX_ENVIRONMENT_GENERIC);
 
 			if (adas_Get_Last_Error(text,256))
 				{

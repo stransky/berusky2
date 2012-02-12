@@ -28,6 +28,10 @@
 #ifndef __COMPATIBILITY_H__
 #define __COMPATIBILITY_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
  * Windows config
  */
@@ -82,5 +86,9 @@
 int ftoi(float t);
 
 #endif // ! _WIN32
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // __WINDOWS_COMPATIBILITY_H__

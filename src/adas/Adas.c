@@ -33,9 +33,9 @@
 //------------------------------------------------------------------------------------------------
 typedef struct
 {
-	unsigned long	ThreadID;		// Manager Thread ID
-	void			*Thread;		// pointer to Manager Thread
-	int				Shot_down;		// shot down signal
+	THREAD_ID     ThreadID;		// Manager Thread ID
+	THREAD_HANDLE Thread;		// pointer to Manager Thread
+	int				    Shot_down;		// shot down signal
 } ADAS_MANAGER;
 
 typedef struct
@@ -1562,12 +1562,9 @@ void adas_Set_All_Source_Volume(float fValue)
 int adas_Run_Manager(void)
 {
 	if(!bDevice) return 0;
-// TODO
-#ifdef WIDOWS
 	Manager.Shot_down = 0;
 	Manager.Thread = CreateThread( NULL, 16384, adas_ManagerProc, 
-                                        (void *) &Manager, 0, &(Manager.ThreadID));
-#endif
+                                (void *) &Manager, 0, &(Manager.ThreadID));
 	if (Manager.Thread)
 		return 1;
 	else
