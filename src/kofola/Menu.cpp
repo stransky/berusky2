@@ -1334,7 +1334,6 @@ void SetMenuSettings(ROZLISENI * roz, CONTROL_LIST_ITEM * citem,
     setup.menu_vram_load = co_Check_Get_State(citem, CLIST_ITEMC, 10);
 
     co_Combo_Drop_Get_Sel(citem, CLIST_ITEMC, 10, &setup.text_ostrost);
-
   }
 
   if (hdcTabUse[2]) {

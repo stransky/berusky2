@@ -132,7 +132,7 @@ int winmain_Game_Run(char *p_Level_Name)
     apakclose(pBmpArchive);
     return 0;
   }
-/*
+
 #ifndef __DEMO
 	if(!gi_Open_Archive("sound.pak", &pSndArchive,"soundengine","sound_dir"))
 	{
@@ -150,7 +150,7 @@ int winmain_Game_Run(char *p_Level_Name)
 		return 0;
 	}
 #endif
-*/
+
   GetPrivateProfileString("game", "3dmenu_pak", "c:\\", dir, 256, ini_file);
   working_file_translate(dir, 256);
 
@@ -225,10 +225,10 @@ int winmain_Game_Run(char *p_Level_Name)
 
 	gi_Init_Sound_Engine(&ad);
 	chdir(ad.Music_Dir);
-	ap_Load_Play_List("Play_List.dat",&ad);
+	ap_Load_Play_List("play_list.dat",&ad);
 	chdir(ad.Sound_Dir);
 
-  ap_Load_Material_List("Material.dat", &ad);
+  ap_Load_Material_List("material.dat", &ad);
 
   iMaxBpp = gi_Get_Max_Resolution_Bpp(1024, 768);
   iMaxFreq = gi_Get_Max_Freq(1024, 768, iMaxBpp);

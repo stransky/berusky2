@@ -122,11 +122,11 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA * p_ad, char bMusic)
   }
 
   fclose(file);
-/* TODO
+
 	if(bMusic)
 		if (p_ad->bAudio && p_ad->Music_Gain >= 0.05f)
 			ap_Setup_and_Play_Song(1,0, p_ad);
-*/
+
   cmcs_Draw(0, 0, 0);
 
 /*	if(bMusic)

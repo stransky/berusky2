@@ -9,12 +9,10 @@ INCLUDES =\
 
 AM_CFLAGS =\
 	-D_DEBUG -fpermissive -w\
-	 -w\
 	 -g
 
 AM_CXXFLAGS =\
 	-D_DEBUG -fpermissive -w\
-	 -w\
 	 -g
 
 bin_PROGRAMS = berusky2

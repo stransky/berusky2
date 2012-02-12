@@ -336,7 +336,11 @@ void gi_Init_Sound_Engine(AUDIO_DATA *p_ad)
 	int		iLowV, iHiV;
 
 	init_data.Channels = GetPrivateProfileInt("soundengine","channels",8,ini_file);
+#ifdef WINDOWS
 	init_data.Implementation = "DirectSound3D";
+#else
+	init_data.Implementation = NULL;
+#endif
 
 	p_ad->Max_Sources = init_data.Channels;
 	//p_ad->hWnd = hWnd;

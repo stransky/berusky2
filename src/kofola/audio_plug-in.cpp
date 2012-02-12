@@ -151,9 +151,7 @@ int ap_Load_Play_List(char *p_File_Name, AUDIO_DATA * p_ad)
   fgets(text, 30, file);
   p_ad->Size_of_Play_List = atoi(text);
 
-  p_ad->p_Play_List =
-    (PLAY_LIST_ITEM *) malloc((p_ad->Size_of_Play_List) *
-    sizeof(PLAY_LIST_ITEM));
+  p_ad->p_Play_List = (PLAY_LIST_ITEM *) malloc((p_ad->Size_of_Play_List) * sizeof(PLAY_LIST_ITEM));
   if (!p_ad->p_Play_List) {
     //MessageBox(p_ad->hWnd,"Unable to allocate memory for play list","Error",MB_OK);
     kprintf(1, "Unable to allocate memory for play list");
@@ -163,8 +161,7 @@ int ap_Load_Play_List(char *p_File_Name, AUDIO_DATA * p_ad)
 
   for (i = 0; i < p_ad->Size_of_Play_List; i++) {
     fgets(p_ad->p_Play_List[i].Song_Name, 30, file);
-    p_ad->p_Play_List[i].Song_Name[strlen(p_ad->p_Play_List[i].Song_Name) -
-      1] = '\0';
+    p_ad->p_Play_List[i].Song_Name[strlen(p_ad->p_Play_List[i].Song_Name)-1] = '\0';
   }
   fclose(file);
   return 1;
