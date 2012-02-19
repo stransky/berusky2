@@ -160,8 +160,15 @@ int ap_Load_Play_List(char *p_File_Name, AUDIO_DATA * p_ad)
   }
 
   for (i = 0; i < p_ad->Size_of_Play_List; i++) {
-    fgets(p_ad->p_Play_List[i].Song_Name, 30, file);
-    p_ad->p_Play_List[i].Song_Name[strlen(p_ad->p_Play_List[i].Song_Name)-1] = '\0';
+    char *p_name = p_ad->p_Play_List[i].Song_Name;
+    fgets(p_name, 30, file);
+    int len = strlen(p_name);
+    if(len) {
+      if(len > 2 && p_name[len-2] == '\r')
+        p_name[len-2] = '\0';
+      else
+        p_name[len-1] = '\0';
+    }
   }
   fclose(file);
   return 1;
