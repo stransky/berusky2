@@ -278,7 +278,7 @@ int demo_SaveWC(DEMOSTRUCTURE * p_Demo, WCHAR * wcName, char Ovladani,
   working_file_translate(cText, 255);
   chdir((cText));
 
-  //strcat(cText, "\\");
+  //strcat(cText, DIR_SLASH_STRING);
   //strcat(cText, cFile);
 
   demo_Exist(wcName, cFile);

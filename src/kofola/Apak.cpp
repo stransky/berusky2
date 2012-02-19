@@ -121,9 +121,7 @@ void apakCreateNode(APAK_HANDLE * pHandle, char bFirst, APAKNODE * pPrevNode,
   else if (!bFirst) {
     strcpy(buffer, pNode->cWDir);
     strcpy(pNode->cWDir, cDir);
-    // DIR?
-    //strcat(pNode->cWDir, "\\");
-    strcat(pNode->cWDir, "/");
+    strcat(pNode->cWDir, DIR_SLASH_STRING);
     strcat(pNode->cWDir, buffer);
   }
 

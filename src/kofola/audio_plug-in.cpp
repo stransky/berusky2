@@ -200,8 +200,8 @@ CHOOSE_SONG:
   else
     song = Index;
 
-  strcpy(song_name, p_ad->Music_Dir);
-  strcat(song_name, "\\");
+  strcpy(song_name, p_ad->Music_Dir); 
+  strcat(song_name, DIR_SLASH_STRING);
   strcat(song_name, p_ad->p_Play_List[song].Song_Name);
 
   file = fopen(song_name, "r");

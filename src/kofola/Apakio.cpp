@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "compat_mini.h"
 #include "Apak.h"
 
 #define APAKMAKEWORD(a, b)      ((unsigned short)(((unsigned char)(a)) | ((unsigned short)((unsigned char)(b))) << 8))
@@ -12,9 +13,8 @@ int apakDir(APAK_HANDLE * pHandle, char *cFileName)
   char buffer[256];
   int j, i = strlen(cFileName);
 
-  for (j = i; j >= 0; j--)
-    // if(cFileName[j] == '\\') - DIR?
-    if (cFileName[j] == '/')
+  for (j = i; j >= 0; j--)    
+    if (cFileName[j] == DIR_SLASH)
       break;
 
   if (j <= 0)

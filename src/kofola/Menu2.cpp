@@ -4150,8 +4150,7 @@ void RunMenuLoadScreen2(void)
       GetPrivateProfileString("game", "bitmap_dir", "c:\\", cDir, MAX_PATH,
         ini_file);
       working_file_translate(cDir, MAX_PATH);
-      //sprintf(cFile, "%s\\scene%d.pak", cDir, iActualScene); - DIR?
-      sprintf(cFile, "%s/scene%d.pak", cDir, iActualScene);
+      sprintf(cFile, "%s%cscene%d.pak", cDir, DIR_SLASH, iActualScene);
       apak_dir_correction(cDir);
       hArchive = apakopen(cFile, cDir, &sh);
 

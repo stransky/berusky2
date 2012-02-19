@@ -9391,9 +9391,8 @@ int gl_Screen_Shot(int i)
   FILE *f = NULL;
 
   do {
-    strcpy(text, CurrentWorkingDirectory);
-    //strcat(text,"\\screenshot"); - DIR
-    strcat(text, "/screenshot");
+    strcpy(text, CurrentWorkingDirectory);    
+    strcat(text, DIR_SLASH_STRING"screenshot");
 
     itoa(i, t, 10);
 
@@ -10351,8 +10350,7 @@ PLAY_LEVEL_START:
       ini_file);
     working_file_translate(Demo_File, 255);
 
-    //strcat(Demo_File,"\\"); - DIR?
-    strcat(Demo_File, "/");
+    strcat(Demo_File, DIR_SLASH_STRING);
     strcat(Demo_File, cDemoName);
 
     if (!demo_Load(&Demo, Demo_File, &bOvladaniBerusek1, cLevelName,
@@ -10707,8 +10705,7 @@ PLAY_LEVEL_START:
     working_file_translate(file, 255);
     pEnv = kom_get_level_environment();
     if (pEnv) {
-      //strcat(file,"\\"); - DIR?
-      strcat(file, "/");
+      strcat(file, DIR_SLASH_STRING);
       strcat(file, pEnv->cCam);
 
       cameraanim = kam_3ds_nahraj_animaci(pGDataArchive, file);

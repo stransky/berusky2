@@ -766,7 +766,7 @@ int RunLevel(HWND hWnd, AUDIO_DATA * p_ad, int cpu, char *lvl, char *env)
 		adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
 		adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
 
-    ret = gl_Run_Level(lvl, cenv, NULL, cpu);
+    ret = gl_Run_Level(lvl, cenv, p_ad, cpu);
 
     if (ret == 1)
       pPlayerProfile.cLevel[iActualLevel] = 1;
@@ -2616,7 +2616,7 @@ void RunStretchAnimation(char *cScene, int x, int y, AUDIO_DATA * p_ad)
     GetPrivateProfileString("game", "bitmap_dir", "c:\\", cDir, MAX_PATH,
       ini_file);
     working_file_translate(cDir, MAX_PATH);
-    sprintf(cFile, "%s\\scene%d.pak", cDir, iActualScene);
+    sprintf(cFile, "%s%cscene%d.pak", cDir, DIR_SLASH, iActualScene);
     apak_dir_correction(cDir);
     hArchive = apakopen(cFile, cDir, &idx);
 
@@ -3434,7 +3434,7 @@ void LoadSceneMap(int *pBmp, char *cSceneBmp, char *cSceneAnim, int iScene,
     GetPrivateProfileString("game", "bitmap_dir", "c:\\", cDir, MAX_PATH,
       ini_file);
     working_file_translate(cDir, MAX_PATH);
-    sprintf(cFile, "%s\\scene%d.pak", cDir, iScene);
+    sprintf(cFile, "%s%cscene%d.pak", cDir, DIR_SLASH, iScene);
     apak_dir_correction(cDir);
     hArchive = apakopen(cFile, cDir, &i);
 
@@ -8298,8 +8298,7 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
     GetPrivateProfileString("game", "bitmap_dir", "c:\\", cDir, MAX_PATH,
       ini_file);
     working_file_translate(cDir, MAX_PATH);
-    //sprintf(cFile, "%s\\scene%d.pak", cDir, iScene); - DIR?
-    sprintf(cFile, "%s/scene%d.pak", cDir, iScene);
+    sprintf(cFile, "%s%cscene%d.pak", cDir, DIR_SLASH, iScene);
     apak_dir_correction(cDir);
     hArchive = apakopen(cFile, cDir, &idx);
 

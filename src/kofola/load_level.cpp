@@ -1394,45 +1394,25 @@ void lsi_copy_save(char *cMask, LEVELINFO * p_Level)
     ini_file);
   working_file_translate(dir, MAX_PATH);
   lsi_Get_Dir_Name(cLevelMask, p_Level->cLoadedFrom);
-/* DIR?
-	sprintf(cout,"%s%s", cMask, ".b2l");
-	sprintf(csrc,"%s\\%s\\%s%s", dir, cLevelMask, cLevelMask, ".b2l");
-	lsi_file_copy(csrc, cout);
 
-	sprintf(cout,"%s%s", cMask, ".b2t");
-	sprintf(csrc,"%s\\%s\\%s%s", dir, cLevelMask, cLevelMask, ".b2t");
-	lsi_file_copy(csrc, cout);
-
-	sprintf(cout,"%s%s", cMask, ".bpr");
-	sprintf(csrc,"%s\\%s\\%s%s", dir, cLevelMask, cLevelMask, ".bpr");
-	lsi_file_copy(csrc, cout);
-
-	sprintf(cout,"%s%s", cMask, ".lv6");
-	sprintf(csrc,"%s\\%s\\%s%s", dir, cLevelMask, cLevelMask, ".lv6");
-	lsi_file_copy(csrc, cout);
-
-	sprintf(cout,"%s%s", cMask, ".ply");
-	sprintf(csrc,"%s\\%s\\%s%s", dir, cLevelMask, cLevelMask, ".ply");
-	lsi_file_copy(csrc, cout);
-*/
   sprintf(cout, "%s%s", cMask, ".b2l");
-  sprintf(csrc, "%s/%s/%s%s", dir, cLevelMask, cLevelMask, ".b2l");
+  sprintf(csrc, "%s%c%s%c%s%s", dir, DIR_SLASH, cLevelMask, DIR_SLASH, cLevelMask, ".b2l");
   lsi_file_copy(csrc, cout);
 
   sprintf(cout, "%s%s", cMask, ".b2t");
-  sprintf(csrc, "%s/%s/%s%s", dir, cLevelMask, cLevelMask, ".b2t");
+  sprintf(csrc, "%s%c%s%c%s%s", dir, DIR_SLASH, cLevelMask, DIR_SLASH, cLevelMask, ".b2t");
   lsi_file_copy(csrc, cout);
 
   sprintf(cout, "%s%s", cMask, ".bpr");
-  sprintf(csrc, "%s/%s/%s%s", dir, cLevelMask, cLevelMask, ".bpr");
+  sprintf(csrc, "%s%c%s%c%s%s", dir, DIR_SLASH, cLevelMask, DIR_SLASH, cLevelMask, ".bpr");
   lsi_file_copy(csrc, cout);
 
   sprintf(cout, "%s%s", cMask, ".lv6");
-  sprintf(csrc, "%s/%s/%s%s", dir, cLevelMask, cLevelMask, ".lv6");
+  sprintf(csrc, "%s%c%s%c%s%s", dir, DIR_SLASH, cLevelMask, DIR_SLASH, cLevelMask, ".lv6");
   lsi_file_copy(csrc, cout);
 
   sprintf(cout, "%s%s", cMask, ".ply");
-  sprintf(csrc, "%s/%s/%s%s", dir, cLevelMask, cLevelMask, ".ply");
+  sprintf(csrc, "%s%c%s%c%s%s", dir, DIR_SLASH, cLevelMask, DIR_SLASH, cLevelMask, ".ply");
   lsi_file_copy(csrc, cout);
 }
 
