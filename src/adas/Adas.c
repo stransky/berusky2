@@ -260,7 +260,7 @@ void adas_Init(ADAS_INIT_DATA *p_adas_data)
 					}
 				}
 				
-				SoundSource = (ADAS_SOUND_SOURCE *) malloc(ADAS_data.Channels * sizeof(ADAS_SOUND_SOURCE));
+				SoundSource = (ADAS_SOUND_SOURCE *) mmalloc(ADAS_data.Channels * sizeof(ADAS_SOUND_SOURCE));
 				if (!SoundSource)
 				{
 					adas_Set_Last_Error("Out of Memory");

@@ -274,20 +274,23 @@ void surface_sdl::clear(void)
 
 surface_sdl::surface_sdl(void)
 : surface(SDL_SURFACE, PIXEL_TCOLOR),
-  p_surf(NULL)
+  p_surf(NULL),
+  locks(0)
 {
 }
 
 surface_sdl::surface_sdl(char *p_file, SURFACE_FORMAT format_)
 : surface(SDL_SURFACE, PIXEL_TCOLOR),
-  p_surf(NULL)
+  p_surf(NULL),
+  locks(0)
 {
   load(p_file, format_);
 }
 
 surface_sdl::surface_sdl(SDL_Surface *p_surf_, SURFACE_FORMAT format_, int convert)
 : surface(SDL_SURFACE, PIXEL_TCOLOR),
-  p_surf(p_surf_)
+  p_surf(p_surf_),
+  locks(0)
 {  
   if(convert && p_surf) {
     if(format_ == SURFACE_TEXTURE) {
@@ -301,7 +304,8 @@ surface_sdl::surface_sdl(SDL_Surface *p_surf_, SURFACE_FORMAT format_, int conve
 
 surface_sdl::surface_sdl(tpos width, tpos height, SURFACE_FORMAT format_)
 : surface(SDL_SURFACE, PIXEL_TCOLOR),
-  p_surf(NULL)
+  p_surf(NULL),
+  locks(0)
 {
   create(width,height,format_);
 }

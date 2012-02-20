@@ -131,7 +131,6 @@ int adas_OGG_Open_Stream(char *p_File_Name)
 		{
 			adas_Set_Last_Error("Unable to create buffer");
 			ov_clear(&ogg.vf);
-			fclose(ogg.file);
 			return 0;
 		}
 
@@ -140,7 +139,6 @@ int adas_OGG_Open_Stream(char *p_File_Name)
 		{
 			adas_Set_Last_Error("Unable to create buffer");
 			ov_clear(&ogg.vf);
-			fclose(ogg.file);
 			return 0;
 		}
 
@@ -150,7 +148,6 @@ int adas_OGG_Open_Stream(char *p_File_Name)
 		{
 			adas_Set_Last_Error("Unable to create source");
 			ov_clear(&ogg.vf);
-			fclose(ogg.file);
 			alDeleteBuffers(2,ogg.Buffer);
 			return 0;
 		}
@@ -158,7 +155,6 @@ int adas_OGG_Open_Stream(char *p_File_Name)
 		{
 			adas_Set_Last_Error("Unable to create source");
 			ov_clear(&ogg.vf);
-			fclose(ogg.file);
 			alDeleteBuffers(2,ogg.Buffer);
 			return 0;
 		}
@@ -181,9 +177,6 @@ void adas_OGG_Close_Stream(void)
 	alDeleteBuffers(3,ogg.Buffer);
 	alDeleteSources(1,&ogg.Source);
 	ov_clear(&ogg.vf);
-
-	if (ogg.file)
-		fclose(ogg.file);
 }
 
 //----------------------------------------------------------------------------------------------

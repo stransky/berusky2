@@ -95,8 +95,6 @@ void ogg_release()
   ogg_check();
   
   ov_clear(&oggStream);
-  
-  fclose(oggFile);
 }
 
 char ogg_playback()
@@ -273,8 +271,6 @@ int ogg_proc( void *lpParameter )
   ogg_check();
 
   ov_clear(&oggStream);
-
-	fclose(oggFile);
 
 	return 0;
 }
