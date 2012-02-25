@@ -380,7 +380,7 @@ unsigned long adas_Load_First(char *p_Index_File, char *p_File_Name)
 
   for (i = 0; i < Size_of_Indexes; i++) {
     fgets(data, 100, file);
-    data[strlen(data) - 1] = '\0';
+    newline_cut(data);
     strcpy(WaveFile[i].Name, data);
     fgets(data, 100, file);
     WaveFile[i].Index = atoi(data);
@@ -470,7 +470,7 @@ unsigned long adas_Load_FirstMemory(char *p_Index_File, void *p_File,
 
   for (i = 0; i < Size_of_Indexes; i++) {
     fgets(data, 100, file);
-    data[strlen(data) - 1] = '\0';
+    newline_cut(data);
     strcpy(WaveFile[i].Name, data);
     fgets(data, 100, file);
     WaveFile[i].Index = atoi(data);

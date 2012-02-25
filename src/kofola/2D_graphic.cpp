@@ -547,7 +547,7 @@ int _2d_Load_List(char *p_File_Name)
     while (!feof(file)) {
       fgets(text, 256, file);
       if (!feof(file)) {
-        text[strlen(text) - 1] = '\0';
+        newline_cut(text);
         _2d_Load_Bitmap(text);
         //kprintf(1,"Bitmap %s loaded.",text);
       }
@@ -582,7 +582,7 @@ int _2d_APAK_Load_List(char *p_File_Name)
     while (!aeof(file)) {
       agets(text, 256, file);
       if (!aeof(file)) {
-        text[strlen(text) - 1] = '\0';
+        newline_cut(text);
         _2d_APAK_Load_Bitmap(text, pBmpArchive);
         //kprintf(1,"Bitmap %s loaded.",text);
       }

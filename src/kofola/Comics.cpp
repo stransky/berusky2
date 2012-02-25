@@ -103,7 +103,7 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA * p_ad, char bMusic)
 
   while (strcmp(text, "LOAD_END")) {
     fgets(text, MAX_PATH, file);
-    text[strlen(text) - 1] = '\0';
+    newline_cut(text);
 
     if (!strcmp(text, "LOAD_END"))
       break;
@@ -115,7 +115,7 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA * p_ad, char bMusic)
 
   while (strcmp(text, "COMICS_END")) {
     fgets(text, MAX_PATH, file);
-    text[strlen(text) - 1] = '\0';
+    newline_cut(text);
     cmcs_Read_Line(text, &cmcs_Picture[i]);
     cmcs_Picture[i].iPicture = i + 1;
     i++;

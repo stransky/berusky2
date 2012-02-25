@@ -691,7 +691,7 @@ BOOL ddx2LoadList(char *pFileName, APAK_HANDLE * pBmpArchive, char *p_bmp_dir)
   while (!aeof(file)) {
     agets(text, 256, file);
     if (!aeof(file)) {
-      text[strlen(text) - 1] = '\0';
+      newline_cut(text);
       ddx2LoadBitmapPos(c, text, pBmpArchive);
     }
     c++;

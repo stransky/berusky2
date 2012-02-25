@@ -889,7 +889,7 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
 /*	chdir(text);
 	text[0] = '\0';
 	strncpy(text,p_Level_Name,strlen(p_Level_Name)-4);
-	text[strlen(p_Level_Name)-4] = '\0';
+	text[strlen(p_Level_Name)-4] = '\0'; //TODO - newline?
 	chdir(text);*/
 
 

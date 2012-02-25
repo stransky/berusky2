@@ -189,7 +189,7 @@ char trig_Load_Trigers(char *pLevel, char *pFile, TRIGER_STRUCTURE * pTStruct,
   chdir((text));
   text[0] = '\0';
   strncpy(text, pLevel, strlen(pLevel) - 4);
-  text[strlen(pLevel) - 4] = '\0';
+  text[strlen(pLevel) - 4] = '\0'; //TODO - newline?
   chdir((text));
 
   file = fopen(pFile, "r");
@@ -220,7 +220,7 @@ char trig_Load_Trigers(char *pLevel, char *pFile, TRIGER_STRUCTURE * pTStruct,
 
   for (i = 0; i < pTStruct->sizeofT; i++) {
     fgets(text, 256, file);
-    text[strlen(text) - 1] = '\0';
+    newline_cut(text);
     if (!trig_Load_Triger(text, &pTStruct->pTriger[i], pGr, pTStruct))
       kprintf(1, "Unable to load triger %s", text);
   }

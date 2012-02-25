@@ -226,7 +226,7 @@ int _3d_Load_List(char *p_File_Name)
   while (!aeof(file)) {
     agets(text, MAX_PATH, file);
     if (!aeof(file)) {
-      text[strlen(text) - 1] = '\0';
+      newline_cut(text);
 
       if (!c)
         _3d_Get_Cursor_Name(text);

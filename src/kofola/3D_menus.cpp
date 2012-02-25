@@ -517,7 +517,7 @@ void _3d_Load_Animations(float *fScaleFactor)
       if (!strlen(text))
         break;
       else
-        text[strlen(text) - 1] = '\0';
+        newline_cut(text);
 
       pFile = aopen(pDataArchive, text, "r");
 

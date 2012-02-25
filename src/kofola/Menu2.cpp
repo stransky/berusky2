@@ -2427,7 +2427,7 @@ int LoadHelp(char *c_file)
     agets(text, 256, file);
 
     if (strlen(text)) {
-      text[strlen(text) - 1] = '\0';
+      newline_cut(text);
 
       if (!c)
         i = ddx2LoadBitmap(text, pBmpArchive);
@@ -3266,7 +3266,7 @@ int LoadCList2(char *cFile)
     agets(text, 256, file);
 
     if (strlen(text)) {
-      text[strlen(text) - 1] = '\0';
+      newline_cut(text);
 
       if (!c)
         i = ddx2LoadBitmap(text, pBmpArchive);

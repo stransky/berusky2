@@ -116,7 +116,7 @@ int ap_Load_Sound_List(AUDIO_DATA * p_ad, char *cFile, int iStart)
     if (!strlen(text))
       break;
     else {
-      text[strlen(text) - 1] = '\0';
+      newline_cut(text);
       ap_Load_Sample(c, text);
       c++;
     }
@@ -163,13 +163,7 @@ int ap_Load_Play_List(char *p_File_Name, AUDIO_DATA * p_ad)
   for (i = 0; i < p_ad->Size_of_Play_List; i++) {
     char *p_name = p_ad->p_Play_List[i].Song_Name;
     fgets(p_name, 30, file);
-    int len = strlen(p_name);
-    if(len) {
-      if(len > 2 && p_name[len-2] == '\r')
-        p_name[len-2] = '\0';
-      else
-        p_name[len-1] = '\0';
-    }
+    newline_cut(p_name);
   }
   fclose(file);
   return 1;
@@ -600,7 +594,7 @@ int ap_Load_Material_List(char *p_File_Name, AUDIO_DATA * p_ad)
 
   for (i = 0; i < p_ad->Size_of_Material_List; i++) {
     agets(text, 30, file);
-    text[strlen(text) - 1] = '\0';
+    newline_cut(text);
     Material_file = aopen(pSndArchive, text, "rb");
     if (!Material_file) {
       sprintf(error, "%s not found", text);

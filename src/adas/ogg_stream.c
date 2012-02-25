@@ -529,7 +529,7 @@ int adas_OGG_Proc( void *lpParameter )
 	long  losttime = 0;
 	
 	strncpy(text, ogg.Name, (strlen(ogg.Name)-3));
-	text[(strlen(ogg.Name)-3)] = '\0';
+	text[(strlen(ogg.Name)-3)] = '\0'; //TODO - newline?
 	strcat(text,"cyc");
 
 	file = fopen(text,"r");

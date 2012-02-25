@@ -100,7 +100,7 @@ int am_Init(ANIMATION_MODULE * p_am, LEVELINFO * p_Level)
     if (!agets(text, 256, file))
       break;
 
-    text[strlen(text) - 1] = '\0';
+    newline_cut(text);
     //kprintf(1, "%s", text);
     p_am->sim_anim[i] = sim_nahraj_animaci(pDataArchive, text, 0);
     i++;

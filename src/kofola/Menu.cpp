@@ -3744,7 +3744,7 @@ int LoadTV(void)
     agets(text, 256, file);
 
     if (strlen(text)) {
-      text[strlen(text) - 1] = '\0';
+      newline_cut(text);
 
       if (!c)
         i = ddxLoadBitmap(text, pBmpArchive);
@@ -3887,7 +3887,7 @@ int LoadClock(int *iClock)
     if (!strlen(text))
       break;
 
-    text[strlen(text) - 1] = '\0';
+    newline_cut(text);
 
     if (!c) {
       i = ddxLoadBitmap(text, pBmpArchive);
@@ -7762,7 +7762,7 @@ int LoadCList(char *cFile, int *p_count, int *p_bmp, int *iClock,
     agets(text, 256, file);
 
     if (strlen(text)) {
-      text[strlen(text) - 1] = '\0';
+      newline_cut(text);
 
       if (!c) {
         i = ddxLoadBitmap(text, hArchive);
