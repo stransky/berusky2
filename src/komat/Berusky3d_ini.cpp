@@ -154,15 +154,11 @@ void print_help(void)
   printf("Using: berusky2 [OPTIONS][LEVEL_NAME]\n");
   printf("\nOptions:\n");
   printf("  -h --help                           Print help\n");
-  printf
-    ("  -i --ini-file file_name.ini         Set game ini file (It overides the default one in ~user/.berusky2/berusky3d.ini)\n");
-  printf
-    ("  -l --no-local-copy                  Don't create local config at ~user/.berusky2\n");
+  printf("  -i --ini-file file_name.ini         Set game ini file (It overides the default one in ~user/.berusky2/berusky3d.ini)\n");
+  printf("  -l --no-local-copy                  Don't create local config at ~user/.berusky2\n");
+  printf("  -e --export file_name               Export loaded level to JSON\n");
   printf("\nLevel name:\n");
-  printf
-    ("  level_name.lv6                      Run this level (from game dir) instead of default menu\n");
-  printf
-    ("  -e --export                         Export loaded level\n");
+  printf("  level_name.lv6                      Run this level (from game dir) instead of default menu\n");
   printf("\n");
   exit(0);
 }
