@@ -532,7 +532,6 @@ typedef struct g_config
 
   // local config
   int system_kurzor;
-  int karmin_aktivni;
   int mouse_move;
 
   char level_name[MAX_FILENAME];
@@ -540,7 +539,6 @@ typedef struct g_config
     g_config(void)
   {
     memset(this, 0, sizeof(*this));
-    karmin_aktivni = 1;
   }
 
 }

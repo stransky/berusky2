@@ -102,7 +102,7 @@ am_berusky2_OBJECTS = 3D_graphic.$(OBJEXT) 3D_menus.$(OBJEXT) \
 	Texture.$(OBJEXT) Texture_import.$(OBJEXT) obbo.$(OBJEXT) \
 	Kdtree.$(OBJEXT) json_export.$(OBJEXT) \
 	ambient_sounds.$(OBJEXT) audio_plug-in.$(OBJEXT) \
-	3d_math_k.$(OBJEXT) Adas.$(OBJEXT) ogg_io.$(OBJEXT) \
+	3d_math_k.$(OBJEXT) adas.$(OBJEXT) ogg_io.$(OBJEXT) \
 	ogg_stream.$(OBJEXT) compat_mini.$(OBJEXT)
 berusky2_OBJECTS = $(am_berusky2_OBJECTS)
 berusky2_DEPENDENCIES =
@@ -622,8 +622,8 @@ berusky2_SOURCES = \
 	kofola/audio_plug-in.h\
 	adas/3d_math_k.c\
 	adas/3d_math_k.h\
-	adas/Adas.c\
-	adas/Adas.h\
+	adas/adas.c\
+	adas/adas.h\
 	adas/adas_types.h\
 	adas/ogg_io.c\
 	adas/ogg_io.h\
@@ -729,7 +729,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3dinterface.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3dmath.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3dproject.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Adas.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Apak.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Apakio.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Berusky3d.Po@am__quote@
@@ -765,6 +764,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Tga.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Tools.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/aabb.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/adas.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/age.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/age_main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/alpha.Po@am__quote@
@@ -902,19 +902,19 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o 3d_math_k.obj `if test -f 'adas/3d_math_k.c'; then $(CYGPATH_W) 'adas/3d_math_k.c'; else $(CYGPATH_W) '$(srcdir)/adas/3d_math_k.c'; fi`
 
-Adas.o: adas/Adas.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Adas.o -MD -MP -MF $(DEPDIR)/Adas.Tpo -c -o Adas.o `test -f 'adas/Adas.c' || echo '$(srcdir)/'`adas/Adas.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Adas.Tpo $(DEPDIR)/Adas.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='adas/Adas.c' object='Adas.o' libtool=no @AMDEPBACKSLASH@
+adas.o: adas/adas.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT adas.o -MD -MP -MF $(DEPDIR)/adas.Tpo -c -o adas.o `test -f 'adas/adas.c' || echo '$(srcdir)/'`adas/adas.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/adas.Tpo $(DEPDIR)/adas.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='adas/adas.c' object='adas.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Adas.o `test -f 'adas/Adas.c' || echo '$(srcdir)/'`adas/Adas.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o adas.o `test -f 'adas/adas.c' || echo '$(srcdir)/'`adas/adas.c
 
-Adas.obj: adas/Adas.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT Adas.obj -MD -MP -MF $(DEPDIR)/Adas.Tpo -c -o Adas.obj `if test -f 'adas/Adas.c'; then $(CYGPATH_W) 'adas/Adas.c'; else $(CYGPATH_W) '$(srcdir)/adas/Adas.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/Adas.Tpo $(DEPDIR)/Adas.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='adas/Adas.c' object='Adas.obj' libtool=no @AMDEPBACKSLASH@
+adas.obj: adas/adas.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT adas.obj -MD -MP -MF $(DEPDIR)/adas.Tpo -c -o adas.obj `if test -f 'adas/adas.c'; then $(CYGPATH_W) 'adas/adas.c'; else $(CYGPATH_W) '$(srcdir)/adas/adas.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/adas.Tpo $(DEPDIR)/adas.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='adas/adas.c' object='adas.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o Adas.obj `if test -f 'adas/Adas.c'; then $(CYGPATH_W) 'adas/Adas.c'; else $(CYGPATH_W) '$(srcdir)/adas/Adas.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o adas.obj `if test -f 'adas/adas.c'; then $(CYGPATH_W) 'adas/adas.c'; else $(CYGPATH_W) '$(srcdir)/adas/adas.c'; fi`
 
 ogg_io.o: adas/ogg_io.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ogg_io.o -MD -MP -MF $(DEPDIR)/ogg_io.Tpo -c -o ogg_io.o `test -f 'adas/ogg_io.c' || echo '$(srcdir)/'`adas/ogg_io.c

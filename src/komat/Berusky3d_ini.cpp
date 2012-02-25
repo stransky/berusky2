@@ -487,11 +487,11 @@ int spracuj_spravy(int param)
       case SDL_ACTIVEEVENT:
         if (event.active.state & SDL_APPACTIVE) {
           if (event.active.gain) {
-            p_ber->karmin_aktivni = TRUE;
+            karmin_aktivni = TRUE;
             p_ber->system_kurzor = FALSE;
           }
           else {
-            p_ber->karmin_aktivni = FALSE;
+            karmin_aktivni = FALSE;
             p_ber->system_kurzor = TRUE;
           }
         }

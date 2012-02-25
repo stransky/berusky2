@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------------------------
 #include <stdio.h>
 #include "Apak.h"
-#include "Adas.h"
+#include "adas.h"
 
 //------------------------------------------------------------------------------------------------
 // 0.0.1
@@ -311,9 +311,9 @@ void gi_APAK_Load(unsigned long mem, struct _finddata_t *pData)
 	agetbuffer(file, &pMem, &size);
 
 	if(!mem)
-		adas_Load_FirstMemory("index.dat",pMem,pData->name);
+		adas_Load_FirstMemory("index.dat",pMem,size,pData->name);
 	else
-		adas_Load_NextMemory(pMem, pData->name);
+		adas_Load_NextMemory(pMem, size, pData->name);
 
 	aclose(file);
 }
@@ -404,6 +404,7 @@ void gi_Init_Sound_Engine(AUDIO_DATA *p_ad)
 
 			p_ad->bAudio = 1;
 			chdir(init_data.Sound_Dir);
+      apak_dir_correction(init_data.Sound_Dir);
 			achdir(pSndArchive, init_data.Sound_Dir);
 
 			ap_Load_Sound_List(p_ad, "basicset.dat", 0);

@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------------------------
 #include <AL/al.h>
 #include "ogg_stream.h"
-#include "vorbisfile.h"
+#include <vorbis/vorbisfile.h>
 #include "compat_mini.h"
 
 #include <time.h>

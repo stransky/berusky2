@@ -433,7 +433,7 @@ unsigned long adas_Load_First(char *p_Index_File, char *p_File_Name)
 	}
 }
 
-unsigned long adas_Load_FirstMemory(char *p_Index_File, void *p_File, char *p_File_Name)
+unsigned long adas_Load_FirstMemory(char *p_Index_File, void *p_File, long File_Size, char *p_File_Name)
 {
 	FILE			*file = NULL;
 	char			data[100];	
@@ -447,7 +447,7 @@ unsigned long adas_Load_FirstMemory(char *p_Index_File, void *p_File, char *p_Fi
 		(!p_Index_File) ||
 		(!p_File_Name)) return 0;
 
-	SoundData = (ADAS_SOUND_DATA *) malloc(SIZEOFSOUNDDATA * sizeof(ADAS_SOUND_DATA));
+	SoundData = (ADAS_SOUND_DATA *) mmalloc(SIZEOFSOUNDDATA * sizeof(ADAS_SOUND_DATA));
 	if (!SoundData)
 	{
 		adas_Set_Last_Error("Out of memory");
@@ -464,7 +464,7 @@ unsigned long adas_Load_FirstMemory(char *p_Index_File, void *p_File, char *p_Fi
 
 	fgets(data,100,file);
 	Size_of_Indexes = atoi(data);
-	WaveFile = (ADAS_WAVEFILEDESC *) malloc(Size_of_Indexes * sizeof(ADAS_WAVEFILEDESC));
+	WaveFile = (ADAS_WAVEFILEDESC *) mmalloc(Size_of_Indexes * sizeof(ADAS_WAVEFILEDESC));
 		if (!WaveFile)
 		{
 			adas_Set_Last_Error("Out of memory");
@@ -501,17 +501,19 @@ unsigned long adas_Load_FirstMemory(char *p_Index_File, void *p_File, char *p_Fi
 		return 0;
 	}
 	
-	alutLoadWAVMemory(p_File,&pSound->Format, &pSound->Data, &pSound->Size,
-					  &pSound->Frequece, &loop);
-
-	alBufferData(pSound->Buffer, pSound->Format, pSound->Data, pSound->Size,
-				 pSound->Frequece);
-
-	alutUnloadWAV(pSound->Format, pSound->Data, pSound->Size, 
-				  pSound->Frequece);
-
-	pSound->Wave_Index = adas_Translate_Wave(p_File_Name);
-	Size_of_Sound_Data++;
+	if(adasLoadWAVMemory(p_File, File_Size, &pSound->Format, &pSound->Data, &pSound->Size,
+			  		          &pSound->Frequece, &loop)) 
+  {
+    alBufferData(pSound->Buffer, pSound->Format, pSound->Data, pSound->Size,
+           pSound->Frequece);
+    alutUnloadWAV(pSound->Format, pSound->Data, pSound->Size, 
+            pSound->Frequece);
+    pSound->Wave_Index = adas_Translate_Wave(p_File_Name);
+    Size_of_Sound_Data++;
+  } else {
+    adas_Set_Last_Error("Unable to convert audio data (adasLoadWAVMemory)");
+    return 0;
+  }
 		
 	return 1;
 }
@@ -572,7 +574,7 @@ unsigned long adas_Load_Next(char *p_File_Name)
 	}
 }
 
-unsigned long adas_Load_NextMemory(void *p_File, char *p_File_Name)
+unsigned long adas_Load_NextMemory(void *p_File, long File_Size, char *p_File_Name)
 {
 	FILE			*file = NULL;
 	ALboolean		loop = 0;
@@ -600,17 +602,19 @@ unsigned long adas_Load_NextMemory(void *p_File, char *p_File_Name)
 		return 0;
 	}
    		
-	alutLoadWAVMemory(p_File,&pSound->Format, &pSound->Data, &pSound->Size, 
-					&pSound->Frequece, &loop);
-
-	alBufferData(pSound->Buffer, pSound->Format, pSound->Data, pSound->Size,
-				 pSound->Frequece);
-
-	alutUnloadWAV(pSound->Format, pSound->Data, pSound->Size, 
-				  pSound->Frequece);
-
-	pSound->Wave_Index = adas_Translate_Wave(p_File_Name);
-	Size_of_Sound_Data++;
+	if(adasLoadWAVMemory(p_File, File_Size, &pSound->Format, &pSound->Data, &pSound->Size, 
+					             &pSound->Frequece, &loop))
+  {
+    alBufferData(pSound->Buffer, pSound->Format, pSound->Data, pSound->Size,
+           pSound->Frequece);
+    alutUnloadWAV(pSound->Format, pSound->Data, pSound->Size, 
+            pSound->Frequece);
+    pSound->Wave_Index = adas_Translate_Wave(p_File_Name);
+    Size_of_Sound_Data++;
+  } else {
+    adas_Set_Last_Error("Unable to convert audio data (adasLoadWAVMemory)");
+    return 0;
+  }
 
 	return 1;
 }
@@ -2674,4 +2678,17 @@ ALCcontext *adas_Get_Context(void)
 ALCdevice *adas_Get_Device(void)
 {
 	return p_Device;
+}
+
+int
+adasLoadWAVMemory (ALbyte *buffer, ALsizei buffer_length, ALenum *format, void **data, ALsizei *size,
+                   ALsizei *frequency, ALboolean *loop)
+{
+  *data = alutLoadMemoryFromFileImage(buffer,
+                                      buffer_length,
+                                      format,
+                                      size,
+                                      frequency);
+  *loop = AL_FALSE;
+  return(*data);
 }

@@ -1460,7 +1460,7 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out,
       float pos[3] = { 0, 0, 0 };
       int rnd = rand() % 3;
 
-      //ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
+      ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
 
                         /*_3d_Cancel_Menu(p_Level);
 			p_Level->Level_Exit = 2;
@@ -1483,7 +1483,7 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out,
       float pos[3] = { 0, 0, 0 };
       int rnd = rand() % 3;
 
-//                      ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
+      ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
 
       //_3d_Cancel_Menu(p_Level);
       /*p_Level->Level_Exit = 3;
@@ -1505,7 +1505,7 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out,
       int rnd = rand() % 3;
       float pos[3] = { 0, 0, 0 };
 
-//                      ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
+      ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
 
       RunMenuSettings2("Mmsettings3D.txt", NULL, p_Level, &am);
     }
@@ -1523,7 +1523,7 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out,
       int rnd = rand() % 3;
       float pos[3] = { 0, 0, 0 };
 
-//                      ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
+      ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
 
       p_Level->bSaveDemo = 1;
       _3d_Cancel_Menu(p_Level);
@@ -1541,7 +1541,7 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out,
       float pos[3] = { 0, 0, 0 };
       int rnd = rand() % 3;
 
-//                      ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
+      ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
 
       _3d_Cancel_Menu(p_Level);
     }
@@ -1559,7 +1559,7 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out,
       float pos[3] = { 0, 0, 0 };
       int rnd = rand() % 3;
 
-//                      ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
+      ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
 
       ZeroMemory(cText, 128);
       RunMenuLoadGameLoad2("Mmload_game_load3d.txt", NULL, p_Level, &am, 1,
@@ -1592,7 +1592,7 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out,
       float pos[3] = { 0, 0, 0 };
       int rnd = rand() % 3;
 
-//                      ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
+      ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
 
       ZeroMemory(cText, 128);
       RunMenuLoadGameLoad2("Mmload_game_loads3d.txt",

@@ -502,8 +502,8 @@ bool ddxRestore(AUDIO_DATA * p_ad)
 		dwLastMenuMusicCheck = timeGetTime();
 	}
 
-  if (bLastGameState != p_ber->karmin_aktivni) {
-    bLastGameState = p_ber->karmin_aktivni;
+  if (bLastGameState != karmin_aktivni) {
+    bLastGameState = karmin_aktivni;
 
     // Game is restored
     if (bLastGameState) {

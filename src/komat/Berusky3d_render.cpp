@@ -1968,7 +1968,7 @@ void ber_renderuj_scenu(void)
      */
     ber_kamera_zpruhledni_objekty(p_ber);
 
-    if (p_ber->karmin_aktivni) {
+    if (karmin_aktivni) {
 
       glClear(GL_DEPTH_BUFFER_BIT);
       if (p_ber->conf_barva_pozadi_pouzit)

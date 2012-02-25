@@ -54,11 +54,11 @@
 
 		// load sound data & init memory
 		unsigned long adas_Load_First(char *p_Index_File, char *p_File_Name);
-		unsigned long adas_Load_FirstMemory(char *p_Index_File, void *p_File, char *p_File_Name);
+		unsigned long adas_Load_FirstMemory(char *p_Index_File, void *p_File, long File_Size, char *p_File_Name);
 
 		// load sound data
 		unsigned long adas_Load_Next(char *p_File_Name);
-		unsigned long adas_Load_NextMemory(void *p_File, char *p_File_Name);
+		unsigned long adas_Load_NextMemory(void *p_File, long File_Size, char *p_File_Name);
 
 		// releases loaded sound data
 		void adas_Release_Loaded_Data(void);
@@ -317,7 +317,11 @@
 
 		// get current device
 		ALCdevice *adas_Get_Device(void);
-		
+
+    // Replacement for alutLoadWAVMemory
+    int adasLoadWAVMemory(ALbyte *buffer, ALsizei buffer_length, ALenum *format, void **data, ALsizei *size,
+                          ALsizei *frequency, ALboolean *loop);
+
 #ifdef __cplusplus
 	}
 #endif

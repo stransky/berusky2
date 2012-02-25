@@ -74,9 +74,9 @@ void ap_Load_Sample(int iCount, char *cFile)
   agetbuffer(file, &pMem, &size);
 
   if (!iCount)
-    adas_Load_FirstMemory("index.dat", pMem, cFile);
+    adas_Load_FirstMemory("index.dat", pMem, size, cFile);
   else
-    adas_Load_NextMemory(pMem, cFile);
+    adas_Load_NextMemory(pMem, size, cFile);
 
   aclose(file);
 }
@@ -95,7 +95,8 @@ int ap_Load_Sound_List(AUDIO_DATA * p_ad, char *cFile, int iStart)
 
   if (!strlen(cFile))
     return 0;
-
+  
+  apak_dir_correction(p_ad->Sound_Dir);
   achdir(pSndArchive, p_ad->Sound_Dir);
 
   file = aopen(pSndArchive, cFile, "r");

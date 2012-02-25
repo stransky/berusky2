@@ -1262,7 +1262,7 @@ int ber_ovladani_mysi(G_KONFIG * p_ber, int *p_zmena)
 
 void ber_klavesy_hra(G_KONFIG * p_ber)
 {
-  if (!p_ber->karmin_aktivni)
+  if (karmin_aktivni)
     return;
 
   if (PRCameraFlag) {

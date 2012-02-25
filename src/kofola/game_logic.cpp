@@ -27,7 +27,7 @@
 #include "game_init.h"
 #include "Tools.h"
 #include "Menu2.h"
-#include "Adas.h"
+#include "adas.h"
 
 extern HINT_STATE sHint;
 extern KUK_STATE sKuk;

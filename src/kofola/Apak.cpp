@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include "Apak.h"
 #include "compat_mini.h"
 
@@ -342,9 +343,10 @@ void apakclose(APAK_HANDLE * pHandle)
 
 void apak_dir_correction(char *dir)
 {
-  char tmp[256] = "c:";
-
-  assert(strlen(dir) < 254);
-  strcat(tmp, dir);
-  strcpy(dir, tmp);
+  if(dir && tolower(dir[0]) != 'c' && dir[1] != ':') {
+    char tmp[256] = "c:";
+    assert(strlen(dir) < 254);
+    strcat(tmp, dir);
+    strcpy(dir, tmp);
+  }
 }

@@ -2,8 +2,8 @@
 #define __ogg_h__
 
 #include <AL/al.h>
-#include "ogg.h"
-#include "vorbisfile.h"
+#include <ogg/ogg.h>
+#include <vorbis/vorbisfile.h>
 
 #define BUFFER_SIZE (4096 * 22)
 

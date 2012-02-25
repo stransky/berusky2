@@ -341,8 +341,8 @@ berusky2_SOURCES = \
 	kofola/audio_plug-in.h\
 	adas/3d_math_k.c\
 	adas/3d_math_k.h\
-	adas/Adas.c\
-	adas/Adas.h\
+	adas/adas.c\
+	adas/adas.h\
 	adas/adas_types.h\
 	adas/ogg_io.c\
 	adas/ogg_io.h\

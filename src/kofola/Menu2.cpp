@@ -471,13 +471,13 @@ int mPlaySound2(CMD_LINE * cmd, AUDIO_DATA * p_ad, int type)
 
   if (cmd->iParam[r + 1] < 0) {
     if (cmd->iParam[1] >= 0) {
-//                      adas_Get_Listener_Position(pos);
-//                      ret = ap_Play_Sound(type,1,0,pos,cmd->iParam[1], NULL, &ad);
+       adas_Get_Listener_Position(pos);
+       ret = ap_Play_Sound(type,1,0,pos,cmd->iParam[1], NULL, &ad);
     }
   }
   else {
-//              adas_Get_Listener_Position(pos);
-//              ret = ap_Play_Sound(type,1,0,pos,cmd->iParam[r+1], NULL, &ad);
+    adas_Get_Listener_Position(pos);
+    ret = ap_Play_Sound(type,1,0,pos,cmd->iParam[r+1], NULL, &ad);
   }
 
   return ret;
