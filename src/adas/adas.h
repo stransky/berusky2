@@ -7,10 +7,9 @@
 #include "adas_types.h"
 #include "ogg_stream.h"
 #include "ogg_io.h"
-#include "AL/alut.h"
-//#include "eax.h"
-#include "AL/al.h"
-#include "AL/alc.h"
+#include <AL/alut.h>
+#include <AL/al.h>
+#include <AL/alc.h>
 
 #ifdef __cplusplus
 	extern "C" {
