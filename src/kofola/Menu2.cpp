@@ -356,13 +356,13 @@ int AddAnimation2(CMD_LINE * cmd, AUDIO_DATA * p_ad, char bOnlyOnes)
 
         if (cmd->iParam[r + 2] < 0) {
           if (cmd->iParam[2] >= 0) {
-//                                              adas_Get_Listener_Position(pos);
-//                                              ap_Play_Sound(0,1,0,pos,cmd->iParam[2], NULL, &ad);
+            adas_Get_Listener_Position(pos);
+            ap_Play_Sound(0,1,0,pos,cmd->iParam[2], NULL, &ad);
           }
         }
         else {
-//                                      adas_Get_Listener_Position(pos);
-//                                      ap_Play_Sound(0,1,0,pos,cmd->iParam[r+2], NULL, &ad);
+          adas_Get_Listener_Position(pos);
+          ap_Play_Sound(0,1,0,pos,cmd->iParam[r+2], NULL, &ad);
         }
       }
 
@@ -2208,7 +2208,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
       if (co2_List_Get_Clck(citem, CLIST_ITEMC, 0, &p_li) == 1) {
         if (p_li->cSelected != -1) {
           float pos[3] = { 0, 0, 0 };
-//                                      ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
+          ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
 
           if (!bLoad || bLoad == 2)
             co2_Edit_Set_Text(citem[0].p_edit, p_li->pwText[p_li->cSelected],
@@ -2218,7 +2218,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
 
       if (co2_List_Get_Dbclck(citem, CLIST_ITEMC, 0, &p_li) == 1) {
         float pos[3] = { 0, 0, 0 };
-//                              ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
+        ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
 
         if (p_li->cSelected != -1)
           if (p_li->pwText[p_li->cSelected]) {
@@ -3084,7 +3084,7 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
     if (mi.t1 && !click) {
       if (co2_Is_Button_Activated(citem, CLIST_ITEMC, 0)) {
         float pos[3] = { 0, 0, 0 };
-//                              ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
+        ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, &ad);
         key[K_ESC] = 1;
         p_Level->bResetini = 1;
       }
@@ -3133,15 +3133,12 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
         resid = -1;
 
         if (key[K_ESC]) {
-          /*
-             for(i=0;i<lastcmd;i++)
-             if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
-             {
-             adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
-             res[i].iParam[5] = -1;
-             }
-           */
-          goto __QUIT;
+          for(i=0;i<lastcmd;i++)
+            if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1) {
+              adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
+              res[i].iParam[5] = -1;
+           }
+           goto __QUIT;
         }
       }
 

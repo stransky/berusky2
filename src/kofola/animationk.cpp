@@ -425,7 +425,7 @@ void am_Play_Beatle_Sound(BEETLEANIMATION * p_anim, int mesh, int idx)
 
   kom_mesh_get_float(mesh, &pos[0], &pos[1], &pos[2], &rot);
 
-//      p_anim->iSound = ap_Play_Sound(0, 0, 0, pos, idx + (rand()%3), NULL, &ad);
+  p_anim->iSound = ap_Play_Sound(0, 0, 0, pos, idx + (rand()%3), NULL, &ad);
   p_anim->dwTime = timeGetTime();
 }
 
@@ -459,7 +459,7 @@ void am_Do_Beatle_Cakanec(int mesh, LEVELINFO * p_Level, int id)
 
       if (!id) {
         am_Kola_na_Vode(fPos, 1, 4, 0, p_Level);
-//                              ap_Play_Sound(0,0,0, pos, 74+(rand()%3), NULL, &ad);
+        ap_Play_Sound(0,0,0, pos, 74+(rand()%3), NULL, &ad);
       }
       else {
         pos[1] += -0.7f;
@@ -467,7 +467,7 @@ void am_Do_Beatle_Cakanec(int mesh, LEVELINFO * p_Level, int id)
         am_Do_Vodni_Cakanec1(pos, 4, 0, p_Level);
         //am_Do_Vodni_Cakanec2(pos, 4, 0, p_Level);
 
-//                              ap_Play_Sound(0,0,0, pos, 40+(rand()%4), NULL, &ad);
+        ap_Play_Sound(0,0,0, pos, 40+(rand()%4), NULL, &ad);
       }
     }
 }
@@ -2534,7 +2534,7 @@ void am_Do_Exit(int Bmesh, int Emesh, LEVELINFO * p_Level)
 
   rot = rand() % 3;
 
-//      ap_Play_Sound(0, 0, 0, pos, 81 + rot, NULL, &ad);
+  ap_Play_Sound(0, 0, 0, pos, 81 + rot, NULL, &ad);
 }
 
 int am_Get_Free_ExitSparksSystem(LEVELINFO * p_Level)
@@ -2984,7 +2984,7 @@ void am_TurnOn_The_Teleport(ITEMDESC * pTel, LEVELINFO * p_Level)
   else
     p_Level->TelCSparks[i].hHnizdo[2] = -1;
 
-//      ap_Play_Sound(0,0,0, pos, rnd+71, NULL, &ad);   
+  ap_Play_Sound(0,0,0, pos, rnd+71, NULL, &ad);   
 }
 
 int am_Find_TelCSparks(ITEMDESC * pTel, LEVELINFO * p_Level)
@@ -3031,7 +3031,7 @@ void am_TurnOff_The_Teleport(ITEMDESC * pTel, LEVELINFO * p_Level)
   kom_get_fyz_souradnice(pTel->Pos[0], pTel->Pos[2], pTel->Pos[1],
     (BOD *) pos);
 
-//      ap_Play_Sound(0,0,0, pos, rnd+68, NULL, &ad);   
+  ap_Play_Sound(0,0,0, pos, rnd+68, NULL, &ad);   
 }
 
 void am_Create_Sparks_To_Exits(LEVELINFO * p_Level)
@@ -5707,7 +5707,7 @@ void am_Do_BublSystemE(LEVELINFO * p_Level)
       pSystem->dwStop = 2000;
       p_Level->BublSystemE.bOn = 1;
       par_vloz_hnizdo_timer(pSystem->hHnizdo[0], 1, 0);
-//                      ap_Play_Sound(0,0,1, pSystem->pivot[1], gl_Choose_Wave_Index(102), NULL, &ad);
+      ap_Play_Sound(0,0,1, pSystem->pivot[1], gl_Choose_Wave_Index(102), NULL, &ad);
     }
   }
 
@@ -6669,7 +6669,7 @@ int am_Create_Fairy(LEVELINFO * p_Level, FAIRY_EFFECT * pF, float pos[3],
 
   pF->hHnizdo = -1;
   pF->pSystem = -1;
-//      pF->iSound = ap_Play_Sound(2, 0, 1, pos, 139, NULL, &ad);
+  pF->iSound = ap_Play_Sound(2, 0, 1, pos, 139, NULL, &ad);
 
   memcpy(&pF->rScene, pScene, sizeof(RECT));
 

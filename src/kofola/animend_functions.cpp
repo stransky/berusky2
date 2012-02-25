@@ -30,7 +30,7 @@ void anmend_Play_PadBedny(ITEMDESC * p_itm, LEVELINFO * p_Level)
     &pos[0], &pos[1], &pos[2], &rot);
 
   rot = rand() % 3;
-//      ap_Play_Sound(0,0,0, pos, rot + 49, NULL, &ad);
+  ap_Play_Sound(0,0,0, pos, rot + 49, NULL, &ad);
 
   gl_Do_Prach(pos, p_Level);
 }
@@ -39,10 +39,10 @@ void anmend_Play_Sound_PadBerusky(float *pos, int material)
 {
   switch (material) {
     case 9:
-//              ap_Play_Sound(0,0,0, pos, 58, NULL, &ad);
+      ap_Play_Sound(0,0,0, pos, 58, NULL, &ad);
       break;
     default:
-//              ap_Play_Sound(0,0,0, pos, 57, NULL, &ad);
+      ap_Play_Sound(0,0,0, pos, 57, NULL, &ad);
       break;
   }
 }
@@ -283,7 +283,7 @@ void anmend_ExplozeBedny(int param, int param2, void *p_param)
   gl_Next_Queue_Set(p_Level);
   rot = rand() % 5;
 
-//      ap_Play_Sound(0,0,0, pos, rot + 14, NULL, &ad);
+  ap_Play_Sound(0,0,0, pos, rot + 14, NULL, &ad);
 }
 
 void anmend_ExplozeBednyZaSikminou(int param, int param2, void *p_param)
@@ -363,15 +363,13 @@ void anmend_Lift(int param, int param2, void *p_param)
   if (param > 0)
     gl_Do_Lift_Particles(pos, p_itm->Index_Of_Game_Mesh, p_Level);
 
-//      s = ap_Play_Sound(0,0,0, pos, p_itm->p_Object->Specific[0].Index, NULL, &ad);
+  s = ap_Play_Sound(0,0,0, pos, p_itm->p_Object->Specific[0].Index, NULL, &ad);
 
   if (s >= 0) {
-/*
 		for(i=0;i<(abs(param)-1);i++)
 			adas_Queue_Sound(s, p_itm->p_Object->Specific[1].Index);
 
 		adas_Queue_Sound(s, p_itm->p_Object->Specific[2].Index);
-  */
   }
 
   if (param > 0) {
@@ -403,19 +401,19 @@ void anmend_Play_Sunuti(int param, int param2, void *p_param)
 
   switch (param) {
     case 10:                   //snih
-//              ap_Play_Sound(0,0,0, pos, 123, NULL, &ad);
+      ap_Play_Sound(0,0,0, pos, 123, NULL, &ad);
       break;
     case 9:                    //zelezo
-//              ap_Play_Sound(0,0,0, pos, 124, NULL, &ad);
+      ap_Play_Sound(0,0,0, pos, 124, NULL, &ad);
       break;
     case 8:                    //drevo
-//              ap_Play_Sound(0,0,0, pos, 127, NULL, &ad);      
+      ap_Play_Sound(0,0,0, pos, 127, NULL, &ad);      
       break;
     case 5:                    //kamen
-//              ap_Play_Sound(0,0,0, pos, 125, NULL, &ad);
+      ap_Play_Sound(0,0,0, pos, 125, NULL, &ad);
       break;
     default:
-//              ap_Play_Sound(0,0,0, pos, 125, NULL, &ad);
+      ap_Play_Sound(0,0,0, pos, 125, NULL, &ad);
       break;
   }
 }
@@ -424,15 +422,14 @@ void PlayStepsA(float *pos, char bQueue, int Num, int iWave, char bStoneSound)
 {
   int s, i;
 
-//      s = ap_Play_Sound(0,0,0, pos, iWave, NULL, &ad);
-/*
+  s = ap_Play_Sound(0,0,0, pos, iWave, NULL, &ad);
+
 	if(bStoneSound && s != -1)
 		adas_Queue_Sound(s, 164);
 
 	if(bQueue && s != -1)
 		for(i=0;i<Num;i++)
 			adas_Queue_Sound(s, iWave);
-*/
 }
 
 int GetStep(LEVELINFO * p_Level)
@@ -475,7 +472,7 @@ void PlaySteps(LEVELINFO * p_Level, OBJECTDESC * pObj, float *pos,
   if (pObj->Class == 12) {
     int rnd = rand() % 4;
 
-//              ap_Play_Sound(0,0,0, pos, rnd+77, NULL, &ad);
+    ap_Play_Sound(0,0,0, pos, rnd+77, NULL, &ad);
     return;
   }
 
@@ -681,15 +678,14 @@ void anmend_Steps(int param, int param2, void *p_param)
     else {
       int idx = GetStep(p_Level);
 
-//                      s = ap_Play_Sound(0,0,0, pos, idx, NULL, &ad);
-/*
+      s = ap_Play_Sound(0,0,0, pos, idx, NULL, &ad);
+
 			if(p_Level->bStoneSound && s != -1)
 				adas_Queue_Sound(s, 164);
 
 			if(pStruct->bParam && s != -1)
 				for(i=0;i<(pStruct->bParam - pStruct->viParam1[1]);i++)
 					adas_Queue_Sound(s, idx);
-*/
     }
   }
 
@@ -742,11 +738,9 @@ void anmend_Steps2(int param, int param2, void *p_param)
           1, 0, 0);
     }
     else {
-//                      s = ap_Play_Sound(0,0,0, pos, 35, NULL, &ad);
-      /*
-         if(pStruct->bParam && s != -1)
+      s = ap_Play_Sound(0,0,0, pos, 35, NULL, &ad);
+      if(pStruct->bParam && s != -1)
          adas_Queue_Sound(s, 35);
-       */
     }
   }
 
@@ -799,15 +793,13 @@ void anmend_StepsSikmina(int param, int param2, void *p_param)
           pStruct->bParam, 0, 0);
     }
     else {
-//                      s = ap_Play_Sound(0,0,0, pos, 35, NULL, &ad);
-/*
+      s = ap_Play_Sound(0,0,0, pos, 35, NULL, &ad);
 			if(p_Level->bStoneSound && s != -1)
 				adas_Queue_Sound(s, 164);
 
 			if(pStruct->bParam && s != -1)
 				for(i=0;i<(pStruct->bParam);i++)
 					adas_Queue_Sound(s, 35);
-*/
     }
   }
 
@@ -845,14 +837,14 @@ void anmend_Water(int param, int param2, void *p_param)
 
   switch (param) {
     case 0:
-//              ap_Play_Sound(0,0,0, pos, rnd+37, NULL, &ad);   
-//              ap_Play_Sound(0,0,0, pos, rnd+40+rndp, NULL, &ad);      
+      ap_Play_Sound(0,0,0, pos, rnd+37, NULL, &ad);
+      ap_Play_Sound(0,0,0, pos, rnd+40+rndp, NULL, &ad);
       break;
     case 1:
-//              ap_Play_Sound(0,0,0, pos, rnd+37, NULL, &ad);   
+      ap_Play_Sound(0,0,0, pos, rnd+37, NULL, &ad);
       break;
     case 2:
-//              ap_Play_Sound(0,0,0, pos, rnd+40+rndp, NULL, &ad);      
+      ap_Play_Sound(0,0,0, pos, rnd+40+rndp, NULL, &ad);
       break;
   }
 
@@ -913,7 +905,7 @@ void anmend_WaterLift(int param, int param2, void *p_param)
 /*	if(i != -1)
 		p_Level->VodniKola[i].hHnizdo[1] = 1;*/
 
-//      ap_Play_Sound(0,0,0, fvpos, rnd+74, NULL, &ad);
+  ap_Play_Sound(0,0,0, fvpos, rnd+74, NULL, &ad);
 
   free((void *) pStruct);
 }
@@ -935,19 +927,19 @@ void anmend_Item_Fall(int param, int param2, void *p_param)
   rot = rand() % 2;
   switch (p_itm->p_Object->SubClass) {
     case 0:
-//              ap_Play_Sound(0,0,0, pos, 48, NULL, &ad);       
+      ap_Play_Sound(0,0,0, pos, 48, NULL, &ad);       
       break;
     case 1:
-//              ap_Play_Sound(0,0,0, pos, 44, NULL, &ad);       
+      ap_Play_Sound(0,0,0, pos, 44, NULL, &ad);       
       break;
     case 4:
-//              ap_Play_Sound(0,0,0, pos, 45, NULL, &ad);       
+      ap_Play_Sound(0,0,0, pos, 45, NULL, &ad);       
       break;
     case 7:
-//              ap_Play_Sound(0,0,0, pos, 47, NULL, &ad);       
+      ap_Play_Sound(0,0,0, pos, 47, NULL, &ad);       
       break;
     case 8:
-//              ap_Play_Sound(0,0,0, pos, 46, NULL, &ad);       
+      ap_Play_Sound(0,0,0, pos, 46, NULL, &ad);       
       break;
     case 9:
     case 10:
@@ -956,7 +948,7 @@ void anmend_Item_Fall(int param, int param2, void *p_param)
     case 13:
     case 14:
     case 15:
-//              ap_Play_Sound(0,0,0, pos, 100+rot, NULL, &ad);  
+      ap_Play_Sound(0,0,0, pos, 100+rot, NULL, &ad);  
       break;
   }
 
@@ -1022,12 +1014,12 @@ void anmend_Take_Item(int param, int param2, void *p_param)
 			pStruct->p_Level->Level[pStruct->p_Level->Actual_Item]);*/
 
   kom_mesh_get_float(param, &pos[0], &pos[1], &pos[2], &rot);
-/*
+
 	if(param2 == 3 || param2 == 5)
 		ap_Play_Sound(0,0,0, pos, 53, NULL, &ad);
 	else
 		ap_Play_Sound(0,0,0, pos, 52, NULL, &ad);
-*/
+
   if (pStruct->p_Level->Item[pStruct->iParam].Square.Flek.pFlek) {
     kom_flek_zrus(pStruct->p_Level->Item[pStruct->iParam].Square.Flek.pFlek);
     pStruct->p_Level->Item[pStruct->iParam].Square.Flek.pFlek = 0;
@@ -1066,8 +1058,8 @@ void anmend_Kamen(int param, int param2, void *p_param)
   if (p_itm->p_Object->Specific[rot].Index == -1)
     rot = 0;
 
-  //if(p_itm->p_Object->Specific[rot].Index != -1)
-  //ap_Play_Sound(0,0,0, fpos, p_itm->p_Object->Specific[rot].Index, NULL, &ad);                                                          
+  if(p_itm->p_Object->Specific[rot].Index != -1)
+    ap_Play_Sound(0,0,0, fpos, p_itm->p_Object->Specific[rot].Index, NULL, &ad);                                                          
 
 
   gl_Destroy_Item(param, 0, p_Level);
@@ -1141,7 +1133,7 @@ void anmend_Tlacitko(int param, int param2, void *p_param)
   if (p_itm->p_Object->Specific[rot].Index == -1)
     return;
 
-//      ap_Play_Sound(0,0,0, pos, p_itm->p_Object->Specific[rot].Index, NULL, &ad);
+  ap_Play_Sound(0,0,0, pos, p_itm->p_Object->Specific[rot].Index, NULL, &ad);
 }
 
 void anmend_Teleport(int param, int param2, void *p_param)
@@ -1285,7 +1277,7 @@ void anmend_TeleportStart(int param, int param2, void *p_param)
   if (p_tel->p_Object->Specific[rot].Index == -1)
     return;
 
-//      ap_Play_Sound(0,0,0, pos, p_tel->p_Object->Specific[rot].Index, NULL, &ad);
+  ap_Play_Sound(0,0,0, pos, p_tel->p_Object->Specific[rot].Index, NULL, &ad);
 }
 
 void anmend_Exit(int param, int param2, void *p_param)
@@ -1294,8 +1286,8 @@ void anmend_Exit(int param, int param2, void *p_param)
 
   am_Do_Exit(param, param2, p_Level);
 
-//      lani_set(param, 0, K_CHYBA, &p_Level->TrashFlag,0,0,0);
-//      kom_zrus_prvek(param);
+  lani_set(param, 0, K_CHYBA, &p_Level->TrashFlag,0,0,0);
+  kom_zrus_prvek(param);
 }
 
 void anmend_Lift_Item(int param, int param2, void *p_param)
@@ -1332,7 +1324,7 @@ void anmend_kom_mesh_set_meshK(int param, int param2, void *p_param)
 
   kom_mesh_get_float(param, &pos[0], &pos[1], &pos[2], &rot);
 
-//      ap_Play_Sound(0,0,0, pos, 162 + (rand()%2), NULL, &ad);
+  ap_Play_Sound(0,0,0, pos, 162 + (rand()%2), NULL, &ad);
   kom_mesh_set_mesh(param, param2, (int) p_param);
   lani_set(param, 0, 0, &Level.TrashFlag, 0, 0, 0);
 }
