@@ -2835,7 +2835,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=berusky2
- VERSION=0.5
+ VERSION=0.6
 
 
 cat >>confdefs.h <<_ACEOF

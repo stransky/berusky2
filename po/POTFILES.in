@@ -328,8 +328,8 @@ src/kofola/audio_plug-in.cpp
 src/kofola/audio_plug-in.h
 src/adas/3d_math_k.c
 src/adas/3d_math_k.h
-src/adas/Adas.c
-src/adas/Adas.h
+src/adas/adas.c
+src/adas/adas.h
 src/adas/adas_types.h
 src/adas/ogg_io.c
 src/adas/ogg_io.h
