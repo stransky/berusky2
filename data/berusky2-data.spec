@@ -1,57 +1,58 @@
-%define game_name berusky2
+%global game_name berusky2
 
 Summary:        A datafile for Berusky
 Name:           berusky2-data
-Version:        0.4
+Version:        0.6
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          Amusements/Games
-Source:         http://www.anakreon.cz/download/%{name}-%{version}.tar.gz
+Source:         http://downloads.sourceforge.net/%{game_name}/%{name}-%{version}.tar.bz2
 URL:            http://www.anakreon.cz/en/Berusky2.htm
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
+
 %description
-Berusky 2 is a game that challenges your visual/spatial thinking and ability
-to find a way to resolve a logic task. Using five bugs, you'll go
-through an adventure full of various puzzles spread across nine episodes.
+This package contains the game data for %{game_name}, i.e. files with graphics,
+levels, game rules and configuration.
 
-Individual episodes differ in appearance and difficulty,
-which increases throughout the game.
-
-This package contains a data for the game, i.e. files with graphics, levels,
-game rules and configuration.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q
 
-%build
 
 %install
-rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_datadir}/%{game_name}
 
-mv bitmap  %{buildroot}%{_datadir}/%{game_name}
-mv data %{buildroot}%{_datadir}/%{game_name}
-mv game %{buildroot}%{_datadir}/%{game_name}
-mv game_data %{buildroot}%{_datadir}/%{game_name}
-mv items %{buildroot}%{_datadir}/%{game_name}
-mv materials %{buildroot}%{_datadir}/%{game_name}
-mv out %{buildroot}%{_datadir}/%{game_name}
-mv textures %{buildroot}%{_datadir}/%{game_name}
+mv bitmap \
+   data \
+   game \
+   game_data \
+   items \
+   materials \
+   out \
+   textures \
+   music \
+   sound \
+   %{buildroot}%{_datadir}/%{game_name}
 
-%clean
-rm -rf %{buildroot}
 
 %files
-%defattr(-, root, root)
-%dir %{_datadir}/%{game_name}
-%{_datadir}/%{game_name}/*
+%{_datadir}/%{game_name}
+
 
 %changelog
+* Sun Mar 4 2012 Martin Stransky <stransky@redhat.com> 0.6-1
+- new upstream tarball
+
+* Thu Jan 12 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
+* Tue Aug 30 2011 Martin Stransky <stransky@redhat.com> 0.5-1
+- new upstream tarball
+- spec clean up (by Richard Shaw)
+
 * Sat Aug 20 2011 Martin Stransky <stransky@redhat.com> 0.4-1
 - ini file and save/profile dir were moved to binary package
 
 * Mon Aug 15 2011 Martin Stransky <stransky@redhat.com> 0.3-1
 - initial build
-
