@@ -341,6 +341,15 @@ void apakclose(APAK_HANDLE * pHandle)
   free((void *) pHandle);
 }
 
+void apak_dir_correction(char *dir, char *out)
+{
+  if(dir && tolower(dir[0]) != 'c' && dir[1] != ':') {
+    out[0] = 'c';
+    out[1] = ':';
+    strcpy(out+2, dir);
+  }
+}
+
 char * apak_dir_correction(char *dir)
 {
   static char tmp[MAX_PATH] = "c:";
@@ -350,13 +359,4 @@ char * apak_dir_correction(char *dir)
   assert(strlen(dir) < 254);
   strcat(tmp+2, dir);
   return(tmp);
-}
-
-void apak_dir_correction(char *dir, char *out)
-{
-  if(dir && tolower(dir[0]) != 'c' && dir[1] != ':') {
-    out[0] = 'c';
-    out[1] = ':';
-    strcpy(out+2, dir);
-  }
 }
