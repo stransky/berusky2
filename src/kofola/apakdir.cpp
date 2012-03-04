@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <limits.h>
 #include "Apak.h"
 
 extern void apakError(APAK_HANDLE * pHandle, char *cError);
@@ -82,10 +83,13 @@ int achdir(APAK_HANDLE * pHandle, const char *dirname)
   if (!pHandle)
     return chdir((dirname));
 
-  pNode = pHandle->pActualNode;
-
+  pNode = pHandle->pActualNode;  
+  
+  char tmp_dir[PATH_MAX];
+  apak_dir_correction(dirname, tmp_dir);
+  
   while (i != -1) {
-    i = apakParsechdir(i, (char *) dirname, cExpression);
+    i = apakParsechdir(i, (char *) tmp_dir, cExpression);
     if (i == -1)
       break;
 

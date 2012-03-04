@@ -263,7 +263,7 @@ inline void null_free(void **p_mem)
   }
 }
 
-void apak_dir_correction(char *dir);
+char * apak_dir_correction(char *dir);
 
 wchar_t *wchar_windows_to_linux(word * p_in, int bytes_in_len);
 void wchar_windows_to_linux(word * p_in, int str_len, wchar_t * p_out);

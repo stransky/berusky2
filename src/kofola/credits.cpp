@@ -230,8 +230,6 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 	GetPrivateProfileString("game","bitmap_dir","c:\\",text,255,ini_file);
   working_file_translate(text,256);
 	chdir((text));
-
-  apak_dir_correction(text);
 	hArchive = apakopen(cFontFile[2], text, &error);
 
 	if(!hArchive)
@@ -493,7 +491,6 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
   working_file_translate(text,255);
 	chdir((text));
 
-  apak_dir_correction(text);
 	hArchive = apakopen(cFontFile[2], text, &error);
 	
 	if(!hArchive)

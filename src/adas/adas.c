@@ -4,6 +4,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 #include "3d_math.h"
 #include "adas.h"
 #include "compat_mini.h"
@@ -327,12 +328,13 @@ void adas_Exit(void)
   alutExit();
   
   alcDestroyContext(p_Context);
-  alcCloseDevice(p_Device);
-
   p_Context = 0;
+  
+  alcCloseDevice(p_Device);
   p_Device = 0;
 
   free((void *)SoundSource);
+  SoundSource = NULL;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -366,11 +368,9 @@ unsigned long adas_Load_First(char *p_Index_File, char *p_File_Name)
     return 0;
   }
 
-
   fgets(data, 100, file);
   Size_of_Indexes = atoi(data);
-  WaveFile =
-    (ADAS_WAVEFILEDESC *) malloc(Size_of_Indexes * sizeof(ADAS_WAVEFILEDESC));
+  WaveFile = (ADAS_WAVEFILEDESC *) malloc(Size_of_Indexes * sizeof(ADAS_WAVEFILEDESC));
   if (!WaveFile) {
     adas_Set_Last_Error("Out of memory");
     fclose(file);
@@ -458,8 +458,7 @@ unsigned long adas_Load_FirstMemory(char *p_Index_File, void *p_File,
 
   fgets(data, 100, file);
   Size_of_Indexes = atoi(data);
-  WaveFile =
-    (ADAS_WAVEFILEDESC *) mmalloc(Size_of_Indexes *
+  WaveFile = (ADAS_WAVEFILEDESC *) mmalloc(Size_of_Indexes *
                                   sizeof(ADAS_WAVEFILEDESC));
   if (!WaveFile) {
     adas_Set_Last_Error("Out of memory");
@@ -622,11 +621,17 @@ void adas_Release_Loaded_Data(void)
   for (i = 0; i < Size_of_Sound_Data; i++)
     alDeleteBuffers(1, &SoundData[i].Buffer);
 
-  if (WaveFile)
+  assert(WaveFile);
+  
+  if (WaveFile) {
     free((void *)WaveFile);
+    WaveFile = NULL;
+  }
 
-  if (SoundData)
+  if (SoundData) {
     free((void *)SoundData);
+    SoundData = NULL;
+  }
 }
 
 //------------------------------------------------------------------------------------------------

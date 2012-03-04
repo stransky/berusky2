@@ -2613,11 +2613,9 @@ void RunStretchAnimation(char *cScene, int x, int y, AUDIO_DATA * p_ad)
   char cDir[MAX_PATH];
 
   if (iLanguageVersion == 4) {
-    GetPrivateProfileString("game", "bitmap_dir", "c:\\", cDir, MAX_PATH,
-      ini_file);
+    GetPrivateProfileString("game", "bitmap_dir", "c:\\", cDir, MAX_PATH, ini_file);
     working_file_translate(cDir, MAX_PATH);
-    sprintf(cFile, "%s%cscene%d.pak", cDir, DIR_SLASH, iActualScene);
-    apak_dir_correction(cDir);
+    sprintf(cFile, "%s%cscene%d.pak", cDir, DIR_SLASH, iActualScene);    
     hArchive = apakopen(cFile, cDir, &idx);
 
     if (!hArchive) {
@@ -3435,7 +3433,6 @@ void LoadSceneMap(int *pBmp, char *cSceneBmp, char *cSceneAnim, int iScene,
       ini_file);
     working_file_translate(cDir, MAX_PATH);
     sprintf(cFile, "%s%cscene%d.pak", cDir, DIR_SLASH, iScene);
-    apak_dir_correction(cDir);
     hArchive = apakopen(cFile, cDir, &i);
 
     if (!hArchive) {
@@ -8299,7 +8296,6 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
       ini_file);
     working_file_translate(cDir, MAX_PATH);
     sprintf(cFile, "%s%cscene%d.pak", cDir, DIR_SLASH, iScene);
-    apak_dir_correction(cDir);
     hArchive = apakopen(cFile, cDir, &idx);
 
     if (!hArchive) {

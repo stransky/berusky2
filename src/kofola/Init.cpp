@@ -32,8 +32,7 @@ int lsi_Load_Items(LEVELINFO * p_Level)
 
   strcpy(text, "*.itm");
   Count = 0;
-
-  apak_dir_correction(dir);
+  
   aHandle = apakopen("items.pak", dir, &error);
 
   if (!aHandle) {

@@ -417,7 +417,6 @@ int fn_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *cAppName,
   working_file_translate(text, 256);
   chdir((text));
 
-  apak_dir_correction(text);
   (*pAHandle) = apakopen(cFile, text, &e);
 
   if (!(*pAHandle)) {

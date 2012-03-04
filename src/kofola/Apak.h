@@ -70,7 +70,7 @@ FILE *afiletoswitch(FILE * stream);
 // testuje zda je textovy soubor v uni code
 int aunicode(FILE * stream);
 
-// from compat.h
-void apak_dir_correction(char *dir);
+char * apak_dir_correction(char *dir);
+void apak_dir_correction(char *dir, char *out);
 
 #endif

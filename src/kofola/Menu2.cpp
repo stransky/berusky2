@@ -4148,7 +4148,6 @@ void RunMenuLoadScreen2(void)
         ini_file);
       working_file_translate(cDir, MAX_PATH);
       sprintf(cFile, "%s%cscene%d.pak", cDir, DIR_SLASH, iActualScene);
-      apak_dir_correction(cDir);
       hArchive = apakopen(cFile, cDir, &sh);
 
       if (!hArchive) {

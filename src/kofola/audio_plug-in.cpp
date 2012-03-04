@@ -55,30 +55,27 @@ void ap_Release(AUDIO_DATA * p_ad)
 //------------------------------------------------------------------------------------------------
 // Load sample from APAK
 //------------------------------------------------------------------------------------------------
-void ap_Load_Sample(int iCount, char *cFile)
+int ap_Load_Sample(int iCount, char *cFile)
 {
   char *pMem;
   apuInt size;
   FILE *file;
 
   if (!cFile)
-    return;
+    return(FALSE);
 
   file = aopen(pSndArchive, cFile, "rb");
-
   if (!file) {
     kprintf(1, "%s: %s", cFile, pSndArchive->cError);
-    return;
+    return(FALSE);
   }
 
   agetbuffer(file, &pMem, &size);
 
-  if (!iCount)
-    adas_Load_FirstMemory("index.dat", pMem, size, cFile);
-  else
-    adas_Load_NextMemory(pMem, size, cFile);
-
+  int ret = (!iCount) ? adas_Load_FirstMemory("index.dat", pMem, size, cFile):
+                        adas_Load_NextMemory(pMem, size, cFile);
   aclose(file);
+  return(ret);
 }
 
 //------------------------------------------------------------------------------------------------
@@ -96,9 +93,7 @@ int ap_Load_Sound_List(AUDIO_DATA * p_ad, char *cFile, int iStart)
   if (!strlen(cFile))
     return 0;
   
-  apak_dir_correction(p_ad->Sound_Dir);
   achdir(pSndArchive, p_ad->Sound_Dir);
-
   file = aopen(pSndArchive, cFile, "r");
   if (!file) {
     kprintf(1, "Play list file not found");
@@ -117,7 +112,10 @@ int ap_Load_Sound_List(AUDIO_DATA * p_ad, char *cFile, int iStart)
       break;
     else {
       newline_cut(text);
-      ap_Load_Sample(c, text);
+      if(!ap_Load_Sample(c, text)) {
+        // Loading failed - stop it
+        break;
+      }
       c++;
     }
   }

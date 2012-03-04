@@ -46,7 +46,6 @@ int gi_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *cAppName,
   working_file_translate(text, 256);
   chdir((text));
 
-  apak_dir_correction(text);
   (*pAHandle) = apakopen(cFile, text, &e);
 
   if (!(*pAHandle)) {
@@ -290,34 +289,30 @@ int gi_EnumDisplaySettings(DEVMODE *pdevmode)
 	return EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, pdevmode);
 }
 */
-
-void gi_APAK_Load(unsigned long mem, struct _finddata_t *pData)
+/*
+int gi_APAK_Load(unsigned long mem, struct _finddata_t *pData)
 {
 	char *pMem;
 	apuInt size;
 	FILE *file;
 	
 	if(!pData)
-		return;
+		return(FALSE);
 
 	file = aopen(pSndArchive, pData->name,"rb");
-
-	if(!file)
-	{
+	if(!file)	{
 		kprintf(1, "%s: %s", pData->name, pSndArchive->cError);
-		return;
+		return(FALSE);
 	}
 
 	agetbuffer(file, &pMem, &size);
 
-	if(!mem)
-		adas_Load_FirstMemory("index.dat",pMem,size,pData->name);
-	else
-		adas_Load_NextMemory(pMem, size, pData->name);
-
+	int ret = (!mem) ? adas_Load_FirstMemory("index.dat",pMem,size,pData->name) :
+                     adas_Load_NextMemory(pMem, size, pData->name);
 	aclose(file);
+  return(ret);
 }
-
+*/
 //------------------------------------------------------------------------------------------------
 // nahodi sound engine
 //------------------------------------------------------------------------------------------------
@@ -404,7 +399,6 @@ void gi_Init_Sound_Engine(AUDIO_DATA *p_ad)
 
 			p_ad->bAudio = 1;
 			chdir(init_data.Sound_Dir);
-      apak_dir_correction(init_data.Sound_Dir);
 			achdir(pSndArchive, init_data.Sound_Dir);
 
 			ap_Load_Sound_List(p_ad, "basicset.dat", 0);
