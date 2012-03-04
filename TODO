@@ -1,9 +1,10 @@
-
+- rozdelit ini soubory na 2? nastaveni uzivatelu + globalni datove soubory?
 
 - klikani mysi do obrazovky
 - nefunguji animace!! (z menu)
   - nikde!! (ani ve fedore) -> chyba v ini souboru??
 - ESC -> nefunguje exit
+- nefunguje pruhledne veci - stopy, flares a podobne
 
 int ddxInit(void)
 //TODO

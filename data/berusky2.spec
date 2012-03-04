@@ -1,23 +1,21 @@
 Name:           berusky2
-Version:        0.3
-Release:        3%{?dist}
+Version:        0.6
+Release:        1%{?dist}
 License:        GPLv2+
 Summary:        Sokoban clone
 Group:          Amusements/Games
 Source:         http://www.anakreon.cz/download/%{name}-%{version}.tar.gz
-Source1:        berusky2.desktop
-Source2:        berusky2.png
-Source3:        berusky3d.ini
 URL:            http://www.anakreon.cz/en/Berusky2.htm
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires:       berusky2-data >= 0.4
-Requires:       SDL
-Requires:       SDL_image
+
+Requires:       berusky2-data >= 0.5
 BuildRequires:  SDL-devel
 BuildRequires:  SDL_image-devel
 BuildRequires:  gtk2-devel
 BuildRequires:  desktop-file-utils
-ExclusiveArch:  %{ix86}
+BuildRequires:  freealut-devel
+BuildRequires:  openal-soft-devel
+BuildRequires:  libvorbis-devel
+ExclusiveArch:  %{ix86} x86_64
 
 %description
 Berusky 2 is a game that challenges your visual/spatial thinking
@@ -30,34 +28,33 @@ which increases throughout the game.
 %setup -q
 
 %build
-%configure \
-    CFLAGS="$RPM_OPT_FLAGS"
+%configure CFLAGS="$RPM_OPT_FLAGS"
 
 make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
 make DESTDIR=%{buildroot} install
 
-mkdir -p %{buildroot}/%{_docdir}/%{name}-%{version}
+# Move documentation so it can get installed to the right place.
+mkdir _tmpdoc
+mv %{buildroot}%{_usr}/doc/%{name}/* _tmpdoc/
+rm -f _tmpdoc/INSTALL
 
-pushd %{buildroot}/usr/doc/%{name}
-mv * %{buildroot}%{_docdir}/%{name}-%{version}
-popd
-
-mkdir -p %{buildroot}/var/games/%{name}
-install -m 644 %{SOURCE3} %{buildroot}/var/games/%{name}
-
-rm -rf %{buildroot}/%{_datadir}/%{name}
+# Install ini file
+mkdir -p %{buildroot}%{_var}/games/%{name}
+install -pm 644 %{buildroot}/%{_datadir}/%{name}/berusky3d.ini \
+                %{buildroot}%{_var}/games/%{name}
 
 # Install icon and desktop file
 mkdir -p %{buildroot}/%{_datadir}/icons/hicolor/32x32/apps
-cp %{SOURCE2} %{buildroot}/%{_datadir}/icons/hicolor/32x32/apps
+cp -p %{buildroot}/%{_datadir}/%{name}/berusky2.png \
+      %{buildroot}/%{_datadir}/icons/hicolor/32x32/apps
 
-desktop-file-install --dir %{buildroot}/%{_datadir}/applications --add-category X-Fedora %{SOURCE1}
+desktop-file-install --dir %{buildroot}/%{_datadir}/applications \
+                     --add-category X-Fedora %{buildroot}/%{_datadir}/%{name}/berusky2.desktop
 
-%clean
-rm -rf %{buildroot}
+# Remove directory that will be owned by data package.
+rm -rf %{buildroot}/%{_datadir}/%{name}
 
 %post
 touch --no-create %{_datadir}/icons/hicolor || :
@@ -72,15 +69,27 @@ if [ -x %{_bindir}/gtk-update-icon-cache ]; then
 fi
 
 %files
-%doc %dir %{_docdir}/%{name}-%{version}
-%doc %{_docdir}/%{name}-%{version}/*
+%doc _tmpdoc/*
 %{_bindir}/berusky2
 %{_datadir}/applications/berusky2.desktop
 %{_datadir}/icons/hicolor/32x32/apps/berusky2.png
-%dir /var/games/%{name}
-/var/games/%{name}/*
+%dir %{_var}/games/%{name}
+%{_var}/games/%{name}/*
 
 %changelog
+* Sun Mar 4 2012 Martin Stransky <stransky@redhat.com> 0.6-1
+- Updated to 0.6
+
+* Thu Jan 12 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
+* Wed Sep 7 2011 Martin Stransky <stransky@redhat.com> 0.5-1
+- Updated to 0.5
+
+* Tue Aug 30 2011 Martin Stransky <stransky@redhat.com> 0.4-1
+- new upstream version
+- spec clean-up (by Richard Shaw)
+
 * Mon Aug 22 2011 Martin Stransky <stransky@redhat.com> 0.3-3
 - spec polished
 
