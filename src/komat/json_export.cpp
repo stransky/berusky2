@@ -26,19 +26,19 @@
  */
 #include "3d_all.h"
 #include "json_export.h"
+#include <string>
 
 FILE * export_file = NULL;
 
 void json_export_matrix(FILE *f, GLMATRIX *p_matrix, const char *p_name)
 {
   fprintf(f,"{\n");
-  fprintf(f," \"type\" : \"matrix\",\n");
-  fprintf(f," \"name\" : \"%s\",\n", p_name);
-  fprintf(f," \"x-vector\" : [ %f, %f, %f, %f ],\n", p_matrix->_11,p_matrix->_21,p_matrix->_31,p_matrix->_41);
-  fprintf(f," \"y-vector\" : [ %f, %f, %f, %f ],\n", p_matrix->_12,p_matrix->_22,p_matrix->_32,p_matrix->_42);
-  fprintf(f," \"z-vector\" : [ %f, %f, %f, %f ],\n", p_matrix->_13,p_matrix->_23,p_matrix->_33,p_matrix->_43);
-  fprintf(f," \"w-vector\" : [ %f, %f, %f, %f ],\n", p_matrix->_14,p_matrix->_24,p_matrix->_34,p_matrix->_44);
-  fprintf(f,"}\n");
+  fprintf(f,"    \"name\" : \"%s\",\n", p_name);
+  fprintf(f,"    \"x-vector\" : [ %f, %f, %f, %f ],\n", p_matrix->_11,p_matrix->_21,p_matrix->_31,p_matrix->_41);
+  fprintf(f,"    \"y-vector\" : [ %f, %f, %f, %f ],\n", p_matrix->_12,p_matrix->_22,p_matrix->_32,p_matrix->_42);
+  fprintf(f,"    \"z-vector\" : [ %f, %f, %f, %f ],\n", p_matrix->_13,p_matrix->_23,p_matrix->_33,p_matrix->_43);
+  fprintf(f,"    \"w-vector\" : [ %f, %f, %f, %f ]\n", p_matrix->_14,p_matrix->_24,p_matrix->_34,p_matrix->_44);
+  fprintf(f,"  },\n");
 }
 
 void json_export_texture(FILE *f, EDIT_TEXT *p_text)
@@ -53,15 +53,24 @@ void json_export_texture(FILE *f, EDIT_TEXT *p_text)
 void json_export_material(FILE *f, EDIT_MATERIAL *p_mat)
 {
   fprintf(f,"{\n");
-  fprintf(f," \"type\" : \"material\",\n");
-  fprintf(f," \"name\" : \"%s\",\n", p_mat->jmeno);
-
+  fprintf(f,"  \"type\" : \"material\",\n");
+  fprintf(f,"  \"name\" : \"%s\",\n", p_mat->jmeno);
+  fprintf(f,"  \"textures\" : [ ");
   int i;
   for(i = 0; i < MAT_TEXTUR; i++) {
-    fprintf(f," \"texture%d\": \"%s\",\n", i, p_mat->textfile[i]);
+    std::string text;
+    text.append(p_mat->textfile[i]);
+    if(text.compare("")){
+      if(i == 0){
+        fprintf(f,"\"%s\"", p_mat->textfile[i]);
+      } 
+      else{
+        fprintf(f,", \"%s\"", p_mat->textfile[i]);
+      }
+     }
   }
-
-  fprintf(f,"}\n");
+  fprintf(f," ]\n");
+  fprintf(f,"}");
 }
 
 void json_export_materialy(FILE *f, EDIT_MATERIAL ** p_mat, int max_mat)
@@ -70,6 +79,7 @@ void json_export_materialy(FILE *f, EDIT_MATERIAL ** p_mat, int max_mat)
   for(i = 0; i < max_mat; i++) {
     if(p_mat[i]) {
       json_export_material(f,p_mat[i]);
+      if(i + 1 < max_mat) fprintf(f, ",\n");
     }
   }
 }
@@ -127,14 +137,13 @@ typedef struct _EDIT_OBJEKT
 void json_export_object(FILE *f, EDIT_OBJEKT *p_obj, 
                         EDIT_MATERIAL ** p_mat, int max_mat)
 {
-  fprintf(f,"{\n");
-  fprintf(f," \"type\" : \"geometry_object\",\n");
-  fprintf(f," \"name\" : \"%s\",\n", p_obj->jmeno);
-  fprintf(f," \"name_parent\" : \"%s\",\n", p_obj->jmeno_parent);
-  fprintf(f," \"object_id\" : \"%d\",\n", p_obj->Objekt_ID);
-  fprintf(f," \"material\" : \"%s\",\n", p_mat[p_obj->material]->jmeno);
+  fprintf(f,"   {\n");
+  fprintf(f,"    \"name\" : \"%s\",\n", p_obj->jmeno);
+  fprintf(f,"    \"name_parent\" : \"%s\",\n", p_obj->jmeno_parent);
+  fprintf(f,"    \"object_id\" : \"%d\",\n", p_obj->Objekt_ID);
+  fprintf(f,"    \"material\" : \"%s\",\n", p_mat[p_obj->material]->jmeno);
 
-  fprintf(f," \"vertexPositions\" : [");
+  fprintf(f,"    \"vertexPositions\" : [");
   int i;
   for(i = 0; i < p_obj->vertexnum-1; i++) {
     fprintf(f,"%f,%f,%f,",p_obj->p_vertex[i].x,p_obj->p_vertex[i].y,p_obj->p_vertex[i].z);
@@ -144,7 +153,7 @@ void json_export_object(FILE *f, EDIT_OBJEKT *p_obj,
                        p_obj->p_vertex[p_obj->vertexnum-1].z);
   fprintf(f,"],\n");
 
-  fprintf(f," \"vertexNormals\" : [");
+  fprintf(f,"    \"vertexNormals\" : [");
   for(i = 0; i < p_obj->vertexnum-1; i++) {
     fprintf(f,"%f,%f,%f,",p_obj->p_vertex[i].nx,p_obj->p_vertex[i].ny,p_obj->p_vertex[i].nz);
   }
@@ -153,7 +162,7 @@ void json_export_object(FILE *f, EDIT_OBJEKT *p_obj,
                        p_obj->p_vertex[p_obj->vertexnum-1].nz);
   fprintf(f,"],\n");
 
-  fprintf(f," \"vertexTextureCoords0\" : [");
+  fprintf(f,"    \"vertexTextureCoords0\" : [");
   for(i = 0; i < p_obj->vertexnum-1; i++) {
     fprintf(f,"%f,%f,",p_obj->p_vertex[i].tu1,p_obj->p_vertex[i].tv1);
   }
@@ -161,7 +170,7 @@ void json_export_object(FILE *f, EDIT_OBJEKT *p_obj,
                     p_obj->p_vertex[p_obj->vertexnum-1].tv1);
   fprintf(f,"],\n");
 
-  fprintf(f," \"vertexTextureCoords1\" : [");
+  fprintf(f,"    \"vertexTextureCoords1\" : [");
   for(i = 0; i < p_obj->vertexnum-1; i++) {
     fprintf(f,"%f,%f,",p_obj->p_vertex[i].tu2,p_obj->p_vertex[i].tv2);
   }
@@ -169,34 +178,42 @@ void json_export_object(FILE *f, EDIT_OBJEKT *p_obj,
                     p_obj->p_vertex[p_obj->vertexnum-1].tv2);
   fprintf(f,"],\n");
 
-  fprintf(f," \"indices\" : [");
+  fprintf(f,"    \"indices\" : [");
   for(i = 0; i < p_obj->facenum-1; i++) {
     fprintf(f,"%d,",p_obj->p_face[i]);
   }
   fprintf(f,"%d",p_obj->p_face[p_obj->facenum-1]);
-  fprintf(f,"],\n");
+  fprintf(f,"]\n");
 
-  fprintf(f,"}\n");
+  fprintf(f,"   }");
 }
 
 void json_export_kont(FILE *f, EDIT_KONTEJNER *p_kont, 
                       EDIT_MATERIAL ** p_mat, int max_mat)
 {
   fprintf(f,"{\n");
-  fprintf(f," \"type\" : \"geometry_container\",\n");
-  fprintf(f," \"name\" : \"%s\",\n", p_kont->jmeno);
-  fprintf(f," \"object_id\" : \"%d\",\n", p_kont->kontejner_ID);
-
+  fprintf(f,"  \"type\" : \"geometry_container\",\n");
+  fprintf(f,"  \"name\" : \"%s\",\n", p_kont->jmeno);
+  fprintf(f,"  \"object_id\" : \"%d\",\n", p_kont->kontejner_ID);
+  fprintf(f,"  \"matrix\" : ");
   json_export_matrix(f, &p_kont->world, "world");
 
+  fprintf(f,"  \"geometry_objects\" : [\n");
   int i;
   for(i = 0; i < MAX_KONT_OBJEKTU; i++) {
     if(p_kont->p_obj[i]) {
+      if(i != 0){
+        fprintf(f, ",\n");
+      }
       json_export_object(f,p_kont->p_obj[i], p_mat, max_mat);
+      //if(i + 1 < MAX_KONT_OBJEKTU){
+      //  fprintf(f, ",");
+      //}
     }
   }
+  fprintf(f,"\n  ]\n");
 
-  fprintf(f,"}\n");
+  fprintf(f,"}");
 }
 
 void json_export_kontejnery(FILE *f, EDIT_KONTEJNER **p_kont, int max_kont,
@@ -205,6 +222,7 @@ void json_export_kontejnery(FILE *f, EDIT_KONTEJNER **p_kont, int max_kont,
   int i;
   for(i = 0; i < max_kont; i++) {
     if(p_kont[i]) {
+      if(i != 0) { fprintf(f, ",\n"); }
       json_export_kont(f,p_kont[i], p_mat, max_kont);
     }
   }
@@ -267,20 +285,21 @@ void json_export_poly(FILE *f, EDIT_MESH_POLY *p_poly,
                       EDIT_MATERIAL ** p_mat, int max_mat)
 {
   fprintf(f,"{\n");
-  fprintf(f," \"type\" : \"geometry_container\",\n");
-  fprintf(f," \"name\" : \"%s\",\n", p_poly->jmeno);
-  fprintf(f," \"object_id\" : \"%d\",\n", -1);
+  fprintf(f,"  \"type\" : \"geometry_container\",\n");
+  fprintf(f,"  \"name\" : \"%s\",\n", p_poly->jmeno);
+  fprintf(f,"  \"object_id\" : \"%d\",\n", -1);
 
   GLMATRIX m;
   init_matrix(&m);
+  fprintf(f,"  \"matrix\" : ");
   json_export_matrix(f, &m, "world");
+  
+  fprintf(f,"  \"geometry_objects\" : [\n");
+  fprintf(f,"   {\n");
+  fprintf(f,"    \"name\" : \"%s\",\n", p_poly->jmeno);
+  fprintf(f,"    \"material\" : \"%s\",\n", p_mat[p_poly->material]->jmeno);
 
-  fprintf(f,"{\n");
-  fprintf(f," \"type\" : \"geometry_object\",\n");
-  fprintf(f," \"name\" : \"%s\",\n", p_poly->jmeno);
-  fprintf(f," \"material\" : \"%s\",\n", p_mat[p_poly->material]->jmeno);
-
-  fprintf(f," \"vertexPositions\" : [");
+  fprintf(f,"    \"vertexPositions\" : [");
   int i;
   TEXT_KOORD *p_koord = p_poly->p_koord;
   for(i = 0; i < p_poly->facenum-1; i++, p_koord++) {
@@ -289,7 +308,7 @@ void json_export_poly(FILE *f, EDIT_MESH_POLY *p_poly,
   fprintf(f,"%f,%f,%f",p_koord->x,p_koord->y,p_koord->z);
   fprintf(f,"],\n");
 
-  fprintf(f," \"vertexNormals\" : [");
+  fprintf(f,"    \"vertexNormals\" : [");
   p_koord = p_poly->p_koord;
   for(i = 0; i < p_poly->facenum-1; i++, p_koord++) {
     fprintf(f,"%f,%f,%f,",p_koord->nx,p_koord->ny,p_koord->nz);
@@ -297,7 +316,7 @@ void json_export_poly(FILE *f, EDIT_MESH_POLY *p_poly,
   fprintf(f,"%f,%f,%f",p_koord->nx,p_koord->ny,p_koord->nz);
   fprintf(f,"],\n");
 
-  fprintf(f," \"vertexTextureCoords0\" : [");
+  fprintf(f,"    \"vertexTextureCoords0\" : [");
   p_koord = p_poly->p_koord;
   for(i = 0; i < p_poly->facenum-1; i++, p_koord++) {
     fprintf(f,"%f,%f,",p_koord->tu1,p_koord->tv1);
@@ -305,7 +324,7 @@ void json_export_poly(FILE *f, EDIT_MESH_POLY *p_poly,
   fprintf(f,"%f,%f",p_koord->tu1,p_koord->tv1);
   fprintf(f,"],\n");
 
-  fprintf(f," \"vertexTextureCoords1\" : [");
+  fprintf(f,"    \"vertexTextureCoords1\" : [");
   p_koord = p_poly->p_koord;
   for(i = 0; i < p_poly->facenum-1; i++, p_koord++) {
     fprintf(f,"%f,%f,",p_koord->tu2,p_koord->tv2);
@@ -313,34 +332,40 @@ void json_export_poly(FILE *f, EDIT_MESH_POLY *p_poly,
   fprintf(f,"%f,%f",p_koord->tu2,p_koord->tv2);
   fprintf(f,"],\n");
 
-  fprintf(f," \"indices\" : [");  
+  fprintf(f,"    \"indices\" : [");  
   for (i = 0; i < p_poly->facenum-1; i++) {
     fprintf(f,"%d,",i);
   }
   fprintf(f,"%d",i);    
-  fprintf(f,"],\n");
+  fprintf(f,"]\n");
 
-  fprintf(f,"}\n");
-  fprintf(f,"}\n");
+  fprintf(f,"   }\n  ]\n");
+  fprintf(f,"}");
 }
 
 void json_export_poly(EDIT_MESH_POLY *p_poly, int polynum,
                       EDIT_MATERIAL ** p_mat, int max_mat)
 {
+  fprintf((FILE*)export_file, ",\n");
+  //fprintf((FILE*)export_file, "\n\n\nPOLY EXPORT BEGIN\n\n\n");
   if(export_file) {
     int i;
     for(i = 0; i < polynum; i++) {
+      if(i != 0) {fprintf((FILE*)export_file, ",\n");}
       json_export_poly(export_file, p_poly+i, p_mat, max_mat);
     }
   }
+  fprintf((FILE*)(export_file), "\n]");
 }
 
 void json_export_level(EDIT_KONTEJNER **p_kont, int max_kont, 
                        EDIT_MATERIAL ** p_mat, int max_mat)                       
 {
   if(export_file) {
+    fprintf((FILE*)(export_file), "[\n");
     json_export_materialy(export_file, p_mat, max_mat);
     json_export_kontejnery(export_file, p_kont, max_kont, p_mat, max_mat);
+    //fprintf((FILE*)(export_file), "\n]");
   }
 }
 
