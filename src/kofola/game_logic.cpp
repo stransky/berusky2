@@ -28,6 +28,7 @@
 #include "Tools.h"
 #include "Menu2.h"
 #include "adas.h"
+#include "json_export.h"
 
 extern HINT_STATE sHint;
 extern KUK_STATE sKuk;
@@ -10478,6 +10479,10 @@ PLAY_LEVEL_START:
     sprintf(text, "Unresolved GUIDs: %d", Return);
     //MessageBox(hWnd,text,"Warning",MB_OK);
     kprintf(1, text);
+  }
+
+  if(export_level) {
+    json_export_level(&Level);
   }
 
   kprintf(1,

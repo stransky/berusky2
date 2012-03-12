@@ -25,8 +25,11 @@
  *
  */
 #include "3d_all.h"
+#include "Object.h"
 #include "json_export.h"
 #include <string>
+
+int kom_get_mesh_id(MeshHandle prvek_handle);
 
 FILE * export_file = NULL;
 
@@ -194,7 +197,7 @@ void json_export_kont(FILE *f, EDIT_KONTEJNER *p_kont,
   fprintf(f,"{\n");
   fprintf(f,"  \"type\" : \"geometry_container\",\n");
   fprintf(f,"  \"name\" : \"%s\",\n", p_kont->jmeno);
-  fprintf(f,"  \"object_id\" : \"%d\",\n", p_kont->kontejner_ID);
+  fprintf(f,"  \"container_id\" : \"%d\",\n", p_kont->kontejner_ID);
   fprintf(f,"  \"matrix\" : ");
   json_export_matrix(f, &p_kont->world, "world");
 
@@ -287,7 +290,7 @@ void json_export_poly(FILE *f, EDIT_MESH_POLY *p_poly,
   fprintf(f,"{\n");
   fprintf(f,"  \"type\" : \"geometry_container\",\n");
   fprintf(f,"  \"name\" : \"%s\",\n", p_poly->jmeno);
-  fprintf(f,"  \"object_id\" : \"%d\",\n", -1);
+  fprintf(f,"  \"container_id\" : \"%d\",\n", -1);
 
   GLMATRIX m;
   init_matrix(&m);
@@ -358,8 +361,8 @@ void json_export_poly(EDIT_MESH_POLY *p_poly, int polynum,
   fprintf((FILE*)(export_file), "\n]");
 }
 
-void json_export_level(EDIT_KONTEJNER **p_kont, int max_kont, 
-                       EDIT_MATERIAL ** p_mat, int max_mat)                       
+void json_export_level(EDIT_KONTEJNER **p_kont, int max_kont,
+                       EDIT_MATERIAL ** p_mat, int max_mat)
 {
   if(export_file) {
     fprintf((FILE*)(export_file), "[\n");
@@ -367,6 +370,49 @@ void json_export_level(EDIT_KONTEJNER **p_kont, int max_kont,
     json_export_kontejnery(export_file, p_kont, max_kont, p_mat, max_mat);
     //fprintf((FILE*)(export_file), "\n]");
   }
+}
+
+void json_export_level_item(FILE *f, LEVELINFO * p_Level, ITEMDESC *p_Item)
+{
+  OBJECTDESC *p_Object = p_Item->p_Object;
+  fprintf(f,"  {\n");
+  fprintf(f,"    \"name\" : \"%s\",\n",p_Object->Name);
+  fprintf(f,"    \"guid\" : \"%d\",\n",p_Object->GUID);
+  fprintf(f,"    \"class\" : \"%d\",\n",p_Object->Class);
+  fprintf(f,"    \"subclass\" : \"%d\",\n",p_Object->SubClass);
+  fprintf(f,"    \"position\" : \"[ %d, %d, %d ]\",\n", p_Item->Pos[0], p_Item->Pos[1], p_Item->Pos[2]);
+  fprintf(f,"    \"rotation\" : \"%d\",\n", p_Item->Rotation);
+  fprintf(f,"    \"container_id\" : \"%d\",\n", kom_get_mesh_id(p_Item->Index_Of_Game_Mesh));
+  fprintf(f,"  },\n");
+}
+
+void json_export_level(LEVELINFO * p_Level)
+{
+  if(!export_file)
+    return;
+  
+  FILE *f = export_file;
+  
+  fprintf((FILE*)(export_file), "\n[\n");
+  fprintf(f,"{\n");
+  fprintf(f," \"type\" : \"level_logic\",\n");
+  fprintf(f," \"logic_level_size\" : [ %d, %d, %d],\n", p_Level->Size[0], p_Level->Size[2]/2, p_Level->Size[1]);
+  
+  float x_start = finite(p_Level->LevelHeader.x_start) ? p_Level->LevelHeader.x_start : 0.0f;
+  float y_start = finite(p_Level->LevelHeader.y_start) ? p_Level->LevelHeader.y_start : 0.0f;
+  float z_start = finite(p_Level->LevelHeader.z_start) ? p_Level->LevelHeader.z_start : 0.0f;
+  
+  fprintf(f," \"level_start\" : [ %f, %f, %f],\n", x_start, y_start, z_start);
+  fprintf(f," \"item_size\" : %d,\n", X_PRVEK);
+  fprintf(f," \"level_items_num\" : %d\n", p_Level->Count_Of_Items);
+  
+  fprintf(f," \"level_items\" : [\n", p_Level->Count_Of_Items);
+  for (int i = 0; i < p_Level->Count_Of_Items; i++)  
+    json_export_level_item(f, p_Level, p_Level->Item+i);
+  fprintf((FILE*)(export_file), "]\n");
+  
+  fprintf(f,"}\n");
+  fprintf((FILE*)(export_file), "]\n");
 }
 
 void json_export_start(char *p_file)

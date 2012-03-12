@@ -1419,3 +1419,10 @@ MeshHandle kom_prvek_viditelnost(MeshHandle mh, int vid)
     return (FALSE);
   }
 }
+
+int kom_get_mesh_id(MeshHandle prvek_handle)
+{
+  PRVEK_LEVELU_GAME *p_lev = p_ber->p_prv_lev[prvek_handle];
+  GAME_MESH_DATA *p_mesh_data = p_lev->p_mesh_data;
+  return(p_mesh_data ? p_mesh_data->mesh_ID : -1);
+}

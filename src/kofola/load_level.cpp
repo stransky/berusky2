@@ -935,15 +935,14 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
       p_Level->Square[i].bUnderWater = -1;
   }
 
-  p_Level->Item =
-    (ITEMDESC *) malloc((p_Level->Count_Of_Items) * sizeof(ITEMDESC));
+  p_Level->Item = (ITEMDESC *) malloc((p_Level->Count_Of_Items) * sizeof(ITEMDESC));
   if (!p_Level->Item) {
     //MessageBox(p_Level->hWnd,"Unable to allocate memory for items","Error",MB_OK);
     kprintf(1, "Unable to allocate memory for items");
     return -1;
   }
-  else
-    memset(p_Level->Item, 0, (p_Level->Count_Of_Items) * sizeof(ITEMDESC));
+
+  memset(p_Level->Item, 0, (p_Level->Count_Of_Items) * sizeof(ITEMDESC));
 
   for (i = 0; i < p_Level->Count_Of_Items; i++)
     p_Level->Item[i].hSvetlo = -1;
@@ -958,17 +957,14 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
 
   p_Level->Count_Of_Action_Items = p_Level->Count_Of_Items * 2;
 
-  p_Level->Anim_Item =
-    (long *) malloc((p_Level->Count_Of_Items) * sizeof(long));
+  p_Level->Anim_Item = (long *) malloc((p_Level->Count_Of_Items) * sizeof(long));
   if (!p_Level->Anim_Item) {
     //MessageBox(p_Level->hWnd,"Unable to allocate memory for action items","Error",MB_OK);
     kprintf(1, "Unable to allocate memory for animation items");
     return -1;
   }
 
-  p_Level->pSquare =
-    (SQUAREDESC *) malloc(p_Level->Size[0] * p_Level->Size[1] *
-    sizeof(SQUAREDESC));
+  p_Level->pSquare = (SQUAREDESC *) malloc(p_Level->Size[0] * p_Level->Size[1] * sizeof(SQUAREDESC));
   if (!p_Level->pSquare) {
     kprintf(1, "Nelze alokovat pamet pro spodni patro");
     return -1;
@@ -1043,10 +1039,8 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
       }
       else {
         if (!bNeviditelnaZed) {
-          p_Level->Item[pointer].Index_Of_Game_Mesh =
-            kom_pridej_prvek_levelu(&b_l_d, x, z, y);
-          kom_umisti_prvek(p_Level->Item[pointer].Index_Of_Game_Mesh, x, z, y,
-            Rotation);
+          p_Level->Item[pointer].Index_Of_Game_Mesh = kom_pridej_prvek_levelu(&b_l_d, x, z, y);
+          kom_umisti_prvek(p_Level->Item[pointer].Index_Of_Game_Mesh, x, z, y, Rotation);
         }
         else
           p_Level->Item[pointer].Index_Of_Game_Mesh = 0;
@@ -1129,7 +1123,7 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
             (int) ceil((randf() / (float) RAND_MAX) * 600.0f);
           p_Level->BeatleSmoke[Next_Beetle].iItem = pointer;
 
-//                                              kom_mesh_set_mesh(p_Level->BeetleAnim[Next_Beetle].Mesh, 2, p_Level->Item[pointer].Rotation);
+//        kom_mesh_set_mesh(p_Level->BeetleAnim[Next_Beetle].Mesh, 2, p_Level->Item[pointer].Rotation);
           Next_Beetle++;
         }
 

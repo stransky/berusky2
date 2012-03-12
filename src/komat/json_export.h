@@ -35,5 +35,6 @@ void json_export_level(EDIT_KONTEJNER **p_kont, int max_kont,
                        EDIT_MATERIAL ** p_mat, int max_mat);
 void json_export_poly(EDIT_MESH_POLY *p_poly, int polynum, 
                       EDIT_MATERIAL ** p_mat, int max_mat);
+void json_export_level(LEVELINFO * p_Level);
                       
 #endif // __JSON_EXPORT_H__

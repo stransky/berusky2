@@ -142,6 +142,7 @@ inline int kom_mesh_reset(MeshHandle prvek_handle)
 */
 #define kom_umisti_prvek(prvek_handle,x,y,z,rotace) ber_umisti_prvek(prvek_handle,x,y,z,rotace)
 
+int kom_get_mesh_id(MeshHandle prvek_handle);
 
 /* Databaze -> vznikani prvku z databaze za behu
    Vlozi prvek do databaze, ze ktere muze byt behem hry zkopirovan do levelu
