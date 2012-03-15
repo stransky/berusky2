@@ -61,14 +61,19 @@ void json_export_material(FILE *f, EDIT_MATERIAL *p_mat)
   fprintf(f,"  \"textures\" : [ ");
   int i;
   for(i = 0; i < MAT_TEXTUR; i++) {
+    // Vzdy nove vytvoreny string -> prazdny
     std::string text;
     text.append(p_mat->textfile[i]);
+    // Compare vraci 0 pri shode
     if(text.compare("")){
+      // Prepis bmp na jpg
+      text.resize(text.length() - 3);
+      text.append("jpg");
       if(i == 0){
-        fprintf(f,"\"%s\"", p_mat->textfile[i]);
+        fprintf(f,"\"%s\"", text.c_str());
       } 
       else{
-        fprintf(f,", \"%s\"", p_mat->textfile[i]);
+        fprintf(f,", \"%s\"", text.c_str());
       }
      }
   }
@@ -149,7 +154,7 @@ void json_export_object(FILE *f, EDIT_OBJEKT *p_obj,
   fprintf(f,"    \"vertexPositions\" : [");
   int i;
   for(i = 0; i < p_obj->vertexnum-1; i++) {
-    fprintf(f,"%f,%f,%f,",p_obj->p_vertex[i].x,p_obj->p_vertex[i].y,p_obj->p_vertex[i].z);
+    fprintf(f,"%f,%f,%f,",(p_obj->p_vertex[i].x), (p_obj->p_vertex[i].y) ,(p_obj->p_vertex[i].z));
   }
   fprintf(f,"%f,%f,%f",p_obj->p_vertex[p_obj->vertexnum-1].x,
                        p_obj->p_vertex[p_obj->vertexnum-1].y,
@@ -358,7 +363,7 @@ void json_export_poly(EDIT_MESH_POLY *p_poly, int polynum,
       json_export_poly(export_file, p_poly+i, p_mat, max_mat);
     }
   }
-  fprintf((FILE*)(export_file), "\n]");
+  fprintf((FILE*)(export_file), ",");
 }
 
 void json_export_level(EDIT_KONTEJNER **p_kont, int max_kont,
@@ -372,18 +377,56 @@ void json_export_level(EDIT_KONTEJNER **p_kont, int max_kont,
   }
 }
 
+char* name_cleaner(char* name){
+  
+  /*FILE *pFile;
+  pFile = fopen("log", "w");
+  if(pFile != NULL){
+    fputs("LOG FILE", pFile);
+  }
+  else{
+    return NULL;
+  }*/
+  
+  if(name == NULL) return;
+  
+  int i = 0;
+  char *tempString = malloc(30*sizeof(char));
+  //std::string temp_string;
+  for(i; i < 30; i++){
+    //fputc((int) name[i], pFile);
+    //fputc('_', pFile);
+    // pokud je nalezen ukoncovaci znak, koncim a vracim string
+    if(name[i] == '\0'){
+      tempString[i] == '\0';
+      return tempString;
+    }
+    if((int)(name[i]) <= 127 && (int(name[i]) >= 32)){
+      tempString[i] = name[i];
+    }
+    else{
+      tempString[i] = '_';
+    }
+  }
+  tempString[30] = '\0';
+  return tempString;
+}
+
 void json_export_level_item(FILE *f, LEVELINFO * p_Level, ITEMDESC *p_Item)
 {
   OBJECTDESC *p_Object = p_Item->p_Object;
+  char *cleanedName = name_cleaner(p_Object->Name);
+  if(cleanedName == NULL) return;
   fprintf(f,"  {\n");
-  fprintf(f,"    \"name\" : \"%s\",\n",p_Object->Name);
+  fprintf(f,"    \"name\" : \"%s\",\n",cleanedName);
   fprintf(f,"    \"guid\" : \"%d\",\n",p_Object->GUID);
   fprintf(f,"    \"class\" : \"%d\",\n",p_Object->Class);
   fprintf(f,"    \"subclass\" : \"%d\",\n",p_Object->SubClass);
-  fprintf(f,"    \"position\" : \"[ %d, %d, %d ]\",\n", p_Item->Pos[0], p_Item->Pos[1], p_Item->Pos[2]);
+  fprintf(f,"    \"position\" : [ %d, %d, %d ],\n", p_Item->Pos[0], p_Item->Pos[1], p_Item->Pos[2]);
   fprintf(f,"    \"rotation\" : \"%d\",\n", p_Item->Rotation);
-  fprintf(f,"    \"container_id\" : \"%d\",\n", kom_get_mesh_id(p_Item->Index_Of_Game_Mesh));
-  fprintf(f,"  },\n");
+  fprintf(f,"    \"container_id\" : \"%d\"\n", kom_get_mesh_id(p_Item->Index_Of_Game_Mesh));
+  fprintf(f,"  }");
+  free(cleanedName);
 }
 
 void json_export_level(LEVELINFO * p_Level)
@@ -393,26 +436,30 @@ void json_export_level(LEVELINFO * p_Level)
   
   FILE *f = export_file;
   
-  fprintf((FILE*)(export_file), "\n[\n");
+  fprintf((FILE*)(export_file), "\n");
   fprintf(f,"{\n");
-  fprintf(f," \"type\" : \"level_logic\",\n");
-  fprintf(f," \"logic_level_size\" : [ %d, %d, %d],\n", p_Level->Size[0], p_Level->Size[2]/2, p_Level->Size[1]);
+  fprintf(f,"  \"type\" : \"level_logic\",\n");
+  fprintf(f,"  \"logic_level_size\" : [ %d, %d, %d],\n", p_Level->Size[0], p_Level->Size[2]/2, p_Level->Size[1]);
   
   float x_start = finite(p_Level->LevelHeader.x_start) ? p_Level->LevelHeader.x_start : 0.0f;
   float y_start = finite(p_Level->LevelHeader.y_start) ? p_Level->LevelHeader.y_start : 0.0f;
   float z_start = finite(p_Level->LevelHeader.z_start) ? p_Level->LevelHeader.z_start : 0.0f;
   
-  fprintf(f," \"level_start\" : [ %f, %f, %f],\n", x_start, y_start, z_start);
-  fprintf(f," \"item_size\" : %d,\n", X_PRVEK);
-  fprintf(f," \"level_items_num\" : %d\n", p_Level->Count_Of_Items);
+  fprintf(f,"  \"level_start\" : [ %f, %f, %f],\n", x_start, y_start, z_start);
+  fprintf(f,"  \"item_size\" : \"%d\",\n", X_PRVEK);
+  fprintf(f,"  \"level_items_num\" : \"%d\",\n", p_Level->Count_Of_Items);
   
-  fprintf(f," \"level_items\" : [\n", p_Level->Count_Of_Items);
-  for (int i = 0; i < p_Level->Count_Of_Items; i++)  
+  fprintf(f,"  \"level_items\" : [\n", p_Level->Count_Of_Items);
+  for (int i = 0; i < p_Level->Count_Of_Items; i++){  
+    if(i != 0){
+      fprintf(f, ",\n");
+    }
     json_export_level_item(f, p_Level, p_Level->Item+i);
-  fprintf((FILE*)(export_file), "]\n");
+  }
+  fprintf((FILE*)(export_file), "  ]\n");
   
   fprintf(f,"}\n");
-  fprintf((FILE*)(export_file), "]\n");
+  fprintf((FILE*)(export_file), "\n]\n");
 }
 
 void json_export_start(char *p_file)
