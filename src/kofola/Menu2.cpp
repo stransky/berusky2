@@ -243,10 +243,10 @@ void AnimationEvent2(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime)
       if (anm[i].bStop) {
         anm[i].cmd->iLastfrm = 1;
         anm[i].cmd->iCounter = 0;
-/*
+
 				if(anm[i].iWave != -1)
 					adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, anm[i].iWave);
-*/
+
         anm[i].iWave = -1;
         anm[i].cmd = NULL;
       }
@@ -2302,15 +2302,13 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
 
         resid = -1;
 
-        if (key[K_ESC]) {
-          /*
-             for(i=0;i<lastcmd;i++)
-             if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
+        if (key[K_ESC]) {          
+          for(i=0;i<lastcmd;i++)
+            if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
              {
-             adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
-             res[i].iParam[5] = -1;
-             }
-           */
+               adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
+               res[i].iParam[5] = -1;
+             }           
           //goto __QUIT;
         }
       }
@@ -4043,7 +4041,7 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA * p_ad,
         if (key[K_ESC]) {
           for (i = 0; i < lastcmd; i++)
             if (res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1) {
-//                                              adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
+              adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
               res[i].iParam[5] = -1;
             }
           goto __QUIT;

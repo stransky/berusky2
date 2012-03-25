@@ -166,6 +166,7 @@ void adas_Set_Last_Error(char *p_Text)
   fprintf(stderr,"adas_Set_Last_Error(): %s\n",p_Text);
   strcpy(Last_Error, p_Text);
   bLast_Error = 1;
+  assert(0);
 }
 
 //------------------------------------------------------------------------------------------------
@@ -989,7 +990,7 @@ int adas_Create_Source(ADAS_SOUND_SOURCE_DATA * p_ssd, void **p_callback)
 
 		p_ss->Buffer_Source[p_ss->Buffer_Pointer] = HDD;
 
-		alSourcei(p_ss->Source,AL_BUFFER,p_ss->Buffer[0]);*/
+		alSourcei(p_ss->Source,AL_BUFFER,p_ss->Buffer[0]);*/    
     return -1;
   }
   else {
@@ -2584,6 +2585,7 @@ adasLoadWAVMemory(ALbyte * buffer, ALsizei buffer_length, ALenum * format,
   if (!(*data)) {
     fprintf(stderr, "ADAS: adasLoadWAVMemory(): %s\n",
             alutGetErrorString(alutGetError()));
+    assert(0);
     return (FALSE);
   }
   *loop = AL_FALSE;

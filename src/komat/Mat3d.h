@@ -1073,7 +1073,6 @@ typedef struct _FLEK
   struct _FLEK *p_prew;
 } FLEK;
 
-
 #define LANI_FRONTA   6
 typedef struct _GAME_MESH_ANIMACE
 {

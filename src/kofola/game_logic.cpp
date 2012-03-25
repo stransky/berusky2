@@ -9499,8 +9499,8 @@ void gl_Flip(AUDIO_DATA * pad, LEVELINFO * p_Level, int *Frame_Rate_Counter,
   orientation[1] = -orientation[1];
   orientation[2] = -orientation[2];
 
-//      adas_Set_Listener_Position(pGetCamera->Position);
-//      adas_Set_Listener_Orientation(orientation);
+  adas_Set_Listener_Position(pGetCamera->Position);
+  adas_Set_Listener_Orientation(orientation);
 
   am_Animate_Items(&am, p_Level);
   am_Animate_Beetles(p_Level);

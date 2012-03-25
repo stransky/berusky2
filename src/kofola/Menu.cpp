@@ -4427,15 +4427,14 @@ BRUTAL_RESTART_SCENE_MAP_MENU:
         resid = -1;
 
         if (key[K_ESC]) {
-/*
-				for(i=0;i<lastcmd;i++)
-					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
-					{
-						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
-						res[i].iParam[5] = -1;
-					}
-*/
-          goto __QUIT;
+          for(i=0;i<lastcmd;i++) {
+            if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
+            {
+              adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
+              res[i].iParam[5] = -1;
+            }
+            goto __QUIT;
+          }
         }
       }
 
@@ -4478,10 +4477,10 @@ BRUTAL_RESTART_SCENE_MAP_MENU:
   }
 
 __QUIT:
-/*
+
 	adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
 	adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
-*/
+
   StopAll();
 
   if (bReload) {
@@ -4867,14 +4866,13 @@ BEGIN_MENU_NEWGAME:
         resid = -1;
 
         if (bDone) {
-          /*
-             for(i=0;i<lastcmd;i++)
-             if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
-             {
-             adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
-             res[i].iParam[5] = -1;
-             }
-           */
+          for(i=0;i<lastcmd;i++) {
+            if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
+            {
+               adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
+               res[i].iParam[5] = -1;
+            }
+          }
           goto __QUIT;
         }
         else
@@ -5672,14 +5670,14 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
         resid = -1;
 
         if (key[K_ESC]) {
-/*				for(i=0;i<lastcmd;i++)
-					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
-					{
-						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
-						res[i].iParam[5] = -1;
-					}
-*/
-          goto __QUIT;
+          for(i=0;i<lastcmd;i++) {
+            if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
+            {
+              adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
+              res[i].iParam[5] = -1;
+            }
+          }
+          goto __QUIT;          
         }
       }
 
@@ -6103,14 +6101,12 @@ BEGIN_MENU_LOAD:
         resid = -1;
 
         if (key[K_ESC]) {
-/*
-				for(i=0;i<lastcmd;i++)
-					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
-					{
-						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
-						res[i].iParam[5] = -1;
-					}
-*/
+          for(i=0;i<lastcmd;i++)
+            if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
+            {
+              adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
+              res[i].iParam[5] = -1;
+            }
           goto __QUIT;
         }
         else
@@ -6748,13 +6744,12 @@ BEGIN_MENU:
         resid = -1;
 
         if (key[K_ESC]) {
-/*				for(i=0;i<lastcmd;i++)
+				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-*/
           goto __QUIT;
         }
         else
@@ -6800,7 +6795,6 @@ BEGIN_MENU:
   }
 
 __QUIT:
-/*	
 	for(i=0;i<lastcmd;i++)
 		if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 		{
@@ -6811,7 +6805,7 @@ __QUIT:
 	//fn_Release_Font();
 	adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
 	adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
-*/
+
   StopAll();
 
   ddxReleaseBitmap(iCompositDC);
@@ -7206,14 +7200,12 @@ BEGIN_MENU_CHILDNEWGAME:
         resid = -1;
 
         if (key[K_ESC]) {
-/*
 				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-*/
           goto __QUIT;
         }
         else
@@ -7661,14 +7653,12 @@ BEGIN_MENU_NEWGAME:
         resid = -1;
 
         if (key[K_ESC]) {
-/*
 				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-*/
           goto __QUIT;
         }
         else
@@ -8006,7 +7996,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
 
   iSongTime = GetComixTime(iScene);
 
-  //ap_Play_Song(iScene+1,0, p_ad);
+  ap_Play_Song(iScene+1,0, p_ad);
 /*	if (p_ad->bAudio && p_ad->Music_Gain >= 0.05f)
 		ap_Setup_and_Play_Song(iScene+1,0, p_ad);
 
@@ -8165,13 +8155,12 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
         resid = -1;
 
         if (key[K_ESC]) {
-/*				for(i=0;i<lastcmd;i++)
+				for(i=0;i<lastcmd;i++)
 					if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
 					{
 						adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
 						res[i].iParam[5] = -1;
 					}
-*/
           goto __QUIT;
         }
       }
@@ -8241,10 +8230,9 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
 __QUIT:
 
   //kprintf(1, "%d", dwEplased);
-/*
 	adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
 	adas_Release_Source(ALL_SOUND_SOURCES, ALL_TYPES,UNDEFINED_VALUE); 
-*/
+
   StopAll();
 
   ddxReleaseBitmap(iTVBmp);
