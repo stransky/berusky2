@@ -299,6 +299,7 @@ int main(int argc, char **argv)
   //feenableexcept(FE_DIVBYZERO|FE_INEXACT|FE_INVALID|FE_OVERFLOW|FE_UNDERFLOW);
   //feenableexcept(FE_DIVBYZERO|FE_INVALID);  
   //quat_test();
+  //alut_test(TRUE);
 
   print_banner();
   process_params(p_ber, argc, argv);
@@ -481,14 +482,25 @@ int spracuj_spravy(int param)
         nacti_tlacitka_mysi(event.button.button, 0);
         break;
       case SDL_ACTIVEEVENT:
-        if (event.active.state & SDL_APPACTIVE) {
+        if (event.active.state&SDL_APPINPUTFOCUS) {        
+          kprintf(TRUE,"SDL_APPINPUTFOCUS, gain = %d",event.active.gain);
+        }
+        if (event.active.state&SDL_APPMOUSEFOCUS) {        
+          kprintf(TRUE,"SDL_APPMOUSEFOCUS, gain = %d",event.active.gain);
           if (event.active.gain) {
-            karmin_aktivni = TRUE;
             p_ber->system_kurzor = FALSE;
           }
           else {
-            karmin_aktivni = FALSE;
             p_ber->system_kurzor = TRUE;
+          }
+        }
+        if (event.active.state&SDL_APPACTIVE) {
+          kprintf(TRUE,"SDL_APPACTIVE, gain = %d",event.active.gain);
+          if (event.active.gain) {
+            karmin_aktivni = TRUE;
+          }
+          else {
+            karmin_aktivni = FALSE;
           }
         }
         break;

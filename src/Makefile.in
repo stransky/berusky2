@@ -103,7 +103,7 @@ am_berusky2_OBJECTS = 3D_graphic.$(OBJEXT) 3D_menus.$(OBJEXT) \
 	Kdtree.$(OBJEXT) json_export.$(OBJEXT) \
 	ambient_sounds.$(OBJEXT) audio_plug-in.$(OBJEXT) \
 	3d_math_k.$(OBJEXT) adas.$(OBJEXT) ogg_io.$(OBJEXT) \
-	ogg_stream.$(OBJEXT) compat_mini.$(OBJEXT)
+	ogg_stream.$(OBJEXT) compat_mini.$(OBJEXT) alut_test.$(OBJEXT)
 berusky2_OBJECTS = $(am_berusky2_OBJECTS)
 berusky2_DEPENDENCIES =
 berusky2_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -630,7 +630,8 @@ berusky2_SOURCES = \
 	adas/ogg_stream.c\
 	adas/ogg_stream.h\
 	tmp/compat_mini.cpp\
-	tmp/compat_mini.h
+	tmp/compat_mini.h\
+	tmp/alut_test.cpp
 
 berusky2_LDFLAGS = 
 berusky2_LDADD = 
@@ -768,6 +769,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/age.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/age_main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/alpha.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/alut_test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ambient_sounds.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/animation.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/animation_time.Po@am__quote@
@@ -2938,6 +2940,20 @@ compat_mini.obj: tmp/compat_mini.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tmp/compat_mini.cpp' object='compat_mini.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o compat_mini.obj `if test -f 'tmp/compat_mini.cpp'; then $(CYGPATH_W) 'tmp/compat_mini.cpp'; else $(CYGPATH_W) '$(srcdir)/tmp/compat_mini.cpp'; fi`
+
+alut_test.o: tmp/alut_test.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT alut_test.o -MD -MP -MF $(DEPDIR)/alut_test.Tpo -c -o alut_test.o `test -f 'tmp/alut_test.cpp' || echo '$(srcdir)/'`tmp/alut_test.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/alut_test.Tpo $(DEPDIR)/alut_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tmp/alut_test.cpp' object='alut_test.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o alut_test.o `test -f 'tmp/alut_test.cpp' || echo '$(srcdir)/'`tmp/alut_test.cpp
+
+alut_test.obj: tmp/alut_test.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT alut_test.obj -MD -MP -MF $(DEPDIR)/alut_test.Tpo -c -o alut_test.obj `if test -f 'tmp/alut_test.cpp'; then $(CYGPATH_W) 'tmp/alut_test.cpp'; else $(CYGPATH_W) '$(srcdir)/tmp/alut_test.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/alut_test.Tpo $(DEPDIR)/alut_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tmp/alut_test.cpp' object='alut_test.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o alut_test.obj `if test -f 'tmp/alut_test.cpp'; then $(CYGPATH_W) 'tmp/alut_test.cpp'; else $(CYGPATH_W) '$(srcdir)/tmp/alut_test.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

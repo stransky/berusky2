@@ -402,7 +402,8 @@ module.source.files=\
 	adas/ogg_stream.c\
 	adas/ogg_stream.h\
 	tmp/compat_mini.cpp\
-	tmp/compat_mini.h
+	tmp/compat_mini.h\
+	tmp/alut_test.cpp
 
 module.pixmap.name=pixmaps
 module.pixmap.type=

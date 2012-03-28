@@ -853,15 +853,17 @@ SurfaceHandle sh, sh2;
 
 extern APAK_HANDLE *pBmpArchive;
 
-
 void ber_test_animaci2(G_KONFIG * p_ber)
 {
+  kprintf(1,"Sound test....");
+  alut_test(FALSE);
+/*
   BUNKA_LEVELU_DISK bunka = { 0, 0, 0, 0, 0 };
   //MeshHandle mh;
   static int show = 0;
 
   show = !show;
-
+*/
 /*
   // smazani stare berusky (ta co v levelu je)
 
@@ -875,10 +877,9 @@ void ber_test_animaci2(G_KONFIG * p_ber)
   show = kom_pridej_kurzor_do_levelu();
   ber_umisti_prvek(show,1,1,1,0);
 */
-  // kom_mesh_set_mesh(0, 1, 0);
+// kom_mesh_set_mesh(0, 1, 0);
 //  int buferu;
-
-  /*
+/*
      BOD p = {0,0,0};
      MeshHandle mh;
      VodnikHandle voh;
@@ -895,12 +896,10 @@ void ber_test_animaci2(G_KONFIG * p_ber)
 
      vod_vloz_vodnika_diff(voh, 0.05f, 0.05f, 0.05f, 0.125f);
      vod_vloz_vodnika_add_diff(voh, 0, 0, 0, 0);
-   */
-
+*/
 /*
   kam_set_kino_screen(p_ber);
 */
-
 /*
   ddx2Init(100,RGB(255,0,255));
   dh = ddx2DeviceCreate(FALSE,32);
@@ -928,7 +927,7 @@ void ber_test_animaci2(G_KONFIG * p_ber)
     
     //ddx2TransparentBltFull(DDX2_BACK_BUFFER,0,0,sh,RGB(255,0,255));
   }  
-  */
+*/
 }
 
 void ber_test_animaci3(G_KONFIG * p_ber)
@@ -1262,7 +1261,7 @@ int ber_ovladani_mysi(G_KONFIG * p_ber, int *p_zmena)
 
 void ber_klavesy_hra(G_KONFIG * p_ber)
 {
-  if (karmin_aktivni)
+  if (!karmin_aktivni)
     return;
 
   if (PRCameraFlag) {

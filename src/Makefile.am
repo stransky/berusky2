@@ -349,7 +349,8 @@ berusky2_SOURCES = \
 	adas/ogg_stream.c\
 	adas/ogg_stream.h\
 	tmp/compat_mini.cpp\
-	tmp/compat_mini.h
+	tmp/compat_mini.h\
+	tmp/alut_test.cpp
 
 berusky2_LDFLAGS = 
 
