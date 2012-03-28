@@ -493,9 +493,7 @@ unsigned long adas_Load_FirstMemory(char *p_Index_File, void *p_File,
     return 0;
   }
 
-  if (adasLoadWAVMemory
-      (p_File, File_Size, &pSound->Format, &pSound->Data, &pSound->Size,
-       &pSound->Frequece, &loop)) {
+  if (adasLoadWAVMemory(p_File, File_Size, &pSound->Format, &pSound->Data, &pSound->Size, &pSound->Frequece, &loop)) {
     alBufferData(pSound->Buffer, pSound->Format, pSound->Data, pSound->Size,
                  pSound->Frequece);
     alutUnloadWAV(pSound->Format, pSound->Data, pSound->Size,
@@ -591,9 +589,7 @@ unsigned long adas_Load_NextMemory(void *p_File, long File_Size,
     return 0;
   }
 
-  if (adasLoadWAVMemory
-      (p_File, File_Size, &pSound->Format, &pSound->Data, &pSound->Size,
-       &pSound->Frequece, &loop)) {
+  if (adasLoadWAVMemory(p_File, File_Size, &pSound->Format, &pSound->Data, &pSound->Size, &pSound->Frequece, &loop)) {
     alBufferData(pSound->Buffer, pSound->Format, pSound->Data, pSound->Size,
                  pSound->Frequece);
     alutUnloadWAV(pSound->Format, pSound->Data, pSound->Size,
@@ -2577,17 +2573,18 @@ ALCdevice *adas_Get_Device(void)
 
 int
 adasLoadWAVMemory(ALbyte * buffer, ALsizei buffer_length, ALenum * format,
-                  void **data, ALsizei * size, ALsizei * frequency,
+                  void **data, ALsizei * size, ALuint * frequency,
                   ALboolean * loop)
 {
-  *data = alutLoadMemoryFromFileImage(buffer,
-                                      buffer_length, format, size, frequency);
+  ALfloat freq;
+  *data = alutLoadMemoryFromFileImage(buffer, buffer_length, format, size, &freq);
   if (!(*data)) {
     fprintf(stderr, "ADAS: adasLoadWAVMemory(): %s\n",
             alutGetErrorString(alutGetError()));
     assert(0);
     return (FALSE);
   }
+  *frequency = (ALuint)freq;
   *loop = AL_FALSE;
   return (*data);
 }

@@ -34,7 +34,7 @@
 #define NUM_SOURCES 3
 #define NUM_ENVIRONMENTS 1
 
-static ALfloat listenerPos[]={0.0,0.0,4.0};
+static ALfloat listenerPos[]={0.0,0.0,0.0};
 static ALfloat listenerVel[]={0.0,0.0,0.0};
 static ALfloat listenerOri[]={0.0,0.0,1.0, 0.0,1.0,0.0};
 
@@ -50,7 +50,7 @@ static ALenum 	format;
 static ALvoid 	*data;
 static int 	ch;
 
-#define HOME_DIR "/home/komat/Projekty/berusky2/src/"
+#define HOME_DIR "/home/komat/Projekty/berusky2/data/"
 
 void init(int ini)
 {
@@ -113,7 +113,7 @@ void alut_test(int ini)
   alSourcePlay(source[1]);
   alSourcePlay(source[2]);
 
-  Sleep(1000);
+  Sleep(2000);
 
   alSourceStop(source[2]);
   alSourceStop(source[1]);

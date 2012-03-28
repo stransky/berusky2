@@ -319,7 +319,7 @@
 
     // Replacement for alutLoadWAVMemory
     int adasLoadWAVMemory(ALbyte *buffer, ALsizei buffer_length, ALenum *format, void **data, ALsizei *size,
-                          ALsizei *frequency, ALboolean *loop);
+                          ALuint *frequency, ALboolean *loop);
 
 #ifdef __cplusplus
 	}

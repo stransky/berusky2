@@ -354,6 +354,8 @@ int main(int argc, char **argv)
     json_export_start(export_level_file);
   }
 
+  //alut_test(TRUE);
+
   winmain_Game_Run(p_ber->level_name);  
 
   if(export_level) {
