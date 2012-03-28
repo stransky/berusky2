@@ -26,7 +26,7 @@
  *
  */
 #include <stdio.h>
-#include <GL/freeglut.h>
+#include <stdlib.h>
 #include <AL/alut.h>
 #include "compat_mini.h"
 
