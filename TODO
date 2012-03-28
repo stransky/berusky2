@@ -1,12 +1,10 @@
-- sound is not audible
 - transparent objects
 
 Bugs:
-- level menu is blended
-- keyboard input (level focus/movement) does not work
+- level menu is blended - wrong textures?
+- texttures are not sharp
 
 - rozdelit ini soubory na 2? nastaveni uzivatelu + globalni datove soubory?
-- broken keyboard input in game? (shift&co - screen movement)
 int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
 
 - klikani mysi do obrazovky
