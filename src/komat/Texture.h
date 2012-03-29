@@ -155,6 +155,9 @@ inline void bmp_cti_rozmery(bitmapa * p_bmp, int *p_x, int *p_y);
 inline int bmp_velikost(bitmapa * p_bmp);
 bitmapa *bmp_prehod(bitmapa * p_bmp);
 
+bitmapa *surface2bmp(SURFACE_SDL *p_surf);
+void     bmp2surface(bitmapa *p_bmp, SURFACE_SDL *p_surf);
+
 typedef struct _bitmapa_pixel
 {
   byte r, g, b, a;

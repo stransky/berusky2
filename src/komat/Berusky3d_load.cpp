@@ -369,9 +369,9 @@ void ber_materialy_rozkopiruj(G_KONFIG * p_ber, GAME_MESH_OLD * p_mesh,
 int ber_nahraj_mesh(G_KONFIG * p_ber, char *p_jmeno, GAME_MESH_OLD ** p_mesh)
 {
   chdir((p_ber->dir.out_dir));
-  p_mesh[0] =
-    lo_nahraj_mesh(p_ber->p_mat, MAX_CELKEM_MATERIALU, p_ber->p_text,
-    MAX_CELKEM_TEXTUR, p_jmeno, TRUE, p_ber->conf_extra_light_vertex);
+  p_mesh[0] = lo_nahraj_mesh(p_ber->p_mat, MAX_CELKEM_MATERIALU, p_ber->p_text,
+                             MAX_CELKEM_TEXTUR, p_jmeno, TRUE, 
+                             p_ber->conf_extra_light_vertex);
   return ((int) p_mesh[0]);
 }
 
@@ -680,6 +680,12 @@ int ber_nahraj_scenu(G_KONFIG * p_ber, char *p_jmeno, char *p_dir, int reload,
     }
     p_ber->slightnum = lo_posledni_svetlo(p_ber->p_slight, MAX_FLARE_SVETEL);
 
+    if(export_level) {
+      json_export_level(p_kont, MAX_BERUSKY_KONTEJNERU,
+                        p_ber->p_mat, MAX_CELKEM_MATERIALU,
+                        p_ber->p_slight, MAX_FLARE_SVETEL);
+    }  
+  
     // Smazu materialy mazanych objektu
     for (k = 0; k < MAX_BERUSKY_KONTEJNERU; k++) {
       if (p_kont[k]) {
@@ -689,11 +695,6 @@ int ber_nahraj_scenu(G_KONFIG * p_ber, char *p_jmeno, char *p_dir, int reload,
       }
     }
 
-    if(export_level) {
-      json_export_level(p_kont, MAX_BERUSKY_KONTEJNERU,
-                        p_ber->p_mat, MAX_CELKEM_MATERIALU);
-    }
-  
     // prekopiruje kontejnery-meshe 1:1
     for (k = 0, m = 0, p = -1; k < MAX_BERUSKY_KONTEJNERU; k++) {
       if (p_kont[k]) {
@@ -747,9 +748,8 @@ int ber_nahraj_scenu(G_KONFIG * p_ber, char *p_jmeno, char *p_dir, int reload,
     p_ber->meshnum = m + 1;
 
     p_ber->conf_kurzor_mesh = ber_nahraj_kurzor(p_ber);
-
-    p_ber->dl_lightnum =
-      lo_najdi_prepocitej_dsvetlo(p_ber->p_dlight, MAX_FLARE_SVETEL);
+    p_ber->dl_lightnum = lo_najdi_prepocitej_dsvetlo(p_ber->p_dlight, MAX_FLARE_SVETEL);
+      
     return (TRUE);
   }
   else {
@@ -865,8 +865,12 @@ void ber_nahraj_lightmap(G_KONFIG * p_ber, char *p_jmeno, char *p_dir)
   /* Zrus prebytecne bitmapy
    */
   for (i = 0; i < MAX_RAY_TEXTUR; i++) {
-    if (p_ber->p_lightmap[i].p_bmp)
+    if (p_ber->p_lightmap[i].p_bmp) {
+      if(export_level) {
+        json_export_lightmap(i, p_ber->p_lightmap[i].p_bmp);
+      }  
       bmp_zrus(&p_ber->p_lightmap[i].p_bmp);
+    }
   }
 }
 

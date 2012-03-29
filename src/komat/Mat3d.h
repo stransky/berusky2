@@ -247,6 +247,7 @@ typedef struct _STATIC_LIGHT
   struct _STATIC_LIGHT *p_next; // nasledujici svetlo (v seznamu u kontejneru)
   struct _STATIC_LIGHT *p_prev; // predchozi svetlo
 } STATIC_LIGHT;
+
 typedef struct _DYN_LIGHT_ANIM
 {
   dword endtime;                // posledni cas
@@ -604,10 +605,8 @@ typedef struct _ANIM_TEXT
 #define SMATERIAL_POSLEDNI 10
 typedef struct _EDIT_MATERIAL
 {
-
   // Jmeno materialu
   char jmeno[MAX_JMENO];
-
 
   // Textury materialu
   char textfile[MAT_TEXTUR][MAX_JMENO];

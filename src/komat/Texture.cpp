@@ -755,20 +755,9 @@ bitmapa *bmp_kopituj(bitmapa * p_bmp)
 
 int bmp_uloz(char *p_file, bitmapa * p_bmp)
 {
-/*
- FILE *f = fopen(p_file,"wb");
- if(f) {
-   int vel;
-   AUX_RGBImageRec *p_aux = bmp2aux(p_bmp); 
-   byte *p_buffer = ConvertRGBToBMPBuffer(p_aux->data,p_bmp->x,p_bmp->y,&vel);
-   SaveBMP(f,p_buffer,p_bmp->x,p_bmp->y,vel);
-   fclose(f);
-   free(p_buffer);
-   zrus_aux(&p_aux);
- }
-*/
-  assert(0);
-  return (TRUE);
+  SURFACE_SDL surf;
+  bmp2surface(p_bmp, &surf);
+  return(surf.save(p_file));
 }
 
 int bmp_uloz_pack(FFILE f, bitmapa * p_bmp)
@@ -994,7 +983,6 @@ bitmapa *surface2bmp(SURFACE_SDL * p_surf)
   for (y = 0; y < dy; y++) {
     for (x = 0; x < dx; x++) {
       tcolor color = p_surf->pixel_get(x, dy - y - 1) & 0xffffff;
-
       bmp_putpixel(p_vysl, x, y, color);
     }
   }
@@ -1002,6 +990,24 @@ bitmapa *surface2bmp(SURFACE_SDL * p_surf)
   p_surf->unlock();
 
   return (p_vysl);
+}
+
+void bmp2surface(bitmapa *p_bmp, SURFACE_SDL * p_surf)
+{
+  int dx = p_bmp->x, dy = p_bmp->y;
+  int x, y;
+
+  p_surf->create(dx, dy);
+  p_surf->lock();
+
+  for (y = 0; y < dy; y++) {
+    for (x = 0; x < dx; x++) {
+      tcolor color = bmp_getpixel(p_bmp, x, y);
+      p_surf->pixel_set(x, dy - y - 1, color);      
+    }
+  }
+
+  p_surf->unlock();
 }
 
 int txt_uloz_btx(char *p_file, int typ, int wrap_x, int wrap_y)
