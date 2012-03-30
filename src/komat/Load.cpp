@@ -10,6 +10,8 @@
 
 #include "strip.h"
 
+void json_export_kont_single(EDIT_KONTEJNER *p_kont, EDIT_MATERIAL ** p_mat, int max_mat);
+
 int hlasit_kolize = 0;
 
 template < class T > void vyrob_pole(T ** p_dst, int num)
@@ -3512,13 +3514,18 @@ int lo_uloz_materialy_pouzite(EDIT_MATERIAL ** p_mat, int max_mat,
   Mesi sekce
 */
 GAME_MESH_OLD *lo_nahraj_mesh(EDIT_MATERIAL ** p_mat, int max_mat,
-  EDIT_TEXT * p_text, int max_text, char *p_file, int mat, int extra_light)
+                              EDIT_TEXT * p_text, int max_text, 
+                              char *p_file, int mat, int extra_light,
+                              int json_export)
 {
   EDIT_KONTEJNER *p_kont_top, *p_kont;
   GAME_MESH_OLD *p_mesh_top = NULL, *p_mesh = NULL;
 
-  p_kont = p_kont_top =
-    lo_nahraj_kontejner(p_mat, max_mat, p_text, max_text, p_file, mat);
+  p_kont = p_kont_top = lo_nahraj_kontejner(p_mat, max_mat, p_text, max_text, p_file, mat);
+
+  if(json_export) {
+    json_export_kont_single(p_kont, p_mat, max_mat);
+  }
 
   if (p_kont && p_kont->bodu && p_kont->objektu) {
     while (p_kont) {
@@ -3526,12 +3533,10 @@ GAME_MESH_OLD *lo_nahraj_mesh(EDIT_MATERIAL ** p_mat, int max_mat,
         kont_extra_light(p_kont);
       lo_setrid_kontejner_materialy(p_kont);
       if (p_mesh) {
-        p_mesh = (p_mesh->p_next =
-          edit_to_mesh(p_mesh_top->p_data, p_kont, p_mat, max_mat, FALSE));
+        p_mesh = (p_mesh->p_next = edit_to_mesh(p_mesh_top->p_data, p_kont, p_mat, max_mat, FALSE));
       }
       else {
-        p_mesh_top = p_mesh =
-          edit_to_mesh(NULL, p_kont, p_mat, max_mat, FALSE);
+        p_mesh_top = p_mesh = edit_to_mesh(NULL, p_kont, p_mat, max_mat, FALSE);
         p_mesh->p_data->p_mesh = p_mesh;
       }
       p_kont = p_kont->p_next;

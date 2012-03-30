@@ -247,7 +247,8 @@ FFILE lo_uloz_kontejner(EDIT_MATERIAL ** p_mat, int max_mat,
 void lo_vymaz_materialy(EDIT_MATERIAL ** p_mat, int max_mat,
   EDIT_TEXT * p_text, int max_text);
 GAME_MESH_OLD *lo_nahraj_mesh(EDIT_MATERIAL ** p_mat, int max_mat,
-  EDIT_TEXT * p_text, int max_text, char *p_file, int mat, int extra_light);
+  EDIT_TEXT * p_text, int max_text, char *p_file, int mat, int extra_light, 
+  int json_export = FALSE);
 int lo_najdi_objekt_kont(EDIT_KONTEJNER * p_kont, char *p_jmeno);
 EDIT_OBJEKT *lo_najdi_objekt_kont_poiter(EDIT_KONTEJNER * p_kont,
   char *p_jmeno);

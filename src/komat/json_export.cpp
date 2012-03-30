@@ -211,7 +211,7 @@ typedef struct _MUJ_BOD
 } MUJ_BOD, OBJ_VERTEX, OBJEKT_BOD;
 */
 void json_export_object(FILE *f, EDIT_OBJEKT *p_obj, 
-                        EDIT_MATERIAL ** p_mat, int max_mat)
+                        EDIT_MATERIAL ** p_mat, int max_mat)                        
 {
   int i;
 
@@ -283,9 +283,11 @@ void json_export_object(FILE *f, EDIT_OBJEKT *p_obj,
   fprintf(f,"   }");
 }
 
-void json_export_kont(FILE *f, EDIT_KONTEJNER *p_kont, 
+void json_export_kont(FILE *f, EDIT_KONTEJNER *p_kont,
                       EDIT_MATERIAL ** p_mat, int max_mat)
 {
+  int i;
+
   fprintf(f,"{\n");
   fprintf(f,"  \"type\" : \"geometry_container\",\n");
   fprintf(f,"  \"name\" : \"%s\",\n", p_kont->jmeno);
@@ -294,7 +296,6 @@ void json_export_kont(FILE *f, EDIT_KONTEJNER *p_kont,
   json_export_matrix(f, &p_kont->world, "world");
 
   fprintf(f,"  \"geometry_objects\" : [\n");
-  int i;
   for(i = 0; i < MAX_KONT_OBJEKTU; i++) {
     if(p_kont->p_obj[i]) {
       if(i != 0){
@@ -319,6 +320,53 @@ void json_export_kontejnery(FILE *f, EDIT_KONTEJNER **p_kont, int max_kont,
     if(p_kont[i]) {
       if(i != 0) { fprintf(f, ",\n"); }
       json_export_kont(f,p_kont[i], p_mat, max_kont);
+    }
+  }
+}
+
+/*
+typedef struct _EDIT_KONTEJNER
+{
+  char jmeno[MAX_JMENO];
+  int kontejner_ID;             // identifikacni cislo kontejneru -> jedinecne pri ukldani sceny
+  EDIT_OBJEKT *p_obj[MAX_KONT_OBJEKTU];
+
+  GLMATRIX world;               // hlavni modifikovaci matice (scale a pod -> nulova transfromace na stred)
+  GLMATRIX mpmatrix;            // pozicni matice - aktivni pouze pri ukladani/nahravani
+  int max_objektu;
+  char kreslit;
+  int prvek;                    // pokud prvek -> je to logicky prvek k beruskam == K_CHYBA -> neni to prvek
+
+  dword m1flag;                 // slepenec vsech materialu
+  dword m2flag;                 // slepenec vsech materialu
+  dword kflag;                  // slepenec vsech objektu
+  dword k2flag;
+  int facu;
+  int bodu;
+  int objektu;
+  int mailbox;
+  int kont;
+  int low_id;                   // identifikator low/top-kontejneru
+
+  OBB_OLD obb;
+  MLZNA_KOSTKA *p_mlha;         // pointer na mlznou kostku kontejneru
+  HIERARCHY_SIM sim[KONT_MAX_ANIM];     // seznam animaci - sim-animace
+  int akt_animace;              // aktualne vybrana animace 
+  struct _STATIC_LIGHT *p_slight;       // seznam statickych svetel
+  struct _DYN_LIGHT *p_dlight;  // seznam dynamickych svetel
+  struct _EXTRA_DYN_LIGHT *p_edlight;   // seznam extra svetel
+  struct _EDIT_KONTEJNER *p_next;       // dalsi kontejner v multi-mesh kontejnerech
+  struct _EDIT_KONTEJNER *p_next_low;   // dalsi kontejner v low hierarchii
+  struct _EDIT_KONTEJNER *p_next_top;   // top-kontejner
+} EDIT_KONTEJNER;
+*/
+
+void json_export_kont_single(EDIT_KONTEJNER *p_kont, EDIT_MATERIAL ** p_mat, int max_mat)
+{
+  if(export_file) {
+    while(p_kont) {    
+      json_export_kont(export_file, p_kont, p_mat, max_mat);
+      p_kont = p_kont->p_next;
     }
   }
 }
@@ -509,6 +557,9 @@ void json_export_svetla(FILE *f, STATIC_LIGHT * p_light, int lightnum)
   }
 }
 
+
+
+/*
 void json_export_level(EDIT_KONTEJNER **p_kont, int max_kont,
                        EDIT_MATERIAL ** p_mat, int max_mat,
                        STATIC_LIGHT * p_light, int lightnum)
@@ -519,6 +570,20 @@ void json_export_level(EDIT_KONTEJNER **p_kont, int max_kont,
     json_export_kontejnery(export_file, p_kont, max_kont, p_mat, max_mat);
     json_export_svetla(export_file, p_light, lightnum);
     //fprintf((FILE*)(export_file), "\n]");
+  }
+}
+*/
+void json_export_materialy(EDIT_MATERIAL ** p_mat, int max_mat)
+{
+  if(export_file) {
+    json_export_materialy(export_file, p_mat, max_mat);
+  }
+}
+
+void json_export_light(STATIC_LIGHT * p_light, int lightnum)
+{
+  if(export_file) {
+    json_export_svetla(export_file, p_light, lightnum);    
   }
 }
 

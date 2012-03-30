@@ -31,12 +31,12 @@
 void json_export_start(char *p_file);
 void json_export_end(void);
 
-void json_export_level(EDIT_KONTEJNER **p_kont, int max_kont,
-                       EDIT_MATERIAL ** p_mat, int max_mat,
-                       STATIC_LIGHT * p_light, int lightnum);
-void json_export_poly(EDIT_MESH_POLY *p_poly, int polynum, 
-                      EDIT_MATERIAL ** p_mat, int max_mat);
+void json_export_kont(EDIT_KONTEJNER *p_kont, EDIT_MATERIAL ** p_mat, int max_mat);
+void json_export_kont_single(EDIT_KONTEJNER *p_kont, EDIT_MATERIAL ** p_mat, int max_mat);
+void json_export_materialy(EDIT_MATERIAL ** p_mat, int max_mat);
+void json_export_light(STATIC_LIGHT * p_light, int lightnum);                       
+void json_export_poly(EDIT_MESH_POLY *p_poly, int polynum, EDIT_MATERIAL ** p_mat, int max_mat);
 void json_export_level(LEVELINFO * p_Level);
 void json_export_lightmap(int num, bitmapa *p_bmp);
-                      
+
 #endif // __JSON_EXPORT_H__

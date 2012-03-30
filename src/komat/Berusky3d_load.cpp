@@ -366,12 +366,12 @@ void ber_materialy_rozkopiruj(G_KONFIG * p_ber, GAME_MESH_OLD * p_mesh,
 
 /* Nahraje jeden mesh
 */
-int ber_nahraj_mesh(G_KONFIG * p_ber, char *p_jmeno, GAME_MESH_OLD ** p_mesh)
+int ber_nahraj_mesh(G_KONFIG * p_ber, char *p_jmeno, GAME_MESH_OLD ** p_mesh, int json_export)
 {
   chdir((p_ber->dir.out_dir));
   p_mesh[0] = lo_nahraj_mesh(p_ber->p_mat, MAX_CELKEM_MATERIALU, p_ber->p_text,
                              MAX_CELKEM_TEXTUR, p_jmeno, TRUE, 
-                             p_ber->conf_extra_light_vertex);
+                             p_ber->conf_extra_light_vertex, json_export);
   return ((int) p_mesh[0]);
 }
 
@@ -679,12 +679,6 @@ int ber_nahraj_scenu(G_KONFIG * p_ber, char *p_jmeno, char *p_dir, int reload,
       p_ber->p_flare = lo_flare2linear(flare, f);
     }
     p_ber->slightnum = lo_posledni_svetlo(p_ber->p_slight, MAX_FLARE_SVETEL);
-
-    if(export_level) {
-      json_export_level(p_kont, MAX_BERUSKY_KONTEJNERU,
-                        p_ber->p_mat, MAX_CELKEM_MATERIALU,
-                        p_ber->p_slight, MAX_FLARE_SVETEL);
-    }  
   
     // Smazu materialy mazanych objektu
     for (k = 0; k < MAX_BERUSKY_KONTEJNERU; k++) {
@@ -694,18 +688,25 @@ int ber_nahraj_scenu(G_KONFIG * p_ber, char *p_jmeno, char *p_dir, int reload,
         }
       }
     }
+  
+    if(export_level) {
+      json_export_light(p_ber->p_slight, MAX_FLARE_SVETEL);
+    }  
 
     // prekopiruje kontejnery-meshe 1:1
     for (k = 0, m = 0, p = -1; k < MAX_BERUSKY_KONTEJNERU; k++) {
       if (p_kont[k]) {
         if (ber_je_mesh_beruska(k, p_berusky, bernum, tmp)) {
-          ret = ber_nahraj_mesh(p_ber, tmp, p_ber->p_mesh + m);
+          ret = ber_nahraj_mesh(p_ber, tmp, p_ber->p_mesh + m, export_level);
           assert(ret);
           zrus_kontejner_rec(p_kont + k, NULL);
           p_ber->p_mesh[m]->p_data->kflag |= KONT_PRVEK;
           p_ber->p_mesh[m]->p_data->k2flag |= KONT2_BERUSKA;
         }
         else {
+          if(export_level) {
+            json_export_kont_single(p_kont[k], p_ber->p_mat, MAX_CELKEM_MATERIALU);
+          }
           p_ber->p_mesh[m] = lo_kontejner_to_mesh(p_kont + k, p_ber->p_mat,
             MAX_CELKEM_MATERIALU, p_ber->conf_extra_light_vertex);
         }
@@ -747,6 +748,10 @@ int ber_nahraj_scenu(G_KONFIG * p_ber, char *p_jmeno, char *p_dir, int reload,
     }
     p_ber->meshnum = m + 1;
 
+    if(export_level) {
+      json_export_materialy(p_ber->p_mat, MAX_CELKEM_MATERIALU);
+    }    
+  
     p_ber->conf_kurzor_mesh = ber_nahraj_kurzor(p_ber);
     p_ber->dl_lightnum = lo_najdi_prepocitej_dsvetlo(p_ber->p_dlight, MAX_FLARE_SVETEL);
       
