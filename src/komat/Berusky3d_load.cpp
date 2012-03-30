@@ -780,10 +780,6 @@ void ber_nahraj_poly(G_KONFIG * p_ber, char *p_jmeno, char *p_dir)
     lo_poly_flaguj_materialy(p_ber->p_poly + i, p_ber->p_mat);
   }
 
-  if(export_level) {
-    json_export_poly(p_ber->p_poly, p_ber->polynum,
-                     p_ber->p_mat, MAX_CELKEM_MATERIALU);
-  }
 
   /* Flagovani zrcadla
    */
@@ -855,6 +851,11 @@ void ber_nahraj_lightmap(G_KONFIG * p_ber, char *p_jmeno, char *p_dir)
   }
 
   txconf = zal;
+
+  if(export_level) {
+    json_export_poly(p_ber->p_poly, p_ber->polynum,
+                     p_ber->p_mat, MAX_CELKEM_MATERIALU);
+  }
 
   /* Prepocitej lightmapy
    */

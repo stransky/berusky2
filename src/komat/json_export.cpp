@@ -377,12 +377,14 @@ for (l = 0; l < p_poly->lightnum; l++) {
 
 */
 void json_export_poly(FILE *f, EDIT_MESH_POLY *p_poly,
-                      EDIT_MATERIAL ** p_mat, int max_mat)
+                      EDIT_MATERIAL ** p_mat, int max_mat, 
+                      int poly_id)
 {
   fprintf(f,"{\n");
-  fprintf(f,"  \"type\" : \"geometry_container\",\n");
+  fprintf(f,"  \"type\" : \"geometry_container_poly\",\n");
   fprintf(f,"  \"name\" : \"%s\",\n", p_poly->jmeno);
   fprintf(f,"  \"container_id\" : \"%d\",\n", -1);
+  fprintf(f,"  \"poly_id\" : \"%d\",\n", poly_id);
 
   GLMATRIX m;
   init_matrix(&m);
@@ -427,6 +429,14 @@ void json_export_poly(FILE *f, EDIT_MESH_POLY *p_poly,
   fprintf(f,"%f,%f",p_koord->tu2,p_koord->tv2);
   fprintf(f,"],\n");
 
+  fprintf(f,"    \"vertexTextureCoordsLight\" : [");
+  p_koord = p_poly->p_koord;
+  for(i = 0; i < p_poly->facenum-1; i++, p_koord++) {
+    fprintf(f,"%f,%f,",p_koord->tul,p_koord->tvl);
+  }
+  fprintf(f,"%f,%f",p_koord->tul,p_koord->tvl);
+  fprintf(f,"],\n");
+
   fprintf(f,"    \"indices\" : [");  
   for (i = 0; i < p_poly->facenum-1; i++) {
     fprintf(f,"%d,",i);
@@ -447,7 +457,7 @@ void json_export_poly(EDIT_MESH_POLY *p_poly, int polynum,
     int i;
     for(i = 0; i < polynum; i++) {
       if(i != 0) {fprintf((FILE*)export_file, ",\n");}
-      json_export_poly(export_file, p_poly+i, p_mat, max_mat);
+      json_export_poly(export_file, p_poly+i, p_mat, max_mat, i);
     }
   }
   fprintf((FILE*)(export_file), ",");
@@ -608,7 +618,7 @@ void json_export_start(char *p_file)
 {
   if(!export_file) {    
     export_file = fopen(p_file,"w");
-    return_dir(p_file, export_level_dir, MAX_FILENAME);
+    getcwd(export_level_dir,MAX_FILENAME);
   }
 }
 

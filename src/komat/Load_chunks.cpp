@@ -5042,7 +5042,7 @@ int lo_load_chunky(FFILE f)
   while ((ret = ffread(&ch, sizeof(ch), 1, f)) && ret > 0) {
     load = 0;
 
-    pprintf("ch.typ = %d", ch.typ);
+    //pprintf("ch.typ = %d", ch.typ);
     assert(ch.typ >= 0 && ch.typ <= CHUNK_KAMSET_2);
 
     for (i = 0; i < (int) (sizeof(chload) / sizeof(chload[0])); i++) {
