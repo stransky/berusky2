@@ -284,13 +284,15 @@ void json_export_object(FILE *f, EDIT_OBJEKT *p_obj,
 }
 
 void json_export_kont(FILE *f, EDIT_KONTEJNER *p_kont,
-                      EDIT_MATERIAL ** p_mat, int max_mat)
+                      EDIT_MATERIAL ** p_mat, int max_mat, 
+                      int level)
 {
   int i;
 
   fprintf(f,"{\n");
   fprintf(f,"  \"type\" : \"geometry_container\",\n");
   fprintf(f,"  \"name\" : \"%s\",\n", p_kont->jmeno);
+  fprintf(f,"  \"hierarchy_level\" : \"%d\",\n", level);
   fprintf(f,"  \"container_id\" : \"%d\",\n", p_kont->kontejner_ID);
   fprintf(f,"  \"matrix\" : ");
   json_export_matrix(f, &p_kont->world, "world");
@@ -310,18 +312,6 @@ void json_export_kont(FILE *f, EDIT_KONTEJNER *p_kont,
   fprintf(f,"\n  ]\n");
 
   fprintf(f,"}");
-}
-
-void json_export_kontejnery(FILE *f, EDIT_KONTEJNER **p_kont, int max_kont,
-                            EDIT_MATERIAL ** p_mat, int max_mat)
-{
-  int i;
-  for(i = 0; i < max_kont; i++) {
-    if(p_kont[i]) {
-      if(i != 0) { fprintf(f, ",\n"); }
-      json_export_kont(f,p_kont[i], p_mat, max_kont);
-    }
-  }
 }
 
 /*
@@ -364,8 +354,9 @@ typedef struct _EDIT_KONTEJNER
 void json_export_kont_single(EDIT_KONTEJNER *p_kont, EDIT_MATERIAL ** p_mat, int max_mat)
 {
   if(export_file) {
-    while(p_kont) {    
-      json_export_kont(export_file, p_kont, p_mat, max_mat);
+    int level = 0;
+    while(p_kont) {
+      json_export_kont(export_file, p_kont, p_mat, max_mat, level++);
       p_kont = p_kont->p_next;
     }
   }
