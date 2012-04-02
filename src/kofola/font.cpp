@@ -333,14 +333,14 @@ void fn_Set_Char(unsigned int *pTexture, int iXSize, int iYSize, int iXpos,
   }
 }
 
-void fn_Gen_Texture(BYTE ** lpTexture, int iXSize, int iYSize, int iXpos,
+void fn_Gen_Texture(char ** lpTexture, int iXSize, int iYSize, int iXpos,
   int iYpos, GAME_TRIGER * gt, TRIGER_STRUCTURE * ts, WCHAR * cFile,
   WCHAR * cStop, int iSection, int *iXres, int *iYres)
 {
   WCHAR wtext[1024];
   int i;
   int top, bottom, left, right, ycor;
-  BYTE *pT = NULL;
+  char *pT = NULL;
 
   int x = iXpos, y = iYpos - b2_2d_font.iYPlus;
 
@@ -362,7 +362,7 @@ void fn_Gen_Texture(BYTE ** lpTexture, int iXSize, int iYSize, int iXpos,
   ZeroMemory(wtext, 1024 * sizeof(WCHAR));
   wcsncpy(wtext, cFile + i, cStop - cFile - i);
 
-  pT = (BYTE *) malloc(iXSize * iYSize * sizeof(unsigned int));
+  pT = (char *) malloc(iXSize * iYSize * sizeof(unsigned int));
 
   if (!pT)
     return;
@@ -866,7 +866,7 @@ int fn_Get_Font_Texture(int iSection, char *cText)
     strlen("##endofmessage") + 1, ws, sizeof(ws) / sizeof(ws[0]));
 
   fn_Gen_Texture(&pT, FONT_X_MAX, FONT_Y_MAX, 0, 0, &b2_2d_font.gt,
-    &b2_2d_font.ts, wc, ws, iSection, &Xmax, &Ymax);
+                 &b2_2d_font.ts, wc, ws, iSection, &Xmax, &Ymax);
 
   tx = Xmax;
   ty = Ymax;

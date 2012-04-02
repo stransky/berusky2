@@ -8,11 +8,11 @@ INCLUDES =\
 	 -Ikomat -Ikofola -Itmp -Iage/graph -Iage/include -Iage/support -Iage/utils -Igenerator -Iadas
 
 AM_CFLAGS =\
-	-D_DEBUG -fpermissive -w\
+	-D_DEBUG -Wno-write-strings\
 	 -g
 
 AM_CXXFLAGS =\
-	-D_DEBUG -fpermissive -w\
+	-D_DEBUG -Wno-write-strings\
 	 -g
 
 bin_PROGRAMS = berusky2

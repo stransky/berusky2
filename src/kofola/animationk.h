@@ -45,13 +45,13 @@ void am_Release(ANIMATION_MODULE * p_am, LEVELINFO * p_Level);
 int am_Animation_Status(SIM_ANIMATION * p_animation, ANIMATION_MODULE * p_am);
 
 void am_Set_Start_Function(SIM_ANIMATION * p_animation, END_FUNKCE pStartf,
-  int iParam1, int iParam2, void *pParam, int index);
+  size_ptr iParam1, size_ptr iParam2, size_ptr pParam, int index);
 
 void am_Set_Triger_Function(SIM_ANIMATION * p_animation, END_FUNKCE pTrigerf,
-  int iParam1, int iParam2, void *pParam, int flag, int index);
+  size_ptr iParam1, size_ptr iParam2, size_ptr pParam, int flag, int index);
 
 void am_Set_aMaterial_Function(SIM_ANIMATION * p_animation, int i,
-  END_FUNKCE taMateral, int iParam1, int iParam2, void *pParam, int flag);
+  END_FUNKCE taMateral, size_ptr iParam1, size_ptr iParam2, size_ptr pParam, int flag);
 
 void am_Animate_Items(ANIMATION_MODULE * p_am, LEVELINFO * p_Level);
 void am_Remove_Animate_item(long item, LEVELINFO * p_Level);

@@ -32,7 +32,7 @@ void Parse_ScenarioLine(FILE * file, int *result, int res_size,
 void Parse_LineT(char *ftext, int *result, int res_size, char *comfile1,
   char *comfile2);
 
-void LoadMenuScript(char *p_File_Name, CMD_LINE * res, int *lastcmd);
+void LoadMenuScript(const char *p_File_Name, CMD_LINE * res, int *lastcmd);
 void LoadAnimationMenuScript(CMD_LINE * res, int i, int *lastanm);
 
 #endif

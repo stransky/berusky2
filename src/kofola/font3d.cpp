@@ -745,11 +745,10 @@ int fn2_Set_Font(char *cPAK)
     return 0;
   }
   else {
-    int iTSize;
+    apuInt iTSize;
 
     agetbuffer(b2_3d_font.file, (char **) &b2_3d_font.pTBuffer, &iTSize);
-    b2_3d_font.pTBuffer =
-      wchar_windows_to_linux((word *) b2_3d_font.pTBuffer, iTSize);
+    b2_3d_font.pTBuffer = wchar_windows_to_linux((word *) b2_3d_font.pTBuffer, iTSize);
 
     if (!b2_3d_font.pTBuffer) {
       apakclose(b2_3d_font.pArchive);
@@ -1107,8 +1106,9 @@ int fn2_Get_Font_Texture(int iSection, char *cText)
      b2_3d_font.tex.p_bmp->data); */
 
   return fn2_Put_in_3d_List(b2_3d_font.tex[iSection].text,
-    &b2_3d_font.tex[iSection], &b2_3d_font.konf[iSection], Xmax, Ymax, pnT,
-    tx, ty);
+                            &b2_3d_font.tex[iSection], 
+                            &b2_3d_font.konf[iSection], 
+                            Xmax, Ymax, (char *)pnT, tx, ty);
 }
 
 void fn2_Load_Textures_From_RAM(void)

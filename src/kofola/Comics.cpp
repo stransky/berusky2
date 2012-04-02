@@ -18,7 +18,7 @@ typedef struct
 
 static char bCimicsEnd;
 static int iActualBmp;
-static unsigned int uiTimerID;
+static TIMER_ID uiTimerID;
 static COMICS_PICTURE cmcs_Picture[64];
 
 /*static MCI_DGV_OPEN_PARMS		mciOpen;

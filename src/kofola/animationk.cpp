@@ -175,7 +175,7 @@ int am_Animation_Status(SIM_ANIMATION * p_animation, ANIMATION_MODULE * p_am)
 // pripoji funkci na start animace
 //------------------------------------------------------------------------------------------------
 void am_Set_Start_Function(SIM_ANIMATION * p_animation, END_FUNKCE pStartf,
-  int iParam1, int iParam2, void *pParam, int index)
+  size_ptr iParam1, size_ptr iParam2, size_ptr pParam, int index)
 {
   p_animation->tStart[index].pProc = pStartf;
   p_animation->tStart[index].pParam = pParam;
@@ -187,7 +187,7 @@ void am_Set_Start_Function(SIM_ANIMATION * p_animation, END_FUNKCE pStartf,
 // nastavi spusteni funkce na ucrite misto animace
 //------------------------------------------------------------------------------------------------
 void am_Set_Triger_Function(SIM_ANIMATION * p_animation, END_FUNKCE pTrigerf,
-  int iParam1, int iParam2, void *pParam, int flag, int index)
+  size_ptr iParam1, size_ptr iParam2, size_ptr pParam, int flag, int index)
 {
   p_animation->tTriger[index].pProc = pTrigerf;
   p_animation->tTriger[index].pParam = pParam;
@@ -200,7 +200,7 @@ void am_Set_Triger_Function(SIM_ANIMATION * p_animation, END_FUNKCE pTrigerf,
 // nastavi spusteni funkce na ucrite misto animace
 //------------------------------------------------------------------------------------------------
 void am_Set_aMaterial_Function(SIM_ANIMATION * p_animation, int i,
-  END_FUNKCE taMateral, int iParam1, int iParam2, void *pParam, int flag)
+  END_FUNKCE taMateral, size_ptr iParam1, size_ptr iParam2, size_ptr pParam, int flag)
 {
   p_animation->taMateral[i].pProc = taMateral;
   p_animation->taMateral[i].pParam = pParam;
@@ -3613,9 +3613,9 @@ int am_Create_Rain(LEVELINFO * p_Level, RAINSYSTEM * pRain, float fRadius,
   pCastice->a = 1.0f;
   pCastice->da = pCastice->dr = pCastice->dg = pCastice->db = 0.0f;
 
-  pRain->dir.x = (rand() & 0x1 ? randf() : -randf()) / (float) (2 * RAND_MAX);
+  pRain->dir.x = (rand() & 0x1 ? randf() : -randf()) / (2 * (float) RAND_MAX);
   pRain->dir.y = -27.0f;
-  pRain->dir.z = (rand() & 0x1 ? randf() : -randf()) / (float) (2 * RAND_MAX);
+  pRain->dir.z = (rand() & 0x1 ? randf() : -randf()) / (2 * (float) RAND_MAX);
 
   memcpy((void *) &pRain->nx, (void *) &pRain->dir, sizeof(BOD));
   norm_vect(&pRain->nx.x, &pRain->nx.y, &pRain->nx.z);
@@ -3755,9 +3755,9 @@ int am_Create_Snow(LEVELINFO * p_Level, SNOWSYSTEM * pSnow, float fRadius,
   pCastice->a = 1.0f;
   pCastice->da = pCastice->dr = pCastice->dg = pCastice->db = 0.0f;
 
-  pSnow->dir.x = (rand() & 0x1 ? randf() : -randf()) / (float) (6 * RAND_MAX);
+  pSnow->dir.x = (rand() & 0x1 ? randf() : -randf()) / (6 * (float) RAND_MAX);
   pSnow->dir.y = -0.25f;
-  pSnow->dir.z = (rand() & 0x1 ? randf() : -randf()) / (float) (6 * RAND_MAX);
+  pSnow->dir.z = (rand() & 0x1 ? randf() : -randf()) / (6 * (float) RAND_MAX);
 
   pSnow->pSystem = par_vyrob();
 
@@ -3808,7 +3808,7 @@ int am_Create_Snow(LEVELINFO * p_Level, SNOWSYSTEM * pSnow, float fRadius,
 
       //pregenerovani nekterych parametru
       pCastice[0].rychlost_y = pCastice[0].rychlost_x =
-        randf() / (float) (50 * RAND_MAX);
+        randf() / (50 * (float)RAND_MAX);
 
       if (pCastice[0].rychlost_y < 0.005f)
         pCastice[0].rychlost_y = pCastice[0].rychlost_x = 0.005f;
@@ -4784,9 +4784,9 @@ void am_Start_Animaci_Pontonky(ITEMDESC * pItem)
   i = rand() % 2;
 
   if (guid == 5007)
-    r = rand() / (float) (RAND_MAX * 5);
+    r = rand() / ((float) RAND_MAX * 5);
   else
-    r = rand() / (float) (RAND_MAX * 40);
+    r = rand() / ((float) RAND_MAX * 40);
 
   if (r < 0.05f)
     r = 0.05f;
@@ -4802,9 +4802,9 @@ void am_Start_Animaci_Pontonky(ITEMDESC * pItem)
   sim_vloz_klic_posun(anim, 1, 0.0f, r, 0.0f, f1);
 
   if (guid == 5007)
-    r = rand() / (float) (RAND_MAX * 5);
+    r = rand() / ((float)RAND_MAX * 5);
   else
-    r = rand() / (float) (RAND_MAX * 40);
+    r = rand() / ((float)RAND_MAX * 40);
 
   if (r < 0.05f)
     r = 0.05f;
@@ -6371,14 +6371,14 @@ void am_Start_Gen_Animation(char *cMesh, LEVELINFO * p_Level)
 
   sim_vloz_klic_posun(anim, 0, 0, 0, 0, 0);
 
-  r = rand() / (float) (RAND_MAX * 40);
+  r = rand() / ((float)RAND_MAX * 40);
 
   if (r < 0.05f)
     r = 0.05f;
 
   f1 = (int) ceil(r * 800);
 
-  r = rand() / (float) (RAND_MAX * 40);
+  r = rand() / ((float)RAND_MAX * 40);
 
   if (r < 0.05f)
     r = 0.05f;
@@ -6389,14 +6389,14 @@ void am_Start_Gen_Animation(char *cMesh, LEVELINFO * p_Level)
 
   i = rand() % 2;
 
-  r = (rand() / (float) (RAND_MAX)) * 2;
+  r = (rand() / ((float)RAND_MAX)) * 2;
 
   if (i)
     r *= -1;
 
   sim_vloz_klic_rotace(anim, 1, &b, r, f1);
 
-  r = (rand() / (float) (RAND_MAX)) * 2;
+  r = (rand() / ((float)RAND_MAX)) * 2;
 
   if (!i)
     r *= -1;

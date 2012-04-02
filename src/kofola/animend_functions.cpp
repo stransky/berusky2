@@ -80,7 +80,7 @@ void anmend_Play_PadBerusky(ITEMDESC * p_itm, LEVELINFO * p_Level)
   }
 }
 
-void anmend_PadBedny(int param, int param2, void *p_param)
+void anmend_PadBedny(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   LEVELINFO *p_Level = (LEVELINFO *) param;
   ITEMDESC *p_itm = (ITEMDESC *) p_param;
@@ -92,19 +92,14 @@ void anmend_PadBedny(int param, int param2, void *p_param)
     anmend_Play_PadBerusky(p_itm, p_Level);
 }
 
-void anmend_Add_Beetle_Animation(int param, int param2, LEVELINFO * p_param)
+void anmend_Add_Beetle_Animation(size_ptr param, size_ptr param2, size_ptr p_param)
 {
-  am_Add_Beetle_Animation(param, p_param, param2, 1);
+  am_Add_Beetle_Animation(param, reinterpret_cast<LEVELINFO*>(p_param), param2, 1);
 }
 
-void anmend_Add_Beetle_Animation(int param, int param2, void *p_param)
+void anmend_kom_mesh_set_mesh(size_ptr param, size_ptr param2, size_ptr p_param)
 {
-  anmend_Add_Beetle_Animation(param, param2, (LEVELINFO *) p_param);
-}
-
-void anmend_kom_mesh_set_mesh(int param, int param2, LEVELINFO * p_param)
-{
-  kom_mesh_set_mesh(param, param2, (int) p_param);
+  kom_mesh_set_mesh(param, param2, p_param);
   lani_set(param, 0, 0, &Level.TrashFlag, 0, 0, 0);
 }
 
@@ -123,7 +118,7 @@ int anmend_Find_Item(int Mesh, LEVELINFO * p_Level)
   return -1;
 }
 
-void anmend_ExplozeBedny(int param, int param2, void *p_param)
+void anmend_ExplozeBedny(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   LEVELINFO *p_Level = (LEVELINFO *) p_param;
   ITEMDESC *p_itm = p_Level->Level[param2];
@@ -286,7 +281,7 @@ void anmend_ExplozeBedny(int param, int param2, void *p_param)
   ap_Play_Sound(0,0,0, pos, rot + 14, NULL, &ad);
 }
 
-void anmend_ExplozeBednyZaSikminou(int param, int param2, void *p_param)
+void anmend_ExplozeBednyZaSikminou(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   int lc;
   POINTERSTRUCTURE *pStruct = (POINTERSTRUCTURE *) p_param;
@@ -343,7 +338,7 @@ int anmend_Find_Lift_PSystem(int mesh, LEVELINFO * p_Level)
   return -1;
 }
 
-void anmend_Lift(int param, int param2, void *p_param)
+void anmend_Lift(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   LEVELINFO *p_Level = (LEVELINFO *) p_param;
   ITEMDESC *p_itm = p_Level->Level[param2];
@@ -382,12 +377,12 @@ void anmend_Lift(int param, int param2, void *p_param)
   }
 }
 
-void animend_Lift_End(int param, int param2, void *p_param)
+void animend_Lift_End(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   kom_rozvaz_mesh(param);
 }
 
-void anmend_Play_Sunuti(int param, int param2, void *p_param)
+void anmend_Play_Sunuti(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   float pos[3];
   LEVELINFO *p_Level = (LEVELINFO *) p_param;
@@ -560,7 +555,7 @@ int anmend_Is_On_Water(long item, LEVELINFO * p_Level)
   return 0;
 }
 
-void anmend_Steps(int param, int param2, void *p_param)
+void anmend_Steps(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   POINTERSTRUCTURE *pStruct = (POINTERSTRUCTURE *) p_param;
   LEVELINFO *p_Level = pStruct->p_Level;
@@ -697,7 +692,7 @@ void anmend_Steps(int param, int param2, void *p_param)
   free((void *) pStruct);
 }
 
-void anmend_Steps2(int param, int param2, void *p_param)
+void anmend_Steps2(size_ptr param, size_ptr param2, size_ptr p_param)
 {
 //      ANIMATION_QUEUE_SET_    *p_aset;
   POINTERSTRUCTURE *pStruct = (POINTERSTRUCTURE *) p_param;
@@ -747,7 +742,7 @@ void anmend_Steps2(int param, int param2, void *p_param)
   free((void *) pStruct);
 }
 
-void anmend_StepsSikmina(int param, int param2, void *p_param)
+void anmend_StepsSikmina(size_ptr param, size_ptr param2, size_ptr p_param)
 {
 //      ANIMATION_QUEUE_SET_    *p_aset;
   POINTERSTRUCTURE *pStruct = (POINTERSTRUCTURE *) p_param;
@@ -812,7 +807,7 @@ void anmend_StepsSikmina(int param, int param2, void *p_param)
   free((void *) pStruct);
 }
 
-void anmend_Water(int param, int param2, void *p_param)
+void anmend_Water(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   float fvpos[3];
   int i;
@@ -859,7 +854,7 @@ void anmend_Water(int param, int param2, void *p_param)
     free((void *) pStruct);
 }
 
-void anmend_Cakanec(int param, int param2, void *p_param)
+void anmend_Cakanec(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   float fvpos[3];
   POINTERSTRUCTURE *pStruct = (POINTERSTRUCTURE *) p_param;
@@ -881,7 +876,7 @@ void anmend_Cakanec(int param, int param2, void *p_param)
   free((void *) pStruct);
 }
 
-void anmend_WaterLift(int param, int param2, void *p_param)
+void anmend_WaterLift(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   int i;
   float fvpos[3];
@@ -910,7 +905,7 @@ void anmend_WaterLift(int param, int param2, void *p_param)
   free((void *) pStruct);
 }
 
-void anmend_Item_Fall(int param, int param2, void *p_param)
+void anmend_Item_Fall(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   int rot;
   float pos[3];
@@ -955,7 +950,7 @@ void anmend_Item_Fall(int param, int param2, void *p_param)
   gl_Pripoj_Flek_k_Predmenu(p_itm, p_Level);
 }
 
-void anmend_Item_FallStartAnim(int param, int param2, void *p_param)
+void anmend_Item_FallStartAnim(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   LEVELINFO *p_Level = (LEVELINFO *) p_param;
 
@@ -976,19 +971,19 @@ void anmend_Item_FallStartAnim(int param, int param2, void *p_param)
   }
 }
 
-void anmend_Send_Event(int param, int param2, void *p_param)
+void anmend_Send_Event(size_ptr param, size_ptr param2, size_ptr p_param)
 {
 //      kprintf(1,"anmend_Send_Event \n");
   kom_amat_event(param);
 }
 
-void anmend_Set_Flek_Flag(int param, int param2, void *p_param)
+void anmend_Set_Flek_Flag(size_ptr param, size_ptr param2, size_ptr p_param)
 {
 //      kprintf(1,"anmend_Set_Flek_Flag \n");
   kom_flek_setflag(param, param2);
 }
 
-void anmend_Set_Flek_Flag_Anim(int param, int param2, void *p_param)
+void anmend_Set_Flek_Flag_Anim(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   LEVELINFO *p_Level = (LEVELINFO *) & Level;
 
@@ -1003,7 +998,7 @@ void anmend_Set_Flek_Flag_Anim(int param, int param2, void *p_param)
     p_Level->Level[p_Level->Actual_Item]->Rotation, 0);
 }
 
-void anmend_Take_Item(int param, int param2, void *p_param)
+void anmend_Take_Item(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   POINTERSTRUCTURE *pStruct = (POINTERSTRUCTURE *) p_param;
   float pos[3];
@@ -1036,7 +1031,7 @@ void anmend_Take_Item(int param, int param2, void *p_param)
   free((void *) pStruct);
 }
 
-void anmend_Kamen(int param, int param2, void *p_param)
+void anmend_Kamen(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   float fpos[3];
   int pos[3];
@@ -1071,13 +1066,13 @@ void anmend_Kamen(int param, int param2, void *p_param)
   gl_Throw_off(pos, p_Level);
 }
 
-void anmend_ZrusCastice(int param, int param2, void *p_param)
+void anmend_ZrusCastice(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   SYSTEMZHAVYCHCASTIC *pSystem = (SYSTEMZHAVYCHCASTIC *) param2;
 
 //      kprintf(1,"anmend_ZrusCastice Act_Item = %d, -> %d\n");
 
-  free(p_param);
+  free(reinterpret_cast<void *>(p_param));
   if (param != -1)
     sdl_svetlo_zrus(param);
 
@@ -1085,12 +1080,12 @@ void anmend_ZrusCastice(int param, int param2, void *p_param)
     am_Release_Zhave_castice(pSystem);
 }
 
-void anmend_ZrusCastice2(int param, int param2, void *p_param)
+void anmend_ZrusCastice2(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   SYSTEMZHAVYCHCASTIC *pSystem = (SYSTEMZHAVYCHCASTIC *) param2;
   SYSTEMKOUROVYCHCASTIC *pSystemK = (SYSTEMKOUROVYCHCASTIC *) param;
 
-  free(p_param);
+  free(reinterpret_cast<void *>(p_param));
 
   if (pSystem)
     am_Release_Zhave_castice(pSystem);
@@ -1099,12 +1094,12 @@ void anmend_ZrusCastice2(int param, int param2, void *p_param)
     am_Release_Kourove_Castice(pSystemK);
 }
 
-void anmend_ZrusCastice3(int param, int param2, void *p_param)
+void anmend_ZrusCastice3(size_ptr param, size_ptr param2, size_ptr p_param)
 {
-  free(p_param);
+  free(reinterpret_cast<void *>(p_param));
 }
 
-void anmend_Are_Animations_Done(int param, int param2, void *p_param)
+void anmend_Are_Animations_Done(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   LEVELINFO *p_Level = (LEVELINFO *) p_param;
 
@@ -1115,7 +1110,7 @@ void anmend_Are_Animations_Done(int param, int param2, void *p_param)
   gl_Are_Animations_Done(p_Level);
 }
 
-void anmend_Tlacitko(int param, int param2, void *p_param)
+void anmend_Tlacitko(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   float pos[3];
   int rot;
@@ -1136,7 +1131,7 @@ void anmend_Tlacitko(int param, int param2, void *p_param)
   ap_Play_Sound(0,0,0, pos, p_itm->p_Object->Specific[rot].Index, NULL, &ad);
 }
 
-void anmend_Teleport(int param, int param2, void *p_param)
+void anmend_Teleport(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   float pos[3], target[3], r, fi, dist;
   int rot;
@@ -1231,7 +1226,7 @@ void anmend_Teleport(int param, int param2, void *p_param)
       p_itm->Rotation, 1);
 }
 
-void anmend_TeleportStart(int param, int param2, void *p_param)
+void anmend_TeleportStart(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   float pos[3];
   int rot;
@@ -1280,7 +1275,7 @@ void anmend_TeleportStart(int param, int param2, void *p_param)
   ap_Play_Sound(0,0,0, pos, p_tel->p_Object->Specific[rot].Index, NULL, &ad);
 }
 
-void anmend_Exit(int param, int param2, void *p_param)
+void anmend_Exit(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   LEVELINFO *p_Level = (LEVELINFO *) p_param;
 
@@ -1290,34 +1285,28 @@ void anmend_Exit(int param, int param2, void *p_param)
   kom_zrus_prvek(param);
 }
 
-void anmend_Lift_Item(int param, int param2, void *p_param)
+void anmend_Lift_Item(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   kom_svaz_meshe(param, param2);
 }
 
-void anmend_KamenZaSikmonou(int param, int param2, void *p_param)
+void anmend_KamenZaSikmonou(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   int mat = kom_najdi_material("cvytah1");
 
   POINTERSTRUCTURE *pStruct = (POINTERSTRUCTURE *) p_param;
 
-  //rani_pripoj_funkci(p_set->animation[p_set->last].p_run, anmend_Kamen, Ldest, 0, (void *)p_Level);
-
-  /*rani_pripoj_funkci(p_set->animation[p_set->last].p_run, anmend_kom_mesh_set_mesh, 
-     p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh, 0, (void *)p_Level->Level[p_Level->Actual_Item]->Rotation); */
-
-  anmend_Kamen(pStruct->viParam1[0], pStruct->viParam1[1], pStruct->p_Level);
-  anmend_kom_mesh_set_mesh(pStruct->viParam2[0], pStruct->viParam2[1],
-    (LEVELINFO *) pStruct->viParam2[2]);
+  anmend_Kamen(pStruct->viParam1[0], pStruct->viParam1[1], reinterpret_cast<size_ptr>(pStruct->p_Level));
+  anmend_kom_mesh_set_mesh(pStruct->viParam2[0], pStruct->viParam2[1], pStruct->viParam2[2]);
 
   free((void *) pStruct);
 }
 
-void anmend_PlayKrumpac(int param, int param2, void *p_param)
+void anmend_PlayKrumpac(size_ptr param, size_ptr param2, size_ptr p_param)
 {
 }
 
-void anmend_kom_mesh_set_meshK(int param, int param2, void *p_param)
+void anmend_kom_mesh_set_meshK(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   float pos[3];
   int rot;
@@ -1325,6 +1314,6 @@ void anmend_kom_mesh_set_meshK(int param, int param2, void *p_param)
   kom_mesh_get_float(param, &pos[0], &pos[1], &pos[2], &rot);
 
   ap_Play_Sound(0,0,0, pos, 162 + (rand()%2), NULL, &ad);
-  kom_mesh_set_mesh(param, param2, (int) p_param);
+  kom_mesh_set_mesh(param, param2, p_param);
   lani_set(param, 0, 0, &Level.TrashFlag, 0, 0, 0);
 }

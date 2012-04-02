@@ -1306,7 +1306,7 @@ int kom_get_mesh_mys_all(void)
 
 /* Nastavi aktivni mesh u multimesh charakteru
 */
-MeshHandle kom_mesh_set_mesh(MeshHandle mh, int ID, int rotace)
+MeshHandle kom_mesh_set_mesh(MeshHandle mh, int ID, size_ptr rotace)
 {
   PRVEK_LEVELU_GAME *p_lev = p_ber->p_prv_lev[mh];
   int mesh = p_lev->mesh;

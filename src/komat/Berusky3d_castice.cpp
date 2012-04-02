@@ -107,8 +107,8 @@ int par_get(ParHandle ph)
   return (p_par->pnum);
 }
 
-ParHandle par_pripoj_funkci(ParHandle ph, END_FUNKCE p_fce, int param,
-  int param2, void *p_param)
+ParHandle par_pripoj_funkci(ParHandle ph, END_FUNKCE p_fce, size_ptr param,
+  size_ptr param2, size_ptr p_param)
 {
   PARMETAC *p_par = (PARMETAC *) ph;
 

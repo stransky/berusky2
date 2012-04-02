@@ -295,8 +295,8 @@ ParHandle par_go(ParHandle ph, int *p_flag, int start, int stop);
 
 /* Pripoji tu dabelskou end funkci
 */
-ParHandle par_pripoj_funkci(ParHandle ph, END_FUNKCE p_fce, int param,
-  int param2, void *p_param);
+ParHandle par_pripoj_funkci(ParHandle ph, END_FUNKCE p_fce, size_ptr param,
+  size_ptr param2, size_ptr p_param);
 
 
 /* Cte pointer na prvni castici v linearnim seznamu castic

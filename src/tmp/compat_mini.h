@@ -71,6 +71,7 @@ typedef unsigned int UINT;
 typedef int BOOL;
 typedef void *HINSTANCE;
 typedef word FACE;
+typedef size_t size_ptr;
 
 extern dword karmin_aktivni;
 

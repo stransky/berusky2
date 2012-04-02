@@ -71,6 +71,6 @@ FILE *afiletoswitch(FILE * stream);
 int aunicode(FILE * stream);
 
 char * apak_dir_correction(char *dir);
-void apak_dir_correction(char *dir, char *out);
+void apak_dir_correction(const char *dir, char *out);
 
 #endif

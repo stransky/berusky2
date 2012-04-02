@@ -327,7 +327,7 @@ void gi_Init_Sound_Engine(AUDIO_DATA *p_ad)
 	float listenerVel[]={0.0,0.0,0.0};
 	float listenerOri[]={0.0,0.0,1.0, 0.0,1.0,0.0};
 	int		iValue;
-	char	*cString;
+	const char	*cString;
 	int		iLowV, iHiV;
 
 	init_data.Channels = GetPrivateProfileInt("soundengine","channels",8,ini_file);

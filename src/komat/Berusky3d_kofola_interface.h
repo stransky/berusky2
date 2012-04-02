@@ -92,7 +92,7 @@ int kom_mesh_get_pivot(MeshHandle prvek_handle, BOD * p_pivot);
 
 /* Nastaveni aktivniho meshe u multi-mesh meshu
 */
-MeshHandle kom_mesh_set_mesh(MeshHandle mh, int ID, int rotace);
+MeshHandle kom_mesh_set_mesh(MeshHandle mh, int ID, size_ptr rotace);
 
 /* Cte okamzite fyzicke!!! umisteni prvku ve scene + jeho rotaci
    Tato pozice zavisi take na umisteni levelu a velikosti hernich policek
@@ -303,8 +303,8 @@ RunHandle rani_aktivuj_cekej(AnimHandle shandle, int *p_flag);
    ze to musis stihnout do konce animace, jinak se ti nezavola
    ty promeny param, p_param ti do te funkce strcim.
 */
-RunHandle rani_pripoj_funkci(RunHandle a_handle, END_FUNKCE p_fce, int param,
-  int param2, void *p_param);
+RunHandle rani_pripoj_funkci(RunHandle a_handle, END_FUNKCE p_fce, size_ptr param,
+  size_ptr param2, size_ptr param3);
 
 /* Pripoji na run animaci dalsi run animaci s handlem next_ah,
    po skonceni animace ah se zavola automaticky funkce rani_go takto:

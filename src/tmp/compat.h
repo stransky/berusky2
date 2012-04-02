@@ -77,7 +77,7 @@ typedef struct _RECT
 #include "Kdtree.h"
 #include "2D_graphic.h"
 
-typedef void (*END_FUNKCE) (int param, int param2, void *p_param);
+typedef void (*END_FUNKCE) (size_ptr param, size_ptr param2, size_ptr param3);
 
 #define RGB(r,g,b) int_rgb(r,g,b)
 #define TRANSCOLOR int_rgb(255, 0, 255)

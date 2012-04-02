@@ -337,5 +337,6 @@ src/adas/ogg_stream.c
 src/adas/ogg_stream.h
 src/tmp/compat_mini.cpp
 src/tmp/compat_mini.h
+src/tmp/alut_test.cpp
 
 

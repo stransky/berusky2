@@ -874,7 +874,7 @@ int gl_Do_Lift_Particles(float *pos, int mesh, LEVELINFO * p_Level)
   p_Level->LiftParticles[k].dwTime = 0;
 
   par_pripoj_funkci(p_Level->LiftParticles[k].System, anmend_ZrusCastice3, 0,
-    0, (void *) pKourovaS);
+    0, reinterpret_cast<size_ptr>(pKourovaS));
 
   p_Level->LiftParticles[k].hHnizdo[1] = mesh;
   par_go(p_Level->LiftParticles[k].System, &p_Level->LiftParticles[k].flag, 0,
@@ -994,7 +994,7 @@ void gl_Do_Teleport_Sparks(float *pos, LEVELINFO * p_Level)
   p_Level->TeleportSparks[k].dwTime = 0;
 
   par_pripoj_funkci(p_Level->TeleportSparks[k].System, anmend_ZrusCastice3, 0,
-    0, (void *) pKourovaS);
+    0, reinterpret_cast<size_ptr>(pKourovaS));
 
   par_go(p_Level->TeleportSparks[k].System, &p_Level->TeleportSparks[k].flag,
     0, 0);
@@ -1051,24 +1051,28 @@ int gl_Teleport_Item(long Teleport, long Item, LEVELINFO * p_Level)
 
   p_prev_set = gl_Get_Prev_Queue_Set(p_Level);
 
-  if (p_Level->Level[Item]->p_Object->Class == 13 || !p_Level->Flip
-    || !p_prev_set->last) {
-    anmend_TeleportStart((int) p_Level->Level[Item], Teleport, pS);
+  if (p_Level->Level[Item]->p_Object->Class == 13 || !p_Level->Flip || !p_prev_set->last) {
+    anmend_TeleportStart(reinterpret_cast<size_ptr>(p_Level->Level[Item]), 
+                         Teleport, 
+                         reinterpret_cast<size_ptr>(pS));
   }
   else {
     if (gl_Multi_Animation(p_prev_set, &p_prev_set->animation[0]))
       iConnect = 1;
 
     rani_pripoj_funkci(p_prev_set->animation[iConnect].p_run,
-      anmend_Teleport, (int) p_Level->Level[Item], Teleport, pS);
+                       anmend_Teleport, 
+                       reinterpret_cast<size_ptr>(p_Level->Level[Item]), Teleport, 
+                       reinterpret_cast<size_ptr>(pS));
 
     if (!p_Level->Sikmina_FlagOld)
       am_Set_Triger_Function(&p_prev_set->animation[iConnect],
-        anmend_TeleportStart, (int) p_Level->Level[Item], Teleport, pS, 1, 0);
+        anmend_TeleportStart, reinterpret_cast<size_ptr>(p_Level->Level[Item]), 
+        Teleport, reinterpret_cast<size_ptr>(pS), 1, 0);
     else
       am_Set_Triger_Function(&p_prev_set->animation[iConnect],
-        anmend_TeleportStart, (int) p_Level->Level[Item],
-        Teleport, pS, 50, 0);
+        anmend_TeleportStart, reinterpret_cast<size_ptr>(p_Level->Level[Item]),
+        Teleport, reinterpret_cast<size_ptr>(pS), 50, 0);
 
     if (p_Level->Level[Item]->p_Object->Class == 1
       && Item == p_Level->Actual_Item && p_Level->bPosouvatKameru)
@@ -1369,21 +1373,21 @@ int gl_Throw_off(int *column, LEVELINFO * p_Level)
               if (voda > iValue2[2])
                 if (voda + 1 == iValue1[2]) {
                   am_Set_Triger_Function(&p_set->animation[canim],
-                    anmend_Water, 1, r, pS, percent, 0);
+                    anmend_Water, 1, r, reinterpret_cast<size_ptr>(pS), percent, 0);
 
                   am_Set_Triger_Function(&p_set->animation[canim],
-                    anmend_Cakanec, 1, r, pS, percent + percent1, 1);
+                    anmend_Cakanec, 1, r, reinterpret_cast<size_ptr>(pS), percent + percent1, 1);
                 }
                 else {
                   am_Set_Triger_Function(&p_set->animation[canim],
-                    anmend_Water, 0, r, pS, percent, 0);
+                    anmend_Water, 0, r, reinterpret_cast<size_ptr>(pS), percent, 0);
 
                   am_Set_Triger_Function(&p_set->animation[canim],
-                    anmend_Cakanec, 0, r, pS, percent + percent1, 1);
+                    anmend_Cakanec, 0, r, reinterpret_cast<size_ptr>(pS), percent + percent1, 1);
                 }
               else
                 am_Set_Triger_Function(&p_set->animation[canim], anmend_Water,
-                  2, r, pS, percent, 0);
+                  2, r, reinterpret_cast<size_ptr>(pS), percent, 0);
             }
           }
 
@@ -1446,20 +1450,23 @@ int gl_Throw_off(int *column, LEVELINFO * p_Level)
                 p_Level->Level[real_pos1]->Index_Of_Game_Mesh);
               //p_set->animation[p_set->last].mesh = p_Level->Level[real_pos1]->Index_Of_Game_Mesh;
 
-              am_Set_Triger_Function(&p_set->animation[p_set->last],
-                anmend_Item_Fall, 0, real_pos2, p_Level,
-                (int) floor((float) (((-1 * iValue3[2]) * 2 +
-                      2) * 100) / (float) (((-1 * iValue3[2]) * 2) + 5)), 1);
+              am_Set_Triger_Function(&p_set->animation[p_set->last], 
+                                     anmend_Item_Fall, 0, real_pos2, 
+                                     reinterpret_cast<size_ptr>(p_Level), 
+                                     floor((float) (((-1 * iValue3[2]) * 2 + 2) * 100) / (float) (((-1 * iValue3[2]) * 2) + 5)), 
+                                     1);
 
-              rani_pripoj_funkci(p_set->animation[p_set->last].p_run,
-                anmend_Item_FallStartAnim, 0, real_pos2, p_Level);
+              rani_pripoj_funkci(p_set->animation[p_set->last].p_run, 
+                                 anmend_Item_FallStartAnim, 
+                                 0, real_pos2, 
+                                 reinterpret_cast<size_ptr>(p_Level));
 
               if (!counter && p_Level->Actual_Item != -1)
                 am_Set_Start_Function(&p_set->animation[p_set->last],
                   anmend_Add_Beetle_Animation,
                   p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh,
                   p_Level->Level[p_Level->Actual_Item]->Rotation,
-                  (void *) p_Level, 0);
+                  reinterpret_cast<size_ptr>(p_Level), 0);
               p_set->last++;
               counter++;
             }
@@ -1521,11 +1528,12 @@ int gl_Throw_off(int *column, LEVELINFO * p_Level)
               anmend_Add_Beetle_Animation,
               p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh,
               p_Level->Level[p_Level->Actual_Item]->Rotation,
-              (void *) p_Level, 0);
+              reinterpret_cast<size_ptr>(p_Level), 0);
 
           if (!counter && voda < 0) {
             rani_pripoj_funkci(p_set->animation[canim].p_run, anmend_PadBedny,
-              (int) p_Level, 0, p_test_pos2);
+              reinterpret_cast<size_ptr>(p_Level), 0, 
+              reinterpret_cast<size_ptr>(p_test_pos2));
             counter++;
           }
 /*			else
@@ -1791,21 +1799,26 @@ int gl_Throw_offAnim(int *column, LEVELINFO * p_Level)
               if (voda > iValue2[2])
                 if (voda + 1 == iValue1[2]) {
                   am_Set_Triger_Function(&p_set_anim->animation[canim],
-                    anmend_Water, 1, r, pS, percent, 0);
+                    anmend_Water, 1, r, reinterpret_cast<size_ptr>(pS), 
+                    percent, 0);
 
                   am_Set_Triger_Function(&p_set_anim->animation[canim],
-                    anmend_Cakanec, 1, r, pS, percent + percent1, 1);
+                    anmend_Cakanec, 1, r, reinterpret_cast<size_ptr>(pS), 
+                    percent + percent1, 1);
                 }
                 else {
                   am_Set_Triger_Function(&p_set_anim->animation[canim],
-                    anmend_Water, 0, r, pS, percent, 0);
+                    anmend_Water, 0, r, reinterpret_cast<size_ptr>(pS), 
+                    percent, 0);
 
                   am_Set_Triger_Function(&p_set_anim->animation[canim],
-                    anmend_Cakanec, 0, r, pS, percent + percent1, 1);
+                    anmend_Cakanec, 0, r, reinterpret_cast<size_ptr>(pS), 
+                    percent + percent1, 1);
                 }
               else
                 am_Set_Triger_Function(&p_set_anim->animation[canim],
-                  anmend_Water, 2, r, pS, percent, 0);
+                  anmend_Water, 2, r, reinterpret_cast<size_ptr>(pS), 
+                  percent, 0);
             }
           }
 
@@ -1871,19 +1884,21 @@ int gl_Throw_offAnim(int *column, LEVELINFO * p_Level)
               //p_set_anim->animation[p_set_anim->last].mesh = p_Level->Level[real_pos1]->Index_Of_Game_Mesh;
 
               am_Set_Triger_Function(&p_set_anim->animation[p_set_anim->last],
-                anmend_Item_Fall, 0, real_pos2, p_Level,
-                (int) floor((float) (((-1 * iValue3[2]) * 2 +
-                      2) * 100) / (float) (((-1 * iValue3[2]) * 2) + 5)), 1);
+                                     anmend_Item_Fall, 0, real_pos2, 
+                                     reinterpret_cast<size_ptr>(p_Level),
+                                     floor((float) (((-1 * iValue3[2]) * 2 + 2) * 100) / (float) (((-1 * iValue3[2]) * 2) + 5)), 
+                                     1);
 
-              rani_pripoj_funkci(p_set_anim->animation[p_set_anim->last].
-                p_run, anmend_Item_FallStartAnim, 0, real_pos2, p_Level);
+              rani_pripoj_funkci(p_set_anim->animation[p_set_anim->last].p_run, 
+                                 anmend_Item_FallStartAnim, 0, real_pos2, 
+                                 reinterpret_cast<size_ptr>(p_Level));
 
               if (!counter && p_Level->Actual_Item != -1)
                 am_Set_Start_Function(&p_set_anim->animation[p_set_anim->
                     last], anmend_Add_Beetle_Animation,
                   p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh,
                   p_Level->Level[p_Level->Actual_Item]->Rotation,
-                  (void *) p_Level, 0);
+                  reinterpret_cast<size_ptr>(p_Level), 0);
               p_set_anim->last++;
               counter++;
             }
@@ -1944,11 +1959,13 @@ int gl_Throw_offAnim(int *column, LEVELINFO * p_Level)
             am_Set_Start_Function(&p_set_anim->animation[p_set_anim->last -
                 1], anmend_Add_Beetle_Animation,
               p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh,
-              p_Level->Level[p_Level->Actual_Item]->Rotation, p_Level, 0);
+              p_Level->Level[p_Level->Actual_Item]->Rotation, 
+              reinterpret_cast<size_ptr>(p_Level), 0);
 
           if (!counter && voda < 0) {
             rani_pripoj_funkci(p_set_anim->animation[canim].p_run,
-              anmend_PadBedny, (int) p_Level, 0, p_test_pos2);
+              anmend_PadBedny, reinterpret_cast<size_ptr>(p_Level), 0, 
+              reinterpret_cast<size_ptr>(p_test_pos2));
             counter++;
           }
 
@@ -2577,7 +2594,7 @@ void gl_Do_Smoke(float *pos, LEVELINFO * p_Level, int r)
   p_Level->Kour[k].dwStart = timeGetTime();
 
   par_pripoj_funkci(p_Level->Kour[k].System, anmend_ZrusCastice3, 0, 0,
-    (void *) pKourovaS);
+    reinterpret_cast<size_ptr>(pKourovaS));
 
   par_go(p_Level->Kour[k].System, &p_Level->Kour[k].flag, 0, 0);
 }
@@ -2614,7 +2631,7 @@ void gl_Do_Prach(float *pos, LEVELINFO * p_Level)
 
   par_vloz_fleky(ph, pCastice, p_Level->Prach[r].Sizeof);
 
-  par_pripoj_funkci(ph, anmend_ZrusCastice3, 0, 0, (void *) pCastice);
+  par_pripoj_funkci(ph, anmend_ZrusCastice3, 0, 0, reinterpret_cast<size_ptr>(pCastice));
 
   par_go(ph, &p_Level->Prach[r].flag, 0, 0);
 }
@@ -2685,7 +2702,7 @@ void gl_Do_Krompac(float *pos, LEVELINFO * p_Level, int material)
 
   par_go(ph, &p_Level->Krompac[r].flag, 0, 0);
 
-  par_pripoj_funkci(ph, anmend_ZrusCastice, -1, 0, (void *) pCastice);
+  par_pripoj_funkci(ph, anmend_ZrusCastice, -1, 0, reinterpret_cast<size_ptr>(pCastice));
 
 }
 
@@ -2753,10 +2770,10 @@ void gl_Do_Strepiny(float *pos, LEVELINFO * p_Level, int material,
     sdl_anim_vloz_klic_vzdal(hSvetlo, 1, 7, 0, 7, 2);
     sdl_anim_vloz_klic_vzdal(hSvetlo, 2, 0, 0, 0, 14);
     sdl_anim_start(hSvetlo, &p_Level->TrashFlag, 0, 0, 0);
-    par_pripoj_funkci(ph, anmend_ZrusCastice, hSvetlo, 0, (void *) pCastice);
+    par_pripoj_funkci(ph, anmend_ZrusCastice, hSvetlo, 0, reinterpret_cast<size_ptr>(pCastice));
   }
   else
-    par_pripoj_funkci(ph, anmend_ZrusCastice, -1, 0, (void *) pCastice);
+    par_pripoj_funkci(ph, anmend_ZrusCastice, -1, 0, reinterpret_cast<size_ptr>(pCastice));
 
   //zhave jistry
   if (bSvetlo) {
@@ -2850,8 +2867,9 @@ void gl_Do_Strepiny(float *pos, LEVELINFO * p_Level, int material,
       p_Level->KourovaStopa[k].Sizeof);
 
     par_pripoj_funkci(ph, anmend_ZrusCastice2,
-      (int) &p_Level->KourovaStopa[k],
-      (int) &p_Level->ZhaveCastice[s], (void *) pCastice);
+                      reinterpret_cast<size_ptr>(&p_Level->KourovaStopa[k]),
+                      reinterpret_cast<size_ptr>(&p_Level->ZhaveCastice[s]),
+                      reinterpret_cast<size_ptr>(pCastice));
 
     for (i = 0; i < p_Level->Jiskra[r].Sizeof; i++) {
       rr = 1;
@@ -3007,7 +3025,7 @@ void gl_Do_Smoke_Kameni(float *pos, LEVELINFO * p_Level)
   p_Level->KourKameni[k].dwStart = timeGetTime();
 
   par_pripoj_funkci(p_Level->KourKameni[k].System, anmend_ZrusCastice3, 0, 0,
-    (void *) pKourovaS);
+    reinterpret_cast<size_ptr>(pKourovaS));
 
   par_go(p_Level->KourKameni[k].System, &p_Level->KourKameni[k].flag, 0, 0);
 }
@@ -3043,7 +3061,7 @@ void gl_Do_Kameni(float *pos, LEVELINFO * p_Level, int material)
 
   par_vloz_strepy(ph, pCastice, p_Level->Kamen[r].Sizeof);
 
-  par_pripoj_funkci(ph, anmend_ZrusCastice, -1, 0, (void *) pCastice);
+  par_pripoj_funkci(ph, anmend_ZrusCastice, -1, 0, reinterpret_cast<size_ptr>(pCastice));
 
   par_go(ph, &p_Level->Kamen[r].flag, 0, 0);
 
@@ -3905,7 +3923,7 @@ void gl_Do_Propadlo(float *pos, LEVELINFO * p_Level, int material)
 
   par_vloz_strepy(ph, pCastice, p_Level->Propadla[r].Sizeof);
 
-  par_pripoj_funkci(ph, anmend_ZrusCastice, -1, 0, (void *) pCastice);
+  par_pripoj_funkci(ph, anmend_ZrusCastice, -1, 0, reinterpret_cast<size_ptr>(pCastice));
 
   par_go(ph, &p_Level->Propadla[r].flag, 0, 0);
 }
@@ -4746,7 +4764,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
               rani_pripoj_funkci(p_set->animation[p_set->last].p_run,
                 anmend_Set_Flek_Flag,
                 p_Level->Level[p_Level->Actual_Item]->Square.Flek.pFlek,
-                0, NULL);
+                0, 0);
 
 /*						if(!p_set->last && p_Level->bPosouvatKameru)
 							rani_privaz_kameru(p_set->animation[p_set->last].p_run);*/
@@ -4771,7 +4789,8 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
                   am_Set_Triger_Function(&p_set->animation[p_set->last],
                     anmend_Take_Item,
                     p_Level->Level[dest_pos]->Index_Of_Game_Mesh,
-                    p_Level->Level[dest_pos]->p_Object->SubClass, pS, 70, 0);
+                    p_Level->Level[dest_pos]->p_Object->SubClass, 
+                    reinterpret_cast<size_ptr>(pS), 70, 0);
                 }
 
                 //na destinace je predmet
@@ -4863,14 +4882,16 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
                     am_Set_Triger_Function(&p_set->animation[p_set->last],
                       anmend_Play_Sunuti,
                       p_Level->Level[Lnext_dest]->p_Object->Material,
-                      0, p_Level, 55, 4);
+                      0, reinterpret_cast<size_ptr>(p_Level), 55, 4);
                   else
                     am_Set_Triger_Function(&p_set->animation[p_set->last],
-                      anmend_Play_Sunuti, -1, 0, p_Level, 55, 4);
+                      anmend_Play_Sunuti, -1, 0, 
+                      reinterpret_cast<size_ptr>(p_Level), 55, 4);
                 }
                 else
                   am_Set_Triger_Function(&p_set->animation[p_set->last],
-                    anmend_Play_Sunuti, -1, 0, p_Level, 55, 4);
+                    anmend_Play_Sunuti, -1, 0, 
+                    reinterpret_cast<size_ptr>(p_Level), 55, 4);
                 p_set->last++;
                 p_Level->bSunuti = 1;
                 goto BEATLE_MOVE_B;
@@ -4943,7 +4964,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
                 rani_pripoj_funkci(p_set->animation[p_set->last].p_run,
                   anmend_Set_Flek_Flag,
                   p_Level->Level[p_Level->Actual_Item]->Square.Flek.pFlek,
-                  0, NULL);
+                  0, 0);
 
                 rani_next_animace(p_set->animation[p_set->last - 1].p_run,
                   p_set->animation[p_set->last].p_run, 0, 0, 0);
@@ -4956,7 +4977,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
 
                   am_Set_Triger_Function(&p_set->animation[p_set->last],
                     anmend_ExplozeBednyZaSikminou,
-                    Ldest, Lnext_dest, pS, 1, 0);
+                    Ldest, Lnext_dest, reinterpret_cast<size_ptr>(pS), 1, 0);
                   p_set->last++;
                 }
                 else {
@@ -5040,7 +5061,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
                 rani_pripoj_funkci(p_set->animation[p_set->last].p_run,
                   anmend_kom_mesh_set_meshK,
                   p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh, 1,
-                  (void *) p_Level->Level[p_Level->Actual_Item]->Rotation);
+                  p_Level->Level[p_Level->Actual_Item]->Rotation);
 
                 gl_Set_3ds_Anim(p_Level->Level[p_Level->Actual_Item]->
                   Index_Of_Game_Mesh, 1, 0,
@@ -5085,7 +5106,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
                     p_Level->Level[p_Level->Actual_Item]->Rotation;
 
                   rani_pripoj_funkci(p_set->animation[p_set->last].p_run,
-                    anmend_KamenZaSikmonou, 0, 0, (void *) pS);
+                    anmend_KamenZaSikmonou, 0, 0, reinterpret_cast<size_ptr>(pS));
                 }
                 else
                   kprintf(1,
@@ -5120,7 +5141,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
                 rani_pripoj_funkci(p_set->animation[p_set->last].p_run,
                   anmend_Set_Flek_Flag,
                   p_Level->Level[p_Level->Actual_Item]->Square.Flek.pFlek,
-                  0, NULL);
+                  0, 0);
 
                 p_set->last += 2;
                 p_Level->bSikminaSound = 1;
@@ -5398,8 +5419,8 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
 
             rani_pripoj_funkci(p_set->animation[p_set->last].p_run,
               anmend_ExplozeBedny,
-              (int) p_Level->Level[Item]->Index_Of_Game_Mesh, dest_pos,
-              p_Level);
+              p_Level->Level[Item]->Index_Of_Game_Mesh, dest_pos,
+              reinterpret_cast<size_ptr>(p_Level));
 
             p_set->last++;
             p_Level->Sikmina_Flag++;
@@ -5660,7 +5681,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
 
           rani_pripoj_funkci(p_set->animation[p_set->last].p_run,
             anmend_Set_Flek_Flag_Anim,
-            p_Level->Level[p_Level->Actual_Item]->Square.Flek.pFlek, 0, NULL);
+            p_Level->Level[p_Level->Actual_Item]->Square.Flek.pFlek, 0, 0);
 
 /*					if(!p_set->last && p_Level->bPosouvatKameru)
 						rani_privaz_kameru(p_set->animation[p_set->last].p_run);*/
@@ -5685,7 +5706,8 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
               am_Set_Triger_Function(&p_set->animation[p_set->last],
                 anmend_Take_Item,
                 p_Level->Level[dest_pos]->Index_Of_Game_Mesh,
-                p_Level->Level[dest_pos]->p_Object->SubClass, pS, 70, 0);
+                p_Level->Level[dest_pos]->p_Object->SubClass, 
+                reinterpret_cast<size_ptr>(pS), 70, 0);
             }
 
             //na destinace je predmet
@@ -5775,10 +5797,11 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
               am_Set_Triger_Function(&p_set->animation[p_set->last],
                 anmend_Play_Sunuti,
                 p_Level->Level[Lnext_dest]->p_Object->Material,
-                0, p_Level, 55, 4);
+                0, reinterpret_cast<size_ptr>(p_Level), 55, 4);
             else
               am_Set_Triger_Function(&p_set->animation[p_set->last],
-                anmend_Play_Sunuti, -1, 0, p_Level, 55, 4);
+                anmend_Play_Sunuti, -1, 0, 
+                reinterpret_cast<size_ptr>(p_Level), 55, 4);
 
             p_set->last++;
             p_Level->bSunuti = 1;
@@ -5854,7 +5877,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
             rani_pripoj_funkci(p_set->animation[p_set->last].p_run,
               anmend_Set_Flek_Flag,
               p_Level->Level[p_Level->Actual_Item]->Square.Flek.pFlek,
-              0, NULL);
+              0, 0);
 
             rani_next_animace(p_set->animation[p_set->last - 1].p_run,
               p_set->animation[p_set->last].p_run, 0, 0, 0);
@@ -5868,7 +5891,8 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
               pS->pParam = (void *) p_set;
 
               am_Set_Triger_Function(&p_set->animation[p_set->last],
-                anmend_ExplozeBednyZaSikminou, Ldest, Lnext_dest, pS, 1, 0);
+                anmend_ExplozeBednyZaSikminou, Ldest, Lnext_dest, 
+                reinterpret_cast<size_ptr>(pS), 1, 0);
               p_set->last++;
 
             }
@@ -5960,7 +5984,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
             rani_pripoj_funkci(p_set->animation[p_set->last].p_run,
               anmend_kom_mesh_set_meshK,
               p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh, 1,
-              (void *) p_Level->Level[p_Level->Actual_Item]->Rotation);
+              p_Level->Level[p_Level->Actual_Item]->Rotation);
 
             //buchnuti
             p_set->last++;
@@ -5993,7 +6017,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
                 p_Level->Level[p_Level->Actual_Item]->Rotation;
 
               rani_pripoj_funkci(p_set->animation[p_set->last].p_run,
-                anmend_KamenZaSikmonou, 0, 0, (void *) pS);
+                anmend_KamenZaSikmonou, 0, 0, reinterpret_cast<size_ptr>(pS));
             }
             else
               kprintf(1,
@@ -6022,7 +6046,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
             rani_pripoj_funkci(p_set->animation[p_set->last].p_run,
               anmend_Set_Flek_Flag,
               p_Level->Level[p_Level->Actual_Item]->Square.Flek.pFlek,
-              0, NULL);
+              0, 0);
 
             p_set->last += 2;
             p_Level->bSikminaSound = 1;
@@ -6339,7 +6363,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
 
         rani_pripoj_funkci(p_set->animation[p_set->last].p_run,
           anmend_ExplozeBedny, (int) p_Level->Level[Item]->Index_Of_Game_Mesh,
-          Ldest, p_Level);
+          Ldest, reinterpret_cast<size_ptr>(p_Level));
 
         p_Level->Sikmina_Flag++;
         p_Level->bSikminaUp = -1;
@@ -6371,7 +6395,8 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
         am_Set_Triger_Function(&p_set->animation[p_set->last],
           anmend_Take_Item,
           p_Level->Level[real_pos]->Index_Of_Game_Mesh,
-          p_Level->Level[real_pos]->p_Object->SubClass, pS, 1, 0);
+          p_Level->Level[real_pos]->p_Object->SubClass, 
+          reinterpret_cast<size_ptr>(pS), 1, 0);
       }
 
       //na destinace je predmet
@@ -6431,7 +6456,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
           Level.Level[Level.Actual_Item]->Index_Of_Game_Mesh, 0);
 
         rani_pripoj_funkci(p_set->animation[p_set->last].p_run, anmend_Kamen,
-          real_pos, 0, (void *) p_Level);
+          real_pos, 0, reinterpret_cast<size_ptr>(p_Level));
 
         p_set->last++;
 
@@ -6591,7 +6616,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
               anmend_Add_Beetle_Animation,
               p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh,
               p_Level->Level[p_Level->Actual_Item]->Rotation,
-              (void *) p_Level);
+              reinterpret_cast<size_ptr>(p_Level));
           }
 
         }
@@ -6812,7 +6837,7 @@ int gl_Stlac_Tlacitko(ITEMDESC * pTlacitko, char *bPowerOn,
 
   rani_privaz_mesh(p_run, pTlacitko->Index_Of_Game_Mesh, 0);
 
-  anmend_Tlacitko((int) pTlacitko, 0, (void *) p_Level);
+  anmend_Tlacitko(reinterpret_cast<size_ptr>(pTlacitko), 0, reinterpret_cast<size_ptr>(p_Level));
 
   return 0;
 }
@@ -7010,7 +7035,7 @@ int gl_Do_Lift(int Lift, int *pos, LEVELINFO * p_Level)
 
   gl_Logical2Real(pos[0], pos[1], pos[2] + 1, &test_pos, p_Level);
 
-  item = (int) p_Level->Level[test_pos];
+  item = p_Level->Level[test_pos];
 
   if (!p_LiftI->p_Object->SubClass) {
     if (item != p_LiftI->p_Back_Pack->item[2])
@@ -7106,7 +7131,7 @@ int gl_Do_Lift(int Lift, int *pos, LEVELINFO * p_Level)
         //p_set->animation[p_set->last].mesh = p_LiftI->Index_Of_Game_Mesh;
 
         am_Set_Start_Function(&p_set->animation[p_set->last], anmend_Lift,
-          2 * lmove, Lift, p_Level, 0);
+          2 * lmove, Lift, reinterpret_cast<size_ptr>(p_Level), 0);
 
         am_Set_aMaterial_Trigers(&p_set->animation[p_set->last], p_LiftI,
           p_Level);
@@ -7126,7 +7151,8 @@ int gl_Do_Lift(int Lift, int *pos, LEVELINFO * p_Level)
               //kom_svaz_meshe(p_LiftI->Index_Of_Game_Mesh, p_Level->Level[test_pos]->Index_Of_Game_Mesh);
               am_Set_Start_Function(&p_set->animation[p_set->last],
                 anmend_Lift_Item, p_LiftI->Index_Of_Game_Mesh,
-                p_Level->Level[test_pos]->Index_Of_Game_Mesh, p_Level, 1);
+                p_Level->Level[test_pos]->Index_Of_Game_Mesh, 
+                reinterpret_cast<size_ptr>(p_Level), 1);
 
               rani_pripoj_funkci(p_set->animation[p_set->last].p_run,
                 animend_Lift_End,
@@ -7191,7 +7217,7 @@ int gl_Do_Lift(int Lift, int *pos, LEVELINFO * p_Level)
       //p_set->animation[p_set->last].mesh = p_LiftI->Index_Of_Game_Mesh;
 
       am_Set_Start_Function(&p_set->animation[p_set->last], anmend_Lift,
-        move[2], real_pos, p_Level, 0);
+        move[2], real_pos, reinterpret_cast<size_ptr>(p_Level), 0);
 
       am_Set_aMaterial_Trigers(&p_set->animation[p_set->last], p_LiftI,
         p_Level);
@@ -7235,7 +7261,8 @@ int gl_Do_Lift(int Lift, int *pos, LEVELINFO * p_Level)
 
               am_Set_Start_Function(&p_set->animation[p_set->last],
                 anmend_Lift_Item, p_LiftI->Index_Of_Game_Mesh,
-                p_Level->Level[test_pos]->Index_Of_Game_Mesh, p_Level, 1);
+                p_Level->Level[test_pos]->Index_Of_Game_Mesh, 
+                reinterpret_cast<size_ptr>(p_Level), 1);
 
               /*am_Set_Start_Function(&p_set->animation[p_set->last], anmend_Lift_Item,
                  p_Level->Level[test_pos]->Index_Of_Game_Mesh, 
@@ -7353,7 +7380,7 @@ int gl_Do_Lift(int Lift, int *pos, LEVELINFO * p_Level)
             ((lpos[2] - (voda + 1)) * 100) / (lpos[2] - p_LiftI->Pos[2]);
 
           am_Set_Triger_Function(&p_set->animation[liftanim], anmend_Water,
-            2, r, pS, percent, 0);
+            2, r, reinterpret_cast<size_ptr>(pS), percent, 0);
         }
       }
 
@@ -7388,7 +7415,7 @@ int gl_Do_Lift(int Lift, int *pos, LEVELINFO * p_Level)
           memcpy((void *) pS->viParam1, (void *) vpos, 3 * sizeof(int));
 
           am_Set_Triger_Function(&p_set->animation[liftanim],
-            anmend_WaterLift, p_LiftI->Index_Of_Game_Mesh, 0, pS, percent, 0);
+            anmend_WaterLift, p_LiftI->Index_Of_Game_Mesh, 0, reinterpret_cast<size_ptr>(pS), percent, 0);
         }
 
       }
@@ -7467,7 +7494,7 @@ int gl_Do_Lift(int Lift, int *pos, LEVELINFO * p_Level)
         p_set->animation[p_set->last].flag = 0;
 
         am_Set_Start_Function(&p_set->animation[p_set->last], anmend_Lift,
-          dda.main_axe * 2, Lift, p_Level, 0);
+          dda.main_axe * 2, Lift, reinterpret_cast<size_ptr>(p_Level), 0);
 
         am_Set_aMaterial_Trigers(&p_set->animation[p_set->last], p_LiftI,
           p_Level);
@@ -7531,7 +7558,7 @@ int gl_Do_Lift(int Lift, int *pos, LEVELINFO * p_Level)
         //p_set->animation[p_set->last].mesh = p_LiftI->Index_Of_Game_Mesh;
 
         am_Set_Start_Function(&p_set->animation[p_set->last], anmend_Lift,
-          dda.main_axe, real_pos, p_Level, 0);
+          dda.main_axe, real_pos, reinterpret_cast<size_ptr>(p_Level), 0);
 
         // posun vytahu
         p_Level->Level[real_pos] = p_Level->Level[Lift];
@@ -7685,7 +7712,7 @@ void gl_Add_Walls_Bellow_Lifts(LEVELINFO * p_Level)
         p3[2]++;
         gl_Logical2Real(p3[0], p3[1], p3[2], &real, p_Level);
 
-        p_lift->p_Back_Pack->item[2] = (int) p_Level->Level[real];
+        p_lift->p_Back_Pack->item[2] = p_Level->Level[real];
       }
     }
 }
@@ -8018,7 +8045,7 @@ void gl_Vyrob_Animaci(int move, int newL, int Water, int bWater,
         p_Level->Level[new_real]->Pos[2]);
 
       am_Set_Triger_Function(&p_set->animation[p_set->last - 1], anmend_Water,
-        2, real, pS, percent, 0);
+        2, real, reinterpret_cast<size_ptr>(pS), percent, 0);
     }
   }
 
@@ -8667,8 +8694,8 @@ void gl_Go_Animations(void)
       for (j = 0; j < 2; j++)
         if (p_anim->tStart[j].pProc) {
           p_anim->tStart[j].pProc(p_anim->tStart[j].iParam[0],
-            p_anim->tStart[j].iParam[1], p_anim->tStart[j].pParam);
-
+                                  p_anim->tStart[j].iParam[1], 
+                                  p_anim->tStart[j].pParam);
           p_anim->tStart[j].pProc = NULL;
         }
 

@@ -633,8 +633,7 @@ naslo_se_to:;
   return ((int) p_gk);
 }
 
-RunHandle rani_pripoj_funkci(RunHandle a_handle, END_FUNKCE p_fce, int param,
-  int param2, void *p_param)
+RunHandle rani_pripoj_funkci(RunHandle a_handle, END_FUNKCE p_fce, size_ptr param, size_ptr param2, size_ptr param3)
 {
   GK_ANIM *p_gk = (GK_ANIM *) a_handle;
 

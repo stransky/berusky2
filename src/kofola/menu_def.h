@@ -1,6 +1,8 @@
 #ifndef __MENU_DEF_
 #define __MENU_DEF_
 
+#include <SDL/SDL.h>
+
 #define CLIST_ITEMC 55
 #define TAB_NUM		4
 #define TAB_X		90
@@ -14,7 +16,7 @@ typedef struct _CMD_LINE
   int iParam[6];
   char cParam[2][256];
   int iAnim[200][18];
-  unsigned int uiTimerID;
+  SDL_TimerID uiTimerID;
   int iLastfrm;
   long iCounter;
   int iLayer;
