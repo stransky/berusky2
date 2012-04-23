@@ -5486,7 +5486,7 @@ void am_Release_Steps(LEVELINFO * p_Level)
     }
 }
 
-void am_Do_Step(int param, int param2, void *p_param)
+void am_Do_Step(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   LEVELINFO *p_Level = (LEVELINFO *) p_param;
 

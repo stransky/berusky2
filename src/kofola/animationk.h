@@ -138,7 +138,7 @@ void am_Set_Step(int iFoot, LEVELINFO * p_Level);
 void am_Release_Steps(LEVELINFO * p_Level);
 
 void am_Zero_Step(LEVELINFO * p_Level);
-void am_Do_Step(int param, int param2, void *p_param);
+void am_Do_Step(size_ptr param, size_ptr param2, size_ptr p_param);
 
 void am_Destroy_Steps(ITEMDESC * pItem, LEVELINFO * p_Level);
 

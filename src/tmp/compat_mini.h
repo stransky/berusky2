@@ -187,6 +187,8 @@ typedef void * THREAD_HANDLE;
 
 #endif
 
+#define POINTER_TO_INT(pointer) (*((int*)&(pointer)))
+
 #ifdef __cplusplus
 }
 #endif

@@ -9,7 +9,7 @@ Bugs:
 int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
 
 - klikani mysi do obrazovky
-- nefunguji animace!! (z menu)
+- nefunguji animace!! (z menu) - spatne data soubory
   - nikde!! (ani ve fedore) -> chyba v ini souboru??
 - ESC -> nefunguje exit
 - nefunguje pruhledne veci - stopy, flares a podobne
