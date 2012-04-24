@@ -114,7 +114,7 @@ int txt_zrus_texturu_z_vram(EDIT_TEXT_OLD * p_text);
 int txt_nahraj_lightmapu_z_bmp(char *p_file, KFILE * f,
   EDIT_TEXT_OLD * p_text, int save);
 
-int txt_nahraj_texturu_z_func(APAK_HANDLE * pHandle, const char *p_file,
+int txt_nahraj_texturu_z_func(APAK_HANDLE * pHandle, char *p_file,
   EDIT_TEXT_OLD * p_text, int save, int load, EDIT_TEXT_KONFIG * p_konf,
   bitmapa * (*p_load) (APAK_HANDLE * pAHandle, char *p_file));
 int txt_nahraj_texturu_z_dds(APAK_HANDLE * pHandle, char *p_file,
@@ -131,7 +131,7 @@ int txt_uvolni_texturu(EDIT_TEXT_OLD * p_text);
 int txt_zrus_texturu(EDIT_TEXT_OLD * p_text);
 int txt_zrus_texturu_ram(EDIT_TEXT_OLD * p_text);
 bitmapa *txt_bmp2dot3(bitmapa * p_bmp);
-void txt_default_konfig(char *p_file, EDIT_TEXT_KONFIG * p_konf,
+void txt_default_konfig(const char *p_file, EDIT_TEXT_KONFIG * p_konf,
   char *p_koncovka);
 int txt_uloz_btx(char *p_file, int typ, int wrap_x, int wrap_y);
 int txt_kopiruj(EDIT_TEXT_OLD * p_dest, EDIT_TEXT_OLD * p_src);

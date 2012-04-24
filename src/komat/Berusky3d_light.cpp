@@ -3037,9 +3037,9 @@ void dl_transformuj_svetla(G_KONFIG * p_ber)
   for (i = 0; i < p_ber->dl_lightnum; i++) {
     p_light = p_ber->p_dlight + i;
     if (p_light->akt && p_light->flag & SDL_MESH) {
-      p_data = p_light->p_mesh_data;
+      p_data = (GAME_MESH_DATA *)p_light->p_mesh_data;
       if (p_data->kflag & KONT_POHYB) {
-        p_mesh = p_data->p_mesh;
+        p_mesh = (GAME_MESH_OLD *)p_data->p_mesh;
         transformuj_bod_matici_bod(&p_light->np, &p_mesh->m, &p_light->tp);
       }
     }
@@ -3049,9 +3049,9 @@ void dl_transformuj_svetla(G_KONFIG * p_ber)
     p_edlight = p_ber->p_edlight + i;
     if (p_edlight->akt) {
       if (p_edlight->flag & EDL_MESH) {
-        p_data = p_edlight->p_mesh_data;
+        p_data = (GAME_MESH_DATA *)p_edlight->p_mesh_data;
         if (p_data->kflag & KONT_POHYB) {
-          p_mesh = p_data->p_mesh;
+          p_mesh = (GAME_MESH_OLD *)p_data->p_mesh;
           transformuj_bod_matici_bod(&p_edlight->np, &p_mesh->m,
             &p_edlight->tp);
         }
@@ -3144,7 +3144,7 @@ nasel:
   p_light->flag = flag | EDL_ZMENA_GLOBAL;
 
   if (flag | EDL_MESH_LIGHT && meshnum) {
-    p_light->p_lmesh = mmalloc(sizeof(p_light->p_lmesh[0]) * meshnum);
+    p_light->p_lmesh = (int *)mmalloc(sizeof(p_light->p_lmesh[0]) * meshnum);
     p_light->lmeshnum = meshnum;
     p_light->lmeshakt = 0;
   }
@@ -3177,7 +3177,7 @@ ExtraLightHandle edl_svetlo_zrus_meshe(ExtraLightHandle lh)
           p_data->top_edlight = K_CHYBA;
         }
       }
-      null_free(&p_light->p_lmesh);
+      null_free((void **)&p_light->p_lmesh);
       p_light->lmeshnum = p_light->lmeshakt = 0;
     }
     return (TRUE);
@@ -3385,7 +3385,7 @@ ExtraLightHandle edl_svetlo_uzavri_meshe(ExtraLightHandle lh)
       if (flags & (EDL_SPEC_MOD | EDL_SPEC_SET | EDL_SPEC_ADD | EDL_SPEC_SUB)) {
         p_data->kflag |= KONT_DRAW_SPEC;
         if (!(p_data->m2flag & MAT2_SPECULAR)) {
-          p_mesh->p_vertex_spec =
+          p_mesh->p_vertex_spec = (BODRGB *)
             mmalloc(sizeof(p_mesh->p_vertex_spec[0]) * p_mesh->vertexnum);
         }
       }
@@ -3771,7 +3771,7 @@ int edl_mesh_pridej_svetla(G_KONFIG * p_ber, GAME_MESH_OLD * p_mesh)
       if (flags & (EDL_SPEC_MOD | EDL_SPEC_SET | EDL_SPEC_ADD | EDL_SPEC_SUB)) {
         p_data->kflag |= KONT_DRAW_SPEC;
         if (!p_mesh->p_vertex_spec) {
-          p_mesh->p_vertex_spec =
+          p_mesh->p_vertex_spec = (BODRGB *)
             mmalloc(sizeof(p_mesh->p_vertex_spec[0]) * p_mesh->vertexnum);
         }
       }
@@ -3783,7 +3783,7 @@ int edl_mesh_pridej_svetla(G_KONFIG * p_ber, GAME_MESH_OLD * p_mesh)
       if (lightnum >= p_data->edlightmax) {
         null_free((void **) &p_data->p_edlight);
         i += (lightnum >> 1) + 10;
-        p_data->p_edlight = mmalloc(sizeof(p_data->p_edlight[0]) * i);
+        p_data->p_edlight = (EXTRA_DYN_LIGHT **)mmalloc(sizeof(p_data->p_edlight[0]) * i);
         p_data->edlightmax = i;
         memcpy(p_data->p_edlight, p_light_dyn,
           sizeof(p_data->p_edlight[0]) * lightnum);
@@ -3851,7 +3851,7 @@ FlareHandle kom_flare_vyrob(int flag)
 {
   LENS_FLARE *p_flare;
 
-  p_flare = mmalloc(sizeof(p_flare[0]));
+  p_flare = (LENS_FLARE *)mmalloc(sizeof(p_flare[0]));
 
   p_flare->p_next = p_ber->p_flare;
   p_flare->p_prev = NULL;
@@ -3862,7 +3862,7 @@ FlareHandle kom_flare_vyrob(int flag)
   p_ber->p_flare = p_flare;
   p_flare->zflag = flag;
   p_flare->p_svetlo = NULL;
-  return ((int) p_flare);
+  return ((FlareHandle) p_flare);
 }
 
 void kom_flare_zrus(FlareHandle fh)

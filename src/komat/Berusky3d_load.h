@@ -22,7 +22,7 @@ void ber_zrus_level(G_KONFIG * p_ber);
 PRVEK_LEVELU_GAME **vyrob_level(int x, int y, int z);
 void ber_vyrob_level(G_KONFIG * p_ber, int x, int y, int z);
 int ber_prvek_disk_do_bunky(G_KONFIG * p_ber, BUNKA_LEVELU_DISK * p_disk,
-  int *p_handle, int ID, int x, int y, int z);
+  MeshHandle *p_handle, int ID, int x, int y, int z);
 int ber_je_objekt_voda(int guid);
 int ber_nahraj_materialy(G_KONFIG * p_ber, char *p_jmeno, char *p_dir);
 int ber_nahraj_scenu(G_KONFIG * p_ber, char *p_jmeno, char *p_dir, int reload,
@@ -31,7 +31,7 @@ void ber_nahraj_poly(G_KONFIG * p_ber, char *p_jmeno, char *p_dir);
 int ber_nahraj_materialy_frame_animace(G_KONFIG * p_ber, char *p_jmeno,
   char *p_dir);
 void ber_nahraj_lightmap(G_KONFIG * p_ber, char *p_jmeno, char *p_dir);
-int  ber_nahraj_mesh(G_KONFIG * p_ber, char *p_jmeno, GAME_MESH_OLD ** p_mesh, int json_export = FALSE);
+MeshHandle ber_nahraj_mesh(G_KONFIG * p_ber, char *p_jmeno, GAME_MESH_OLD ** p_mesh, int json_export = FALSE);
 void ber_velikost_sceny(G_KONFIG * p_ber);
 
 void ber_umisti_prvek(MeshHandle handle, int x, int y, int z, int rotace);

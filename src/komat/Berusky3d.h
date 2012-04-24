@@ -158,9 +158,9 @@ typedef struct _GKA_MATICE
   int *p_notify;                // notify flag
   int flagy;                    // flagy
   int fce_param;                // promena predavana funkcim
-  void (*funkce_start) (int prom);      // funkce volana na konci animace
-  void (*funkce_frame) (int prom);      // funkce volana kazdy frame
-  void (*funkce_end) (int prom);        // funkce volana na konci animace
+  void (*funkce_start) (size_ptr prom);      // funkce volana na konci animace
+  void (*funkce_frame) (size_ptr prom);      // funkce volana kazdy frame
+  void (*funkce_end) (size_ptr prom);        // funkce volana na konci animace
 
 } GKA_MATICE;
 
@@ -190,7 +190,7 @@ typedef struct _GLOBALNI_KONT_ANIMACE
   dword start;                  // frame start/stop
   dword stop;
 
-  int next_ah;                  // nastaveni dalsi animace v poradi
+  size_ptr next_ah;                  // nastaveni dalsi animace v poradi
   int next_flag;
   int next_start;
   int next_stop;

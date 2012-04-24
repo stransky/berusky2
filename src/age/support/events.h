@@ -121,12 +121,12 @@ public:
   void params_int_set(int p0, int p1 = 0, int p2 = 0, int p3 = 0, int p4 = 0,
                       int p5 = 0, int p6 = 0)
   {
-    params[0] = (EVENT_PARAM_TYPE)p0;
-    params[1] = (EVENT_PARAM_TYPE)p1;
-    params[2] = (EVENT_PARAM_TYPE)p2;
-    params[3] = (EVENT_PARAM_TYPE)p3;
-    params[4] = (EVENT_PARAM_TYPE)p4;
-    params[5] = (EVENT_PARAM_TYPE)p5;
+    params[0] = reinterpret_cast<EVENT_PARAM_TYPE>(p0);
+    params[1] = reinterpret_cast<EVENT_PARAM_TYPE>(p1);
+    params[2] = reinterpret_cast<EVENT_PARAM_TYPE>(p2);
+    params[3] = reinterpret_cast<EVENT_PARAM_TYPE>(p3);
+    params[4] = reinterpret_cast<EVENT_PARAM_TYPE>(p4);
+    params[5] = reinterpret_cast<EVENT_PARAM_TYPE>(p5);
   }
   
   int param_int_get(int index)
@@ -139,7 +139,7 @@ public:
   void param_int_set(int index, int value)
   {    
     assert(index < PARAMS);
-    params[index] = (EVENT_PARAM_TYPE)value;
+    params[index] = reinterpret_cast<EVENT_PARAM_TYPE>(value);
   }
   
   void * param_pointer_get(int index)

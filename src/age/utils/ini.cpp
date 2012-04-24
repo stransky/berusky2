@@ -472,7 +472,7 @@ int is_section(const char *p_line)
   if(p_start[0] != '[')
     return(FALSE);
   
-  return((int)strchr(p_start+1,']'));
+  return(strchr(p_start+1,']') != NULL);
 }
 
 /* Reading section (between []) from file

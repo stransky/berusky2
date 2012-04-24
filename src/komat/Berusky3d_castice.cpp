@@ -29,7 +29,7 @@ ParHandle par_vyrob(void)
   }
   p_ber->p_par = p_par;
 
-  return ((int) p_par);
+  return ((ParHandle) p_par);
 }
 
 ParHandle par_set_param(ParHandle ph, int material, int flag, BOD * p_pos,
@@ -44,7 +44,7 @@ ParHandle par_set_param(ParHandle ph, int material, int flag, BOD * p_pos,
   p_par->world._41 = p_pos->x;
   p_par->world._42 = p_pos->y;
   p_par->world._43 = p_pos->z;
-  return ((int) p_par);
+  return ((ParHandle) p_par);
 }
 
 ParHandle par_set_y_plane(ParHandle ph, float y_plane)
@@ -52,7 +52,7 @@ ParHandle par_set_y_plane(ParHandle ph, float y_plane)
   PARMETAC *p_par = (PARMETAC *) ph;
 
   p_par->y_plane = y_plane;
-  return ((int) p_par);
+  return ((ParHandle) p_par);
 }
 
 void par_zrus(ParHandle ph)
@@ -63,7 +63,8 @@ void par_zrus(ParHandle ph)
   if (p_par->p_flag)
     *(p_par->p_flag) = K_CHYBA;
   if (p_par->p_endfce)
-    p_par->p_endfce(p_par->param, p_par->param2, p_par->p_param);
+    p_par->p_endfce(p_par->param, p_par->param2, 
+                    reinterpret_cast<size_ptr>(p_par->p_param));
 
   if (p_ber->p_par == p_par) {  // smaz prvni
     p_ber->p_par = p_par->p_next;
@@ -90,7 +91,8 @@ void par_zrus_end(PARMETAC * p_par)
   PARMETAC_HNIZDO *p_hnizdo = p_par->p_hnizdo, *p_next;
 
   if (p_par->p_endfce)
-    p_par->p_endfce(p_par->param, p_par->param2, p_par->p_param);
+    p_par->p_endfce(p_par->param, p_par->param2, 
+                    reinterpret_cast<size_ptr>(p_par->p_param));
 
   while (p_hnizdo) {
     p_next = p_hnizdo->p_next;
@@ -113,7 +115,7 @@ ParHandle par_pripoj_funkci(ParHandle ph, END_FUNKCE p_fce, size_ptr param,
   PARMETAC *p_par = (PARMETAC *) ph;
 
   p_par->p_endfce = p_fce;
-  p_par->p_param = p_param;
+  p_par->p_param = reinterpret_cast<void *>(p_param);
   p_par->param = param;
   p_par->param2 = param2;
   return (ph);
@@ -354,13 +356,14 @@ int pe_updatuj_strepiny(G_KONFIG * p_ber, PARMETAC * p_par)
 
   if (!p_par->pnum) {
     if (p_par->flag & TPAR_AUTOREMOVE) {
-      par_zrus((int) p_par);    // tady uz to neexistuje !!!
+      par_zrus((ParHandle)p_par);    // tady uz to neexistuje !!!
     }
     else {
       if (p_par->p_flag)
         *(p_par->p_flag) = K_CHYBA;
       if (p_par->p_endfce)
-        p_par->p_endfce(p_par->param, p_par->param2, p_par->p_param);
+        p_par->p_endfce(p_par->param, p_par->param2, 
+                        reinterpret_cast<size_ptr>(p_par->p_param));
     }
     return (FALSE);
   }
@@ -541,13 +544,14 @@ int pe_updatuj_fleky(G_KONFIG * p_ber, PARMETAC * p_par)
 
   if (!p_par->pnum) {
     if (p_par->flag & TPAR_AUTOREMOVE) {
-      par_zrus((int) p_par);    // tady uz to neexistuje !!!
+      par_zrus((ParHandle) p_par);    // tady uz to neexistuje !!!
     }
     else {
       if (p_par->p_flag)
         *(p_par->p_flag) = K_CHYBA;
       if (p_par->p_endfce)
-        p_par->p_endfce(p_par->param, p_par->param2, p_par->p_param);
+        p_par->p_endfce(p_par->param, p_par->param2, 
+                        reinterpret_cast<size_ptr>(p_par->p_param));
     }
     return (FALSE);
   }
@@ -588,7 +592,7 @@ HnizdoHandle par_vloz_hnizdo(ParHandle ph)
     p_hnizdo->p_next->p_prev = p_hnizdo;
   p_par->p_hnizdo = p_hnizdo;
 
-  return ((int) p_hnizdo);
+  return ((ParHandle) p_hnizdo);
 }
 
 HnizdoHandle par_vloz_hnizdo_komplet(HnizdoHandle hh, int time_interval,
@@ -1189,7 +1193,7 @@ VodaHandle vod_vyrob(int meshu)
   }
   p_ber->p_voda = p_voda;
 
-  return ((int) p_voda);
+  return ((VodaHandle) p_voda);
 }
 
 void vod_zrus_vodniky(VODNIK * p_vodnik)
@@ -1261,7 +1265,7 @@ VodaHandle vod_uzavri_meshe(VodaHandle vh)
     vert += p_voda->p_mesh[i]->vertexnum;
   }
 
-  p_vert = p_voda->p_vertexy = mmalloc(sizeof(p_voda->p_vertexy[0]) * vert);
+  p_vert = p_voda->p_vertexy = (VODOVERTEX *)mmalloc(sizeof(p_voda->p_vertexy[0]) * vert);
 
   p_voda->vertexu = vert;
   vert = 0;
@@ -1302,7 +1306,7 @@ VodnikHandle vod_vloz_vodnika(VodaHandle vh, BOD * p_pos, int flag,
   VODNIK *p_vodnik;
   int i;
 
-  p_vodnik = mmalloc(sizeof(p_vodnik[0]));
+  p_vodnik = (VODNIK *)mmalloc(sizeof(p_vodnik[0]));
 
   p_vodnik->p = *p_pos;
   p_vodnik->flag = flag;
@@ -1316,7 +1320,7 @@ VodnikHandle vod_vloz_vodnika(VodaHandle vh, BOD * p_pos, int flag,
   p_vodnik->vertexnum = p_voda->vertexu;
   p_vert = p_vodnik->p_vert = p_voda->p_vertexy;
 
-  p_vzdal = p_vodnik->p_vzdal =
+  p_vzdal = p_vodnik->p_vzdal = (float *)
     mmalloc(sizeof(p_vzdal[0]) * p_vodnik->vertexnum);
 
   for (i = 0; i < p_vodnik->vertexnum; i++) {
@@ -1340,7 +1344,7 @@ VodnikHandle vod_vloz_vodnika(VodaHandle vh, BOD * p_pos, int flag,
   p_vodnik->p_next = p_voda->p_vodnik;
   p_voda->p_vodnik = p_vodnik;
 
-  return ((int) p_vodnik);
+  return ((VodnikHandle) p_vodnik);
 }
 
 VodnikHandle vod_uprav_vodnika_par(VodnikHandle vh, float amplituda,

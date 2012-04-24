@@ -88,24 +88,24 @@ typedef struct _BUNKA_LEVELU_DISK
 
 } BUNKA_LEVELU_DISK;
 
-typedef int MeshHandle;         // handle meshe/prvku pri loadu
-typedef int ExMeshHandle;       // handle extra-mesh (neni to prvek ale jen mesh)
-typedef int DataHandle;         // handle meshe/prvku v datazazi
-typedef int AnimHandle;         // handle simple animace (polotovaru animace)
-typedef int RunHandle;          // handle bezici animace
-typedef int MatrixHandle;       // handle matice
-typedef int MatHandle;          // handle animovaneho materialu
-typedef int LightHandle;        // handle bezneho dynamickeho svetla
-typedef int ExtraLightHandle;   // handle extra-dynamickeho svetla
-typedef int FlekHandle;         // handle na fleky
-typedef int ParHandle;          // handle na casticovac
-typedef int FlareHandle;        // handle na flare
-typedef int HnizdoHandle;       // handle na hnizdo
-typedef int TextHandle;         // handle na texturovou animaci
-typedef int VodaHandle;         // handle na vodni system
-typedef int VodnikHandle;       // handle na vodnika ve vodnim systemu
-typedef int ChapadelnikHandle;  // handle na chapadelnika s chapadlama
-typedef int ChapadloHandle;     // handle na chapadlo
+typedef size_ptr MeshHandle;         // handle meshe/prvku pri loadu
+typedef size_ptr ExMeshHandle;       // handle extra-mesh (neni to prvek ale jen mesh)
+typedef size_ptr DataHandle;         // handle meshe/prvku v datazazi
+typedef size_ptr AnimHandle;         // handle simple animace (polotovaru animace)
+typedef size_ptr RunHandle;          // handle bezici animace
+typedef size_ptr MatrixHandle;       // handle matice
+typedef size_ptr MatHandle;          // handle animovaneho materialu
+typedef size_ptr LightHandle;        // handle bezneho dynamickeho svetla
+typedef size_ptr ExtraLightHandle;   // handle extra-dynamickeho svetla
+typedef size_ptr FlekHandle;         // handle na fleky
+typedef size_ptr ParHandle;          // handle na casticovac
+typedef size_ptr FlareHandle;        // handle na flare
+typedef size_ptr HnizdoHandle;       // handle na hnizdo
+typedef size_ptr TextHandle;         // handle na texturovou animaci
+typedef size_ptr VodaHandle;         // handle na vodni system
+typedef size_ptr VodnikHandle;       // handle na vodnika ve vodnim systemu
+typedef size_ptr ChapadelnikHandle;  // handle na chapadelnika s chapadlama
+typedef size_ptr ChapadloHandle;     // handle na chapadlo
 
 #define FRAMU_PER_SEC         20
 #define DELKA_SEC             1000

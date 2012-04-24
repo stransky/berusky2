@@ -577,7 +577,7 @@ void ddx2RenderujVse(G_KONFIG * p_ber)
 //------------------------------------------------------------------------------------------------
 // finds first free index
 //------------------------------------------------------------------------------------------------
-int ddx2FindFreeSurface(void)
+SurfaceHandle ddx2FindFreeSurface(void)
 {
   int i;
 
@@ -608,13 +608,13 @@ SurfaceHandle ddx2ReleaseBitmap(SurfaceHandle iSurface)
 //------------------------------------------------------------------------------------------------
 // load bitmap from APAK na pozici
 //------------------------------------------------------------------------------------------------
-SurfaceHandle ddx2LoadBitmapPos(SurfaceHandle handle, char *pFileName,
+SurfaceHandle ddx2LoadBitmapPos(SurfaceHandle handle, const char *pFileName,
   APAK_HANDLE * pHandle)
 {
   if (handle != K_CHYBA) {
     assert(handle < slist.surf_max);
     ddx2ReleaseBitmap(handle);
-    if ((slist.p_slist[handle].p_bmp = bmp_nahraj(pHandle, pFileName))) {
+    if ((slist.p_slist[handle].p_bmp = bmp_nahraj(pHandle, (char *)pFileName))) {
       // for compatibility with old broken bmp loading
       bmp_prehod(slist.p_slist[handle].p_bmp);
       return (handle);
@@ -653,7 +653,7 @@ SurfaceHandle ddx2LoadBitmapPosDisk(SurfaceHandle handle, char *pFileName)
 //------------------------------------------------------------------------------------------------
 // load bitmap from APAK
 //------------------------------------------------------------------------------------------------
-SurfaceHandle ddx2LoadBitmap(char *pFileName, APAK_HANDLE * pHandle)
+SurfaceHandle ddx2LoadBitmap(const char *pFileName, APAK_HANDLE * pHandle)
 {
   return (ddx2LoadBitmapPos(ddx2FindFreeSurface(), pFileName, pHandle));
 }

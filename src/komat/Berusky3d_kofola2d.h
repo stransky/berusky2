@@ -67,8 +67,8 @@ typedef struct _DDX2_SURFACE_LIST
 } DDX2_SURFACE_LIST;
 
 
-typedef int DeviceHandle;
-typedef int SurfaceHandle;
+typedef size_ptr DeviceHandle;
+typedef size_ptr SurfaceHandle;
 
 
 //------------------------------------------------------------------------------------------------
@@ -186,7 +186,7 @@ SurfaceHandle ddx2LoadBitmapPos(SurfaceHandle handle, char *pFileName,
 //------------------------------------------------------------------------------------------------
 // load bitmap from APAK
 //------------------------------------------------------------------------------------------------
-SurfaceHandle ddx2LoadBitmap(char *pFileName, APAK_HANDLE * pHandle);
+SurfaceHandle ddx2LoadBitmap(const char *pFileName, APAK_HANDLE * pHandle);
 
 //------------------------------------------------------------------------------------------------
 // load bitmap from DISK

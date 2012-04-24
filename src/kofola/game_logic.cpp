@@ -3079,7 +3079,7 @@ int gl_Get_Mesh_Material(int Mesh)
   if (!p_mat)
     return -1;
 
-  kom_mesh_get_mat(Mesh, p_mat);
+  kom_mesh_get_mat(Mesh, reinterpret_cast<MatHandle *>(p_mat));
 
   i = p_mat[0];
 

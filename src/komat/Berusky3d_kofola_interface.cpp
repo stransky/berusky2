@@ -58,7 +58,7 @@ void kom_init_level(LEVEL_HEADER * p_head)      // level header
 MeshHandle kom_pridej_prvek_levelu(BUNKA_LEVELU_DISK * p_bunka, int x, int y,
   int z)
 {
-  int handle = K_CHYBA;
+  MeshHandle handle = K_CHYBA;
   int mesh;
 
   ber_prvek_disk_do_bunky(p_ber, p_bunka, &handle, TRUE, x, y, z);
@@ -75,7 +75,7 @@ MeshHandle kom_pridej_prvek_levelu(BUNKA_LEVELU_DISK * p_bunka, int x, int y,
 MeshHandle kom_pridej_prvek_levelu_disk(char *p_file,
   BUNKA_LEVELU_DISK * p_bunka, int x, int y, int z)
 {
-  int handle = K_CHYBA;
+  MeshHandle handle = K_CHYBA;
   int mesh;
   int l;
 
@@ -1065,7 +1065,7 @@ FlekHandle kom_flek_pridej(MeshHandle mh, BOD * p_p, BOD * p_nx, BOD * p_nz,
      */
     kom_vloz_flek(&p_ber->p_fleky_mesh, p_flek);
   }
-  return ((int) p_flek);
+  return ((FlekHandle) p_flek);
 }
 
 int kom_flek_getflag(FlekHandle fh, int flag)

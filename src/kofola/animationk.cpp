@@ -178,7 +178,7 @@ void am_Set_Start_Function(SIM_ANIMATION * p_animation, END_FUNKCE pStartf,
   size_ptr iParam1, size_ptr iParam2, size_ptr pParam, int index)
 {
   p_animation->tStart[index].pProc = pStartf;
-  p_animation->tStart[index].pParam = pParam;
+  p_animation->tStart[index].pParam = reinterpret_cast<void *>(pParam);
   p_animation->tStart[index].iParam[0] = iParam1;
   p_animation->tStart[index].iParam[1] = iParam2;
 }
@@ -190,7 +190,7 @@ void am_Set_Triger_Function(SIM_ANIMATION * p_animation, END_FUNKCE pTrigerf,
   size_ptr iParam1, size_ptr iParam2, size_ptr pParam, int flag, int index)
 {
   p_animation->tTriger[index].pProc = pTrigerf;
-  p_animation->tTriger[index].pParam = pParam;
+  p_animation->tTriger[index].pParam = reinterpret_cast<void *>(pParam);
   p_animation->tTriger[index].iParam[0] = iParam1;
   p_animation->tTriger[index].iParam[1] = iParam2;
   p_animation->tTriger[index].flag = flag;
@@ -203,7 +203,7 @@ void am_Set_aMaterial_Function(SIM_ANIMATION * p_animation, int i,
   END_FUNKCE taMateral, size_ptr iParam1, size_ptr iParam2, size_ptr pParam, int flag)
 {
   p_animation->taMateral[i].pProc = taMateral;
-  p_animation->taMateral[i].pParam = pParam;
+  p_animation->taMateral[i].pParam = reinterpret_cast<void *>(pParam);
   p_animation->taMateral[i].iParam[0] = iParam1;
   p_animation->taMateral[i].iParam[1] = iParam2;
   p_animation->taMateral[i].flag = flag;
@@ -1064,8 +1064,9 @@ void am_Do_Flares(LEVELINFO * p_Level)
       if (dwEplased > 1000) {
         //pokud se napodarilo prvek presunout v terminu (500 ms) udelej to ted
         if (p_Level->Flare[i].Item) {
-          (anmend_Teleport) ((int) p_Level->Flare[i].Item,
-            p_Level->Flare[i].Teleport, p_Level->Flare[i].pPointer);
+          (anmend_Teleport) (reinterpret_cast<size_ptr>(p_Level->Flare[i].Item),
+                             p_Level->Flare[i].Teleport, 
+                             reinterpret_cast<size_ptr>(p_Level->Flare[i].pPointer));
           p_Level->Flare[i].Item = NULL;
           p_Level->Flare[i].Teleport = -1;
         }
@@ -1087,8 +1088,9 @@ void am_Do_Flares(LEVELINFO * p_Level)
       else if (dwEplased > 500) {
         //proved teleportaci, pokud je zapsan predmet
         if (p_Level->Flare[i].Item) {
-          (anmend_Teleport) ((int) p_Level->Flare[i].Item,
-            p_Level->Flare[i].Teleport, p_Level->Flare[i].pPointer);
+          (anmend_Teleport) (reinterpret_cast<size_ptr>(p_Level->Flare[i].Item),
+                             p_Level->Flare[i].Teleport, 
+                             reinterpret_cast<size_ptr>(p_Level->Flare[i].pPointer));
           p_Level->Flare[i].Item = NULL;
           p_Level->Flare[i].Teleport = -1;
         }
@@ -1503,8 +1505,7 @@ int am_Kola_na_Vode(float *pos, int VyskaSloupce, int VyskaPadu, int predmet,
     Boundary.Right, Boundary.Top);
 
   par_pripoj_funkci(pSystem->System, anmend_ZrusCastice3, 0, 0,
-    (void *) pKourovaS);
-
+                    reinterpret_cast<size_ptr>(pKourovaS));
   par_go(pSystem->System, &pSystem->flag, 0, 0);
 
   return k;
@@ -1592,8 +1593,8 @@ void am_Do_Vodni_Cakanec1(float *pos, int vyska, int Predmet,
 
   par_vloz_strepy(ph, pCastice, pocercastic);
 
-  par_pripoj_funkci(ph, anmend_ZrusCastice3, 0, 0, (void *) pCastice);
-
+  par_pripoj_funkci(ph, anmend_ZrusCastice3, 0, 0, 
+                    reinterpret_cast<size_ptr>(pCastice));
   par_go(ph, &p_Level->VodniCakanec1[r].flag, 0, 0);
 }
 
@@ -1681,8 +1682,8 @@ void am_Do_Vodni_Cakanec2(float *pos, int VyskaPadu, int predmet,
 
   par_vloz_strepy(ph, pCastice, pocercastic);
 
-  par_pripoj_funkci(ph, anmend_ZrusCastice3, 0, 0, (void *) pCastice);
-
+  par_pripoj_funkci(ph, anmend_ZrusCastice3, 0, 0, 
+                    reinterpret_cast<size_ptr>(pCastice));
   par_go(ph, &p_Level->VodniCakanec2[r].flag, 0, 0);
 }
 
@@ -1776,11 +1777,9 @@ void am_Do_Lift_VParticles(float *pos, int mesh, LEVELINFO * p_Level)
   p_Level->LiftVParticles[k].dwTime = 0;
 
   par_pripoj_funkci(p_Level->LiftVParticles[k].System, anmend_ZrusCastice3, 0,
-    0, (void *) pKourovaS);
-
+                    0, reinterpret_cast<size_ptr>(pKourovaS));
   p_Level->LiftVParticles[k].hHnizdo[1] = mesh;
-  par_go(p_Level->LiftVParticles[k].System, &p_Level->LiftVParticles[k].flag,
-    0, 0);
+  par_go(p_Level->LiftVParticles[k].System, &p_Level->LiftVParticles[k].flag, 0, 0);
 }
 
 int am_Get_Free_VodniKolaB(LEVELINFO * p_Level)
@@ -1926,8 +1925,7 @@ int am_Kola_na_VodeB(float *pos, int Beruska, int mesh, int infinity,
     Boundary.Right, Boundary.Top);
 
   par_pripoj_funkci(pSystem->System, anmend_ZrusCastice3, 0, 0,
-    (void *) pKourovaS);
-
+    reinterpret_cast<size_ptr>(pKourovaS));
   par_go(pSystem->System, &pSystem->flag, 0, 0);
 
   return k;
@@ -2135,8 +2133,7 @@ void am_Create_BublSystem(int i, LEVELINFO * p_Level)
   p_Level->BublSystem[i].bOn = 0;
 
   par_pripoj_funkci(pSystem->System, anmend_ZrusCastice3, 0, 0,
-    (void *) pKourovaS);
-
+    reinterpret_cast<size_ptr>(pKourovaS));
   par_go(pSystem->System, &pSystem->flag, 0, 0);
 
 }
@@ -2308,7 +2305,7 @@ void am_Do_Vybuch_Bublin(int *iPos, float *fPos, LEVELINFO * p_Level)
   pSystem->dwStop = 0;
 
   par_pripoj_funkci(pSystem->System, anmend_ZrusCastice3, 0, 0,
-    (void *) pKourovaS);
+    reinterpret_cast<size_ptr>(pKourovaS));
 
   par_go(pSystem->System, &pSystem->flag, 0, 0);
 }
@@ -2526,8 +2523,7 @@ void am_Do_Exit(int Bmesh, int Emesh, LEVELINFO * p_Level)
   }
 
   par_pripoj_funkci(pSystem->System, anmend_ZrusCastice3, 0, 0,
-    (void *) pKourovaS);
-
+    reinterpret_cast<size_ptr>(pKourovaS));
   par_go(pSystem->System, &pSystem->flag, 0, 0);
 
   kom_mesh_get_float(Emesh, &pos[0], &pos[1], &pos[2], &rot);
@@ -2584,7 +2580,7 @@ void am_Do_Exit_Sparks(LEVELINFO * p_Level)
         p_Level->ExitSparks[i].dwTime = 0;
       }
 
-      pItem = (ITEMDESC *) p_Level->ExitSparks[i].hHnizdo[1];
+      pItem = reinterpret_cast<ITEMDESC *>(p_Level->ExitSparks[i].hHnizdo[1]);
 
       kom_mesh_get_float(pItem->Index_Of_Game_Mesh, &pos[0], &pos[1], &pos[2],
         &r);
@@ -2641,7 +2637,7 @@ void am_Do_TelCSparks(LEVELINFO * p_Level)
         }
       }
 
-      pItem = (ITEMDESC *) p_Level->TelCSparks[i].hHnizdo[1];
+      pItem = reinterpret_cast<ITEMDESC *>(p_Level->TelCSparks[i].hHnizdo[1]);
 
       if (pItem) {
         if ((rand() % 3))
@@ -2684,7 +2680,7 @@ void am_Release_BarelSparks(LEVELINFO * p_Level, ITEMDESC * pBarel)
 
   for (i = 0; i < 30; i++)
     if (p_Level->BarelSparks[i].System != -1 &&
-      p_Level->BarelSparks[i].hHnizdo[1] == (int) pBarel) {
+      reinterpret_cast<ITEMDESC *>(p_Level->BarelSparks[i].hHnizdo[1]) == pBarel) {
       par_zrus(p_Level->BarelSparks[i].System);
       p_Level->BarelSparks[i].System = -1;
       sdl_svetlo_zrus(p_Level->BarelSparks[i].hHnizdo[2]);
@@ -2723,7 +2719,7 @@ void am_Do_BarelSparks(LEVELINFO * p_Level)
         }
       }
 
-      pItem = (ITEMDESC *) p_Level->BarelSparks[i].hHnizdo[1];
+      pItem = reinterpret_cast<ITEMDESC *>(p_Level->BarelSparks[i].hHnizdo[1]);
 
       if (pItem) {
         kom_mesh_get_float(pItem->Index_Of_Game_Mesh, &pos[0], &pos[1],
@@ -2850,10 +2846,10 @@ void am_Create_Exit_Sparks(ITEMDESC * pExit, char Down, LEVELINFO * p_Level)
   pSystem->dwStart = timeGetTime();
   pSystem->dwTime = 0;
   pSystem->dwStop = 0;
-  pSystem->hHnizdo[1] = (int) pExit;
+  pSystem->hHnizdo[1] = reinterpret_cast<size_ptr>(pExit);
 
   par_pripoj_funkci(pSystem->System, anmend_ZrusCastice3, 0, 0,
-    (void *) pKourovaS);
+    reinterpret_cast<size_ptr>(pKourovaS));
 
   par_go(pSystem->System, &pSystem->flag, 0, 0);
 }
@@ -2944,10 +2940,10 @@ int am_Create_TelCSparks(ITEMDESC * pTel, LEVELINFO * p_Level)
   pSystem->dwStart = timeGetTime();
   pSystem->dwTime = 0;
   pSystem->dwStop = 0;
-  pSystem->hHnizdo[1] = (int) pTel;
+  pSystem->hHnizdo[1] = reinterpret_cast<size_ptr>(pTel);
 
   par_pripoj_funkci(pSystem->System, anmend_ZrusCastice3, 0, 0,
-    (void *) pKourovaS);
+    reinterpret_cast<size_ptr>(pKourovaS));
 
   par_go(pSystem->System, &pSystem->flag, 0, 0);
 
@@ -2994,7 +2990,7 @@ int am_Find_TelCSparks(ITEMDESC * pTel, LEVELINFO * p_Level)
 
   for (i = 0; i < 10; i++)
     if (p_Level->TelCSparks[i].System != -1) {
-      pItem = (ITEMDESC *) p_Level->TelCSparks[i].hHnizdo[1];
+      pItem = reinterpret_cast<ITEMDESC *>(p_Level->TelCSparks[i].hHnizdo[1]);
 
       if (pItem)
         if (pItem->iItem == pTel->iItem)
@@ -4954,10 +4950,10 @@ int am_Create_BarelSparksSystem(ITEMDESC * pTel, LEVELINFO * p_Level)
   pSystem->dwStart = timeGetTime();
   pSystem->dwTime = 0;
   pSystem->dwStop = 0;
-  pSystem->hHnizdo[1] = (int) pTel;
+  pSystem->hHnizdo[1] = reinterpret_cast<size_ptr>(pTel);
 
   par_pripoj_funkci(pSystem->System, anmend_ZrusCastice3, 0, 0,
-    (void *) pKourovaS);
+    reinterpret_cast<size_ptr>(pKourovaS));
 
   par_go(pSystem->System, &pSystem->flag, 0, 0);
 
@@ -5088,7 +5084,7 @@ void am_Do_Mouth_Smoke(int iItem, float *pos, LEVELINFO * p_Level)
   p_Level->KourUst[k].hHnizdo[1] = iItem;
 
   par_pripoj_funkci(p_Level->KourUst[k].System, anmend_ZrusCastice3, 0, 0,
-    (void *) pKourovaS);
+    reinterpret_cast<size_ptr>(pKourovaS));
 
   par_go(p_Level->KourUst[k].System, &p_Level->KourUst[k].flag, 0, 0);
 }
@@ -5281,7 +5277,7 @@ void am_Create_Steps_System(LEVELINFO * p_Level)
 //              pSystem->hHnizdo[1] = 0;
 
       par_pripoj_funkci(pSystem->System, anmend_ZrusCastice3, 0, 0,
-        (void *) pKourovaS);
+        reinterpret_cast<size_ptr>(pKourovaS));
 
       par_go(pSystem->System, &pSystem->flag, 0, 0);
     }
@@ -5601,7 +5597,7 @@ void am_Create_BublSystem_Effect1(float *pos, LEVELINFO * p_Level, int iSize)
   p_Level->BublSystemE.bOn = 0;
 
   par_pripoj_funkci(pSystem->System, anmend_ZrusCastice3, 0, 0,
-    (void *) pKourovaS);
+    reinterpret_cast<size_ptr>(pKourovaS));
 
   par_go(pSystem->System, &pSystem->flag, 0, 0);
 }
@@ -5677,7 +5673,7 @@ void am_Create_BublSystem_Effect2(float *pos, LEVELINFO * p_Level, int iSize,
   p_Level->BublSystemC.bOn = 0;
 
   par_pripoj_funkci(pSystem->System, anmend_ZrusCastice3, 0, 0,
-    (void *) pKourovaS);
+    reinterpret_cast<size_ptr>(pKourovaS));
 
   par_go(pSystem->System, &pSystem->flag, 0, 0);
 }
@@ -6778,7 +6774,7 @@ int am_Create_Fairy(LEVELINFO * p_Level, FAIRY_EFFECT * pF, float pos[3],
   }
 
   par_pripoj_funkci(pF->pSystem, anmend_ZrusCastice3, 0, 0,
-    (void *) pF->pCastice);
+    reinterpret_cast<size_ptr>(pF->pCastice));
 
   par_go(pF->pSystem, &pF->flag, 0, 0);
 
@@ -7261,7 +7257,7 @@ int am_Create_Falling_Star(LEVELINFO * p_Level, FAIRY_EFFECT * pF,
   }
 
   par_pripoj_funkci(pF->pSystem, anmend_ZrusCastice3, 0, 0,
-    (void *) pF->pCastice);
+    reinterpret_cast<size_ptr>(pF->pCastice));
 
   par_go(pF->pSystem, &pF->flag, 0, 0);
 
@@ -7454,7 +7450,7 @@ int am_Create_CandleSystem(float *pos, LEVELINFO * p_Level)
   par_vloz_hnizdo_dir(pSystem->hHnizdo, &pSystem->dir);
 
   par_pripoj_funkci(pSystem->pSystem, anmend_ZrusCastice3, 0, 0,
-    (void *) pKourovaS);
+    reinterpret_cast<size_ptr>(pKourovaS));
 
   par_go(pSystem->pSystem, &pSystem->flag, 0, 0);
 
@@ -7609,7 +7605,7 @@ int am_Create_CandleSmokeSystem(float *pos, LEVELINFO * p_Level)
   par_vloz_hnizdo_dir(pSystem->hHnizdo, &pSystem->dir);
 
   par_pripoj_funkci(pSystem->pSystem, anmend_ZrusCastice3, 0, 0,
-    (void *) pKourovaS);
+    reinterpret_cast<size_ptr>(pKourovaS));
 
   par_go(pSystem->pSystem, &pSystem->flag, 0, 0);
 

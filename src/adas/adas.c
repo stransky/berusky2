@@ -8,6 +8,7 @@
 #include "3d_math.h"
 #include "adas.h"
 #include "compat_mini.h"
+#include "mmalloc.h"
 
 //------------------------------------------------------------------------------------------------
 // libraries

@@ -10,6 +10,7 @@
 */
 #include <alloca.h>
 
+#include "compat_mini.h"
 #include "Berusky_universal.h"
 #include "3d_all.h"
 
@@ -2457,7 +2458,8 @@ int key_sim_nahraj_extended(EDIT_KONTEJNER * p_kont, int cislo_anim,
   BOD pivot(0.0f, 0.0f, 0.0f);
   BOD osa;
   float uhel;
-  int i, objektu = 0, stop, ob, end, float_scale = FALSE;
+  int i, objektu = 0, stop, ob, float_scale = FALSE;
+  size_ptr end;
 
   chdir((p_dir));
   if (!(f = fopen(p_file, "r"))) {
@@ -2574,7 +2576,7 @@ int key_sim_nahraj_extended(EDIT_KONTEJNER * p_kont, int cislo_anim,
     /* Vratim se za prvni frame a ctu klice
      */
     fseek(f, stop, SEEK_SET);
-    while ((end = (int) fgets(pom, 999, f))) {
+    while ((end = (size_ptr) fgets(pom, 999, f))) {
       fgets_korekce(pom);
       if (pom[0] && pom[0] != '\n' && pom[0] != ';') {
         /* Test - je dalsi objekt?

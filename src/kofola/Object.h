@@ -164,7 +164,7 @@ typedef struct
   int System;
   int Sizeof;
   int flag;
-  int hHnizdo[64];
+  size_ptr hHnizdo[64];
   float dir[64][3];
   float pivot[64][3];
   float nx[64][3];

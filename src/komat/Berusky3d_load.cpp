@@ -83,7 +83,7 @@ int ber_najdi_mesh_id(GAME_MESH_OLD ** p_mesh, int max, int id)
 /* Prida regulerni mesh z disku
 */
 int ber_prvek_disk_do_bunky(G_KONFIG * p_ber, BUNKA_LEVELU_DISK * p_disk,
-  int *p_handle, int ID, int x, int y, int z)
+                            MeshHandle *p_handle, int ID, int x, int y, int z)
 {
   PRVEK_LEVELU_GAME *p_lev;
   GAME_MESH_OLD *p_mesh;
@@ -366,13 +366,13 @@ void ber_materialy_rozkopiruj(G_KONFIG * p_ber, GAME_MESH_OLD * p_mesh,
 
 /* Nahraje jeden mesh
 */
-int ber_nahraj_mesh(G_KONFIG * p_ber, char *p_jmeno, GAME_MESH_OLD ** p_mesh, int json_export)
+MeshHandle ber_nahraj_mesh(G_KONFIG * p_ber, char *p_jmeno, GAME_MESH_OLD ** p_mesh, int json_export)
 {
   chdir((p_ber->dir.out_dir));
   p_mesh[0] = lo_nahraj_mesh(p_ber->p_mat, MAX_CELKEM_MATERIALU, p_ber->p_text,
                              MAX_CELKEM_TEXTUR, p_jmeno, TRUE, 
                              p_ber->conf_extra_light_vertex, json_export);
-  return ((int) p_mesh[0]);
+  return ((MeshHandle) p_mesh[0]);
 }
 
 inline int najdi_volnou_texturu_mat(EDIT_MATERIAL * p_mat)
@@ -696,6 +696,9 @@ int ber_nahraj_scenu(G_KONFIG * p_ber, char *p_jmeno, char *p_dir, int reload,
     // prekopiruje kontejnery-meshe 1:1
     for (k = 0, m = 0, p = -1; k < MAX_BERUSKY_KONTEJNERU; k++) {
       if (p_kont[k]) {
+        if(export_level) {
+          json_export_kont_single(p_kont[k], p_ber->p_mat, MAX_CELKEM_MATERIALU);
+        }
         if (ber_je_mesh_beruska(k, p_berusky, bernum, tmp)) {
           ret = ber_nahraj_mesh(p_ber, tmp, p_ber->p_mesh + m, export_level);
           assert(ret);
@@ -704,9 +707,6 @@ int ber_nahraj_scenu(G_KONFIG * p_ber, char *p_jmeno, char *p_dir, int reload,
           p_ber->p_mesh[m]->p_data->k2flag |= KONT2_BERUSKA;
         }
         else {
-          if(export_level) {
-            json_export_kont_single(p_kont[k], p_ber->p_mat, MAX_CELKEM_MATERIALU);
-          }
           p_ber->p_mesh[m] = lo_kontejner_to_mesh(p_kont + k, p_ber->p_mat,
             MAX_CELKEM_MATERIALU, p_ber->conf_extra_light_vertex);
         }

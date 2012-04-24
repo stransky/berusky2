@@ -589,7 +589,7 @@ naslo_se_to:;
     p_gk->p_next->p_prev = p_gk;
   p_ber->p_gkanim = p_gk;
 
-  return (rani_go((int) p_gk, flag, start, stop));
+  return (rani_go((RunHandle) p_gk, flag, start, stop));
 }
 
 RunHandle rani_aktivuj_cekej(AnimHandle shandle, int *p_flag)
@@ -630,7 +630,7 @@ naslo_se_to:;
     p_gk->p_next->p_prev = p_gk;
   p_ber->p_gkanim = p_gk;
 
-  return ((int) p_gk);
+  return ((RunHandle) p_gk);
 }
 
 RunHandle rani_pripoj_funkci(RunHandle a_handle, END_FUNKCE p_fce, size_ptr param, size_ptr param2, size_ptr param3)
@@ -638,7 +638,7 @@ RunHandle rani_pripoj_funkci(RunHandle a_handle, END_FUNKCE p_fce, size_ptr para
   GK_ANIM *p_gk = (GK_ANIM *) a_handle;
 
   p_gk->p_endfce = p_fce;
-  p_gk->p_param = p_param;
+  p_gk->p_param = reinterpret_cast<void *>(param3);
   p_gk->param = param;
   p_gk->param2 = param2;
   return (a_handle);
@@ -1086,14 +1086,15 @@ inline void rani_updatuj_2(GK_ANIM * p_gk)
   if (p_gk->flag & GK_AKTIVNI && p_gk->konec) {
     p_gk->flag &= ~GK_AKTIVNI;
     if (p_gk->p_endfce)
-      p_gk->p_endfce(p_gk->param, p_gk->param2, p_gk->p_param);
+      p_gk->p_endfce(p_gk->param, p_gk->param2, 
+                     reinterpret_cast<size_ptr>(p_gk->p_param));
     if (p_gk->next_ah != K_CHYBA) {
       rani_go(p_gk->next_ah, p_gk->next_flag, p_gk->next_start,
         p_gk->next_stop);
       rani_updatuj_1((GK_ANIM *) p_gk->next_ah);
     }
     if (p_gk->flag & GK_REMOVE) {
-      rani_zrus((int) p_gk);
+      rani_zrus((RunHandle) p_gk);
     }
   }
 }
@@ -1473,7 +1474,7 @@ TextHandle tani_go(MatHandle mh, int textura, int animace, int *p_flag,
     }
     p_ber->p_textanim = p_tani;
 
-    return ((int) p_tani);
+    return ((RunHandle) p_tani);
 
   }
   //kprintfe(TRUE,"K_CHYBA - FILE %s LINE %d",__FILE__,__LINE__);

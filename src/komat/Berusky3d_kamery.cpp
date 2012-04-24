@@ -1108,7 +1108,7 @@ float kam_get_fov(void)
 
 static BOD __last_kam_bod;
 
-static void kam_privaz_kameru_updatuj(int a_handle)
+static void kam_privaz_kameru_updatuj(size_ptr a_handle)
 {
   GK_ANIM *p_gk = (GK_ANIM *) a_handle;
   BOD vysl;
@@ -1118,7 +1118,7 @@ static void kam_privaz_kameru_updatuj(int a_handle)
   kam_pol_add(&vysl, 0, 0, 0, TRUE);
 }
 
-static void kam_privaz_kameru_start(int a_handle)
+static void kam_privaz_kameru_start(size_ptr a_handle)
 {
   __last_kam_bod.x = __last_kam_bod.y = __last_kam_bod.z = 0.0f;
 }

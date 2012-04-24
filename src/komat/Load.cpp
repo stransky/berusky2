@@ -4,6 +4,7 @@
 #include <string.h>
 #include <limits.h>
 #include "Apak.h"
+#include "compat_mini.h"
 #include "Berusky_universal.h"
 
 #include "3d_all.h"
@@ -60,10 +61,8 @@ char *zamen_koncovku_znak(char *p_file, char znak, const char *p_koncovka)
 */
 char *cti_koncovku(char *p_file)
 {
-  if (p_file) {
-    char *p_pom = strchr(p_file, '.');
-
-    return (p_pom);
+  if (p_file) {    
+    return (strchr(p_file, '.'));
   }
   else {
     return (NULL);
@@ -1622,7 +1621,8 @@ GAME_MESH_OLD *edit_to_mesh(GAME_MESH_DATA * p_mesh_data,
   BOD *p_piv;
   int **p_opt;
   int *p_optnum;
-  int i, j, p, k, vertexnum, vel, bodu = p_kont->bodu;
+  int i, j, p, k, vertexnum, bodu = p_kont->bodu;
+  size_ptr vel;
   int shut = 0;
   int pivot = 0;
 
@@ -1715,36 +1715,36 @@ GAME_MESH_OLD *edit_to_mesh(GAME_MESH_DATA * p_mesh_data,
   p_mesh->p_vertex_norm = p_mesh->p_vertex_pos + bodu;
 
 
-  vel = (int) (p_mesh->p_vertex_norm + bodu);
+  vel = reinterpret_cast<size_ptr>(p_mesh->p_vertex_norm + bodu);
   if (p_kont->m2flag & MAT2_DIFFUSE) {
     p_mesh->p_vertex_diff = (BARVA_RGBA *) vel;
     p_mesh->p_vertex_diff_material = p_mesh->p_vertex_diff + bodu;
-    vel = (int) (p_mesh->p_vertex_diff_material + bodu);
+    vel = reinterpret_cast<size_ptr>(p_mesh->p_vertex_diff_material + bodu);
   }
   if (p_kont->m2flag & MAT2_SPECULAR) {
     p_mesh->p_vertex_spec = (BODRGB *) vel;
     p_mesh->p_vertex_spec_material = p_mesh->p_vertex_spec + bodu;
-    vel = (int) (p_mesh->p_vertex_spec_material + bodu);
+    vel = reinterpret_cast<size_ptr>(p_mesh->p_vertex_spec_material + bodu);
   }
   else if (p_kont->m2flag & MAT2_ENV_SPEC) {
     p_mesh->p_vertex_spec = (BODRGB *) vel;
-    vel = (int) (p_mesh->p_vertex_spec + bodu);
+    vel = reinterpret_cast<size_ptr>(p_mesh->p_vertex_spec + bodu);
   }
   if (p_kont->m2flag & MAT2_MAP1) {
     p_mesh->p_vertex_uv1_material = (BODUV *) vel;
-    vel = (int) (p_mesh->p_vertex_uv1_material + bodu);
+    vel = reinterpret_cast<size_ptr>(p_mesh->p_vertex_uv1_material + bodu);
   }
   if (p_kont->m2flag & MAT2_MAP2) {
     p_mesh->p_vertex_uv2_material = (BODUV *) vel;
-    vel = (int) (p_mesh->p_vertex_uv2_material + bodu);
+    vel = reinterpret_cast<size_ptr>(p_mesh->p_vertex_uv2_material + bodu);
   }
   if (p_kont->m2flag & MAT2_MAP3) {
     p_mesh->p_vertex_uv3_material = (BODUV *) vel;
-    vel = (int) (p_mesh->p_vertex_uv3_material + bodu);
+    vel = reinterpret_cast<size_ptr>(p_mesh->p_vertex_uv3_material + bodu);
   }
   if (p_kont->m2flag & MAT2_MAP4) {
     p_mesh->p_vertex_uv4_material = (BODUV *) vel;
-    vel = (int) (p_mesh->p_vertex_uv4_material + bodu);
+    vel = reinterpret_cast<size_ptr>(p_mesh->p_vertex_uv4_material + bodu);
   }
   if (p_kont->k2flag & KONT2_JOINT_ANIM) {
     p_mesh->p_vertex_pos_kosti =
@@ -3118,10 +3118,9 @@ void lo_poly_uloz(FFILE f, EDIT_MESH_POLY * p_poly, EDIT_TEXT * p_light)
   }
   // TODO - 64bit
   ffwrite(p_poly->p_light, sizeof(p_poly->p_light[0]), p_poly->lightnum, f);
-  ffwrite(p_poly->p_lightnum, sizeof(p_poly->p_lightnum[0]), p_poly->lightnum,
-    f);
+  ffwrite(p_poly->p_lightnum, sizeof(p_poly->p_lightnum[0]), p_poly->lightnum, f);
   for (i = 0; i < p_poly->lightnum; i++) {
-    p_poly->p_light[i] = p_light + (int) p_poly->p_light[i];
+    p_poly->p_light[i] = p_light + reinterpret_cast<size_ptr>(p_poly->p_light[i]);
   }
 }
 
@@ -3142,7 +3141,7 @@ void lo_poly_nahraj_indir(FFILE f, EDIT_MESH_POLY * p_poly,
   p_poly->p_light = (EDIT_TEXT **) mmalloc(sizeof(p_poly->p_light[0])*p_poly->lightnum);
   p_poly->p_lightnum = (int *) mmalloc(sizeof(p_poly->p_lightnum[0])*p_poly->lightnum);
 
-  int *p_tmp = mmalloc(sizeof(int)*p_poly->lightnum);
+  int *p_tmp = (int *)mmalloc(sizeof(int)*p_poly->lightnum);
   ffread(p_tmp, sizeof(int), p_poly->lightnum, f);
   ffread(p_poly->p_lightnum, sizeof(p_poly->p_lightnum[0]), p_poly->lightnum, f);
 

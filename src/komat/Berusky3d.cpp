@@ -957,14 +957,14 @@ void ber_test_animaci3(G_KONFIG * p_ber)
 
   //sim_vloz_klic_posun(anim, 0, 0, 0, 0, 0);
 
-  r = rand() / (float) (RAND_MAX * 40);
+  r = rand() / ((float)RAND_MAX * 40);
 
   if (r < 0.05f)
     r = 0.05f;
 
   f1 = (int) ceil(r * 800);
 
-  r = rand() / (float) (RAND_MAX * 40);
+  r = rand() / ((float)RAND_MAX * 40);
 
   if (r < 0.05f)
     r = 0.05f;

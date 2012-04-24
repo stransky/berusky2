@@ -294,6 +294,7 @@ void json_export_kont(FILE *f, EDIT_KONTEJNER *p_kont,
   fprintf(f,"  \"name\" : \"%s\",\n", p_kont->jmeno);
   fprintf(f,"  \"hierarchy_level\" : \"%d\",\n", level);
   fprintf(f,"  \"container_id\" : \"%d\",\n", p_kont->kontejner_ID);
+  fprintf(f,"  \"prvek\" : \"%d\",\n", p_kont->kflag&KONT_PRVEK);
   fprintf(f,"  \"matrix\" : ");
   json_export_matrix(f, &p_kont->world, "world");
 
@@ -424,6 +425,7 @@ void json_export_poly(FILE *f, EDIT_MESH_POLY *p_poly,
   fprintf(f,"  \"name\" : \"%s\",\n", p_poly->jmeno);
   fprintf(f,"  \"container_id\" : \"%d\",\n", -1);
   fprintf(f,"  \"poly_id\" : \"%d\",\n", poly_id);
+  fprintf(f,"  \"prvek\" : \"%d\",\n", p_poly->kflag&KONT_PRVEK);
 
   GLMATRIX m;
   init_matrix(&m);
@@ -596,10 +598,11 @@ char* name_cleaner(char* name){
     return NULL;
   }*/
   
-  if(name == NULL) return;
+  if(name == NULL) 
+    return(NULL);
   
   int i = 0;
-  char *tempString = malloc(30*sizeof(char));
+  char *tempString = (char *)malloc(30*sizeof(char));
   //std::string temp_string;
   for(i; i < 30; i++){
     //fputc((int) name[i], pFile);
