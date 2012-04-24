@@ -20,7 +20,7 @@ char ogg_check();
 void ogg_empty();
 char ogg_stream(ALuint buffer);
 
-int ogg_proc( void *lpParameter );
+void * ogg_proc( void *lpParameter );
 
 void ogg_gain(float gain)
 {
@@ -72,7 +72,7 @@ int ogg_open(char *file, float gain)
 
 void ogg_release()
 {
-  unsigned long exit_code = STILL_ACTIVE;
+  dword exit_code = STILL_ACTIVE;
   
   if(!bDevice) return;
   if(!thread) return;
@@ -230,7 +230,7 @@ char ogg_check()
 	return 0;
 }
 
-int ogg_proc( void *lpParameter )
+void * ogg_proc( void *lpParameter )
 {
 	alSourcePlay(source);
 
@@ -272,5 +272,5 @@ int ogg_proc( void *lpParameter )
 
   ov_clear(&oggStream);
 
-	return 0;
+	return NULL;
 }

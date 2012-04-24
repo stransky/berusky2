@@ -66,8 +66,8 @@ extern char					bDevice;
 //------------------------------------------------------------------------------------------------
 // function declarations
 //------------------------------------------------------------------------------------------------
-int  adas_OGG_Proc( void *lpParameter );
-int  adas_OGG_Setup_Thread( void *lpParameter );
+void * adas_OGG_Proc( void *lpParameter );
+void * adas_OGG_Setup_Thread( void *lpParameter );
 long adas_OGG_Read_Stream(ADAS_OGG_STRUCTURE *p_ogg);
 void adas_Set_Last_Error(char *p_Text);
 void adas_Set_Last_Warning(char *p_Text);
@@ -160,8 +160,8 @@ int adas_OGG_Open_Stream(char *p_File_Name)
 		}
 
 	ogg.bSetup = 0;
-	ogg.Thread = NULL;
-	ogg.Setup_Thread = NULL;
+	ogg.Thread = 0;
+	ogg.Setup_Thread = 0;
 	ogg.Setup_Flag = NULL;
 
 	return 1;
@@ -490,7 +490,7 @@ return 0;
 //----------------------------------------------------------------------------------------------
 // OGG setup thread
 //----------------------------------------------------------------------------------------------
-int adas_OGG_Setup_Thread( void *lpParameter )
+void * adas_OGG_Setup_Thread( void *lpParameter )
 {
 	ADAS_OGG_STRUCTURE *p_ogg = (ADAS_OGG_STRUCTURE *) lpParameter;
 	int i;
@@ -516,7 +516,7 @@ int adas_OGG_Setup_Thread( void *lpParameter )
 //----------------------------------------------------------------------------------------------
 // ogg decompression and playing proc
 //----------------------------------------------------------------------------------------------
-int adas_OGG_Proc( void *lpParameter )
+void * adas_OGG_Proc( void *lpParameter )
 {
 	ADAS_OGG_STRUCTURE *p_ogg = (ADAS_OGG_STRUCTURE *) lpParameter;
 	char buffer = 0;
@@ -643,7 +643,7 @@ int adas_OGG_Proc( void *lpParameter )
 //------------------------------------------------------------------------------------------------
 void adas_OGG_Stop_Stream(void)
 {
-	unsigned long Exit_Code = STILL_ACTIVE;
+	dword Exit_Code = STILL_ACTIVE;
 
 	if(!bDevice) return;
 	if(!ogg.Thread) return;
