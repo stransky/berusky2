@@ -318,7 +318,7 @@
 		ALCdevice *adas_Get_Device(void);
 
     // Replacement for alutLoadWAVMemory
-    int adasLoadWAVMemory(ALbyte *buffer, ALsizei buffer_length, ALenum *format, void **data, ALsizei *size,
+    void * adasLoadWAVMemory(ALbyte *buffer, ALsizei buffer_length, ALenum *format, void **data, ALsizei *size,
                           ALuint *frequency, ALboolean *loop);
 
 #ifdef __cplusplus

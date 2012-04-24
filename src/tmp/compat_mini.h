@@ -100,7 +100,7 @@ typedef struct _MOUSE_INFO
 
 void kprintf(char log, const char *p_text, ...);
 void kprintfl(char log, const char *p_text, ...);
-void ddw(char *p_text, ...);
+void ddw(const char *p_text, ...);
 
 #define  MAX_FILENAME_LENGTH  200
 

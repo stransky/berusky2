@@ -4567,7 +4567,7 @@ void oe_konec(K_EDITOR * p_cnf)
   konec();
 }
 
-void ddw(byte * p_text, ...)
+void ddw(const char * p_text, ...)
 {
   byte text[500];
   va_list argumenty;

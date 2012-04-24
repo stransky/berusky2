@@ -443,7 +443,7 @@ void Parse_ScenarioLine(FILE * file, int *result, int res_size,
   }
 }
 
-void LoadMenuScript(const char *p_File_Name, CMD_LINE * res, int *lastcmd)
+void LoadMenuScript(char *p_File_Name, CMD_LINE * res, int *lastcmd)
 {
   FILE *file;
 

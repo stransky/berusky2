@@ -80,7 +80,7 @@ int fillbuffer(APAK_FILE_HANDLE * pFHandle)
   return 1;
 }
 
-FILE *aopen(APAK_HANDLE * pHandle, const char *filename, const char *mode)
+FILE *aopen(APAK_HANDLE * pHandle, char *filename, char *mode)
 {
   APAKNODE *pNode;
   APAK_FILE_HANDLE *pFHandle = NULL;
@@ -375,7 +375,7 @@ char *agets(char *string, int n, FILE * stream)
   return Tmp;
 }
 
-int aputs(const char *string, FILE * stream)
+int aputs(char *string, FILE * stream)
 {
   APAK_STREAM_TYPE *pAStream = (APAK_STREAM_TYPE *) stream;
 

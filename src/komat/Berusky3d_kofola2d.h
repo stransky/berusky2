@@ -186,7 +186,7 @@ SurfaceHandle ddx2LoadBitmapPos(SurfaceHandle handle, char *pFileName,
 //------------------------------------------------------------------------------------------------
 // load bitmap from APAK
 //------------------------------------------------------------------------------------------------
-SurfaceHandle ddx2LoadBitmap(const char *pFileName, APAK_HANDLE * pHandle);
+SurfaceHandle ddx2LoadBitmap(char *pFileName, APAK_HANDLE * pHandle);
 
 //------------------------------------------------------------------------------------------------
 // load bitmap from DISK

@@ -234,7 +234,7 @@ int kom_amat_set_frame(int handle, int frame)
 /* 
   Zrusi event flag animace
 */
-int kom_amat_event(int handle)
+int kom_amat_event(MatHandle handle)
 {
   MAL_BUNKA *p_man = p_ber->p_man + handle;
 

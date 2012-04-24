@@ -1091,7 +1091,7 @@ void InitTabControls2(CONTROL_LIST_ITEM2 * citem, int *hdcTab)
   co2_List_Redraw(hdcTab[3], citem[24].p_list, 0);
 }
 
-void RunMenuSettings2(const char *p_File_Name, AUDIO_DATA * p_ad,
+void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
   LEVELINFO * p_Level, ANIMATION_MODULE * p_am)
 {
   int mix, miy;

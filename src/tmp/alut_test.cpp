@@ -71,16 +71,16 @@ void init(int ini)
       printf("- Error creating buffers !!\n");
       exit(1);
   }
-  
-  alutLoadWAVFile(HOME_DIR"1.wav",&format,&data,&size,&freq,0);
+    
+  alutLoadWAVFile(reinterpret_cast<ALbyte*>(const_cast<char *>(HOME_DIR"1.wav")),&format,&data,&size,&freq,0);
   alBufferData(buffer[0],format,data,size,freq);
   alutUnloadWAV(format,data,size,freq);
-
-  alutLoadWAVFile(HOME_DIR"2.wav",&format,&data,&size,&freq,0);
+  
+  alutLoadWAVFile(reinterpret_cast<ALbyte*>(const_cast<char *>(HOME_DIR"2.wav")),&format,&data,&size,&freq,0);
   alBufferData(buffer[1],format,data,size,freq);
   alutUnloadWAV(format,data,size,freq);
 
-  alutLoadWAVFile(HOME_DIR"3.wav",&format,&data,&size,&freq,0);
+  alutLoadWAVFile(reinterpret_cast<ALbyte*>(const_cast<char *>(HOME_DIR"3.wav")),&format,&data,&size,&freq,0);
   alBufferData(buffer[2],format,data,size,freq);
   alutUnloadWAV(format,data,size,freq);
 

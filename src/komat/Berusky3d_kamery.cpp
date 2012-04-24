@@ -873,7 +873,7 @@ AnimHandle kam_3ds_vloz_klic_all(AnimHandle handle, int klic, BOD * p_p,
  ********************************************
 */
 //start/stop animace
-int kam_start(int a_handle, int *p_flag, int flag, int start, int stop)
+RunHandle kam_start(AnimHandle a_handle, int *p_flag, int flag, int start, int stop)
 {
   if (p_ber->kamery[a_handle].endtime) {
     p_ber->kamera.p_anim = p_ber->kamery + a_handle;

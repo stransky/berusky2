@@ -74,7 +74,7 @@ int apakParsechdir(unsigned int iIndex, char *cDir, char *cExpression)
   return i;
 }
 
-int achdir(APAK_HANDLE * pHandle, const char *dirname)
+int achdir(APAK_HANDLE * pHandle, char *dirname)
 {
   char cExpression[256];
   int i = 0;

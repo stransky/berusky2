@@ -358,7 +358,7 @@ int txt_reload_lightmap(EDIT_TEXT_OLD * p_text, bitmapa * p_bmp)
 }
 
 // load ok
-int txt_nahraj_format(APAK_HANDLE * pAHandle, const char *p_file,
+int txt_nahraj_format(APAK_HANDLE * pAHandle, char *p_file,
   EDIT_TEXT_KONFIG * p_text)
 {
   char jmeno[200];
@@ -453,7 +453,7 @@ int txt_nahraj_format(APAK_HANDLE * pAHandle, const char *p_file,
   return (TRUE);
 }
 
-void txt_default_konfig(const char *p_file, EDIT_TEXT_KONFIG * p_konf,
+void txt_default_konfig(char *p_file, EDIT_TEXT_KONFIG * p_konf,
   char *p_koncovka)
 {
   char pom[200] = "_a";
@@ -827,7 +827,7 @@ bitmapa *bmp_nahraj(KFILE * f)
   return (p_bmp);
 }
 
-bitmapa *bmp_nahraj(const char *p_file)
+bitmapa *bmp_nahraj(char *p_file)
 {
   SURFACE_SDL srf(IMG_Load(p_file), SURFACE_TEXTURE, TRUE);
   bitmapa *p_bmp = surface2bmp(&srf);

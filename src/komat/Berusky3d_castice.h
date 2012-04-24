@@ -301,7 +301,7 @@ ParHandle par_pripoj_funkci(ParHandle ph, END_FUNKCE p_fce, size_ptr param,
 
 /* Cte pointer na prvni castici v linearnim seznamu castic
 */
-void *par_cti_prvni(int ph);
+void *par_cti_prvni(ParHandle ph);
 
 /* Vlozi do casticoveho systemu castice typu strepina:
 
@@ -309,12 +309,12 @@ void *par_cti_prvni(int ph);
    - pohybuji se po zadane balisticke krivce
    - pusobi na ne gravitace
 */
-void par_vloz_strepy(int ph, PAR_STREPINA * p_part, int pocet);
+void par_vloz_strepy(ParHandle ph, PAR_STREPINA * p_part, int pocet);
 
 
 /* Vlozi castice fleku - staticle fleky urcene pozici a vektorama
 */
-void par_vloz_fleky(int ph, PAR_FLEK * p_part, int pocet);
+void par_vloz_fleky(ParHandle ph, PAR_FLEK * p_part, int pocet);
 
 
 /***********************************************************************

@@ -14,7 +14,7 @@ void apakGetVersion(int *iLow, int *iHi);
 //----------------------------------------------------------------------------------
 // Tyto I/O funkce funguji stejne jako jejich standardni vzory
 //----------------------------------------------------------------------------------
-int achdir(APAK_HANDLE * pHandle, const char *dirname);
+int achdir(APAK_HANDLE * pHandle, char *dirname);
 
 char *agetcwd(APAK_HANDLE * pHandle, char *buffer, int maxlen);
 
@@ -25,7 +25,7 @@ int afindnext(long handle, struct _finddata_t *fileinfo);
 
 int afindclose(long handle);
 
-FILE *aopen(APAK_HANDLE * pHandle, const char *filename, const char *mode);
+FILE *aopen(APAK_HANDLE * pHandle, char *filename, char *mode);
 
 int aclose(FILE * stream);
 
@@ -36,7 +36,7 @@ size_t awrite(const void *buffer, size_t size, size_t count, FILE * stream);
 
 char *agets(char *string, int n, FILE * stream);
 
-int aputs(const char *string, FILE * stream);
+int aputs(char *string, FILE * stream);
 
 int aeof(FILE * stream);
 
@@ -71,6 +71,6 @@ FILE *afiletoswitch(FILE * stream);
 int aunicode(FILE * stream);
 
 char * apak_dir_correction(char *dir);
-void apak_dir_correction(const char *dir, char *out);
+void apak_dir_correction(char *dir, char *out);
 
 #endif

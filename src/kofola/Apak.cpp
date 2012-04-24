@@ -341,7 +341,7 @@ void apakclose(APAK_HANDLE * pHandle)
   free((void *) pHandle);
 }
 
-void apak_dir_correction(const char *dir, char *out)
+void apak_dir_correction(char *dir, char *out)
 {
   if(dir && tolower(dir[0]) != 'c' && dir[1] != ':') {
     out[0] = 'c';

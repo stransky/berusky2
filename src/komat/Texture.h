@@ -131,7 +131,7 @@ int txt_uvolni_texturu(EDIT_TEXT_OLD * p_text);
 int txt_zrus_texturu(EDIT_TEXT_OLD * p_text);
 int txt_zrus_texturu_ram(EDIT_TEXT_OLD * p_text);
 bitmapa *txt_bmp2dot3(bitmapa * p_bmp);
-void txt_default_konfig(const char *p_file, EDIT_TEXT_KONFIG * p_konf,
+void txt_default_konfig(char *p_file, EDIT_TEXT_KONFIG * p_konf,
   char *p_koncovka);
 int txt_uloz_btx(char *p_file, int typ, int wrap_x, int wrap_y);
 int txt_kopiruj(EDIT_TEXT_OLD * p_dest, EDIT_TEXT_OLD * p_src);

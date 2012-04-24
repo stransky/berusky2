@@ -608,7 +608,7 @@ SurfaceHandle ddx2ReleaseBitmap(SurfaceHandle iSurface)
 //------------------------------------------------------------------------------------------------
 // load bitmap from APAK na pozici
 //------------------------------------------------------------------------------------------------
-SurfaceHandle ddx2LoadBitmapPos(SurfaceHandle handle, const char *pFileName,
+SurfaceHandle ddx2LoadBitmapPos(SurfaceHandle handle, char *pFileName,
   APAK_HANDLE * pHandle)
 {
   if (handle != K_CHYBA) {
@@ -653,7 +653,7 @@ SurfaceHandle ddx2LoadBitmapPosDisk(SurfaceHandle handle, char *pFileName)
 //------------------------------------------------------------------------------------------------
 // load bitmap from APAK
 //------------------------------------------------------------------------------------------------
-SurfaceHandle ddx2LoadBitmap(const char *pFileName, APAK_HANDLE * pHandle)
+SurfaceHandle ddx2LoadBitmap(char *pFileName, APAK_HANDLE * pHandle)
 {
   return (ddx2LoadBitmapPos(ddx2FindFreeSurface(), pFileName, pHandle));
 }
@@ -679,10 +679,10 @@ BOOL ddx2LoadList(char *pFileName, APAK_HANDLE * pBmpArchive, char *p_bmp_dir)
 
   achdir(pBmpArchive, p_bmp_dir);
 
-  kprintf(1, (char *) "Kofola: - Load bitmap pro herni menu");
+  kprintf(1, "Kofola: - Load bitmap pro herni menu");
   file = aopen(pBmpArchive, pFileName, "rb");
   if (!file) {
-    kprintf(1, (char *) "File not found : %s", pFileName);
+    kprintf(1, "File not found : %s", pFileName);
     konec(TRUE);
   }
 

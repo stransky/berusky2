@@ -43,7 +43,7 @@ char cFontFile[5][64];
 
 int winmain_Check_Window_Menu(void)
 {
-	if(!GetPrivateProfileInt("hra","fullscreen", 1, (const char *) ini_file))
+	if(!GetPrivateProfileInt("hra","fullscreen", 1, (char *) ini_file))
 	{    
     const SDL_VideoInfo *info = SDL_GetVideoInfo();
   

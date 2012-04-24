@@ -5,10 +5,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include <stdlib.h>
+#include "compat_mini.h"
 #include "3d_math.h"
 #include "adas.h"
-#include "compat_mini.h"
-#include "mmalloc.h"
 
 //------------------------------------------------------------------------------------------------
 // libraries
@@ -100,7 +100,7 @@ char bDevice = 0;               // was device found?
 //------------------------------------------------------------------------------------------------
 // function declarations
 //------------------------------------------------------------------------------------------------
-int adas_ManagerProc(void *lpParameter);
+void * adas_ManagerProc(void *lpParameter);
 int adas_Translate_Wave(char *p_Wave_Name);
 char *adas_Translate_Index(int Wave_Index);
 int adas_Get_Free_Source(void);
@@ -253,13 +253,12 @@ void adas_Init(ADAS_INIT_DATA * p_adas_data)
           }
         }
 
-        SoundSource =
-          (ADAS_SOUND_SOURCE *) mmalloc(ADAS_data.Channels *
-                                        sizeof(ADAS_SOUND_SOURCE));
+        SoundSource = (ADAS_SOUND_SOURCE *)malloc(ADAS_data.Channels * sizeof(ADAS_SOUND_SOURCE));
         if (!SoundSource) {
           adas_Set_Last_Error("Out of Memory");
           return;
         }
+        ZeroMemory(SoundSource, ADAS_data.Channels * sizeof(ADAS_SOUND_SOURCE));
 
         for (i = 0; i < ADAS_data.Channels; i++) {
           pSource = &SoundSource[i];
@@ -346,7 +345,7 @@ unsigned long adas_Load_First(char *p_Index_File, char *p_File_Name)
 {
   FILE *file = NULL;
   char data[100];
-  unsigned long Return;
+  dword Return;
   int i;
   ALboolean loop = 0;
   ADAS_SOUND_DATA *pSound;
@@ -444,12 +443,12 @@ unsigned long adas_Load_FirstMemory(char *p_Index_File, void *p_File,
   if ((!p_File) || (!p_Index_File) || (!p_File_Name))
     return 0;
 
-  SoundData =
-    (ADAS_SOUND_DATA *) mmalloc(SIZEOFSOUNDDATA * sizeof(ADAS_SOUND_DATA));
+  SoundData = (ADAS_SOUND_DATA *)malloc(SIZEOFSOUNDDATA * sizeof(ADAS_SOUND_DATA));
   if (!SoundData) {
     adas_Set_Last_Error("Out of memory");
     return 0;
   }
+  ZeroMemory(SoundData, SIZEOFSOUNDDATA * sizeof(ADAS_SOUND_DATA));
 
   file = fopen(p_Index_File, "r");
   if (!file) {
@@ -460,7 +459,7 @@ unsigned long adas_Load_FirstMemory(char *p_Index_File, void *p_File,
 
   fgets(data, 100, file);
   Size_of_Indexes = atoi(data);
-  WaveFile = (ADAS_WAVEFILEDESC *) mmalloc(Size_of_Indexes *
+  WaveFile = (ADAS_WAVEFILEDESC *) malloc(Size_of_Indexes *
                                   sizeof(ADAS_WAVEFILEDESC));
   if (!WaveFile) {
     adas_Set_Last_Error("Out of memory");
@@ -468,6 +467,7 @@ unsigned long adas_Load_FirstMemory(char *p_Index_File, void *p_File,
     file = NULL;
     return 0;
   }
+  ZeroMemory(WaveFile, Size_of_Indexes*sizeof(ADAS_WAVEFILEDESC));
 
   for (i = 0; i < Size_of_Indexes; i++) {
     fgets(data, 100, file);
@@ -516,7 +516,7 @@ unsigned long adas_Load_FirstMemory(char *p_Index_File, void *p_File,
 unsigned long adas_Load_Next(char *p_File_Name)
 {
   FILE *file = NULL;
-  unsigned long Return;
+  dword Return;
   ALboolean loop = 0;
   ADAS_SOUND_DATA *pSound;
 
@@ -1553,8 +1553,7 @@ int adas_Run_Manager(void)
   if (!bDevice)
     return 0;
   Manager.Shot_down = 0;
-  Manager.Thread = CreateThread(NULL, 16384, adas_ManagerProc,
-                                (void *)&Manager, 0, &(Manager.ThreadID));
+  Manager.Thread = CreateThread(NULL, 16384, adas_ManagerProc, (void *)&Manager, 0, &(Manager.ThreadID));
   if (Manager.Thread)
     return 1;
   else
@@ -1564,13 +1563,13 @@ int adas_Run_Manager(void)
 //----------------------------------------------------------------------------------------------
 // sound source manager thread
 //----------------------------------------------------------------------------------------------
-int adas_ManagerProc(void *lpParameter)
+void * adas_ManagerProc(void *lpParameter)
 {
   ADAS_MANAGER *p_m = (ADAS_MANAGER *) lpParameter;
   int i, status;
 
   if (!bDevice)
-    return 0;
+    return NULL;
 
   while (!p_m->Shot_down) {
     for (i = 0; i < ADAS_data.Channels; i++)
@@ -1582,7 +1581,7 @@ int adas_ManagerProc(void *lpParameter)
 
     Sleep(250);
   }
-  return 0;
+  return NULL;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -2572,7 +2571,7 @@ ALCdevice *adas_Get_Device(void)
   return p_Device;
 }
 
-int
+void *
 adasLoadWAVMemory(ALbyte * buffer, ALsizei buffer_length, ALenum * format,
                   void **data, ALsizei * size, ALuint * frequency,
                   ALboolean * loop)

@@ -377,7 +377,7 @@ void kprintfl(char log, const char *p_text, ...)
   }
 }
 
-void ddw(char *p_text, ...)
+void ddw(const char *p_text, ...)
 {
   char text[2000];
   va_list argumenty;

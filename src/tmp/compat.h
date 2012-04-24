@@ -129,7 +129,7 @@ int ddxLoadList(char *pFileName, int bProgress);
 //------------------------------------------------------------------------------------------------
 // load bitmap from APAK
 //------------------------------------------------------------------------------------------------
-int ddxLoadBitmap(const char *pFileName, APAK_HANDLE * pHandle);
+int ddxLoadBitmap(char *pFileName, APAK_HANDLE * pHandle);
 
 //------------------------------------------------------------------------------------------------
 // Create Surface
@@ -139,8 +139,7 @@ int ddxCreateSurface(int x, int y, int idx);
 //------------------------------------------------------------------------------------------------
 // nakresli obrazek
 //------------------------------------------------------------------------------------------------
-void ddxDrawSurfaceColorKey(int iSurface, int *com, int layer,
-  COLORREF color);
+void ddxDrawSurfaceColorKey(int iSurface, int *com, int layer, COLORREF color);
 void ddxDrawDisplayColorKey(int *com, int layer, COLORREF color);
 void ddxDrawDisplay(int *com, int layer);
 void ddxDrawSurface(int iSurface, int *com, int layer);
