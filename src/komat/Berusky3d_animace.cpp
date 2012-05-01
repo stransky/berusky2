@@ -1195,14 +1195,21 @@ inline void lani_setrep(GAME_MESH_ANIMACE * p_anim)
 MeshHandle lani_set(MeshHandle mh, int poradi, int c_anim, int *p_flag,
   int flag, int start, int stop)
 {
-  GAME_MESH_OLD *p_mesh = p_ber->p_mesh[p_ber->p_prv_lev[mh]->mesh];
+  PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[mh];
 
+  // Level item has been removed?
+  if(!p_prv)
+    return (K_CHYBA);
+  
+  GAME_MESH_OLD *p_mesh = p_ber->p_mesh[p_prv->mesh];
+
+  // Do we have a valid mesh?
   if (!p_mesh || poradi >= LANI_FRONTA) {
     kprintfe(TRUE, "K_CHYBA - FILE %s LINE %d", __FILE__, __LINE__);
     return (K_CHYBA);
   }
 
-  // Pokud je cislo animace mimo rozsah - vezmi prvni animaci
+  // If the animation is out of the range - choose the first one (no animation?)
   if (p_mesh->simnum <= c_anim)
     c_anim = 0;
 

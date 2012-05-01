@@ -1,9 +1,12 @@
-- fix warnings!!!
 - transparent objects
+- bad exit animations?
 
 Bugs:
-- level menu is blended - wrong textures?
 - texttures are not sharp
+- mark all movable boxes?
+
+TODO:
+- better camera (automatic?)
 
 - rozdelit ini soubory na 2? nastaveni uzivatelu + globalni datove soubory?
 int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)

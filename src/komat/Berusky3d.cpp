@@ -855,8 +855,10 @@ extern APAK_HANDLE *pBmpArchive;
 
 void ber_test_animaci2(G_KONFIG * p_ber)
 {
-  kprintf(1,"Sound test....");
-  alut_test(FALSE);
+  GAME_MESH_OLD *p_mesh = p_ber->p_mesh[p_ber->p_prv_lev[2]->mesh];
+
+//kprintf(1,"Sound test....");
+//alut_test(FALSE);
 /*
   BUNKA_LEVELU_DISK bunka = { 0, 0, 0, 0, 0 };
   //MeshHandle mh;

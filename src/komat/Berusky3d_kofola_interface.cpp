@@ -824,12 +824,10 @@ void kom_post_init_level(void)
 void kom_zrus_prvek(MeshHandle prvek_handle)
 {
   PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[prvek_handle];
-  int mh = p_prv->mesh;
-  GAME_MESH_DATA *p_data;
-
   if (p_prv) {
+    int mh = p_prv->mesh;
     if (mh != K_CHYBA) {
-      p_data = p_ber->p_mesh[mh]->p_data;
+      GAME_MESH_DATA *p_data = p_ber->p_mesh[mh]->p_data;
       lo_vymaz_svetla_ze_sceny_mesh(p_data);
       if (p_data->p_ldlight)
         p_ber->dl_lightnum =
