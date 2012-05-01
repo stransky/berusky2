@@ -758,8 +758,7 @@ void kom_load_level(char *p_file, int zmen_dir, int restart,
 
   kprintf(1, "Load scene - static items - OBB Tree...");
   p_slist = ber_mesh_vyber_staticke(p_ber, &snum, &p_ind);
-  obbtree_vyrob(&p_ber->obbtree, p_ber->p_poly, p_ber->polynum, p_slist, snum,
-    p_ind, p_ber->p_mat);
+  obbtree_vyrob(&p_ber->obbtree, p_ber->p_poly, p_ber->polynum, p_slist, snum, p_ind, p_ber->p_mat);
   null_free((void **) &p_slist);
   null_free((void **) &p_ind);
 

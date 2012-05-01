@@ -35,7 +35,7 @@ void json_export_kont(EDIT_KONTEJNER *p_kont, EDIT_MATERIAL ** p_mat, int max_ma
 void json_export_kont_single(EDIT_KONTEJNER *p_kont, EDIT_MATERIAL ** p_mat, int max_mat);
 void json_export_materialy(EDIT_MATERIAL ** p_mat, int max_mat);
 void json_export_light(STATIC_LIGHT * p_light, int lightnum);                       
-void json_export_poly(EDIT_MESH_POLY *p_poly, int polynum, EDIT_MATERIAL ** p_mat, int max_mat);
+void json_export_poly(EDIT_MESH_POLY *p_poly, int polynum, EDIT_MATERIAL ** p_mat, int max_mat, EDIT_TEXT *p_light_list);
 void json_export_level(LEVELINFO * p_Level);
 void json_export_lightmap(int num, bitmapa *p_bmp);
 

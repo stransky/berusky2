@@ -3125,7 +3125,7 @@ void lo_poly_uloz(FFILE f, EDIT_MESH_POLY * p_poly, EDIT_TEXT * p_light)
 }
 
 void lo_poly_nahraj_indir(FFILE f, EDIT_MESH_POLY * p_poly,
-  EDIT_TEXT * p_light)
+                          EDIT_TEXT * p_light)
 {
   EDIT_MESH_POLY_DISK poly_disk;
   int i;
@@ -3160,7 +3160,8 @@ void load_poly_check(void)
 }
 
 EDIT_MESH_POLY *lo_nahraj_poly_list(char *p_file, int *p_polynum,
-  EDIT_TEXT * p_light, EDIT_MATERIAL ** p_mat, int matnum)
+                                    EDIT_TEXT * p_light, EDIT_MATERIAL ** p_mat, 
+                                    int matnum)
 {
   EDIT_MESH_POLY *p_poly;
   char material[50];
@@ -3185,6 +3186,8 @@ EDIT_MESH_POLY *lo_nahraj_poly_list(char *p_file, int *p_polynum,
   }
 
   for (i = 0; i < filenum; i++) {
+    kprintf(TRUE,"Loading poly %d...",i);
+  
     ffread(material, sizeof(char), 50, f);
     lo_poly_nahraj_indir(f, p_poly + i, p_light);
 
@@ -3303,23 +3306,17 @@ void lo_poly_calc_lightmap_face(EDIT_MESH_POLY * p_poly)
       p_lf->s0.y = p_poly->p_koord[s].y;
       p_lf->s0.z = p_poly->p_koord[s].z;
 
-      vektor_sub((BOD *) (p_poly->p_koord + u), (BOD *) (p_poly->p_koord + s),
-        &vu);
-      prusecik((BOD *) (p_poly->p_koord + s), (BOD *) (p_poly->p_koord + u),
-        (BOD *) (p_poly->p_koord + v), &prus);
+      vektor_sub((BOD *) (p_poly->p_koord + u), (BOD *) (p_poly->p_koord + s), &vu);
+      prusecik((BOD *) (p_poly->p_koord + s), (BOD *) (p_poly->p_koord + u), (BOD *) (p_poly->p_koord + v), &prus);
       vektor_sub((BOD *) (p_poly->p_koord + v), &prus, &vv);
 
-      calc_rovinu_bod((BOD *) (p_poly->p_koord + s),
-        (BOD *) (p_poly->p_koord + s + 2), (BOD *) (p_poly->p_koord + s + 1),
-        &p_poly->p_ind[ind].n);
+      calc_rovinu_bod((BOD *) (p_poly->p_koord + s), (BOD *) (p_poly->p_koord + s + 2), (BOD *) (p_poly->p_koord + s + 1), &p_poly->p_ind[ind].n);
       norm_rovinu(&p_poly->p_ind[ind].n);
 
-      calc_rovinu_bod_vektor((BOD *) (p_poly->p_koord + s), &vu,
-        &p_poly->p_ind[ind].rv);
+      calc_rovinu_bod_vektor((BOD *) (p_poly->p_koord + s), &vu, &p_poly->p_ind[ind].rv);
       norm_rovinu(&p_poly->p_ind[ind].rv);
 
-      calc_rovinu_bod_vektor((BOD *) (p_poly->p_koord + s), &vv,
-        &p_poly->p_ind[ind].ru);
+      calc_rovinu_bod_vektor((BOD *) (p_poly->p_koord + s), &vv, &p_poly->p_ind[ind].ru);
       norm_rovinu(&p_poly->p_ind[ind].ru);
 
       p_poly->p_ind[ind].ddu = vektor_velikost(&vu);
@@ -3334,32 +3331,25 @@ void lo_poly_calc_lightmap_face(EDIT_MESH_POLY * p_poly)
         bmp_u = (float) p_poly->p_light[l]->p_bmp->x;
         bmp_v = (float) p_poly->p_light[l]->p_bmp->y;
 
-        p_poly->p_ind[ind].u =
-          ftoi((float) floor(p_poly->p_koord[s].tul * bmp_u));
-        p_poly->p_ind[ind].v =
-          ftoi((float) floor(p_poly->p_koord[s].tvl * bmp_v));
+        p_poly->p_ind[ind].u = ftoi((float) floor(p_poly->p_koord[s].tul * bmp_u));
+        p_poly->p_ind[ind].v = ftoi((float) floor(p_poly->p_koord[s].tvl * bmp_v));
 
-        p_poly->p_ind[ind].nu =
-          ftoi((float) ceil(p_poly->p_koord[u].tul * bmp_u));
-        p_poly->p_ind[ind].nv =
-          ftoi((float) ceil(p_poly->p_koord[v].tvl * bmp_v));
+        p_poly->p_ind[ind].nu = ftoi((float) ceil(p_poly->p_koord[u].tul * bmp_u));
+        p_poly->p_ind[ind].nv = ftoi((float) ceil(p_poly->p_koord[v].tvl * bmp_v));
 
         p_poly->p_ind[ind].nu -= p_poly->p_ind[ind].u;
         p_poly->p_ind[ind].nv -= p_poly->p_ind[ind].v;
 
-        p_poly->p_ind[ind].p_bmp =
-          bmp_vyrob(p_poly->p_ind[ind].nu + 2, p_poly->p_ind[ind].nv + 2);
-        p_poly->p_ind[ind].p_zal =
-          bmp_vyrob(p_poly->p_ind[ind].nu + 2, p_poly->p_ind[ind].nv + 2);
-
+        p_poly->p_ind[ind].p_bmp = bmp_vyrob(p_poly->p_ind[ind].nu + 2, p_poly->p_ind[ind].nv + 2);
+        p_poly->p_ind[ind].p_zal = bmp_vyrob(p_poly->p_ind[ind].nu + 2, p_poly->p_ind[ind].nv + 2);
 
 //      MSS_SET_BLOCK_LABEL(p_poly->p_ind[ind].p_bmp, "lo_poly_calc_lightmap_face1");
 //      MSS_SET_BLOCK_LABEL(p_poly->p_ind[ind].p_zal, "lo_poly_calc_lightmap_face2");
 
-
         bmp_vyber_rec(p_poly->p_light[l]->p_bmp,
-          p_poly->p_ind[ind].p_bmp,
-          p_poly->p_ind[ind].u - 1, p_poly->p_ind[ind].v - 1);
+                      p_poly->p_ind[ind].p_bmp,
+                      p_poly->p_ind[ind].u - 1, 
+                      p_poly->p_ind[ind].v - 1);
         bmp_kopiruj(p_poly->p_ind[ind].p_bmp, p_poly->p_ind[ind].p_zal);
       }
       else {

@@ -776,9 +776,8 @@ void ber_nahraj_poly(G_KONFIG * p_ber, char *p_jmeno, char *p_dir)
   zamen_koncovku(file, ".ply");
 
   // Load poly
-  p_ber->p_poly =
-    lo_nahraj_poly_list(file, &p_ber->polynum, p_ber->p_lightmap,
-    p_ber->p_mat, MAX_CELKEM_MATERIALU);
+  p_ber->p_poly = lo_nahraj_poly_list(file, &p_ber->polynum, p_ber->p_lightmap,
+                                      p_ber->p_mat, MAX_CELKEM_MATERIALU);
   for (i = 0; i < p_ber->polynum; i++) {
     poly_pridej_vertex_array(p_ber->p_poly + i);
     amat_pridej_poly(p_ber, i);
@@ -822,7 +821,7 @@ void ber_nahraj_lightmap(G_KONFIG * p_ber, char *p_jmeno, char *p_dir)
   TXT_KONFIG zal;
   char pom[200];
   KFILE *f;
-  int i, r;
+  int i, r, loaded;
 
   chdir((p_dir));
   strcpy(pom, p_jmeno);
@@ -833,13 +832,17 @@ void ber_nahraj_lightmap(G_KONFIG * p_ber, char *p_jmeno, char *p_dir)
   txconf.text_mip_mapping = FALSE;
   txconf.text_filtr = FALSE;
 
+  loaded = 0;
+
   if ((f = kopen(NULL, pom, "rb"))) {
     while (!keof(f)) {
       if (kread(&i, sizeof(i), 1, f)) {
         assert(i >= 0 && i < MAX_RAY_TEXTUR);
         sprintf(p_ber->p_lightmap[i].jmeno, "%s_lp%.3d.bmp", pom, i);
+        kprintf(TRUE, "Lightmap %s...", p_ber->p_lightmap[i].jmeno);
         r = txt_nahraj_lightmapu_z_bmp(NULL, f, p_ber->p_lightmap + i, TRUE);
         assert(r);
+        loaded++;
       }
     }
     kclose(f);
@@ -848,18 +851,22 @@ void ber_nahraj_lightmap(G_KONFIG * p_ber, char *p_jmeno, char *p_dir)
     for (i = 0; i < MAX_RAY_TEXTUR; i++) {
       sprintf(p_ber->p_lightmap[i].jmeno, "%s\\%s_lp%.3d.bmp", p_dir, pom, i);
       if (efile(p_ber->p_lightmap[i].jmeno)) {
-        kprintfl(TRUE, "Lightmap %s...", p_ber->p_lightmap[i].jmeno);
+        kprintf(TRUE, "Lightmap %s...", p_ber->p_lightmap[i].jmeno);
         txt_nahraj_lightmapu_z_bmp(p_ber->p_lightmap[i].jmeno, NULL,
           p_ber->p_lightmap + i, TRUE);
+        loaded++;
       }
     }
   }
+
+  kprintf(TRUE, "Loaded %d lightmaps.", loaded);
 
   txconf = zal;
 
   if(export_level) {
     json_export_poly(p_ber->p_poly, p_ber->polynum,
-                     p_ber->p_mat, MAX_CELKEM_MATERIALU);
+                     p_ber->p_mat, MAX_CELKEM_MATERIALU,
+                     p_ber->p_lightmap);
   }
 
   /* Prepocitej lightmapy

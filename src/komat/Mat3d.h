@@ -1258,7 +1258,7 @@ typedef struct _EDIT_MESH_POLY
   MLZNA_KOSTKA *p_mlha;         // mlzna kostka polyho
   int lightnum;                 // pocet lightmap
   int *p_lightnum;              // pocty light-map
-  EDIT_TEXT **p_light;          // pole  light-map    
+  EDIT_TEXT **p_light;          // pole  light-map
   char kreslit;
   int mail;                     // mailbox poly :)
   OBB_OLD obb;

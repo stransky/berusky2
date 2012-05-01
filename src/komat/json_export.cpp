@@ -418,7 +418,7 @@ for (l = 0; l < p_poly->lightnum; l++) {
 */
 void json_export_poly(FILE *f, EDIT_MESH_POLY *p_poly,
                       EDIT_MATERIAL ** p_mat, int max_mat, 
-                      int poly_id)
+                      int poly_id, EDIT_TEXT *p_light_list)
 {
   fprintf(f,"{\n");
   fprintf(f,"  \"type\" : \"geometry_container_poly\",\n");
@@ -478,19 +478,29 @@ void json_export_poly(FILE *f, EDIT_MESH_POLY *p_poly,
   fprintf(f,"%f,%f",p_koord->tul,p_koord->tvl);
   fprintf(f,"],\n");
 
-  fprintf(f,"    \"indices\" : [");  
-  for (i = 0; i < p_poly->facenum-1; i++) {
-    fprintf(f,"%d,",i);
-  }
-  fprintf(f,"%d",i);    
-  fprintf(f,"]\n");
+  fprintf(f,"\"indices_light_list\" : [\n");
 
+  int l,last = 0;
+  for(l = 0; l < p_poly->lightnum; l++) {
+    fprintf(f,"{\n");
+    fprintf(f,"  \"lightmap\" : \"%d\",\n", p_poly->p_light[l]-p_light_list);
+    fprintf(f,"  \"indices\" : [");  
+    for (i = 0; i < p_poly->p_lightnum[l]; i++) {
+      fprintf(f,"%d,",last+i);
+    }
+    last = i;
+    fprintf(f,"]\n");
+    fprintf(f,"}\n");
+  }
+
+  fprintf(f,"]\n");
   fprintf(f,"   }\n  ]\n");
   fprintf(f,"}");
 }
 
 void json_export_poly(EDIT_MESH_POLY *p_poly, int polynum,
-                      EDIT_MATERIAL ** p_mat, int max_mat)
+                      EDIT_MATERIAL ** p_mat, int max_mat, 
+                      EDIT_TEXT *p_light_list)
 {
   fprintf((FILE*)export_file, ",\n");
   //fprintf((FILE*)export_file, "\n\n\nPOLY EXPORT BEGIN\n\n\n");
@@ -498,7 +508,7 @@ void json_export_poly(EDIT_MESH_POLY *p_poly, int polynum,
     int i;
     for(i = 0; i < polynum; i++) {
       if(i != 0) {fprintf((FILE*)export_file, ",\n");}
-      json_export_poly(export_file, p_poly+i, p_mat, max_mat, i);
+      json_export_poly(export_file, p_poly+i, p_mat, max_mat, i, p_light_list);
     }
   }
   fprintf((FILE*)(export_file), ",");
