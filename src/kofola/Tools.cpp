@@ -124,7 +124,7 @@ void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
   chdir((odir));
 }
 
-int translation_table[255];
+static int translation_table[255];
 
 char * Key2String(int k, char *text)
 {
@@ -148,9 +148,88 @@ char * Key2String(int k, char *text)
   
     translation_table[K_MINUS] = 12; // -
     translation_table[K_PLUS] = 13; // +
+      
+    translation_table[K_BKSP] = 14; // BACKSPACE
+    translation_table[K_TAB] = 15; // TAB
   
-    .. and more
+    translation_table[K_Q] = 16;
+    translation_table[K_W] = 17;
+    translation_table[K_E] = 18;
+    translation_table[K_R] = 19;
+    translation_table[K_T] = 20;
+    translation_table[K_Y] = 21;
+    translation_table[K_U] = 22;
+    translation_table[K_I] = 23;
+    translation_table[K_O] = 24;
+    translation_table[K_P] = 25;
+    
+    translation_table[K_BRACKET_L] = 26; // [
+    translation_table[K_BRACKET_R] = 27; // ]
   
+    translation_table[K_ENTER] = 28;
+    translation_table[K_CTRL] = 29;
+    
+    translation_table[K_A] = 30;
+    translation_table[K_S] = 31;
+    translation_table[K_D] = 32;
+    translation_table[K_F] = 33;
+    translation_table[K_G] = 34;
+    translation_table[K_H] = 35;
+    translation_table[K_J] = 36;
+    translation_table[K_K] = 37;
+    translation_table[K_L] = 38;
+    
+    translation_table[K_SEMICOL] = 39;
+    translation_table[K_QUOTE] = 40;
+    //translation_table[K_TILDA] = 41;
+    translation_table[SDLK_LSHIFT] = 42;
+    translation_table[SDLK_BACKSLASH] = 43;
+    
+    translation_table[K_Z] = 44;
+    translation_table[K_X] = 45;
+    translation_table[K_C] = 46;
+    translation_table[K_V] = 47;
+    translation_table[K_B] = 48;
+    translation_table[K_N] = 49;
+    translation_table[K_M] = 50;
+    
+    translation_table[SDLK_COMMA] = 51;
+    translation_table[SDLK_PERIOD] = 52;
+    translation_table[SDLK_SLASH] = 53;
+    translation_table[SDLK_RSHIFT] = 54;    
+    translation_table[SDLK_PRINT] = 55;
+    translation_table[SDLK_LALT] = 56;    
+    translation_table[SDLK_SPACE] = 57;
+    translation_table[SDLK_CAPSLOCK] = 58;
+    
+    translation_table[K_F1] = 59;
+    translation_table[K_F2] = 60;
+    translation_table[K_F3] = 61;
+    translation_table[K_F4] = 62;
+    translation_table[K_F5] = 63;
+    translation_table[K_F6] = 64;
+    translation_table[K_F7] = 65;
+    translation_table[K_F8] = 66;
+    translation_table[K_F9] = 67;
+    translation_table[K_F10] = 68;
+    translation_table[K_F11] = 87;
+    translation_table[K_F12] = 88;
+    
+    translation_table[SDLK_NUMLOCK] = 69;
+    translation_table[SDLK_SCROLLOCK] = 70;
+    translation_table[SDLK_HOME] = 71;
+    translation_table[SDLK_UP] = 72;
+    translation_table[SDLK_PAGEUP] = 73;
+    translation_table[SDLK_KP_MINUS] = 74;
+    translation_table[SDLK_LEFT] = 75;
+    translation_table[SDLK_KP5] = 76;
+    translation_table[SDLK_RIGHT] = 77;
+    translation_table[SDLK_KP_PLUS] = 78;
+    translation_table[SDLK_END] = 79;
+    translation_table[SDLK_DOWN] = 80;
+    translation_table[SDLK_PAGEDOWN] = 81;
+    translation_table[SDLK_INSERT] = 82;
+    translation_table[SDLK_DELETE] = 83;
   }
   k = translation_table[k];
 #endif
