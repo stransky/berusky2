@@ -1713,10 +1713,8 @@ int co_List_Redraw(int hdc, LIST_VIEW_CONTROL * p_li, int y)
   /*BitBlt(hdc, p_li->rectList.left, p_li->rectList.top, p_li->bDCn.x, 
      p_li->rectList.bottom - p_li->rectList.top, p_li->bDCn.hdc, 0, y, SRCCOPY); */
 
-  if (y + (p_li->rectList.bottom - p_li->rectList.top) >
-    ddxGetHight(p_li->bDCn))
-    y =
-      ddxGetHight(p_li->bDCn) - (p_li->rectList.bottom - p_li->rectList.top);
+  if (y + (p_li->rectList.bottom - p_li->rectList.top) > ddxGetHight(p_li->bDCn))
+    y = ddxGetHight(p_li->bDCn) - (p_li->rectList.bottom - p_li->rectList.top);
 
   if (y < 0)
     y = 0;

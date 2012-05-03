@@ -24,6 +24,7 @@
 #include "Demo.h"
 #include "load_level.h"
 #include "ambient_sounds.h"
+#include "Tools.h"
 
 #define RES_NUM 60
 
@@ -638,12 +639,6 @@ void SetTab2(int iTab, int iLTab, CONTROL_LIST_ITEM2 * p_list, int lsize,
 //      DisplayFrame();
 }
 
-void Key2String2(int k, char *text)
-{
-  sprintf(text, "##control_k_%d", k);
-  return;
-}
-
 void CharMenuCheckMultyKyes2(LIST_VIEW_CONTROL2 * p_li, int iKey)
 {
   int y;
@@ -663,7 +658,8 @@ void CharMenuCheckMultyKyes2(LIST_VIEW_CONTROL2 * p_li, int iKey)
 
       ddx2FillRect(p_li->bDCs, &r, 0);
 
-      co2_List_Add_String(p_li, i, 550, "##control_k_255", 255, 0);
+      char tmp[200];
+      co2_List_Add_String(p_li, i, 550, Key2String(255, tmp), 255, 0);
     }
 }
 
@@ -754,7 +750,7 @@ void SetCharMenu2(LIST_VIEW_CONTROL2 * p_li, LEVELINFO * p_Level,
 
   for (i = 0; i < POCET_KLAVES; i++)
     if (key[i]) {
-      sprintf(text, "##control_k_%d", i);
+      Key2String(i, text);      
       key[i] = 0;
       break;
     }
@@ -1021,71 +1017,70 @@ void InitTabControls2(CONTROL_LIST_ITEM2 * citem, int *hdcTab)
   co2_List_Add_String(citem[24].p_list, 24, 2, "##control_gturnoffi", 0, 0);
   co2_List_Add_String(citem[24].p_list, 25, 2, "##control_gturnofft", 0, 0);
   co2_List_Add_String(citem[24].p_list, 26, 2, "##control_gscreenshot", 0, 0);
-  co2_List_Add_String(citem[24].p_list, 27, 2, "##control_gtransparent", 0,
-    0);
+  co2_List_Add_String(citem[24].p_list, 27, 2, "##control_gtransparent", 0, 0);
   co2_List_Add_String(citem[24].p_list, 28, 2, "##control_ghighlight", 0, 0);
   co2_List_Add_String(citem[24].p_list, 29, 2, "##control_gdrawconn", 0, 0);
   co2_List_Add_String(citem[24].p_list, 30, 2, "##control_pause", 0, 0);
 
-  Key2String2(setup.key[1], ctext);
+  Key2String(setup.key[1], ctext);
   co2_List_Add_String(citem[24].p_list, 1, 550, ctext, setup.key[1], 0);
-  Key2String2(setup.key[2], ctext);
+  Key2String(setup.key[2], ctext);
   co2_List_Add_String(citem[24].p_list, 2, 550, ctext, setup.key[2], 0);
-  Key2String2(setup.key[3], ctext);
+  Key2String(setup.key[3], ctext);
   co2_List_Add_String(citem[24].p_list, 3, 550, ctext, setup.key[3], 0);
-  Key2String2(setup.key[4], ctext);
+  Key2String(setup.key[4], ctext);
   co2_List_Add_String(citem[24].p_list, 4, 550, ctext, setup.key[4], 0);
-  Key2String2(setup.key[5], ctext);
+  Key2String(setup.key[5], ctext);
   co2_List_Add_String(citem[24].p_list, 5, 550, ctext, setup.key[5], 0);
-  Key2String2(setup.key[6], ctext);
+  Key2String(setup.key[6], ctext);
   co2_List_Add_String(citem[24].p_list, 6, 550, ctext, setup.key[6], 0);
-  Key2String2(setup.key[7], ctext);
+  Key2String(setup.key[7], ctext);
   co2_List_Add_String(citem[24].p_list, 7, 550, ctext, setup.key[7], 0);
-  Key2String2(setup.key[8], ctext);
+  Key2String(setup.key[8], ctext);
   co2_List_Add_String(citem[24].p_list, 8, 550, ctext, setup.key[8], 0);
-  Key2String2(setup.key[9], ctext);
+  Key2String(setup.key[9], ctext);
   co2_List_Add_String(citem[24].p_list, 9, 550, ctext, setup.key[9], 0);
-  Key2String2(setup.key[10], ctext);
+  Key2String(setup.key[10], ctext);
   co2_List_Add_String(citem[24].p_list, 10, 550, ctext, setup.key[10], 0);
 
-  Key2String2(setup.key[12], ctext);
+  Key2String(setup.key[12], ctext);
   co2_List_Add_String(citem[24].p_list, 12, 550, ctext, setup.key[12], 0);
-  Key2String2(setup.key[13], ctext);
+  Key2String(setup.key[13], ctext);
   co2_List_Add_String(citem[24].p_list, 13, 550, ctext, setup.key[13], 0);
-  Key2String2(setup.key[14], ctext);
+  Key2String(setup.key[14], ctext);
   co2_List_Add_String(citem[24].p_list, 14, 550, ctext, setup.key[14], 0);
-  Key2String2(setup.key[15], ctext);
+  Key2String(setup.key[15], ctext);
   co2_List_Add_String(citem[24].p_list, 15, 550, ctext, setup.key[15], 0);
-  Key2String2(setup.key[16], ctext);
+  Key2String(setup.key[16], ctext);
   co2_List_Add_String(citem[24].p_list, 16, 550, ctext, setup.key[16], 0);
-  Key2String2(setup.key[17], ctext);
+  Key2String(setup.key[17], ctext);
   co2_List_Add_String(citem[24].p_list, 17, 550, ctext, setup.key[17], 0);
-  Key2String2(setup.key[18], ctext);
+  Key2String(setup.key[18], ctext);
   co2_List_Add_String(citem[24].p_list, 18, 550, ctext, setup.key[18], 0);
 
-  Key2String2(setup.key[20], ctext);
+  Key2String(setup.key[20], ctext);
   co2_List_Add_String(citem[24].p_list, 20, 550, ctext, setup.key[20], 0);
-  Key2String2(setup.key[21], ctext);
+  Key2String(setup.key[21], ctext);
   co2_List_Add_String(citem[24].p_list, 21, 550, ctext, setup.key[21], 0);
-  Key2String2(setup.key[22], ctext);
+  Key2String(setup.key[22], ctext);
   co2_List_Add_String(citem[24].p_list, 22, 550, ctext, setup.key[22], 0);
-  /*Key2String2(setup.key[23], ctext);
+  /*Key2String(setup.key[23], ctext);
      co2_List_Add_String(citem[24].p_list, 23, 550, ctext, setup.key[23], 0); */
-  Key2String2(setup.key[23], ctext);
+  Key2String(setup.key[23], ctext);
   co2_List_Add_String(citem[24].p_list, 23, 550, ctext, setup.key[23], 0);
-  Key2String2(setup.key[24], ctext);
+  Key2String(setup.key[24], ctext);
   co2_List_Add_String(citem[24].p_list, 24, 550, ctext, setup.key[24], 0);
-  Key2String2(setup.key[25], ctext);
+  Key2String(setup.key[25], ctext);
   co2_List_Add_String(citem[24].p_list, 25, 550, ctext, setup.key[25], 0);
-  Key2String2(setup.key[26], ctext);
+  Key2String(setup.key[26], ctext);
   co2_List_Add_String(citem[24].p_list, 26, 550, ctext, setup.key[26], 0);
-  Key2String2(setup.key[27], ctext);
+  Key2String(setup.key[27], ctext);
   co2_List_Add_String(citem[24].p_list, 27, 550, ctext, setup.key[27], 0);
-  Key2String2(setup.key[28], ctext);
+  Key2String(setup.key[28], ctext);
   co2_List_Add_String(citem[24].p_list, 28, 550, ctext, setup.key[28], 0);
-  Key2String2(setup.key[29], ctext);
+  Key2String(setup.key[29], ctext);
   co2_List_Add_String(citem[24].p_list, 29, 550, ctext, setup.key[29], 0);
-  Key2String2(setup.key[30], ctext);
+  Key2String(setup.key[30], ctext);
   co2_List_Add_String(citem[24].p_list, 30, 550, ctext, setup.key[30], 0);
 
   co2_List_Redraw(hdcTab[3], citem[24].p_list, 0);

@@ -1268,8 +1268,7 @@ CHECKBOX_CONTROL2 *co2_Create_CheckBox(int hdc, int x, int y, char *text,
   p_ch->y = y;
 
   //TransparentBltU(hdc, x, y, bmpx, 24, bmpDC, 0, 80, bmpx, 24, RGB(237, 77, 0));
-  ddx2TransparentBlt(hdc, x, y, bmpx, 20, bmpDC, 0, 1, bmpx, 20, RGB(237, 77,
-      0));
+  ddx2TransparentBlt(hdc, x, y, bmpx, 20, bmpDC, 0, 1, bmpx, 20, RGB(237, 77, 0));
 
   MultiByteToWideChar(CP_ACP, 0, text, strlen(text) + 1, wc,
     sizeof(wc) / sizeof(wc[0]));

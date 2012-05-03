@@ -1098,12 +1098,6 @@ void EnumRozliseni(ROZLISENI ** res, int *roz_size)
   }
 }
 
-void Key2String(int k, char *text)
-{
-  sprintf(text, "##control_k_%d", k);
-  return;
-}
-
 void CharMenuCheckMultyKyes(LIST_VIEW_CONTROL * p_li, int iKey)
 {
   int y;
@@ -1123,7 +1117,8 @@ void CharMenuCheckMultyKyes(LIST_VIEW_CONTROL * p_li, int iKey)
 
       ddxFillRect(p_li->bDCs, &r, 0);
 
-      co_List_Add_String(p_li, i, 550, "##control_k_255", 255, 0);
+      char tmp[200];
+      co_List_Add_String(p_li, i, 550, Key2String(255, tmp), 255, 0);
     }
 }
 
@@ -1207,7 +1202,7 @@ void SetCharMenu(LIST_VIEW_CONTROL * p_li)
 
   for (i = 0; i < POCET_KLAVES; i++)
     if (key[i]) {
-      sprintf(text, "##control_k_%d", i);
+      Key2String(i,text);      
       key[i] = 0;
       break;
     }

@@ -431,6 +431,8 @@ int spracuj_spravy(int param)
         {
           int keycode = event.key.keysym.sym;
 
+          printf("SDL_KEYDOWN(%d)\n",keycode);
+        
           key[keycode] = TRUE;
           key[0] = TRUE;
 

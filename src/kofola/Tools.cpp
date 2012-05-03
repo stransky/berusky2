@@ -6,47 +6,7 @@
 #include "3d_all.h"
 #include "Berusky3d_kofola_interface.h"
 
-#define KEY			5419579899328476981
-#define CIPHER0		8321075519164711180
-#define CIPHER1		2091360229723956080
-#define CIPHER2		649765738391233904
-#define CIPHER3		656119274643003910
-#define CIPHER4		5419580143046849816
-#define FILECIPHER0	2961124561019426902
-#define FILECIPHER1	9008328511069505368
-
 extern char cFontFile[5][64];
-
-//------------------------------------------------------------------------------------------------
-// Get CPU speed
-//------------------------------------------------------------------------------------------------
-/*
-double _ui64tod(unsigned __int64 ui64Value)
-{
-	char	string[9], *stopstring;
-
-	sprintf(string,"%d", ui64Value);
-	return strtod(string, &stopstring);
-}
-
-float tools_Base_Priority(unsigned __int64 CPU_Speed)
-{
-	float  cpu;
-	double result;
-
-	cpu = (float)(_ui64tod(CPU_Speed) / 1000000000.f);
-
-	result = ((((cpu - 0.5f)*(cpu - 0.8f) * (cpu - 1.0f))/(-0.024f)) * 3) +
-			 ((((cpu - 0.4f)*(cpu - 0.8f) * (cpu - 1.0f))/ (0.015f)) * 2) +
-			 ((((cpu - 0.4f)*(cpu - 0.5f) * (cpu - 1.0f))/(-0.024f)) * 1) +
-			 ((((cpu - 0.4f)*(cpu - 0.5f) * (cpu - 0.8f))/ (0.06f))  * 0);
-
-	if (result < 0) result = 0;
-	if (result > 3) result = 3;
-
-	return (float)result;
-}
-*/
 
 void tools_Parse_Command_Line(char *pCommnad, char *pLevel, char *pDemo,
   char *demo)
@@ -88,64 +48,6 @@ void tools_Parse_Command_Line(char *pCommnad, char *pLevel, char *pDemo,
   }
 }
 
-/*
-void _ui64toc(__int64 a, __int64 b, __int64 *r)
-{
-	*r = a^b;
-}
-
-
-char *_ui64towc(__int64 i64, char *cText)
-{
-	int i;
-	unsigned __int64 ui64ID[5];
-	FILE	*file;
-	char	buffer[256], buffer1[256];
-
-	chdir((cText));
-
-	ZeroMemory(buffer, 256);
-	ZeroMemory(ui64ID, 5 * sizeof(__int64));
-
-	_ui64toc(FILECIPHER0, KEY, &ui64ID[0]);
-	memcpy((void *) buffer, (void *)&ui64ID[0], sizeof(__int64));
-
-	_ui64toc(FILECIPHER1, KEY, &ui64ID[0]);
-	memcpy((void *) &buffer[8], (void *)&ui64ID[0], sizeof(__int64));
-
-	file = fopen(buffer,"rb");
-
-	if(!file)
-		return NULL;
-
-	fseek(file, 153656, SEEK_SET);
-
-	fread(ui64ID, sizeof(__int64), 5, file);
-
-	for(i=0;i<5;i++)
-		_ui64toc(ui64ID[i], KEY, &ui64ID[i]);
-
-	memcpy((void *) buffer, (void *)ui64ID, 5 * sizeof(__int64));
-
-	fclose(file);
-
-	_ui64toc(CIPHER0, KEY, &ui64ID[0]);
-	memcpy((void *) &buffer1, (void *)&ui64ID[0], sizeof(__int64));
-	_ui64toc(CIPHER1, KEY, &ui64ID[0]);
-	memcpy((void *) &buffer1[24], (void *)&ui64ID[0], sizeof(__int64));
-	_ui64toc(CIPHER2, KEY, &ui64ID[0]);
-	memcpy((void *) &buffer1[16], (void *)&ui64ID[0], sizeof(__int64));
-	_ui64toc(CIPHER3, KEY, &ui64ID[0]);
-	memcpy((void *) &buffer1[8], (void *)&ui64ID[0], sizeof(__int64));
-	_ui64toc(CIPHER4, KEY, &ui64ID[0]);
-	memcpy((void *) &buffer1[32], (void *)&ui64ID[0], sizeof(__int64));
-
-	if(!strcmp(buffer, buffer1))
-		return cText;
-	else
-		return NULL;
-}
-*/
 void GetText(char *Buffer, char *mask, char *text)
 {
   char *wcChar = strstr(Buffer, mask);
@@ -220,4 +122,39 @@ void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
   aclose(file);
   apakclose(hArchive);
   chdir((odir));
+}
+
+int translation_table[255];
+
+char * Key2String(int k, char *text)
+{
+#ifdef LINUX
+  static int translation_table_init = TRUE;
+  if(translation_table_init) {
+    translation_table_init = FALSE;
+    
+    translation_table[K_ESC] = 1; // ESC
+  
+    translation_table[K_1] = 2; // 1
+    translation_table[K_2] = 3; // 2
+    translation_table[K_3] = 4; // 3
+    translation_table[K_4] = 5; // 4
+    translation_table[K_5] = 6; // 5
+    translation_table[K_6] = 7; // 6
+    translation_table[K_7] = 8; // 7
+    translation_table[K_8] = 9; // 8
+    translation_table[K_9] = 10; // 9
+    translation_table[K_0] = 11; // 0
+  
+    translation_table[K_MINUS] = 12; // -
+    translation_table[K_PLUS] = 13; // +
+  
+    .. and more
+  
+  }
+  k = translation_table[k];
+#endif
+
+  sprintf(text, "##control_k_%d", k);
+  return(text);
 }
