@@ -2360,19 +2360,6 @@ MENU_SETTING_BRUTAL_RESTART:
         SetCharMenu(p_li);
       }
 
-      /*iCheck = co_Check_Get_State_Change(citem, CLIST_ITEMC, 1);
-
-         if(iCheck != -1)
-         {
-         if(!iCheck)
-         {
-         co_Check_Set_State(citem[2].p_check, HDC2DD, 0, 1);
-         co_Check_Disable(HDC2DD, TAB_X, TAB_Y, citem, CLIST_ITEMC, 0);
-         }
-         else
-         co_Check_Enable(HDC2DD, TAB_X, TAB_Y, citem, CLIST_ITEMC, 0);
-         } */
-
       iCheck = co_Check_Get_State_Change(citem, CLIST_ITEMC, 12);
 
       if (iCheck != -1) {
@@ -2500,25 +2487,6 @@ MENU_SETTING_BRUTAL_RESTART:
           hdcTabUse[3]++;
         }
 
-/*			if(!strcmp(res[resid].cParam[1], "NEW_GAME"))
-				NewGame(hWnd, p_ad, cpu);*/
-/*	
-			for(i=0;i<lastcmd;i++)
-			{
-				switch(res[i].iParam[0])
-				{
-					case COM_DRAW:
-					if(!res[i].iLayer)
-						menucommand_Draw(_2dd.hDC, res[i].iParam);
-					else
-					{
-						menucommand_DrawT(_2dd.hDC, res[i].iParam);
-						menucommand_Draw(FontDC, res[i].iParam);
-					}
-					break;
-				}
-			}
-*/
         resid = -1;
         
         if (key[K_ESC]) {

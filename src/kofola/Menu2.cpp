@@ -1575,18 +1575,6 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
       int iCheck = -1;
       LIST_VIEW_CONTROL2 *p_li;
 
-
-      iCheck = co2_Check_Get_State_Change(citem, CLIST_ITEMC, 1);
-
-      if (iCheck != -1) {
-        if (!iCheck) {
-          co2_Check_Set_State(citem[2].p_check, HDC2DD, 0, 1);
-          co2_Check_Disable(HDC2DD, TAB_X, TAB_Y, citem, CLIST_ITEMC, 0);
-        }
-        else
-          co2_Check_Enable(HDC2DD, TAB_X, TAB_Y, citem, CLIST_ITEMC, 0);
-      }
-
       iCheck = co2_Check_Get_State_Change(citem, CLIST_ITEMC, 12);
 
       if (iCheck != -1) {
