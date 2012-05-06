@@ -120,7 +120,9 @@ void timeGetTimeInit(void);
 unsigned int timeGetTime(void);
 
 int GetFileSize(FILE *f, dword *size);
-void ZeroMemory(void *mem, int size);
+
+void zero_memory(void *mem, int size);
+#define ZeroMemory(m,s) zero_memory(m,s)
 
 void newline_cut(char *p_line);
 

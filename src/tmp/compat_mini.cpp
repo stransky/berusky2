@@ -34,7 +34,7 @@ extern "C" {
 
 dword karmin_aktivni = 1;
 
-void ZeroMemory(void *mem, int size)
+void zero_memory(void *mem, int size)
 {
   memset(mem, 0, size);
 }

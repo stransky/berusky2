@@ -32,8 +32,7 @@
 #define __INPUT_H__
 
 /* Key definition - SDL */
-
-#define  KEYNUM       0xff
+#define  KEYNUM       SDLK_LAST
 
 #define  K_ESC        SDLK_ESCAPE
 

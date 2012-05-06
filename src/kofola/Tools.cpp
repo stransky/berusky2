@@ -124,7 +124,7 @@ void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
   chdir((odir));
 }
 
-static int translation_table[255];
+static int translation_table[KEYNUM];
 
 char * Key2String(int k, char *text)
 {

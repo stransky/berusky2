@@ -144,7 +144,11 @@ int co_Release_Graphic(void)
   ddxReleaseBitmap(hdcCO.hdcComboDrop);
   ddxReleaseBitmap(hdcCO.hdcComboMover);
   ddxReleaseBitmap(hdcCO.hdcComboMoverb);
+  zero_memory(&hdcCO,sizeof(hdcCO));
+
   ddxReleaseBitmap(hdcED.hdcEdit);
+  zero_memory(&hdcED,sizeof(hdcED));
+
   ddxReleaseBitmap(hdcLI.hdcListDown);
   ddxReleaseBitmap(hdcLI.hdcListMover);
   ddxReleaseBitmap(hdcLI.hdcListUp);
@@ -156,13 +160,24 @@ int co_Release_Graphic(void)
   ddxReleaseBitmap(hdcLI.hdcListTR);
   ddxReleaseBitmap(hdcLI.hdcListBL);
   ddxReleaseBitmap(hdcLI.hdcListBR);
+  zero_memory(&hdcLI,sizeof(hdcLI));
+  
   ddxReleaseBitmap(hdcBU.hdcButtonL);
   ddxReleaseBitmap(hdcBU.hdcButtonS);
+  zero_memory(&hdcBU, sizeof(hdcBU));
+  
   ddxReleaseBitmap(hdcCH.hdcCheck);
+  zero_memory(&hdcCH,sizeof(hdcCH));
+  
   ddxReleaseBitmap(hdcPR.hdcLine);
   ddxReleaseBitmap(hdcPR.hdcMover);
+  zero_memory(&hdcPR,sizeof(hdcPR));
+  
   ddxReleaseBitmap(hdcFR.hdcFrame);
+  zero_memory(&hdcFR,sizeof(hdcFR));
+  
   ddxReleaseBitmap(hdcCH.hdcGray);
+  zero_memory(&hdcCH,sizeof(hdcCH));
 
   return 1;
 }
