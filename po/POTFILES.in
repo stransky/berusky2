@@ -118,7 +118,6 @@ src/komat/Load_out.h
 src/komat/NvTriStrip.h
 src/komat/Tga.cpp
 src/komat/Tga.h
-src/komat/dxtlib.h
 src/komat/kfile.h
 src/komat/mmalloc.h
 src/komat/mss.h

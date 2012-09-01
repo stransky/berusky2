@@ -131,7 +131,6 @@ berusky2_SOURCES = \
 	komat/NvTriStrip.h\
 	komat/Tga.cpp\
 	komat/Tga.h\
-	komat/dxtlib.h\
 	komat/kfile.h\
 	komat/mmalloc.h\
 	komat/mss.h\
