@@ -1,3 +1,6 @@
+* 0.8
+    - fixed crash at level end (rhbz#858887)
+
 * 0.7
     - sound and music
 

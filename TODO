@@ -1,12 +1,14 @@
+TODO:
+- set fps
 - transparent objects
-- bad exit animations?
-
-Bugs:
+- bad exit animations
+- per-pixel lighting
 - texttures are not sharp
 - mark all movable boxes?
-
-TODO:
 - better camera (automatic?)
+- Default keys - F11, F12 and so
+- Game Load/Save
+- Why menu is not animated?
 
 - rozdelit ini soubory na 2? nastaveni uzivatelu + globalni datove soubory?
 int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
@@ -21,22 +23,15 @@ int ddxInit(void)
 //ddx2DeviceSetScreenRec(0, 0, hwconf.xres, hwconf.yres);
 ddx2DeviceSetScreenRec(0, 0, 1024, 768);
 
-
 > asm code in lighting -> writting to ligtmap updates
-> debug how-to page
-> sounds/music
 > hwconf -> game resolution/fulscreen
-> fps setting (in ini file?)
 > wchar_windows_to_linux -> mem leaks?
-> zapis APAK veci na disk -> 64-bit
 
 <mcrha> stransky, nastaveni nefunguje, a je v nem jeden text cesky
 <mcrha> stransky, neukazuji se popisky klaves v nastaveni, treba pro sipky
 <mcrha> stransky, jak ma fungovat 2d ovladani berdy? hadam, ze sipka 
 doleva/doprava s ni tak i hybe, ale tim, ze se mi nedrzi nastaveni, 
 tak se porad krouti jak motovidlo.
-<stransky> mcrha, jako open source jsou uvolneny zatim jen prvni 
-3 sceny, tutorial, trenink. 2D by melo byt zaple defaultne
 <mcrha> stransky, zajimavy je, ze z hlavniho menu nastaveni vypada tak, 
 jak jsem ho nechal, ale kdyz to zavolam ze "hry", tak to nastaveni je v kyblu, vsechno je odskrtnuty
 <mcrha> stransky, no to tvy default berusky3d,ini ani nemluv, ja nedival, 

@@ -376,7 +376,6 @@ inline void ret_matrix_2d(void)
   }
 }
 
-
 inline void set_matrix_init(void)
 {
   init_matrix(&__mat_init);
