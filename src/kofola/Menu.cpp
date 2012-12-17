@@ -4948,7 +4948,7 @@ int FillStringList(char *cmask, LIST_ITEM_ ** list, int *isize)
 
   for(i = 0; i < c; i++) {
       strcpy((*list)[i].text, namelist[i]->d_name);
-      (*list)[c].timespamp = !stat(namelist[i]->d_name, &sb) ? sb.st_mtime : 0;
+      (*list)[i].timespamp = !stat(namelist[i]->d_name, &sb) ? sb.st_mtime : 0;
       free(namelist[i]);
   } 
   free(namelist);

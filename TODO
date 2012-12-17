@@ -10,6 +10,14 @@ TODO:
 - Game Load/Save
 - Why menu is not animated?
 
+- fullscreen -> konec hry nevraci rozliseni
+- 1280x1024 full -> menu je jen v hornim rohu
+- in-game menu - to menu je nejake hnusne?
+- defaultne je vypla/zakazana hudba/zvuky?
+- defaultni klavesy sou tragedie!! (delam novy profil) 
+
+- Update readme
+
 - rozdelit ini soubory na 2? nastaveni uzivatelu + globalni datove soubory?
 int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
 
