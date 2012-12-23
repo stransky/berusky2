@@ -2709,10 +2709,10 @@ void gl_Do_Krompac(float *pos, LEVELINFO * p_Level, int material)
 void gl_Do_Strepiny(float *pos, LEVELINFO * p_Level, int material,
   char bSvetlo)
 {
-  int i, r, s, hSvetlo, k, m;
+  int i, r, s, k, m, rm;
   PAR_STREPINA *pCastice;
   PAR_KOUR_STOPA *pKourovaS;
-  int ph, rm;
+  size_ptr ph,hSvetlo;
   float rg, rb, rr, ra, rdx, rdy;
   float rgs, rbs, rrs;
 
@@ -3070,11 +3070,11 @@ void gl_Do_Kameni(float *pos, LEVELINFO * p_Level, int material)
 
 int gl_Get_Mesh_Material(int Mesh)
 {
-  int *p_mat = NULL;
+  size_ptr * p_mat = NULL;
   int i;
   int matnum = kom_mesh_get_matnum(Mesh);
 
-  p_mat = (int *) malloc(matnum * sizeof(int));
+  p_mat = (size_ptr *) malloc(matnum * sizeof(size_ptr));
 
   if (!p_mat)
     return -1;

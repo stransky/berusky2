@@ -65,7 +65,7 @@ static int iBackDC;
 
 static char bBackDC = 0;
 
-static int iLoadScreenDevice = 0;
+static DeviceHandle iLoadScreenDevice = 0;
 static int iLoadScreenBitmap = K_CHYBA;
 static RECT iLoadScreenRect = { 0, 0, 1024, 768 };
 

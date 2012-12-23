@@ -338,7 +338,7 @@ void camera_Center(int *pcameraflag, void *v_Level, int framenum,
   char bTopView, char bLastCam)
 {
   LEVELINFO *p_Level = (LEVELINFO *) v_Level;
-  float pos[3];
+  float pos[3] = {0,0,0};
   int r;
 
   BOD p;
@@ -355,8 +355,10 @@ void camera_Center(int *pcameraflag, void *v_Level, int framenum,
 
   kam_pol_get(&p, &fr, &ffi, &dist);
 
-  kom_mesh_get_float(p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh,
-    &pos[0], &pos[1], &pos[2], &r);
+  if(p_Level->Actual_Item != -1) {
+    kom_mesh_get_float(p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh,
+                       &pos[0], &pos[1], &pos[2], &r);
+  }
 
   if (p_Level->Actual_Item != -1) {
 /*		switch(p_Level->Level[p_Level->Actual_Item]->Rotation)

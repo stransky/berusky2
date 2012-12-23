@@ -16,9 +16,9 @@
 int lsi_Load_Items(LEVELINFO * p_Level)
 {
   char text[256], dir[256], odir[256];
-  int Count, m;
+  int Count, m, error_open;
   struct _finddata_t Data;
-  int Done, error;
+  size_ptr Done, error;
   FILE *file;
   SECONDDATADESC sec;
   APAK_HANDLE *aHandle;
@@ -33,7 +33,7 @@ int lsi_Load_Items(LEVELINFO * p_Level)
   strcpy(text, "*.itm");
   Count = 0;
   
-  aHandle = apakopen("items.pak", dir, &error);
+  aHandle = apakopen("items.pak", dir, &error_open);
 
   if (!aHandle) {
     kprintf(1, "nepodarilo se otevrit archiv items.pak!!!");

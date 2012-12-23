@@ -1,4 +1,6 @@
 TODO:
+- agets - fix/check returned string!
+
 - set fps
 - transparent objects
 - bad exit animations
@@ -15,6 +17,9 @@ TODO:
 - in-game menu - to menu je nejake hnusne?
 - defaultne je vypla/zakazana hudba/zvuky?
 - defaultni klavesy sou tragedie!! (delam novy profil) 
+
+- level7 - crash in TNT
+- level306/307 - crashes at loading
 
 - Update readme
 

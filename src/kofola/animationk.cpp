@@ -3703,7 +3703,7 @@ int am_Create_Snow(LEVELINFO * p_Level, SNOWSYSTEM * pSnow, float fRadius,
   memcpy((void *) &pSnow->SnowCenter, (void *) fvPos, 3 * sizeof(float));
 
   // pamet na hnizda
-  pSnow->hHnizdo = (int *) malloc(uiDensity * sizeof(int));
+  pSnow->hHnizdo = (size_ptr *) malloc(uiDensity * sizeof(size_ptr));
 
   if (!pSnow->hHnizdo) {
     pSnow->bSnow = 0;

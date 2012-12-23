@@ -97,7 +97,7 @@ typedef struct
   float dy;
   int Rotation;
   int Material;
-  int pFlek;
+  size_ptr pFlek;
 } FLEK_K;
 
 typedef struct
@@ -161,7 +161,7 @@ typedef struct
 typedef struct
 {
   PAR_KOUR_STOPA *pCastice;
-  int System;
+  size_ptr System;
   int Sizeof;
   int flag;
   size_ptr hHnizdo[64];
@@ -182,7 +182,7 @@ typedef struct
   PAR_KOUR_STOPA *pWCastice;
   int SizeofCastice;
   int SizeofWCastice;
-  int pSystem;
+  size_ptr pSystem;
   int pWSystem;
   int flag;
   int *hHnizdo;
@@ -212,9 +212,9 @@ typedef struct
 {
   PAR_KOUR_STOPA *pCastice;
   int SizeofCastice;
-  int pSystem;
+  size_ptr pSystem;
   int flag;
-  int *hHnizdo;
+  size_ptr *hHnizdo;
   int SizeofHnizda;
   BOD dir;
   BOD *pivot;
@@ -239,7 +239,7 @@ typedef struct
   int EffectID;
   PAR_KOUR_STOPA *pCastice;
   int SizeofCastice;
-  int pSystem;
+  size_ptr pSystem;
   int flag;
   int *hHnizdo;
   int SizeofHnizda;
@@ -269,7 +269,7 @@ typedef struct
 {
   SYSTEMCASTIC System;
   int hSvetlo[64];
-  int hFlare[64];
+  size_ptr hFlare[64];
   int iKourStopa;
 } SYSTEMZHAVYCHCASTIC;
 
@@ -373,7 +373,7 @@ typedef struct
   PAR_KOUR_STOPA *pCastice;
   int csize;
   int hHnizdo;
-  int pSystem;
+  size_ptr pSystem;
   BOD pivot;
   BOD dir;
   float fLowPlain;
@@ -397,7 +397,7 @@ typedef struct
   PAR_KOUR_STOPA *pCastice;
   int csize;
   int hHnizdo;
-  int pSystem;
+  size_ptr pSystem;
   BOD pivot;
   BOD dir;
   float fLowPlain;

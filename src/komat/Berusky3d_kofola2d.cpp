@@ -109,6 +109,7 @@ DeviceHandle ddx2DeviceCreate(int linear_filtr, int bpp)
     (DDX2_SURFACE_DEVICE *) mmalloc(sizeof(p_tmp[0]));
   p_tmp->p_next = p_dev_list;
   p_dev_list = p_tmp;
+  p_tmp->p_back_buffer = NULL;
   p_tmp->hw.filtr = linear_filtr;
   p_tmp->hw.format = (bpp == 16) ? GL_RGB5_A1 : GL_RGBA8;
   return ((DeviceHandle) p_tmp);

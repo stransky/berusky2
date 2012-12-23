@@ -416,7 +416,8 @@ void Parse_3DAnimLine(FILE * file, _3D_ANIMATION_FRAME * pFrame)
   char text[MAX_PATH], expression[MAX_PATH];
   int p = 0, r = 0;
 
-  agets(text, MAX_PATH, file);
+  char *ret = agets(text, MAX_PATH, file);
+  assert(ret != NULL);
 
   while (p != -1) {
     p = Find_Next_Expresion(text, p, expression);
