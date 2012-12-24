@@ -221,9 +221,8 @@ int _3d_Load_List(char *p_File_Name)
   txt_trida(TEXT_MENU);
   kom_set_default_text_config(0, 0, 1, 0, 0, 1);
 
-  while (!aeof(file)) {
-    agets(text, MAX_PATH, file);
-    if (!aeof(file)) {
+  while (!aeof(file)) {    
+    if (agets(text, MAX_PATH, file) && !aeof(file)) {
       newline_cut(text);
 
       if (!c)

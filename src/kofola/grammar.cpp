@@ -67,9 +67,10 @@ char gr_Load_Grammar(char *pFile, GRAMMAR * pGr)
   pGr->LastMask = 0;
 
   while (!aeof(file)) {
-    agets(text, 256, file);
-    gr_Add_Mask(text, pGr);
-    strcpy(text, "");
+    if(agets(text, 256, file)) {
+      gr_Add_Mask(text, pGr);
+      strcpy(text, "");
+    }
   }
 
   aclose(file);

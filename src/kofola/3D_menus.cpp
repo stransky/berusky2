@@ -416,9 +416,7 @@ void Parse_3DAnimLine(FILE * file, _3D_ANIMATION_FRAME * pFrame)
   char text[MAX_PATH], expression[MAX_PATH];
   int p = 0, r = 0;
 
-  char *ret = agets(text, MAX_PATH, file);
-  assert(ret != NULL);
-
+  agets(text, MAX_PATH, file);
   while (p != -1) {
     p = Find_Next_Expresion(text, p, expression);
 
@@ -513,7 +511,6 @@ void _3d_Load_Animations(float *fScaleFactor)
   if (pListFile) {
     while (!aeof(pListFile)) {
       agets(text, MAX_PATH, pListFile);
-
       if (!strlen(text))
         break;
       else

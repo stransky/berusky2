@@ -298,6 +298,8 @@ char *agets(char *string, int n, FILE * stream)
   APAK_FILE_HANDLE *pFHandle;
   APAK_STREAM_TYPE *pAStream = (APAK_STREAM_TYPE *) stream;
 
+  string[0] = '\0';
+
   if (!pAStream)
     return 0;
 
