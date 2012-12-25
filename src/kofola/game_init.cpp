@@ -82,207 +82,6 @@ int gi_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *cAppName,
   return 1;
 }
 
-int gi_Get_Max_Resolution_Frequency(int xPels, int yPels, int Bits)
-{
-  int i = 0, f = 0;
-
-/*
-	DEVMODE dmSettings;
-	
-	memset(&dmSettings,0,sizeof(dmSettings));
-	dmSettings.dmSize = sizeof(DEVMODE);
-	
-	while(EnumDisplaySettings(NULL,i,&dmSettings))
-	{
-		if(dmSettings.dmBitsPerPel == (unsigned)Bits &&
-		   dmSettings.dmPelsWidth == (unsigned)xPels &&
-		   dmSettings.dmPelsHeight == (unsigned)yPels)
-				f = dmSettings.dmDisplayFrequency;
-
-		memset(&dmSettings,0,sizeof(dmSettings));
-		dmSettings.dmSize = sizeof(DEVMODE);
-		i++;
-	}
-*/
-  return f;
-}
-
-int gi_Get_Max_Resolution_Bpp(int xPels, int yPels)
-{
-  int i = 0, f = 0;
-
-/*
-	DEVMODE dmSettings;
-	
-	memset(&dmSettings,0,sizeof(dmSettings));
-	dmSettings.dmSize = sizeof(DEVMODE);
-	
-	while(EnumDisplaySettings(NULL,i,&dmSettings))
-	{
-		if(dmSettings.dmPelsWidth == (unsigned)xPels &&
-		   dmSettings.dmPelsHeight == (unsigned)yPels &&
-		   f < (signed)dmSettings.dmBitsPerPel)
-				f = dmSettings.dmBitsPerPel;
-
-		memset(&dmSettings,0,sizeof(dmSettings));
-		dmSettings.dmSize = sizeof(DEVMODE);
-		i++;
-	}
-*/
-  return f;
-}
-
-int gi_Change_Grafic_Test(int xPels, int yPels, int Bits, int freq)
-{
-/*
-	long l;
-	DEVMODE	devmode;
-	ZeroMemory(&devmode, sizeof(DEVMODE));
-
-	devmode.dmSize = sizeof(DEVMODE);
-	devmode.dmBitsPerPel = Bits;
-	devmode.dmPelsWidth = xPels;
-	devmode.dmPelsHeight = yPels;
-	devmode.dmDisplayFrequency = freq;
-	devmode.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT | DM_DISPLAYFREQUENCY;
-	
-	l = ChangeDisplaySettings(&devmode, CDS_TEST);
-
-	kprintf(1, "Grafic_Test %dx%dx%d %dHz ...", xPels, yPels, Bits, freq);
-
-	switch(l)
-	{
-	case DISP_CHANGE_SUCCESSFUL:
-		kprintf(1, "DISP_CHANGE_SUCCESSFUL");
-		break;
-	case DISP_CHANGE_RESTART:
-		kprintf(1, "DISP_CHANGE_RESTART");
-		break;
-	case DISP_CHANGE_BADFLAGS:
-		kprintf(1, "DISP_CHANGE_BADFLAGS");
-		break;
-	case DISP_CHANGE_BADPARAM:
-		kprintf(1, "DISP_CHANGE_BADPARAM");
-		break;
-	case DISP_CHANGE_FAILED:
-		kprintf(1, "DISP_CHANGE_FAILED");
-		break;
-	case DISP_CHANGE_BADMODE:
-		kprintf(1, "DISP_CHANGE_BADMODE");
-		break;
-	case DISP_CHANGE_NOTUPDATED:
-		kprintf(1, "DISP_CHANGE_NOTUPDATED");
-		break;
-	}
-
-	if(l != DISP_CHANGE_SUCCESSFUL)
-		return 0;
-	else
-		return 1;
-*/
-}
-
-int gi_Get_Max_Freq(int xPels, int yPels, int bpp)
-{
-  int i = 0, f[100], c = 0;
-
-/*
-	DEVMODE dmSettings;
-
-	
-	memset(&dmSettings,0,sizeof(dmSettings));
-	memset(&f,0,sizeof(int)*100);
-
-	dmSettings.dmSize = sizeof(DEVMODE);
-	
-	while(EnumDisplaySettings(NULL,i,&dmSettings))
-	{
-		if(dmSettings.dmPelsWidth == (unsigned)xPels &&
-		   dmSettings.dmPelsHeight == (unsigned)yPels &&
-		   dmSettings.dmBitsPerPel == (unsigned)bpp)
-		{
-			if(gi_Change_Grafic_Test(xPels, yPels, bpp, dmSettings.dmDisplayFrequency))
-			{
-				f[c] = dmSettings.dmDisplayFrequency;
-				c++;
-			}
-		}
-
-		memset(&dmSettings,0,sizeof(dmSettings));
-		dmSettings.dmSize = sizeof(DEVMODE);
-		i++;
-	}
-
-	c = 0;
-
-	for(i=0;i<100;i++)
-		if(!f[i])
-			if(c-1 < 0)
-				return f[0];
-			else
-				return f[c-1];
-		else
-			c++;
-
-	return f[c];
-*/
-}
-
-int gi_Change_Grafic_Mode(int xPels, int yPels, int Bits, int freq,
-  DWORD dwflags)
-{
-/*
-	long l;
-	DEVMODE	devmode;
-
-	ZeroMemory(&devmode, sizeof(DEVMODE));
-
-	devmode.dmSize = sizeof(DEVMODE);
-	devmode.dmBitsPerPel = Bits;
-	devmode.dmPelsWidth = xPels;
-	devmode.dmPelsHeight = yPels;
-	devmode.dmDisplayFrequency = freq;
-	devmode.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
-	
-	if(freq > 0)
-		 devmode.dmFields |= DM_DISPLAYFREQUENCY;
-
-	l = ChangeDisplaySettings(&devmode, dwflags);
-
-	kprintf(1, "Grafic_Mode %dx%dx%d %dHz ...", xPels, yPels, Bits, freq);
-
-	switch(l)
-	{
-	case DISP_CHANGE_SUCCESSFUL:
-		kprintf(1, "DISP_CHANGE_SUCCESSFUL");
-		break;
-	case DISP_CHANGE_RESTART:
-		kprintf(1, "DISP_CHANGE_RESTART");
-		break;
-	case DISP_CHANGE_BADFLAGS:
-		kprintf(1, "DISP_CHANGE_BADFLAGS");
-		break;
-	case DISP_CHANGE_BADPARAM:
-		kprintf(1, "DISP_CHANGE_BADPARAM");
-		break;
-	case DISP_CHANGE_FAILED:
-		kprintf(1, "DISP_CHANGE_FAILED");
-		break;
-	case DISP_CHANGE_BADMODE:
-		kprintf(1, "DISP_CHANGE_BADMODE");
-		break;
-	case DISP_CHANGE_NOTUPDATED:
-		kprintf(1, "DISP_CHANGE_NOTUPDATED");
-		break;
-	}
-
-	if(l != DISP_CHANGE_SUCCESSFUL)
-		return 0;
-	else
-		return 1;
-*/
-}
-
 /*
 int gi_EnumDisplaySettings(DEVMODE *pdevmode)
 {
@@ -320,7 +119,8 @@ void gi_Init_Sound_Engine(AUDIO_DATA *p_ad)
 {
 	char				text[256];
 	ADAS_INIT_DATA		init_data;
-	unsigned long		max_mem, mem = 0;
+	//unsigned long	max_mem;
+  //unsigned long mem = 0;
 //	long				Done,error;
 //	struct _finddata_t	Data;
 	float listenerPos[]={0.0,0.0,0.0};
@@ -341,7 +141,7 @@ void gi_Init_Sound_Engine(AUDIO_DATA *p_ad)
 	//p_ad->hWnd = hWnd;
 	ap_Init(p_ad);
 
-	max_mem = GetPrivateProfileInt("soundengine","pre_load",0,ini_file);
+	//max_mem = GetPrivateProfileInt("soundengine","pre_load",0,ini_file);
 	
 	GetPrivateProfileString("soundengine","sound_dir","c:\\",init_data.Sound_Dir,256,ini_file);
   working_file_translate(init_data.Sound_Dir,256);

@@ -328,8 +328,6 @@ void co2_Handle_Controls(CONTROL_LIST_ITEM2 * p_list, int lsize, int x, int y,
 void co2_Handle_Release(CONTROL_LIST_ITEM2 * p_list, int lsize);
 
 void co2_Frame_Draw(HDC hdc, int x, int y, int xr, int yr);
-
-HDC co2_CreateDC(HDC hdc, int x, int y, HDC_INFO2 * pdcinfo);
 int co2_Rect_Hit(RECT rect, int x, int y);
 
 LIST_VIEW2_CONTROL2 *co2_Create_List_View(int hdc, int x, int y, int width,

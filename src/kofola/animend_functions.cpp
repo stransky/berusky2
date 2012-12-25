@@ -125,7 +125,7 @@ void anmend_ExplozeBedny(size_ptr param, size_ptr param2, size_ptr p_param)
 
   float pos[3], pos1[3];
   int ipos[3], vipos[3];
-  int rot, i;
+  int rot;
   int s;
   FLEK_K *pFlek;
   char cFlek[32];
@@ -228,8 +228,6 @@ void anmend_ExplozeBedny(size_ptr param, size_ptr param2, size_ptr p_param)
   kom_mesh_get_float(p_itm->Index_Of_Game_Mesh,
     &pos[0], &pos[1], &pos[2], &rot);
 
-  i = p_itm->Index_Of_Game_Mesh;
-
   mat[0] = gl_Get_Mesh_Material(param);
   mat[1] = gl_Get_Mesh_Material(p_itm->Index_Of_Game_Mesh);
 
@@ -285,7 +283,7 @@ void anmend_ExplozeBednyZaSikminou(size_ptr param, size_ptr param2, size_ptr p_p
 {
   int lc;
   POINTERSTRUCTURE *pStruct = (POINTERSTRUCTURE *) p_param;
-  ANIMATION_QUEUE_SET_ *pSet = (ANIMATION_QUEUE_SET_ *) pStruct->pParam;
+  //ANIMATION_QUEUE_SET_ *pSet = (ANIMATION_QUEUE_SET_ *) pStruct->pParam;
 
 /*	kprintf(1,"anmend_ExplozeBednyZaSikminou Act_Item = %d, -> %d\n",
 			pStruct->p_Level->Actual_Item,
@@ -331,8 +329,8 @@ int anmend_Find_Lift_PSystem(int mesh, LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 10; i++)
-    if (p_Level->LiftParticles[i].System != -1 &&
-      p_Level->LiftParticles[i].hHnizdo[1] == mesh)
+    if (p_Level->LiftParticles[i].System &&
+      (int)p_Level->LiftParticles[i].hHnizdo[1] == mesh)
       return i;
 
   return -1;
@@ -845,9 +843,9 @@ void anmend_Water(size_ptr param, size_ptr param2, size_ptr p_param)
 
   if (pStruct->viParam2[1])
     for (i = 0; i < 10; i++)
-      if (p_Level->LiftVParticles[i].hHnizdo[1] == pStruct->viParam2[1]) {
+      if ((int)p_Level->LiftVParticles[i].hHnizdo[1] == pStruct->viParam2[1]) {
         par_zrus(p_Level->LiftVParticles[i].System);
-        p_Level->LiftVParticles[i].System = -1;
+        p_Level->LiftVParticles[i].System = (size_ptr)NULL;
       }
 
   if (pStruct->viParam2[2])
@@ -859,17 +857,17 @@ void anmend_Cakanec(size_ptr param, size_ptr param2, size_ptr p_param)
   float fvpos[3];
   POINTERSTRUCTURE *pStruct = (POINTERSTRUCTURE *) p_param;
   LEVELINFO *p_Level = pStruct->p_Level;
-  ITEMDESC *p_itm = p_Level->Level[param2];
-
-  int rnd = rand() % 3;
-
-  float pos[3] = { (float) p_itm->Pos[0] * 2,
+  //ITEMDESC *p_itm = p_Level->Level[param2];
+/*
+  float pos[3] =
+  { 
+    (float) p_itm->Pos[0] * 2,
     (float) p_itm->Pos[1] * 2,
     (float) p_itm->Pos[2] * 2
   };
-
+*/
   kom_get_fyz_souradnice(pStruct->viParam1[0], pStruct->viParam1[2],
-    pStruct->viParam1[1], (BOD *) fvpos);
+                         pStruct->viParam1[1], (BOD *) fvpos);
 
   am_Do_Vodni_Cakanec2(fvpos, pStruct->bParam, pStruct->viParam2[0], p_Level);
 
@@ -878,7 +876,6 @@ void anmend_Cakanec(size_ptr param, size_ptr param2, size_ptr p_param)
 
 void anmend_WaterLift(size_ptr param, size_ptr param2, size_ptr p_param)
 {
-  int i;
   float fvpos[3];
   int rnd = rand() % 3;
 
@@ -888,9 +885,7 @@ void anmend_WaterLift(size_ptr param, size_ptr param2, size_ptr p_param)
   kom_get_fyz_souradnice(pStruct->viParam1[0], pStruct->viParam1[2],
     pStruct->viParam1[1], (BOD *) fvpos);
 
-  i =
-    am_Kola_na_Vode(fvpos, pStruct->iParam, pStruct->bParam,
-    pStruct->viParam2[0], p_Level);
+  am_Kola_na_Vode(fvpos, pStruct->iParam, pStruct->bParam, pStruct->viParam2[0], p_Level);
   am_Do_Vodni_Cakanec1(fvpos, pStruct->bParam, pStruct->viParam2[0], p_Level);
 
   //kom_mesh_get_float(param, &fvpos[0], &fvpos[1], &fvpos[2], &r);
@@ -1073,7 +1068,7 @@ void anmend_ZrusCastice(size_ptr param, size_ptr param2, size_ptr p_param)
 //      kprintf(1,"anmend_ZrusCastice Act_Item = %d, -> %d\n");
 
   free(reinterpret_cast<void *>(p_param));
-  if (param != -1)
+  if (param != (size_ptr)-1)
     sdl_svetlo_zrus(param);
 
   if (pSystem)
@@ -1114,7 +1109,7 @@ void anmend_Tlacitko(size_ptr param, size_ptr param2, size_ptr p_param)
 {
   float pos[3];
   int rot;
-  LEVELINFO *p_Level = (LEVELINFO *) p_param;
+  //LEVELINFO *p_Level = (LEVELINFO *) p_param;
   ITEMDESC *p_itm = (ITEMDESC *) param;
 
   kom_mesh_get_float(p_itm->Index_Of_Game_Mesh, &pos[0],
@@ -1292,7 +1287,7 @@ void anmend_Lift_Item(size_ptr param, size_ptr param2, size_ptr p_param)
 
 void anmend_KamenZaSikmonou(size_ptr param, size_ptr param2, size_ptr p_param)
 {
-  int mat = kom_najdi_material("cvytah1");
+  //int mat = kom_najdi_material("cvytah1");
 
   POINTERSTRUCTURE *pStruct = (POINTERSTRUCTURE *) p_param;
 

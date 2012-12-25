@@ -98,7 +98,7 @@ void cr_DrawSurface(int iDest, int iSour, int *y)
 void cr_Cleare(int iSurface)
 {
   int idx = ddxCreateSurface(1024, 100, ddxFindFreeSurface());
-  int i, y = 0;
+  int i;
 
   //ddxCleareSurfaceColor(iSurface, RGB(255, 0, 255));
   if (idx == -1) {

@@ -654,7 +654,6 @@ void wchar_linux_to_windows(wchar_t * p_in, int str_len, word * p_out)
 wchar_t *wchar_windows_to_linux(word * p_in, int bytes_in_len)
 {
   wchar_t *p_tmp = (wchar_t *) mmalloc(bytes_in_len * 2);
-
   wchar_windows_to_linux(p_in, bytes_in_len/2, p_tmp);
   return (p_tmp);
 }

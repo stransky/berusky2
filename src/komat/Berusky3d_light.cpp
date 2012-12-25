@@ -485,8 +485,9 @@ LightHandle sdl_svetlo_pojmenuj(LightHandle handle, char *p_jmeno)
 
 int sdl_svetlo_zrus(LightHandle handle)
 {
-  if (!p_ber->p_dlight[handle].akt)
+  if (!p_ber->p_dlight[handle].akt) {
     return (K_CHYBA);
+  }
   else {
     // Zruseni svetla
     p_ber->p_dlight[handle].akt = FALSE;

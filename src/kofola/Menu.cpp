@@ -90,11 +90,7 @@ static _2D_HINT _2d_hint;
 
 extern RECT_LINE rline;
 
-extern int gi_Change_Grafic_Mode(int xPels, int yPels, int Bits, int freq,
-  DWORD dwflags);
 //extern int gi_EnumDisplaySettings(DEVMODE *pdevmode);
-extern int iMaxBpp;
-extern int iMaxFreq;
 
 void RunMenuSceneMap(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu,
   char *cSceneBmp, char *cSceneAnim, int iScene, int iLevelStart,
@@ -153,12 +149,12 @@ void Stop(CMD_LINE * cmd)
   for (i = 0; i < 32; i++)
     if (cmd == anm[i].cmd) {
       if (cmd->bEndActivate[0] && cmd->pCmdLine) {
-        cmd->pCmdLine[cmd->bEndActivate[0]].bActive = 1;
+        cmd->pCmdLine[(int)cmd->bEndActivate[0]].bActive = 1;
         cmd->bActive = 0;
       }
 
       if (cmd->bEndActivate[1] && cmd->pCmdLine) {
-        cmd->pCmdLine[cmd->bEndActivate[1]].bActive = 1;
+        cmd->pCmdLine[(int)cmd->bEndActivate[1]].bActive = 1;
         cmd->bActive = 0;
       }
 
@@ -520,7 +516,7 @@ void FreeAnimations(CMD_LINE * cmd, int csize)
 void CheckAnimation(CMD_LINE * cmd, AUDIO_DATA * p_ad)
 {
   int i;
-  float pos[3] = { 0.0f, 0.0f, 1.0f };
+//  float pos[3] = { 0.0f, 0.0f, 1.0f };
 
   for (i = 0; i < 32; i++)
     if (anm[i].cmd)
@@ -1126,7 +1122,7 @@ void SetCharMenu(LIST_VIEW_CONTROL * p_li)
 {
   char text[128];
   int y = p_li->cSelected * 30;
-  int xs = p_li->rectList.top + TAB_Y + y - p_li->dx;
+//  int xs = p_li->rectList.top + TAB_Y + y - p_li->dx;
   int xp = 0;
   int xt = 0;
   int i;
@@ -1970,7 +1966,7 @@ MENU_SETTING_BRUTAL_RESTART:
     }
 
     for (in = 0; in < 6; in++)
-      res[bind].iParam[in] = -1;
+      res[bind].iParam[(int)in] = -1;
 
     res[bind].iLayer = 0;
   }
@@ -2038,7 +2034,7 @@ MENU_SETTING_BRUTAL_RESTART:
 
   DrawClock(iClock, 3);
   if (co_Load_Graphic(0)) {
-    int count = 0;
+    //int count = 0;
 
     DrawClock(iClock, 4);
     citem[0].bActive = 0;
@@ -2898,7 +2894,7 @@ BEGIN_MENU_NEWGAMESCENE_BRUTAL:
     }
 
     for (in = 0; in < 6; in++)
-      res[bind].iParam[in] = -1;
+      res[bind].iParam[(int)in] = -1;
 
     res[bind].pCmdLine = res;
   }
@@ -3689,7 +3685,7 @@ void CreateLevelButtons(CMD_LINE * res, int *lastcmd, int *pBmp, int iScene,
 
 int LoadTV(void)
 {
-  int c = 0, i = -1, t;
+  int c = 0, i = -1;
   char text[256];
   FILE *file;
 
@@ -3709,7 +3705,7 @@ int LoadTV(void)
       if (!c)
         i = ddxLoadBitmap(text, pBmpArchive);
       else
-        t = ddxLoadBitmap(text, pBmpArchive);
+        ddxLoadBitmap(text, pBmpArchive);
 
       c++;
     }
@@ -4084,7 +4080,7 @@ BRUTAL_RESTART_SCENE_MAP_MENU:
     }
 
     for (in = 0; in < 6; in++)
-      res[bind].iParam[in] = -1;
+      res[bind].iParam[(int)in] = -1;
 
     res[bind].pCmdLine = res;
   }
@@ -4510,7 +4506,7 @@ int RunMenuNewGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
     }
 
     for (in = 0; in < 6; in++)
-      res[bind].iParam[in] = -1;
+      res[bind].iParam[(int)in] = -1;
 
     res[bind].iLayer = 0;
   }
@@ -5132,8 +5128,8 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   DWORD dwEplased = 0, dwStart, dwStop;
 
   int c = 0;
-  int idx;
-  int hdcBT;
+  int idx = 0;
+  int hdcBT = 0;
   RECT r;
   LIST_VIEW_CONTROL *p_li;
   PLAYER_PROFILE pOldProfile;
@@ -5180,7 +5176,7 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
     }
 
     for (in = 0; in < 6; in++)
-      res[bind].iParam[in] = -1;
+      res[bind].iParam[(int)in] = -1;
 
     res[bind].iLayer = 0;
   }
@@ -5275,7 +5271,8 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   if (!co_Load_Graphic(1))
     assert(0);
   else {
-    int xx, sel = 0;
+    int xx;
+    //int sel = 0;
 
     r.left = 299;
     r.top = 209;
@@ -5712,8 +5709,8 @@ void RunMenuLoadGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   RECT r;
 
   int c = 0;
-  int idx;
-  int hdcBT;
+  int idx = 0;
+  int hdcBT = 0;
 
   CONTROL_LIST_ITEM citem[CLIST_ITEMC];
 
@@ -5758,7 +5755,7 @@ void RunMenuLoadGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
     }
 
     for (in = 0; in < 6; in++)
-      res[bind].iParam[in] = -1;
+      res[bind].iParam[(int)in] = -1;
 
     res[bind].iLayer = 0;
   }
@@ -6356,7 +6353,7 @@ RUN_MENU_BRUTAL_RESTART:
     }
 
     for (in = 0; in < 6; in++)
-      res[bind].iParam[in] = -1;
+      res[bind].iParam[(int)in] = -1;
 
     res[bind].iLayer = 0;
   }
@@ -6788,8 +6785,8 @@ void RunMenuChildGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   DWORD dwEplased = 0, dwStart, dwStop;
 
   int c = 0;
-  int idx;
-  int hdcBT;
+  int idx = 0;
+  int hdcBT = 0;
 
   CONTROL_LIST_ITEM citem[CLIST_ITEMC];
 
@@ -6828,7 +6825,7 @@ void RunMenuChildGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
     }
 
     for (in = 0; in < 6; in++)
-      res[bind].iParam[in] = -1;
+      res[bind].iParam[(int)in] = -1;
 
     res[bind].iLayer = 0;
   }
@@ -7252,8 +7249,8 @@ void RunMenuStartGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   DWORD dwEplased = 0, dwStart, dwStop;
 
   int c = 0;
-  int idx;
-  int hdcBT;
+  int idx = 0;
+  int hdcBT = 0;
 
   CONTROL_LIST_ITEM citem[CLIST_ITEMC];
 
@@ -7296,7 +7293,7 @@ void RunMenuStartGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
     }
 
     for (in = 0; in < 6; in++)
-      res[bind].iParam[in] = -1;
+      res[bind].iParam[(int)in] = -1;
 
     res[bind].iLayer = 0;
   }
@@ -7759,8 +7756,9 @@ int GetComixTime(int iScene)
 
 int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
 {
-  DWORD dwEplased = 0, dwStart, dwStop;
-
+  DWORD dwEplased = 0,
+        dwStart = 0,
+        dwStop = 0;
   FILE *file;
   char dir[256];
   int lastcmd, lastanm, i, j;
@@ -7849,7 +7847,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
     }
 
     for (in = 0; in < 6; in++)
-      res[bind].iParam[in] = -1;
+      res[bind].iParam[(int)in] = -1;
 
     res[bind].pCmdLine = res;
   }
@@ -8229,7 +8227,7 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
 {
   DWORD dwEplased = 0, dwStart, dwStop;
 
-  int iComix = -1;
+  //int iComix = -1;
   char ccomix[64];
   int iSongTime = 1000;
   int bmpc = 0;
@@ -8291,11 +8289,11 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
   sprintf(ccomix, "comix%d.txt", iScene);
 
   if (iLanguageVersion == 4) {
-    iComix = LoadCList(ccomix, &bmpc, bmp, &iClock, hArchive);
+    LoadCList(ccomix, &bmpc, bmp, &iClock, hArchive);
     apakclose(hArchive);
   }
   else
-    iComix = LoadCList(ccomix, &bmpc, bmp, &iClock, pBmpArchive);
+    LoadCList(ccomix, &bmpc, bmp, &iClock, pBmpArchive);
 
   DrawClock(&iClock, 0);
   ddxSetCursor(0);

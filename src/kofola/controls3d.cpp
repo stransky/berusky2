@@ -41,9 +41,9 @@ void co2_Draw_Disable(int hdc, int xcor, int ycor, int x, int y, int dx,
     dy, TRANSCOLOR);
 }
 
+/*
 HDC co2_CreateDC(HDC hdc, int x, int y, HDC_INFO2 * pdcinfo)
 {
-/*
 	HDC				hdcBack = NULL;
 	HBITMAP			hback_bitmap = NULL;
 	BITMAP			back_bitmap;
@@ -76,8 +76,8 @@ HDC co2_CreateDC(HDC hdc, int x, int y, HDC_INFO2 * pdcinfo)
 	BitBlt(hdcBack,0,0,x,y,NULL,0,0,BLACKNESS);
 
 	return hdcBack;
-*/
 }
+*/
 
 int co2_Release_Bitmap(HDC_INFO2 * pdcinfo)
 {
@@ -175,8 +175,8 @@ void co2_Combo_Draw(int hdc, COMBO_CONTROL2 * p_co, int xcor, int ycor)
   int c = 0;
   int x = p_co->x;
   int y = p_co->y;
-  int width = p_co->Width;
-  int hight = p_co->Hight;
+  //int width = p_co->Width;
+  //int hight = p_co->Hight;
   int maxlisthight = p_co->ListMaxHight;
 
   int ax = p_co->x, ay = p_co->y, ly;
@@ -1039,8 +1039,8 @@ BUTTON_CONTROL2 *co2_Create_Button(int hdc, int x, int y, int type,
   WCHAR wc[128];
   WCHAR ws[128];
 
-  int bmpx, bmpy;
-  int bmpDC;
+  int bmpx = 0, bmpy = 0;
+  int bmpDC = 0;
   int cx, cy;
   int tx, ty;
   int tmpDC;
@@ -1079,6 +1079,8 @@ BUTTON_CONTROL2 *co2_Create_Button(int hdc, int x, int y, int type,
       p_bu->Rect.bottom = y + bmpy;
       p_bu->Rect.right = x + bmpx;
       break;
+    default:
+      assert(0);
   }
 
   p_bu->type = type;
@@ -1122,11 +1124,12 @@ int co2_Check_Set_State(CHECKBOX_CONTROL2 * p_ch, int hdc, int state,
   char bDraw)
 {
   int x = 0, y = 0;
-  int bmpx, bmpy;
+  int bmpx;
+//  int bmpy;
   int bmpDC;
 
   bmpx = ddx2GetWidth(hdcCH.hdcCheck);
-  bmpy = ddx2GetHeight(hdcCH.hdcCheck);
+//  bmpy = ddx2GetHeight(hdcCH.hdcCheck);
   bmpDC = hdcCH.hdcCheck;
 
   if (hdc == HDC2DD) {
@@ -1241,7 +1244,8 @@ CHECKBOX_CONTROL2 *co2_Create_CheckBox(int hdc, int x, int y, char *text,
   WCHAR wc[128];
   WCHAR ws[128];
 
-  int bmpx, bmpy;
+  int bmpx;
+  //int bmpy;
   int bmpDC;
   int tx, ty;
   CHECKBOX_CONTROL2 *p_ch = NULL;
@@ -1256,7 +1260,7 @@ CHECKBOX_CONTROL2 *co2_Create_CheckBox(int hdc, int x, int y, char *text,
   p_ch->checkID = checkID;
 
   bmpx = ddx2GetWidth(hdcCH.hdcCheck);
-  bmpy = ddx2GetHeight(hdcCH.hdcCheck);
+  //bmpy = ddx2GetHeight(hdcCH.hdcCheck);
   bmpDC = hdcCH.hdcCheck;
   //co2_CreateDC(hdc, bmpx, bmpy, &p_bu->dc);
 
@@ -1297,7 +1301,7 @@ int co2_Progres_Set(PROGRES_CONTROL2 * p_pr, int hdc, int i)
   float in = md / (float) dd;
   int x = p_pr->rectProgres.left + ftoi((i - p_pr->min) * in);
 
-  int yp;
+  // int yp;
 
   //BitBlt(hdc, p_pr->rectMover.left, p_pr->rectMover.top, p_pr->bDC.x, p_pr->bDC.y, p_pr->bDC.hdc, 0, 0, SRCCOPY);
   ddx2BitBlt(hdc, p_pr->rectMover.left, p_pr->rectMover.top,
@@ -1307,7 +1311,7 @@ int co2_Progres_Set(PROGRES_CONTROL2 * p_pr, int hdc, int i)
   p_pr->rectMover.left = p_pr->pos - p_pr->cor;
   p_pr->rectMover.right = p_pr->rectMover.left + ddx2GetWidth(hdcPR.hdcMover);
 
-  yp = ftoi(ddx2GetHeight(hdcPR.hdcMover) / 2.0f);
+  // yp = ftoi(ddx2GetHeight(hdcPR.hdcMover) / 2.0f);
 
   /*BitBlt(p_pr->bDC.hdc, 0, 0, _2dd.bitmap[hdcPR.hdcMover].bitmap.bmWidth, 
      _2dd.bitmap[hdcPR.hdcMover].bitmap.bmHeight, hdc, 
@@ -1409,13 +1413,16 @@ int co2_Progres_Changed(CONTROL_LIST_ITEM2 * p_list, int lsize, int id)
 {
   int i;
 
-  for (i = 0; i < lsize; i++)
-    if ((p_list + i)->p_prog)
-      if ((p_list + i)->p_prog->progID == id)
+  for (i = 0; i < lsize; i++) {
+    if ((p_list + i)->p_prog) {
+      if ((p_list + i)->p_prog->progID == id) {
         if ((p_list + i)->p_prog->bChange)
           return 1;
         else
           return 0;
+      }
+    }
+  }
 
   return 0;
 }
@@ -2199,7 +2206,7 @@ LIST_VIEW_CONTROL2 *co2_Create_List(int hdc, int x, int y, int width,
 void co2_Set_List_View_List_Pos(LIST_VIEW2_CONTROL2 * p_li, int y, int hdc,
   int xcor, int ycor)
 {
-  int dcm, mm, pm, pos;
+  int dcm, mm, pos;
 
   dcm =
     ddx2GetHeight(p_li->bDC) - (p_li->rectList.bottom - p_li->rectList.top);
@@ -2208,7 +2215,7 @@ void co2_Set_List_View_List_Pos(LIST_VIEW2_CONTROL2 * p_li, int y, int hdc,
   if (y > dcm)
     y = dcm;
 
-  pm = y;
+  // pm = y;
 
   pos = p_li->mpmin + ftoi((mm * y) / (float) dcm);
 
@@ -2539,7 +2546,7 @@ int co2_Handle_Combo(COMBO_CONTROL2 * p_co, char bFocus, int x, int y,
   if (!mi.dt1)
     p_co->bIn = 0;
 
-  if (mi.t1 || mi.dt1)
+  if (mi.t1 || mi.dt1) {
     if (co2_Rect_Hit(p_co->coLMovA, x + xcor, y + ycor) && p_co->bList) {
       int ym;
       int ymcor;
@@ -2597,10 +2604,12 @@ int co2_Handle_Combo(COMBO_CONTROL2 * p_co, char bFocus, int x, int y,
       c++;
       return c;
     }
-    else if (mi.dt1 && p_co->bIn)
+    else if (mi.dt1 && p_co->bIn) {
       goto COMBO2_HADLE_MOVER;
+    }
+  }
 
-  if (mi.t1)
+  if (mi.t1) {
     if (co2_Rect_Hit(p_co->coLUp, x + xcor, y + ycor) && p_co->bList) {
       int ymcor = (int) floor(ddx2GetHeight(hdcCO.hdcComboMover) / 2.0f);
       int t, b;
@@ -2635,8 +2644,9 @@ int co2_Handle_Combo(COMBO_CONTROL2 * p_co, char bFocus, int x, int y,
 
       c++;
     }
+  }
 
-  if (mi.t1)
+  if (mi.t1) {
     if (co2_Rect_Hit(p_co->coLDown, x + xcor, y + ycor) && p_co->bList) {
       int ymcor = (int) floor(ddx2GetHeight(hdcCO.hdcComboMover) / 2.0f);
       int t, b;
@@ -2671,8 +2681,9 @@ int co2_Handle_Combo(COMBO_CONTROL2 * p_co, char bFocus, int x, int y,
 
       c++;
     }
+  }
 
-  if (mi.t1)
+  if (mi.t1) {
     if (co2_Rect_Hit(p_co->coDownRect, x, y)) {
       r.left = p_co->x + xcor;
       r.top = p_co->y + ddx2GetHeight(hdcCO.hdcCombo) + ycor;
@@ -2699,6 +2710,7 @@ int co2_Handle_Combo(COMBO_CONTROL2 * p_co, char bFocus, int x, int y,
 
       c++;
     }
+  }
 
   if (co2_Rect_Hit(p_co->coListRect, x, y) && p_co->bList) {
     c++;
@@ -2723,7 +2735,7 @@ int co2_Handle_Combo(COMBO_CONTROL2 * p_co, char bFocus, int x, int y,
   }
 
 
-  if (mi.t1)
+  if (mi.t1) {
     if (!c && bFocus) {
       r.left = p_co->x + xcor;
       r.top = p_co->y + ddx2GetHeight(hdcCO.hdcCombo) + ycor;
@@ -2742,6 +2754,7 @@ int co2_Handle_Combo(COMBO_CONTROL2 * p_co, char bFocus, int x, int y,
 
       //_2d_Add_RectItem(&rline, r, 1);
     }
+  }
 
   r.left = p_co->x + xcor;
   r.top = p_co->y + ddx2GetHeight(hdcCO.hdcCombo) + ycor;
@@ -2756,7 +2769,6 @@ int co2_Handle_Combo(COMBO_CONTROL2 * p_co, char bFocus, int x, int y,
   r.bottom = ddx2GetHeight(hdcCO.hdcCombo);
 
   //_2d_Add_RectItem_IfNPresent(&rline, r, 1);
-
 
   return c;
 }
@@ -2773,12 +2785,13 @@ int co2_Handle_Button(BUTTON_CONTROL2 * p_bu, int x, int y)
 
 int co2_Handle_Checkbox(CHECKBOX_CONTROL2 * p_ch, int x, int y)
 {
-  int bmpx, bmpy;
+  int bmpx;
+  //int bmpy;
   int bmpDC;
 
   if (co2_Rect_Hit(p_ch->Rect, x, y)) {
     bmpx = ddx2GetWidth(hdcCH.hdcCheck);
-    bmpy = ddx2GetHeight(hdcCH.hdcCheck);
+    //bmpy = ddx2GetHeight(hdcCH.hdcCheck);
     bmpDC = hdcCH.hdcCheck;
 
     if (!p_ch->bChecked) {
@@ -2954,7 +2967,7 @@ int co2_List_Get_Value(CONTROL_LIST_ITEM2 * p_list, int lsize, int id,
 void co2_get_XP_XT(LIST_VIEW_CONTROL2 * p_li, int i, int *p_xp, int *p_xt,
   int ycor)
 {
-  int xs = p_li->rectList.top + ycor + (i * 30) - p_li->dx;
+  //int xs = p_li->rectList.top + ycor + (i * 30) - p_li->dx;
   int xp = 0;
   int xt = 0;
 
@@ -2982,17 +2995,17 @@ int co2_Handle_List(LIST_VIEW_CONTROL2 * p_li, int x, int y, int hdc,
   int xp = 0;
   int xt = 0;
 
-  RECT r;
+  //RECT r;
   DWORD t = timeGetTime();
 
   if (bBlockList)
     return 0;
-
+/*
   r.left = p_li->rectList.left + xcor;
   r.top = p_li->rectList.top + ycor;
   r.right = ddx2GetWidth(p_li->bDCn);
   r.bottom = p_li->rectList.bottom - p_li->rectList.top;
-
+*/
   //_2d_Add_RectItem_IfNPresent(&rline, r, 1);
 
   if (mi.dt1 && p_li->bIn > 0) {
@@ -3215,12 +3228,12 @@ int co2_Handle_List(LIST_VIEW_CONTROL2 * p_li, int x, int y, int hdc,
       return 1;
     }
 
-
+/*
   r.left = p_li->rectList.left + xcor;
   r.top = p_li->rectList.top + ycor;
   r.right = ddx2GetWidth(p_li->bDCn);
   r.bottom = p_li->rectList.bottom - p_li->rectList.top;
-
+*/
   //_2d_Add_RectItem_IfNPresent(&rline, r, 1);
 
   if (key[K_DEL]) {
@@ -3243,16 +3256,16 @@ int co2_Handle_List(LIST_VIEW_CONTROL2 * p_li, int x, int y, int hdc,
 int co2_Handle_List_View(LIST_VIEW2_CONTROL2 * p_li, int x, int y, int hdc,
   int xcor, int ycor)
 {
-  RECT r;
+  //RECT r;
 
   if (bBlockList)
     return 0;
-
+/*
   r.left = p_li->rectList.left + xcor;
   r.top = p_li->rectList.top + ycor;
   r.right = ddx2GetWidth(p_li->bDC);
   r.bottom = p_li->rectList.bottom - p_li->rectList.top;
-
+*/
   //_2d_Add_RectItem_IfNPresent(&rline, r, 1);
 
   if ((mi.t1 && co2_Rect_Hit(p_li->rectUp, x, y)) || key[K_PLUS]
@@ -3377,12 +3390,12 @@ int co2_Handle_List_View(LIST_VIEW2_CONTROL2 * p_li, int x, int y, int hdc,
 
   if (!mi.dt1)
     p_li->bIn = 0;
-
+/*
   r.left = p_li->rectList.left + xcor;
   r.top = p_li->rectList.top + ycor;
   r.right = ddx2GetWidth(p_li->bDC);
   r.bottom = p_li->rectList.bottom - p_li->rectList.top;
-
+*/
   //_2d_Add_RectItem_IfNPresent(&rline, r, 1);
 
   return 0;
@@ -3441,7 +3454,7 @@ int co2_Handle_Edit(CONTROL_EDIT2 * p_ed, int x, int y, int hdc, int xcor,
 //      RECT r;
   DWORD t = timeGetTime();
 
-  if (mi.t1)
+  if (mi.t1) {
     if (co2_Rect_Hit(p_ed->rect, x, y)) {
       if (!p_ed->bActive) {
         p_ed->pTime = t;
@@ -3459,6 +3472,7 @@ int co2_Handle_Edit(CONTROL_EDIT2 * p_ed, int x, int y, int hdc, int xcor,
       goto co2_HANDLE_DRAW;
       return 0;
     }
+  }
 
   if (p_ed->bActive) {
     if (key[0] && key_pressed) {

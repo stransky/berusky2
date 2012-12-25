@@ -162,8 +162,8 @@ typedef struct
 {
   PAR_KOUR_STOPA *pCastice;
   size_ptr System;
-  int Sizeof;
-  int flag;
+  int   Sizeof;
+  int   flag;
   size_ptr hHnizdo[64];
   float dir[64][3];
   float pivot[64][3];

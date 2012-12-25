@@ -90,7 +90,7 @@ typedef struct _BUNKA_LEVELU_DISK
 
 typedef size_ptr MeshHandle;         // handle meshe/prvku pri loadu
 typedef size_ptr ExMeshHandle;       // handle extra-mesh (neni to prvek ale jen mesh)
-typedef size_ptr DataHandle;         // handle meshe/prvku v datazazi
+typedef int      DataHandle;         // handle meshe/prvku v datazazi
 typedef size_ptr AnimHandle;         // handle simple animace (polotovaru animace)
 typedef size_ptr RunHandle;          // handle bezici animace
 typedef size_ptr MatrixHandle;       // handle matice

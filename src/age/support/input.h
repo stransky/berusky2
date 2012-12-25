@@ -32,7 +32,9 @@
 #define __INPUT_H__
 
 /* Key definition - SDL */
-#define  KEYNUM       SDLK_LAST
+
+// Add some extra space
+#define  KEYNUM       SDLK_LAST+10
 
 #define  K_ESC        SDLK_ESCAPE
 

@@ -199,8 +199,8 @@ void co_Combo_Draw(int hdc, COMBO_CONTROL * p_co, int xcor, int ycor)
   int c = 0;
   int x = p_co->x;
   int y = p_co->y;
-  int width = p_co->Width;
-  int hight = p_co->Hight;
+//  int width = p_co->Width;
+//  int hight = p_co->Hight;
   int maxlisthight = p_co->ListMaxHight;
 
   int ax = p_co->x, ay = p_co->y, ly;
@@ -1018,8 +1018,9 @@ BUTTON_CONTROL *co_Create_Button(int hdc, int x, int y, int type, char *text,
   WCHAR wc[128];
   WCHAR ws[128];
 
-  int bmpx, bmpy;
-  int bmpDC;
+  int bmpx = 0, 
+      bmpy = 0;
+  int bmpDC = 0;
   int cx, cy;
   int tx, ty;
   int tmpDC;
@@ -1058,6 +1059,8 @@ BUTTON_CONTROL *co_Create_Button(int hdc, int x, int y, int type, char *text,
       p_bu->Rect.bottom = y + bmpy;
       p_bu->Rect.right = x + bmpx;
       break;
+    default:
+      assert(0);
   }
 
   p_bu->type = type;
@@ -1101,11 +1104,10 @@ int co_Check_Set_State(CHECKBOX_CONTROL * p_ch, int hdc, int state,
   char bDraw)
 {
   int x = 0, y = 0;
-  int bmpx, bmpy;
+  int bmpx = ddxGetWidth(hdcCH.hdcCheck);
+  //int bmpy = ddxGetHight(hdcCH.hdcCheck);
   int bmpDC;
-
-  bmpx = ddxGetWidth(hdcCH.hdcCheck);
-  bmpy = ddxGetHight(hdcCH.hdcCheck);
+    
   bmpDC = hdcCH.hdcCheck;
 
   p_ch->bChecked = state;
@@ -1155,7 +1157,8 @@ CHECKBOX_CONTROL *co_Create_CheckBox(int hdc, int x, int y, char *text,
   WCHAR wc[128];
   WCHAR ws[128];
 
-  int bmpx, bmpy;
+  int bmpx;
+  //int bmpy;
   int bmpDC;
   int tx, ty;
   CHECKBOX_CONTROL *p_ch = NULL;
@@ -1170,7 +1173,7 @@ CHECKBOX_CONTROL *co_Create_CheckBox(int hdc, int x, int y, char *text,
   p_ch->checkID = checkID;
 
   bmpx = ddxGetWidth(hdcCH.hdcCheck);
-  bmpy = ddxGetHight(hdcCH.hdcCheck);
+  //bmpy = ddxGetHight(hdcCH.hdcCheck);
   bmpDC = hdcCH.hdcCheck;
   //co_CreateDC(hdc, bmpx, bmpy, &p_bu->dc);
 
@@ -1214,7 +1217,7 @@ int co_Progres_Set(PROGRES_CONTROL * p_pr, int hdc, int i)
   float in = md / (float) dd;
   int x = p_pr->rectProgres.left + ftoi((i - p_pr->min) * in);
 
-  int yp;
+  //int yp;
 
   //BitBlt(hdc, p_pr->rectMover.left, p_pr->rectMover.top, p_pr->bDC.x, p_pr->bDC.y, p_pr->bDC.hdc, 0, 0, SRCCOPY);
   ddxBitBlt(hdc, p_pr->rectMover.left, p_pr->rectMover.top,
@@ -1224,7 +1227,7 @@ int co_Progres_Set(PROGRES_CONTROL * p_pr, int hdc, int i)
   p_pr->rectMover.left = p_pr->pos - p_pr->cor;
   p_pr->rectMover.right = p_pr->rectMover.left + ddxGetWidth(hdcPR.hdcMover);
 
-  yp = ftoi(ddxGetHight(hdcPR.hdcMover) / 2.0f);
+  // yp = ftoi(ddxGetHight(hdcPR.hdcMover) / 2.0f);
 
   /*BitBlt(p_pr->bDC.hdc, 0, 0, _2dd.bitmap[hdcPR.hdcMover].bitmap.bmWidth, 
      _2dd.bitmap[hdcPR.hdcMover].bitmap.bmHeight, hdc, 
@@ -1269,25 +1272,29 @@ int co_Progres_Changed(CONTROL_LIST_ITEM * p_list, int lsize, int id)
 {
   int i;
 
-  for (i = 0; i < lsize; i++)
-    if ((p_list + i)->p_prog)
-      if ((p_list + i)->p_prog->progID == id)
+  for (i = 0; i < lsize; i++) {
+    if ((p_list + i)->p_prog) {
+      if ((p_list + i)->p_prog->progID == id) {
         if ((p_list + i)->p_prog->bChange)
           return 1;
         else
           return 0;
+      }
+    }
+  }
 
   return 0;
 }
 
 void co_Progres_Disable(int hdc, int xcor, int ycor,
-  CONTROL_LIST_ITEM * p_list, int lsize, int id, char bSave, int shdc)
+                        CONTROL_LIST_ITEM * p_list, int lsize, int id, 
+                        char bSave, int shdc)
 {
   PROGRES_CONTROL *p_pr;
   int i;
 
-  for (i = 0; i < lsize; i++)
-    if ((p_list + i)->p_prog)
+  for (i = 0; i < lsize; i++) {
+    if ((p_list + i)->p_prog) {
       if ((p_list + i)->p_prog->progID == id) {
         p_pr = (p_list + i)->p_prog;
         (p_list + i)->bActive = 0;
@@ -1306,6 +1313,8 @@ void co_Progres_Disable(int hdc, int xcor, int ycor,
           0, 0, p_pr->RectFull.right, p_pr->RectFull.bottom, TRANSCOLOR);
         return;
       }
+    }
+  }
 
   return;
 }
@@ -2181,211 +2190,216 @@ int co_Handle_Combo(COMBO_CONTROL * p_co, char bFocus, int x, int y, int hdc,
 	if(!dim.dt1)
 		p_co->bIn = 0;
 
-	if(dim.t1 || dim.dt1)
-	if(co_Rect_Hit(p_co->coLMovA, x+xcor, y+ycor) && p_co->bList)
-	{
-		int ym;
-		int	ymcor;
-		int	ymx;
-		int	i;
+	if(dim.t1 || dim.dt1) {
+    if(co_Rect_Hit(p_co->coLMovA, x+xcor, y+ycor) && p_co->bList)
+    {
+      int ym;
+      int	ymcor;
+      int	ymx;
+      int	i;
+  
+      COMBO_HADLE_MOVER:
+  
+      ym = (y + ycor - p_co->xmstart);
+      ymcor = (int)floor(ddxGetHight(hdcCO.hdcComboMover) / 2.0f);
+      ymx = p_co->xm;
+  
+      if(ym < 0)
+        ym = 0;
+  
+      if(ym > ymx)
+        ym = ymx;
+  
+      i = ftoi(((p_co->CounfOfItems - p_co->CounfOfItemsL) * ym) / (float)ymx);
+  
+      p_co->SSelected = i;
+  
+      p_co->CSelected = p_co->Selected - 1;
+  
+      co_Combo_Draw_List(hdc, p_co, xcor, ycor, 1);
+  
+      r.left = p_co->x + xcor;
+      r.top = p_co->y + ddxGetHight(hdcCO.hdcCombo) + ycor;
+      r.right = p_co->WidthR;
+      r.bottom = p_co->ListMaxHight + ddxGetHight(hdcCO.hdcComboEnd);
+  
+      _2d_Add_RectItem(&rline, r, 1);	
+      
+      if(ym + p_co->xmstart - ymcor != p_co->coLMov.top)
+      {
+        int t,b;
+  
+        t = ym + p_co->xmstart - ymcor;
+        b = p_co->coLMov.top + ddxGetHight(hdcCO.hdcComboMover);
+  
+        ddxSetFlip(0);
+  
+        for(i=0;i<2;i++)
+        {
+          ddxBitBlt(hdc, p_co->coLMov.left, p_co->coLMov.top, ddxGetWidth(hdcCO.hdcComboMoverb), 
+                ddxGetHight(hdcCO.hdcComboMoverb), hdcCO.hdcComboMoverb, 0, 0);
+  
+          ddxBitBlt(hdc, p_co->coLMov.left, t, ddxGetWidth(hdcCO.hdcComboMover), 
+                ddxGetHight(hdcCO.hdcComboMover), hdcCO.hdcComboMover, 0, 0);
+  
+          if(!i)
+            DisplayFrame();
+        }
+  
+        p_co->coLMov.top = t;
+        p_co->coLMov.bottom = b;
+  
+        ddxSetFlip(1);
+      }
+  
+      p_co->bIn = 1;
+      c++;
+      return c;
+    }
+    else {
+      if(dim.dt1 && p_co->bIn)
+        goto COMBO_HADLE_MOVER;
+      else
+        p_co->bIn = 0;
+    }
+  }
 
-		COMBO_HADLE_MOVER:
+	if(dim.t1) {
+    if(co_Rect_Hit(p_co->coLUp, x+xcor, y+ycor) && p_co->bList)
+    {
+      int	ymcor = (int)floor(ddxGetHight(hdcCO.hdcComboMover) / 2.0f);
+      int t,b;
+      int ny, i;
+  
+      p_co->SSelected--;
+  
+      if(p_co->SSelected < 0)
+        p_co->SSelected = 0;
+  
+      p_co->CSelected = p_co->Selected - 1;
+  
+      //co_Del_Combo_List(p_co, hdc, xcor, ycor);
+      co_Combo_Draw_List(hdc, p_co, xcor, ycor, 1);
+  
+      r.left = p_co->x + xcor;
+      r.top = p_co->y + ddxGetHight(hdcCO.hdcCombo) + ycor;
+      r.right = p_co->WidthR;
+      r.bottom = p_co->ListMaxHight + ddxGetHight(hdcCO.hdcComboEnd);
+  
+      _2d_Add_RectItem(&rline, r, 1);	
+  
+      ny = ftoi((p_co->xm / (float)(p_co->CounfOfItems - p_co->CounfOfItemsL)) * p_co->SSelected);
+  
+      t = ny + p_co->xmstart - ymcor;
+      b = p_co->coLMov.top + ddxGetHight(hdcCO.hdcComboMover);
+  
+      ddxSetFlip(0);
+  
+      for(i=0;i<2;i++)
+      {
+        ddxBitBlt(hdc, p_co->coLMov.left, p_co->coLMov.top, ddxGetWidth(hdcCO.hdcComboMoverb), 
+              ddxGetHight(hdcCO.hdcComboMoverb), hdcCO.hdcComboMoverb, 0, 0);
+  
+        ddxBitBlt(hdc, p_co->coLMov.left, t, ddxGetWidth(hdcCO.hdcComboMover), 
+              ddxGetHight(hdcCO.hdcComboMover), hdcCO.hdcComboMover, 0, 0);
+  
+        if(!i)
+          DisplayFrame();
+      }
+  
+      p_co->coLMov.top = t;
+      p_co->coLMov.bottom = b;
+  
+      ddxSetFlip(1);
+  
+      c++;
+      return c;
+    }
+  }
 
-		ym = (y + ycor - p_co->xmstart);
-		ymcor = (int)floor(ddxGetHight(hdcCO.hdcComboMover) / 2.0f);
-		ymx = p_co->xm;
+	if(dim.t1) {
+    if(co_Rect_Hit(p_co->coLDown, x+xcor, y+ycor) && p_co->bList)
+    {
+      int	ymcor = (int)floor(ddxGetHight(hdcCO.hdcComboMover) / 2.0f);
+      int t,b;
+      int ny, i;
+      p_co->SSelected++;
+  
+      if(p_co->SSelected > p_co->CounfOfItems - p_co->CounfOfItemsL)
+        p_co->SSelected = p_co->CounfOfItems - p_co->CounfOfItemsL;
+  
+      p_co->CSelected = p_co->Selected - 1;
+      
+      //co_Del_Combo_List(p_co, hdc,xcor, ycor);
+      co_Combo_Draw_List(hdc, p_co, xcor, ycor, 1);
+      
+      r.left = p_co->x + xcor;
+      r.top = p_co->y + ddxGetHight(hdcCO.hdcCombo) + ycor;
+      r.right = p_co->WidthR;
+      r.bottom = p_co->ListMaxHight + ddxGetHight(hdcCO.hdcComboEnd);
+  
+      _2d_Add_RectItem(&rline, r, 1);
+  
+      ny = ftoi((p_co->xm / (float)(p_co->CounfOfItems - p_co->CounfOfItemsL)) * p_co->SSelected);
+  
+      t = ny + p_co->xmstart - ymcor;
+      b = p_co->coLMov.top + ddxGetHight(hdcCO.hdcComboMover);
+  
+      ddxSetFlip(0);
+  
+      for(i=0;i<2;i++)
+      {
+        ddxBitBlt(hdc, p_co->coLMov.left, p_co->coLMov.top, ddxGetWidth(hdcCO.hdcComboMoverb), 
+              ddxGetHight(hdcCO.hdcComboMoverb), hdcCO.hdcComboMoverb, 0, 0);
+  
+        ddxBitBlt(hdc, p_co->coLMov.left, t, ddxGetWidth(hdcCO.hdcComboMover), 
+              ddxGetHight(hdcCO.hdcComboMover), hdcCO.hdcComboMover, 0, 0);
+  
+        if(!i)
+          DisplayFrame();
+      }
+  
+      p_co->coLMov.top = t;
+      p_co->coLMov.bottom = b;
+  
+      ddxSetFlip(1);
+  
+      c++;
+      return c;
+    }
+  }
 
-		if(ym < 0)
-			ym = 0;
-
-		if(ym > ymx)
-			ym = ymx;
-
-		i = ftoi(((p_co->CounfOfItems - p_co->CounfOfItemsL) * ym) / (float)ymx);
-
-		p_co->SSelected = i;
-
-		p_co->CSelected = p_co->Selected - 1;
-
-		co_Combo_Draw_List(hdc, p_co, xcor, ycor, 1);
-
-		r.left = p_co->x + xcor;
-		r.top = p_co->y + ddxGetHight(hdcCO.hdcCombo) + ycor;
-		r.right = p_co->WidthR;
-		r.bottom = p_co->ListMaxHight + ddxGetHight(hdcCO.hdcComboEnd);
-
-		_2d_Add_RectItem(&rline, r, 1);	
-		
-		if(ym + p_co->xmstart - ymcor != p_co->coLMov.top)
-		{
-			int t,b;
-
-			t = ym + p_co->xmstart - ymcor;
-			b = p_co->coLMov.top + ddxGetHight(hdcCO.hdcComboMover);
-
-			ddxSetFlip(0);
-
-			for(i=0;i<2;i++)
-			{
-				ddxBitBlt(hdc, p_co->coLMov.left, p_co->coLMov.top, ddxGetWidth(hdcCO.hdcComboMoverb), 
-						  ddxGetHight(hdcCO.hdcComboMoverb), hdcCO.hdcComboMoverb, 0, 0);
-
-				ddxBitBlt(hdc, p_co->coLMov.left, t, ddxGetWidth(hdcCO.hdcComboMover), 
-						  ddxGetHight(hdcCO.hdcComboMover), hdcCO.hdcComboMover, 0, 0);
-
-				if(!i)
-					DisplayFrame();
-			}
-
-			p_co->coLMov.top = t;
-			p_co->coLMov.bottom = b;
-
-			ddxSetFlip(1);
-		}
-
-		p_co->bIn = 1;
-		c++;
-		return c;
-	}
-	else
-		if(dim.dt1 && p_co->bIn)
-			goto COMBO_HADLE_MOVER;
-		else
-			p_co->bIn = 0;
-
-	if(dim.t1)
-	if(co_Rect_Hit(p_co->coLUp, x+xcor, y+ycor) && p_co->bList)
-	{
-		int	ymcor = (int)floor(ddxGetHight(hdcCO.hdcComboMover) / 2.0f);
-		int t,b;
-		int ny, i;
-
-		p_co->SSelected--;
-
-		if(p_co->SSelected < 0)
-			p_co->SSelected = 0;
-
-		p_co->CSelected = p_co->Selected - 1;
-
-		//co_Del_Combo_List(p_co, hdc, xcor, ycor);
-		co_Combo_Draw_List(hdc, p_co, xcor, ycor, 1);
-
-		r.left = p_co->x + xcor;
-		r.top = p_co->y + ddxGetHight(hdcCO.hdcCombo) + ycor;
-		r.right = p_co->WidthR;
-		r.bottom = p_co->ListMaxHight + ddxGetHight(hdcCO.hdcComboEnd);
-
-		_2d_Add_RectItem(&rline, r, 1);	
-
-		ny = ftoi((p_co->xm / (float)(p_co->CounfOfItems - p_co->CounfOfItemsL)) * p_co->SSelected);
-
-		t = ny + p_co->xmstart - ymcor;
-		b = p_co->coLMov.top + ddxGetHight(hdcCO.hdcComboMover);
-
-		ddxSetFlip(0);
-
-		for(i=0;i<2;i++)
-		{
-			ddxBitBlt(hdc, p_co->coLMov.left, p_co->coLMov.top, ddxGetWidth(hdcCO.hdcComboMoverb), 
-					  ddxGetHight(hdcCO.hdcComboMoverb), hdcCO.hdcComboMoverb, 0, 0);
-
-			ddxBitBlt(hdc, p_co->coLMov.left, t, ddxGetWidth(hdcCO.hdcComboMover), 
-					  ddxGetHight(hdcCO.hdcComboMover), hdcCO.hdcComboMover, 0, 0);
-
-			if(!i)
-				DisplayFrame();
-		}
-
-		p_co->coLMov.top = t;
-		p_co->coLMov.bottom = b;
-
-		ddxSetFlip(1);
-
-		c++;
-		return c;
-	}
-
-	if(dim.t1)
-	if(co_Rect_Hit(p_co->coLDown, x+xcor, y+ycor) && p_co->bList)
-	{
-		int	ymcor = (int)floor(ddxGetHight(hdcCO.hdcComboMover) / 2.0f);
-		int t,b;
-		int ny, i;
-		p_co->SSelected++;
-
-		if(p_co->SSelected > p_co->CounfOfItems - p_co->CounfOfItemsL)
-			p_co->SSelected = p_co->CounfOfItems - p_co->CounfOfItemsL;
-
-		p_co->CSelected = p_co->Selected - 1;
-		
-		//co_Del_Combo_List(p_co, hdc,xcor, ycor);
-		co_Combo_Draw_List(hdc, p_co, xcor, ycor, 1);
-		
-		r.left = p_co->x + xcor;
-		r.top = p_co->y + ddxGetHight(hdcCO.hdcCombo) + ycor;
-		r.right = p_co->WidthR;
-		r.bottom = p_co->ListMaxHight + ddxGetHight(hdcCO.hdcComboEnd);
-
-		_2d_Add_RectItem(&rline, r, 1);
-
-		ny = ftoi((p_co->xm / (float)(p_co->CounfOfItems - p_co->CounfOfItemsL)) * p_co->SSelected);
-
-		t = ny + p_co->xmstart - ymcor;
-		b = p_co->coLMov.top + ddxGetHight(hdcCO.hdcComboMover);
-
-		ddxSetFlip(0);
-
-		for(i=0;i<2;i++)
-		{
-			ddxBitBlt(hdc, p_co->coLMov.left, p_co->coLMov.top, ddxGetWidth(hdcCO.hdcComboMoverb), 
-					  ddxGetHight(hdcCO.hdcComboMoverb), hdcCO.hdcComboMoverb, 0, 0);
-
-			ddxBitBlt(hdc, p_co->coLMov.left, t, ddxGetWidth(hdcCO.hdcComboMover), 
-					  ddxGetHight(hdcCO.hdcComboMover), hdcCO.hdcComboMover, 0, 0);
-
-			if(!i)
-				DisplayFrame();
-		}
-
-		p_co->coLMov.top = t;
-		p_co->coLMov.bottom = b;
-
-		ddxSetFlip(1);
-
-		c++;
-		return c;
-	}
-
-	if(dim.t1)
-	if(co_Rect_Hit(p_co->coDownRect, x, y))
-	{  
-  /*r.left = p_co->x + xcor;
-     r.top = p_co->y + ddxGetHight(hdcCO.hdcCombo) + ycor;
-     r.right = p_co->WidthR;
-     r.bottom = p_co->ListMaxHightR;
-
-     _2d_Add_RectItem(&rline, r, 1); */
-
-		if(p_co->bList)
-		{
-			p_co->Selected = p_co->OSelected;
-			co_Combo_Close(hdc, p_co, xcor, ycor);
-		}
-		else
-		{
-			p_co->OSelected = p_co->Selected;
-			co_Combo_Open(hdc, p_co, xcor, ycor);
-		}
-
-		r.left = p_co->x + xcor;
-		r.top = p_co->y + ddxGetHight(hdcCO.hdcCombo) + ycor;
-		r.right = p_co->WidthR;
-		r.bottom = p_co->ListMaxHight + ddxGetHight(hdcCO.hdcComboEnd);
-
-		_2d_Add_RectItem(&rline, r, 1);
-
-		c++;
-	}
+	if(dim.t1) {
+    if(co_Rect_Hit(p_co->coDownRect, x, y))
+    {
+    /*r.left = p_co->x + xcor;
+       r.top = p_co->y + ddxGetHight(hdcCO.hdcCombo) + ycor;
+       r.right = p_co->WidthR;
+       r.bottom = p_co->ListMaxHightR;
+  
+       _2d_Add_RectItem(&rline, r, 1); */
+  
+      if(p_co->bList)
+      {
+        p_co->Selected = p_co->OSelected;
+        co_Combo_Close(hdc, p_co, xcor, ycor);
+      }
+      else
+      {
+        p_co->OSelected = p_co->Selected;
+        co_Combo_Open(hdc, p_co, xcor, ycor);
+      }
+  
+      r.left = p_co->x + xcor;
+      r.top = p_co->y + ddxGetHight(hdcCO.hdcCombo) + ycor;
+      r.right = p_co->WidthR;
+      r.bottom = p_co->ListMaxHight + ddxGetHight(hdcCO.hdcComboEnd);
+  
+      _2d_Add_RectItem(&rline, r, 1);
+  
+      c++;
+    }
+  }
 
 	if(co_Rect_Hit(p_co->coListRect, x, y) && p_co->bList)
 	{
@@ -2541,14 +2555,15 @@ int co_Handle_Progres(PROGRES_CONTROL * p_pr, int x, int y)
 
   if (dim.t1 || dim.dt1)
     if (co_Rect_Hit(p_pr->rectProgres, x, y)) {
-      int rl, rr;
+      int rl;
+      //int rr;
       int c;
 
       if (p_pr->pos == x)
         return 1;
 
       rl = p_pr->rectMover.left;
-      rr = p_pr->rectMover.right;
+      //rr = p_pr->rectMover.right;
 
       p_pr->rectMover.left = x - p_pr->cor;
       p_pr->rectMover.right = (x - p_pr->cor) + ddxGetWidth(hdcPR.hdcMover);
@@ -2589,7 +2604,8 @@ int co_Handle_Progres(PROGRES_CONTROL * p_pr, int x, int y)
     }
 
   if (p_pr->bIn && dim.dt1) {
-    int rl, rr;
+    int rl;
+    //int rr;
     int c;
 
     /*if(y > p_pr->rectProgres.bottom || y < p_pr->rectProgres.top)
@@ -2610,7 +2626,7 @@ int co_Handle_Progres(PROGRES_CONTROL * p_pr, int x, int y)
     p_pr->pos = x;
 
     rl = p_pr->rectMover.left;
-    rr = p_pr->rectMover.right;
+    //rr = p_pr->rectMover.right;
 
     p_pr->rectMover.left = x - p_pr->cor;
     p_pr->rectMover.right = (x - p_pr->cor) + ddxGetWidth(hdcPR.hdcMover);
@@ -2706,7 +2722,7 @@ int co_List_Get_Value(CONTROL_LIST_ITEM * p_list, int lsize, int id,
 void co_get_XP_XT(LIST_VIEW_CONTROL * p_li, int i, int *p_xp, int *p_xt,
   int ycor)
 {
-  int xs = p_li->rectList.top + ycor + (i * 30) - p_li->dx;
+//  int xs = p_li->rectList.top + ycor + (i * 30) - p_li->dx;
   int xp = 0;
   int xt = 0;
 
@@ -2963,7 +2979,8 @@ int co_Handle_List(LIST_VIEW_CONTROL * p_li, int x, int y, int hdc, int xcor,
 	if(co_Rect_Hit(p_li->rectMoverA, x, y))
 	{
 		int dcm, mm, pm, pos;
-		int rt, rb, j;
+		int rt, j;
+    //int rb;
 
 HANDLE_LISTVIEW:
 
@@ -2982,7 +2999,7 @@ HANDLE_LISTVIEW:
 		p_li->mpos = y;
 
 		rt = p_li->rectMover.top;
-		rb = p_li->rectMover.bottom;
+		//rb = p_li->rectMover.bottom;
 
 		p_li->rectMover.top = p_li->mpos - 12;
 		p_li->rectMover.bottom = p_li->mpos + 12;
@@ -3193,7 +3210,7 @@ int co_Check_Shift(void)
 
 int co_Handle_Edit_Key_Filter(void)
 {
-  char k[256];
+//  char k[256];
   int c = 0, i;
 
   //GetKeyboardState(k);

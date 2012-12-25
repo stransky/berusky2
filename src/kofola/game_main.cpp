@@ -26,8 +26,6 @@ APAK_HANDLE *pDataArchive = NULL;
 APAK_HANDLE *pGDataArchive = NULL;
 
 char CurrentWorkingDirectory[256];
-int iMaxBpp = 32;
-int iMaxFreq = 0;
 int bWindowMenu;
 int iLanguageVersion;
 
@@ -65,7 +63,7 @@ int winmain_Game_Run(char *p_Level_Name)
   TIMER_ID Timer_ID;
   int cpu;
   char bGame = strlen(p_Level_Name);
-  char bConsole = GetPrivateProfileInt("debug", "start-konzole", 0, ini_file);
+//  char bConsole = GetPrivateProfileInt("debug", "start-konzole", 0, ini_file);
   char bitmap_pak[256];
 
   cpu = sizeof(AUDIO_DATA);
@@ -229,11 +227,6 @@ int winmain_Game_Run(char *p_Level_Name)
 	chdir(ad.Sound_Dir);
 
   ap_Load_Material_List("material.dat", &ad);
-
-  iMaxBpp = gi_Get_Max_Resolution_Bpp(1024, 768);
-  iMaxFreq = gi_Get_Max_Freq(1024, 768, iMaxBpp);
-
-  kprintf(1, "iMaxBpp = %d , iMaxFreq = %d", iMaxBpp, iMaxFreq);
 
   if (!bGame) {
 #ifndef __DEMO

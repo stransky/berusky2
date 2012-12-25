@@ -11,7 +11,6 @@ void transformuj_kontejner_matici(EDIT_KONTEJNER * p_kont, GLMATRIX * p_m)
   BOD *p_kost;
   int i, j;
   int pocet;
-  int celkem = 0;
 
   if (p_kont == NULL)
     return;
@@ -44,7 +43,7 @@ void transformuj_kontejner_keyframe(EDIT_KONTEJNER * p_kont)
 
   if (p_kont->kflag & KONT_KEYFRAME) {
     oe_olist_reset(&o);
-    while (p_obj = oe_olist_next(p_kont, &o)) {
+    while ((p_obj = oe_olist_next(p_kont, &o))) {
       transformuj_objekt_matici(p_obj, &p_obj->m);
       init_matrix(&p_obj->m);
     }
@@ -282,7 +281,7 @@ void rozloz_zemi(EDIT_OBJEKT ** p_src, int ctvercu)
 
   if (!p_obj->x_rect || !p_obj->y_rect)
     return;
-  if (p_obj->x_rect != p_obj->y_rect != 1)
+  if (p_obj->x_rect != 1 || p_obj->y_rect != 1)
     return;
 
   skok = p_obj->p_vertex[1].x - p_obj->p_vertex[0].x;
@@ -1543,7 +1542,7 @@ int intersect_ray_koule(BOD * p_stred, float radius, BOD * p_orig,
 
 
 //  FACE_SOUS    *p_fsous;
-
+/*
 static int _num_pass(word * p_f1, word * p_f2)
 {
   int i, j;
@@ -1557,14 +1556,15 @@ static int _num_pass(word * p_f1, word * p_f2)
   }
   return (hit);
 }
-
+*/
 // importovat z 3ds modelama !!!!
 // toto je moje berlicka
 void obj_vyrob_list_sousednosti(EDIT_OBJEKT * p_obj)
 {
+/*
   int f, fi;
   int hit;
-
+*/
   if (p_obj->p_fsous) {
     free(p_obj->p_fsous);
   }
@@ -1587,7 +1587,7 @@ void obj_vyrob_list_sousednosti(EDIT_OBJEKT * p_obj)
   }
 */
 }
-
+/*
 static int _num_pass_vertex(OBJ_VERTEX ** p_f1, OBJ_VERTEX ** p_f2)
 {
   int i, j;
@@ -1601,14 +1601,15 @@ static int _num_pass_vertex(OBJ_VERTEX ** p_f1, OBJ_VERTEX ** p_f2)
   }
   return (hit);
 }
-
+*/
 void obj_vyrob_list_sousednosti_full(EDIT_OBJEKT * p_obj)
 {
+/*
   OBJ_VERTEX *p_face1[3];
   OBJ_VERTEX *p_face2[3];
   int f, fi;
   int hit;
-
+*/
   if (p_obj->p_fsous) {
     free(p_obj->p_fsous);
   }
@@ -1899,7 +1900,8 @@ void ind_calc_norm(NORM_INT_PROC * p_prc, int brutal)
   NORM_INDICIE *p_first;
   NORM_INDICIE *p_last;
   BOD norm;
-  int i, j, num;
+  int i, j, 
+      num = 0;
 
   ind_sort(p_prc, brutal);
 
@@ -2275,7 +2277,7 @@ void transformuj_kontejner_text_coord(EDIT_KONTEJNER * p_kont,
   int o;
 
   oe_olist_reset(&o);
-  while (p_obj = oe_olist_next(p_kont, &o)) {
+  while ((p_obj = oe_olist_next(p_kont, &o))) {
     transformuj_objekt_text_coord(p_obj, p_mat, coord);
   }
 }
@@ -2290,14 +2292,20 @@ void mesh_env_maping_spec(GAME_MESH_OLD * p_mesh, GLMATRIX * p_cam,
   float tx, ty, tz;
   float px, py, pz;
   float v1, v2, v3;
-  float r, g, b, uhel;
+  float r = 0, 
+        g = 0, 
+        b = 0, 
+        uhel = 0;
   BOD *p_norm;
   BODRGB *p_spec;
   BODRGB *p_spec_src;
-  float add1, add2, scale;
-  int os, v, vertexnum;
+  float add1 = 0.0f, 
+        add2 = 0.0f, 
+        scale = 1.0f;
+  int os = 0, 
+      v, vertexnum;
   int i, kframe;
-  GLMATRIX *p_kw;
+  GLMATRIX *p_kw = NULL;
   int flag2;
 
   p_mesh->p_data->k2flag |= KONT2_UPDATE_SPEC;
@@ -2465,8 +2473,6 @@ int intersect_mesh_objekt(GAME_MESH_OLD * p_mesh, int o, BOD * p_orig,
 {
   BOD *p_vertex_pos;
   int j, d, facenum, fnum2;
-  int kflag = p_mesh->p_data->kflag;
-  int key_flag = kflag & KONT_KEYFRAME;
   int *p_face, typ;
   int *p_face_prvni;
 

@@ -106,7 +106,7 @@ long afindfirst(APAK_HANDLE * pHandle, char *filespec,
 {
   int iRet;
   APAKNODE *pNode;
-  APAK_FILE_HANDLE *pFHandle = NULL;
+  //APAK_FILE_HANDLE *pFHandle = NULL;
   APAK_FIND *pFind;
   APAK_FIND_SWITCH *pFSwitch;
 

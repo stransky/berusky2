@@ -1156,7 +1156,7 @@ void fn2_Convert_Rect(char *cFile, int xmax, int ymax)
   FILE *f;
   FILE *fi;
   GAME_TRIGER *gt = &b2_3d_font.gt;
-  TRIGER_STRUCTURE *ts = &b2_3d_font.ts;
+//  TRIGER_STRUCTURE *ts = &b2_3d_font.ts;
   int i;
   char text[256];
   char textt[256];
@@ -1215,9 +1215,9 @@ void fn2_Draw_Line(int x1, int y1, int x2, int y2, COLORREF color, HDC hdc)
 */
 }
 
+/*
 int fn2_DC2Tex(HDC hdc, int xr, int yr, int turn, int texture)
 {
-/*
 	int					tex;
 	int					i, c = 0;
 //	HDC					hdcMem;
@@ -1302,5 +1302,5 @@ int fn2_DC2Tex(HDC hdc, int xr, int yr, int turn, int texture)
 	free((void *) pjBitsTEX);
 
 	return tex;
-*/
 }
+*/

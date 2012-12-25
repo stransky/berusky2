@@ -291,11 +291,11 @@ INCLUDES = \
 	 -Ikomat -Ikofola -Itmp -Iage/graph -Iage/include -Iage/support -Iage/utils -Igenerator -Iadas
 
 AM_CFLAGS = \
-	-D_DEBUG -Wno-write-strings\
+	-D_DEBUG -Wall -Wno-write-strings\
 	 -g
 
 AM_CXXFLAGS = \
-	-D_DEBUG -Wno-write-strings\
+	-D_DEBUG -Wall -Wno-write-strings\
 	 -g
 
 berusky2_SOURCES = \

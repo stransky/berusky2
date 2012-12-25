@@ -1,3 +1,6 @@
+- fix build warnings
+- remove -1 (K_CHYBA) from pointer/handles
+
 TODO:
 - set fps
 - transparent objects
@@ -19,7 +22,27 @@ TODO:
 - level7 - crash in TNT
 - level306/307 - crashes at loading
 
+Valgrind setup:
+valgrind --suppressions=suppress.txt -v --leak-check=full ./berusky2 level7.lv6 > run.txt 2>&1
+
+Efence setup:
+1) (as root)
+echo 200000 > /proc/sys/vm/max_map_count
+
+2)as user, run gdb, for example:
+gdb ./berusky2/src/berusky2
+
+3) copy and paste into gdb following :
+set env DISPLAY=:0
+set env LD_PRELOAD=libefence.so.0.0
+set env EF_ALLOW_MALLOC_0=1
+run
+
 - Update readme
+
+Tips:
+  - disable sound&music -> set volume to 0
+
 
 - rozdelit ini soubory na 2? nastaveni uzivatelu + globalni datove soubory?
 int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)

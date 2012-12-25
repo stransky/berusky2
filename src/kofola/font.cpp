@@ -934,7 +934,7 @@ void fn_Convert_Rect(char *cFile, int xmax, int ymax)
   FILE *f;
   FILE *fi;
   GAME_TRIGER *gt = &b2_2d_font.gt;
-  TRIGER_STRUCTURE *ts = &b2_2d_font.ts;
+  //TRIGER_STRUCTURE *ts = &b2_2d_font.ts;
   int i;
   char text[256];
   char textt[256];
@@ -1043,10 +1043,10 @@ void fn_Draw_Draw_Frames(void)
 */
   return;
 }
-
+/*
 int fn_DC2Tex(HDC hdc, int xr, int yr, int turn, int texture)
 {
-/*
+
 	int					tex;
 	int					i, c = 0;
 //	HDC					hdcMem;
@@ -1132,4 +1132,6 @@ int fn_DC2Tex(HDC hdc, int xr, int yr, int turn, int texture)
 
 	return tex;
   */
+/*  
 }
+*/

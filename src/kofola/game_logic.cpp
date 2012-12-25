@@ -469,7 +469,7 @@ long gl_Find_Next_Beatle(long pos, LEVELINFO * p_Level)
   else
     p_Level->Beetle_Index++;
 
-  while (p_Level->Beetle[p_Level->Beetle_Index] == -1) {
+  while (p_Level->Beetle[(int)p_Level->Beetle_Index] == -1) {
     if ((p_Level->Beetle_Index + 1) > 5)
       p_Level->Beetle_Index = 0;
     else
@@ -485,14 +485,14 @@ long gl_Find_Next_Beatle(long pos, LEVELINFO * p_Level)
     if (p_Level->Level[i])
       if ((p_Level->Level[i]->p_Object->Class == 1) &&
         (p_Level->Level[i]->p_Object->SubClass ==
-          p_Level->Beetle[p_Level->Beetle_Index]))
+          p_Level->Beetle[(int)p_Level->Beetle_Index]))
         return i;
 
   for (i = 0; i < (pos + 1); i++)
     if (p_Level->Level[i])
       if ((p_Level->Level[i]->p_Object->Class == 1) &&
         (p_Level->Level[i]->p_Object->SubClass ==
-          p_Level->Beetle[p_Level->Beetle_Index]))
+          p_Level->Beetle[(int)p_Level->Beetle_Index]))
         return i;
 
   return -1;
@@ -786,7 +786,7 @@ int gl_Get_Free_Lift_Particles(LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 10; i++)
-    if (p_Level->LiftParticles[i].System == -1)
+    if (!p_Level->LiftParticles[i].System)
       return i;
 
   return -1;
@@ -888,7 +888,7 @@ int gl_Get_Free_Teleport_Sparks(LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 20; i++)
-    if (p_Level->TeleportSparks[i].System == -1)
+    if (!p_Level->TeleportSparks[i].System)
       return i;
 
   return -1;
@@ -1137,7 +1137,7 @@ int gl_Throw_off(int *column, LEVELINFO * p_Level)
   int real_pos1, real_pos2;
   int test_pos1, test_pos2;
   int iValue1[3], iValue2[3], iValue3[3];       //, iValue4[3];
-  int i, m, test, n;
+  int i, m = 0, test, n;
   int w;
   int ret = 0;
   ITEMDESC *p_test_pos1, *p_test_pos2;
@@ -1239,12 +1239,12 @@ int gl_Throw_off(int *column, LEVELINFO * p_Level)
             test_column[2] = i;
             w = gl_Count_Weight(test_column, p_Level);
 
-            if ((p_test_pos1->p_Object->Class == 5) &&
-              (p_test_pos2->p_Object->Class == 12))
-              if ((p_test_pos1->p_Object->SubClass == 3) && (w < 3))
+            if ((p_test_pos1->p_Object->Class == 5) && (p_test_pos2->p_Object->Class == 12)) {
+              if ((p_test_pos1->p_Object->SubClass == 3) && (w < 3)) {
                 break;
+              }
               else {
-              THROW_OFF_PROPAD:
+                THROW_OFF_PROPAD:
 
                 test = 0;
 
@@ -1255,6 +1255,7 @@ int gl_Throw_off(int *column, LEVELINFO * p_Level)
                 if (!test)
                   break;
               }
+            }
           }
         }
       }
@@ -1581,7 +1582,7 @@ int gl_Throw_offAnim(int *column, LEVELINFO * p_Level)
   int real_pos1, real_pos2;
   int test_pos1, test_pos2;
   int iValue1[3], iValue2[3], iValue3[3];       //, iValue4[3];
-  int i, m, test, n;
+  int i, m = 0, test, n;
   int w;
   int ret = 0;
   ITEMDESC *p_test_pos1, *p_test_pos2;
@@ -1668,8 +1669,9 @@ int gl_Throw_offAnim(int *column, LEVELINFO * p_Level)
             break;
 
           if ((p_test_pos1->p_Object->Class != 5) &&
-            (p_test_pos2->p_Object->Class == 12))
+            (p_test_pos2->p_Object->Class == 12)) {
             goto THROW_OFF_PROPAD;
+          }
           else {
             test_column[0] = column[0];
             test_column[1] = column[1];
@@ -1677,9 +1679,10 @@ int gl_Throw_offAnim(int *column, LEVELINFO * p_Level)
             w = gl_Count_Weight(test_column, p_Level);
 
             if ((p_test_pos1->p_Object->Class == 5) &&
-              (p_test_pos2->p_Object->Class == 12))
-              if ((p_test_pos1->p_Object->SubClass == 3) && (w < 3))
+              (p_test_pos2->p_Object->Class == 12)) {
+              if ((p_test_pos1->p_Object->SubClass == 3) && (w < 3)) {
                 break;
+              }
               else {
               THROW_OFF_PROPAD:
 
@@ -1692,6 +1695,7 @@ int gl_Throw_offAnim(int *column, LEVELINFO * p_Level)
                 if (!test)
                   break;
               }
+            }
           }
         }
       }
@@ -2174,7 +2178,7 @@ void gl_Select_BeatleFlek(ITEMDESC * p_Item, LEVELINFO * p_Level)
 void gl_Do_Flek(float *pos, ITEMDESC * p_Item, LEVELINFO * p_Level)
 {
   int rs;
-  FLEK_K *pFlek;
+  FLEK_K *pFlek = NULL;
   char cFlek[32];
   int pos_[3];
   char bStat = 1;
@@ -2443,12 +2447,12 @@ void gl_Pripoj_Flek_k_Predmenu(ITEMDESC * pItem, LEVELINFO * p_Level)
   if (pFlek->Material == -1)
     kprintf(1, "Nelze najit material flek03");
 
-  pFlek->pFlek =
+  pFlek->pFlek = 
     kom_flek_pridej(pFlek->Flag, (BOD *) & pFlek->pos, (BOD *) & pFlek->nx,
     (BOD *) & pFlek->nz, pFlek->dx, pFlek->dy, pFlek->Rotation,
     pItem->Square.iUroven, pFlek->Material);
 
-  if (pFlek->pFlek == -1) {
+  if (!pFlek->pFlek) {
     kprintf(1, "Neporarilo ze pripojit flek k predmetu");
     pFlek->pFlek = 0;
   }
@@ -2482,7 +2486,7 @@ int gl_Get_Free_Kourovy_System(LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 20; i++)
-    if (p_Level->KourovaStopa[i].System == -1)
+    if (!p_Level->KourovaStopa[i].System)
       return i;
 
   return -1;
@@ -2493,7 +2497,7 @@ int gl_Get_Free_Kour(LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 20; i++)
-    if (p_Level->Kour[i].System == -1)
+    if (!p_Level->Kour[i].System)
       return i;
 
   return -1;
@@ -2504,7 +2508,7 @@ int gl_Get_Free_Kour_Kameni(LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 20; i++)
-    if (p_Level->KourKameni[i].System == -1)
+    if (!p_Level->KourKameni[i].System)
       return i;
 
   return -1;
@@ -3335,8 +3339,11 @@ int gl_Is_Move_Possible(int *iValue_old, int *iValue_new, LEVELINFO * p_Level)
   int counter = 0;
   int Weight, Total_Weight = 0;
   char Ignore_Weight = 0;
-  ITEMDESC *p_real_posI, *p_test_posI;
-  OBJECTDESC *p_real_posO, *p_test_posO, *p_LastO;
+  ITEMDESC *p_real_posI = NULL,
+           *p_test_posI = NULL;
+  OBJECTDESC *p_real_posO = NULL, 
+             *p_test_posO = NULL, 
+             *p_LastO = NULL;
   BACK_PACK *p_Back = p_Level->Level[p_Level->Actual_Item]->p_Back_Pack;
 
   gl_Get_Move(iValue_old, iValue_new, Move);
@@ -3557,11 +3564,12 @@ int gl_Is_Move_Possible(int *iValue_old, int *iValue_new, LEVELINFO * p_Level)
       if ((act_pos[0] >= 0) && (act_pos[0] < p_Level->Size[0]) &&
         (act_pos[1] >= 0) && (act_pos[1] < p_Level->Size[1]) &&
         (act_pos[2] >= 0) && (act_pos[2] < p_Level->Size[2]))
-        if (p_real_posI)
+        if (p_real_posI) {
           if (p_real_posI->p_Object->Class == 6) {
             if ((p_LastO->Class == 6) && (p_LastO->SubClass == 1) &&
-              (!p_real_posI->p_Object->SubClass))
+              (!p_real_posI->p_Object->SubClass)) {
               return 1;
+            }
             else {
               //!!!!!!!!!!!!!!!!!!!!!!!!! ZMENA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
               if (Total_Weight > p_Back->Strength)
@@ -3573,8 +3581,9 @@ int gl_Is_Move_Possible(int *iValue_old, int *iValue_new, LEVELINFO * p_Level)
             if (p_LastO->Class == 6 && p_real_posI->p_Object->Class == 5)
               return 1;
           }
+        }
 /*			else
-				return 0;*/
+				return 0;*/      
     }
     else
       return 0;
@@ -3806,47 +3815,53 @@ int gl_Is_Take_Posible(long Item, long Beatle, LEVELINFO * p_Level)
   BACK_PACK *p_Beatle_BP = p_Level->Level[Beatle]->p_Back_Pack;
 
   //batoh
-  if (p_Item_Object->SubClass == 1)
+  if (p_Item_Object->SubClass == 1) {
     if (!p_Beatle_BP->item[1])
       return 1;
     else
       return 0;
+  }
 
   //vybusniny balicek
   if (p_Item_Object->SubClass == 4 ||
-    p_Item_Object->SubClass == 8 || p_Item_Object->SubClass == 0)
+      p_Item_Object->SubClass == 8 || p_Item_Object->SubClass == 0) {
     if (p_Beatle_BP->Count_of_Items >= p_Beatle_BP->Max_Items)
       return 0;
     else
       return 1;
+  }
 
   //potravina
-  if (p_Item_Object->SubClass == 3)
+  if (p_Item_Object->SubClass == 3) {
     if (!p_Beatle_BP->item[3])
       return 1;
     else
       return 0;
+  }
 
   //hormonalni vytamin
-  if (p_Item_Object->SubClass == 5)
+  if (p_Item_Object->SubClass == 5) {
     if (!p_Beatle_BP->item[5])
       return 1;
     else
       return 0;
+  }
 
   //kahan
-  if (p_Item_Object->SubClass == 6)
+  if (p_Item_Object->SubClass == 6) {
     if (!p_Level->Level[Beatle]->p_Back_Pack->item[6])
       return 1;
     else
       return 0;
+  }
 
   //zavazi
-  if (p_Item_Object->SubClass == 7)
+  if (p_Item_Object->SubClass == 7) {
     if (!p_Beatle_BP->item[7])
       return 1;
     else
       return 0;
+  }
 
   return 0;
 }
@@ -4094,12 +4109,13 @@ int gl_Test_Rule2B(int *pos, LEVELINFO * p_Level)
     for (i = iPos[2]; i > 0; i -= 2) {
       gl_Logical2Real(iPos[0], iPos[1], i, &real, p_Level);
 
-      if (p_Level->Level[real])
+      if (p_Level->Level[real]) {
         if ((p_Level->Level[real]->p_Object->Class == 1) ||
           (p_Level->Level[real]->p_Object->Class == 13))
           return 0;
         else
           return 1;
+      }
 
       gl_Logical2Real(iPos[0], iPos[1], i - 1, &real, p_Level);
 
@@ -4172,11 +4188,12 @@ void gl_Walk_Out_Of_Water(int *pos, int iMesh, DWORD dwExpire,
 
   gl_Logical2Real(iPos[0], iPos[1], iPos[2], &real, p_Level);
 
-  if (p_Level->Level[real])
-    if (p_Level->Level[real]->p_Object->Class == 12)
-      for (i = 0; i < 100; i++)
-        if (p_Level->VodniKolaB[i].System != -1 &&
-          p_Level->VodniKolaB[i].hHnizdo[2] == iMesh) {
+  if (p_Level->Level[real]) {
+    if (p_Level->Level[real]->p_Object->Class == 12) {
+      for (i = 0; i < 100; i++) {
+        if (p_Level->VodniKolaB[i].System && 
+            p_Level->VodniKolaB[i].hHnizdo[2] == (size_ptr)iMesh) 
+        {
           if (dwExpire)
             p_Level->VodniKolaB[i].dwExpire = dwExpire;
           else
@@ -4184,6 +4201,9 @@ void gl_Walk_Out_Of_Water(int *pos, int iMesh, DWORD dwExpire,
 
           return;
         }
+      }
+    }
+  }
 }
 
 int gl_Test_Rule5(int *pos, LEVELINFO * p_Level)
@@ -4551,16 +4571,18 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
             if (p_real_pI) {
               if (p_real_pI->p_Object->Class == 1) {
                 float pos[3];
-                int wave, rot;
+                //int wave; 
+                int rot;
 
                 kom_mesh_get_float(p_Level->Level[real_p]->Index_Of_Game_Mesh,
-                  &pos[0], &pos[1], &pos[2], &rot);
+                                   &pos[0], &pos[1], &pos[2], &rot);
+/*
                 wave = gl_Choose_Wave_Index(13);
-/*							if (!adas_Is_Sound_Processed(12,-1) && 
-								!adas_Is_Sound_Processed(13,-1) && 
-								!adas_Is_Sound_Processed(14,-1))*/
-//                ap_Play_Sound(0,0,pos,wave,NULL,p_Level->p_ad);
-
+  							if (!adas_Is_Sound_Processed(12,-1) && 
+                    !adas_Is_Sound_Processed(13,-1) && 
+                    !adas_Is_Sound_Processed(14,-1))
+                    ap_Play_Sound(0,0,pos,wave,NULL,p_Level->p_ad);
+*/
                 return -1;
               }
 
@@ -6102,7 +6124,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
         NORMAL_BEATLE_ITEM_MOVE_:
 
           //normalni posun. na destinaci neni nic
-          int anm_i;
+          int anm_i = -1;
 
           gl_Logical2Real(dest[0], dest[1], dest[2], &dest_pos, p_Level);
           gl_Logical2Real(iValue[0], iValue[1], iValue[2], &p_sikmina,
@@ -6185,7 +6207,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
         }
         else {
           //na destinaci je predmet
-          ITEMDESC *p_sikminaI = p_Level->Level[Item];
+          //ITEMDESC *p_sikminaI = p_Level->Level[Item];
           int next_dest[3];
           int cweight;
 
@@ -6289,9 +6311,9 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
       if (p_ItemO->Class == 6) {
         //tlasim vybusninu
         int Ldest;
-        int item_pos[3];
+        //int item_pos[3];
         int weight;
-        int anm_i;
+        int anm_i = -1;
         int p_sikmina;
         ITEMDESC *p_sikminaI;
 
@@ -6319,9 +6341,11 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
           return -1;
 
         // znic vybusnimu
+        /*
         item_pos[0] = p_Level->Level[Item]->Pos[0];
         item_pos[1] = p_Level->Level[Item]->Pos[1];
         item_pos[2] = p_Level->Level[Item]->Pos[2];
+        */
 
         if (p_set->animation[p_set->last].p_matrix == -1 &&
           p_set->animation[p_set->last].p_run != -1) {
@@ -6437,7 +6461,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
       if (p_Level->Level[Item]->p_Back_Pack->item[8]) {
         float fpos[3];
         int rot;
-        int mat = gl_Get_Mesh_Material(p_real_posI->Index_Of_Game_Mesh);
+        //int mat = gl_Get_Mesh_Material(p_real_posI->Index_Of_Game_Mesh);
 
         kom_mesh_get_float(p_real_posI->Index_Of_Game_Mesh, &fpos[0],
           &fpos[1], &fpos[2], &rot);
@@ -7957,9 +7981,10 @@ int gl_Find_Top_With_Water(int *pWater, ITEMDESC * pItem, LEVELINFO * p_Level)
 
     gl_Logical2Real(iPos[0], iPos[1], i - 1, &r, p_Level);
 
-    if (p_Level->Level[r])
-      if (p_Level->Level[r]->p_Object->Class != 12)
+    if (p_Level->Level[r]) {
+      if (p_Level->Level[r]->p_Object->Class != 12) {
         return i - 2;
+      }
       else {
         (*pWater) = i - 1;
 
@@ -7981,6 +8006,7 @@ int gl_Find_Top_With_Water(int *pWater, ITEMDESC * pItem, LEVELINFO * p_Level)
         else
           return i;
       }
+    }
   }
 
   return p_Level->Size[2] - 1;
@@ -8196,7 +8222,7 @@ int gl_Check_Logic_Dependences(LEVELINFO * p_Level)
   int test_pos, ret, real_p;
   int pos[3];
   int ret_value = 0;
-  int r;
+  //int r;
   ITEMDESC *p_Action_ItemI;
 
   // nuluju flagy vytahu
@@ -8323,7 +8349,7 @@ int gl_Check_Logic_Dependences(LEVELINFO * p_Level)
                 pos[1] = y;
                 pos[2] = z;
 
-                r = rand() % 3;
+                //r = rand() % 3;
 
                 if (p_Action_ItemI->p_Object->Specific[rot].Index == -1)
                   rot = 0;
@@ -8455,15 +8481,16 @@ int gl_Will_Go_Under_Water(int *iPos, int DontCountPos, int Plus, int *pVaha,
     //mrknu se na nultou vrstvu
     // - jestlize to neni voda a je to nad vodu tak ok
     // - jestlize je to pod vodou a neno to voda :) a pocet beden je dostatecny, tak OK
-    if (p_Level->Level[real])
+    if (p_Level->Level[real]) {
       if (p_Level->Level[real]->p_Object->Class != 12 && !bUnderWater)
         return 0;
-      else
-        if (p_Level->Level[real]->p_Object->Class != 12 && bUnderWater
-        && iPocetBeden >= 0)
-        return 1;
-      else
-        bUnderWater = 1;
+      else {
+        if (p_Level->Level[real]->p_Object->Class != 12 && bUnderWater && iPocetBeden >= 0)
+          return 1;
+        else
+          bUnderWater = 1;
+      }
+    }
   }
 
   //dojel jsem na dno levelu a pocet beden je ok
@@ -8613,7 +8640,7 @@ int gl_Find_Bottom(int *p_Pos, int *bVoda, LEVELINFO * p_Level)
 
     gl_Logical2Real(p_Pos[0], p_Pos[1], i - 1, &real_pos, p_Level);
 
-    if (p_Level->Level[real_pos])
+    if (p_Level->Level[real_pos]) {
       if (p_Level->Level[real_pos]->p_Object->Class != 12) {
         if (p_Level->Level[real_pos]->p_Object->Class != 8)
           return bottom - 2;
@@ -8622,7 +8649,7 @@ int gl_Find_Bottom(int *p_Pos, int *bVoda, LEVELINFO * p_Level)
       }
       else
         *bVoda = bottom - 2;
-
+    }
     bottom -= 2;
   }
 
@@ -8740,14 +8767,14 @@ void gl_Rozvaz_Meshe(void)
 //------------------------------------------------------------------------------------------------
 void gl_Do_Triger(SIM_ANIMATION * p_animation)
 {
-  POINTERSTRUCTURE *pStruct;
+  //POINTERSTRUCTURE *pStruct;
   int j;
 
   for (j = 0; j < 5; j++)
     if (p_animation->tTriger[j].pProc)
       if (p_animation->flag >= p_animation->tTriger[j].flag ||
         p_animation->flag == -1) {
-        pStruct = (POINTERSTRUCTURE *) p_animation->tTriger[j].pParam;
+        //pStruct = (POINTERSTRUCTURE *) p_animation->tTriger[j].pParam;
 
         p_animation->tTriger[j].pProc(p_animation->tTriger[j].iParam[0],
                                       p_animation->tTriger[j].iParam[1], 
@@ -8867,7 +8894,7 @@ int gl_Are_Animations_Done(LEVELINFO * p_Level)
 {
   int i, min = 101, flag;
   char bCheck_Result = p_Level->bCheck_Result;
-  char bCheck = p_Level->bCheck;
+  //char bCheck = p_Level->bCheck;
 
 gl_Are_Animations_Done_TEST:
 
@@ -8954,7 +8981,7 @@ void gl_Change_Destonation(LEVELINFO * p_Level, int *pos)
 //------------------------------------------------------------------------------------------------
 int gl_Inventory_Item_To_Object(LEVELINFO * p_Level, int Item, char bDec)
 {
-  int result = 0;
+  //int result = 0;
   int counter = 0;
   int act_count = 0;
   int i;
@@ -9193,7 +9220,6 @@ int gl_Drop_Item(int item, int *pos, LEVELINFO * p_Level)
   obj = gl_Inventory_Item_To_Object(p_Level, item, 1);
 
   Data = kom_pridej_prvek_do_databaze(&(p_Level->Object[obj].Out_File));
-
   if (Data == -1) {
     //MessageBox(Level.hWnd,"Error while adding item in databaze","Error",MB_OK);
     kprintf(1, "Error while adding item in databaze");
@@ -9626,7 +9652,7 @@ void gl_Beetle_Exit(LEVELINFO * p_Level)
   am_Remove_Beetle_Animation(p_Level->Level[p_Level->Actual_Item]->
     Index_Of_Game_Mesh, p_Level);
 
-  p_Level->Beetle[p_Level->Beetle_Index] = -1;
+  p_Level->Beetle[(int)p_Level->Beetle_Index] = -1;
   p_Level->Level[p_Level->Actual_Item]->bDestroed = 1;
   p_Level->Level[p_Level->Actual_Item] = 0;
   p_Level->Actual_Item = -1;
@@ -9961,7 +9987,7 @@ void gl_Vytvor_Seznam_Car(LEVELINFO * p_Level)
           gl_Udelej_Krychlicku(&p, iPos, p_Level, 0, 0, 1);
         }
         else {
-          float r, g, b;
+          float r = 0, g = 0, b = 0;
 
           if (pItem->p_Object->Class == 9) {
             r = 0;
@@ -10214,15 +10240,16 @@ int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, AUDIO_DATA * p_ad,
   int pos_n[3];
   int Frame_Rate_Counter;
   long _new;
-  float position[3], orientation[6];
-  float p_pos[3];
+  //float position[3];
+  float orientation[6];
+  //float p_pos[3];
   char bCursor;
   int Cursor_Time_Out;
   float _3d_Scale_Factor[2];
   int act_item;
-  int top_item;
+  //int top_item;
   int iReturn[2];
-  char Active_Beetle;
+  //char Active_Beetle;
   char no_Menu;
 
 //      CAMERA_ANIMATION        camera;
@@ -10236,7 +10263,7 @@ int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, AUDIO_DATA * p_ad,
   char bOvladaniBerusek1;
 
 //      char                            bInitCameraSet;
-  char LastRotation;
+  //char LastRotation;
   char bVisibility;
   char bHint;
   int iMenuAnimation = 0;
@@ -10249,8 +10276,8 @@ int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, AUDIO_DATA * p_ad,
 
   //...................... *** oprava
   char bCamera;
-  int cameraanim;
-  static int flag;
+  int cameraanim= -1;
+  //static int flag;
   int bmpc = 0;
 
   //...................... *** oprava
@@ -10291,21 +10318,27 @@ PLAY_LEVEL_START:
 
   // init values
   Frame_Rate_Counter = 0;
+  /*
   position[0] = 0;
   position[1] = 0;
   position[2] = 0;
+  */
   orientation[0] = 0;
   orientation[1] = 1;
   orientation[2] = 0;
   orientation[3] = 0;
   orientation[4] = 0;
   orientation[5] = 1;
+  /*
   p_pos[0] = 1;
   p_pos[1] = 1;
   p_pos[2] = 1;
+  */
   act_item = -1;
+  /*
   top_item = -1;
   Active_Beetle = 0;
+  */
   iReturn[0] = 0;
   iReturn[1] = 0;
 //      camera.flag                     = 0;
@@ -10318,7 +10351,7 @@ PLAY_LEVEL_START:
   bBeetleAdded = 1;
   Level.bTriger = 0;
 //      bInitCameraSet          = 0;
-  LastRotation = -1;
+//  LastRotation = -1;
   cameraflag = 0;
   PRCameraFlag = 0;
   PRCameraFlagChange = 0;
@@ -10724,7 +10757,7 @@ PLAY_LEVEL_START:
   kprintf(1, "kom_get_level_environment, kam_3ds_nahraj_animaci...");
   if (!demo) {
     char file[256];
-    int camerarun;
+    //int camerarun;
     int icamanimrestart =
       GetPrivateProfileInt("hra", "camera_intro", 0, ini_file);
 
@@ -10746,7 +10779,7 @@ PLAY_LEVEL_START:
         kom_zpruhlednovac_off();
         Level.bInventory = 0;
         Level.bTopLedge = 0;
-        camerarun = kam_start(cameraanim, &cameraflag, GK_REMOVE, 0, 0);
+        kam_start(cameraanim, &cameraflag, GK_REMOVE, 0, 0);
       }
       else
         cameraflag = -1;
@@ -11005,7 +11038,7 @@ PLAY_LEVEL_START:
     if (Level.status == 2) {
     _Check_Logic_Dependences:
 
-      if (Level.Throw_off)
+      if (Level.Throw_off) {
         if (gl_Analyse_Column(Level.Column, &Level)) {
           Level.Throw_off = 1;
           Level.status = 4;
@@ -11013,6 +11046,7 @@ PLAY_LEVEL_START:
         }
         else
           Level.Throw_off = 0;
+      }
 
       if (!Level.bCheck) {
         Level.bCheck = 0;
@@ -12167,7 +12201,7 @@ PLAY_LEVEL_START:
           (key[control.beatle4]) ||
           (key[control.beatle5]) || (key[control.beatle6]))
         && !Level.Flip) {
-        int btl;
+        int btl = -1;
 
         if (key[control.beatle1]) {
           if (!demo)

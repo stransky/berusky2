@@ -951,7 +951,7 @@ int _3d_Is_There_Beetle(int SubClass, LEVELINFO * p_Level)
 
 int _3d_Is_Selected(int SubClass, LEVELINFO * p_Level)
 {
-  if (p_Level->Beetle[p_Level->Beetle_Index] == SubClass)
+  if (p_Level->Beetle[(int)p_Level->Beetle_Index] == SubClass)
     return 1;
   else
     return 0;

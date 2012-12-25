@@ -1,10 +1,11 @@
 #include "3d_all.h"
 
 //static HMIXER m_hMixer = NULL;
+/*
 static int m_dwVolumeControlID = 0;
 static long m_dwMinimum = 0;
 static long m_dwMaximum = 0;
-
+*/
 BOOL amdInitialize(HWND hwnd)
 {
 /*

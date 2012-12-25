@@ -61,7 +61,7 @@ static int BackDC;
 
 static int iCompositDC;
 static int iFontDC;
-static int iBackDC;
+//static int iBackDC;
 
 static char bBackDC = 0;
 
@@ -71,12 +71,7 @@ static RECT iLoadScreenRect = { 0, 0, 1024, 768 };
 
 RECT_LINE rline;
 
-extern int gi_Change_Grafic_Mode(int xPels, int yPels, int Bits, int freq,
-  DWORD dwflags);
 //extern int gi_EnumDisplaySettings(DEVMODE *pdevmode);
-extern int iMaxBpp;
-extern int iMaxFreq;
-
 int check_Save_Owner(char *cDir, WCHAR * wFileName);
 int LoadHelp(char *c_file);
 
@@ -113,10 +108,10 @@ void Stop2(CMD_LINE * cmd)
   for (i = 0; i < 32; i++)
     if (cmd == anm[i].cmd) {
       if (cmd->bEndActivate[0] && cmd->pCmdLine)
-        cmd->pCmdLine[cmd->bEndActivate[0]].bActive = 1;
+        cmd->pCmdLine[(int)cmd->bEndActivate[0]].bActive = 1;
 
       if (cmd->bEndActivate[1] && cmd->pCmdLine)
-        cmd->pCmdLine[cmd->bEndActivate[1]].bActive = 1;
+        cmd->pCmdLine[(int)cmd->bEndActivate[1]].bActive = 1;
 
       cmd->bActive = 0;
 
@@ -441,7 +436,7 @@ void FreeAnimations2(CMD_LINE * cmd, int csize)
 void CheckAnimation2(CMD_LINE * cmd, AUDIO_DATA * p_ad)
 {
   int i;
-  float pos[3] = { 0.0f, 0.0f, 1.0f };
+//  float pos[3] = { 0.0f, 0.0f, 1.0f };
 
   for (i = 0; i < 32; i++)
     if (anm[i].cmd)
@@ -668,7 +663,7 @@ void SetCharMenu2(LIST_VIEW_CONTROL2 * p_li, LEVELINFO * p_Level,
 {
   char text[128];
   int y = p_li->cSelected * 30;
-  int xs = p_li->rectList.top + TAB_Y + y - p_li->dx;
+//  int xs = p_li->rectList.top + TAB_Y + y - p_li->dx;
   int xp = 0;
   int xt = 0;
   int i;
@@ -1112,7 +1107,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
   int bind;
   int dh = 0;
   int sh = K_CHYBA;
-  int iBmp;
+//  int iBmp;
 
   _3d_End_Draw();
 
@@ -1145,7 +1140,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
 
   ddx2CleareSurface(DDX2_BACK_BUFFER);
   sh = ddx2LoadBitmap("settings.bmp", pBmpArchive);
-  iBmp = LoadHelp("3dsettings_load.txt");
+  LoadHelp("3dsettings_load.txt");
 
   ddx2FillRect(DDX2_BACK_BUFFER, &rTMP, RGB(255, 0, 255));
   ddx2SetRect(&rTMP, 1);
@@ -1202,7 +1197,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
     }
 
     for (in = 0; in < 6; in++)
-      res[bind].iParam[in] = -1;
+      res[bind].iParam[(int)in] = -1;
 
     res[bind].iLayer = 0;
   }
@@ -1273,7 +1268,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
     //MessageBox(NULL,"co2_Load_Graphic","co2_Load_Graphic", MB_OK);
   }
   else {
-    int count = 0;
+//    int count = 0;
 
     citem[0].bActive = 0;
     citem[1].bActive = 0;
@@ -1943,7 +1938,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
     }
 
     for (in = 0; in < 6; in++)
-      res[bind].iParam[in] = -1;
+      res[bind].iParam[(int)in] = -1;
 
     res[bind].iLayer = 0;
   }
@@ -2393,7 +2388,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
 
 int LoadHelp(char *c_file)
 {
-  int c = 0, i = -1, t;
+  int c = 0, i = -1;
   char text[256];
   FILE *file;
 
@@ -2413,7 +2408,7 @@ int LoadHelp(char *c_file)
       if (!c)
         i = ddx2LoadBitmap(text, pBmpArchive);
       else
-        t = ddx2LoadBitmap(text, pBmpArchive);
+        ddx2LoadBitmap(text, pBmpArchive);
 
       //kprintf(1, "%s - %d", text, t);
 
@@ -2738,7 +2733,7 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
   int sh1 = K_CHYBA;
   int sh2 = K_CHYBA;
   int iBmp;
-  int iBook;
+//  int iBook;
   int iHelpIndex[23];
   int iComboSel = 0;
   int iComboActSel = 0;
@@ -2799,7 +2794,7 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
     ZeroMemory(res, RES_NUM * sizeof(CMD_LINE));
 
 
-  iBook = LoadHelp("helpbook.txt");
+  LoadHelp("helpbook.txt");
   iBmp = LoadHelp("helpload.txt");
 
   iCompositDC = ddx2FindFreeSurface();
@@ -2823,7 +2818,7 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
     }
 
     for (in = 0; in < 6; in++)
-      res[bind].iParam[in] = -1;
+      res[bind].iParam[(int)in] = -1;
 
     res[bind].iLayer = 0;
   }
@@ -3232,7 +3227,7 @@ void GetLevelTime(char *ctime, LEVELINFO * p_Level)
 
 int LoadCList2(char *cFile)
 {
-  int c = 0, i = -1, t;
+  int c = 0, i = -1;
   char text[256];
   FILE *file;
 
@@ -3252,7 +3247,7 @@ int LoadCList2(char *cFile)
       if (!c)
         i = ddx2LoadBitmap(text, pBmpArchive);
       else
-        t = ddx2LoadBitmap(text, pBmpArchive);
+        ddx2LoadBitmap(text, pBmpArchive);
 
       c++;
     }
@@ -3286,7 +3281,7 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
   int dh = 0;
   int sh = K_CHYBA;
   int ifdx = 0;
-  int iBack;
+//  int iBack;
 
   _2d_Clear_RectLine(&rline);
 
@@ -3374,7 +3369,7 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
   iFontDC = ddx2FindFreeSurface();
   FontDC = ddx2CreateSurface(1024, 768, iFontDC);
 
-  iBack = LoadCList2("load_bs.txt");
+  LoadCList2("load_bs.txt");
 
   ZeroMemory(citem, CLIST_ITEMC * sizeof(CONTROL_LIST_ITEM2));
 
@@ -3388,7 +3383,7 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
     }
 
     for (in = 0; in < 6; in++)
-      res[bind].iParam[in] = -1;
+      res[bind].iParam[(int)in] = -1;
 
     res[bind].iLayer = 0;
   }
@@ -3774,7 +3769,7 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA * p_ad,
     }
 
     for (in = 0; in < 6; in++)
-      res[bind].iParam[in] = -1;
+      res[bind].iParam[(int)in] = -1;
 
     res[bind].iLayer = 0;
   }

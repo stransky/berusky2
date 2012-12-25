@@ -43,12 +43,12 @@ ALfloat vel[]={ 0.0, 0.0, 0.0};
 
 static ALuint	buffer[NUM_BUFFERS];
 static ALuint	source[NUM_SOURCES];
-static ALuint environment[NUM_ENVIRONMENTS];
+//static ALuint environment[NUM_ENVIRONMENTS];
 
 static ALsizei size,freq;
 static ALenum 	format;
 static ALvoid 	*data;
-static int 	ch;
+//static int 	ch;
 
 #define HOME_DIR "/home/komat/Projekty/berusky2/data/"
 

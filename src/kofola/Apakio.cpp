@@ -217,9 +217,7 @@ int aclose(FILE * stream)
 
 size_t aread(void *buffer, size_t size, size_t count, FILE * stream)
 {
-  char *cbuffer = (char *) buffer;
   char *cbCursor = NULL;
-  int iAddSize = 0;
   unsigned int readsize, iSize = 0;
   APAK_STREAM_TYPE *pAStream = (APAK_STREAM_TYPE *) stream;
   APAK_FILE_HANDLE *pFHandle;
@@ -292,7 +290,7 @@ int aeof(FILE * stream)
 
 char *agets(char *string, int n, FILE * stream)
 {
-  int iRet = 0, readsize, i;
+  int readsize, i;
   unsigned int iSize;
   char *cbCursor, cLast = 0, *Tmp;
   APAK_FILE_HANDLE *pFHandle;
@@ -320,10 +318,7 @@ char *agets(char *string, int n, FILE * stream)
     return 0;
   }
 
-//      memset(string, 0, n);
-
   n--;
-
   if (n < 1)
     return 0;
 

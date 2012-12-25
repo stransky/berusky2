@@ -62,6 +62,6 @@ void fn2_Draw_MessageRECT(int iSurface, int iXpos, int iYpos,
   GAME_TRIGER * gt, TRIGER_STRUCTURE * ts, WCHAR * cFile, WCHAR * cStop,
   int iSection, int *iXmax, int *iYmax, RECT * pR);
 
-int fn2_DC2Tex(HDC hdc, int xr, int yr, int turn, int texture);
+//int fn2_DC2Tex(HDC hdc, int xr, int yr, int turn, int texture);
 
 #endif

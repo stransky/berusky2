@@ -18,7 +18,8 @@ int lsi_Load_Items(LEVELINFO * p_Level)
   char text[256], dir[256], odir[256];
   int Count, m, error_open;
   struct _finddata_t Data;
-  size_ptr Done, error;
+  size_ptr Done;
+  int error;
   FILE *file;
   SECONDDATADESC sec;
   APAK_HANDLE *aHandle;

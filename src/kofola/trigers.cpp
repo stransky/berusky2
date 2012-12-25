@@ -28,7 +28,7 @@ void trig_Parse_Line(char *pLine, COMMAND * pCommand, GAME_TRIGER * pTriger,
 {
   char Expression[64];
   int cursor = 0, par = 0, iMask;
-  int cursoru = 1;
+//  int cursoru = 1;
   float fValue;
 
   cursor = Find_Next_Expresion(pLine, cursor, Expression);
@@ -41,7 +41,7 @@ void trig_Parse_Line(char *pLine, COMMAND * pCommand, GAME_TRIGER * pTriger,
   while (cursor != -1) {
     cursor = Find_Next_Expresion(pLine, cursor, Expression);
 
-    cursoru = cursor + 1;
+//    cursoru = cursor + 1;
 
     if (cursor != -1) {
       switch (pGr->Mask[iMask].Parametr[par].Type) {
