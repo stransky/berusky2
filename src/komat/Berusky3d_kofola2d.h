@@ -68,7 +68,7 @@ typedef struct _DDX2_SURFACE_LIST
 
 
 typedef size_ptr DeviceHandle;
-typedef size_ptr SurfaceHandle;
+typedef int      SurfaceHandle;
 
 
 //------------------------------------------------------------------------------------------------

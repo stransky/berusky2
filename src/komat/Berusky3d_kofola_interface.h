@@ -79,33 +79,33 @@ MeshHandle kom_pridej_prvek_levelu_disk(char *p_file,
 /* Vlozis jmeno kontejneru co chces najit a on ti z nejvyrobi prvek levelu.
    vraci K_CHYBA pokud nenasel kontejner toho jmena
 */
-MeshHandle kom_pridej_mesh_do_levelu(char *p_jmeno);
-void kom_zrus_prvek(MeshHandle prvek_handle);
+ItemHandle kom_pridej_mesh_do_levelu(char *p_jmeno);
+void kom_zrus_prvek(ItemHandle prvek_handle);
 ExMeshHandle kom_najdi_mesh(char *p_jmeno);
 
 /* Nastavi pivot point pro prvek, prepise nastaveni pivotu u sim animace
    pokud to nepojede, dej vedet...
 */
-int kom_mesh_set_pivot_bod(MeshHandle prvek_handle, BOD * p_bod);
-int kom_mesh_set_pivot(MeshHandle prvek_handle, float x, float y, float z);
-int kom_mesh_get_pivot(MeshHandle prvek_handle, BOD * p_pivot);
+int kom_mesh_set_pivot_bod(ItemHandle prvek_handle, BOD * p_bod);
+int kom_mesh_set_pivot(ItemHandle prvek_handle, float x, float y, float z);
+int kom_mesh_get_pivot(ItemHandle prvek_handle, BOD * p_pivot);
 
 /* Nastaveni aktivniho meshe u multi-mesh meshu
 */
-MeshHandle kom_mesh_set_mesh(MeshHandle mh, int ID, size_ptr rotace);
+MeshHandle kom_mesh_set_mesh(ItemHandle mh, int ID, size_ptr rotace);
 
 /* Cte okamzite fyzicke!!! umisteni prvku ve scene + jeho rotaci
    Tato pozice zavisi take na umisteni levelu a velikosti hernich policek
    Tuto pozici pouzivam pro urcovani viditelnosti prvku a odpovida stredu policka
    kde je prvek umisten. Tato pozice se meni v realnem case pri behu animaci
 */
-int kom_mesh_get_float(MeshHandle prvek_handle, float *p_x, float *p_y,
+int kom_mesh_get_float(ItemHandle prvek_handle, float *p_x, float *p_y,
   float *p_z, int *p_rotace);
 
 /* Cte logicke umisteni prvku v levelu + jeho rotaci
    Vsechny prvky vraci v 0 vrstve, takze y je 0,2,4,6,...
 */
-int kom_mesh_get_int(MeshHandle prvek_handle, int *p_x, int *p_y, int *p_z,
+int kom_mesh_get_int(ItemHandle prvek_handle, int *p_x, int *p_y, int *p_z,
   int *p_rotace);
 
 /* Resetuje umisteni prvku ve scene
@@ -115,21 +115,21 @@ int kom_mesh_get_int(MeshHandle prvek_handle, int *p_x, int *p_y, int *p_z,
    Typicky tuto funkci zavolej, pokud se prvek nejak otoci a ty ho chces
    resetovat na defaultni smer rotace
 */
-int kom_mesh_reset_pr(MeshHandle prvek_handle, int x, int y, int z,
+int kom_mesh_reset_pr(ItemHandle prvek_handle, int x, int y, int z,
   int rotace);
 
 /* Nastavi no-test flag (u vody)
 */
-int kom_mesh_set_no_test(MeshHandle prvek_handle);
+int kom_mesh_set_no_test(ItemHandle prvek_handle);
 
 /* Vrati savovaci cislo meshe (cislo ktere se strka do
    ukladacich struktur)
 */
-int kom_mesh_get_save_num(MeshHandle prvek_handle);
+int kom_mesh_get_save_num(ItemHandle prvek_handle);
 
 /* Sladi logicke umisteni prvku s jeho fyzickym umistenim
 */
-inline int kom_mesh_reset(MeshHandle prvek_handle)
+inline int kom_mesh_reset(ItemHandle prvek_handle)
 {
   int x, y, z, rotace;
 
@@ -142,7 +142,7 @@ inline int kom_mesh_reset(MeshHandle prvek_handle)
 */
 #define kom_umisti_prvek(prvek_handle,x,y,z,rotace) ber_umisti_prvek(prvek_handle,x,y,z,rotace)
 
-int kom_get_mesh_id(MeshHandle prvek_handle);
+int kom_get_mesh_id(ItemHandle prvek_handle);
 
 /* Databaze -> vznikani prvku z databaze za behu
    Vlozi prvek do databaze, ze ktere muze byt behem hry zkopirovan do levelu
@@ -593,56 +593,54 @@ RunHandle kam_3ds_anim_add(BOD * p_p, BOD * p_t, float roll, int *p_flag,
   int flag, int framenum, float tension);
 
 // Slozite animace kamer
-AnimHandle kam_pol_vyrob_animaci(int framenum, int pos_keys, int rot_keys,
+CameraAnimHandle kam_pol_vyrob_animaci(int framenum, int pos_keys, int rot_keys,
   int vzdal_keys, int korekce);
-AnimHandle kam_pol_vloz_klic_posun(AnimHandle handle, int klic, float x,
+CameraAnimHandle kam_pol_vloz_klic_posun(CameraAnimHandle handle, int klic, float x,
   float y, float z, int frame);
-AnimHandle kam_pol_vloz_klic_posun_bod(AnimHandle handle, int klic, BOD * p_p,
+CameraAnimHandle kam_pol_vloz_klic_posun_bod(CameraAnimHandle handle, int klic, BOD * p_p,
   int frame);
-AnimHandle kam_pol_vloz_klic_posun_parametry(AnimHandle handle, int klic,
+CameraAnimHandle kam_pol_vloz_klic_posun_parametry(CameraAnimHandle handle, int klic,
   float tension, float continuity, float bias);
-AnimHandle kam_pol_vloz_klic_rotace(AnimHandle handle, int klic, float r,
+CameraAnimHandle kam_pol_vloz_klic_rotace(CameraAnimHandle handle, int klic, float r,
   float fi, int frame);
-AnimHandle kam_pol_vloz_klic_rotace_parametry(AnimHandle handle, int klic,
+CameraAnimHandle kam_pol_vloz_klic_rotace_parametry(CameraAnimHandle handle, int klic,
   float tension, float continuity, float bias);
-AnimHandle kam_pol_vloz_klic_vzdal(AnimHandle handle, int klic, float vzdal,
+CameraAnimHandle kam_pol_vloz_klic_vzdal(CameraAnimHandle handle, int klic, float vzdal,
   int frame, float tension, float continuity, float bias);
-AnimHandle kam_pol_vloz_klic_all(AnimHandle handle, int klic, BOD * p_p,
+CameraAnimHandle kam_pol_vloz_klic_all(CameraAnimHandle handle, int klic, BOD * p_p,
   float r, float fi, float vzdal, int frame, float tension);
-AnimHandle kam_zrus_animaci(AnimHandle handle);
+CameraAnimHandle kam_zrus_animaci(CameraAnimHandle handle);
 
-AnimHandle kam_3ds_vyrob_animaci(int framenum, int pos_keys, int target_keys,
+CameraAnimHandle kam_3ds_vyrob_animaci(int framenum, int pos_keys, int target_keys,
   int roll_keys, int fov_keys);
-AnimHandle kam_3ds_nahraj_animaci(APAK_HANDLE * pHandle, char *p_jmeno);
-AnimHandle kam_3ds_vloz_klic_posun(AnimHandle handle, int klic, float x,
+CameraAnimHandle kam_3ds_nahraj_animaci(APAK_HANDLE * pHandle, char *p_jmeno);
+CameraAnimHandle kam_3ds_vloz_klic_posun(CameraAnimHandle handle, int klic, float x,
   float y, float z, int frame);
-AnimHandle kam_3ds_vloz_klic_posun_bod(AnimHandle handle, int klic, BOD * p_p,
+CameraAnimHandle kam_3ds_vloz_klic_posun_bod(CameraAnimHandle handle, int klic, BOD * p_p,
   int frame);
-AnimHandle kam_3ds_vloz_klic_posun_parametry(AnimHandle handle, int klic,
+CameraAnimHandle kam_3ds_vloz_klic_posun_parametry(CameraAnimHandle handle, int klic,
   float tension, float continuity, float bias);
-AnimHandle kam_3ds_vloz_klic_target(AnimHandle handle, int klic, float x,
+CameraAnimHandle kam_3ds_vloz_klic_target(CameraAnimHandle handle, int klic, float x,
   float y, float z, int frame);
-AnimHandle kam_3ds_vloz_klic_target_bod(AnimHandle handle, int klic,
+CameraAnimHandle kam_3ds_vloz_klic_target_bod(CameraAnimHandle handle, int klic,
   BOD * p_target, int frame);
-AnimHandle kam_3ds_vloz_klic_target_parametry(AnimHandle handle, int klic,
+CameraAnimHandle kam_3ds_vloz_klic_target_parametry(CameraAnimHandle handle, int klic,
   float tension, float continuity, float bias);
-AnimHandle kam_3ds_vloz_klic_roll(AnimHandle handle, int klic, float roll,
+CameraAnimHandle kam_3ds_vloz_klic_roll(CameraAnimHandle handle, int klic, float roll,
   int frame, float tension, float continuity, float bias);
-AnimHandle kam_3ds_vloz_klic_fov(AnimHandle handle, int klic, float fov,
+CameraAnimHandle kam_3ds_vloz_klic_fov(CameraAnimHandle handle, int klic, float fov,
   int frame, float tension, float continuity, float bias);
-AnimHandle kam_3ds_vloz_klic_all(AnimHandle handle, int klic, BOD * p_p,
+CameraAnimHandle kam_3ds_vloz_klic_all(CameraAnimHandle handle, int klic, BOD * p_p,
   BOD * p_t, float roll, int frame, float tension);
 
 // Prehravani slozitych animaci kamer
-RunHandle kam_start(AnimHandle a_handle, int *p_flag, int flag, int start,
+RunHandle kam_start(CameraAnimHandle a_handle, int *p_flag, int flag, int start,
   int stop);
 void kam_stop(void);
 
 // Cteni klicu kamery
-int kam_3ds_cti_klic(AnimHandle handle, float time, BOD * p_p, BOD * p_t,
-  float *p_roll);
-int kam_pol_cti_klic(AnimHandle handle, float time, BOD * p_t, float *p_r,
-  float *p_fi, float *p_vzdal);
+int kam_3ds_cti_klic(CameraAnimHandle handle, float time, BOD * p_p, BOD * p_t, float *p_roll);
+int kam_pol_cti_klic(CameraAnimHandle handle, float time, BOD * p_t, float *p_r, float *p_fi, float *p_vzdal);
 
 // Servisni funkce
 void kam_set_mod_param(int mod);        // nastavi mod kamery (3ds/polarni)
@@ -688,7 +686,7 @@ MLZNA_KOSTKA *kom_mlhokostka_najdi(char *p_jmeno);
    uroven je vrstva fleku (0,1,2,..pocet) (kdyz je vice fleku na 1 miste, tak 
    nejspodnejsi ma uroven "0" a nejvyssi uroven "pocet")
 */
-FlekHandle kom_flek_pridej(MeshHandle mh, BOD * p_p, BOD * p_nx, BOD * p_nz,
+FlekHandle kom_flek_pridej(ItemHandle mh, BOD * p_p, BOD * p_nx, BOD * p_nz,
   float dx, float dz, int rotace, int uroven, MatHandle material);
 void kom_flek_zmen(FlekHandle fh, BOD * p_p, BOD * p_nx, BOD * p_nz, float dx,
   float dz, int rotace, int uroven, MatHandle material);
@@ -815,11 +813,11 @@ void kom_load_param_fce(void (*p_load_fce) (void));
 
 /* Pridani kurzoru do hry
 */
-MeshHandle kom_pridej_kurzor_do_levelu(void);
+ItemHandle kom_pridej_kurzor_do_levelu(void);
 
 /* Nastavi viditelnost prvku
 */
-MeshHandle kom_prvek_viditelnost(MeshHandle mh, int vid);
+ItemHandle kom_prvek_viditelnost(ItemHandle mh, int vid);
 
 /* Zere mesh
 */

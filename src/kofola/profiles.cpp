@@ -12,17 +12,17 @@
 
 PLAYER_PROFILE pPlayerProfile;
 
-int pr_DiscToProfile(PLAYER_PROFILE_DISC * disc, PLAYER_PROFILE * prof)
+void pr_DiscToProfile(PLAYER_PROFILE_DISC * disc, PLAYER_PROFILE * prof)
 {
   prof->iVer = disc->iVer;
   memcpy(prof->cScene, disc->cScene, sizeof(disc->cScene));
   memcpy(prof->cMovie, disc->cMovie, sizeof(disc->cMovie));
   memcpy(prof->cLevel, disc->cLevel, sizeof(disc->cLevel));
   memcpy(prof->Reserved, disc->Reserved, sizeof(disc->Reserved));
-  wchar_windows_to_linux(disc->cName, PLAYER_NAME_LENGTH, prof->cName);
+  wchar_windows_to_linux(disc->cName, PLAYER_NAME_LENGTH, prof->cName);  
 }
 
-int pr_ProfileToDisc(PLAYER_PROFILE * prof, PLAYER_PROFILE_DISC * disc)
+void pr_ProfileToDisc(PLAYER_PROFILE * prof, PLAYER_PROFILE_DISC * disc)
 {
   disc->iVer = prof->iVer;
   memcpy(disc->cScene, prof->cScene, sizeof(disc->cScene));

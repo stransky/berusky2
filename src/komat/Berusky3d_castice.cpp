@@ -851,8 +851,8 @@ void par_zrus_hnizdo(ParHandle ph, HnizdoHandle hh)
 int pe_updatuj_kour_stopa(G_KONFIG * p_ber, PARMETAC * p_mt)
 {
   GAME_MESH_OLD *p_mesh;
-  GLMATRIX *p_cam = p_ber->p_camera;
-  GLMATRIX *p_inv = p_ber->p_invcam;
+  //GLMATRIX *p_cam = p_ber->p_camera;
+  //GLMATRIX *p_inv = p_ber->p_invcam;
   PARMETAC_HNIZDO *p_hnizdo, *p_tmp;
   PAR_KOUR_STOPA *p_par, *p_next;
   BOD *p_max;
@@ -1443,8 +1443,8 @@ void vod_updatuj_vodniky(VODNIK * p_vodnik)
   float koef = p_ber->TimeLastFrame / 1000.0f;
   float *p_sinus_table = p_ber->sinus_table;
   float vzdal, am, fi, per;
-  int diff, diff1, diff2, diff3;
-  int spec, spec1, spec2, spec3;
+  int diff, diff1, diff2;
+  int spec, spec1, spec2;
   VODOVERTEX *p_vert;
   float *p_vzdal;
   float sinus;
@@ -1472,7 +1472,7 @@ void vod_updatuj_vodniky(VODNIK * p_vodnik)
       if (diff) {
         diff1 = p_vodnik->flag & VOD_DIFF_MOD;
         diff2 = p_vodnik->flag & VOD_DIFF_ADD;
-        diff3 = p_vodnik->flag & VOD_DIFF_SUB;
+        //diff3 = p_vodnik->flag & VOD_DIFF_SUB;
 
         dr = p_vodnik->dr;
         dg = p_vodnik->dg;
@@ -1489,7 +1489,7 @@ void vod_updatuj_vodniky(VODNIK * p_vodnik)
       if (spec) {
         spec1 = p_vodnik->flag & VOD_SPEC_MOD;
         spec2 = p_vodnik->flag & VOD_SPEC_ADD;
-        spec3 = p_vodnik->flag & VOD_SPEC_SUB;
+        //spec3 = p_vodnik->flag & VOD_SPEC_SUB;
 
         sr = p_vodnik->sr;
         sg = p_vodnik->sg;

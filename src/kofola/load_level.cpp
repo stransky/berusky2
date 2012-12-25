@@ -1210,8 +1210,8 @@ void lsi_Release_Level(LEVELINFO * p_Level)
 {
   int i;
 
-  for (i = 0; i < p_Level->Count_Of_Items; i++)
-    if (p_Level->Level[i])
+  for (i = 0; i < p_Level->Count_Of_Items; i++) {
+    if (p_Level->Level[i]) {
       if ((p_Level->Level[i]->p_Object->Class == 1) ||
         (p_Level->Level[i]->p_Object->Class == 11) ||
         (p_Level->Level[i]->p_Object->Class == 8) ||
@@ -1219,6 +1219,8 @@ void lsi_Release_Level(LEVELINFO * p_Level)
         kprintf(1, "free(p_Level->Level[%d]->p_Back_Pack);", i);
         free(p_Level->Level[i]->p_Back_Pack);
       }
+    }
+  }
 
   kprintf(1, "free (Item, Level, Square, Action_Item, Anim_Item, pSquare");
 
@@ -1280,7 +1282,7 @@ void lsi_Release_Level(LEVELINFO * p_Level)
       free((void *) p_Level->VodniCakanec2[i].pCastice);
     }
 
-    if (p_Level->NatureESystem[i].pSystem != -1) {
+    if (p_Level->NatureESystem[i].pSystem) {
       kprintf(1, "free p_Level->NatureESystem[%d].pSystem", i);
       par_zrus(p_Level->NatureESystem[i].pSystem);
 
@@ -1294,7 +1296,7 @@ void lsi_Release_Level(LEVELINFO * p_Level)
       free((void *) p_Level->NatureESystem[i].nx);
     }
 
-    if (p_Level->KourUst[i].System != -1) {
+    if (p_Level->KourUst[i].System) {
       kprintf(1, "par_zrus p_Level->KourUst[%d].pSystem", i);
       par_zrus(p_Level->KourUst[i].System);
     }

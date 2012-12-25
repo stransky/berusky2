@@ -88,15 +88,17 @@ typedef struct _BUNKA_LEVELU_DISK
 
 } BUNKA_LEVELU_DISK;
 
+typedef int      ItemHandle;         // handle to level item
 typedef size_ptr MeshHandle;         // handle meshe/prvku pri loadu
 typedef size_ptr ExMeshHandle;       // handle extra-mesh (neni to prvek ale jen mesh)
 typedef int      DataHandle;         // handle meshe/prvku v datazazi
 typedef size_ptr AnimHandle;         // handle simple animace (polotovaru animace)
 typedef size_ptr RunHandle;          // handle bezici animace
 typedef size_ptr MatrixHandle;       // handle matice
-typedef size_ptr MatHandle;          // handle animovaneho materialu
-typedef size_ptr LightHandle;        // handle bezneho dynamickeho svetla
-typedef size_ptr ExtraLightHandle;   // handle extra-dynamickeho svetla
+typedef int      MatHandle;          // handle animovaneho materialu
+typedef int      LightHandle;        // handle bezneho dynamickeho svetla
+typedef int      ExtraLightHandle;   // handle extra-dynamickeho svetla
+typedef int      CameraAnimHandle;   // handle for camera animations
 typedef size_ptr FlekHandle;         // handle na fleky
 typedef size_ptr ParHandle;          // handle na casticovac
 typedef size_ptr FlareHandle;        // handle na flare

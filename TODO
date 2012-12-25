@@ -1,5 +1,6 @@
 - fix build warnings
 - remove -1 (K_CHYBA) from pointer/handles
+- invert_matrix() - assert when invertion matrix can't be calculated
 
 TODO:
 - set fps

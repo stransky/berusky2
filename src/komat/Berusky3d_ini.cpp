@@ -464,15 +464,12 @@ int spracuj_spravy(int param)
       case SDL_MOUSEMOTION:
         {
           nacti_polohu_mysi(event.motion.x, event.motion.y);
-          bool pressed = FALSE;
           int i;
 
           for (i = 0; i < MOUSE_BUTTONS; i++) {
             bool state = event.motion.state & SDL_BUTTON(i);
-
             if (state) {
-              nacti_tlacitka_mysi(i, 1);
-              pressed = TRUE;
+              nacti_tlacitka_mysi(i, 1);              
             }
           }
         }

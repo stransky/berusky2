@@ -121,7 +121,7 @@ DeviceHandle ddx2DeviceCreate(int linear_filtr, int bpp)
 //-----------------------------------------------------------------------------
 DeviceHandle ddx2DeviceSetActive(DeviceHandle handle)
 {
-  if (handle != K_CHYBA)
+  if (handle)
     p_dev = (DDX2_SURFACE_DEVICE *) handle;
   return (handle);
 }
@@ -471,7 +471,7 @@ void ddx2SetPruhlednost(float stupen)
 {
   /*
      if(stupen >= 1.0f) {
-     glColor4f(1,1,1,1);
+    glColor4f(1,1,1,1);
      glDisable(GL_BLEND);
      glEnable(GL_ALPHA_TEST);
      glAlphaFunc(GL_LEQUAL,0);
@@ -675,7 +675,7 @@ BOOL ddx2LoadList(char *pFileName, APAK_HANDLE * pBmpArchive, char *p_bmp_dir)
   int c;
   char text[256];
   FILE *file = 0;
-  DWORD Eplased = 0;
+  DWORD Eplased;
   DWORD Start, Stop;
 
   achdir(pBmpArchive, p_bmp_dir);
@@ -701,9 +701,9 @@ BOOL ddx2LoadList(char *pFileName, APAK_HANDLE * pBmpArchive, char *p_bmp_dir)
   aclose(file);
 
   Stop = timeGetTime();
-  kprintf(1,
-    (char *) "--------------Total load time %.1f s -----------------",
-    Eplased / 1000.0f);
+  Eplased = Stop - Start;
+  kprintf(1,(char *) "--------------Total load time %.1f s -----------------",
+          Eplased / 1000.0f);
 
   return (TRUE);
 }

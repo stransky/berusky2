@@ -591,6 +591,7 @@ int _2d_APAK_Load_List(char *p_File_Name)
     aclose(file);
 
     Stop = timeGetTime();
+    Eplased = Stop - Start;
     kprintf(1, "--------------Total load time %.1f s -----------------",
       Eplased / 1000.0f);
 

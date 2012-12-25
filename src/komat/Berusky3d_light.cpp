@@ -674,7 +674,7 @@ LightHandle sdl_anim_zrus(LightHandle lh)
 }
 
 LightHandle sdl_anim_vloz_klic_posun(LightHandle lh, int klic, float x,
-  float y, float z, int frame)
+                                     float y, float z, int frame)
 {
   DYN_LIGHT *p_light = p_ber->p_dlight + lh;
   DYN_LIGHT_ANIM *p_an = &p_light->an;
@@ -692,7 +692,7 @@ LightHandle sdl_anim_vloz_klic_posun(LightHandle lh, int klic, float x,
 }
 
 LightHandle sdl_anim_vloz_klic_posun_bod(LightHandle lh, int klic, BOD * p_p,
-  int frame)
+                                         int frame)
 {
   DYN_LIGHT *p_light = p_ber->p_dlight + lh;
   DYN_LIGHT_ANIM *p_an = &p_light->an;
@@ -708,7 +708,7 @@ LightHandle sdl_anim_vloz_klic_posun_bod(LightHandle lh, int klic, BOD * p_p,
 }
 
 LightHandle sdl_anim_vloz_klic_diff(LightHandle lh, int klic, float r,
-  float g, float b, float a, int frame)
+                                    float g, float b, float a, int frame)
 {
   DYN_LIGHT *p_light = p_ber->p_dlight + lh;
   DYN_LIGHT_ANIM *p_an = &p_light->an;
@@ -727,7 +727,7 @@ LightHandle sdl_anim_vloz_klic_diff(LightHandle lh, int klic, float r,
 }
 
 LightHandle sdl_anim_vloz_klic_vzdal(LightHandle lh, int klic, float dosah,
-  float min, float max, int frame)
+                                     float min, float max, int frame)
 {
   DYN_LIGHT *p_light = p_ber->p_dlight + lh;
   DYN_LIGHT_ANIM *p_an = &p_light->an;
@@ -750,8 +750,7 @@ LightHandle sdl_anim_vloz_klic_vzdal(LightHandle lh, int klic, float dosah,
     Run-time animace
    **************************************
 */
-RunHandle sdl_anim_start(LightHandle lh, int *p_flag, int flag, int start,
-  int stop)
+RunHandle sdl_anim_start(LightHandle lh, int *p_flag, int flag, int start, int stop)
 {
   DYN_LIGHT *p_light = p_ber->p_dlight + lh;
   DYN_LIGHT_ANIM *p_an = &p_light->an;
@@ -773,13 +772,15 @@ RunHandle sdl_anim_start(LightHandle lh, int *p_flag, int flag, int start,
     return (K_CHYBA);
 }
 
-int sdl_anim_stop(RunHandle rh)
+int sdl_anim_stop(LightHandle rh)
 {
   DYN_LIGHT *p_light = p_ber->p_dlight + rh;
   DYN_LIGHT_ANIM *p_an = &p_light->an;
 
-  if (rh < p_ber->dl_lightnum && p_light->akt && p_an->endtime
-    && p_light->flag & SDL_ANIMACE) {
+  if (rh < p_ber->dl_lightnum && 
+      p_light->akt && p_an->endtime && 
+      p_light->flag & SDL_ANIMACE) 
+  {
     p_light->flag &= ~SDL_ANIMACE;
     return (rh);
   }
@@ -948,7 +949,8 @@ inline int dl_mesh_svetlo_update(GAME_MESH_DATA * p_data)
 /* Pokud je svetlo privazany -> automaticky ho updatuju
 */
 int dl_mesh_pripocitej_svetla(G_KONFIG * p_ber, GAME_MESH_OLD * p_mesh,
-  int dyn_light, int extra_light, int full_light, int all)
+                              int dyn_light, int extra_light, int full_light, 
+                              int all)
 {
   EDIT_MATERIAL **p_mat = p_ber->p_mat;
   GAME_MESH_DATA *p_data = p_mesh->p_data;
@@ -972,7 +974,7 @@ int dl_mesh_pripocitej_svetla(G_KONFIG * p_ber, GAME_MESH_OLD * p_mesh,
   int norm, o, objektu;
   int staticky, bump;
   int beruska = ber_je_mesh_beruska_fast(p_mesh);
-  float vzdal, vzdal2, I, lesk = 1.0f;
+  float vzdal = INT_MAX, vzdal2, I, lesk = 1.0f;
   float Ar, Ag, Ab;
   float *p_looksqrt_linear_float = p_ber->p_looksqrt_linear_float;
   float *p_looksqrt_quad_float = p_ber->p_looksqrt_quadratic_float;
@@ -983,8 +985,9 @@ int dl_mesh_pripocitej_svetla(G_KONFIG * p_ber, GAME_MESH_OLD * p_mesh,
   if (!diffuse && !specular)
     return (FALSE);
 
-  if (!diffuse || (dyn_light && !(kflag & KONT_POHYB) && !p_ber->dl_new
-      && !dl_mesh_svetlo_update(p_data))) {
+  if (!diffuse || 
+      (dyn_light && !(kflag & KONT_POHYB) && !p_ber->dl_new && !dl_mesh_svetlo_update(p_data))) 
+  {
     dyn_light = FALSE;
   }
 
@@ -1435,7 +1438,7 @@ inline void dl_updatuj_seznam_meshu(G_KONFIG * p_ber, int all)
   }
   else {
     ber_mesh_render_list_reset(p_ber);
-    while (p_mesh = ber_mesh_render_list_next_flag(p_ber, flag, FALSE)) {
+    while ((p_mesh = ber_mesh_render_list_next_flag(p_ber, flag, FALSE))) {
       if (!p_ber->conf_dyn_light_beruska || (p_ber->conf_dyn_light_beruska
           && ber_je_mesh_beruska_fast(p_mesh)))
         dl_updatuj_mesh(p_ber, p_mesh,
@@ -1605,17 +1608,17 @@ inline int edl_poly_svetlo_update(EDIT_MESH_POLY * p_poly, int *p_flag)
 */
 int edl_poly_pripocitej_svetla(G_KONFIG * p_ber, EDIT_MESH_POLY * p_poly)
 {
-  EXTRA_DYN_LIGHT *p_light;
-  BODRGBA *p_vertex_diff;
-  BODRGBA *p_vertex_diff_mat;
-  BODRGB *p_vertex_spec;
-  BODRGB *p_vertex_spec_mat;
+  EXTRA_DYN_LIGHT *p_light = NULL;
+  BODRGBA *p_vertex_diff = NULL;
+  BODRGBA *p_vertex_diff_mat = NULL;
+  BODRGB *p_vertex_spec = NULL;
+  BODRGB *p_vertex_spec_mat = NULL;
   BOD *p, *n, dir, cam;
   int i, v, vnum, dflag;
   int specular, specular_light;
   int extra_light;
   int lflag, diffuse, update;
-  float vzdal, vzdal2, I;
+  float vzdal = FLT_MAX, vzdal2, I;
 
   update = edl_poly_svetlo_update(p_poly, &lflag);
   if (!p_ber->edl_new && !update) {
@@ -1827,7 +1830,7 @@ inline int sdl_poly_pripocitej_svetla_face(G_KONFIG * p_ber,
   float vzdal, dosah2d, look_max, max_vzdal;
   BOD s;
   DYN_LIGHT *p_dlight;
-  int l, sv, su, u;
+  int l, sv, su, u = 0;
   dword r, g, b;
   dword sr, sg, sb;
   int nup, nul;                 // pocet pravych/levych pixelu
@@ -1850,7 +1853,7 @@ inline int sdl_poly_pripocitej_svetla_face(G_KONFIG * p_ber,
     for (l = 0, u = 0; l < lnum; l++) {
       p_dlight = (DYN_LIGHT *) p_poly->p_dlight[l];
       vzdal = vzdal_bodu_a_roviny(&p_dlight->tp, &p_lf->n);
-      if (p_dlight->aup = (vzdal < p_dlight->dosah)) {
+      if ((p_dlight->aup = (vzdal < p_dlight->dosah))) {
         p_dlight->avzdal = vzdal;
         u++;
       }
@@ -3018,9 +3021,8 @@ inline void sdl_updatuj_seznam_poly(G_KONFIG * p_ber, int all)
   }
   else {
     ber_poly_render_list_reset(p_ber);
-    while (p_poly = ber_poly_render_list_next_flag(p_ber, flag, FALSE)) {
-      sdl_updatuj_poly(p_ber, p_poly,
-        full ? p_poly->kflag & KONT_PRVEK : FALSE);
+    while ((p_poly = ber_poly_render_list_next_flag(p_ber, flag, FALSE))) {
+      sdl_updatuj_poly(p_ber, p_poly, full ? p_poly->kflag & KONT_PRVEK : FALSE);
     }
   }
 }
@@ -3588,7 +3590,7 @@ RunHandle edl_anim_start(ExtraLightHandle lh, int *p_flag, int flag,
     return (K_CHYBA);
 }
 
-int edl_anim_stop(RunHandle rh)
+int edl_anim_stop(ExtraLightHandle rh)
 {
   EXTRA_DYN_LIGHT *p_light = p_ber->p_edlight + rh;
   DYN_LIGHT_ANIM *p_an = &p_light->an;

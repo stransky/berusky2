@@ -32,7 +32,7 @@ int pr_ReadProfile(char *cPlayerName, PLAYER_PROFILE * pProfile);
 int pr_SaveProfile(PLAYER_PROFILE * pProfile);
 int pr_GetPlayerName(char *cFile, WCHAR * cName);
 
-int pr_DiscToProfile(PLAYER_PROFILE_DISC * disc, PLAYER_PROFILE * prof);
-int pr_ProfileToDisc(PLAYER_PROFILE * prof, PLAYER_PROFILE_DISC * disc);
+void pr_DiscToProfile(PLAYER_PROFILE_DISC * disc, PLAYER_PROFILE * prof);
+void pr_ProfileToDisc(PLAYER_PROFILE * prof, PLAYER_PROFILE_DISC * disc);
 
 #endif

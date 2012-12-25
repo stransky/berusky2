@@ -30,6 +30,11 @@ inline QUAT *angle_to_quat(QUAT * p_q, BOD * p_o, float uhel)
     p_q->y = p_o->y * vel;
     p_q->z = p_o->z * vel;
   }
+  else {
+    p_q->x = 0;
+    p_q->y = 0;
+    p_q->z = 0;
+  }
   uhel *= 0.5f;
   p_q->w = (float) cos(uhel);
   vektor_mult_skalar((BOD *) p_q, sinf(uhel), (BOD *) p_q);
@@ -162,8 +167,10 @@ inline QUAT *quat_mult_skalar(QUAT * p_q1, float skalar, QUAT * p_qv)
 */
 inline QUAT *kam_angle_to_quat(float r, float fi, QUAT * p_q)
 {
-  QUAT q1, q2;
-  BOD o1, o2;
+  QUAT q1,
+       q2;
+  BOD o1, 
+      o2;
 
   if (r > 0.0f)
     o1.y = -1.0f;
@@ -183,7 +190,11 @@ inline QUAT *kam_angle_to_quat(float r, float fi, QUAT * p_q)
   }
   o2.y = 0.0f;
   o2.z = 0.0f;
-  quat_mult(angle_to_quat(&q1, &o1, r), angle_to_quat(&q2, &o2, fi), p_q);
+
+  quat_mult(angle_to_quat(&q1, &o1, r), 
+            angle_to_quat(&q2, &o2, fi), 
+            p_q);
+
   return (p_q);
 }
 

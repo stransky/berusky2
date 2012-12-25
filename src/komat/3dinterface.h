@@ -61,14 +61,13 @@ extern int glstav_matrix_2d_mod;
 //#define STATE_BLOK_PRUHL      50 // zpruhlednovaci state blok
 #define STATE_BLOK_PRUHL      50
 #define STAGE_ALFA_FUNKCI     5
-#define STAGE_TEXT_FUNKCI     8
+#define STAGE_TEXT_FUNKCI     9
 
 extern STAGE_FUNC_ALFA p_alfa_stage_func[STAGE_ALFA_FUNKCI];
 extern STAGE_FUNC p_text_stage_func[STAGE_TEXT_FUNKCI];
 extern STAGE_FUNC_ELEM p_text_stage_func_elem[STAGE_TEXT_FUNKCI];
 
-extern EDIT_STATE_ALFA_BLOK alfa_stage_edit_blok[STAGE_ALFA_FUNKCI +
-  STATE_BLOK_PRUHL + 1];
+extern EDIT_STATE_ALFA_BLOK alfa_stage_edit_blok[STAGE_ALFA_FUNKCI + STATE_BLOK_PRUHL + 1];
 extern EDIT_STATE_TEXT_BLOK text_stage_edit_blok[STAGE_TEXT_FUNKCI];
 
 #define STAGE_ALFA_MASKA      4

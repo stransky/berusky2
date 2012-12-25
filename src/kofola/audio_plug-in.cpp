@@ -455,10 +455,11 @@ void ap_Count_Environment(AUDIO_DATA * p_ad, void *p_Level)
   long m_pos;
   LEVELINFO *p_L = (LEVELINFO *) p_Level;
 
-  for (i = 0; i < p_ad->Max_Sources; i++)
-    if (p_ad->p_Source[i].Source != -1)
-      if (!p_ad->p_Source[i].flag)
+  for (i = 0; i < p_ad->Max_Sources; i++) {
+    if (p_ad->p_Source[i].Source != -1) {
+      if (!p_ad->p_Source[i].flag) {
         p_ad->p_Source[i].Source = -1;
+      }
       else {
         adas_Get_Source_Position(p_ad->p_Source[i].Source, s_pos);
         adas_Get_Listener_Position(l_pos);
@@ -526,7 +527,7 @@ void ap_Count_Environment(AUDIO_DATA * p_ad, void *p_Level)
             break;
         }
 
-        if (!t_end)
+        if (!t_end) {
           if (p_L->Level[m_pos]) {
             material = p_L->Level[m_pos]->p_Object->Material - 1;
             if (material > 0) {
@@ -551,7 +552,10 @@ void ap_Count_Environment(AUDIO_DATA * p_ad, void *p_Level)
               EAXBUFFER_DEFAULTOBSTRUCTIONLFRATIO);
           */
           }
+        }
       }
+    }
+  }
 }
 
 //------------------------------------------------------------------------------------------------

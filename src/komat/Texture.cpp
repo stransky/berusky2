@@ -170,7 +170,7 @@ bitmapa *txt_bmp2textura(bitmapa * p_bmp, EDIT_TEXT_OLD * p_text,
   EDIT_TEXT_KONFIG * p_konf, int _2d_text)
 {
   int dx, dy, x, y, scale = FALSE;
-  int wrap;
+  int wrap = GL_REPEAT;
 
   if (p_konf) {
     p_text->typ = p_konf->typ;

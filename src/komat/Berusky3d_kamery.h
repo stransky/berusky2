@@ -11,7 +11,9 @@
 void kani_updatuj(G_KONFIG * p_ber);
 void ber_zpruhledni_prvky(G_KONFIG * p_ber);
 void ber_zpruhlednuj_scenu_polylist_rec(G_KONFIG * p_ber,
-  OBB_TREE_OLD * p_prvni, GLMATRIX * p_m, BOD * p, BOD * t);
+                                        OBB_TREE_OLD * p_prvni, 
+                                        GLMATRIX * p_m, 
+                                        BOD * p, BOD * t);
 void ber_zpruhledni_prvky_reset(G_KONFIG * p_ber);
 int ber_kamera_korekce_vzdalenosti(G_KONFIG * p_ber, int korekce,
   int korekce_vzdal);

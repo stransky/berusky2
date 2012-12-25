@@ -321,7 +321,7 @@ void w_Choose_Random_Boundary(WATER_BOUNDARY * pBoundary, float fx, float fy,
 void w_Choose_Max_Size_Boundary(WATER_BOUNDARY * pBoundary, float fx,
   float fy, float fz)
 {
-  int iBoundary;
+  int iBoundary = -1;
   int iCount = 0;
   float max_size = 0;
   WATER_BOUNDARY *pTBoundary = wsWater.pFirst;
@@ -329,8 +329,10 @@ void w_Choose_Max_Size_Boundary(WATER_BOUNDARY * pBoundary, float fx,
   while (pTBoundary) {
     if (fx >= pTBoundary->Left && fx <= pTBoundary->Right &&
       fy >= pTBoundary->Bottom && fy <= pTBoundary->Top &&
-      fz >= pTBoundary->Height - 0.25f && fz <= pTBoundary->Height + 0.25f &&
-      pTBoundary->Size > max_size) {
+      fz >= pTBoundary->Height - 0.25f && 
+      fz <= pTBoundary->Height + 0.25f &&
+      pTBoundary->Size > max_size) 
+    {
       iBoundary = iCount;
       max_size = pTBoundary->Size;
     }

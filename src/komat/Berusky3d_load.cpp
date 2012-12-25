@@ -173,7 +173,7 @@ int ber_mesh_do_bunky(G_KONFIG * p_ber, int mesh, int *p_handle)
 {
   PRVEK_LEVELU_GAME *p_lev;
   GAME_MESH_OLD *p_mesh = p_ber->p_mesh[mesh];
-  GLMATRIX *p_m, tmp1;
+  GLMATRIX tmp1;
   int i;
 
   if (!p_ber->p_mesh[mesh]) {
@@ -186,8 +186,7 @@ int ber_mesh_do_bunky(G_KONFIG * p_ber, int mesh, int *p_handle)
       p_lev->mesh = mesh;
       p_mesh = p_ber->p_mesh[mesh];
       p_lev->p_mesh_data = p_mesh->p_data;
-      p_lev->mp = p_mesh->m;
-      p_m = &p_lev->mp;
+      p_lev->mp = p_mesh->m;      
       p_lev->pivot = p_mesh->kofola_pivot;
 
       init_matrix(&p_lev->mg);
@@ -288,23 +287,6 @@ void ber_umisti_prvek_abs(PRVEK_LEVELU_GAME * p_lev, float x, float y,
       }
     }
   }
-}
-
-inline static int _najdi_cislo(char *p_string)
-{
-  char *pom = (char *) alloca(strlen(p_string));
-  char *p_pom, *p_last;
-  int k;
-
-  strcpy(pom, p_string);
-  p_pom = pom;
-
-  while ((p_pom = strchr(p_pom, '_'))) {
-    p_last = ++p_pom;
-  }
-
-  sscanf(p_last, "%d%s", &k, KONCOVKA_MESH);
-  return (k);
 }
 
 /*
@@ -515,11 +497,12 @@ int ber_mat_vloz_dot3_env(EDIT_TEXT * p_text, int textnum,
 // SMAT je bez bump-mappingu!!!
 int ber_uprava_materialu_bump_mapping(G_KONFIG * p_ber)
 {
+/*
   int matnum, i, bmptyp = hwconf.bump_mapping_typ, trida;
   EDIT_MATERIAL *p_mat;
 
   matnum = lo_pocet_materialu(p_ber->p_mat, MAX_CELKEM_MATERIALU);
-/*
+
   for(i = 0; i < MAX_CELKEM_TEXTUR; i++) {
     if(p_ber->p_text[i].load && p_ber->p_text[i].bump) {
       trida = p_ber->p_text[i].trida;
@@ -628,7 +611,7 @@ int ber_nahraj_scenu(G_KONFIG * p_ber, char *p_jmeno, char *p_dir, int reload,
   LEVEL_KONFIG lc;
   char file[200], tmp[200];
   dword ambient;
-  int k, f, kflag, p, m, ret;
+  int k, f, kflag, m, ret;
 
   memset(p_kont, 0, sizeof(p_kont[0]) * MAX_BERUSKY_KONTEJNERU);
   memset(flare, 0, sizeof(flare[0]) * MAX_FLARE_SVETEL);
@@ -694,7 +677,7 @@ int ber_nahraj_scenu(G_KONFIG * p_ber, char *p_jmeno, char *p_dir, int reload,
     }  
 
     // prekopiruje kontejnery-meshe 1:1
-    for (k = 0, m = 0, p = -1; k < MAX_BERUSKY_KONTEJNERU; k++) {
+    for (k = 0, m = 0; k < MAX_BERUSKY_KONTEJNERU; k++) {
       if (p_kont[k]) {
         if(export_level) {
           json_export_kont_single(p_kont[k], p_ber->p_mat, MAX_CELKEM_MATERIALU);

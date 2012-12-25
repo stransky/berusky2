@@ -1535,7 +1535,9 @@ inline void transformuj_bod_matici(float *p_x, float *p_y, float *p_z,
   *p_z = m->_13 * x + m->_23 * y + m->_33 * z + m->_43;
 
 // wp = matSet._14*x + matSet._24*y + matSet._34*z + matSet._44;
-} inline BOD *transformuj_bod_bod_matici(BOD * p_p, GLMATRIX * m)
+} 
+
+inline BOD *transformuj_bod_bod_matici(BOD * p_p, GLMATRIX * m)
 {
   float x, y, z;
 
@@ -1560,7 +1562,9 @@ inline void transformuj_wbod_matici(float *p_x, float *p_y, float *p_z,
   *p_y = m->_12 * x + m->_22 * y + m->_32 * z + m->_42 * w;
   *p_z = m->_13 * x + m->_23 * y + m->_33 * z + m->_43 * w;
   *p_w = m->_14 * x + m->_24 * y + m->_34 * z + m->_44 * w;
-} inline void transformuj_wbod_matici_wbod(WBOD * p_s, GLMATRIX * m,
+} 
+
+inline void transformuj_wbod_matici_wbod(WBOD * p_s, GLMATRIX * m,
   WBOD * p_c)
 {
   float x, y, z, w;
@@ -1572,7 +1576,9 @@ inline void transformuj_wbod_matici(float *p_x, float *p_y, float *p_z,
   p_c->y = m->_12 * x + m->_22 * y + m->_32 * z + m->_42 * w;
   p_c->z = m->_13 * x + m->_23 * y + m->_33 * z + m->_43 * w;
   p_c->w = m->_14 * x + m->_24 * y + m->_34 * z + m->_44 * w;
-} inline BOD *transformuj_bod_matici_bod(BOD * p_bod, GLMATRIX * m,
+} 
+
+inline BOD *transformuj_bod_matici_bod(BOD * p_bod, GLMATRIX * m,
   BOD * p_cil)
 {
   float x, y, z;
@@ -1596,7 +1602,9 @@ inline void transformuj_nbod_matici(BOD * p_bod, GLMATRIX * m)
   p_bod->x = m->_11 * x + m->_21 * y + m->_31 * z;
   p_bod->y = m->_12 * x + m->_22 * y + m->_32 * z;
   p_bod->z = m->_13 * x + m->_23 * y + m->_33 * z;
-} inline void transformuj_nbod_matici_bod(BOD * p_bod, GLMATRIX * m,
+} 
+
+inline void transformuj_nbod_matici_bod(BOD * p_bod, GLMATRIX * m,
   BOD * p_cil)
 {
   float x, y, z;
@@ -1607,7 +1615,9 @@ inline void transformuj_nbod_matici(BOD * p_bod, GLMATRIX * m)
   p_cil->x = m->_11 * x + m->_21 * y + m->_31 * z;
   p_cil->y = m->_12 * x + m->_22 * y + m->_32 * z;
   p_cil->z = m->_13 * x + m->_23 * y + m->_33 * z;
-} inline void transformuj_objekt_matici(EDIT_OBJEKT * p_obj, GLMATRIX * p_mat)
+} 
+
+inline void transformuj_objekt_matici(EDIT_OBJEKT * p_obj, GLMATRIX * p_mat)
 {
   int v;
 

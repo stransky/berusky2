@@ -29,7 +29,7 @@
 #include "json_export.h"
 #include <string>
 
-int kom_get_mesh_id(MeshHandle prvek_handle);
+int kom_get_mesh_id(ItemHandle prvek_handle);
 
 FILE * export_file = NULL;
 char export_level_dir[MAX_FILENAME];
@@ -236,7 +236,8 @@ void json_export_object(FILE *f, EDIT_OBJEKT *p_obj,
   }
   fprintf(f,"%f,%f,%f,%f",p_obj->p_vertex[p_obj->vertexnum-1].mdr,
                           p_obj->p_vertex[p_obj->vertexnum-1].mdg,
-                          p_obj->p_vertex[p_obj->vertexnum-1].mdb);
+                          p_obj->p_vertex[p_obj->vertexnum-1].mdb,
+                          p_obj->p_vertex[p_obj->vertexnum-1].mda);
   fprintf(f,"],\n");
 
   fprintf(f,"    \"vertexSpecular\" : [");
@@ -483,7 +484,7 @@ void json_export_poly(FILE *f, EDIT_MESH_POLY *p_poly,
   int l,last = 0;
   for(l = 0; l < p_poly->lightnum; l++) {
     fprintf(f,"{\n");
-    fprintf(f,"  \"lightmap\" : \"%d\",\n", p_poly->p_light[l]-p_light_list);
+    fprintf(f,"  \"lightmap\" : \"%d\",\n", (int)(p_poly->p_light[l]-p_light_list));
     fprintf(f,"  \"indices\" : [");  
     for (i = 0; i < p_poly->p_lightnum[l]; i++) {
       fprintf(f,"%d,",last+i);
@@ -611,15 +612,15 @@ char* name_cleaner(char* name){
   if(name == NULL) 
     return(NULL);
   
-  int i = 0;
+  int i;
   char *tempString = (char *)malloc(30*sizeof(char));
   //std::string temp_string;
-  for(i; i < 30; i++){
+  for(i = 0; i < 30; i++){
     //fputc((int) name[i], pFile);
     //fputc('_', pFile);
     // pokud je nalezen ukoncovaci znak, koncim a vracim string
     if(name[i] == '\0'){
-      tempString[i] == '\0';
+      tempString[i] = '\0';
       return tempString;
     }
     if((int)(name[i]) <= 127 && (int(name[i]) >= 32)){
@@ -670,7 +671,7 @@ void json_export_level(LEVELINFO * p_Level)
   fprintf(f,"  \"item_size\" : \"%d\",\n", X_PRVEK);
   fprintf(f,"  \"level_items_num\" : \"%d\",\n", p_Level->Count_Of_Items);
   
-  fprintf(f,"  \"level_items\" : [\n", p_Level->Count_Of_Items);
+  fprintf(f,"  \"level_items\" : [\n");
   for (int i = 0; i < p_Level->Count_Of_Items; i++){  
     if(i != 0){
       fprintf(f, ",\n");

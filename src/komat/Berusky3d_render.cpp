@@ -95,7 +95,6 @@ void ber_viditelnost_flare(G_KONFIG * p_ber, LENS_FLARE * p_flare)
   float pixel_z, t, xw, yw, zw, w, ryw, sx, sy, xq, yq;
   int s, nx, ny, maxx, maxy, ox, oy;
   LENS_FLARE_SLOZ *p_sloz;
-  STATIC_LIGHT *p_light;
   BOD p;
 
   get_matrix_view(&nx, &ny, &maxx, &maxy);
@@ -119,7 +118,6 @@ void ber_viditelnost_flare(G_KONFIG * p_ber, LENS_FLARE * p_flare)
       }
       else {
         p = p_flare->p;
-        p_light = NULL;
       }
     }
 
@@ -2035,11 +2033,9 @@ void ber_renderuj_scenu(void)
 void ber_updatuj_fps(G_KONFIG * p_ber)
 {
 #ifdef DEBUG_MOD
-  static dword akt = 0;
   static dword end = 0;
   static dword framu = 0;
 #endif
-  static dword time[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
   static dword fin_time = 0;
 
   fin_time = timeGetTime() / DELICKA_CASU;
@@ -2208,7 +2204,9 @@ void pe_kresli_kour_stopu(G_KONFIG * p_ber, PARMETAC * p_mt)
   PARMETAC_HNIZDO *p_hnizdo;
   EDIT_MATERIAL *p_mat;
   PAR_KOUR_STOPA *p_par;
-  BOD *p_bod, tmp[4], nx, ny, zup, up, zrg, cp, rg;
+  BOD *p_bod, tmp[4], nx, ny, zup, up, zrg, 
+       cp(FLT_MAX, FLT_MAX, FLT_MAX), 
+       rg;
   float b1x, b1z, b2x, b2z, b3x, b3z, b4x, b4z;
   float b1y, b2y, b3y, b4y;
   float sx, sz;
@@ -2243,11 +2241,11 @@ void pe_kresli_kour_stopu(G_KONFIG * p_ber, PARMETAC * p_mt)
 
   if (parhl) {
     GLMATRIX inv;
-
-    invert_matrix(get_matrix_world_camera(), &inv);
-    cp.x = inv._41;
-    cp.y = inv._42;
-    cp.z = inv._43;
+    if(invert_matrix(get_matrix_world_camera(), &inv)) {
+      cp.x = inv._41;
+      cp.y = inv._42;
+      cp.z = inv._43;
+    }
   }
 
   ber_nastav_material_single(NULL, p_mat, FALSE);

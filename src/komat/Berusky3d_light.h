@@ -115,9 +115,8 @@ LightHandle sdl_anim_vloz_klic_vzdal(LightHandle lh, int klic, float dosah,
    GK_LOOP       - animace se bude opakovat
    GK_REMOVE     - animace se po dobehnuti smaze i se svetlem
 */
-RunHandle sdl_anim_start(LightHandle lh, int *p_flag, int flag, int start,
-  int stop);
-int sdl_anim_stop(RunHandle rh);
+RunHandle sdl_anim_start(LightHandle lh, int *p_flag, int flag, int start, int stop);
+int sdl_anim_stop(LightHandle rh);
 void sdla_animaci_zrus_online(DYN_LIGHT_ANIM * p_an);
 
 
@@ -188,9 +187,8 @@ ExtraLightHandle edl_anim_vloz_klic_vzdal(ExtraLightHandle lh, int klic,
 
 // Prehravani slozitych animaci svetel
 
-RunHandle edl_anim_start(ExtraLightHandle lh, int *p_flag, int flag,
-  int start, int stop);
-int edl_anim_stop(RunHandle rh);
+RunHandle edl_anim_start(ExtraLightHandle lh, int *p_flag, int flag, int start, int stop);
+int edl_anim_stop(ExtraLightHandle rh);
 
 
 

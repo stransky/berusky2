@@ -757,7 +757,6 @@ void ber_test_animaci(G_KONFIG * p_ber)
 {
   ExMeshHandle mh, next;
   ChapadloHandle *p_handle = NULL;
-  char *p_jmeno;
   int chapadel;
   static int flag;
   int i, j, objektu;
@@ -792,7 +791,8 @@ void ber_test_animaci(G_KONFIG * p_ber)
       /* Vrati jmena animaci objektu
        */
       for (j = 0; j < chapadel; j++) {
-        p_jmeno = chani_cti_jmeno(p_handle[j]);
+        char *p_jmeno = chani_cti_jmeno(p_handle[j]);
+        (void)p_jmeno; //let's make gcc happy :)
       }
 
       /* -----------------------------------------------------------
@@ -855,7 +855,7 @@ extern APAK_HANDLE *pBmpArchive;
 
 void ber_test_animaci2(G_KONFIG * p_ber)
 {
-  GAME_MESH_OLD *p_mesh = p_ber->p_mesh[p_ber->p_prv_lev[2]->mesh];
+// GAME_MESH_OLD *p_mesh = p_ber->p_mesh[p_ber->p_prv_lev[2]->mesh];
 
 //kprintf(1,"Sound test....");
 //alut_test(FALSE);

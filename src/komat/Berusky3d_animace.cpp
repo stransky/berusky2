@@ -1715,10 +1715,8 @@ void chani_zrus_all(G_KONFIG * p_ber)
 
 void chani_updatuj(G_KONFIG * p_ber)
 {
-  int akt = 0;
   JOINT_ANIMACE *p_ani = p_ber->p_chap;
   dword next_time = p_ber->TimeEndLastFrame;
-  int anim = 0;
 
 #ifdef DEBUG_MOD
   p_ber->debug.vertex_obj = 0;

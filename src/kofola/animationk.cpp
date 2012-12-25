@@ -128,15 +128,13 @@ void am_Release(ANIMATION_MODULE * p_am, LEVELINFO * p_Level)
   free((void *) p_am->p_animation);
   p_am->Size_of_Anim = 0;
 
-  for (i = 0; i < 10; i++)
-    if (p_Level->ExitSparks[i].System != -1) {
-      kprintf(1, "ExitSparks[%d], par_zrus %d", i,
-        p_Level->ExitSparks[i].System);
-
+  for (i = 0; i < 10; i++) {
+    if (p_Level->ExitSparks[i].System) {
+      kprintf(1, "ExitSparks[%d], par_zrus %d", i, p_Level->ExitSparks[i].System);
       par_zrus(p_Level->ExitSparks[i].System);
       p_Level->ExitSparks[i].System = -1;
     }
-
+  }
 }
 
 //------------------------------------------------------------------------------------------------
@@ -840,20 +838,22 @@ void am_Obsluha_Koure(int i, LEVELINFO * p_Level)
   DWORD dwTime, dwEplased;
   int j;
 
-  if (p_Level->Kour[i].System != -1) {
+  if (p_Level->Kour[i].System) {
     dwTime = timeGetTime();
     dwEplased = dwTime - p_Level->Kour[i].dwStart;
 
-    if (dwEplased > 1000)
-      for (j = 0; j < p_Level->Kour[i].Sizeof; j++)
+    if (dwEplased > 1000) {
+      for (j = 0; j < p_Level->Kour[i].Sizeof; j++) {
         if (p_Level->Kour[i].hHnizdo[j]) {
           par_vloz_hnizdo_pivot(p_Level->Kour[i].hHnizdo[j], NULL);
           p_Level->Kour[i].hHnizdo[j] = 0;
         }
+      }
+    }
 
     if (!par_get_hnizda(p_Level->Kour[i].System)) {
       par_zrus(p_Level->Kour[i].System);
-      p_Level->Kour[i].System = -1;
+      p_Level->Kour[i].System = (size_ptr)NULL;
     }
   }
 }
@@ -863,20 +863,22 @@ void am_Obsluha_Koure_Kameni(int i, LEVELINFO * p_Level)
   DWORD dwTime, dwEplased;
   int j;
 
-  if (p_Level->KourKameni[i].System != -1) {
+  if (p_Level->KourKameni[i].System) {
     dwTime = timeGetTime();
     dwEplased = dwTime - p_Level->KourKameni[i].dwStart;
 
-    if (dwEplased > 1000)
-      for (j = 0; j < p_Level->KourKameni[i].Sizeof; j++)
+    if (dwEplased > 1000) {
+      for (j = 0; j < p_Level->KourKameni[i].Sizeof; j++) {
         if (p_Level->KourKameni[i].hHnizdo[j]) {
           par_vloz_hnizdo_pivot(p_Level->KourKameni[i].hHnizdo[j], NULL);
           p_Level->KourKameni[i].hHnizdo[j] = 0;
         }
+      }
+    }
 
     if (!par_get_hnizda(p_Level->KourKameni[i].System)) {
       par_zrus(p_Level->KourKameni[i].System);
-      p_Level->KourKameni[i].System = -1;
+      p_Level->KourKameni[i].System = (size_ptr)NULL;
     }
   }
 }
@@ -898,9 +900,9 @@ void am_Do_Zhave_castice(LEVELINFO * p_Level)
             pSystem->hSvetlo[j] = -1;
           }
 
-          if (pSystem->hFlare[j] != -1) {
+          if (pSystem->hFlare[j]) {
             kom_flare_zrus(pSystem->hFlare[j]);
-            pSystem->hFlare[j] = -1;
+            pSystem->hFlare[j] = (size_ptr)NULL;
           }
 
           if (pSystem->iKourStopa >= 0) {
@@ -926,10 +928,10 @@ void am_Do_Zhave_castice(LEVELINFO * p_Level)
             (BOD *) & pSystem->System.pCastice[j].p);
     }
 
-    if (p_Level->KourovaStopa[i].System != -1)
+    if (p_Level->KourovaStopa[i].System)
       if (!par_get_hnizda(p_Level->KourovaStopa[i].System)) {
         par_zrus(p_Level->KourovaStopa[i].System);
-        p_Level->KourovaStopa[i].System = -1;
+        p_Level->KourovaStopa[i].System = (size_ptr)NULL;
       }
 
     //obslouzeni kouru
@@ -952,9 +954,9 @@ void am_Release_Zhave_castice(SYSTEMZHAVYCHCASTIC * pSystem)
       pSystem->hSvetlo[i] = -1;
     }
 
-    if (pSystem->hFlare[i] != -1) {
+    if (pSystem->hFlare[i]) {
       kom_flare_zrus(pSystem->hFlare[i]);
-      pSystem->hFlare[i] = -1;
+      pSystem->hFlare[i] = (size_ptr)NULL;
     }
   }
 }
@@ -996,27 +998,28 @@ void am_Obsluha_Teleportacnich_Jisker(int i, LEVELINFO * p_Level)
   int j, r;
   float f;
 
-  if (p_Level->TeleportSparks[i].System != -1) {
+  if (p_Level->TeleportSparks[i].System) {
     dwTime = timeGetTime();
     dwEplased = dwTime - p_Level->TeleportSparks[i].dwStart;
 
     if (!p_Level->bGameResume)
       p_Level->TeleportSparks[i].dwTime += ber.TimeLastFrame;
 
-    if (dwEplased > 30000)
-      for (j = 0; j < p_Level->TeleportSparks[i].Sizeof; j++)
+    if (dwEplased > 30000) {
+      for (j = 0; j < p_Level->TeleportSparks[i].Sizeof; j++) {
         if (p_Level->TeleportSparks[i].hHnizdo[j]) {
           par_zrus_hnizdo(p_Level->TeleportSparks[i].System,
             p_Level->TeleportSparks[i].hHnizdo[j]);
           p_Level->TeleportSparks[i].hHnizdo[j] = 0;
         }
+      }
+    }
 
     //mihotani jisker
     if (p_Level->TeleportSparks[i].dwTime > 100) {
       for (j = 0; j < p_Level->TeleportSparks[i].Sizeof; j++)
         if (p_Level->TeleportSparks[i].hHnizdo[j]) {
-          pCastice =
-            par_cti_hnizdo_castice(p_Level->TeleportSparks[i].hHnizdo[j]);
+          pCastice = par_cti_hnizdo_castice(p_Level->TeleportSparks[i].hHnizdo[j]);
 
           if (pCastice) {
             while (pCastice) {
@@ -1043,7 +1046,7 @@ void am_Obsluha_Teleportacnich_Jisker(int i, LEVELINFO * p_Level)
 
     if (!par_get_hnizda(p_Level->TeleportSparks[i].System)) {
       par_zrus(p_Level->TeleportSparks[i].System);
-      p_Level->TeleportSparks[i].System = -1;
+      p_Level->TeleportSparks[i].System = (size_ptr)NULL;
     }
   }
 }
@@ -1137,12 +1140,12 @@ void am_Do_LiftVParticies(int i, LEVELINFO * p_Level)
 
   dwTime = timeGetTime();
 
-  if (p_Level->LiftVParticles[i].System != -1) {
+  if (p_Level->LiftVParticles[i].System) {
     dwEplased = dwTime - p_Level->LiftVParticles[i].dwStart;
 
     if (dwEplased > 200000) {
       par_zrus(p_Level->LiftVParticles[i].System);
-      p_Level->LiftVParticles[i].System = -1;
+      p_Level->LiftVParticles[i].System = (size_ptr)NULL;
     }
     else {
       if (!p_Level->bGameResume)
@@ -1197,13 +1200,13 @@ void am_Do_Lifts(LEVELINFO * p_Level)
   dwTime = timeGetTime();
 
   for (i = 0; i < 10; i++) {
-    if (p_Level->LiftParticles[i].System != -1) {
+    if (p_Level->LiftParticles[i].System) {
       dwEplased = dwTime - p_Level->LiftParticles[i].dwStart;
 
       if (dwEplased > p_Level->LiftParticles[i].dwStop) {
         if (!par_get_hnizda(p_Level->LiftParticles[i].System)) {
           par_zrus(p_Level->LiftParticles[i].System);
-          p_Level->LiftParticles[i].System = -1;
+          p_Level->LiftParticles[i].System = (size_ptr)NULL;
         }
         else
           par_vloz_hnizdo_pivot(p_Level->LiftParticles[i].hHnizdo[0], NULL);
@@ -1267,16 +1270,15 @@ void am_Do_Water_KolaB(LEVELINFO * p_Level)
   dwTime = timeGetTime();
 
   for (i = 0; i < 100; i++)
-    if (p_Level->VodniKolaB[i].System != -1) {
+    if (p_Level->VodniKolaB[i].System) {
       dwEplased = dwTime - p_Level->VodniKolaB[i].dwStart - ber.TimeLastFrame;
 
       if (p_Level->VodniKolaB[i].dwExpire) {
         if (!p_Level->bGameResume)
           p_Level->VodniKolaB[i].dwExpireTime += ber.TimeLastFrame;
 
-        if (p_Level->VodniKolaB[i].dwExpireTime >=
-          p_Level->VodniKolaB[i].dwExpire
-          && p_Level->VodniKolaB[i].hHnizdo[2] != -1)
+        if (p_Level->VodniKolaB[i].dwExpireTime >= p_Level->VodniKolaB[i].dwExpire && 
+            p_Level->VodniKolaB[i].hHnizdo[2] != -1)
           p_Level->VodniKolaB[i].hHnizdo[2] = -1;
       }
 
@@ -1308,7 +1310,7 @@ void am_Do_Water_KolaB(LEVELINFO * p_Level)
       if (dwEplased > p_Level->VodniKolaB[i].dwStop) {
         if (!par_get_hnizda(p_Level->VodniKolaB[i].System)) {
           par_zrus(p_Level->VodniKolaB[i].System);
-          p_Level->VodniKolaB[i].System = -1;
+          p_Level->VodniKolaB[i].System = (size_ptr)NULL;
         }
         else {
           pHnizdo = par_cti_hnizdo(p_Level->VodniKolaB[i].hHnizdo[0]);
@@ -1327,13 +1329,13 @@ void am_Do_Water_KolaB(LEVELINFO * p_Level)
                   a = 0;
 
                 par_vloz_hnizdo_diff(p_Level->VodniKolaB[i].hHnizdo[0],
-                  pHnizdo->r, pHnizdo->g, pHnizdo->b, a,
-                  pHnizdo->dr, pHnizdo->dg, pHnizdo->db,
-                  pHnizdo->da, pHnizdo->ka);
+                                     pHnizdo->r, pHnizdo->g, pHnizdo->b, a,
+                                     pHnizdo->dr, pHnizdo->dg, pHnizdo->db,
+                                     pHnizdo->da, pHnizdo->ka);
               }
-              else if (p_Level->VodniKolaB[i].hHnizdo[0])
-                par_vloz_hnizdo_pivot(p_Level->VodniKolaB[i].hHnizdo[0],
-                  NULL);
+              else if (p_Level->VodniKolaB[i].hHnizdo[0]) {
+                par_vloz_hnizdo_pivot(p_Level->VodniKolaB[i].hHnizdo[0], NULL);
+              }
             }
           }
         }
@@ -1351,7 +1353,7 @@ void am_Do_Water(LEVELINFO * p_Level)
   dwTime = timeGetTime();
 
   for (i = 0; i < 10; i++)
-    if (p_Level->VodniKola[i].System != -1) {
+    if (p_Level->VodniKola[i].System) {
       dwEplased = dwTime - p_Level->VodniKola[i].dwStart - ber.TimeLastFrame;
 
       if (dwEplased > p_Level->VodniKola[i].dwStop) {
@@ -1367,7 +1369,7 @@ void am_Do_Water(LEVELINFO * p_Level)
 
         if (!par_get_hnizda(p_Level->VodniKola[i].System)) {
           par_zrus(p_Level->VodniKola[i].System);
-          p_Level->VodniKola[i].System = -1;
+          p_Level->VodniKola[i].System = (size_ptr)NULL;
         }
         else {
           pHnizdo = par_cti_hnizdo(p_Level->VodniKola[i].hHnizdo[0]);
@@ -1409,7 +1411,7 @@ int am_Get_Free_VodniKola(LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 10; i++)
-    if (p_Level->VodniKola[i].System == -1)
+    if (!p_Level->VodniKola[i].System)
       return i;
 
   return -1;
@@ -1420,7 +1422,7 @@ int am_Kola_na_Vode(float *pos, int VyskaSloupce, int VyskaPadu, int predmet,
 {
   int k, m;
   PAR_KOUR_STOPA *pKourovaS;
-  PARMETAC_HNIZDO *pHnizdo;
+  PARMETAC_HNIZDO *pHnizdo = NULL;
   SYSTEMKOUROVYCHCASTIC *pSystem;
   WATER_BOUNDARY Boundary;
   int size = ftoi(100 / p_Level->KvalitaCastic);
@@ -1692,7 +1694,7 @@ int am_Get_Free_Lift_VParticles(LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 10; i++)
-    if (p_Level->LiftVParticles[i].System == -1)
+    if (!p_Level->LiftVParticles[i].System)
       return i;
 
   return -1;
@@ -1787,7 +1789,7 @@ int am_Get_Free_VodniKolaB(LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 100; i++)
-    if (p_Level->VodniKolaB[i].System == -1)
+    if (!p_Level->VodniKolaB[i].System)
       return i;
 
   return -1;
@@ -1797,10 +1799,11 @@ int am_Find_Corresponding_VodniKolaB(int mesh, LEVELINFO * p_Level)
 {
   int i;
 
-  for (i = 0; i < 100; i++)
-    if (p_Level->VodniKolaB[i].System != -1 &&
-      p_Level->VodniKolaB[i].hHnizdo[2] == mesh)
+  for (i = 0; i < 100; i++) {
+    if (p_Level->VodniKolaB[i].System &&
+        p_Level->VodniKolaB[i].hHnizdo[2] == mesh)
       return i;
+  }
 
   return -1;
 }
@@ -1810,7 +1813,7 @@ int am_Kola_na_VodeB(float *pos, int Beruska, int mesh, int infinity,
 {
   int k, m;
   PAR_KOUR_STOPA *pKourovaS;
-  PARMETAC_HNIZDO *pHnizdo;
+  PARMETAC_HNIZDO *pHnizdo = NULL;
   SYSTEMKOUROVYCHCASTIC *pSystem;
   WATER_BOUNDARY Boundary;
   int size = ftoi(100 / p_Level->KvalitaCastic);
@@ -2065,7 +2068,6 @@ void am_Create_BublSystem(int i, LEVELINFO * p_Level)
   int size = ftoi(500 / p_Level->KvalitaCastic);
 
   pKourovaS = (PAR_KOUR_STOPA *) malloc(size * sizeof(PAR_KOUR_STOPA));
-
   if (!pKourovaS)
     return;
 
@@ -2143,25 +2145,26 @@ void am_Do_Bubliny_Berusek(LEVELINFO * p_Level)
   int real;
   int i, j;
 
-  for (i = 0; i < 6; i++)
+  for (i = 0; i < 6; i++) {
     if (p_Level->BublSystem[i].iItem != -1) {
       j = p_Level->BublSystem[i].iItem;
 
       gl_Logical2Real(p_Level->Item[j].Pos[0], p_Level->Item[j].Pos[1],
-        p_Level->Item[j].Pos[2], &real, p_Level);
+                      p_Level->Item[j].Pos[2], &real, p_Level);
 
       if (p_Level->Square[real].bUnderWater &&
-        p_Level->BublSystem[i].System.System == -1)
+          !p_Level->BublSystem[i].System.System)
         am_Create_BublSystem(i, p_Level);
       else
         if (p_Level->Square[real].bUnderWater &&
-        p_Level->BublSystem[i].System.System != -1)
+            p_Level->BublSystem[i].System.System)
         am_Do_BublSystem(i, p_Level);
       else
         if (!p_Level->Square[real].bUnderWater &&
-        p_Level->BublSystem[i].System.System != -1)
+             p_Level->BublSystem[i].System.System)
         am_Release_BublSystem(i, p_Level);
     }
+  }
 }
 
 
@@ -2170,13 +2173,13 @@ void am_Do_BublVybuchy(LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 20; i++) {
-    if (p_Level->BublVybuch[i].System != -1) {
+    if (p_Level->BublVybuch[i].System) {
       if (p_Level->BublVybuch[i].hHnizdo[0]) {
         par_vloz_hnizdo_pivot(p_Level->BublVybuch[i].hHnizdo[0], NULL);
 
         if (!par_get_hnizda(p_Level->BublVybuch[i].System)) {
           par_zrus(p_Level->BublVybuch[i].System);
-          p_Level->BublVybuch[i].System = -1;
+          p_Level->BublVybuch[i].System = (size_ptr)NULL;
         }
       }
     }
@@ -2188,7 +2191,7 @@ int am_Get_Free_BublVybuch(LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 20; i++)
-    if (p_Level->BublVybuch[i].System == -1)
+    if (!p_Level->BublVybuch[i].System)
       return i;
 
   return -1;
@@ -2316,7 +2319,7 @@ void am_Do_Exit_Efects(LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 10; i++)
-    if (p_Level->ExitEfect[i].System.System != -1) {
+    if (p_Level->ExitEfect[i].System.System) {
       pEEfect = &p_Level->ExitEfect[i];
 
       if (!p_Level->bGameResume)
@@ -2332,7 +2335,7 @@ void am_Do_Exit_Efects(LEVELINFO * p_Level)
 
       if (par_get_hnizda(pEEfect->System.System) < 2) {
         par_zrus(pEEfect->System.System);
-        pEEfect->System.System = -1;
+        pEEfect->System.System = (size_ptr)NULL;
 
         if (pEEfect->hSvetlo != -1) {
           sdl_svetlo_zrus(pEEfect->hSvetlo);
@@ -2370,7 +2373,7 @@ void am_Do_Exit(int Bmesh, int Emesh, LEVELINFO * p_Level)
 {
   int m, k;
   PAR_KOUR_STOPA *pKourovaS;
-  PARMETAC_HNIZDO *pHnizdo;
+  PARMETAC_HNIZDO *pHnizdo = NULL;
   SYSTEMKOUROVYCHCASTIC *pSystem;
 
   EXITEFECT *pEEfect;
@@ -2538,7 +2541,7 @@ int am_Get_Free_ExitSparksSystem(LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 10; i++)
-    if (p_Level->ExitSparks[i].System == -1)
+    if (!p_Level->ExitSparks[i].System)
       return i;
 
   return -1;
@@ -2552,15 +2555,14 @@ void am_Do_Exit_Sparks(LEVELINFO * p_Level)
   float f, pos[3];
 
   for (i = 0; i < 10; i++)
-    if (p_Level->ExitSparks[i].System != -1) {
+    if (p_Level->ExitSparks[i].System) {
       if (!p_Level->bGameResume)
         p_Level->ExitSparks[i].dwTime += ber.TimeLastFrame;
 
       //mihotani jisker
       if (p_Level->ExitSparks[i].dwTime > 100) {
         if (p_Level->ExitSparks[i].hHnizdo[0]) {
-          pCastice =
-            par_cti_hnizdo_castice(p_Level->ExitSparks[i].hHnizdo[0]);
+          pCastice = par_cti_hnizdo_castice(p_Level->ExitSparks[i].hHnizdo[0]);
 
           if (pCastice) {
             while (pCastice) {
@@ -2582,8 +2584,7 @@ void am_Do_Exit_Sparks(LEVELINFO * p_Level)
 
       pItem = reinterpret_cast<ITEMDESC *>(p_Level->ExitSparks[i].hHnizdo[1]);
 
-      kom_mesh_get_float(pItem->Index_Of_Game_Mesh, &pos[0], &pos[1], &pos[2],
-        &r);
+      kom_mesh_get_float(pItem->Index_Of_Game_Mesh, &pos[0], &pos[1], &pos[2], &r);
 
       p_Level->ExitSparks[i].pivot[0][0] =
         (rand() & 0x1 ? randf() : -randf()) / (float) (RAND_MAX);
@@ -2603,7 +2604,6 @@ void am_Do_Exit_Sparks(LEVELINFO * p_Level)
       f = (randf() / (float) (RAND_MAX)) / 10.0f;
       par_vloz_hnizdo_scale(p_Level->ExitSparks[i].hHnizdo[0], f, f, -0.5f,
         -0.5f);
-
     }
 }
 
@@ -2614,8 +2614,8 @@ void am_Do_TelCSparks(LEVELINFO * p_Level)
   float f, pos[3];
   PAR_KOUR_STOPA *pCastice;
 
-  for (i = 0; i < 10; i++)
-    if (p_Level->TelCSparks[i].System != -1) {
+  for (i = 0; i < 10; i++) {
+    if (p_Level->TelCSparks[i].System) {
       // test na vypnuti efektu
       if (!par_get_hnizda(p_Level->TelCSparks[i].System)) {
         par_zrus(p_Level->TelCSparks[i].System);
@@ -2672,6 +2672,7 @@ void am_Do_TelCSparks(LEVELINFO * p_Level)
         p_Level->TelCSparks[i].dir[0][1] = (randf() / (float) (RAND_MAX)) * 5;
       }
     }
+  }
 }
 
 void am_Release_BarelSparks(LEVELINFO * p_Level, ITEMDESC * pBarel)
@@ -2679,10 +2680,10 @@ void am_Release_BarelSparks(LEVELINFO * p_Level, ITEMDESC * pBarel)
   int i;
 
   for (i = 0; i < 30; i++)
-    if (p_Level->BarelSparks[i].System != -1 &&
+    if (p_Level->BarelSparks[i].System &&
       reinterpret_cast<ITEMDESC *>(p_Level->BarelSparks[i].hHnizdo[1]) == pBarel) {
       par_zrus(p_Level->BarelSparks[i].System);
-      p_Level->BarelSparks[i].System = -1;
+      p_Level->BarelSparks[i].System = (size_ptr)NULL;
       sdl_svetlo_zrus(p_Level->BarelSparks[i].hHnizdo[2]);
       p_Level->BarelSparks[i].hHnizdo[2] = -1;
       return;
@@ -2696,12 +2697,12 @@ void am_Do_BarelSparks(LEVELINFO * p_Level)
   float f, pos[3];
   PAR_KOUR_STOPA *pCastice;
 
-  for (i = 0; i < 30; i++)
-    if (p_Level->BarelSparks[i].System != -1) {
+  for (i = 0; i < 30; i++) {
+    if (p_Level->BarelSparks[i].System) {
       // test na vypnuti efektu
       if (!par_get_hnizda(p_Level->BarelSparks[i].System)) {
         par_zrus(p_Level->BarelSparks[i].System);
-        p_Level->BarelSparks[i].System = -1;
+        p_Level->BarelSparks[i].System = (size_ptr)NULL;
         sdl_svetlo_zrus(p_Level->BarelSparks[i].hHnizdo[2]);
         p_Level->BarelSparks[i].hHnizdo[2] = -1;
         continue;
@@ -2753,6 +2754,7 @@ void am_Do_BarelSparks(LEVELINFO * p_Level)
         sdl_svetlo_set_pos(p_Level->BarelSparks[i].hHnizdo[2], (BOD *) pos);
       }
     }
+  }
 }
 
 void am_Create_Exit_Sparks(ITEMDESC * pExit, char Down, LEVELINFO * p_Level)
@@ -2772,7 +2774,6 @@ void am_Create_Exit_Sparks(ITEMDESC * pExit, char Down, LEVELINFO * p_Level)
   pSystem = &p_Level->ExitSparks[k];
 
   pKourovaS = (PAR_KOUR_STOPA *) malloc(size * sizeof(PAR_KOUR_STOPA));
-
   if (!pKourovaS)
     return;
 
@@ -2859,7 +2860,7 @@ int am_Get_Free_TelCSparksSystem(LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 10; i++)
-    if (p_Level->TelCSparks[i].System == -1)
+    if (!p_Level->TelCSparks[i].System)
       return i;
 
   return -1;
@@ -2989,7 +2990,7 @@ int am_Find_TelCSparks(ITEMDESC * pTel, LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 10; i++)
-    if (p_Level->TelCSparks[i].System != -1) {
+    if (p_Level->TelCSparks[i].System) {
       pItem = reinterpret_cast<ITEMDESC *>(p_Level->TelCSparks[i].hHnizdo[1]);
 
       if (pItem)
@@ -3352,7 +3353,7 @@ void am_Do_Nature_Effects(LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 10; i++)
-    if (p_Level->NatureESystem[i].pSystem != -1) {
+    if (p_Level->NatureESystem[i].pSystem) {
       pNESystem = &p_Level->NatureESystem[i];
 
       switch (pNESystem->EffectID) {
@@ -3617,8 +3618,7 @@ int am_Create_Rain(LEVELINFO * p_Level, RAINSYSTEM * pRain, float fRadius,
   norm_vect(&pRain->nx.x, &pRain->nx.y, &pRain->nx.z);
 
   pRain->pSystem = par_vyrob();
-
-  if (pRain->pSystem == -1) {
+  if (!pRain->pSystem) {
     free((void *) pRain->hHnizdo);
     free((void *) pRain->pivot);
     free((void *) pRain->pCastice);
@@ -3756,8 +3756,7 @@ int am_Create_Snow(LEVELINFO * p_Level, SNOWSYSTEM * pSnow, float fRadius,
   pSnow->dir.z = (rand() & 0x1 ? randf() : -randf()) / (6 * (float) RAND_MAX);
 
   pSnow->pSystem = par_vyrob();
-
-  if (pSnow->pSystem == -1) {
+  if (!pSnow->pSystem) {
     free((void *) pSnow->hHnizdo);
     free((void *) pSnow->pivot);
     free((void *) pSnow->pCastice);
@@ -3776,7 +3775,7 @@ int am_Create_Snow(LEVELINFO * p_Level, SNOWSYSTEM * pSnow, float fRadius,
   for (i = 0; i < pSnow->SizeofHnizda; i++) {
     pSnow->hHnizdo[i] = par_vloz_hnizdo(pSnow->pSystem);
 
-    if (pSnow->hHnizdo[i] != -1) {
+    if (pSnow->hHnizdo[i]) {
       intensity =
         (int) ceil(uiIntensity +
         ((rand() & 0x1 ? randf() : -randf()) / (float) (RAND_MAX)) *
@@ -3785,9 +3784,7 @@ int am_Create_Snow(LEVELINFO * p_Level, SNOWSYSTEM * pSnow, float fRadius,
       delay = rand() % (uiIntensity * 1000);
 
       par_vloz_hnizdo_timer(pSnow->hHnizdo[i], intensity, delay);
-
-      par_vloz_hnizdo_komplet(pSnow->hHnizdo[i], intensity, &pSnow->pivot[i],
-        pCastice);
+      par_vloz_hnizdo_komplet(pSnow->hHnizdo[i], intensity, &pSnow->pivot[i],  pCastice);
 
       memcpy((void *) &pSnow->pivot[i], (void *) fvPos, 3 * sizeof(float));
 
@@ -3796,8 +3793,6 @@ int am_Create_Snow(LEVELINFO * p_Level, SNOWSYSTEM * pSnow, float fRadius,
       pSnow->pivot[i].z +=
         ((rand() & 0x1 ? randf() : -randf()) / (float) (RAND_MAX)) * fRadius;
       pSnow->pivot[i].y = fSky;
-
-
 
       par_vloz_hnizdo_dir(pSnow->hHnizdo[i], &pSnow->dir);
       par_vloz_hnizdo_y_plane(pSnow->hHnizdo[i], pSnow->fLowPlain);
@@ -3924,8 +3919,7 @@ int am_Create_Chmiri_Pampelisek(LEVELINFO * p_Level,
   pCastice->da = pCastice->dr = pCastice->dg = pCastice->db = 0.0f;
 
   pNESystem->pSystem = par_vyrob();
-
-  if (pNESystem->pSystem == -1) {
+  if (!pNESystem->pSystem) {
     free((void *) pNESystem->pCastice);
     return 0;
   }
@@ -4056,8 +4050,7 @@ int am_Create_Chmiri(LEVELINFO * p_Level, NATUREEFFECTSYSTEM * pNESystem,
   pCastice->da = pCastice->dr = pCastice->dg = pCastice->db = 0.0f;
 
   pNESystem->pSystem = par_vyrob();
-
-  if (pNESystem->pSystem == -1) {
+  if (!pNESystem->pSystem) {
     free((void *) pNESystem->pCastice);
     return 0;
   }
@@ -4190,8 +4183,7 @@ int am_Create_Svetlusky(LEVELINFO * p_Level, NATUREEFFECTSYSTEM * pNESystem,
   pCastice->da = pCastice->dr = pCastice->dg = pCastice->db = 0.0f;
 
   pNESystem->pSystem = par_vyrob();
-
-  if (pNESystem->pSystem == -1) {
+  if (!pNESystem->pSystem) {
     free((void *) pNESystem->pCastice);
     return 0;
   }
@@ -4346,8 +4338,7 @@ int am_Create_Musku(LEVELINFO * p_Level, NATUREEFFECTSYSTEM * pNESystem,
   pCastice->da = pCastice->dr = pCastice->dg = pCastice->db = 0.0f;
 
   pNESystem->pSystem = par_vyrob();
-
-  if (pNESystem->pSystem == -1) {
+  if (!pNESystem->pSystem) {
     free((void *) pNESystem->pCastice);
     return 0;
   }
@@ -4506,8 +4497,7 @@ int am_Create_Padajici_Listi(LEVELINFO * p_Level,
   pCastice->da = pCastice->dr = pCastice->dg = pCastice->db = 0.0f;
 
   pNESystem->pSystem = par_vyrob();
-
-  if (pNESystem->pSystem == -1) {
+  if (!pNESystem->pSystem) {
     free((void *) pNESystem->pCastice);
     return 0;
   }
@@ -4597,7 +4587,7 @@ int am_Get_Free_Nature_Effect_System(LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 10; i++)
-    if (p_Level->NatureESystem[i].pSystem == -1)
+    if (!p_Level->NatureESystem[i].pSystem)
       return i;
 
   return -1;
@@ -4868,7 +4858,7 @@ int am_Get_Free_BarelSparksSystem(LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 30; i++)
-    if (p_Level->BarelSparks[i].System == -1)
+    if (!p_Level->BarelSparks[i].System)
       return i;
 
   return -1;
@@ -4964,7 +4954,7 @@ void am_Start_Barels(LEVELINFO * p_Level)
 {
   float pos[3];
   int hSvetlo, rot;
-  int rnd = rand() % 3;
+//  int rnd = rand() % 3;
 
   int i, k;
 
@@ -5001,7 +4991,7 @@ int gl_Get_Free_Kour_Pusa(LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 10; i++)
-    if (p_Level->KourUst[i].System == -1)
+    if (!p_Level->KourUst[i].System)
       return i;
 
   return -1;
@@ -5100,7 +5090,7 @@ void am_Do_BeatleSmokes(LEVELINFO * p_Level)
     return;
 
   for (i = 0; i < 10; i++)
-    if (p_Level->KourUst[i].System != -1) {
+    if (p_Level->KourUst[i].System) {
       //vygeneruj dir
       p_Level->KourUst[i].dir[0][0] = (rand() & 0x1 ? randf() : -randf());
       p_Level->KourUst[i].dir[0][1] = (randf());
@@ -5172,7 +5162,7 @@ void am_Obsluha_Koure_Brouku(LEVELINFO * p_Level)
     return;
 
   for (i = 0; i < 10; i++)
-    if (p_Level->KourUst[i].System != -1) {
+    if (p_Level->KourUst[i].System) {
       dwTime = timeGetTime();
       dwEplased = dwTime - p_Level->KourUst[i].dwStart;
 
@@ -5194,7 +5184,7 @@ void am_Create_Steps_System(LEVELINFO * p_Level)
 {
   int i, m;
   PAR_KOUR_STOPA *pKourovaS;
-  PARMETAC_HNIZDO *pHnizdo;
+  PARMETAC_HNIZDO *pHnizdo = NULL;
   SYSTEMKOUROVYCHCASTIC *pSystem;
   int size = 100, rot;
   float pos[3];
@@ -5471,15 +5461,17 @@ void am_Release_Steps(LEVELINFO * p_Level)
 {
   int i;
 
-  for (i = 0; i < 6; i++)
-    if (p_Level->BeatleSmoke[i].iItem != -1
-      && p_Level->BeatleSmoke[i].sStopy.System != -1) {
+  for (i = 0; i < 6; i++) {
+    if (p_Level->BeatleSmoke[i].iItem != -1 && 
+        p_Level->BeatleSmoke[i].sStopy.System) 
+    {
       kprintf(1, "p_Level->BeatleSmoke[%d],  par_zrus %d", i,
         p_Level->BeatleSmoke[i].sStopy.System);
 
       par_zrus(p_Level->BeatleSmoke[i].sStopy.System);
       p_Level->BeatleSmoke[i].sStopy.System = -1;
     }
+  }
 }
 
 void am_Do_Step(size_ptr param, size_ptr param2, size_ptr p_param)
@@ -5508,9 +5500,10 @@ void am_Destroy_Steps(ITEMDESC * pItem, LEVELINFO * p_Level)
 
   pos[1] += 1.05f;
 
-  for (i = 0; i < 6; i++)
-    if (p_Level->BeatleSmoke[i].iItem != -1
-      && p_Level->BeatleSmoke[i].sStopy.System != -1) {
+  for (i = 0; i < 6; i++) {
+    if (p_Level->BeatleSmoke[i].iItem != -1 && 
+        p_Level->BeatleSmoke[i].sStopy.System) 
+    {
       pks = par_cti_hnizdo_castice(p_Level->BeatleSmoke[i].sStopy.hHnizdo[0]);
 
       if (pks) {
@@ -5524,7 +5517,7 @@ void am_Destroy_Steps(ITEMDESC * pItem, LEVELINFO * p_Level)
         }
       }
     }
-
+  }
 }
 
 void am_Create_BublSystem_Effect1(float *pos, LEVELINFO * p_Level, int iSize)
@@ -5684,7 +5677,7 @@ void am_Do_BublSystemE(LEVELINFO * p_Level)
 
   SYSTEMKOUROVYCHCASTIC *pSystem = &p_Level->BublSystemE.System;
 
-  if (p_Level->BublSystemE.System.System == -1)
+  if (!p_Level->BublSystemE.System.System)
     return;
 
   if (!p_Level->bGameResume)
@@ -5732,7 +5725,7 @@ void am_Do_BublSystemC(LEVELINFO * p_Level)
 
   SYSTEMKOUROVYCHCASTIC *pSystem = &p_Level->BublSystemC.System;
 
-  if (p_Level->BublSystemC.System.System == -1)
+  if (!p_Level->BublSystemC.System.System)
     return;
 
   if (!p_Level->bGameResume)
@@ -5761,7 +5754,6 @@ void am_Start_Joint_Animations(void)
 {
   ExMeshHandle mh, next;
   ChapadloHandle *p_handle = NULL;
-  char *p_jmeno;
   int chapadel;
   static int flag;
   int i, j, objektu;
@@ -5796,7 +5788,8 @@ void am_Start_Joint_Animations(void)
       /* Vrati jmena animaci objektu
        */
       for (j = 0; j < chapadel; j++) {
-        p_jmeno = chani_cti_jmeno(p_handle[j]);
+        char *p_jmeno = chani_cti_jmeno(p_handle[j]);
+        (void)p_jmeno;
       }
 
       /* -----------------------------------------------------------
@@ -6733,8 +6726,7 @@ int am_Create_Fairy(LEVELINFO * p_Level, FAIRY_EFFECT * pF, float pos[3],
   pCastice->da = pCastice->dr = pCastice->dg = pCastice->db = 0.0f;
 
   pF->pSystem = par_vyrob();
-
-  if (pF->pSystem == -1) {
+  if (!pF->pSystem) {
     free((void *) pF->pCastice);
     return 0;
   }
@@ -6790,7 +6782,7 @@ int find_free_fairy_system(LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 5; i++)
-    if (p_Level->FairyEffect[i].pSystem == -1)
+    if (!p_Level->FairyEffect[i].pSystem)
       return i;
 
   return -1;
@@ -6911,7 +6903,7 @@ void am_Do_Fairies(LEVELINFO * p_Level)
   float f;
 
   for (i = 0; i < 4; i++)
-    if (p_Level->FairyEffect[i].pSystem != -1) {
+    if (p_Level->FairyEffect[i].pSystem) {
       pF = &p_Level->FairyEffect[i];
 
       //pF->dwTime += ber.TimeLastFrame;
@@ -7218,8 +7210,7 @@ int am_Create_Falling_Star(LEVELINFO * p_Level, FAIRY_EFFECT * pF,
   pCastice->da = pCastice->dr = pCastice->dg = pCastice->db = 0.0f;
 
   pF->pSystem = par_vyrob();
-
-  if (pF->pSystem == -1) {
+  if (!pF->pSystem) {
     free((void *) pF->pCastice);
     return 0;
   }
@@ -7322,7 +7313,7 @@ void am_Do_StarFall(LEVELINFO * p_Level)
   float f, f1;
 
   for (i = 0; i < 2; i++)
-    if (p_Level->StarFall[i].pSystem != -1) {
+    if (p_Level->StarFall[i].pSystem) {
       pF = &p_Level->StarFall[i];
 
       f = (randf() / (float) (RAND_MAX)) * 4.0f;
@@ -7380,7 +7371,7 @@ int am_Get_Free_CandleSystem(LEVELINFO * p_Level)
   int i;
 
   for (i = 0; i < 6; i++)
-    if (p_Level->CandleEffect[i].pSystem == -1)
+    if (!p_Level->CandleEffect[i].pSystem)
       return i;
 
   return -1;
@@ -7493,8 +7484,8 @@ void am_Do_CandleSparks(LEVELINFO * p_Level)
   PAR_KOUR_STOPA *pCastice;
   CANDLE_EFFECT *pSystem;
 
-  for (i = 0; i < 6; i++)
-    if (p_Level->CandleEffect[i].pSystem != -1) {
+  for (i = 0; i < 6; i++) {
+    if (p_Level->CandleEffect[i].pSystem) {
       pCastice = par_cti_hnizdo_castice(p_Level->CandleEffect[i].hHnizdo);
       pSystem = &p_Level->CandleEffect[i];
 
@@ -7527,15 +7518,17 @@ void am_Do_CandleSparks(LEVELINFO * p_Level)
 
       pSystem->dir.y = (randf() / (float) (RAND_MAX)) * 2;
     }
+  }
 }
 
 int am_Get_Free_SmokeSystem(LEVELINFO * p_Level)
 {
   int i;
 
-  for (i = 0; i < 6; i++)
-    if (p_Level->CandleSmoke[i].pSystem == -1)
+  for (i = 0; i < 6; i++) {
+    if (!p_Level->CandleSmoke[i].pSystem)
       return i;
+  }
 
   return -1;
 }
@@ -7618,8 +7611,8 @@ void am_Do_CandleSmoke(LEVELINFO * p_Level)
   float f;
   CANDLE_EFFECT *pSystem;
 
-  for (i = 0; i < 6; i++)
-    if (p_Level->CandleSmoke[i].pSystem != -1) {
+  for (i = 0; i < 6; i++) {
+    if (p_Level->CandleSmoke[i].pSystem) {
       pSystem = &p_Level->CandleSmoke[i];
 
       memcpy((void *) &pSystem->pivot, (void *) &pSystem->pos,
@@ -7638,6 +7631,7 @@ void am_Do_CandleSmoke(LEVELINFO * p_Level)
 
       pSystem->dir.y = (randf() / (float) (RAND_MAX)) * 2;
     }
+  }
 }
 
 void am_Start_Voda_Kanal(void)
