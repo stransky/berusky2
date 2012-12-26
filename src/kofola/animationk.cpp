@@ -826,7 +826,6 @@ void am_Init_Zhave_Castice(LEVELINFO * p_Level)
 
   for (i = 0; i < 4; i++) {
     memset(&p_Level->FairyEffect[i], 0, sizeof(FAIRY_EFFECT));
-    p_Level->FairyEffect[i].pSystem = -1;
   }
 }
 
@@ -3468,8 +3467,7 @@ int am_Create_Water_Circles(LEVELINFO * p_Level, RAINSYSTEM * pRain,
   pRain->Wny.z = 1;
 
   pRain->pWSystem = par_vyrob();
-
-  if (pRain->pWSystem == -1) {
+  if (!pRain->pWSystem) {
     free((void *) pRain->hWHnizdo);
     free((void *) pRain->Wpivot);
     free((void *) pRain->Wpos);
@@ -6080,8 +6078,7 @@ int am_Create_Water_CirclesB(LEVELINFO * p_Level, RAINSYSTEM * pRain,
   pRain->Wny.z = 1;
 
   pRain->pWSystem = par_vyrob();
-
-  if (pRain->pWSystem == -1) {
+  if (!pRain->pWSystem) {
     free((void *) pRain->hWHnizdo);
     free((void *) pRain->Wpivot);
     free((void *) pRain->Wpos);

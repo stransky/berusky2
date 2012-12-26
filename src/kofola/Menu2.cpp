@@ -3692,8 +3692,7 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA * p_ad,
   int dh = 0;
   int ycorrection = 0;
   EDIT_TEXT ttext;
-
-  //int           sh = K_CHYBA;
+  //int sh = K_CHYBA;
 
   ZeroMemory(&ttext, sizeof(EDIT_TEXT));
 
