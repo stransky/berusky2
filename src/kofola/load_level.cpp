@@ -864,7 +864,7 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
     p_Level->BeatleSmoke[i].iStepc = 0;
     ZeroMemory(&p_Level->BeatleSmoke[i].sStopy,
       sizeof(SYSTEMKOUROVYCHCASTIC));
-    p_Level->BeatleSmoke[i].sStopy.System = -1;
+    p_Level->BeatleSmoke[i].sStopy.System = (size_ptr)NULL;
     p_Level->BeetleAnim[i].iAnimCount = 0;
     p_Level->BeetleAnim[i].iEffect = 0;
     p_Level->BeetleAnim[i].iEffectCounter = 0;
@@ -978,7 +978,7 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
   for (i = 0; i < 10; i++) {
     p_Level->VodniCakanec1[i].pCastice = NULL;
     p_Level->VodniCakanec2[i].pCastice = NULL;
-    p_Level->NatureESystem[i].pSystem = -1;
+    p_Level->NatureESystem[i].pSystem = (size_ptr)NULL;
   }
 
   for (i = 0; i < 10; i++)
@@ -1265,7 +1265,7 @@ void lsi_Release_Level(LEVELINFO * p_Level)
   }
 
 /*	for(i=0;i<6;i++)
-		if(p_Level->BeatleSmoke[i].sStopy.System != -1)
+		if(p_Level->BeatleSmoke[i].sStopy.System)
 		{
 			par_zrus(p_Level->BeatleSmoke[i].sStopy.System);
 			free((void *) p_Level->BeatleSmoke[i].sStopy.pCastice);

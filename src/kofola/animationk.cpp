@@ -132,7 +132,7 @@ void am_Release(ANIMATION_MODULE * p_am, LEVELINFO * p_Level)
     if (p_Level->ExitSparks[i].System) {
       kprintf(1, "ExitSparks[%d], par_zrus %d", i, p_Level->ExitSparks[i].System);
       par_zrus(p_Level->ExitSparks[i].System);
-      p_Level->ExitSparks[i].System = -1;
+      p_Level->ExitSparks[i].System = (size_ptr)NULL;
     }
   }
 }
@@ -703,15 +703,15 @@ void am_Init_Zhave_Castice(LEVELINFO * p_Level)
 {
   int i, j;
 
-  p_Level->BublSystemE.System.System = -1;
+  p_Level->BublSystemE.System.System = (size_ptr)NULL;
   p_Level->BublSystemE.System.pCastice = NULL;
 
-  p_Level->BublSystemC.System.System = -1;
+  p_Level->BublSystemC.System.System = (size_ptr)NULL;
   p_Level->BublSystemC.System.pCastice = NULL;
 
   for (i = 0; i < 10; i++) {
     p_Level->KourUst[i].pCastice = NULL;
-    p_Level->KourUst[i].System = -1;
+    p_Level->KourUst[i].System = (size_ptr)NULL;
 
     for (j = 0; j < 64; j++)
       p_Level->BublVybuch[i].hHnizdo[j] = 0;
@@ -719,16 +719,16 @@ void am_Init_Zhave_Castice(LEVELINFO * p_Level)
 
   for (i = 0; i < 20; i++) {
     p_Level->TeleportSparks[i].pCastice = NULL;
-    p_Level->TeleportSparks[i].System = -1;
+    p_Level->TeleportSparks[i].System = (size_ptr)NULL;
     p_Level->ZhaveCastice[i].System.pCastice = NULL;
     p_Level->KourovaStopa[i].pCastice = NULL;
-    p_Level->KourovaStopa[i].System = -1;
+    p_Level->KourovaStopa[i].System = (size_ptr)NULL;
     p_Level->Kour[i].pCastice = NULL;
-    p_Level->Kour[i].System = -1;
+    p_Level->Kour[i].System = (size_ptr)NULL;
     p_Level->KourKameni[i].pCastice = NULL;
-    p_Level->KourKameni[i].System = -1;
+    p_Level->KourKameni[i].System = (size_ptr)NULL;
     p_Level->BublVybuch[i].pCastice = NULL;
-    p_Level->BublVybuch[i].System = -1;
+    p_Level->BublVybuch[i].System = (size_ptr)NULL;
 
     for (j = 0; j < 64; j++) {
       p_Level->ZhaveCastice[i].hSvetlo[j] = -1;
@@ -743,7 +743,7 @@ void am_Init_Zhave_Castice(LEVELINFO * p_Level)
 
   for (i = 0; i < 30; i++) {
     p_Level->BarelSparks[i].pCastice = NULL;
-    p_Level->BarelSparks[i].System = -1;
+    p_Level->BarelSparks[i].System = (size_ptr)NULL;
 
     for (j = 0; j < 64; j++)
       p_Level->BarelSparks[i].hHnizdo[j] = 0;
@@ -751,29 +751,29 @@ void am_Init_Zhave_Castice(LEVELINFO * p_Level)
 
   for (i = 0; i < 10; i++) {
     p_Level->LiftParticles[i].pCastice = NULL;
-    p_Level->LiftParticles[i].System = -1;
+    p_Level->LiftParticles[i].System = (size_ptr)NULL;
 
     p_Level->VodniKola[i].pCastice = NULL;
-    p_Level->VodniKola[i].System = -1;
+    p_Level->VodniKola[i].System = (size_ptr)NULL;
 
     p_Level->LiftVParticles[i].pCastice = NULL;
-    p_Level->LiftVParticles[i].System = -1;
+    p_Level->LiftVParticles[i].System = (size_ptr)NULL;
 
     p_Level->ExitEfect[i].hSvetlo = -1;
-    p_Level->ExitEfect[i].System.System = -1;
+    p_Level->ExitEfect[i].System.System = (size_ptr)NULL;
     p_Level->ExitEfect[i].hEXSvetlo[0] = -1;
     p_Level->ExitEfect[i].hEXSvetlo[1] = -1;
     p_Level->ExitEfect[i].System.hHnizdo[0] = 0;
     p_Level->ExitEfect[i].System.hHnizdo[1] = 0;
 
     p_Level->ExitSparks[i].pCastice = NULL;
-    p_Level->ExitSparks[i].System = -1;
+    p_Level->ExitSparks[i].System = (size_ptr)NULL;
 
     p_Level->TelCSparks[i].pCastice = NULL;
-    p_Level->TelCSparks[i].System = -1;
+    p_Level->TelCSparks[i].System = (size_ptr)NULL;
 
     p_Level->NatureESystem[i].pCastice = NULL;
-    p_Level->NatureESystem[i].pSystem = -1;
+    p_Level->NatureESystem[i].pSystem = (size_ptr)NULL;
     p_Level->NatureESystem[i].hHnizdo = 0;
     p_Level->NatureESystem[i].EffectID = 0;
 
@@ -788,14 +788,14 @@ void am_Init_Zhave_Castice(LEVELINFO * p_Level)
 
   for (i = 0; i < 100; i++) {
     p_Level->VodniKolaB[i].pCastice = NULL;
-    p_Level->VodniKolaB[i].System = -1;
+    p_Level->VodniKolaB[i].System = (size_ptr)NULL;
 
     for (j = 0; j < 64; j++)
       p_Level->VodniKola[i].hHnizdo[j] = 0;
   }
 
   for (i = 0; i < 6; i++) {
-    p_Level->BublSystem[i].System.System = -1;
+    p_Level->BublSystem[i].System.System = (size_ptr)NULL;
     p_Level->BublSystem[i].iStart =
       (int) ceil((randf() / (float) RAND_MAX) * 3000);
 
@@ -815,15 +815,12 @@ void am_Init_Zhave_Castice(LEVELINFO * p_Level)
 
   for (i = 0; i < 2; i++) {
     memset(&p_Level->StarFall[i], 0, sizeof(FAIRY_EFFECT));
-    p_Level->StarFall[i].pSystem = -1;
   }
 
   for (i = 0; i < 6; i++) {
-    memset(&p_Level->CandleEffect[i], 0, sizeof(CANDLE_EFFECT));
-    p_Level->CandleEffect[i].pSystem = -1;
+    memset(&p_Level->CandleEffect[i], 0, sizeof(CANDLE_EFFECT));    
     p_Level->CandleEffect[i].hSvetlo = -1;
     memset(&p_Level->CandleSmoke[i], 0, sizeof(CANDLE_EFFECT));
-    p_Level->CandleSmoke[i].pSystem = -1;
     p_Level->CandleSmoke[i].hSvetlo = -1;
   }
 
@@ -1937,7 +1934,7 @@ int am_Kola_na_VodeB(float *pos, int Beruska, int mesh, int infinity,
 void am_Release_BublSystem(int i, LEVELINFO * p_Level)
 {
   par_zrus(p_Level->BublSystem[i].System.System);
-  p_Level->BublSystem[i].System.System = -1;
+  p_Level->BublSystem[i].System.System = (size_ptr)NULL;
 }
 
 void am_Do_BublSystem(int i, LEVELINFO * p_Level)
@@ -2619,9 +2616,9 @@ void am_Do_TelCSparks(LEVELINFO * p_Level)
       // test na vypnuti efektu
       if (!par_get_hnizda(p_Level->TelCSparks[i].System)) {
         par_zrus(p_Level->TelCSparks[i].System);
-        p_Level->TelCSparks[i].System = -1;
+        p_Level->TelCSparks[i].System = (size_ptr)NULL;
         sdl_svetlo_zrus(p_Level->TelCSparks[i].hHnizdo[2]);
-        p_Level->TelCSparks[i].hHnizdo[2] = -1;
+        p_Level->TelCSparks[i].hHnizdo[2] = (size_ptr)NULL;
         continue;
       }
 
@@ -5175,7 +5172,7 @@ void am_Obsluha_Koure_Brouku(LEVELINFO * p_Level)
 
       if (!par_get_hnizda(p_Level->KourUst[i].System)) {
         par_zrus(p_Level->KourUst[i].System);
-        p_Level->KourUst[i].System = -1;
+        p_Level->KourUst[i].System = (size_ptr)NULL;
       }
     }
 }
@@ -5463,13 +5460,13 @@ void am_Release_Steps(LEVELINFO * p_Level)
 
   for (i = 0; i < 6; i++) {
     if (p_Level->BeatleSmoke[i].iItem != -1 && 
-        p_Level->BeatleSmoke[i].sStopy.System) 
+        p_Level->BeatleSmoke[i].sStopy.System)
     {
       kprintf(1, "p_Level->BeatleSmoke[%d],  par_zrus %d", i,
         p_Level->BeatleSmoke[i].sStopy.System);
 
       par_zrus(p_Level->BeatleSmoke[i].sStopy.System);
-      p_Level->BeatleSmoke[i].sStopy.System = -1;
+      p_Level->BeatleSmoke[i].sStopy.System = (size_ptr)NULL;
     }
   }
 }
@@ -6656,8 +6653,8 @@ int am_Create_Fairy(LEVELINFO * p_Level, FAIRY_EFFECT * pF, float pos[3],
 
   ZeroMemory(pF, sizeof(FAIRY_EFFECT));
 
-  pF->hHnizdo = -1;
-  pF->pSystem = -1;
+  pF->hHnizdo = (size_ptr)NULL;
+  pF->pSystem = (size_ptr)NULL;
   pF->iSound = ap_Play_Sound(2, 0, 1, pos, 139, NULL, &ad);
 
   memcpy(&pF->rScene, pScene, sizeof(RECT));
@@ -6743,7 +6740,7 @@ int am_Create_Fairy(LEVELINFO * p_Level, FAIRY_EFFECT * pF, float pos[3],
 
   pF->hHnizdo = par_vloz_hnizdo(pF->pSystem);
 
-  if (pF->hHnizdo != -1) {
+  if (pF->hHnizdo) {
     par_vloz_hnizdo_komplet(pF->hHnizdo, 5, &pF->pivot, pCastice);
     par_vloz_hnizdo_timer(pF->hHnizdo, 5, 0);
 
@@ -7122,8 +7119,8 @@ int am_Create_Falling_Star(LEVELINFO * p_Level, FAIRY_EFFECT * pF,
 
   ZeroMemory(pF, sizeof(FAIRY_EFFECT));
 
-  pF->hHnizdo = -1;
-  pF->pSystem = -1;
+  pF->hHnizdo = (size_ptr)NULL;
+  pF->pSystem = (size_ptr)NULL;
   pF->iSound = -1;
 
   memcpy(&pF->fScene, pScene, 6 * sizeof(float));
@@ -7227,7 +7224,7 @@ int am_Create_Falling_Star(LEVELINFO * p_Level, FAIRY_EFFECT * pF,
 
   pF->hHnizdo = par_vloz_hnizdo(pF->pSystem);
 
-  if (pF->hHnizdo != -1) {
+  if (pF->hHnizdo) {
     par_vloz_hnizdo_komplet(pF->hHnizdo, 5, &pF->pivot, pCastice);
     par_vloz_hnizdo_timer(pF->hHnizdo, 5, 0);
 
