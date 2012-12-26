@@ -137,12 +137,12 @@ GLint gl_ext::ext_multitexture_text_index[] =
  */
 bool gl_ext::gl_init_multitexture(void)
 {
-  int level = 0;
-
   if(is_extension("GL_ARB_multitexture")) {
     glGetIntegerv(GL_MAX_TEXTURE_UNITS_ARB, &ext_multitext_units);
     pprintf("ARB Texture units %d",ext_multitext_units);
     /*
+    int level = 0;
+  
     if(!(glActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC)SDL_GL_GetProcAddress("glActiveTextureARB")))
       return(level);
     if(!(glClientActiveTextureARB = (PFNGLCLIENTACTIVETEXTUREARBPROC)SDL_GL_GetProcAddress("glClientActiveTextureARB")))
@@ -217,8 +217,9 @@ bool gl_ext::gl_init_multitexture(void)
       return(level);
     if(!(glMultiTexCoord4svARB = (PFNGLMULTITEXCOORD4SVARBPROC)SDL_GL_GetProcAddress("glMultiTexCoord4svARB")))
       return(level);
+      
+    level = 4;
 */
-    level = 4;      
     return(TRUE);
   } else {
     return(FALSE);

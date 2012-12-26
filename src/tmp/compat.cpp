@@ -95,64 +95,8 @@ int start_y = 0;
 //-----------------------------------------------------------------------------
 int DisplayFrame()
 {
-/*
-  RECT r;
-  HRESULT hr;
-  int i_Act = g_pDisplay->GetActBuffer();
-  
-    // We are in fullscreen mode, so perform a flip and return 
-    // any errors like DDERR_SURFACELOST
-  r.left = 0;
-  r.top = 0;
-  r.right = ddxGetWidth(i_CursorDDX);
-  r.bottom = ddxGetHight(i_CursorDDX);
-  
-  if(dim.rx + r.right >= 1024)
-    r.right -= dim.rx + r.right - 1024;
-  
-  if(dim.y + r.bottom >= 768)
-    r.bottom -= dim.ry + r.bottom - 768;
-  
-  ddxBitBlt(i_Cursor[i_Act], 0, 0, r.right, r.bottom, HDC2DD, 
-        dim.rx, 
-        dim.ry);
-  
-  if(bDrawCursor)
-  {
-    ddx.surface[i_CursorDDX].g_pSurface->SetColorKey( TRANSCOLOR );
-  
-    g_pDisplay->ColorKeyBlt(dim.rx, dim.ry, ddx.surface[i_CursorDDX].g_pSurface->GetDDrawSurface(), &r);
-  }
-  
-  g_pDisplay->SetCursorX(i_Act, dim.rx);
-  g_pDisplay->SetCursorY(i_Act, dim.ry);
-  
-    if( FAILED( hr = g_pDisplay->Present() ) )
-        return hr;
-  
-  if(!g_pDisplay->IsWindowed())
-  {
-    g_pDisplay->AddBufferCounter();
-    i_Act = g_pDisplay->GetActBuffer();
-  }
-  
-  r.left = 0;
-  r.top = 0;
-  r.right = ddxGetWidth(i_CursorDDX);
-  r.bottom = ddxGetHight(i_CursorDDX);
-  
-  if(g_pDisplay->GetCursorX(i_Act) + r.right >= 1024)
-    r.right -= g_pDisplay->GetCursorX(i_Act) + r.right - 1024;
-  
-  if(g_pDisplay->GetCursorY(i_Act) + r.bottom >= 768)
-    r.bottom -= g_pDisplay->GetCursorY(i_Act) + r.bottom - 768;
-  
-  
-  g_pDisplay->Blt(g_pDisplay->GetCursorX(i_Act), g_pDisplay->GetCursorY(i_Act), ddx.surface[i_Cursor[i_Act]].g_pSurface, &r);
-    
-  return S_OK;
-  */
   ddxPublish();
+  return(TRUE);
 }
 
 void ddxSetCursorSurface(int iSurface)
@@ -424,10 +368,14 @@ void ddxAddRectItem(void *p_rl, RECT rect, int iLayer)
 
 int ddxStretchBltDisplay(RECT * rDest, int iSurface, RECT * rSource)
 {
+  assert(0); // not implemented
+  return(TRUE);
 }
 
 int ddxStretchBlt(int iSDest, RECT * rDest, int iSSource, RECT * rSource)
 {
+  assert(0); // not implemented
+  return(TRUE);
 }
 
 int ddxUpdateMouse(void)
@@ -705,7 +653,7 @@ void working_file_translate(char *p_file, int size)
   strcpy(p_file, current_working_dir_file);
 }
 
-int GetFileSize(FILE *f, dword *size)
+void GetFileSize(FILE *f, dword *size)
 {
   *size = file_size_get(f);
 }

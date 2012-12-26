@@ -3303,22 +3303,22 @@ ANIM_TEXT *key_vyrob_material_animace(int poskey, int rotkey, int scalekey,
 {
   ANIM_TEXT *p_mat = (ANIM_TEXT *) mmalloc(sizeof(p_mat[0]));
 
-  if (p_mat->pos_keys = poskey) {
+  if ((p_mat->pos_keys = poskey)) {
     p_mat->p_pos = (BOD *) mmalloc(sizeof(BOD) * poskey);
     p_mat->p_pkeys =
       (KEY_POINT_BRS *) mmalloc(sizeof(p_mat->p_pkeys[0]) * poskey);
   }
-  if (p_mat->piv_keys = pivotkey) {
+  if ((p_mat->piv_keys = pivotkey)) {
     p_mat->p_piv = (BOD *) mmalloc(sizeof(BOD) * pivotkey);
     p_mat->p_vkeys =
       (KEY_POINT_BRS *) mmalloc(sizeof(p_mat->p_vkeys[0]) * pivotkey);
   }
-  if (p_mat->rot_keys = rotkey) {
+  if ((p_mat->rot_keys = rotkey)) {
     p_mat->p_rot = (float *) mmalloc(sizeof(p_mat->p_rot[0]) * rotkey);
     p_mat->p_rkeys =
       (KEY_POINT_BRS *) mmalloc(sizeof(p_mat->p_rkeys[0]) * rotkey);
   }
-  if (p_mat->scs_keys = scalekey) {
+  if ((p_mat->scs_keys = scalekey)) {
     p_mat->p_scale = (BOD *) mmalloc(sizeof(BOD) * scalekey);
     p_mat->p_skeys =
       (KEY_POINT_BRS *) mmalloc(sizeof(p_mat->p_skeys[0]) * scalekey);
@@ -3334,7 +3334,7 @@ ANIM_TEXT *key_kopiruj_material_animace(ANIM_TEXT * p_src)
   int rotkey = p_src->rot_keys;
   int scalekey = p_src->scs_keys;
 
-  if (p_mat->pos_keys = poskey) {
+  if ((p_mat->pos_keys = poskey)) {
     p_mat->p_pos = (BOD *) mmalloc(sizeof(p_mat->p_pos[0]) * poskey);
     p_mat->p_pkeys =
       (KEY_POINT_BRS *) mmalloc(sizeof(p_mat->p_pkeys[0]) * poskey);
@@ -3343,7 +3343,7 @@ ANIM_TEXT *key_kopiruj_material_animace(ANIM_TEXT * p_src)
       sizeof(p_mat->p_pkeys[0]) * poskey);
   }
 
-  if (p_mat->piv_keys = pivkey) {
+  if ((p_mat->piv_keys = pivkey)) {
     p_mat->p_piv = (BOD *) mmalloc(sizeof(p_mat->p_piv[0]) * pivkey);
     p_mat->p_vkeys =
       (KEY_POINT_BRS *) mmalloc(sizeof(p_mat->p_vkeys[0]) * pivkey);
@@ -3352,7 +3352,7 @@ ANIM_TEXT *key_kopiruj_material_animace(ANIM_TEXT * p_src)
       sizeof(p_mat->p_vkeys[0]) * pivkey);
   }
 
-  if (p_mat->rot_keys = rotkey) {
+  if ((p_mat->rot_keys = rotkey)) {
     p_mat->p_rot = (float *) mmalloc(sizeof(p_mat->p_rot[0]) * rotkey);
     p_mat->p_rkeys =
       (KEY_POINT_BRS *) mmalloc(sizeof(p_mat->p_rkeys[0]) * rotkey);
@@ -3360,7 +3360,7 @@ ANIM_TEXT *key_kopiruj_material_animace(ANIM_TEXT * p_src)
     memcpy(p_mat->p_rkeys, p_src->p_rkeys,
       sizeof(p_mat->p_rkeys[0]) * rotkey);
   }
-  if (p_mat->scs_keys = scalekey) {
+  if ((p_mat->scs_keys = scalekey)) {
     p_mat->p_scale = (BOD *) mmalloc(sizeof(p_mat->p_scale[0]) * scalekey);
     p_mat->p_skeys =
       (KEY_POINT_BRS *) mmalloc(sizeof(p_mat->p_skeys[0]) * scalekey);
@@ -3493,15 +3493,17 @@ ANIM_TEXT *key_text_nahraj(char *p_file, char *p_dir)
         case 'P':              // posun
           p_track->p_pkeys[p].time = fr * SIM_KONSTI;
           p_spline = p_track->p_pkeys + p;
-          sscanf(pom + 1, "%f %f %f", &p_track->p_pos[p].x,
-            &p_track->p_pos[p].y);
+          sscanf(pom + 1, "%f %f %f", &p_track->p_pos[p].x, 
+                                      &p_track->p_pos[p].y, 
+                                      &p_track->p_pos[p].z);
           p++;
           break;
         case 'V':              // pivot
           p_track->p_vkeys[v].time = fr * SIM_KONSTI;
           p_spline = p_track->p_vkeys + v;
-          sscanf(pom + 1, "%f %f %f", &p_track->p_piv[v].x,
-            &p_track->p_piv[v].y);
+          sscanf(pom + 1, "%f %f %f", &p_track->p_piv[v].x, 
+                                      &p_track->p_piv[v].y, 
+                                      &p_track->p_piv[v].z);
           v++;
           break;
         case 'R':              // rotace
@@ -3514,8 +3516,9 @@ ANIM_TEXT *key_text_nahraj(char *p_file, char *p_dir)
         case 'S':              // scale
           p_track->p_skeys[s].time = fr * SIM_KONSTI;
           p_spline = p_track->p_skeys + s;
-          sscanf(pom + 1, "%f %f %f", &p_track->p_scale[s].x,
-            &p_track->p_scale[s].y);
+          sscanf(pom + 1, "%f %f %f", &p_track->p_scale[s].x, 
+                                      &p_track->p_scale[s].y, 
+                                      &p_track->p_scale[s].z);
           s++;
           break;
         case 'L':

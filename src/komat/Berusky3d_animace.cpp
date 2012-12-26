@@ -930,9 +930,9 @@ void rani_updatuj_prvek_matice_vnitrek_end_top(PRVEK_LEVELU_GAME * p_prv)
 
 /* Frame-funkce posunu meshu
 */
-void rani_updatuj_prvek_matice(MeshHandle mh)
+void rani_updatuj_prvek_matice(size_ptr mesh_handle)
 {
-  PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[mh];
+  PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[mesh_handle];
   int flag = p_prv->flag;
 
   p_prv->flag &= ~PRV_ANIM_END;
@@ -952,9 +952,9 @@ void rani_updatuj_prvek_matice(MeshHandle mh)
 
 /* End-funkce posunu prvku
 */
-void rani_umisti_prvek_animace(MeshHandle mh)
+void rani_umisti_prvek_animace(size_ptr mesh_handle)
 {
-  PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[mh];
+  PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[mesh_handle];
   int flag = p_prv->flag;
 
   p_prv->flag |= PRV_ANIM_END;
@@ -1015,7 +1015,7 @@ inline void rani_updatuj_1(GK_ANIM * p_gk)
           *(p_gk->p_flag) = 0;
       }
       else {
-        if (p_gk->next_ah != K_CHYBA) {
+        if (p_gk->next_ah) {
           p_gk->next_start += next_time - p_gk->time_stop;
           p_gk->time = p_gk->time_delka;
           if (p_gk->p_flag)
@@ -1088,7 +1088,7 @@ inline void rani_updatuj_2(GK_ANIM * p_gk)
     if (p_gk->p_endfce)
       p_gk->p_endfce(p_gk->param, p_gk->param2, 
                      reinterpret_cast<size_ptr>(p_gk->p_param));
-    if (p_gk->next_ah != K_CHYBA) {
+    if (p_gk->next_ah) {
       rani_go(p_gk->next_ah, p_gk->next_flag, p_gk->next_start,
         p_gk->next_stop);
       rani_updatuj_1((GK_ANIM *) p_gk->next_ah);

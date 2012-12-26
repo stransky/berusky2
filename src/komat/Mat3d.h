@@ -1748,8 +1748,7 @@ extern GLMATRIX __kont_world_matrix;
 inline GLMATRIX *kont_world_matrix(EDIT_KONTEJNER * p_kont)
 {
   if (p_kont->kflag & KONT_MPMATRIX) {
-    return (mat_mult_dir(&p_kont->world, &p_kont->mpmatrix,
-        &__kont_world_matrix));
+    return (mat_mult_dir(&p_kont->world, &p_kont->mpmatrix, &__kont_world_matrix));
   }
   else {
     return (&p_kont->world);

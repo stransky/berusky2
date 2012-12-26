@@ -501,7 +501,7 @@ int kam_3ds_get(BOD * p_pos, BOD * p_target, float *p_roll)
   Polarni animace  
  ********************************************
 */
-CameraAnimHandle kam_pol_vyrob_animaci(int framenum, int pos_keys, int rot_keys,
+AnimHandle kam_pol_vyrob_animaci(int framenum, int pos_keys, int rot_keys,
                                        int vzdal_keys, int korekce)
 {
   int kam;
@@ -528,7 +528,7 @@ naslo_se_to2:;
   return (kam);
 }
 
-CameraAnimHandle kam_pol_vloz_klic_posun(CameraAnimHandle handle, int klic, float x,
+AnimHandle kam_pol_vloz_klic_posun(AnimHandle handle, int klic, float x,
                                    float y, float z, int frame)
 {
   KAMERA_TRACK_INFO *p_kam;
@@ -546,7 +546,7 @@ CameraAnimHandle kam_pol_vloz_klic_posun(CameraAnimHandle handle, int klic, floa
   return (handle);
 }
 
-CameraAnimHandle kam_pol_vloz_klic_posun_bod(CameraAnimHandle handle, int klic, BOD * p_p,
+AnimHandle kam_pol_vloz_klic_posun_bod(AnimHandle handle, int klic, BOD * p_p,
   int frame)
 {
   if (handle >= p_ber->kamnum || klic >= p_ber->kamery[handle].pos_keys)
@@ -556,7 +556,7 @@ CameraAnimHandle kam_pol_vloz_klic_posun_bod(CameraAnimHandle handle, int klic, 
   return (handle);
 }
 
-CameraAnimHandle kam_pol_vloz_klic_posun_parametry(CameraAnimHandle handle, int klic,
+AnimHandle kam_pol_vloz_klic_posun_parametry(AnimHandle handle, int klic,
   float tension, float continuity, float bias)
 {
   KAMERA_TRACK_INFO *p_kam;
@@ -573,7 +573,7 @@ CameraAnimHandle kam_pol_vloz_klic_posun_parametry(CameraAnimHandle handle, int 
   return (handle);
 }
 
-CameraAnimHandle kam_pol_vloz_klic_rotace(CameraAnimHandle handle, int klic, float r,
+AnimHandle kam_pol_vloz_klic_rotace(AnimHandle handle, int klic, float r,
   float fi, int frame)
 {
   if (handle >= p_ber->kamnum || klic >= p_ber->kamery[handle].quat_keys)
@@ -584,7 +584,7 @@ CameraAnimHandle kam_pol_vloz_klic_rotace(CameraAnimHandle handle, int klic, flo
   return (handle);
 }
 
-CameraAnimHandle kam_pol_vloz_klic_rotace_parametry(CameraAnimHandle handle, int klic,
+AnimHandle kam_pol_vloz_klic_rotace_parametry(AnimHandle handle, int klic,
   float tension, float continuity, float bias)
 {
   if (handle >= p_ber->kamnum || klic >= p_ber->kamery[handle].quat_keys)
@@ -595,7 +595,7 @@ CameraAnimHandle kam_pol_vloz_klic_rotace_parametry(CameraAnimHandle handle, int
   return (handle);
 }
 
-CameraAnimHandle kam_pol_vloz_klic_vzdal(CameraAnimHandle handle, int klic, float vzdal,
+AnimHandle kam_pol_vloz_klic_vzdal(AnimHandle handle, int klic, float vzdal,
   int frame, float tension, float continuity, float bias)
 {
   KAMERA_TRACK_INFO *p_kam;
@@ -613,7 +613,7 @@ CameraAnimHandle kam_pol_vloz_klic_vzdal(CameraAnimHandle handle, int klic, floa
   return (handle);
 }
 
-CameraAnimHandle kam_pol_vloz_klic_all(CameraAnimHandle handle, int klic, BOD * p_p,
+AnimHandle kam_pol_vloz_klic_all(AnimHandle handle, int klic, BOD * p_p,
   float r, float fi, float vzdal, int frame, float tension)
 {
   KAMERA_TRACK_INFO *p_trk;
@@ -639,7 +639,7 @@ CameraAnimHandle kam_pol_vloz_klic_all(CameraAnimHandle handle, int klic, BOD * 
   return (handle);
 }
 
-CameraAnimHandle kam_zrus_animaci(CameraAnimHandle handle)
+AnimHandle kam_zrus_animaci(AnimHandle handle)
 {
   if (handle >= p_ber->kamnum)
     return (K_CHYBA);
@@ -653,7 +653,7 @@ CameraAnimHandle kam_zrus_animaci(CameraAnimHandle handle)
   3ds animace
  ********************************************
 */
-CameraAnimHandle kam_3ds_vyrob_animaci(int framenum, int pos_keys, int target_keys,
+AnimHandle kam_3ds_vyrob_animaci(int framenum, int pos_keys, int target_keys,
   int roll_keys, int fov_keys)
 {
   int kam;
@@ -682,7 +682,7 @@ naslo_se_to2:;
 
 /* Load animace
 */
-CameraAnimHandle kam_3ds_nahraj_animaci(APAK_HANDLE * pHandle, char *p_jmeno)
+AnimHandle kam_3ds_nahraj_animaci(APAK_HANDLE * pHandle, char *p_jmeno)
 {
   char jmeno_kam[200];
   int kam;
@@ -711,7 +711,7 @@ naslo_se_to2:;
 
 /* Position-key
 */
-CameraAnimHandle kam_3ds_vloz_klic_posun(CameraAnimHandle handle, int klic, float x,
+AnimHandle kam_3ds_vloz_klic_posun(AnimHandle handle, int klic, float x,
   float y, float z, int frame)
 {
   KAMERA_TRACK_INFO *p_kam;
@@ -728,7 +728,7 @@ CameraAnimHandle kam_3ds_vloz_klic_posun(CameraAnimHandle handle, int klic, floa
   return (handle);
 }
 
-CameraAnimHandle kam_3ds_vloz_klic_posun_bod(CameraAnimHandle handle, int klic, BOD * p_p,
+AnimHandle kam_3ds_vloz_klic_posun_bod(AnimHandle handle, int klic, BOD * p_p,
   int frame)
 {
   if (handle >= p_ber->kamnum || klic >= p_ber->kamery[handle].pos_keys)
@@ -738,7 +738,7 @@ CameraAnimHandle kam_3ds_vloz_klic_posun_bod(CameraAnimHandle handle, int klic, 
   return (handle);
 }
 
-CameraAnimHandle kam_3ds_vloz_klic_posun_parametry(CameraAnimHandle handle, int klic,
+AnimHandle kam_3ds_vloz_klic_posun_parametry(AnimHandle handle, int klic,
   float tension, float continuity, float bias)
 {
   KAMERA_TRACK_INFO *p_kam;
@@ -756,7 +756,7 @@ CameraAnimHandle kam_3ds_vloz_klic_posun_parametry(CameraAnimHandle handle, int 
 
 /* Target-key
 */
-CameraAnimHandle kam_3ds_vloz_klic_target(CameraAnimHandle handle, int klic, float x,
+AnimHandle kam_3ds_vloz_klic_target(AnimHandle handle, int klic, float x,
   float y, float z, int frame)
 {
   KAMERA_TRACK_INFO *p_kam;
@@ -773,7 +773,7 @@ CameraAnimHandle kam_3ds_vloz_klic_target(CameraAnimHandle handle, int klic, flo
   return (handle);
 }
 
-CameraAnimHandle kam_3ds_vloz_klic_target_bod(CameraAnimHandle handle, int klic,
+AnimHandle kam_3ds_vloz_klic_target_bod(AnimHandle handle, int klic,
   BOD * p_target, int frame)
 {
   if (handle >= p_ber->kamnum || klic >= p_ber->kamery[handle].trg_keys)
@@ -783,7 +783,7 @@ CameraAnimHandle kam_3ds_vloz_klic_target_bod(CameraAnimHandle handle, int klic,
   return (handle);
 }
 
-CameraAnimHandle kam_3ds_vloz_klic_target_parametry(CameraAnimHandle handle, int klic,
+AnimHandle kam_3ds_vloz_klic_target_parametry(AnimHandle handle, int klic,
   float tension, float continuity, float bias)
 {
   KAMERA_TRACK_INFO *p_kam;
@@ -801,7 +801,7 @@ CameraAnimHandle kam_3ds_vloz_klic_target_parametry(CameraAnimHandle handle, int
 
 /* Roll-keys
 */
-CameraAnimHandle kam_3ds_vloz_klic_roll(CameraAnimHandle handle, int klic, float roll,
+AnimHandle kam_3ds_vloz_klic_roll(AnimHandle handle, int klic, float roll,
   int frame, float tension, float continuity, float bias)
 {
   KAMERA_TRACK_INFO *p_kam;
@@ -821,7 +821,7 @@ CameraAnimHandle kam_3ds_vloz_klic_roll(CameraAnimHandle handle, int klic, float
 
 /* Fov-keys
 */
-CameraAnimHandle kam_3ds_vloz_klic_fov(CameraAnimHandle handle, int klic, float fov,
+AnimHandle kam_3ds_vloz_klic_fov(AnimHandle handle, int klic, float fov,
   int frame, float tension, float continuity, float bias)
 {
   KAMERA_TRACK_INFO *p_kam;
@@ -841,7 +841,7 @@ CameraAnimHandle kam_3ds_vloz_klic_fov(CameraAnimHandle handle, int klic, float 
 
 /* Vlozit vsechny klice
 */
-CameraAnimHandle kam_3ds_vloz_klic_all(CameraAnimHandle handle, int klic, BOD * p_p,
+AnimHandle kam_3ds_vloz_klic_all(AnimHandle handle, int klic, BOD * p_p,
   BOD * p_t, float roll, int frame, float tension)
 {
   KAMERA_TRACK_INFO *p_kam;
@@ -873,7 +873,7 @@ CameraAnimHandle kam_3ds_vloz_klic_all(CameraAnimHandle handle, int klic, BOD * 
  ********************************************
 */
 //start/stop animace
-RunHandle kam_start(CameraAnimHandle a_handle, int *p_flag, int flag, int start, int stop)
+RunHandle kam_start(AnimHandle a_handle, int *p_flag, int flag, int start, int stop)
 {
   if (p_ber->kamery[a_handle].endtime) {
     p_ber->kamera.p_anim = p_ber->kamery + a_handle;
@@ -1004,7 +1004,7 @@ RunHandle kam_pol_anim(BOD * p_p, float r, float fi, float vzdal,
   int *p_flag, int flag, int framenum, float tension)
 {
   GAME_KAMERA *p_kam = &p_ber->kamera;
-  CameraAnimHandle ah;
+  AnimHandle ah;
 
   kam_stop();
   kam_set_mod(GAME_KAMERA_POLAR);
@@ -1026,7 +1026,7 @@ RunHandle kam_pol_anim_add(BOD * p_p, float r, float fi, float vzdal,
   int *p_flag, int flag, int framenum, float tension)
 {
   GAME_KAMERA *p_kam = &p_ber->kamera;
-  CameraAnimHandle ah;
+  AnimHandle ah;
   BOD pp;
 
   kam_stop();
@@ -1051,7 +1051,7 @@ RunHandle kam_3ds_anim(BOD * p_p, BOD * p_t, float roll, int *p_flag,
   int flag, int framenum, float tension)
 {
   GAME_KAMERA *p_kam = &p_ber->kamera;
-  CameraAnimHandle ah;
+  AnimHandle ah;
 
   kam_stop();
   kam_set_mod(GAME_KAMERA_3DS);
@@ -1073,7 +1073,7 @@ RunHandle kam_3ds_anim_add(BOD * p_p, BOD * p_t, float roll, int *p_flag,
   int flag, int framenum, float tension)
 {
   GAME_KAMERA *p_kam = &p_ber->kamera;
-  CameraAnimHandle ah;
+  AnimHandle ah;
   BOD p, t;
 
   kam_stop();
@@ -1150,7 +1150,7 @@ MatrixHandle rani_privaz_kameru(RunHandle a_handle)
     return (K_CHYBA);
 }
 
-int kam_3ds_cti_klic(CameraAnimHandle handle, float time, BOD * p_p, BOD * p_t,
+int kam_3ds_cti_klic(AnimHandle handle, float time, BOD * p_p, BOD * p_t,
   float *p_roll)
 {
   KAMERA_TRACK_INFO *p_track;
@@ -1192,7 +1192,7 @@ int kam_3ds_cti_klic(CameraAnimHandle handle, float time, BOD * p_p, BOD * p_t,
   return (TRUE);
 }
 
-int kam_pol_cti_klic(CameraAnimHandle handle, float time, BOD * p_t, float *p_r,
+int kam_pol_cti_klic(AnimHandle handle, float time, BOD * p_t, float *p_r,
   float *p_fi, float *p_vzdal)
 {
   KAMERA_TRACK_INFO *p_track;

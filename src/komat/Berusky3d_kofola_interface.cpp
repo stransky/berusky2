@@ -105,7 +105,7 @@ MeshHandle kom_pridej_prvek_levelu_disk(char *p_file,
 
 /* Pridani meshe do levelu
 */
-ItemHandle kom_pridej_mesh_do_levelu(char *p_jmeno)
+MeshHandle kom_pridej_mesh_do_levelu(char *p_jmeno)
 {
   int handle = K_CHYBA, kont;
 
@@ -120,7 +120,7 @@ ItemHandle kom_pridej_mesh_do_levelu(char *p_jmeno)
 
 /* Nastavi pivot point meshe (0,0,0) je default
 */
-int kom_mesh_set_pivot(ItemHandle prvek_handle, float x, float y, float z)
+int kom_mesh_set_pivot(MeshHandle prvek_handle, float x, float y, float z)
 {
   PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[prvek_handle];
 
@@ -142,7 +142,7 @@ int kom_mesh_set_pivot(ItemHandle prvek_handle, float x, float y, float z)
 
 /* Cte pivot meshe
 */
-int kom_mesh_get_pivot(ItemHandle prvek_handle, BOD * p_pivot)
+int kom_mesh_get_pivot(MeshHandle prvek_handle, BOD * p_pivot)
 {
   PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[prvek_handle];
 
@@ -159,7 +159,7 @@ int kom_mesh_get_pivot(ItemHandle prvek_handle, BOD * p_pivot)
 
 /* Nastavi pivot point pomoci bodu
 */
-int kom_mesh_set_pivot_bod(ItemHandle prvek_handle, BOD * p_bod)
+int kom_mesh_set_pivot_bod(MeshHandle prvek_handle, BOD * p_bod)
 {
   PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[prvek_handle];
 
@@ -181,7 +181,7 @@ int kom_mesh_set_pivot_bod(ItemHandle prvek_handle, BOD * p_bod)
 /* resetuje matici rotace meshe + prepocita mesh na urcenou pozici
    (ten na teto pozici musi byt, jinak bude spatne umisteny)
 */
-int kom_mesh_reset_pr(ItemHandle prvek_handle, int x, int y, int z,
+int kom_mesh_reset_pr(MeshHandle prvek_handle, int x, int y, int z,
   int rotace)
 {
   if (p_ber->p_prv_lev[prvek_handle]) {
@@ -207,7 +207,7 @@ int kom_mesh_reset_pr(ItemHandle prvek_handle, int x, int y, int z,
 
 /* Nastavi flag meshe ze se nema testovat kolize s timto meshem
 */
-int kom_mesh_set_no_test(ItemHandle prvek_handle)
+int kom_mesh_set_no_test(MeshHandle prvek_handle)
 {
   PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[prvek_handle];
   GAME_MESH_OLD *p_mesh;
@@ -224,7 +224,7 @@ int kom_mesh_set_no_test(ItemHandle prvek_handle)
 
 /* Nacte mesh - cislo pro ukladani
 */
-int kom_mesh_get_save_num(ItemHandle prvek_handle)
+int kom_mesh_get_save_num(MeshHandle prvek_handle)
 {
   if (p_ber->p_prv_lev[prvek_handle]) {
     return (p_ber->p_prv_lev[prvek_handle]->mesh);
@@ -237,7 +237,7 @@ int kom_mesh_get_save_num(ItemHandle prvek_handle)
 
 /* Nacte mesh - fyzickou pozici
 */
-int kom_mesh_get_float(ItemHandle prvek_handle, float *p_x, float *p_y,
+int kom_mesh_get_float(MeshHandle prvek_handle, float *p_x, float *p_y,
   float *p_z, int *p_rotace)
 {
   if (p_ber->p_prv_lev[prvek_handle]) {
@@ -256,7 +256,7 @@ int kom_mesh_get_float(ItemHandle prvek_handle, float *p_x, float *p_y,
 
 /* Nacte mesh - logickou pozici
 */
-int kom_mesh_get_int(ItemHandle prvek_handle, int *p_x, int *p_y, int *p_z,
+int kom_mesh_get_int(MeshHandle prvek_handle, int *p_x, int *p_y, int *p_z,
   int *p_rotace)
 {
   if (p_ber->p_prv_lev[prvek_handle]) {
@@ -820,7 +820,7 @@ void kom_post_init_level(void)
 
 /* Zruseni meshe
 */
-void kom_zrus_prvek(ItemHandle prvek_handle)
+void kom_zrus_prvek(MeshHandle prvek_handle)
 {
   PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[prvek_handle];
   if (p_prv) {
@@ -1025,7 +1025,7 @@ void kom_vloz_flek(FLEK ** p_first, FLEK * p_flek)
   }
 }
 
-FlekHandle kom_flek_pridej(ItemHandle mh, BOD * p_p, BOD * p_nx, BOD * p_nz,
+FlekHandle kom_flek_pridej(MeshHandle mh, BOD * p_p, BOD * p_nx, BOD * p_nz,
                            float dx, float dz, int rotace, int uroven, 
                            MatHandle material)
 {
@@ -1299,7 +1299,7 @@ int kom_get_mesh_mys_all(void)
 
 /* Nastavi aktivni mesh u multimesh charakteru
 */
-MeshHandle kom_mesh_set_mesh(ItemHandle mh, int ID, size_ptr rotace)
+MeshHandle kom_mesh_set_mesh(MeshHandle mh, int ID, size_ptr rotace)
 {
   PRVEK_LEVELU_GAME *p_lev = p_ber->p_prv_lev[mh];
   int mesh = p_lev->mesh;
@@ -1392,12 +1392,12 @@ void kom_load_param_fce(void (*p_load_fce) (void))
   p_ber->p_tik_fce = p_load_fce;
 }
 
-ItemHandle kom_pridej_kurzor_do_levelu(void)
+MeshHandle kom_pridej_kurzor_do_levelu(void)
 {
   return (kom_pridej_mesh_do_levelu(JMENO_KURZOR));
 }
 
-ItemHandle kom_prvek_viditelnost(ItemHandle mh, int vid)
+MeshHandle kom_prvek_viditelnost(MeshHandle mh, int vid)
 {
   PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[mh];
 
@@ -1413,7 +1413,7 @@ ItemHandle kom_prvek_viditelnost(ItemHandle mh, int vid)
   }
 }
 
-int kom_get_mesh_id(ItemHandle prvek_handle)
+int kom_get_mesh_id(MeshHandle prvek_handle)
 {
   PRVEK_LEVELU_GAME *p_lev = p_ber->p_prv_lev[prvek_handle];
   GAME_MESH_DATA *p_mesh_data = p_lev->p_mesh_data;

@@ -29,7 +29,7 @@
 #include "json_export.h"
 #include <string>
 
-int kom_get_mesh_id(ItemHandle prvek_handle);
+int kom_get_mesh_id(MeshHandle prvek_handle);
 
 FILE * export_file = NULL;
 char export_level_dir[MAX_FILENAME];

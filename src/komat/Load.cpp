@@ -661,7 +661,7 @@ void preindexuj_kontejner(EDIT_KONTEJNER * p_kont)
 int slep_kontejner(EDIT_KONTEJNER * p_kont)
 {
   EDIT_OBJEKT *p_obj;
-  int i, j, ob;
+  int i, j, ob = -1;
 
   // 1000 je MAX_EDIT_MATERIALU
   for (i = 0; i < 1000 /*MAX_EDIT_MATERIALU */ ; i++) {
@@ -699,11 +699,10 @@ int slep_kontejner(EDIT_KONTEJNER * p_kont)
 
 int slep_kontejner_dist(EDIT_KONTEJNER * p_kont, float min_dist)
 {
-  GLMATRIX *p_tmp;
   EDIT_OBJEKT *p_obj1, *p_obj2;
   int i1, i2;
 
-  p_tmp = kont_world_matrix(p_kont);
+  kont_world_matrix(p_kont);
 
   // vraci pocet unikatnich materialu
   lo_setrid_kontejner(p_kont);
@@ -874,13 +873,12 @@ int lo_setrid_kontejner_compare(const void *p_o1, const void *p_o2)
 */
 int lo_setrid_kontejner(EDIT_KONTEJNER * p_kont)
 {
-  GLMATRIX *p_tmp;
   int mat = 0, i, am = INT_MAX;
 
   if (p_kont->kflag & KONT_KEYFRAME)
     return (0);
 
-  p_tmp = kont_world_matrix(p_kont);
+  kont_world_matrix(p_kont);
   for (i = 0; i < p_kont->max_objektu; i++) {
     if (p_kont->p_obj[i])
       obb_calc_obj_fast(p_kont->p_obj[i]);
@@ -1616,14 +1614,14 @@ GAME_MESH_OLD *edit_to_mesh(GAME_MESH_DATA * p_mesh_data,
   int shadow_volume)
 {
   GAME_MESH_OLD *p_mesh = vyrob_mesh(p_kont->objektu, p_mesh_data);
-  VERTEX_ARRAYS *p_varray = &p_mesh->varray;
+//  VERTEX_ARRAYS *p_varray = &p_mesh->varray;
   GLMATRIX tmp;
   BOD *p_piv;
   int **p_opt;
   int *p_optnum;
   int i, j, p, k, vertexnum, bodu = p_kont->bodu;
   size_ptr vel;
-  int shut = 0;
+//int shut = 0;
   int pivot = 0;
 
   kprintf(TRUE, "Edit-to-mesh %s (f:%d v:%d)", p_kont->jmeno, p_kont->facu,
@@ -2294,7 +2292,7 @@ int lo_najdi_volny_flare(LENS_FLARE * p_flare, int max)
 // Prevede pole flaru na oboustrany linearni seznam
 LENS_FLARE *lo_flare2linear(LENS_FLARE * p_flare_list, int max)
 {
-  LENS_FLARE *p_flare, *p_flare_first;
+  LENS_FLARE *p_flare, *p_flare_first = NULL;
   LENS_FLARE *p_prev = NULL;
   int i;
 
@@ -2911,8 +2909,7 @@ EDIT_MESH_POLY *edit_to_poly_indir(EDIT_KONTEJNER * p_kont,
   OBJ_VERTEX *p_bod;
   EDIT_OBJEKT *p_obj;
   TEXT_KOORD *p_koord;
-  int bodu, f;
-  int facu_material;
+  int f;
   int spec = p_kont->m2flag & MAT2_SPECULAR;
 
   if (!p_poly)
@@ -2932,13 +2929,9 @@ EDIT_MESH_POLY *edit_to_poly_indir(EDIT_KONTEJNER * p_kont,
 
   kont_norm_vect(p_kont);
   updatuj_kontejner_statistika(p_kont, FALSE);  // pocty objektu a pod.
-  facu_material = p_kont->facu / 3;
 
   // koordinaty pro vsecny facy kontejneru
   p_koord = (TEXT_KOORD *) mmalloc(sizeof(TEXT_KOORD) * p_obj->facenum);
-
-  // prevede facy  
-  bodu = 0;
 
   // vyrobim list sousednosti
   if (!p_obj->p_fsous)
@@ -4089,7 +4082,7 @@ void lo_kopiruj_svetla_do_sceny(EDIT_KONTEJNER * p_kont,
 void lo_kopiruj_svetla_do_sceny_mesh(GAME_MESH_DATA * p_data,
   DYN_LIGHT * p_dlist, int dlistnum, EXTRA_DYN_LIGHT * p_elist, int elistnum)
 {
-  DYN_LIGHT *p_dlight;
+  DYN_LIGHT *p_dlight = NULL;
   EXTRA_DYN_LIGHT *p_elight;
   int l, p;
 
@@ -4450,13 +4443,14 @@ void lo_transformuj_svetla_do_wordspace(EDIT_KONTEJNER * p_src)
 
 void lo_premapuj_svetla_do_wordspace(EDIT_KONTEJNER * p_src)
 {
+  if (!p_src)
+    return;
+  
   STATIC_LIGHT *p_slight = p_src->p_slight;
   DYN_LIGHT *p_dlight = p_src->p_dlight;
   EXTRA_DYN_LIGHT *p_elight = p_src->p_edlight;
-  GLMATRIX *p_top = kont_world_matrix(p_src);
-
-  if (!p_src)
-    return;
+  
+  kont_world_matrix(p_src);
 
   lo_transformuj_svetla_do_wordspace(p_src);
 
@@ -4506,7 +4500,6 @@ LENS_FLARE *lo_kopiruj_flare(LENS_FLARE * p_flarelist, int max,
 void mesh_pridej_vertex_array(GAME_MESH_OLD * p_mesh)
 {
   int flag, m2flag = p_mesh->p_data->m2flag;
-  int norm = 0;
 
   if (gl_ext::extlist_vertex_array) {
     mesh_vertex_array_init(p_mesh);

@@ -130,7 +130,6 @@ EDIT_MATERIAL *lo_nahraj_material_out(FFILE f, EDIT_TEXT * p_text, int max,
   OLD_MULTITEXT_FLAG mt;
   char string[50];
   dword tmp;
-  int i = 0;
 
   if (!lo_je_tag(f, MTRL_TAG))
     return (NULL);
@@ -208,7 +207,8 @@ int lo_nahraj_materialy_out(EDIT_MATERIAL ** p_mat, int max_mat,
 {
   EDIT_MATERIAL *p_tmp;
   int i = 0;
-  int m, nm;
+  int m = 0, 
+      nm;
 
   while (1) {
     if (save) {

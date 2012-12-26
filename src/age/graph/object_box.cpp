@@ -33,14 +33,15 @@ BOX * object_box::box_child_create(void)
     return(NULL);
   
   BOX_TYPE type = object_box_type_get();
-  
-  int   i,num = 1;
-  bool  translate = FALSE;      
+  //bool     translate = FALSE;
+  int      i,num = 1;
   
   object_box *p_child = (object_box *)render_hierarchy_child_get();
   while(p_child) {
+/*  
     if(p_child->object_box_type_get() != type)
       translate = TRUE;
+*/  
     p_child = (object_box *)p_child->render_hierarchy_sibling_get();
     num++;
   }

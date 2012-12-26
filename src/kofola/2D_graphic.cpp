@@ -423,6 +423,7 @@ int _2d_APAK_Load_Bitmap(char *p_File_Name, APAK_HANDLE * pHandle)
   
 	return pointer;
 */
+  assert(0);
 }
 
 

@@ -46,8 +46,7 @@ typedef struct
 #pragma pack(pop,x1)
 
 #define TGA_CACHE_SIZE 1024
-static ImageData tgaImageCache[TGA_CACHE_SIZE] =
-  { 0, 0, 0, 0.0f, 0.0f, 0, 0, NULL };
+static ImageData tgaImageCache[TGA_CACHE_SIZE] = { 0, 0, 0, 0.0f, 0.0f, 0, 0, NULL};
 
 static unsigned short tgaMakePowerOfTwo(unsigned short number);
 static unsigned int tgaFindFreeCacheIndex(void);

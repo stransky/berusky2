@@ -20,8 +20,8 @@ int amat_set_frame_text(EDIT_MATERIAL * p_mat, int frame);
 
 void lani_updatuj(G_KONFIG * p_ber);
 
-void rani_updatuj_prvek_matice(MeshHandle mh);
-void rani_umisti_prvek_animace(MeshHandle mh);
+void rani_updatuj_prvek_matice(size_ptr mesh_handle);
+void rani_umisti_prvek_animace(size_ptr mesh_handle);
 void rani_updatuj(G_KONFIG * p_ber);
 
 void tani_init_scena(G_KONFIG * p_ber);

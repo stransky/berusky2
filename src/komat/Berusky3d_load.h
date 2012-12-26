@@ -31,7 +31,7 @@ void ber_nahraj_poly(G_KONFIG * p_ber, char *p_jmeno, char *p_dir);
 int ber_nahraj_materialy_frame_animace(G_KONFIG * p_ber, char *p_jmeno,
   char *p_dir);
 void ber_nahraj_lightmap(G_KONFIG * p_ber, char *p_jmeno, char *p_dir);
-MeshHandle ber_nahraj_mesh(G_KONFIG * p_ber, char *p_jmeno, GAME_MESH_OLD ** p_mesh, int json_export = FALSE);
+bool ber_nahraj_mesh(G_KONFIG * p_ber, char *p_jmeno, GAME_MESH_OLD ** p_mesh, int json_export = FALSE);
 void ber_velikost_sceny(G_KONFIG * p_ber);
 
 void ber_umisti_prvek(MeshHandle handle, int x, int y, int z, int rotace);

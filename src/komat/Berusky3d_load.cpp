@@ -348,13 +348,13 @@ void ber_materialy_rozkopiruj(G_KONFIG * p_ber, GAME_MESH_OLD * p_mesh,
 
 /* Nahraje jeden mesh
 */
-MeshHandle ber_nahraj_mesh(G_KONFIG * p_ber, char *p_jmeno, GAME_MESH_OLD ** p_mesh, int json_export)
+bool ber_nahraj_mesh(G_KONFIG * p_ber, char *p_jmeno, GAME_MESH_OLD ** p_mesh, int json_export)
 {
   chdir((p_ber->dir.out_dir));
   p_mesh[0] = lo_nahraj_mesh(p_ber->p_mat, MAX_CELKEM_MATERIALU, p_ber->p_text,
                              MAX_CELKEM_TEXTUR, p_jmeno, TRUE, 
                              p_ber->conf_extra_light_vertex, json_export);
-  return ((MeshHandle) p_mesh[0]);
+  return (p_mesh[0] != NULL);
 }
 
 inline int najdi_volnou_texturu_mat(EDIT_MATERIAL * p_mat)
