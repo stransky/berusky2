@@ -312,7 +312,7 @@ RunHandle rani_pripoj_funkci(RunHandle a_handle, END_FUNKCE p_fce, size_ptr para
    rani_go(next_ah, flag, start, stop);
 
   cimz se automaticky spusti animace next_ah.
-  pokud next_ah = -1 (K_CHYBA) tak se fronta vymaze.
+  pokud next_ah = NULL tak se fronta vymaze.
 
   Je jedno jestli animace ah bezi nebo stoji.
 */

@@ -1193,7 +1193,7 @@ inline void lani_setrep(GAME_MESH_ANIMACE * p_anim)
 /* Nastavi aktivni lokalni animaci nebo K_CHYBA pro stop animace
 */
 MeshHandle lani_set(MeshHandle mh, int poradi, int c_anim, int *p_flag,
-  int flag, int start, int stop)
+                    int flag, int start, int stop)
 {
   PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[mh];
 
