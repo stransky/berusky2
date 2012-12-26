@@ -2936,8 +2936,7 @@ void gl_Do_Strepiny(float *pos, LEVELINFO * p_Level, int material,
         -(int) ceil(1.0f / pCastice[i].rychlost));
     }
 
-    par_go(p_Level->KourovaStopa[k].System, &p_Level->KourovaStopa[k].flag, 0,
-      0);
+    par_go(p_Level->KourovaStopa[k].System, &p_Level->KourovaStopa[k].flag, 0, 0);
 
     //kour na miste vybuchu
     gl_Do_Smoke(pos, p_Level, r);

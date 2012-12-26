@@ -579,7 +579,7 @@ naslo_se_to:;
   p_gk->p_sim = p_ber->p_sim + shandle;
   p_gk->flag |= GK_POUZITA;
   p_gk->matic = 0;
-  p_gk->next_ah = K_CHYBA;
+  p_gk->next_ah = (size_ptr)NULL;
   p_gk->p_endfce = NULL;
 
   // Zarazeni do render-listu
@@ -620,7 +620,7 @@ naslo_se_to:;
   p_gk->p_sim = p_ber->p_sim + shandle;
   p_gk->flag |= GK_POUZITA;
   p_gk->matic = 0;
-  p_gk->next_ah = K_CHYBA;
+  p_gk->next_ah = (size_ptr)NULL;
   p_gk->p_endfce = NULL;
 
   // Zarazeni do render-listu

@@ -732,7 +732,7 @@ void am_Init_Zhave_Castice(LEVELINFO * p_Level)
 
     for (j = 0; j < 64; j++) {
       p_Level->ZhaveCastice[i].hSvetlo[j] = -1;
-      p_Level->ZhaveCastice[i].hFlare[j] = -1;
+      p_Level->ZhaveCastice[i].hFlare[j] = 0;
       p_Level->KourovaStopa[i].hHnizdo[j] = 0;
       p_Level->Kour[i].hHnizdo[j] = 0;
       p_Level->KourKameni[i].hHnizdo[j] = 0;
@@ -5853,14 +5853,13 @@ void am_Create_Street_Light(LEVELINFO * p_Level, int iStart, int iPause,
   psle->ePause = iPause;
   psle->epCounter = iPause;
   psle->eStart = iStart;
-  psle->hFlare = -1;
+  psle->hFlare = 0;
   psle->dwEfTime = 0;
   psle->hSvetlo = -1;
   psle->pos[0] = pos[0];
   psle->pos[1] = pos[1];
   psle->pos[2] = pos[2];
-  psle->Speed = 10;
-  psle->hFlare = -1;
+  psle->Speed = 10;  
 }
 
 void am_Do_Street_Lights(LEVELINFO * p_Level)
@@ -5882,7 +5881,7 @@ void am_Do_Street_Lights(LEVELINFO * p_Level)
       else if (psle->epCounter < psle->ePause) {
         psle->epCounter += e;
 
-        if (psle->hFlare != -1) {
+        if (psle->hFlare) {
           ep = t - psle->dwEfTime;
 
           if (ep < 250) {
@@ -5908,7 +5907,7 @@ void am_Do_Street_Lights(LEVELINFO * p_Level)
           }
           else if (ep >= 1250) {
             kom_flare_zrus(psle->hFlare);
-            psle->hFlare = -1;
+            psle->hFlare = (size_ptr)NULL;
           }
         }
       }
@@ -5936,17 +5935,14 @@ void am_Do_Street_Lights(LEVELINFO * p_Level)
 
         psle->dwEfTime = timeGetTime();
 
-        if (psle->hFlare != K_CHYBA)
+        if (psle->hFlare)
           kom_flare_zrus(psle->hFlare);
 
         psle->hFlare = kom_flare_vyrob(FLR_NO_ZTEST);
-
-        if (psle->hFlare != -1) {
+        if (psle->hFlare) {
           int m = kom_najdi_material("flare4");
-
           if (m != -1) {
-            kom_flare_set_param(psle->hFlare, 0.996f, 0.617f, 0, 0.75f,
-              0.001f, 0.001f, m, GL_ONE);
+            kom_flare_set_param(psle->hFlare, 0.996f, 0.617f, 0, 0.75f, 0.001f, 0.001f, m, GL_ONE);
             kom_flare_set_pivot(psle->hFlare, (BOD *) & psle->pos);
           }
         }
@@ -5965,7 +5961,7 @@ void am_Do_Street_Lights_Release(LEVELINFO * p_Level)
 
       psle = &p_Level->StreetL[i];
 
-      if (psle->hFlare != -1) {
+      if (psle->hFlare) {
         kprintf(1, "kom_flare_zrus ...");
         kom_flare_zrus(psle->hFlare);
       }
@@ -6428,7 +6424,7 @@ void am_Create_Swamp_Light(LEVELINFO * p_Level, int iStart, int iPause,
   psle->ePause = iPause;
   psle->epCounter = iPause;
   psle->eStart = iStart;
-  psle->hFlare = -1;
+  psle->hFlare = 0;
   psle->dwEfTime = 0;
   psle->hSvetlo = -1;
   psle->pos[0] = pos[0];
@@ -6459,13 +6455,10 @@ void am_Create_Swamp_Light(LEVELINFO * p_Level, int iStart, int iPause,
   }
 
   psle->hFlare = kom_flare_vyrob(0);
-
-  if (psle->hFlare != -1) {
+  if (psle->hFlare) {
     int m = kom_najdi_material("flare4");
-
     if (m != -1) {
-      kom_flare_set_param(psle->hFlare, 0.996f, 0.617f, 0, 0.5f, psle->fdx,
-        psle->fdx, m, GL_ONE);
+      kom_flare_set_param(psle->hFlare, 0.996f, 0.617f, 0, 0.5f, psle->fdx, psle->fdx, m, GL_ONE);
       kom_flare_set_pivot(psle->hFlare, (BOD *) & psle->pos);
     }
   }
@@ -6495,7 +6488,7 @@ void am_Do_Swamp_Lights(LEVELINFO * p_Level)
       else if (psle->epCounter < psle->ePause) {
         psle->epCounter += e;
 
-        if (psle->hFlare != -1) {
+        if (psle->hFlare) {
           ep = t - psle->dwEfTime;
 
           if (ep < psle->dwRiseTime) {
@@ -6546,12 +6539,12 @@ void am_Do_Swamp_Lights_Release(LEVELINFO * p_Level)
   int i;
   STREET_LIGHT_EFFECT *psle;
 
-  for (i = 0; i < 10; i++)
+  for (i = 0; i < 10; i++) {
     if (p_Level->SwampL[i].bUsed) {
       kprintf(1, "am_Do_Swamp_Lights_Release[%d] ...", i);
       psle = &p_Level->SwampL[i];
 
-      if (psle->hFlare != -1) {
+      if (psle->hFlare) {
         kprintf(1, "kom_flare_zrus[%d] ...", i);
         kom_flare_zrus(psle->hFlare);
       }
@@ -6561,6 +6554,7 @@ void am_Do_Swamp_Lights_Release(LEVELINFO * p_Level)
         sdl_svetlo_zrus(psle->hSvetlo);
       }
     }
+  }
 }
 
 void am_Do_Star_Lights_Release(LEVELINFO * p_Level)
@@ -6574,7 +6568,7 @@ void am_Do_Star_Lights_Release(LEVELINFO * p_Level)
 
       psle = &p_Level->StarL[i];
 
-      if (psle->hFlare != -1) {
+      if (psle->hFlare) {
         kprintf(1, "kom_flare_zrus[%d] ...", i);
         kom_flare_zrus(psle->hFlare);
       }
@@ -6673,7 +6667,7 @@ int am_Create_Fairy(LEVELINFO * p_Level, FAIRY_EFFECT * pF, float pos[3],
 
   memcpy((void *) &pF->pos, (void *) pos, 3 * sizeof(float));
 
-  if (p_Level->SwampL[iSwampL].hFlare != K_CHYBA)
+  if (p_Level->SwampL[iSwampL].hFlare)
     kom_flare_set_pivot(p_Level->SwampL[iSwampL].hFlare, &pF->pivot);
 
 
@@ -6945,7 +6939,7 @@ void am_Gen_Star_Light(LEVELINFO * p_Level, int iStart, int iPause,
   psle->ePause = iPause;
   psle->epCounter = iPause;
   psle->eStart = iStart;
-  psle->hFlare = -1;
+  psle->hFlare = 0;
   psle->dwEfTime = 0;
   psle->hSvetlo = -1;
   psle->pos[0] = pos[0];
@@ -6982,13 +6976,11 @@ void am_Gen_Star_Light(LEVELINFO * p_Level, int iStart, int iPause,
   }
 
   psle->hFlare = kom_flare_vyrob(0);
-
-  if (psle->hFlare != -1) {
+  if (psle->hFlare) {
     int m = kom_najdi_material("flare4");
-
     if (m != -1) {
       kom_flare_set_param(psle->hFlare, 0.765f, 0.89f, 0.89f, 0.75f,
-        psle->fdx, psle->fdx, m, GL_ONE);
+                          psle->fdx, psle->fdx, m, GL_ONE);
       kom_flare_set_pivot(psle->hFlare, (BOD *) & psle->pos);
     }
   }
@@ -7056,7 +7048,7 @@ void am_Do_Star_Lights(LEVELINFO * p_Level)
       else if (psle->epCounter < psle->ePause) {
         psle->epCounter += e;
 
-        if (psle->hFlare != -1) {
+        if (psle->hFlare) {
           ep = t - psle->dwEfTime;
 
           if (ep < psle->dwRiseTime) {
@@ -7158,7 +7150,7 @@ int am_Create_Falling_Star(LEVELINFO * p_Level, FAIRY_EFFECT * pF,
 
   memcpy((void *) &pF->pos, (void *) pos1, 3 * sizeof(float));
 
-  if (p_Level->StarL[iStarL].hFlare != K_CHYBA)
+  if (p_Level->StarL[iStarL].hFlare)
     kom_flare_set_pivot(p_Level->StarL[iStarL].hFlare, &pF->pivot);
 
   if (p_Level->StarL[iStarL].hSvetlo != K_CHYBA)
