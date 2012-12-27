@@ -141,8 +141,6 @@ berusky2_SOURCES = \
 	tmp/compat.h\
 	kofola/2D_graphic.cpp\
 	kofola/2D_graphic.h\
-	age/graph/aabb.cpp\
-	age/graph/aabb.h\
 	age/graph/age.cpp\
 	age/graph/age.h\
 	age/graph/alpha.cpp\
@@ -349,7 +347,9 @@ berusky2_SOURCES = \
 	adas/ogg_stream.h\
 	tmp/compat_mini.cpp\
 	tmp/compat_mini.h\
-	tmp/alut_test.cpp
+	tmp/alut_test.cpp\
+	age/graph/aabb.cpp\
+	age/graph/aabb.h
 
 berusky2_LDFLAGS = 
 

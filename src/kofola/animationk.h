@@ -13,16 +13,16 @@ typedef struct
 
 typedef struct
 {
-  int flag;
-  int p_run;
-  int p_matrix;
-  int p_anim;
-  int mesh[8];
-  char bnext;
+  int         flag;
+  RunHandle   p_run;
+  int         p_matrix;
+  int         p_anim;
+  int         mesh[8];
+  char        bnext;
   ANIM_TRIGER tStart[2];
   ANIM_TRIGER tTriger[5];
   ANIM_TRIGER taMateral[3];
-  char bconnected;
+  char        bconnected;
 } SIM_ANIMATION;
 
 typedef struct

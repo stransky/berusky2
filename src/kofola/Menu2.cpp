@@ -1082,7 +1082,7 @@ void InitTabControls2(CONTROL_LIST_ITEM2 * citem, int *hdcTab)
 }
 
 void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
-  LEVELINFO * p_Level, ANIMATION_MODULE * p_am)
+                      LEVELINFO * p_Level, ANIMATION_MODULE * p_am)
 {
   int mix, miy;
   float s_factor[2];
@@ -1105,7 +1105,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
   char in, click = 0;
   int anmid = -1, resid = -1, anbind = -1;
   int bind;
-  int dh = 0;
+  DeviceHandle dh = 0;
   int sh = K_CHYBA;
 //  int iBmp;
 
@@ -1867,7 +1867,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
   char in, click = 0;
   int anmid = -1, resid = -1, anbind = -1;
   int bind;
-  int dh = 0;
+  DeviceHandle dh = 0;
   int sh = K_CHYBA;
 
   _3d_End_Draw();
@@ -2728,7 +2728,7 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
   char in, click = 0;
   int anmid = -1, resid = -1, anbind = -1;
   int bind;
-  int dh = 0;
+  DeviceHandle dh = 0;
   int sh = K_CHYBA;
   int sh1 = K_CHYBA;
   int sh2 = K_CHYBA;
@@ -3278,7 +3278,7 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
   char in, click = 0;
   int anmid = -1, resid = -1, anbind = -1;
   int bind;
-  int dh = 0;
+  DeviceHandle dh = 0;
   int sh = K_CHYBA;
   int ifdx = 0;
 //  int iBack;
@@ -3689,7 +3689,7 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA * p_ad,
   char in, click = 0;
   int anmid = -1, resid = -1, anbind = -1;
   int bind;
-  int dh = 0;
+  DeviceHandle dh = 0;
   int ycorrection = 0;
   EDIT_TEXT ttext;
   //int sh = K_CHYBA;

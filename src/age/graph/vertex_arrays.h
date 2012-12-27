@@ -424,7 +424,7 @@ public:
 
   varray_index(void)
   {
-    handle = ERROR;
+    handle = (GLuint)ERROR;
     size = 0;
     flag = 0;
   }

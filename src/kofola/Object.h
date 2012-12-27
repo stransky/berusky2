@@ -116,7 +116,7 @@ typedef struct
   int Index_Of_Game_Mesh;       // mesh
   BACK_PACK *p_Back_Pack;       // pointer na batoh (predmety)
   char bDestroed;               // indikator, ze prvek se nepouziva
-  int a_run;                    // animace
+  RunHandle a_run;                    // animace
   int a_flag;                   // flag_animace
   int iItem;                    // jaky sem index v poli Itemu
   char bMatEvent[3];            // Flag pouziti jednotlivych eventu (pro animace)
@@ -337,7 +337,7 @@ typedef struct
   unsigned long dwRiseTime;
   unsigned long dwLightTime;
   float Speed;
-  int hFlare;
+  FlareHandle hFlare;
   float fdx;
   char bUsed;
   char bConnected;
@@ -544,7 +544,7 @@ typedef struct
   char bSikminaMoveExeption;
   int iCursor;
   int iKursorMesh;
-  int iKursorAnimation;
+  RunHandle iKursorAnimation;
   char bRestart;
   int iMessageBoxReturn;
   char bCancelMenu;

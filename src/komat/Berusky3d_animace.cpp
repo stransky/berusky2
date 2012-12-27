@@ -554,7 +554,7 @@ RunHandle rani_aktivuj(AnimHandle shandle, int *p_flag, int flag, int start,
   int stop)
 {
   GK_ANIM *p_gk;
-  RunHandle ah;
+  int ah;
   int i;
 
   for (i = 0; i < p_ber->gknum; i++) {
@@ -595,7 +595,7 @@ naslo_se_to:;
 RunHandle rani_aktivuj_cekej(AnimHandle shandle, int *p_flag)
 {
   GK_ANIM *p_gk;
-  RunHandle ah;
+  int ah;
   int i;
 
   for (i = 0; i < p_ber->gknum; i++) {

@@ -540,7 +540,7 @@ int gl_Get_Free_Flare(LEVELINFO * p_Level)
 
 int gl_Do_Teleport_Flare(float *pos, LEVELINFO * p_Level)
 {
-  int f, m, flare, i;
+  int f, m, i;
   float rr, rg, rb, ra, dx, dy;
   LENS_FLARE *pFlare;
   LENS_FLARE_SLOZ *pSFlare;
@@ -563,7 +563,7 @@ int gl_Do_Teleport_Flare(float *pos, LEVELINFO * p_Level)
   if (m == -1)
     kprintf(1, "Nelze najit material flare4");
 
-  flare = kom_flare_vyrob(FLR_NO_ZTEST);
+  FlareHandle flare = kom_flare_vyrob(FLR_NO_ZTEST);
 
   kom_flare_set_param(flare, rr, rg, rb, ra, dy, dx, m, GL_ONE);
 
@@ -578,7 +578,6 @@ int gl_Do_Teleport_Flare(float *pos, LEVELINFO * p_Level)
   pSFlare = (LENS_FLARE_SLOZ *) malloc(14 * sizeof(LENS_FLARE_SLOZ));
 
   pFlare->p_sloz = pSFlare;
-
   if (!pSFlare) {
     kprintf(1, "Nealokovala se pamet pro LENS_FLARE_SLOZ!\n");
     return -1;
@@ -2605,7 +2604,7 @@ void gl_Do_Smoke(float *pos, LEVELINFO * p_Level, int r)
 
 void gl_Do_Prach(float *pos, LEVELINFO * p_Level)
 {
-  int r, ph, m;
+  int r, m;
   PAR_FLEK *pCastice;
 
   pos[1] += 0.25f;
@@ -2622,7 +2621,7 @@ void gl_Do_Prach(float *pos, LEVELINFO * p_Level)
   memcpy((void *) pCastice, (void *) p_Level->Prach[r].pCastice,
     p_Level->Prach[r].Sizeof * sizeof(PAR_FLEK));
 
-  ph = par_vyrob();
+  ParHandle ph = par_vyrob();
 
   m = kom_najdi_material("mrak1_1");
 
@@ -2674,7 +2673,6 @@ void gl_Do_Krompac(float *pos, LEVELINFO * p_Level, int material)
 {
   int i, r;
   PAR_STREPINA *pCastice;
-  int ph;
 
   for (i = 0; i < 10; i++) {
     r = rand() % 10;
@@ -2697,7 +2695,7 @@ void gl_Do_Krompac(float *pos, LEVELINFO * p_Level, int material)
   memcpy((void *) pCastice, (void *) p_Level->Krompac[r].pCastice,
     p_Level->Krompac[r].Sizeof * sizeof(PAR_STREPINA));
 
-  ph = par_vyrob();
+  ParHandle ph = par_vyrob();
 
   par_set_param(ph, material, TPAR_HTEST | TPAR_AUTOREMOVE, (BOD *) pos,
     NULL);
@@ -2716,7 +2714,6 @@ void gl_Do_Strepiny(float *pos, LEVELINFO * p_Level, int material,
   int i, r, s, k, m, rm;
   PAR_STREPINA *pCastice;
   PAR_KOUR_STOPA *pKourovaS;
-  size_ptr ph,hSvetlo;
   float rg, rb, rr, ra, rdx, rdy;
   float rgs, rbs, rrs;
 
@@ -2741,7 +2738,7 @@ void gl_Do_Strepiny(float *pos, LEVELINFO * p_Level, int material,
   memcpy((void *) pCastice, (void *) p_Level->Exploze[r].pCastice,
     p_Level->Exploze[r].Sizeof * sizeof(PAR_STREPINA));
 
-  ph = par_vyrob();
+  ParHandle ph = par_vyrob();
 
   par_set_param(ph, material, TPAR_HTEST | TPAR_AUTOREMOVE, (BOD *) pos,
     NULL);
@@ -2750,6 +2747,7 @@ void gl_Do_Strepiny(float *pos, LEVELINFO * p_Level, int material,
 
   par_go(ph, &p_Level->Exploze[r].flag, 0, 0);
 
+  LightHandle hSvetlo;
   if (bSvetlo) {
     if (!p_Level->Sub_Svetla) {
       rr = 1;
@@ -2912,28 +2910,18 @@ void gl_Do_Strepiny(float *pos, LEVELINFO * p_Level, int material,
           sdl_svetlo_vyrob(SDL_UTLUM_LINEAR | SDL_SUB);
 
       hSvetlo = p_Level->ZhaveCastice[s].hSvetlo[i];
-
       sdl_svetlo_set_pos(hSvetlo, (BOD *) & p_Level->Jiskra[r].pCastice[i].p);
-
       sdl_svetlo_set_diff(hSvetlo, rrs, rgs, rbs, 0, rdx + 1.3f, rdx + 1.3f);
 
       //flare
-      p_Level->ZhaveCastice[s].hFlare[i] = kom_flare_vyrob(0);
-
-      hSvetlo = p_Level->ZhaveCastice[s].hFlare[i];
-
-      kom_flare_set_param(hSvetlo, rr, rg, rb, ra, rdy, rdx, rm, GL_ONE);
-      kom_flare_set_pivot(hSvetlo, &pCastice[i].p);
+      FlareHandle fh = p_Level->ZhaveCastice[s].hFlare[i] = kom_flare_vyrob(0);      
+      kom_flare_set_param(fh, rr, rg, rb, ra, rdy, rdx, rm, GL_ONE);
+      kom_flare_set_pivot(fh, &pCastice[i].p);
 
       //kourova stopa
-      p_Level->KourovaStopa[k].hHnizdo[i] =
-        par_vloz_hnizdo(p_Level->KourovaStopa[k].System);
-
-      par_vloz_hnizdo_komplet(p_Level->KourovaStopa[k].hHnizdo[i],
-        (int) ceil(1.0f / pCastice[i].rychlost), &pCastice[i].p, pKourovaS);
-      par_vloz_hnizdo_timer(p_Level->KourovaStopa[k].hHnizdo[i],
-        (int) ceil(1.0f / pCastice[i].rychlost),
-        -(int) ceil(1.0f / pCastice[i].rychlost));
+      HnizdoHandle hh = p_Level->KourovaStopa[k].hHnizdo[i] = par_vloz_hnizdo(p_Level->KourovaStopa[k].System);
+      par_vloz_hnizdo_komplet(hh, (int) ceil(1.0f / pCastice[i].rychlost), &pCastice[i].p, pKourovaS);
+      par_vloz_hnizdo_timer(hh, (int) ceil(1.0f / pCastice[i].rychlost), -(int) ceil(1.0f / pCastice[i].rychlost));
     }
 
     par_go(p_Level->KourovaStopa[k].System, &p_Level->KourovaStopa[k].flag, 0, 0);
@@ -3037,7 +3025,6 @@ void gl_Do_Kameni(float *pos, LEVELINFO * p_Level, int material)
 {
   int i, r;
   PAR_STREPINA *pCastice;
-  int ph;
 
   for (i = 0; i < 20; i++) {
     r = rand() % 20;
@@ -3057,7 +3044,7 @@ void gl_Do_Kameni(float *pos, LEVELINFO * p_Level, int material)
   memcpy((void *) pCastice, (void *) p_Level->Kamen[r].pCastice,
     p_Level->Kamen[r].Sizeof * sizeof(PAR_STREPINA));
 
-  ph = par_vyrob();
+  ParHandle ph = par_vyrob();
 
   par_set_param(ph, material, TPAR_HTEST | TPAR_AUTOREMOVE, (BOD *) pos,
     NULL);
@@ -3908,8 +3895,7 @@ void gl_Kontrola_Pontonky(int *iValue, LEVELINFO * p_Level)
 void gl_Do_Propadlo(float *pos, LEVELINFO * p_Level, int material)
 {
   PAR_STREPINA *pCastice;
-  int i, r;
-  int ph;
+  int i, r;  
 
   for (i = 0; i < 20; i++) {
     r = rand() % 20;
@@ -3930,7 +3916,7 @@ void gl_Do_Propadlo(float *pos, LEVELINFO * p_Level, int material)
   memcpy((void *) pCastice, (void *) p_Level->Propadla[r].pCastice,
     p_Level->Propadla[r].Sizeof * sizeof(PAR_STREPINA));
 
-  ph = par_vyrob();
+  ParHandle ph = par_vyrob();
 
   par_set_param(ph, material, TPAR_HTEST | TPAR_AUTOREMOVE, (BOD *) pos,
     NULL);
@@ -6822,8 +6808,7 @@ int gl_Count_Weight(int *column, LEVELINFO * p_Level)
 
 int gl_Stlac_Tlacitko(ITEMDESC * pTlacitko, char *bPowerOn,
   LEVELINFO * p_Level)
-{
-  int p_run;
+{  
   int pos[3];
   int r;
   char off;
@@ -6850,6 +6835,7 @@ int gl_Stlac_Tlacitko(ITEMDESC * pTlacitko, char *bPowerOn,
     pTlacitko->p_Back_Pack->item[0] = 0;
   }
 
+  RunHandle p_run;
   if (!off)
     p_run =
       rani_aktivuj(am.sim_anim[43], &p_Level->TrashFlag, GK_REMOVE, 0, 0);
@@ -8183,7 +8169,7 @@ int gl_Vynor_Pontonky(LEVELINFO * p_Level)
         if (!c && pItem->a_run != -1) {
           //rani_rozvaz(pItem->a_run,pItem->Index_Of_Game_Mesh);
           rani_zrus(pItem->a_run);
-          pItem->a_run = -1;
+          pItem->a_run = (size_ptr)NULL;
           kom_umisti_prvek(pItem->Index_Of_Game_Mesh, pItem->Pos[0],
             pItem->Pos[2], pItem->Pos[1], pItem->Rotation);
         }
@@ -11620,9 +11606,9 @@ PLAY_LEVEL_START:
 
               kom_flek_setflag(Level.SelectionFlek.pFlek, 1);
 
-              if (Level.iKursorAnimation != K_CHYBA) {
+              if (Level.iKursorAnimation) {
                 rani_zrus(Level.iKursorAnimation);
-                Level.iKursorAnimation = K_CHYBA;
+                Level.iKursorAnimation = (size_ptr)NULL;
               }
 
               kom_prvek_viditelnost(Level.iKursorMesh, 0);

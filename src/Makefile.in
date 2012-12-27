@@ -68,9 +68,9 @@ am_berusky2_OBJECTS = 3D_graphic.$(OBJEXT) 3D_menus.$(OBJEXT) \
 	Bmp.$(OBJEXT) Di.$(OBJEXT) Load.$(OBJEXT) \
 	Load_chunks.$(OBJEXT) Load_out.$(OBJEXT) Tga.$(OBJEXT) \
 	strip.$(OBJEXT) compat.$(OBJEXT) 2D_graphic.$(OBJEXT) \
-	aabb.$(OBJEXT) age.$(OBJEXT) alpha.$(OBJEXT) \
-	animation.$(OBJEXT) animation_time.$(OBJEXT) \
-	animation_track.$(OBJEXT) animation_track_bezier.$(OBJEXT) \
+	age.$(OBJEXT) alpha.$(OBJEXT) animation.$(OBJEXT) \
+	animation_time.$(OBJEXT) animation_track.$(OBJEXT) \
+	animation_track_bezier.$(OBJEXT) \
 	animation_track_linear.$(OBJEXT) bitmap.$(OBJEXT) \
 	box.$(OBJEXT) camera.$(OBJEXT) camera_interface.$(OBJEXT) \
 	color.$(OBJEXT) color_hsv.$(OBJEXT) draw.$(OBJEXT) \
@@ -103,7 +103,8 @@ am_berusky2_OBJECTS = 3D_graphic.$(OBJEXT) 3D_menus.$(OBJEXT) \
 	Kdtree.$(OBJEXT) json_export.$(OBJEXT) \
 	ambient_sounds.$(OBJEXT) audio_plug-in.$(OBJEXT) \
 	3d_math_k.$(OBJEXT) adas.$(OBJEXT) ogg_io.$(OBJEXT) \
-	ogg_stream.$(OBJEXT) compat_mini.$(OBJEXT) alut_test.$(OBJEXT)
+	ogg_stream.$(OBJEXT) compat_mini.$(OBJEXT) alut_test.$(OBJEXT) \
+	aabb.$(OBJEXT)
 berusky2_OBJECTS = $(am_berusky2_OBJECTS)
 berusky2_DEPENDENCIES =
 berusky2_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -422,8 +423,6 @@ berusky2_SOURCES = \
 	tmp/compat.h\
 	kofola/2D_graphic.cpp\
 	kofola/2D_graphic.h\
-	age/graph/aabb.cpp\
-	age/graph/aabb.h\
 	age/graph/age.cpp\
 	age/graph/age.h\
 	age/graph/alpha.cpp\
@@ -630,7 +629,9 @@ berusky2_SOURCES = \
 	adas/ogg_stream.h\
 	tmp/compat_mini.cpp\
 	tmp/compat_mini.h\
-	tmp/alut_test.cpp
+	tmp/alut_test.cpp\
+	age/graph/aabb.cpp\
+	age/graph/aabb.h
 
 berusky2_LDFLAGS = 
 berusky2_LDADD = 
@@ -1735,20 +1736,6 @@ compat.obj: tmp/compat.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='kofola/2D_graphic.cpp' object='2D_graphic.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o 2D_graphic.obj `if test -f 'kofola/2D_graphic.cpp'; then $(CYGPATH_W) 'kofola/2D_graphic.cpp'; else $(CYGPATH_W) '$(srcdir)/kofola/2D_graphic.cpp'; fi`
-
-aabb.o: age/graph/aabb.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT aabb.o -MD -MP -MF $(DEPDIR)/aabb.Tpo -c -o aabb.o `test -f 'age/graph/aabb.cpp' || echo '$(srcdir)/'`age/graph/aabb.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/aabb.Tpo $(DEPDIR)/aabb.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='age/graph/aabb.cpp' object='aabb.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o aabb.o `test -f 'age/graph/aabb.cpp' || echo '$(srcdir)/'`age/graph/aabb.cpp
-
-aabb.obj: age/graph/aabb.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT aabb.obj -MD -MP -MF $(DEPDIR)/aabb.Tpo -c -o aabb.obj `if test -f 'age/graph/aabb.cpp'; then $(CYGPATH_W) 'age/graph/aabb.cpp'; else $(CYGPATH_W) '$(srcdir)/age/graph/aabb.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/aabb.Tpo $(DEPDIR)/aabb.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='age/graph/aabb.cpp' object='aabb.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o aabb.obj `if test -f 'age/graph/aabb.cpp'; then $(CYGPATH_W) 'age/graph/aabb.cpp'; else $(CYGPATH_W) '$(srcdir)/age/graph/aabb.cpp'; fi`
 
 age.o: age/graph/age.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT age.o -MD -MP -MF $(DEPDIR)/age.Tpo -c -o age.o `test -f 'age/graph/age.cpp' || echo '$(srcdir)/'`age/graph/age.cpp
@@ -2953,6 +2940,20 @@ alut_test.obj: tmp/alut_test.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tmp/alut_test.cpp' object='alut_test.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o alut_test.obj `if test -f 'tmp/alut_test.cpp'; then $(CYGPATH_W) 'tmp/alut_test.cpp'; else $(CYGPATH_W) '$(srcdir)/tmp/alut_test.cpp'; fi`
+
+aabb.o: age/graph/aabb.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT aabb.o -MD -MP -MF $(DEPDIR)/aabb.Tpo -c -o aabb.o `test -f 'age/graph/aabb.cpp' || echo '$(srcdir)/'`age/graph/aabb.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/aabb.Tpo $(DEPDIR)/aabb.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='age/graph/aabb.cpp' object='aabb.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o aabb.o `test -f 'age/graph/aabb.cpp' || echo '$(srcdir)/'`age/graph/aabb.cpp
+
+aabb.obj: age/graph/aabb.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT aabb.obj -MD -MP -MF $(DEPDIR)/aabb.Tpo -c -o aabb.obj `if test -f 'age/graph/aabb.cpp'; then $(CYGPATH_W) 'age/graph/aabb.cpp'; else $(CYGPATH_W) '$(srcdir)/age/graph/aabb.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/aabb.Tpo $(DEPDIR)/aabb.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='age/graph/aabb.cpp' object='aabb.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o aabb.obj `if test -f 'age/graph/aabb.cpp'; then $(CYGPATH_W) 'age/graph/aabb.cpp'; else $(CYGPATH_W) '$(srcdir)/age/graph/aabb.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

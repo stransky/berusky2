@@ -128,8 +128,6 @@ src/tmp/compat.cpp
 src/tmp/compat.h
 src/kofola/2D_graphic.cpp
 src/kofola/2D_graphic.h
-src/age/graph/aabb.cpp
-src/age/graph/aabb.h
 src/age/graph/age.cpp
 src/age/graph/age.h
 src/age/graph/alpha.cpp
@@ -337,5 +335,7 @@ src/adas/ogg_stream.h
 src/tmp/compat_mini.cpp
 src/tmp/compat_mini.h
 src/tmp/alut_test.cpp
+src/age/graph/aabb.cpp
+src/age/graph/aabb.h
 
 
