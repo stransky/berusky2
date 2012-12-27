@@ -1067,7 +1067,6 @@ void adas_Release(ADAS_SOUND_SOURCE * p_ss)
   alSourceStop(p_ss->Source);
   alDeleteSources(1, &p_ss->Source);
 
-
   for (i = 0; i < p_ss->Buffer_Pointer; i++)
     if (p_ss->Buffer[i] && (p_ss->Buffer_Source[i] != RAM))
       alDeleteBuffers(1, &p_ss->Buffer[i]);
@@ -1101,14 +1100,16 @@ void adas_Release_Source(int Owner, int Type, int Index)
   if (Owner < PARTICULAR_SOUND_SOURCE) {
     int i;
 
-    for (i = 0; i < ADAS_data.Channels; i++)
-      if (SoundSource[i].Owner == Owner)
+    for (i = 0; i < ADAS_data.Channels; i++) {
+      if (SoundSource[i].Owner == Owner) {
         if (Type == ALL_TYPES) {
           if (SoundSource[i].Type != SCREAM_TYPE)
             adas_Release(&SoundSource[i]);
         }
         else if (SoundSource[i].Type == Type)
           adas_Release(&SoundSource[i]);
+      }
+    }
   }
 
   if (Owner == ALL_SOUND_SOURCES) {

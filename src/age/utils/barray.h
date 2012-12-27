@@ -49,7 +49,7 @@ public:
     
     offset_mask = (i-1);
     
-    len = lenght / (sizeof(p_pool[0])*8) + 1;
+    len = lenght / ((int)(sizeof(p_pool[0])*8)) + 1;
     p_pool = (int *)mmalloc(sizeof(p_pool[0])*len);
     set(0);
   }
@@ -72,9 +72,9 @@ public:
     }
   }
 
-  void set(bool value)
+  void set(int value)
   {
-    memset(p_pool,(int)value,sizeof(p_pool[0])*len);
+    memset(p_pool,value,sizeof(p_pool[0])*len);
   }
   
   bool get(int index)

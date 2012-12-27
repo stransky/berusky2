@@ -39,7 +39,7 @@ inline tcolor rb_switch(tcolor color)
   
   tcolor tmp = color&0xff00ff00;
   
-  tmp |= (r<<16);
+  tmp |= (dword)(r<<16);
   tmp |= b;
   
   return(tmp);
@@ -53,9 +53,9 @@ inline tcolor int_rgb(int r, int g, int b)
   if(g > MAX_BYTE) g = MAX_BYTE;
   if(b > MAX_BYTE) b = MAX_BYTE;
 
-  color =  r;
-  color |=  g<<8;
-  color |=  b<<16;
+  color =   (tcolor)r;
+  color |=  (tcolor)(g<<8);
+  color |=  (tcolor)(b<<16);
 
   return(color);
 }
@@ -64,8 +64,8 @@ inline tcolor byte_rgb(byte r, byte g, byte b)
 {
   tcolor color;
   color =  r;
-  color |=  g<<8;
-  color |=  b<<16;
+  color |=  (tcolor)(g<<8);
+  color |=  (tcolor)(b<<16);
   return(color);
 }
 
@@ -73,9 +73,9 @@ inline tcolor byte_rgba(byte r, byte g, byte b, byte a)
 {
   tcolor color;  
   color  =  r;
-  color |=  g<<8;
-  color |=  b<<16;
-  color |=  a<<24;
+  color |=  (tcolor)(g<<8);
+  color |=  (tcolor)(b<<16);
+  color |=  (tcolor)(a<<24);
   return(color);
 }
 
@@ -106,7 +106,7 @@ inline tcolor rgb_int(tcolor color, int *p_r, int *p_g, int *p_b)
 
 inline tcolor byte_a(tcolor color, int a)
 {  
-  return(color|(a<<24));
+  return(color|(tcolor)(a<<24));
 }
 
 inline byte a_byte(tcolor color)
@@ -307,10 +307,10 @@ inline void sub_color(tcolor *p_base, tcolor add)
   if(bd < 0) bd = 0;
   if(ad < 0) ad = 0;
 
-  *p_base  = rd;
-  *p_base |= (gd<<8);
-  *p_base |= (bd<<16);
-  *p_base |= (ad<<24);
+  *p_base  = (tcolor)rd;
+  *p_base |= (tcolor)(gd<<8);
+  *p_base |= (tcolor)(bd<<16);
+  *p_base |= (tcolor)(ad<<24);
 }
 
 inline void sub_color_f(float *p_base, float r, float g, float b)
@@ -421,9 +421,9 @@ inline void add_mult_color(tcolor *p_base, tcolor add, float scale)
   if(ad > MAX_BYTE) ad = MAX_BYTE;
 
   *p_base  =  (byte)rd;
-  *p_base |= ((byte)gd<<8);
-  *p_base |= ((byte)bd<<16);
-  *p_base |= ((byte)ad<<24);
+  *p_base |= (tcolor)((byte)gd<<8);
+  *p_base |= (tcolor)((byte)bd<<16);
+  *p_base |= (tcolor)((byte)ad<<24);
 }
 
 inline void add_mult_color_f(float *p_base, float *p_add, float scale)
@@ -465,9 +465,9 @@ inline void sub_mult_color(tcolor *p_base, tcolor *p_add, float scale)
   if(ad < 0) ad = 0;
 
   *p_base  =  (byte)rd;
-  *p_base |= ((byte)gd<<8);
-  *p_base |= ((byte)bd<<16);
-  *p_base |= ((byte)ad<<24);
+  *p_base |= (tcolor)((byte)gd<<8);
+  *p_base |= (tcolor)((byte)bd<<16);
+  *p_base |= (tcolor)((byte)ad<<24);
 }
 
 inline void sub_mult_color_f(float *p_base, float *p_add, float scale)
@@ -563,9 +563,9 @@ inline void sub_color_rgb_tcolor(tcolor *p_base, dword r, dword g, dword b)
   if(gd < 0) gd = 0;
   if(bd < 0) bd = 0;
 
-  *p_base  = rd;
-  *p_base |= (gd<<8);
-  *p_base |= (bd<<16);
+  *p_base  = (tcolor)rd;
+  *p_base |= (tcolor)(gd<<8);
+  *p_base |= (tcolor)(bd<<16);
 }
 
 inline void add_mult_color_rgba(tcolor *p_base, int r, int g, int b, float scale)
@@ -637,8 +637,8 @@ inline void sub_mult_color_rgb(dword *p_base, dword r, dword g, dword b, float s
   if(bd < 0) bd = 0;
 
   *p_base  = (byte)rd;
-  *p_base |= ((byte)gd<<8);
-  *p_base |= ((byte)bd<<16);
+  *p_base |= (dword)((byte)gd<<8);
+  *p_base |= (dword)((byte)bd<<16);
 }
 
 inline void get_add_color_rgb(dword base, dword *p_r, dword *p_g, dword *p_b)

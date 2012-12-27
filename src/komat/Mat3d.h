@@ -1890,9 +1890,8 @@ void konfiguruj_look_up(int *p_looksqrt_linear, int *p_looksqrt_quadratic,
 inline void *kopiruj_pole(void *p_src, int velikost)
 {
   if (p_src) {
-    void *p_mem = mmalloc(velikost);
-
-    memcpy(p_mem, p_src, velikost);
+    void *p_mem = mmalloc((size_t)velikost);
+    memcpy(p_mem, p_src, (size_t)velikost);
     return (p_mem);
   }
   else {

@@ -223,7 +223,7 @@ public:
   }
 
   void create(int key_num)
-  {    
+  {
     destroy();
     if(key_num)
       p_track = (ANIM_KEY_LIN_QUAT *)mmalloc(sizeof(p_track[0])*key_num);

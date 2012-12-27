@@ -47,7 +47,7 @@
 extern "C" {
 #endif
 
-void * mmalloc(int size);
+void * mmalloc(size_t size);
 char * sstrdup(char *p_src);
 void * mmemcpy(void *p_src, int size);
 void * rrealloc(void *p_mem, int size);

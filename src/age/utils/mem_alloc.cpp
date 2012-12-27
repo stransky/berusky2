@@ -32,7 +32,7 @@
 extern "C" {
 #endif
 
-void * mmalloc(int size)
+void * mmalloc(size_t size)
 {
    void *p_tmp = malloc(size);
    if(!p_tmp) {

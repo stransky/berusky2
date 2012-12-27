@@ -36,7 +36,7 @@ dword karmin_aktivni = 1;
 
 void zero_memory(void *mem, int size)
 {
-  memset(mem, 0, size);
+  memset(mem, 0, (size_t)size);
 }
 
 char *itoa(int d, char *buf, int base)

@@ -44,7 +44,7 @@ void tiskni_chybu(int line, char *p_file, char *p_text, ...);
 #define chybat         tiskni_chybu
 #define chyba_be(text) tiskni_chybu_bez_exit(__LINE__,__FILE__,text)
 
-inline void *mmalloc(int velikost)
+inline void *mmalloc(size_t velikost)
 {
   //assert(velikost);
   if (velikost) {
