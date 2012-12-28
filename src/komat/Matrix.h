@@ -398,8 +398,7 @@ inline GLMATRIX *invert_matrix_copy(GLMATRIX * src, GLMATRIX * inv)
   m._13 = src->_12 * src->_23 - src->_13 * src->_22;
   det = m._11 * src->_11 + m._12 * src->_21 + m._13 * src->_31;
   if (det == 0) {
-
-    //assert(0);
+    assert(0);
     return (NULL);
   }
   m._21 = -src->_21 * src->_33 + src->_23 * src->_31;
