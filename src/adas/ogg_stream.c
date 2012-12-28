@@ -293,8 +293,9 @@ long adas_OGG_Read_StreamB(ADAS_OGG_STRUCTURE *p_ogg, FILE	*p_size_file, FILE	*p
 						  0, 2, 1, &p_ogg->Current_Bitstream);
 		iCounter++;
 
-		if(p_size_file)
+		if(p_size_file) {
 			fprintf(p_size_file,"%d\n",lReturn);
+    }
 
 		switch(lReturn)
 		{
@@ -592,10 +593,8 @@ void * adas_OGG_Proc( void *lpParameter )
 					adas_OGG_Read_StreamA(p_ogg, time);
 				}
 
-				
-
 				alBufferData(p_ogg->Buffer[buffer], p_ogg->Format, &p_ogg->Data, p_ogg->Size, 
-							 p_ogg->Frequece);
+							       p_ogg->Frequece);
 				alSourceQueueBuffers(p_ogg->Source,1,&p_ogg->Buffer[buffer]);
 				
 				dwFinish = timeGetTime();
