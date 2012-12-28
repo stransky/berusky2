@@ -157,7 +157,7 @@ int am_Find_Free_Animation_Item(ANIMATION_MODULE * p_am)
 int am_Animation_Status(SIM_ANIMATION * p_animation, ANIMATION_MODULE * p_am)
 {
   if (p_animation->flag == -1) {
-    if (p_animation->p_run != -1) {
+    if (p_animation->p_run) {
       //rani_rozvaz(p_animation->p_run,p_animation->p_matrix);
       rani_zrus(p_animation->p_run);
       p_animation->p_run = -1;
@@ -218,9 +218,9 @@ void am_Remove_Animate_item(long item, LEVELINFO * p_Level)
     i++;
 
 
-  if (p_Level->Item[p_Level->Anim_Item[i]].a_run != -1) {
+  if (p_Level->Item[p_Level->Anim_Item[i]].a_run) {
     rani_zrus(p_Level->Item[p_Level->Anim_Item[i]].a_run);
-    p_Level->Item[p_Level->Anim_Item[i]].a_run = -1;
+    p_Level->Item[p_Level->Anim_Item[i]].a_run = 0;
     p_Level->Item[p_Level->Anim_Item[i]].a_flag = -1;
   }
 
@@ -248,9 +248,9 @@ void am_Remove_Animate_itemB(int iItem, LEVELINFO * p_Level)
     i++;
 
 
-  if (p_Level->Item[p_Level->Anim_Item[i]].a_run != -1) {
+  if (p_Level->Item[p_Level->Anim_Item[i]].a_run) {
     rani_zrus(p_Level->Item[p_Level->Anim_Item[i]].a_run);
-    p_Level->Item[p_Level->Anim_Item[i]].a_run = -1;
+    p_Level->Item[p_Level->Anim_Item[i]].a_run = 0;
     p_Level->Item[p_Level->Anim_Item[i]].a_flag = -1;
   }
 
@@ -341,15 +341,15 @@ void am_Animate_Items(ANIMATION_MODULE * p_am, LEVELINFO * p_Level)
     if (p_Level->Item[p_Level->Anim_Item[i]].a_flag == -1) {
       p_item = &p_Level->Item[p_Level->Anim_Item[i]];
 
-      if (p_item->a_run != -1) {
+      if (p_item->a_run) {
         rani_zrus(p_item->a_run);
-        p_item->a_run = -1;
+        p_item->a_run = 0;
       }
 
       p_item->a_run =
         rani_aktivuj(p_am->sim_anim[34], &p_item->a_flag, GK_LOOP, 0, 0);
 
-      if (p_item->a_run != -1) {
+      if (p_item->a_run) {
         rani_privaz_mesh(p_item->a_run, p_item->Index_Of_Game_Mesh, 0);
 
         p_item->a_flag = 0;
@@ -376,10 +376,10 @@ void am_Release_Animate_Items(ANIMATION_MODULE * p_am, LEVELINFO * p_Level)
 
     p_item = &p_Level->Item[p_Level->Anim_Item[i]];
 
-    if (p_item->a_run != -1) {
+    if (p_item->a_run) {
       kprintf(1, "rani_zrus...");
       rani_zrus(p_item->a_run);
-      p_item->a_run = -1;
+      p_item->a_run = 0;
     }
 
     i++;
@@ -1280,7 +1280,7 @@ void am_Do_Water_KolaB(LEVELINFO * p_Level)
 
       if (p_Level->VodniKolaB[i].hHnizdo[2] != -1) {
         kom_mesh_get_float(p_Level->VodniKolaB[i].hHnizdo[2],
-          &pos[0], &pos[1], &pos[2], &rot);
+                           &pos[0], &pos[1], &pos[2], &rot);
 
         if (!p_Level->VodniKolaB[i].dwExpire)
           w_Choose_Best_Boundary(&Boundary, pos[0], pos[2], pos[1] - 1,
@@ -1292,7 +1292,8 @@ void am_Do_Water_KolaB(LEVELINFO * p_Level)
 
 
         par_vloz_hnizdo_clip(p_Level->VodniKolaB[i].hHnizdo[0],
-          Boundary.Left, Boundary.Bottom, Boundary.Right, Boundary.Top);
+                             Boundary.Left, Boundary.Bottom, 
+                             Boundary.Right, Boundary.Top);
         pos[1] -= 0.33f;
 
         p_Level->VodniKolaB[i].pivot[0][0] = pos[0];
@@ -1515,7 +1516,6 @@ void am_Do_Vodni_Cakanec1(float *pos, int vyska, int Predmet,
   int i, r;
   PAR_STREPINA *pCastice;
   int pocercastic;
-  int ph;
   int material;
   float v;
   float fpos[3];
@@ -1577,7 +1577,7 @@ void am_Do_Vodni_Cakanec1(float *pos, int vyska, int Predmet,
     }
   }
 
-  ph = par_vyrob();
+  ParHandle ph = par_vyrob();
 
   material = kom_najdi_material("ckapka2");
 
@@ -1585,7 +1585,7 @@ void am_Do_Vodni_Cakanec1(float *pos, int vyska, int Predmet,
     kprintf(1, "Nelze najit material ckapka2");
 
   par_set_param(ph, material, TPAR_YPLANE_LOW | TPAR_HTEST | TPAR_AUTOREMOVE,
-    (BOD *) fpos, NULL);
+                (BOD *) fpos, NULL);
 
   par_set_y_plane(ph, fpos[1] - 0.1f);
 
@@ -1602,7 +1602,6 @@ void am_Do_Vodni_Cakanec2(float *pos, int VyskaPadu, int predmet,
   int i, r;
   PAR_STREPINA *pCastice;
   int pocercastic;
-  int ph;
   int material;
   float v;
   float fpos[3];
@@ -1663,8 +1662,7 @@ void am_Do_Vodni_Cakanec2(float *pos, int VyskaPadu, int predmet,
       pCastice[i].rychlost = 0.1f * _3DKOREKCE;
   }
 
-  ph = par_vyrob();
-
+  ParHandle ph = par_vyrob();
   if (!ph)
     return;
 
@@ -1674,7 +1672,7 @@ void am_Do_Vodni_Cakanec2(float *pos, int VyskaPadu, int predmet,
     kprintf(1, "Nelze najit material ckapka2");
 
   par_set_param(ph, material, TPAR_YPLANE_LOW | TPAR_HTEST | TPAR_AUTOREMOVE,
-    (BOD *) fpos, NULL);
+               (BOD *) fpos, NULL);
 
   par_set_y_plane(ph, fpos[1] - 0.1f);
 
@@ -3393,7 +3391,6 @@ int am_Create_Water_Circles(LEVELINFO * p_Level, RAINSYSTEM * pRain,
   pRain->Wpos = NULL;
 
   cWaters = am_Counet_Waters(p_Level);
-
   if (!cWaters) {
     pRain->bWaterCircles = 0;
     return 1;
@@ -3402,8 +3399,7 @@ int am_Create_Water_Circles(LEVELINFO * p_Level, RAINSYSTEM * pRain,
   pRain->SizeofWHnizda = cWaters;
 
   // pamet na hnizda
-  pRain->hWHnizdo = (int *) malloc(cWaters * sizeof(int));
-
+  pRain->hWHnizdo = (size_ptr *)malloc(cWaters * sizeof(pRain->hWHnizdo[0]));
   if (!pRain->hWHnizdo) {
     pRain->bWaterCircles = 0;
     return 0;
@@ -3486,16 +3482,17 @@ int am_Create_Water_Circles(LEVELINFO * p_Level, RAINSYSTEM * pRain,
 
   for (i = 0; i < pRain->SizeofWHnizda; i++) {
     pRain->hWHnizdo[i] = par_vloz_hnizdo(pRain->pWSystem);
-
-    if (pRain->hWHnizdo[i] != -1) {
+    if (pRain->hWHnizdo[i]) {
       pItem = am_Find_Next_Water(&LastItem, p_Level);
 
       if (pItem) {
-        kom_mesh_get_float(pItem->Index_Of_Game_Mesh, &pRain->Wpos[i].x,
-          &pRain->Wpos[i].y, &pRain->Wpos[i].z, &rot);
+        kom_mesh_get_float(pItem->Index_Of_Game_Mesh, 
+                           &pRain->Wpos[i].x,
+                           &pRain->Wpos[i].y, 
+                           &pRain->Wpos[i].z, &rot);
 
         memcpy((void *) &pRain->Wpivot[i], (void *) &pRain->Wpos[i],
-          sizeof(BOD));
+               sizeof(BOD));
 
         pRain->Wpivot[i].x +=
           (rand() & 0x1 ? randf() : -randf()) / (float) (RAND_MAX);
@@ -3511,9 +3508,8 @@ int am_Create_Water_Circles(LEVELINFO * p_Level, RAINSYSTEM * pRain,
         delay = rand() % uiIntensity;
 
         par_vloz_hnizdo_timer(pRain->hWHnizdo[i], intensity, delay);
-
         par_vloz_hnizdo_komplet(pRain->hWHnizdo[i], intensity,
-          &pRain->Wpivot[i], pCastice);
+                                &pRain->Wpivot[i], pCastice);
 
         pWHnizdo = par_cti_hnizdo(pRain->hWHnizdo[i]);
 
@@ -3557,14 +3553,14 @@ int am_Create_Rain(LEVELINFO * p_Level, RAINSYSTEM * pRain, float fRadius,
   memcpy((void *) &pRain->RainCenter, (void *) fvPos, 3 * sizeof(float));
 
   // pamet na hnizda
-  pRain->hHnizdo = (int *) malloc(uiDensity * sizeof(int));
-
+  pRain->hHnizdo = (size_ptr *)malloc(uiDensity * sizeof(pRain->hHnizdo[0]));
   if (!pRain->hHnizdo) {
     pRain->bRain = 0;
     return 0;
   }
-  else
+  else {
     pRain->SizeofHnizda = uiDensity;
+  }
 
   // pamet na pivoty
   pRain->pivot = (BOD *) malloc(uiDensity * sizeof(BOD));
@@ -3632,7 +3628,7 @@ int am_Create_Rain(LEVELINFO * p_Level, RAINSYSTEM * pRain, float fRadius,
   for (i = 0; i < pRain->SizeofHnizda; i++) {
     pRain->hHnizdo[i] = par_vloz_hnizdo(pRain->pSystem);
 
-    if (pRain->hHnizdo[i] != -1) {
+    if (pRain->hHnizdo[i]) {
       intensity =
         (int) ceil(uiIntensity +
         ((rand() & 0x1 ? randf() : -randf()) / (float) (RAND_MAX)) *
@@ -3876,8 +3872,7 @@ int am_Create_Chmiri_Pampelisek(LEVELINFO * p_Level,
   if (!pNESystem->pCastice)
     return 0;
 
-  pNESystem->hHnizdo = (int *) malloc(pNESystem->SizeofHnizda * sizeof(int));
-
+  pNESystem->hHnizdo = (size_ptr *)malloc(pNESystem->SizeofHnizda * sizeof(pNESystem->hHnizdo[0]));
   if (!pNESystem->hHnizdo) {
     am_Error_NESRelease(pNESystem);
     return 0;
@@ -3930,11 +3925,11 @@ int am_Create_Chmiri_Pampelisek(LEVELINFO * p_Level,
   for (i = 0; i < pNESystem->SizeofHnizda; i++) {
     pNESystem->hHnizdo[i] = par_vloz_hnizdo(pNESystem->pSystem);
 
-    if (pNESystem->hHnizdo[i] != -1) {
+    if (pNESystem->hHnizdo[i]) {
       par_vloz_hnizdo_komplet(pNESystem->hHnizdo[i], uiIntensity,
-        &pNESystem->pivot[i], pCastice);
+                              &pNESystem->pivot[i], pCastice);
       par_vloz_hnizdo_timer(pNESystem->hHnizdo[i], uiIntensity,
-        -1 * uiIntensity);
+                            -1 * uiIntensity);
 
       memcpy((void *) &pNESystem->pivot[i], (void *) fvPos,
         3 * sizeof(float));
@@ -4007,8 +4002,7 @@ int am_Create_Chmiri(LEVELINFO * p_Level, NATUREEFFECTSYSTEM * pNESystem,
   if (!pNESystem->pCastice)
     return 0;
 
-  pNESystem->hHnizdo = (int *) malloc(pNESystem->SizeofHnizda * sizeof(int));
-
+  pNESystem->hHnizdo = (size_ptr *)malloc(pNESystem->SizeofHnizda * sizeof(pNESystem->hHnizdo[0]));
   if (!pNESystem->hHnizdo) {
     am_Error_NESRelease(pNESystem);
     return 0;
@@ -4061,11 +4055,11 @@ int am_Create_Chmiri(LEVELINFO * p_Level, NATUREEFFECTSYSTEM * pNESystem,
   for (i = 0; i < pNESystem->SizeofHnizda; i++) {
     pNESystem->hHnizdo[i] = par_vloz_hnizdo(pNESystem->pSystem);
 
-    if (pNESystem->hHnizdo[i] != -1) {
+    if (pNESystem->hHnizdo[i]) {
       par_vloz_hnizdo_komplet(pNESystem->hHnizdo[i], uiIntensity,
-        &pNESystem->pivot[i], pCastice);
+                              &pNESystem->pivot[i], pCastice);
       par_vloz_hnizdo_timer(pNESystem->hHnizdo[i], uiIntensity,
-        -1 * uiIntensity);
+                            -1 * uiIntensity);
 
       memcpy((void *) &pNESystem->pivot[i], (void *) fvPos,
         3 * sizeof(float));
@@ -4138,7 +4132,7 @@ int am_Create_Svetlusky(LEVELINFO * p_Level, NATUREEFFECTSYSTEM * pNESystem,
   if (!pNESystem->pCastice)
     return 0;
 
-  pNESystem->hHnizdo = (int *) malloc(pNESystem->SizeofHnizda * sizeof(int));
+  pNESystem->hHnizdo = (size_ptr *)malloc(pNESystem->SizeofHnizda * sizeof(pNESystem->hHnizdo[0]));
 
   if (!pNESystem->hHnizdo) {
     am_Error_NESRelease(pNESystem);
@@ -4197,12 +4191,11 @@ int am_Create_Svetlusky(LEVELINFO * p_Level, NATUREEFFECTSYSTEM * pNESystem,
     pCastice->rychlost_y = 0.05f + r;
 
     pNESystem->hHnizdo[i] = par_vloz_hnizdo(pNESystem->pSystem);
-
-    if (pNESystem->hHnizdo[i] != -1) {
+    if (pNESystem->hHnizdo[i]) {
       par_vloz_hnizdo_komplet(pNESystem->hHnizdo[i], uiIntensity,
-        &pNESystem->pivot[i], pCastice);
+                              &pNESystem->pivot[i], pCastice);
       par_vloz_hnizdo_timer(pNESystem->hHnizdo[i], uiIntensity,
-        -1 * uiIntensity);
+                            -1 * uiIntensity);
 
       memcpy((void *) &pNESystem->pivot[i], (void *) fvPos,
         3 * sizeof(float));
@@ -4282,8 +4275,7 @@ int am_Create_Musku(LEVELINFO * p_Level, NATUREEFFECTSYSTEM * pNESystem,
   if (!pNESystem->pCastice)
     return 0;
 
-  pNESystem->hHnizdo = (int *) malloc(pNESystem->SizeofHnizda * sizeof(int));
-
+  pNESystem->hHnizdo = (size_ptr *)malloc(pNESystem->SizeofHnizda * sizeof(pNESystem->hHnizdo[0]));
   if (!pNESystem->hHnizdo) {
     am_Error_NESRelease(pNESystem);
     return 0;
@@ -4349,11 +4341,11 @@ int am_Create_Musku(LEVELINFO * p_Level, NATUREEFFECTSYSTEM * pNESystem,
   for (i = 0; i < pNESystem->SizeofHnizda; i++) {
     pNESystem->hHnizdo[i] = par_vloz_hnizdo(pNESystem->pSystem);
 
-    if (pNESystem->hHnizdo[i] != -1) {
+    if (pNESystem->hHnizdo[i]) {
       par_vloz_hnizdo_komplet(pNESystem->hHnizdo[i], uiIntensity,
-        &pNESystem->pivot[i], pCastice);
+                              &pNESystem->pivot[i], pCastice);
       par_vloz_hnizdo_timer(pNESystem->hHnizdo[i], uiIntensity,
-        -1 * uiIntensity);
+                            -1 * uiIntensity);
 
       memcpy((void *) &pNESystem->pivot[i], (void *) fvPos,
         3 * sizeof(float));
@@ -4382,7 +4374,6 @@ int am_Create_Musku(LEVELINFO * p_Level, NATUREEFFECTSYSTEM * pNESystem,
         &pNESystem->nx[i].z);
 
       pHnizdo = par_cti_hnizdo(pNESystem->hHnizdo[i]);
-
       if (pHnizdo) {
         pHnizdo->p_nx = &pNESystem->nx[i];
         pHnizdo->p_ny = &pNESystem->ny[i];
@@ -4442,8 +4433,7 @@ int am_Create_Padajici_Listi(LEVELINFO * p_Level,
   if (!pNESystem->pCastice)
     return 0;
 
-  pNESystem->hHnizdo = (int *) malloc(pNESystem->SizeofHnizda * sizeof(int));
-
+  pNESystem->hHnizdo = (size_ptr *)malloc(pNESystem->SizeofHnizda * sizeof(pNESystem->hHnizdo[0]));
   if (!pNESystem->hHnizdo) {
     am_Error_NESRelease(pNESystem);
     return 0;
@@ -4507,10 +4497,9 @@ int am_Create_Padajici_Listi(LEVELINFO * p_Level,
 
   for (i = 0; i < pNESystem->SizeofHnizda; i++) {
     pNESystem->hHnizdo[i] = par_vloz_hnizdo(pNESystem->pSystem);
-
-    if (pNESystem->hHnizdo[i] != -1) {
+    if (pNESystem->hHnizdo[i]) {
       par_vloz_hnizdo_komplet(pNESystem->hHnizdo[i], 3600000,
-        &pNESystem->pivot[i], pCastice);
+                              &pNESystem->pivot[i], pCastice);
       par_vloz_hnizdo_timer(pNESystem->hHnizdo[i], 3600000, 0);
 
       memcpy((void *) &pNESystem->pivot[i], (void *) fvPos,
@@ -4663,11 +4652,14 @@ void am_Create_Water_Effect(LEVELINFO * p_Level)
 
   pWater->hWater = vod_vyrob(c);
 
-  for (i = 0; i < p_Level->Size_of_Level; i++)
-    if (p_Level->Level[i])
-      if (p_Level->Level[i]->p_Object->Class == 12)
+  for (i = 0; i < p_Level->Size_of_Level; i++) {
+    if (p_Level->Level[i]) {
+      if (p_Level->Level[i]->p_Object->Class == 12) {
         vod_pridej_mesh(pWater->hWater,
-          p_Level->Level[i]->Index_Of_Game_Mesh);
+                        p_Level->Level[i]->Index_Of_Game_Mesh);
+      }
+    }
+  }
 
   vod_uzavri_meshe(pWater->hWater);
 
@@ -4720,7 +4712,7 @@ void am_Create_Water_Effect(LEVELINFO * p_Level)
 }
 
 void am_Create_Prizemni_Mlhu(LEVELINFO * p_Level, float fDensity,
-  float fHeight)
+                             float fHeight)
 {
   float pos[3];
   int hSvetlo;
@@ -4746,10 +4738,11 @@ void am_Start_Animaci_Pontonky(ITEMDESC * pItem)
 {
   int guid = pItem->p_Object->GUID == 5007;
   BOD b((float) (rand() % 2), 0, (float) (rand() % 2));
-  int anim, i, f1, f2;
+  AnimHandle anim;
+  int   i, f1, f2;
   float r;
 
-  if (pItem->a_run != -1)
+  if (pItem->a_run)
     return;
 
   if (!b.x && !b.z) {
@@ -4869,14 +4862,12 @@ int am_Create_BarelSparksSystem(ITEMDESC * pTel, LEVELINFO * p_Level)
   int size = ftoi(10 / p_Level->KvalitaCastic);
 
   k = am_Get_Free_BarelSparksSystem(p_Level);
-
   if (k == -1)
     return -1;
 
   pSystem = &p_Level->BarelSparks[k];
 
   pKourovaS = (PAR_KOUR_STOPA *) malloc(size * sizeof(PAR_KOUR_STOPA));
-
   if (!pKourovaS)
     return -1;
 
@@ -6009,8 +6000,7 @@ int am_Create_Water_CirclesB(LEVELINFO * p_Level, RAINSYSTEM * pRain,
   pRain->SizeofWHnizda = cWaters;
 
   // pamet na hnizda
-  pRain->hWHnizdo = (int *) malloc(cWaters * sizeof(int));
-
+  pRain->hWHnizdo = (size_ptr *)malloc(cWaters * sizeof(pRain->hWHnizdo[0]));
   if (!pRain->hWHnizdo) {
     pRain->bWaterCircles = 0;
     return 0;
@@ -6093,8 +6083,7 @@ int am_Create_Water_CirclesB(LEVELINFO * p_Level, RAINSYSTEM * pRain,
 
   for (i = 0; i < pRain->SizeofWHnizda; i++) {
     pRain->hWHnizdo[i] = par_vloz_hnizdo(pRain->pWSystem);
-
-    if (pRain->hWHnizdo[i] != -1) {
+    if (pRain->hWHnizdo[i]) {
       //pItem = am_Find_Next_Water(&LastItem, p_Level);
 
       //if(pItem)
@@ -6326,15 +6315,12 @@ void am_FlipA(LEVELINFO * p_Level, ANIMATION_MODULE * p_am, char bAll,
 
 void am_Start_Gen_Animation(char *cMesh, LEVELINFO * p_Level)
 {
-  int iAnimation = K_CHYBA, iMesh = K_CHYBA;
   BOD b((float) (rand() % 2), 0, (float) (rand() % 2));
   BOD p;
   int anim, i, f1, f2;
   float r;
 
-
-  iMesh = kom_pridej_mesh_do_levelu(cMesh);
-
+  MeshHandle iMesh = kom_pridej_mesh_do_levelu(cMesh);
   if (iMesh == K_CHYBA)
     return;
 
@@ -6385,9 +6371,8 @@ void am_Start_Gen_Animation(char *cMesh, LEVELINFO * p_Level)
 
   sim_interpoluj_animaci(anim, 2 * f1 + f2 + 1, 1);
 
-  iAnimation = rani_aktivuj(anim, &p_Level->TrashFlag, GK_LOOP, 0, 0);
-
-  if (iAnimation == K_CHYBA)
+  RunHandle iAnimation = rani_aktivuj(anim, &p_Level->TrashFlag, GK_LOOP, 0, 0);
+  if (!iAnimation)
     return;
 
   rani_privaz_mesh(iAnimation, iMesh, 0);
@@ -6445,7 +6430,6 @@ void am_Create_Swamp_Light(LEVELINFO * p_Level, int iStart, int iPause,
     psle->dwLightTime = psle->dwRiseTime + 50;
 
   hSvetlo = sdl_svetlo_vyrob(SDL_UTLUM_LINEAR);
-
   if (hSvetlo != -1) {
     sdl_svetlo_set_pos(hSvetlo, (BOD *) psle->pos);
     sdl_svetlo_set_diff(hSvetlo, 0.996f, 0.617f, 0, 1, psle->Speed * 200,

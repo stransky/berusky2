@@ -391,9 +391,10 @@ void gl_Connect_Animations(LEVELINFO * p_Level)
 
   for (i = 0; i < p_set->last; i++)
     for (j = p_prev_set->last - 1; j >= 0; j--)
-      if (gl_Include_Coincidence(&p_set->animation[i],
-          &p_prev_set->animation[j]) && p_prev_set->animation[j].p_run != -1
-        && p_set->animation[i].p_run != -1) {
+      if (gl_Include_Coincidence(&p_set->animation[i], &p_prev_set->animation[j]) && 
+          p_prev_set->animation[j].p_run && 
+          p_set->animation[i].p_run) 
+      {
         if (gl_Animation_Colision(p_prev_set, &p_set->animation[i]))
           break;
         else if (gl_Multi_Animation(p_set, &p_set->animation[i])) {
@@ -1498,11 +1499,12 @@ int gl_Throw_off(int *column, LEVELINFO * p_Level)
             p_set->last++;
           }
 
-          if (p_Level->Level[real_pos1]->a_run != -1
-            && p_Level->Level[real_pos1]->p_Object->Class != 13) {
+          if (p_Level->Level[real_pos1]->a_run && 
+              p_Level->Level[real_pos1]->p_Object->Class != 13) 
+          {
             //rani_rozvaz(p_Level->Level[real_pos1]->a_run,p_Level->Level[real_pos1]->Index_Of_Game_Mesh);
             rani_zrus(p_Level->Level[real_pos1]->a_run);
-            p_Level->Level[real_pos1]->a_run = -1;
+            p_Level->Level[real_pos1]->a_run = 0;
             kom_umisti_prvek(p_Level->Level[real_pos1]->Index_Of_Game_Mesh,
               p_Level->Level[real_pos1]->Pos[0],
               p_Level->Level[real_pos1]->Pos[2],
@@ -1933,11 +1935,12 @@ int gl_Throw_offAnim(int *column, LEVELINFO * p_Level)
             p_set_anim->last++;
           }
 
-          if (p_Level->Level[real_pos1]->a_run != -1
-            && p_Level->Level[real_pos1]->p_Object->Class != 13) {
+          if (p_Level->Level[real_pos1]->a_run && 
+              p_Level->Level[real_pos1]->p_Object->Class != 13) 
+          {
             //rani_rozvaz(p_Level->Level[real_pos1]->a_run,p_Level->Level[real_pos1]->Index_Of_Game_Mesh);
             rani_zrus(p_Level->Level[real_pos1]->a_run);
-            p_Level->Level[real_pos1]->a_run = -1;
+            p_Level->Level[real_pos1]->a_run = 0;
             kom_umisti_prvek(p_Level->Level[real_pos1]->Index_Of_Game_Mesh,
               p_Level->Level[real_pos1]->Pos[0],
               p_Level->Level[real_pos1]->Pos[2],
@@ -2145,9 +2148,9 @@ void gl_Select_BeatleFlek(ITEMDESC * p_Item, LEVELINFO * p_Level)
 
   kom_flek_setflag(pFlek->pFlek, 0);
 
-  if (p_Level->iKursorAnimation != K_CHYBA) {
+  if (p_Level->iKursorAnimation) {
     rani_zrus(p_Level->iKursorAnimation);
-    p_Level->iKursorAnimation = K_CHYBA;
+    p_Level->iKursorAnimation = 0;
   }
 
   kom_prvek_viditelnost(p_Level->iKursorMesh, 1);
@@ -2736,15 +2739,11 @@ void gl_Do_Strepiny(float *pos, LEVELINFO * p_Level, int material,
     return;
 
   memcpy((void *) pCastice, (void *) p_Level->Exploze[r].pCastice,
-    p_Level->Exploze[r].Sizeof * sizeof(PAR_STREPINA));
+         p_Level->Exploze[r].Sizeof * sizeof(PAR_STREPINA));
 
   ParHandle ph = par_vyrob();
-
-  par_set_param(ph, material, TPAR_HTEST | TPAR_AUTOREMOVE, (BOD *) pos,
-    NULL);
-
+  par_set_param(ph, material, TPAR_HTEST | TPAR_AUTOREMOVE, (BOD *) pos, NULL);
   par_vloz_strepy(ph, pCastice, p_Level->Exploze[r].Sizeof);
-
   par_go(ph, &p_Level->Exploze[r].flag, 0, 0);
 
   LightHandle hSvetlo;
@@ -2772,10 +2771,14 @@ void gl_Do_Strepiny(float *pos, LEVELINFO * p_Level, int material,
     sdl_anim_vloz_klic_vzdal(hSvetlo, 1, 7, 0, 7, 2);
     sdl_anim_vloz_klic_vzdal(hSvetlo, 2, 0, 0, 0, 14);
     sdl_anim_start(hSvetlo, &p_Level->TrashFlag, 0, 0, 0);
-    par_pripoj_funkci(ph, anmend_ZrusCastice, hSvetlo, 0, reinterpret_cast<size_ptr>(pCastice));
+    par_pripoj_funkci(ph, anmend_ZrusCastice, 
+                      (size_ptr)hSvetlo, 0,
+                      reinterpret_cast<size_ptr>(pCastice));
   }
-  else
-    par_pripoj_funkci(ph, anmend_ZrusCastice, -1, 0, reinterpret_cast<size_ptr>(pCastice));
+  else {
+    par_pripoj_funkci(ph, anmend_ZrusCastice, -1, 0, 
+                      reinterpret_cast<size_ptr>(pCastice));
+  }
 
   //zhave jistry
   if (bSvetlo) {
@@ -3090,10 +3093,10 @@ void gl_Destroy_Item(long Item, int Type, LEVELINFO * p_Level)
   if (p_Item->p_Object->Class == 6 && p_Item->p_Object->GUID == 6014)
     am_Release_BarelSparks(p_Level, p_Item);
 
-  if (p_Level->Level[Item]->a_run != -1) {
+  if (p_Level->Level[Item]->a_run) {
     //rani_rozvaz(p_Level->Level[Item]->a_run,p_Level->Level[Item]->Index_Of_Game_Mesh);
     rani_zrus(p_Level->Level[Item]->a_run);
-    p_Level->Level[Item]->a_run = -1;
+    p_Level->Level[Item]->a_run = 0;
   }
 
   switch (Type) {
@@ -3107,8 +3110,7 @@ void gl_Destroy_Item(long Item, int Type, LEVELINFO * p_Level)
         int rot;
         float pos[3];
 
-        kom_mesh_get_float(p_Item->Index_Of_Game_Mesh, &pos[0], &pos[1],
-          &pos[2], &rot);
+        kom_mesh_get_float(p_Item->Index_Of_Game_Mesh, &pos[0], &pos[1], &pos[2], &rot);
         rot = rand() % 5;
         ap_Play_Sound(0,0,0, pos, rot + 14, NULL, &ad);
         p_Item->bDestroed = 1;
@@ -4712,32 +4714,32 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
               p_destI->Pos[2] = dest[2];
 
               if (p_set->animation[p_set->last].p_matrix == -1 &&
-                p_set->animation[p_set->last].p_run != -1)
+                p_set->animation[p_set->last].p_run)
+              {
                 rani_zrus(p_set->animation[p_set->last].p_run);
+              }
 
               p_set->animation[p_set->last].flag = 0;
 
               p_set->animation[p_set->last].p_run =
-                rani_aktivuj_cekej(am.sim_anim[p_Level->Level[p_Level->
-                    Actual_Item]->Rotation + 14],
-                &p_set->animation[p_set->last].flag);
+                rani_aktivuj_cekej(am.sim_anim[p_Level->Level[p_Level->Actual_Item]->Rotation + 14],
+                                   &p_set->animation[p_set->last].flag);
 
-              p_set->animation[p_set->last].p_matrix =
-                rani_privaz_mesh(p_set->animation[p_set->last].p_run,
-                p_destI->Index_Of_Game_Mesh, 0);
+              p_set->animation[p_set->last].p_matrix = rani_privaz_mesh(p_set->animation[p_set->last].p_run,
+                                                                        p_destI->Index_Of_Game_Mesh, 0);
 
               gl_Add_Mesh(&p_set->animation[p_set->last],
-                p_destI->Index_Of_Game_Mesh);
+                          p_destI->Index_Of_Game_Mesh);
               //p_set->animation[p_set->last].mesh = p_destI->Index_Of_Game_Mesh;
 
               gl_Set_3ds_Anim(p_Level->Level[p_Level->Actual_Item]->
-                Index_Of_Game_Mesh, 0, p_Level->iWalkAnimation,
-                &p_Level->Level[p_Level->Actual_Item]->_3ds_flag, 0, 0, 0);
+                              Index_Of_Game_Mesh, 0, p_Level->iWalkAnimation,
+                              &p_Level->Level[p_Level->Actual_Item]->_3ds_flag, 0, 0, 0);
 
-              if (p_Level->bSunuti)
-                gl_Set_3ds_Anim(p_Level->Level[p_Level->Actual_Item]->
-                  Index_Of_Game_Mesh, 1, 2,
-                  &p_Level->Level[p_Level->Actual_Item]->_3ds_flag, 0, 0, 0);
+              if (p_Level->bSunuti) {
+                gl_Set_3ds_Anim(p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh, 1, 2,
+                                &p_Level->Level[p_Level->Actual_Item]->_3ds_flag, 0, 0, 0);
+              }
 
 /*						if(p_Level->bSunuti)
 							rani_pripoj_funkci(p_set->animation[p_set->last].p_run, anmend_kom_mesh_set_mesh,
@@ -4748,30 +4750,29 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
               p_set->animation[p_set->last].bnext++;
 
               p_set->animation[p_set->last].p_run =
-                rani_aktivuj_cekej(am.sim_anim[p_Level->Level[p_Level->
-                    Actual_Item]->Rotation + 65],
-                &p_set->animation[p_set->last].flag);
+                rani_aktivuj_cekej(am.sim_anim[p_Level->Level[p_Level->Actual_Item]->Rotation + 65],
+                                   &p_set->animation[p_set->last].flag);
 
               p_set->animation[p_set->last].p_matrix =
                 rani_privaz_mesh(p_set->animation[p_set->last].p_run,
-                p_destI->Index_Of_Game_Mesh, 0);
+                                 p_destI->Index_Of_Game_Mesh, 0);
 
               gl_Add_Mesh(&p_set->animation[p_set->last],
-                p_destI->Index_Of_Game_Mesh);
+                          p_destI->Index_Of_Game_Mesh);
               //p_set->animation[p_set->last].mesh = p_destI->Index_Of_Game_Mesh;
 
               if (!p_Level->bSunuti)
                 gl_Set_3ds_Anim(p_Level->Level[p_Level->Actual_Item]->
-                  Index_Of_Game_Mesh, 1, p_Level->iWalkAnimation,
-                  &p_Level->Level[p_Level->Actual_Item]->_3ds_flag, 0, 0, 0);
+                                Index_Of_Game_Mesh, 1, p_Level->iWalkAnimation,
+                                &p_Level->Level[p_Level->Actual_Item]->_3ds_flag, 0, 0, 0);
 
               rani_next_animace(p_set->animation[p_set->last - 1].p_run,
-                p_set->animation[p_set->last].p_run, 0, 0, 0);
+                                p_set->animation[p_set->last].p_run, 0, 0, 0);
 
               rani_pripoj_funkci(p_set->animation[p_set->last].p_run,
-                anmend_Set_Flek_Flag,
-                p_Level->Level[p_Level->Actual_Item]->Square.Flek.pFlek,
-                0, 0);
+                                 anmend_Set_Flek_Flag,
+                                 p_Level->Level[p_Level->Actual_Item]->Square.Flek.pFlek,
+                                 0, 0);
 
 /*						if(!p_set->last && p_Level->bPosouvatKameru)
 							rani_privaz_kameru(p_set->animation[p_set->last].p_run);*/
@@ -4859,15 +4860,15 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
                   p_Level);
 
                 if (p_set->animation[p_set->last].p_matrix == -1 &&
-                  p_set->animation[p_set->last].p_run != -1)
+                    p_set->animation[p_set->last].p_run)
+                {
                   rani_zrus(p_set->animation[p_set->last].p_run);
+                }
 
                 p_set->animation[p_set->last].flag = 0;
-
-                p_set->animation[p_set->last].p_run =
-                  rani_aktivuj_cekej(am.sim_anim[p_Level->Level[p_Level->
-                      Actual_Item]->Rotation + 6],
-                  &p_set->animation[p_set->last].flag);
+                p_set->animation[p_set->last].p_run = 
+                  rani_aktivuj_cekej(am.sim_anim[p_Level->Level[p_Level->Actual_Item]->Rotation + 6],
+                                     &p_set->animation[p_set->last].flag);
 
                 if (gl_Is_Move_Possible(dest, next_dest, p_Level)) {
                   weight = gl_Move_Item(dest, next_dest, Lnext_dest, p_Level);
@@ -4883,7 +4884,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
 
                 if (next_dest[2] >= 0) {
                   gl_Logical2Real(next_dest[0], next_dest[1], next_dest[2],
-                    &Lnext_dest, p_Level);
+                                  &Lnext_dest, p_Level);
 
                   if (p_Level->Level[Lnext_dest])
                     am_Set_Triger_Function(&p_set->animation[p_set->last],
@@ -4932,8 +4933,10 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
                   return -1;
 
                 if (p_set->animation[p_set->last].p_matrix == -1 &&
-                  p_set->animation[p_set->last].p_run != -1)
+                    p_set->animation[p_set->last].p_run)
+                {
                   rani_zrus(p_set->animation[p_set->last].p_run);
+                }
 
                 p_set->animation[p_set->last].flag = 0;
 
@@ -5049,8 +5052,10 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
                 p_Level->Level[Item]->p_Back_Pack->Count_of_Items--;
 
                 if (p_set->animation[p_set->last].p_matrix == -1 &&
-                  p_set->animation[p_set->last].p_run != -1)
+                    p_set->animation[p_set->last].p_run)
+                {
                   rani_zrus(p_set->animation[p_set->last].p_run);
+                }
 
                 //chuze dolu
                 p_set->animation[p_set->last].flag = 0;
@@ -5218,20 +5223,21 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
               p_destI->Pos[2] = dest[2];
 
               if (p_set->animation[p_set->last].p_matrix == -1 &&
-                p_set->animation[p_set->last].p_run != -1) {
+                  p_set->animation[p_set->last].p_run) 
+              {
                 rani_zrus(p_set->animation[p_set->last].p_run);
                 p_set->animation[p_set->last].flag = 0;
               }
-              else
+              else {
                 p_set->last++;
+              }
 
               //Test jestli za tim jeste neni hned dira
               item_pos[0] += Move[0];
               item_pos[1] += Move[1];
               item_pos[2] -= 2;
 
-              gl_Logical2Real(item_pos[0], item_pos[1], item_pos[2], &p_tmp,
-                p_Level);
+              gl_Logical2Real(item_pos[0], item_pos[1], item_pos[2], &p_tmp, p_Level);
 
               if (item_pos[2] < 0)
                 p_set->animation[p_set->last].p_run =
@@ -5332,15 +5338,16 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
               gl_Logical2Real(dest[0], dest[1], dest[2], &p_sikmina, p_Level);
 
               if (p_set->animation[p_set->last].p_matrix == -1 &&
-                p_set->animation[p_set->last].p_run != -1)
+                  p_set->animation[p_set->last].p_run)
+              {
                 rani_zrus(p_set->animation[p_set->last].p_run);
+              }
 
               p_set->animation[p_set->last].flag = 0;
 
               p_set->animation[p_set->last].p_run =
-                rani_aktivuj_cekej(am.sim_anim[p_Level->Level[p_Level->
-                    Actual_Item]->Rotation + 6],
-                &p_set->animation[p_set->last].flag);
+                rani_aktivuj_cekej(am.sim_anim[p_Level->Level[p_Level->Actual_Item]->Rotation + 6],
+                                   &p_set->animation[p_set->last].flag);
 
               if (gl_Is_Move_Possible(dest, next_dest, p_Level)) {
                 weight = gl_Move_Item(dest, next_dest, p_sikmina, p_Level);
@@ -5402,23 +5409,24 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
             item_pos[2] = p_Level->Level[Item]->Pos[2];
 
             if (p_set->animation[p_set->last].p_matrix == -1 &&
-              p_set->animation[p_set->last].p_run != -1) {
+                p_set->animation[p_set->last].p_run) 
+            {
               rani_zrus(p_set->animation[p_set->last].p_run);
               p_set->animation[p_set->last].flag = 0;
             }
-            else
+            else {
               p_set->last++;
+            }
 
             p_set->animation[p_set->last].p_run =
               rani_aktivuj_cekej(am.sim_anim[(p_sikminaI->Rotation * 2) + 26],
-              &p_set->animation[p_set->last].flag);
+                                 &p_set->animation[p_set->last].flag);
 
             p_set->animation[p_set->last].p_matrix =
               rani_privaz_mesh(p_set->animation[p_set->last].p_run,
-              p_Level->Level[Item]->Index_Of_Game_Mesh, 0);
+                               p_Level->Level[Item]->Index_Of_Game_Mesh, 0);
 
-            gl_Add_Mesh(&p_set->animation[p_set->last],
-              p_Level->Level[Item]->Index_Of_Game_Mesh);
+            gl_Add_Mesh(&p_set->animation[p_set->last], p_Level->Level[Item]->Index_Of_Game_Mesh);
             //p_set->animation[p_set->last].mesh = p_Level->Level[Item]->Index_Of_Game_Mesh;
 
 /*					if(!p_set->last && p_Level->bPosouvatKameru)
@@ -5630,8 +5638,10 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
           p_destI->Pos[2] = dest[2];
 
           if (p_set->animation[p_set->last].p_matrix == -1 &&
-            p_set->animation[p_set->last].p_run != -1)
+              p_set->animation[p_set->last].p_run)
+          {
             rani_zrus(p_set->animation[p_set->last].p_run);
+          }
 
           p_set->animation[p_set->last].flag = 0;
 
@@ -5774,8 +5784,10 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
             gl_Logical2Real(dest[0], dest[1], dest[2], &Lnext_dest, p_Level);
 
             if (p_set->animation[p_set->last].p_matrix == -1 &&
-              p_set->animation[p_set->last].p_run != -1)
+                p_set->animation[p_set->last].p_run)
+            {
               rani_zrus(p_set->animation[p_set->last].p_run);
+            }
 
             p_set->animation[p_set->last].flag = 0;
 
@@ -5843,15 +5855,15 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
               return -1;
 
             if (p_set->animation[p_set->last].p_matrix == -1 &&
-              p_set->animation[p_set->last].p_run != -1)
+                p_set->animation[p_set->last].p_run)
+            {
               rani_zrus(p_set->animation[p_set->last].p_run);
+            }
 
             p_set->animation[p_set->last].flag = 0;
-
             p_set->animation[p_set->last].p_run =
-              rani_aktivuj_cekej(am.sim_anim[p_Level->Level[p_Level->
-                  Actual_Item]->Rotation + 35],
-              &p_set->animation[p_set->last].flag);
+              rani_aktivuj_cekej(am.sim_anim[p_Level->Level[p_Level->Actual_Item]->Rotation + 35],
+                                 &p_set->animation[p_set->last].flag);
 
             p_set->animation[p_set->last].p_matrix =
               rani_privaz_mesh(p_set->animation[p_set->last].p_run,
@@ -6125,7 +6137,8 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
           p_destI->Pos[2] = dest[2];
 
           if (p_set->animation[p_set->last].p_matrix == -1 &&
-            p_set->animation[p_set->last].p_run != -1) {
+              p_set->animation[p_set->last].p_run) 
+          {
             rani_zrus(p_set->animation[p_set->last].p_run);
             p_set->animation[p_set->last].flag = 0;
           }
@@ -6232,8 +6245,10 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
             gl_Logical2Real(dest[0], dest[1], dest[2], &p_sikmina, p_Level);
 
             if (p_set->animation[p_set->last].p_matrix == -1 &&
-              p_set->animation[p_set->last].p_run != -1)
+                p_set->animation[p_set->last].p_run)
+            {
               rani_zrus(p_set->animation[p_set->last].p_run);
+            }
 
             p_set->animation[p_set->last].flag = 0;
 
@@ -6272,8 +6287,10 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
             gl_Logical2Real(dest[0], dest[1], dest[2], &p_sikmina, p_Level);
 
             if (p_set->animation[p_set->last].p_matrix == -1 &&
-              p_set->animation[p_set->last].p_run != -1)
+                p_set->animation[p_set->last].p_run)
+            {
               rani_zrus(p_set->animation[p_set->last].p_run);
+            }
 
             p_set->animation[p_set->last].flag = 0;
 
@@ -6333,7 +6350,8 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
         */
 
         if (p_set->animation[p_set->last].p_matrix == -1 &&
-          p_set->animation[p_set->last].p_run != -1) {
+            p_set->animation[p_set->last].p_run) 
+        {
           rani_zrus(p_set->animation[p_set->last].p_run);
           p_set->animation[p_set->last].flag = 0;
         }
@@ -6451,26 +6469,25 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
         kom_mesh_get_float(p_real_posI->Index_Of_Game_Mesh, &fpos[0],
           &fpos[1], &fpos[2], &rot);
 
-        if (p_set->animation[p_set->last].p_run != -1) {
+        if (p_set->animation[p_set->last].p_run) 
+        {
           rani_zrus(p_set->animation[p_set->last].p_run);
-          p_set->animation[p_set->last].p_run = -1;
+          p_set->animation[p_set->last].p_run = 0;
         }
 
         p_set->animation[p_set->last].flag = 0;
-        p_set->animation[p_set->last].p_run =
-          rani_aktivuj_cekej(am.sim_anim[77],
-          &p_set->animation[p_set->last].flag);
-        p_set->animation[p_set->last].p_matrix =
-          rani_privaz_mesh(p_set->animation[p_set->last].p_run,
-          Level.Level[Level.Actual_Item]->Index_Of_Game_Mesh, 0);
+        p_set->animation[p_set->last].p_run = rani_aktivuj_cekej(am.sim_anim[77],
+                                                                 &p_set->animation[p_set->last].flag);
+        p_set->animation[p_set->last].p_matrix = rani_privaz_mesh(p_set->animation[p_set->last].p_run,
+                                                                  Level.Level[Level.Actual_Item]->Index_Of_Game_Mesh, 0);
 
         rani_pripoj_funkci(p_set->animation[p_set->last].p_run, anmend_Kamen,
-          real_pos, 0, reinterpret_cast<size_ptr>(p_Level));
+                           real_pos, 0, reinterpret_cast<size_ptr>(p_Level));
 
         p_set->last++;
 
         am_Remove_Beetle_Animation(p_Level->Level[p_Level->Actual_Item]->
-          Index_Of_Game_Mesh, p_Level);
+                                   Index_Of_Game_Mesh, p_Level);
 
         gl_Set_3ds_Mesh(1, 1,
           p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh,
@@ -8166,14 +8183,14 @@ int gl_Vynor_Pontonky(LEVELINFO * p_Level)
       else if (pItem->p_Object->Class == 5 && pItem->p_Object->SubClass == 3) {
         c = gl_Check_Anim_Pontonky(pItem, p_Level);
 
-        if (!c && pItem->a_run != -1) {
+        if (!c && pItem->a_run) {
           //rani_rozvaz(pItem->a_run,pItem->Index_Of_Game_Mesh);
           rani_zrus(pItem->a_run);
           pItem->a_run = (size_ptr)NULL;
           kom_umisti_prvek(pItem->Index_Of_Game_Mesh, pItem->Pos[0],
             pItem->Pos[2], pItem->Pos[1], pItem->Rotation);
         }
-        else if (c && pItem->a_run == -1)
+        else if (c && !pItem->a_run)
           am_Start_Animaci_Pontonky(pItem);
       }
     }
@@ -8645,15 +8662,19 @@ char gl_Check_Mesh_Sim(int iMesh)
 {
   int i;
 
-  for (i = 0; i < p_set_anim->last; i++)
-    if (p_set_anim->animation[i].p_run != -1)
+  for (i = 0; i < p_set_anim->last; i++) {
+    if (p_set_anim->animation[i].p_run) {
       if (rani_je_mesh(p_set_anim->animation[i].p_run, iMesh))
         return 1;
+    }
+  }
 
-  for (i = 0; i < p_set->last; i++)
-    if (p_set->animation[i].p_run != -1)
+  for (i = 0; i < p_set->last; i++) {
+    if (p_set->animation[i].p_run) {
       if (rani_je_mesh(p_set->animation[i].p_run, iMesh))
         return 1;
+    }
+  }
 
   return 0;
 }
@@ -8673,22 +8694,26 @@ void gl_Go_Animations(void)
   }
 
   for (i = 0; i < 32; i++) {
-    if (p_set_anim->animation[i].p_run != -1) {
+    if (p_set_anim->animation[i].p_run) {
       p_anim = &p_set_anim->animation[i];
 
-      for (j = 0; j < 8; j++)
-        if (Level.Actual_Item != -1)
-          if ((p_anim->mesh[j] ==
-              Level.Level[Level.Actual_Item]->Index_Of_Game_Mesh)
-            && Level.bPosouvatKameru)
+      for (j = 0; j < 8; j++) {
+        if (Level.Actual_Item != -1) {
+          if ((p_anim->mesh[j] == Level.Level[Level.Actual_Item]->Index_Of_Game_Mesh)
+              && Level.bPosouvatKameru)
+          {
             rani_privaz_kameru(p_anim->p_run);
+          }
+        }
+      }
     }
     else if (i < p_set_anim->last)
       p_set_anim->animation[i].flag = 101;
 
 
-    if (p_set_anim->animation[i].p_run != -1
-      && !p_set_anim->animation[i].bnext) {
+    if (p_set_anim->animation[i].p_run && 
+        !p_set_anim->animation[i].bnext) 
+    {
       p_anim = &p_set_anim->animation[i];
 
       if (!p_set_anim->animation[i].bconnected)
@@ -8726,7 +8751,7 @@ void gl_Go_Animations(void)
   //privaz meshe
   for (i = 0; i < p_set_anim->pMesh; i++)
     kom_svaz_meshe(p_set_anim->PrivazanyMesh[i].TopMesh,
-      p_set_anim->PrivazanyMesh[i].LowMesh);
+                   p_set_anim->PrivazanyMesh[i].LowMesh);
 
   for (i = 0; i < 6; i++)
     if (p_set_anim->_3dsAnim[i].mesh != -1)
@@ -9622,20 +9647,23 @@ void gl_Beetle_Exit(LEVELINFO * p_Level)
 
   gl_Logical2Real(iPos[0], iPos[1], iPos[2], &i, p_Level);
 
-  if (p_prev_set->animation[1].p_run != -1)
+  if (p_prev_set->animation[1].p_run) {
     rani_pripoj_funkci(p_prev_set->animation[1].p_run, anmend_Exit,
-      p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh,
-      p_Level->Level[i]->Index_Of_Game_Mesh, reinterpret_cast<size_ptr>(p_Level));
-  else if (p_prev_set->animation[0].p_run != -1)
+                       p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh,
+                       p_Level->Level[i]->Index_Of_Game_Mesh, reinterpret_cast<size_ptr>(p_Level));
+  }
+  else if (p_prev_set->animation[0].p_run) {
     rani_pripoj_funkci(p_prev_set->animation[0].p_run, anmend_Exit,
-      p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh,
-      p_Level->Level[i]->Index_Of_Game_Mesh, reinterpret_cast<size_ptr>(p_Level));
-  else
+                       p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh,
+                       p_Level->Level[i]->Index_Of_Game_Mesh, reinterpret_cast<size_ptr>(p_Level));
+  }
+  else {
     anmend_Exit(p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh,
-      p_Level->Level[i]->Index_Of_Game_Mesh, reinterpret_cast<size_ptr>(p_Level));
+                p_Level->Level[i]->Index_Of_Game_Mesh, reinterpret_cast<size_ptr>(p_Level));
+  }
 
-  am_Remove_Beetle_Animation(p_Level->Level[p_Level->Actual_Item]->
-    Index_Of_Game_Mesh, p_Level);
+  am_Remove_Beetle_Animation(p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh, 
+                             p_Level);
 
   p_Level->Beetle[(int)p_Level->Beetle_Index] = -1;
   p_Level->Level[p_Level->Actual_Item]->bDestroed = 1;
@@ -9651,15 +9679,15 @@ void gl_Beetle_Exit(LEVELINFO * p_Level)
     if (p_Level->bPosouvatKameru) {
 //                      camera.flag = 0;
 
-      kom_mesh_get_float(p_Level->Level[p_Level->Actual_Item]->
-        Index_Of_Game_Mesh, &b.x, &b.y, &b.z, &rot);
+      kom_mesh_get_float(p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh, 
+                         &b.x, &b.y, &b.z, &rot);
 
       kam_pol_get((BOD *) & camera.finish.Target, &camera.finish.r,
-        &camera.finish.fi, &camera.finish.Distance);
+                  &camera.finish.fi, &camera.finish.Distance);
       dist = vzdal_bodu_bod(&b, (BOD *) & camera.finish.Target);
       frame = (long) ceil(dist * 2);
       kam_pol_anim(&b, camera.finish.r, camera.finish.fi,
-        camera.finish.Distance, &cam_flag, GK_REMOVE, frame, 1.0f);
+                   camera.finish.Distance, &cam_flag, GK_REMOVE, frame, 1.0f);
     }
   }
 
@@ -11622,25 +11650,28 @@ PLAY_LEVEL_START:
                  gl_Next_Demo_Frame(control.move_forward, &control, bOvladaniBerusek1); */
 
               if (p_set->animation[p_set->last].p_matrix == -1 &&
-                p_set->animation[p_set->last].p_run != -1) {
+                  p_set->animation[p_set->last].p_run) {
                 //na toto bacha .... nejsu si tim jistej!
                 rani_zrus(p_set->animation[p_set->last].p_run);
+                p_set->animation[p_set->last].p_run = 0;
                 //----------------------------------------------------
                 p_set->last--;
               }
-              else if (p_set->animation[p_set->last].p_run != -1)
+              else if (p_set->animation[p_set->last].p_run) {
                 p_set->last++;
+              }
 
               Level.Sikmina_FlagOld = Level.bSikminaSound;
 
               if (p_set->last == 1 && !Level.bSikminaSound)
                 rani_pripoj_funkci(p_set->animation[0].p_run,
-                  anmend_Are_Animations_Done, 0, 0, reinterpret_cast<size_ptr>(&Level));
+                                   anmend_Are_Animations_Done, 0, 0, 
+                                   reinterpret_cast<size_ptr>(&Level));
 
               //Level.bTriger = trig_Check_ifPos_Trigers(&tri, &Level);
 
-              am_Remove_Beetle_Animation(Level.Level[Level.Actual_Item]->
-                Index_Of_Game_Mesh, &Level);
+              am_Remove_Beetle_Animation(Level.Level[Level.Actual_Item]->Index_Of_Game_Mesh, 
+                                         &Level);
               gl_Set_3ds_Mesh(1, 0,
                 Level.Level[Level.Actual_Item]->Index_Of_Game_Mesh,
                 Level.Level[Level.Actual_Item]->Rotation);
@@ -11654,29 +11685,31 @@ PLAY_LEVEL_START:
 								gl_Set_3ds_Mesh(1, 0, Level.Level[Level.Actual_Item]->Index_Of_Game_Mesh,
 												Level.Level[Level.Actual_Item]->Rotation);*/
 
-                gl_Set_3ds_Anim(Level.Level[Level.Actual_Item]->
-                  Index_Of_Game_Mesh, 0, Level.iWalkAnimation,
-                  &Level.Level[Level.Actual_Item]->_3ds_flag, 0, 0, 0);
+                gl_Set_3ds_Anim(Level.Level[Level.Actual_Item]->Index_Of_Game_Mesh, 
+                                0, Level.iWalkAnimation,
+                                &Level.Level[Level.Actual_Item]->_3ds_flag, 
+                                0, 0, 0);
               }
               else {
 /*							if(Level.lLastKeyCounter > 1 || !bLastSunuti)
 								gl_Set_3ds_Mesh(1, 1, Level.Level[Level.Actual_Item]->Index_Of_Game_Mesh,
 												Level.Level[Level.Actual_Item]->Rotation);*/
 
-                gl_Set_3ds_Anim(Level.Level[Level.Actual_Item]->
-                  Index_Of_Game_Mesh, 0, 2,
-                  &Level.Level[Level.Actual_Item]->_3ds_flag, 0, 0, 0);
+                gl_Set_3ds_Anim(Level.Level[Level.Actual_Item]->Index_Of_Game_Mesh, 
+                                0, 2,
+                                &Level.Level[Level.Actual_Item]->_3ds_flag, 
+                                0, 0, 0);
 
                 if (Level.bSikminaSound) {
                   for (i = 0; i < Level.bSikminaSound; i++)
                     if (!i && Level.bSikminaUp && !Level.bSikminaUpExeption)
-                      gl_Set_3ds_Anim(Level.Level[Level.Actual_Item]->
-                        Index_Of_Game_Mesh, i + 1, 2,
-                        &Level.Level[Level.Actual_Item]->_3ds_flag, 0, 0, 0);
+                      gl_Set_3ds_Anim(Level.Level[Level.Actual_Item]->Index_Of_Game_Mesh, 
+                                      i + 1, 2,
+                                      &Level.Level[Level.Actual_Item]->_3ds_flag, 0, 0, 0);
                     else
-                      gl_Set_3ds_Anim(Level.Level[Level.Actual_Item]->
-                        Index_Of_Game_Mesh, i + 1, Level.iWalkAnimation,
-                        &Level.Level[Level.Actual_Item]->_3ds_flag, 0, 0, 0);
+                      gl_Set_3ds_Anim(Level.Level[Level.Actual_Item]->Index_Of_Game_Mesh, 
+                                      i + 1, Level.iWalkAnimation,
+                                      &Level.Level[Level.Actual_Item]->_3ds_flag, 0, 0, 0);
                 }
               }
 
@@ -11746,15 +11779,15 @@ PLAY_LEVEL_START:
               }
             }
             else if (!Level.bStone) {
-              if (p_set->animation[0].p_run != -1 && !Level.Throw_off) {
+              if (p_set->animation[0].p_run && !Level.Throw_off) {
                 rani_zrus(p_set->animation[0].p_run);
-                p_set->animation[0].p_run = -1;
+                p_set->animation[0].p_run = 0;
               }
 
               if (p_set->animation[0].p_matrix == -1 && Level.Throw_off &&
-                p_set->animation[0].p_run != -1) {
+                p_set->animation[0].p_run) {
                 rani_zrus(p_set->animation[0].p_run);
-                p_set->animation[0].p_run = -1;
+                p_set->animation[0].p_run = 0;
                 Level.Throw_off = 0;
               }
 
@@ -11957,9 +11990,9 @@ PLAY_LEVEL_START:
 
               Level.Level[Level.Actual_Item]->Rotation = rot;
 
-              am_Correct_Beetle_Animation(Level.Level[Level.Actual_Item]->
-                Index_Of_Game_Mesh, &Level,
-                Level.Level[Level.Actual_Item]->Rotation);
+              am_Correct_Beetle_Animation(Level.Level[Level.Actual_Item]->Index_Of_Game_Mesh, 
+                                          &Level,
+                                          Level.Level[Level.Actual_Item]->Rotation);
 
               Level.bB1ExtraCameraRot = 1;
               goto POSUN_DOPREDU;

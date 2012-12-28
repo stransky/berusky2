@@ -750,7 +750,7 @@ LightHandle sdl_anim_vloz_klic_vzdal(LightHandle lh, int klic, float dosah,
     Run-time animace
    **************************************
 */
-RunHandle sdl_anim_start(LightHandle lh, int *p_flag, int flag, int start, int stop)
+LightHandle sdl_anim_start(LightHandle lh, int *p_flag, int flag, int start, int stop)
 {
   DYN_LIGHT *p_light = p_ber->p_dlight + lh;
   DYN_LIGHT_ANIM *p_an = &p_light->an;
@@ -3568,7 +3568,7 @@ LightHandle edl_anim_vloz_klic_vzdal(LightHandle lh, int klic, float dosah,
     Run-time animace extra-dynamickych svetel
    ***************************************************
 */
-RunHandle edl_anim_start(ExtraLightHandle lh, int *p_flag, int flag,
+ExtraLightHandle edl_anim_start(ExtraLightHandle lh, int *p_flag, int flag,
   int start, int stop)
 {
   EXTRA_DYN_LIGHT *p_light = p_ber->p_edlight + lh;

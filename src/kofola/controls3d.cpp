@@ -860,7 +860,6 @@ int co2_Combo_Open(int hdc, COMBO_CONTROL2 * p_co, int xcor, int ycor)
   bBlockList = 1;
 
   p_co->pBDC = (int *) malloc(sizeof(int));
-
   if (!p_co->pBDC)
     return 0;
 

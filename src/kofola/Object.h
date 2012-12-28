@@ -183,10 +183,10 @@ typedef struct
   int SizeofCastice;
   int SizeofWCastice;
   size_ptr pSystem;
-  int pWSystem;
+  size_ptr pWSystem;
   int flag;
-  int *hHnizdo;
-  int *hWHnizdo;
+  size_ptr *hHnizdo;
+  size_ptr *hWHnizdo;
   int SizeofHnizda;
   int SizeofWHnizda;
   BOD dir;
@@ -241,7 +241,7 @@ typedef struct
   int SizeofCastice;
   size_ptr pSystem;
   int flag;
-  int *hHnizdo;
+  size_ptr *hHnizdo;
   int SizeofHnizda;
   BOD *dir;
   int SizeofDir;
@@ -283,7 +283,7 @@ typedef struct
 
 typedef struct
 {
-  int pFlare;
+  FlareHandle pFlare;
   int hSvetlo;
   int hEXSvetlo;
   int hEXSvetloAnim;
@@ -353,8 +353,8 @@ typedef struct _KOFOLOVA_CARA2
 
 typedef struct
 {
-  int hWater;
-  int hVodnik[3];
+  size_ptr hWater;
+  size_ptr hVodnik[3];
   char bWater;
 } WATERDESC;
 
@@ -372,7 +372,7 @@ typedef struct
 {
   PAR_KOUR_STOPA *pCastice;
   int csize;
-  int hHnizdo;
+  size_ptr hHnizdo;
   size_ptr pSystem;
   BOD pivot;
   BOD dir;
@@ -396,7 +396,7 @@ typedef struct
 {
   PAR_KOUR_STOPA *pCastice;
   int csize;
-  int hHnizdo;
+  size_ptr hHnizdo;
   size_ptr pSystem;
   BOD pivot;
   BOD dir;

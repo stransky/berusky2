@@ -566,7 +566,6 @@ unsigned long adas_Load_Next(char *p_File_Name)
 unsigned long adas_Load_NextMemory(void *p_File, long File_Size,
                                    char *p_File_Name)
 {
-  FILE *file = NULL;
   ALboolean loop = 0;
   ADAS_SOUND_DATA *pSound;
 
@@ -901,16 +900,16 @@ int adas_Load_Wave(ADAS_SOUND_SOURCE * p_ss)
     return 0;
 
   alGetError();
-  alGenBuffers(1, &p_ss->Buffer[p_ss->Buffer_Pointer]);
+  alGenBuffers(1, &p_ss->Buffer[(int)p_ss->Buffer_Pointer]);
   if (alGetError() != AL_NO_ERROR) {
     adas_Set_Last_Error("Unable to create buffer");
     return 0;
   }
-  if (!alIsBuffer(p_ss->Buffer[p_ss->Buffer_Pointer])) {
+  if (!alIsBuffer(p_ss->Buffer[(int)p_ss->Buffer_Pointer])) {
     adas_Set_Last_Error("Unable to create buffer");
     return 0;
   }
-  name = adas_Translate_Index(p_ss->Wave_Index[p_ss->Buffer_Pointer]);
+  name = adas_Translate_Index(p_ss->Wave_Index[(int)p_ss->Buffer_Pointer]);
 
   if (!name)
     return 0;
@@ -1004,7 +1003,7 @@ int adas_Create_Source(ADAS_SOUND_SOURCE_DATA * p_ssd, void **p_callback)
       return -1;
     }
 
-    p_ss->Buffer_Source[p_ss->Buffer_Pointer] = RAM;
+    p_ss->Buffer_Source[(int)p_ss->Buffer_Pointer] = RAM;
 
     p_ss->Buffer[0] = SoundData[Mem_Index].Buffer;
     alSourcei(p_ss->Source, AL_BUFFER, p_ss->Buffer[0]);
@@ -1590,12 +1589,11 @@ void * adas_ManagerProc(void *lpParameter)
 //------------------------------------------------------------------------------------------------
 void adas_Shot_Down_Manager(void)
 {
-  unsigned long Exit_Code;
-
   if (!bDevice)
     return;
 // TODO
 #ifdef WIDOWS
+  unsigned long Exit_Code;
   Manager.Shot_down = 1;
   Sleep(500);
   GetExitCodeThread(Manager.Thread, &Exit_Code);
@@ -2460,8 +2458,7 @@ int adas_Queue_Sound(int Source, int Wave_Index)
 
   Mem_Index = adas_Find_Sound(Wave_Index);
 
-  p_ss->Wave_Index[p_ss->Buffer_Pointer] = Wave_Index;
-
+  p_ss->Wave_Index[(int)p_ss->Buffer_Pointer] = Wave_Index;
   if (Mem_Index == -1) {
     p_ss->Lock = 1;
 
@@ -2469,19 +2466,19 @@ int adas_Queue_Sound(int Source, int Wave_Index)
       return 0;
 
     alSourceQueueBuffers(p_ss->Source, 1,
-                         &p_ss->Buffer[p_ss->Buffer_Pointer]);
+                         &p_ss->Buffer[(int)p_ss->Buffer_Pointer]);
 
-    p_ss->Buffer_Source[p_ss->Buffer_Pointer] = HDD;
+    p_ss->Buffer_Source[(int)p_ss->Buffer_Pointer] = HDD;
     p_ss->Lock = 0;
   }
   else {
     p_ss->Lock = 1;
 
-    p_ss->Buffer[p_ss->Buffer_Pointer] = SoundData[Mem_Index].Buffer;
+    p_ss->Buffer[(int)p_ss->Buffer_Pointer] = SoundData[Mem_Index].Buffer;
     alSourceQueueBuffers(p_ss->Source, 1,
-                         &p_ss->Buffer[p_ss->Buffer_Pointer]);
+                         &p_ss->Buffer[(int)p_ss->Buffer_Pointer]);
 
-    p_ss->Buffer_Source[p_ss->Buffer_Pointer] = RAM;
+    p_ss->Buffer_Source[(int)p_ss->Buffer_Pointer] = RAM;
     p_ss->Lock = 0;
   }
 

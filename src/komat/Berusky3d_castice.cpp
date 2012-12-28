@@ -63,7 +63,8 @@ void par_zrus(ParHandle ph)
   if (p_par->p_flag)
     *(p_par->p_flag) = K_CHYBA;
   if (p_par->p_endfce)
-    p_par->p_endfce(p_par->param, p_par->param2, 
+    p_par->p_endfce(p_par->param, 
+                    p_par->param2, 
                     reinterpret_cast<size_ptr>(p_par->p_param));
 
   if (p_ber->p_par == p_par) {  // smaz prvni
@@ -91,7 +92,8 @@ void par_zrus_end(PARMETAC * p_par)
   PARMETAC_HNIZDO *p_hnizdo = p_par->p_hnizdo, *p_next;
 
   if (p_par->p_endfce)
-    p_par->p_endfce(p_par->param, p_par->param2, 
+    p_par->p_endfce(p_par->param, 
+                    p_par->param2, 
                     reinterpret_cast<size_ptr>(p_par->p_param));
 
   while (p_hnizdo) {
@@ -110,7 +112,7 @@ int par_get(ParHandle ph)
 }
 
 ParHandle par_pripoj_funkci(ParHandle ph, END_FUNKCE p_fce, size_ptr param,
-  size_ptr param2, size_ptr p_param)
+                            size_ptr param2, size_ptr p_param)
 {
   PARMETAC *p_par = (PARMETAC *) ph;
 

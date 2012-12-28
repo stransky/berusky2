@@ -89,7 +89,7 @@ typedef struct _BUNKA_LEVELU_DISK
 } BUNKA_LEVELU_DISK;
 
 typedef int      MeshHandle;         // handle to mesh/item
-typedef size_ptr ExMeshHandle;       // handle extra-mesh (neni to prvek ale jen mesh)
+typedef int      ExMeshHandle;       // handle extra-mesh (neni to prvek ale jen mesh)
 typedef int      DataHandle;         // handle meshe/prvku v datazazi
 typedef int      AnimHandle;         // handle simple animace (polotovaru animace)
 typedef size_ptr RunHandle;          // handle bezici animace
