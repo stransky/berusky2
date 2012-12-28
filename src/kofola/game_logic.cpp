@@ -2160,18 +2160,6 @@ void gl_Select_BeatleFlek(ITEMDESC * p_Item, LEVELINFO * p_Level)
   p_Level->iKursorAnimation =
     rani_aktivuj(am.sim_anim[34], &p_Level->TrashFlag, GK_LOOP, 0, 0);
   rani_privaz_mesh(p_Level->iKursorAnimation, p_Level->iKursorMesh, 0);
-
-/*				rani_zrus(p_item->a_run);
-				p_item->a_run = -1;
-			}
-
-			p_item->a_run = rani_aktivuj(p_am->sim_anim[34], &p_item->a_flag,GK_LOOP,0,0);
-		
-			if(p_item->a_run != -1)
-			{
-				rani_privaz_mesh(p_item->a_run, p_item->Index_Of_Game_Mesh,0);
-*/
-
 }
 
 //------------------------------------------------------------------------------------------------
@@ -6539,7 +6527,7 @@ long gl_Move_Item(int *iValue_old, int *iValue, long Item,
 
         // znic vybusninu
         rani_zrus(p_set->animation[p_set->last].p_run);
-        p_set->animation[p_set->last].p_run = -1;
+        p_set->animation[p_set->last].p_run = 0;
         gl_Destroy_Item(Item, 4, p_Level);
         //p_set->last++;
         gl_Throw_off(iValue_old, p_Level);
@@ -8870,7 +8858,7 @@ void gl_Zero_Queue(void)
 
     p_animation->p_anim = -1;
     p_animation->p_matrix = -1;
-    p_animation->p_run = -1;
+    p_animation->p_run = 0;
     p_animation->bnext = 0;
     p_animation->tStart[0].pProc = NULL;
     p_animation->tStart[1].pProc = NULL;

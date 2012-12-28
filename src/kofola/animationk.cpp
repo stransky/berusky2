@@ -73,7 +73,7 @@ int am_Init(ANIMATION_MODULE * p_am, LEVELINFO * p_Level)
 
   for (i = 0; i < p_am->Size_of_Anim; i++) {
     p_am->p_animation[i].flag = 0;
-    p_am->p_animation[i].p_run = -1;
+    p_am->p_animation[i].p_run = 0;
     p_am->p_animation[i].p_matrix = -1;
   }
 
@@ -160,7 +160,7 @@ int am_Animation_Status(SIM_ANIMATION * p_animation, ANIMATION_MODULE * p_am)
     if (p_animation->p_run) {
       //rani_rozvaz(p_animation->p_run,p_animation->p_matrix);
       rani_zrus(p_animation->p_run);
-      p_animation->p_run = -1;
+      p_animation->p_run = 0;
       p_animation->p_matrix = -1;
     }
     return 0;

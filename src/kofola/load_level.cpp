@@ -1055,7 +1055,7 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
         p_Level->Item[pointer].Pos[1] = y;
         p_Level->Item[pointer].Pos[2] = z;
         p_Level->Item[pointer].bDestroed = 0;
-        p_Level->Item[pointer].a_run = -1;
+        p_Level->Item[pointer].a_run = 0;
         p_Level->Item[pointer].a_flag = -1;
         p_Level->Item[pointer].iItem = pointer;
         p_Level->Item[pointer].Square.iUroven = 0;
