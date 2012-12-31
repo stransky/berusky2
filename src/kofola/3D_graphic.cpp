@@ -210,7 +210,6 @@ int _3d_Load_List(char *p_File_Name)
   achdir(p3DMArchive, _3dd.bm_dir);
 
   file = aopen(p3DMArchive, p_File_Name, "rb");
-
   if (!file) {
     kprintf(1, "%s: %s", p_File_Name, p3DMArchive->cError);
     return 0;

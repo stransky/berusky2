@@ -2402,7 +2402,7 @@ int LoadHelp(char *c_file)
 
     agets(text, 256, file);
 
-    if (strlen(text)) {
+    if (text[0]) {
       newline_cut(text);
 
       if (!c)
@@ -3241,7 +3241,7 @@ int LoadCList2(char *cFile)
 
     agets(text, 256, file);
 
-    if (strlen(text)) {
+    if (text[0]) {
       newline_cut(text);
 
       if (!c)

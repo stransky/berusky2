@@ -3698,8 +3698,7 @@ int LoadTV(void)
     memset(text, 0, 256);
 
     agets(text, 256, file);
-
-    if (strlen(text)) {
+    if (text[0]) {
       newline_cut(text);
 
       if (!c)
@@ -3839,8 +3838,7 @@ int LoadClock(int *iClock)
     ZeroMemory(text, 256);
 
     agets(text, 256, file);
-
-    if (!strlen(text))
+    if (!text[0])
       break;
 
     newline_cut(text);
@@ -7707,8 +7705,8 @@ int LoadCList(char *cFile, int *p_count, int *p_bmp, int *iClock,
     memset(text, 0, 256);
 
     agets(text, 256, file);
-
-    if (strlen(text)) {
+  
+    if (text[0]) {
       newline_cut(text);
 
       if (!c) {
@@ -7737,7 +7735,7 @@ int LoadCList(char *cFile, int *p_count, int *p_bmp, int *iClock,
 
 int GetComixTime(int iScene)
 {
-  char text[256];
+  char text[256] = "";
   int i;
   FILE *file;
 

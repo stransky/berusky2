@@ -561,7 +561,7 @@ int _2d_Load_List(char *p_File_Name)
 
 int _2d_APAK_Load_List(char *p_File_Name)
 {
-  char text[256];
+  char text[256] = "";
   FILE *file = 0;
   DWORD Eplased = 0;
   DWORD Start, Stop;
@@ -581,8 +581,7 @@ int _2d_APAK_Load_List(char *p_File_Name)
     Start = timeGetTime();
 
     while (!aeof(file)) {
-      agets(text, 256, file);
-      if (!aeof(file)) {
+      if (agets(text, 256, file) && !aeof(file)) {
         newline_cut(text);
         _2d_APAK_Load_Bitmap(text, pBmpArchive);
         //kprintf(1,"Bitmap %s loaded.",text);

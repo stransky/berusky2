@@ -84,7 +84,7 @@ int ap_Load_Sample(int iCount, char *cFile)
 int ap_Load_Sound_List(AUDIO_DATA * p_ad, char *cFile, int iStart)
 {
   FILE *file;
-  char text[256];
+  char text[256] = "";
   int c = iStart;
   int iMaterial = 0;
 
@@ -100,17 +100,14 @@ int ap_Load_Sound_List(AUDIO_DATA * p_ad, char *cFile, int iStart)
     return 0;
   }
 
-  agets(text, 255, file);
-
-  iMaterial = atoi(text);
-
-  while (!aeof(file)) {
-    memset(text, 0, 256);
-    agets(text, 255, file);
-
-    if (!strlen(text))
-      break;
-    else {
+  if(agets(text, 255, file)) {
+    iMaterial = atoi(text);
+  
+    while (!aeof(file)) {
+      memset(text, 0, 256);
+      if(!agets(text, 255, file) || !text[0])
+        break;
+      
       newline_cut(text);
       if(!ap_Load_Sample(c, text)) {
         // Loading failed - stop it
@@ -565,7 +562,7 @@ int ap_Load_Material_List(char *p_File_Name, AUDIO_DATA * p_ad)
 {
   FILE *file = 0;
   FILE *Material_file = 0;
-  char text[30], error[256];
+  char text[30] = "", error[256];
   int i;
 
   if (p_ad->p_Material)
@@ -595,7 +592,9 @@ int ap_Load_Material_List(char *p_File_Name, AUDIO_DATA * p_ad)
   }
 
   for (i = 0; i < p_ad->Size_of_Material_List; i++) {
-    agets(text, 30, file);
+    if(!agets(text, 30, file))
+      break;
+    
     newline_cut(text);
     Material_file = aopen(pSndArchive, text, "rb");
     if (!Material_file) {

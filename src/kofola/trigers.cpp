@@ -165,10 +165,11 @@ char trig_Load_Triger(char *pFile, GAME_TRIGER * pTriger, GRAMMAR * pGr,
     return 0;
 
   while (!aeof(file)) {
-    agets(text, 256, file);
-    trig_Parse_Line(text, &pTriger->command[pTriger->lastcommand], pTriger,
-      pGr, pTStruct);
-    strcpy(text, "");
+    if(agets(text, 256, file)) {
+      trig_Parse_Line(text, &pTriger->command[pTriger->lastcommand], pTriger, 
+                      pGr, pTStruct);
+      text[0] = '\0';
+    }
   }
 
   aclose(file);
