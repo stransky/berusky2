@@ -3447,10 +3447,8 @@ int co2_Handle_wsclen(CONTROL_EDIT2 * p_ed)
   return 0;
 }
 
-int co2_Handle_Edit(CONTROL_EDIT2 * p_ed, int x, int y, int hdc, int xcor,
-  int ycor)
+int co2_Handle_Edit(CONTROL_EDIT2 * p_ed, int x, int y, int hdc, int xcor, int ycor)
 {
-//      RECT r;
   DWORD t = timeGetTime();
 
   if (mi.t1) {

@@ -3195,30 +3195,12 @@ void co_Check_Enable(int hdc, int xcor, int ycor, CONTROL_LIST_ITEM * p_list,
   return;
 }
 
-int co_Check_Shift(void)
-{
-  int i;
-
-  for (i = 0; i < POCET_KLAVES; i++)
-    if (i && i != K_SHFT_L && i != K_SHFT_P && i != K_SHIFT)
-      if (key[i])
-        return 0;
-
-  return 1;
-}
-
 int co_Handle_Edit_Key_Filter(void)
 {
 //  char k[256];
   int c = 0, i;
 
   //GetKeyboardState(k);
-
-/*	if(k[VK_LSHIFT]&0x80)
-		c++;
-
-	if(k[VK_RSHIFT]&0x80)
-		c++;*/
 
   if (key[K_ESC])
     c++;
@@ -3253,18 +3235,6 @@ int co_Handle_Edit_Key_Filter(void)
 	if(k[VK_RMENU]&0x80)
 		c++;
 */
-  if (co_Check_Shift())
-    c++;
-
-  /*if(key[K_SHFT_L])
-     c++;
-
-     if(key[K_SHIFT])
-     c++;
-
-     if(key[K_SHFT_P])
-     c++; */
-
   if (key[K_TAB])
     c++;
 
@@ -3351,8 +3321,7 @@ WCHAR co_ToUnicode(int wScanCode)
   return res;
 }
 
-int co_Handle_Edit(CONTROL_EDIT * p_ed, int x, int y, int hdc, int xcor,
-  int ycor)
+int co_Handle_Edit(CONTROL_EDIT * p_ed, int x, int y, int hdc, int xcor, int ycor)
 {
   DWORD t = timeGetTime();
 
@@ -3385,8 +3354,7 @@ int co_Handle_Edit(CONTROL_EDIT * p_ed, int x, int y, int hdc, int xcor,
       WCHAR wt[3];
       int   size;
 
-      if (co_Handle_Edit_Key_Filter() || (co_Handle_wsclen(p_ed)
-          && !key[K_BKSP])) {
+      if (co_Handle_Edit_Key_Filter() || (co_Handle_wsclen(p_ed) && !key[K_BKSP])) {
         memset(key, 0, POCET_KLAVES * sizeof(char));
         return 1;
       }
