@@ -760,7 +760,11 @@ bool dir_create(const char *p_dir)
   pprintfnl("Checking %s...",tmp_dir);
   if(stat(tmp_dir,&st) == -1 && errno == ENOENT) {
     pprintfnl("missing, try to create it...");
+#ifdef WINDOWS
+    if(mkdir(tmp_dir) != -1) {
+#else  
     if(mkdir(tmp_dir,DEFAULT_DIR_MASK) != -1) {
+#endif
       pprintf("ok");
       return(TRUE);
     } else {

@@ -521,23 +521,17 @@ void dbgprintf(char *p_tmp, ...)
 {
 }
 
-int MultiByteToWideChar(int CodePage,
-  int dwFlags,
-  char *lpMultiByteStr,
-  int cbMultiByte, WCHAR * lpWideCharStr, int cchWideChar)
+int MultiByteToWideChar(int CodePage, int dwFlags, char *lpMultiByteStr,
+                        int cbMultiByte, WCHAR * lpWideCharStr, int cchWideChar)
 {
   int ret = mbstowcs(lpWideCharStr, lpMultiByteStr, cchWideChar);
-
   assert(ret && ret < cchWideChar);
   return (ret);
 }
 
-int WideCharToMultiByte(int CodePage,
-  int dwFlags,
-  wchar_t * lpWideCharStr,
-  int cchWideChar,
-  char *lpMultiByteStr,
-  int cbMultiByte, char *lpDefaultChar, int *lpUsedDefaultChar)
+int WideCharToMultiByte(int CodePage, int dwFlags, wchar_t * lpWideCharStr,
+                        int cchWideChar, char *lpMultiByteStr, int cbMultiByte, 
+                        char *lpDefaultChar, int *lpUsedDefaultChar)
 {
   return (wcstombs(lpMultiByteStr, lpWideCharStr, cbMultiByte));
 }

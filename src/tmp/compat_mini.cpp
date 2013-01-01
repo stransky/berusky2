@@ -30,6 +30,7 @@
 extern "C" {
 #endif
 
+#include <stdio.h>
 #include "compat_mini.h"
 
 dword karmin_aktivni = 1;
@@ -127,6 +128,23 @@ void newline_cut(char *p_line)
     }
   }
 }
+
+#ifdef LINUX
+char * _strdate(char *p_tmp)
+{ 
+  time_t now = time(NULL);
+  strftime(p_tmp, 50, "%b. %d, %Y", localtime(&now)); //short month name
+  return p_tmp;
+}
+
+char * _strtime(char *p_tmp)
+{
+  time_t now = time((time_t*)NULL);
+  struct tm *l_time = localtime(&now);  
+  sprintf(p_tmp, "%.2d:%.2d:%.2d", l_time->tm_hour, l_time->tm_min, l_time->tm_sec);
+  return p_tmp;
+}
+#endif
 
 #ifdef __cplusplus
 }

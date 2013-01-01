@@ -1,4 +1,5 @@
 TODO:
+- can't type 'K' key? (level save name?)
 - set fps
 - transparent objects
 - bad exit animations
@@ -9,15 +10,14 @@ TODO:
 - Default keys - F11, F12 and so
 - Game Load/Save
 - Why menu is not animated?
+- Game title is not set?
+- Wait for game tip to load (wait for a key?)
 
 - fullscreen -> konec hry nevraci rozliseni
 - 1280x1024 full -> menu je jen v hornim rohu
 - in-game menu - to menu je nejake hnusne?
 - defaultne je vypla/zakazana hudba/zvuky?
 - defaultni klavesy sou tragedie!! (delam novy profil) 
-
-- level7 - crash in TNT
-- level306/307 - crashes at loading
 
 -D_DEBUG -Wall -Wno-write-strings -Wsign-conversion
 

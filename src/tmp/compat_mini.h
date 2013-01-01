@@ -191,6 +191,11 @@ typedef void * THREAD_HANDLE;
 
 #define POINTER_TO_INT(pointer) (*((int*)&(pointer)))
 
+#ifdef LINUX
+char * _strdate(char *p_tmp);
+char * _strtime(char *p_tmp);
+#endif
+
 #ifdef __cplusplus
 }
 #endif

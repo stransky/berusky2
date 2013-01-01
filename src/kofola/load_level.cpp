@@ -2,10 +2,13 @@
 // version 0.0.6
 //------------------------------------------------------------------------------------------------
 #include <stdio.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #include <assert.h>
 #include <math.h>
 #include <time.h>
+
 #include "3d_all.h"
 #include "Berusky_universal.h"
 #include "load_level.h"
@@ -17,6 +20,11 @@
 #include "menu_script.h"
 #include "animationk.h"
 #include "profiles.h"
+
+#ifdef LINUX
+#include <dirent.h>
+#include <fnmatch.h>
+#endif
 
 #define VELIKOST_STREPIN	2.0f
 #define VELIKOST_STREPIN_K	20.0f
@@ -1448,9 +1456,9 @@ int lsi_Get_Save_Info(char *p_Level_Name, int *pActLevel, int *pActScene)
   return 1;
 }
 
+#ifdef WINDOWS
 int lsi_Save_Exist(WCHAR * wName, char *cFile)
 {
-/*
 	FILE *file;
 	long Done, error;
 	struct _finddata_t	Data;
@@ -1496,13 +1504,12 @@ int lsi_Save_Exist(WCHAR * wName, char *cFile)
 		}
 	}
 	_findclose(Done); 
-*/
+
   return 0;
 }
 
 void delete_dir(char *p_Level_Name)
 {
-/*
 	long Done, error;
 	struct _finddata_t	Data;
 
@@ -1526,12 +1533,90 @@ void delete_dir(char *p_Level_Name)
 
 	chdir("..");
 	rmdir(p_Level_Name);
-*/
 }
+#endif
+
+#ifdef LINUX
+static int lsi_Save_Exist_filter(const struct dirent *file)
+{
+  static char *file_mask = "*";
+  return(!fnmatch(file_mask, file->d_name, 0));
+}
+
+int lsi_Save_Exist(WCHAR * wName, char *cFile)
+{
+  struct dirent **namelist;
+	char	cwd[MAX_PATH+1];	
+  int   i;
+  
+  int c = scandir(".", &namelist, &lsi_Save_Exist_filter, alphasort); 
+  if (c < 0) {    
+    return 0;
+  }
+
+  getcwd(cwd,MAX_PATH);
+
+  int ret = false;
+  for(i = 0; i < c; i++) {
+    char	text[MAX_PATH+1];
+  
+    chdir(namelist[i]->d_name);
+    sprintf(text,"%s.lvc", namelist[i]->d_name);
+    
+    FILE *file = fopen(text, "rb");
+    if(file)
+    {
+      PLAYER_PROFILE	pPlayer;
+      WCHAR	wTmp[32];
+    
+      fread(&pPlayer, sizeof(PLAYER_PROFILE), 1, file);
+      fread(wTmp, 32 * sizeof(WCHAR), 1, file);
+      fclose(file);
+
+      if(!wcscmp(pPlayer.cName, pPlayerProfile.cName) && !wcscmp(wTmp, wName))
+      {
+        strcpy(cFile, namelist[i]->d_name);
+        ret = true;
+        break;
+      }
+    }
+  }
+
+  chdir(cwd);  
+
+  for(i = 0; i < c; i++)
+    free(namelist[i]);
+  free(namelist);
+  
+  return ret;
+}
+
+void delete_dir(char *p_Level_Name)
+{
+  struct dirent **namelist;
+  int i;
+
+	if(chdir(p_Level_Name) == -1)
+		return;
+
+  int c = scandir(".", &namelist, &lsi_Save_Exist_filter, alphasort); 
+  if (c < 0) {    
+    return;
+  }
+  
+  for(i = 0; i < c; i++) {
+    remove(namelist[i]->d_name);
+    free(namelist[i]);
+  }
+  free(namelist);
+
+	chdir("..");
+	rmdir(p_Level_Name);
+}
+#endif
 
 void lsi_Save_Level(WCHAR * pwc_Level_Name, LEVELINFO * p_Level)
 {
-/*
 	FILE *file;
 	int i;
 	char text[256];
@@ -1540,7 +1625,6 @@ void lsi_Save_Level(WCHAR * pwc_Level_Name, LEVELINFO * p_Level)
 	DWORD	time;
 	char	pom[128];
 	char	pom2[128];
-	char	exists = 0;
 	int		ver = SAVE_VER;
 
 	ZeroMemory(p_Level_Name, 256);
@@ -1563,15 +1647,17 @@ void lsi_Save_Level(WCHAR * pwc_Level_Name, LEVELINFO * p_Level)
 			pom2[i] = '_';
 
 	sprintf(p_Level_Name, "save_[%s]_[%s]", pom, pom2);
+  kprintf(1, "Saving level as %s", p_Level_Name);
+    
+	if(lsi_Save_Exist(pwc_Level_Name, p_Level_Name))
+    delete_dir(p_Level_Name);
 
-	exists = lsi_Save_Exist(pwc_Level_Name, p_Level_Name);
-*/
-  /*WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK, pwc_Level_Name, wcslen(pwc_Level_Name), p_Level_Name, 256, NULL, NULL); */
-/*
-	delete_dir(p_Level_Name);
-
-	mkdir(p_Level_Name);
-
+#ifdef WINDOWS
+  mkdir(p_Level_Name);
+#else
+	mkdir(p_Level_Name, DEFAULT_DIR_MASK);
+#endif
+  
 	chdir(p_Level_Name);
 
 	lsi_copy_save(p_Level_Name, p_Level);
@@ -1579,7 +1665,6 @@ void lsi_Save_Level(WCHAR * pwc_Level_Name, LEVELINFO * p_Level)
 	sprintf(p_Level_Name, "%s.lvc", p_Level_Name);
 
 	file = fopen(p_Level_Name, "wb");
-
 	if(!file)
 		return;
 
@@ -1632,7 +1717,6 @@ void lsi_Save_Level(WCHAR * pwc_Level_Name, LEVELINFO * p_Level)
 		fwrite(&p_Level->Item[i].Square, sizeof(SQUAREDESC), 1, file);
 
 	fclose(file);
-*/
 }
 
 int lsi_fint_item(int mesh, LEVELINFO * p_Level)

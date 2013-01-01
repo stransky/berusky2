@@ -963,7 +963,7 @@ void am_Release_Kourove_Castice(SYSTEMKOUROVYCHCASTIC * pSystem)
 
   pSystem->pCastice = NULL;
 
-  for (i = 0; i < 64; i++) {
+  for (i = 0; i < 64; i++) {    
     if (pSystem->hHnizdo[i]) {
       par_vloz_hnizdo_pivot(pSystem->hHnizdo[i], NULL);
       pSystem->hHnizdo[i] = 0;
@@ -1354,16 +1354,6 @@ void am_Do_Water(LEVELINFO * p_Level)
       dwEplased = dwTime - p_Level->VodniKola[i].dwStart - ber.TimeLastFrame;
 
       if (dwEplased > p_Level->VodniKola[i].dwStop) {
-/*				if(!p_Level->VodniKola[i].hHnizdo[1] && p_Level->VodniKola[i].dwStop > 0)
-				{
-					am_Do_Vodni_Cakanec2(p_Level->VodniKola[i].pivot[1], 
-										 p_Level->VodniKola[i].hHnizdo[2],
-										 p_Level->VodniKola[i].hHnizdo[3],
-										 p_Level);
-
-					p_Level->VodniKola[i].hHnizdo[1] = 1;
-				}*/
-
         if (!par_get_hnizda(p_Level->VodniKola[i].System)) {
           par_zrus(p_Level->VodniKola[i].System);
           p_Level->VodniKola[i].System = (size_ptr)NULL;

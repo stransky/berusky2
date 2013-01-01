@@ -3382,7 +3382,8 @@ int co_Handle_Edit(CONTROL_EDIT * p_ed, int x, int y, int hdc, int xcor,
     spracuj_spravy(0);
 
     if (key[0] && key_pressed) {
-      WCHAR wt[2];
+      WCHAR wt[3];
+      int   size;
 
       if (co_Handle_Edit_Key_Filter() || (co_Handle_wsclen(p_ed)
           && !key[K_BKSP])) {
@@ -3390,11 +3391,13 @@ int co_Handle_Edit(CONTROL_EDIT * p_ed, int x, int y, int hdc, int xcor,
         return 1;
       }
 
-      memset(wt, 0, 2 * sizeof(WCHAR));
-
-      MultiByteToWideChar(CP_ACP, 0, (char *) &key_pressed, 1, wt,
-        sizeof(wt) / sizeof(wt[0]));
-
+      wt[0] = wt[1] = wt[2] = 0;
+      size = MultiByteToWideChar(CP_ACP, 0, (char *) &key_pressed, 1, wt, sizeof(wt)/sizeof(wt[0]));
+      if(size > 1) {
+        // we have got some unsupported character - ignore it
+        memset(key, 0, POCET_KLAVES * sizeof(char));
+        return 1;
+      }
       wt[0] = co_ToUnicode(key_pressed);
 
       if (!wt[0]) {

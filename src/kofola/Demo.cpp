@@ -260,13 +260,13 @@ int demo_SaveWC(DEMOSTRUCTURE * p_Demo, WCHAR * wcName, char Ovladani,
   int i;
   DEMOKEYFRAME *p_Frame;
 
-  //strdate(pom);
+  _strdate(pom);
 
   for (i = 0; i < (signed) strlen(pom); i++)
     if (pom[i] == '/')
       pom[i] = '_';
 
-  //strtime(pom2);
+  _strtime(pom2);
 
   for (i = 0; i < (signed) strlen(pom2); i++)
     if (pom2[i] == ':')
