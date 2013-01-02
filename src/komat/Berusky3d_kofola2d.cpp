@@ -780,9 +780,7 @@ void ddx2DrawSurface(int iSurface, int *com, int layer)
 void ddx2DrawDisplay(int *com, int layer)
 {
   bitmapa *p_src = get_bmp(com[1]);
-
-  ddx2BitBlt(DDX2_BACK_BUFFER, com[2], com[3], p_src->x, p_src->y, com[1], 0,
-    0);
+  ddx2BitBlt(DDX2_BACK_BUFFER, com[2], com[3], p_src->x, p_src->y, com[1], 0, 0);
 }
 
 // color to make transparent
@@ -889,6 +887,49 @@ BOOL ddx2BitBlt(SurfaceHandle dst, int dx, int dy, int sirka, int vyska,
     memmove(p_dst_data, p_src_data, sizeof(p_dst_data[0]) * sirka);
     p_dst_data += sirka_dst;
     p_src_data += sirka_src;
+  }
+
+  return (TRUE);
+}
+
+BOOL 
+ddx2BitBltStretch(SurfaceHandle dst, int dx, int dy, int dst_width, int dst_height,
+                  SurfaceHandle src, int sx, int sy, int src_width, int src_height)
+{
+  bitmapa *p_src = get_bmp(src);
+  bitmapa *p_dst = get_bmp(dst);
+  int      src_bitmap_width = p_src->x;
+  int      dst_bitmap_width = p_dst->x;
+  dword   *p_src_data = p_src->data;
+  dword   *p_dst_data = p_dst->data;
+  int      x,y;
+
+  if (dst == DDX2_BACK_BUFFER) {
+    RECT r;
+
+    r.left = dx;
+    r.top = dy;
+    r.right = dst_width;
+    r.bottom = dst_height;
+
+    ddx2AddRectItem(&rline, r, 0);
+  }
+
+  assert(dx < p_dst->x && dy < p_dst->y);
+  assert(sx < p_src->x && sy < p_src->y);
+
+  assert(dx + dst_width <= p_dst->x && dy + dst_height <= p_dst->y);
+  assert(sx + src_width <= p_src->x && sy + src_height <= p_src->y);
+
+  float scale_factor_width  = src_width  / (float)dst_width;
+  float scale_factor_height = src_height / (float)dst_height;  
+
+  for (y = 0; y < dst_height; y++) {
+    for (x = 0; x < dst_width; x++) {
+      int dst_index = (dy + y)*dst_bitmap_width + dx + x;
+      int src_index = (sy + floor(y*scale_factor_height))*src_bitmap_width + sx + floor(x*scale_factor_width);
+      p_dst_data[dst_index] = p_src_data[src_index];
+    }
   }
 
   return (TRUE);

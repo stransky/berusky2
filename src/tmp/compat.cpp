@@ -367,9 +367,15 @@ void ddxAddRectItem(void *p_rl, RECT rect, int iLayer)
 }
 
 int ddxStretchBltDisplay(RECT * rDest, int iSurface, RECT * rSource)
-{
-  assert(0); // not implemented
-  return(TRUE);
+{  
+  return(ddx2BitBltStretch(DDX2_BACK_BUFFER,
+                           rDest->left, rDest->top,
+                           rDest->right - rDest->left,
+                           rDest->bottom - rDest->top,
+                           iSurface,
+                           rSource->left, rSource->top,
+                           rSource->right - rSource->left,
+                           rSource->bottom - rSource->top));
 }
 
 int ddxStretchBlt(int iSDest, RECT * rDest, int iSSource, RECT * rSource)

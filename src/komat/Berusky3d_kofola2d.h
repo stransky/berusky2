@@ -229,6 +229,8 @@ BOOL ddx2TransparentBltFull(SurfaceHandle dst, int dx, int dy,
 
 BOOL ddx2BitBlt(SurfaceHandle dst, int dx, int dy, int sirka, int vyska,
   SurfaceHandle src, int sx, int sy);
+BOOL ddx2BitBltStretch(SurfaceHandle dst, int dx, int dy, int dst_width, int dst_height,
+                       SurfaceHandle src, int sx, int sy, int src_width, int src_height);
 BOOL ddx2BitBltDisplay(int dx, int dy, int sirka, int vyska,
   int dcSrcSurface, int sx, int sy);
 BOOL ddx2BitBltFull(SurfaceHandle dst, int dx, int dy, SurfaceHandle src);
