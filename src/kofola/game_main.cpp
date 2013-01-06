@@ -127,15 +127,15 @@ int winmain_Game_Run(char *p_Level_Name)
 
   if (!gi_Open_Archive("controls.pak", &pControlsArchive, "game",
       "bitmap_dir")) {
-    apakclose(pBmpArchive);
+    apakclose(&pBmpArchive);
     return 0;
   }
 
 #ifndef __DEMO
 	if(!gi_Open_Archive("sound.pak", &pSndArchive,"soundengine","sound_dir"))
 	{
-		apakclose(pBmpArchive);
-		apakclose(pControlsArchive);
+		apakclose(&pBmpArchive);
+		apakclose(&pControlsArchive);
 		return 0;
 	}
 #endif
@@ -143,8 +143,8 @@ int winmain_Game_Run(char *p_Level_Name)
 #ifdef __DEMO
 	if(!gi_Open_Archive("sound_demo.pak", &pSndArchive,"soundengine","sound_dir"))
 	{
-		apakclose(pBmpArchive);
-		apakclose(pControlsArchive);
+		apakclose(&pBmpArchive);
+		apakclose(&pControlsArchive);
 		return 0;
 	}
 #endif
@@ -153,9 +153,9 @@ int winmain_Game_Run(char *p_Level_Name)
   working_file_translate(dir, 256);
 
   if (!gi_Open_Archive(dir, &p3DMArchive, "game", "bitmap_dir")) {
-    apakclose(pControlsArchive);
-    apakclose(pBmpArchive);
-    apakclose(pSndArchive);
+    apakclose(&pControlsArchive);
+    apakclose(&pBmpArchive);
+    apakclose(&pSndArchive);
     return 0;
   }
 
@@ -163,45 +163,21 @@ int winmain_Game_Run(char *p_Level_Name)
   working_file_translate(dir, 256);
 
   if (!gi_Open_Archive(dir, &pDataArchive, "game", "data_dir")) {
-    apakclose(p3DMArchive);
-    apakclose(pControlsArchive);
-    apakclose(pBmpArchive);
-    apakclose(pSndArchive);
+    apakclose(&p3DMArchive);
+    apakclose(&pControlsArchive);
+    apakclose(&pBmpArchive);
+    apakclose(&pSndArchive);
     return 0;
   }
-
-/*
-#ifndef __DEMO
-	if(!gi_Open_Archive("data.pak", &pDataArchive,"game","data_dir"))
-	{
-		apakclose(p3DMArchive);
-		apakclose(pControlsArchive);
-		apakclose(pBmpArchive);
-		apakclose(pSndArchive);
-		return 0;
-	}
-#endif
-
-#ifdef __DEMO
-	if(!gi_Open_Archive("data_demo.pak", &pDataArchive,"game","data_dir"))
-	{
-		apakclose(p3DMArchive);
-		apakclose(pControlsArchive);
-		apakclose(pBmpArchive);
-		apakclose(pSndArchive);
-		return 0;
-	}
-#endif
-*/
 
 #ifndef __DEMO
   if (!gi_Open_Archive("game_data.pak", &pGDataArchive, "game",
       "game_data_dir")) {
-    apakclose(pDataArchive);
-    apakclose(p3DMArchive);
-    apakclose(pControlsArchive);
-    apakclose(pBmpArchive);
-    apakclose(pSndArchive);
+    apakclose(&pDataArchive);
+    apakclose(&p3DMArchive);
+    apakclose(&pControlsArchive);
+    apakclose(&pBmpArchive);
+    apakclose(&pSndArchive);
     return 0;
   }
 #endif
@@ -209,11 +185,11 @@ int winmain_Game_Run(char *p_Level_Name)
 #ifdef __DEMO
   if (!gi_Open_Archive("game_data_demo.pak", &pGDataArchive, "game",
       "game_data_dir")) {
-    apakclose(pDataArchive);
-    apakclose(p3DMArchive);
-    apakclose(pControlsArchive);
-    apakclose(pBmpArchive);
-    apakclose(pSndArchive);
+    apakclose(&pDataArchive);
+    apakclose(&p3DMArchive);
+    apakclose(&pControlsArchive);
+    apakclose(&pBmpArchive);
+    apakclose(&pSndArchive);
     return 0;
   }
 #endif
@@ -351,17 +327,17 @@ int winmain_Game_Run(char *p_Level_Name)
   //cmcs_Play_Intro("gamelogo.txt", hWnd, &ad);
 
   kprintf(1, "apakclose pGDataArchive");
-  apakclose(pGDataArchive);
+  apakclose(&pGDataArchive);
   kprintf(1, "apakclose pDataArchive");
-  apakclose(pDataArchive);
+  apakclose(&pDataArchive);
   kprintf(1, "apakclose pBmpArchive");
-  apakclose(pBmpArchive);
+  apakclose(&pBmpArchive);
   kprintf(1, "apakclose pSndArchive");
-  apakclose(pSndArchive);
+  apakclose(&pSndArchive);
   kprintf(1, "apakclose p3DMArchive");
-  apakclose(p3DMArchive);
+  apakclose(&p3DMArchive);
   kprintf(1, "apakclose pControlsArchive");
-  apakclose(pControlsArchive);
+  apakclose(&pControlsArchive);
 
   //kprintf(1, "apakclose FONT");
   //fn_Release_Font();

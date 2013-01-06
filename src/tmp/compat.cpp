@@ -647,8 +647,7 @@ char *working_file_get(const char *p_file, char *p_target, int size)
 
 void working_file_translate(char *p_file, int size)
 {
-  return_path_ext(p_file, current_working_dir, current_working_dir_file,
-    PATH_MAX);
+  return_path_ext(p_file, current_working_dir, current_working_dir_file, PATH_MAX);
   assert(size <= PATH_MAX);
   strcpy(p_file, current_working_dir_file);
 }

@@ -133,7 +133,7 @@ void newline_cut(char *p_line)
 char * _strdate(char *p_tmp)
 { 
   time_t now = time(NULL);
-  strftime(p_tmp, 50, "%b. %d, %Y", localtime(&now)); //short month name
+  strftime(p_tmp, 50, "%D", localtime(&now)); //short month name
   return p_tmp;
 }
 

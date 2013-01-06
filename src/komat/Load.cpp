@@ -2404,7 +2404,7 @@ int lo_reload_textur_file(EDIT_TEXT * p_text, int max, char *p_file, int save)
 
   lo_reload_textur_formaty(pHandle, p_text, max, save);
 
-  apakclose(pHandle);
+  apakclose(&pHandle);
 
   return (0);
 }

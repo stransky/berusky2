@@ -32,17 +32,6 @@
 extern "C" {
 #endif
 
-void * mmalloc(size_t size)
-{
-   void *p_tmp = malloc(size);
-   if(!p_tmp) {
-     PERROR(TRUE, "Out of memory! Requested size %d.",size);
-     exit(0);
-   }
-   memset(p_tmp,0,size);
-   return(p_tmp);   
-}
-
 char * sstrdup(char *p_src)
 {
    char *p_tmp = strdup(p_src);

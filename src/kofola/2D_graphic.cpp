@@ -743,10 +743,14 @@ void _2d_Add_Progress(float fPercent)
     _2dd.ProgressStatus += fPercent;
   else
     _2dd.ProgressStatus += _2dd.ProgressPlus;
+
+  if(_2dd.ProgressStatus > 100.0f)
+    _2dd.ProgressStatus = 100.0f;  
 }
 
 void _2d_Draw_Progress(int x, int y)
 {
+  assert(0);
 /*
 	HPEN	LastPen;
 	HPEN	MePen;
@@ -783,7 +787,7 @@ void _2d_Draw_Progress(int x, int y)
 
 	SelectObject(_2dd.hDC,LastPen);
 	DeleteObject(MePen);
-*/
+  */
 }
 
 void _2d_Release_Progress(void)
@@ -793,7 +797,8 @@ void _2d_Release_Progress(void)
 
 void _2d_Blackness(void)
 {
-  //BitBlt(_2dd.hDC, 0, 0, hwconf.xres, hwconf.yres, NULL, 0, 0, BLACKNESS);
+  assert(0);
+//  BitBlt(_2dd.hDC, 0, 0, hwconf.xres, hwconf.yres, NULL, 0, 0, BLACKNESS);
 }
 
 

@@ -47,6 +47,8 @@ void demo_Set_Scene_Level(char *cDemo, int *pScene, int *pLevel)
 
 int demo_Check_Owner(WCHAR * wPlayer, char *cDemo, WCHAR * wDemoName)
 {
+  // TODO
+  assert(0);
 /*
 	WCHAR	wc[128];
 	char	text[256];
@@ -211,6 +213,8 @@ int demo_Save(DEMOSTRUCTURE * p_Demo, char *p_File_Name, char Ovladani,
 
 int demo_Exist(WCHAR * wName, char *cFile)
 {
+  // TODO
+  assert(0);
 /*
 	DEMOFILEHEADER	FileHeader;
 	FILE *file;

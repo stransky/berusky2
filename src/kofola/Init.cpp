@@ -96,7 +96,7 @@ int lsi_Load_Items(LEVELINFO * p_Level)
 
   chdir((odir));
 
-  apakclose(aHandle);
+  apakclose(&aHandle);
 
   return 1;
 }

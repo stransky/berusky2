@@ -5,6 +5,8 @@
 #include <ctype.h>
 #include "Apak.h"
 #include "compat_mini.h"
+#include "mmalloc.h"
+
 
 #define APAK_VERSION_HI		1
 #define APAK_VERSION_LOW	1
@@ -271,15 +273,7 @@ APAK_HANDLE *apakopen(char *cArchive, char *cDir, int *pError)
     return NULL;
   }
 
-  pHandle = (APAK_HANDLE *) malloc(sizeof(APAK_HANDLE));
-
-  if (!pHandle) {
-    *pError = APAK_OUT_OF_MEMORY;
-    return NULL;
-  }
-
-  ZeroMemory(pHandle, sizeof(APAK_HANDLE));
-
+  pHandle = (APAK_HANDLE *) mmalloc(sizeof(APAK_HANDLE));
   pHandle->pFILE = pFile;
 
   iRet = fread(&pHandle->FileHeader, sizeof(APAKFILEHEADER), 1, pFile);
@@ -330,15 +324,17 @@ void apakReleaseNode(APAKNODE * pNode)
   free((void *) pNode);
 }
 
-void apakclose(APAK_HANDLE * pHandle)
+void apakclose(APAK_HANDLE ** pHandle)
 {
-  if (!pHandle)
+  if (!(*pHandle))
     return;
 
-  apakReleaseNode(pHandle->pRootNode);
+  apakReleaseNode((*pHandle)->pRootNode);
 
-  fclose(pHandle->pFILE);
-  free((void *) pHandle);
+  fclose((*pHandle)->pFILE);
+  free((void *) (*pHandle));
+  
+  *pHandle = NULL;
 }
 
 void apak_dir_correction(char *dir, char *out)

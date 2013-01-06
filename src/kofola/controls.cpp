@@ -1449,20 +1449,16 @@ int co_Set_Text_Center(int hdc, char *text, int isection, RECT r)
 
   //BitBltU(h.hdc, 0, 0, 600, 100, NULL, 0, 0, WHITENESS);
 
-  MultiByteToWideChar(CP_ACP, 0, text, strlen(text) + 1, wc,
-    sizeof(wc) / sizeof(wc[0]));
-  MultiByteToWideChar(CP_ACP, 0, "##endofmessage",
-    strlen("##endofmessage") + 1, ws, sizeof(ws) / sizeof(ws[0]));
+  MultiByteToWideChar(CP_ACP, 0, text, strlen(text) + 1, wc, sizeof(wc) / sizeof(wc[0]));
+  MultiByteToWideChar(CP_ACP, 0, "##endofmessage", strlen("##endofmessage") + 1, ws, sizeof(ws) / sizeof(ws[0]));
 
-  fn_Draw_Message(h, 0, 0, &b2_2d_font.gt, &b2_2d_font.ts, wc, ws, isection,
-    &tx, &ty);
+  fn_Draw_Message(h, 0, 0, &b2_2d_font.gt, &b2_2d_font.ts, wc, ws, isection, &tx, &ty);
 
   xp = ftoi(((r.right - r.left) - tx) / 2.0f);
   yp = ftoi(((r.bottom - r.top) - ty) / 2.0f);
 
   //TransparentBltU(hdc, r.left + xp, r.top + yp, tx, ty, h.hdc, 0, 0, tx, ty, TRANSCOLOR);
-  ddxTransparentBlt(hdc, r.left + xp, r.top + yp, tx, ty, h, 0, 0, tx, ty,
-    TRANSCOLOR);
+  ddxTransparentBlt(hdc, r.left + xp, r.top + yp, tx, ty, h, 0, 0, tx, ty, TRANSCOLOR);
 
   //TransparentBltU(_2dd.hDC, r.left + xp, r.top + yp, tx, ty, h.hdc, 0, 0, tx, ty, TRANSCOLOR);  
   //ddxTransparentBltDisplay(r.left + xp, r.top + yp, tx, ty, h, 0, 0, tx, ty, TRANSCOLOR);       
@@ -1525,31 +1521,6 @@ int co_Set_Text_RightWC(int hdc, char *text, int isection, int x, int y)
   ddxReleaseBitmap(h);
 
   return 1;
-}
-
-void co_Draw_Line(int x1, int y1, int x2, int y2, COLORREF color, HDC hdc)
-{
-/*
-	HPEN	LastPen;
-	HPEN	MePen;
-
-	MePen = CreatePen(PS_SOLID,1,color);
-	LastPen = (HPEN)SelectObject(hdc,MePen);
-
-	MoveToEx(hdc,x1, y1, NULL);
-	LineTo(hdc,x2, y2);
-
-	SelectObject(hdc,LastPen);
-	DeleteObject(MePen);
-*/
-}
-
-void co_Draw_Lines(HDC hdc, int xr, int yr, COLORREF color)
-{
-  int i;
-
-  for (i = 35; i < yr; i += 35)
-    co_Draw_Line(0, i, xr, i, color, hdc);
 }
 
 int co_List_Delete_Item(LIST_VIEW_CONTROL * p_li, char **cValue)
@@ -2085,9 +2056,6 @@ LIST_VIEW_CONTROL *co_Create_List(int hdc, int x, int y, int width, int hight,
     ddxCreateSurface(p_li->rectList.right - p_li->rectList.left,
     numofitems * 30, ddxFindFreeSurface());
   ddxCleareSurfaceColor(p_li->bDCs, 0);
-
-  //co_Draw_Lines(p_li->bDCn.hdc, p_li->bDCn.x, p_li->bDCn.y, RGB(101, 98, 93));
-  //co_Draw_Lines(p_li->bDCs.hdc, p_li->bDCs.x, p_li->bDCs.y, RGB(101, 98, 93));
 
   /*BitBlt(hdc, x + _2dd.bitmap[hdcLI.hdcListLeft].bitmap.bmWidth,
      y + _2dd.bitmap[hdcLI.hdcListTop].bitmap.bmHeight,

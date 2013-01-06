@@ -7,7 +7,7 @@
 
 APAK_HANDLE *apakopen(char *cArchive, char *cDir, int *pError);
 
-void apakclose(APAK_HANDLE * pHandle);
+void apakclose(APAK_HANDLE ** pHandle);
 
 void apakGetVersion(int *iLow, int *iHi);
 

@@ -102,7 +102,7 @@ void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
   file = aopen(hArchive, "messages.txt", "rb");
 
   if (!file) {
-    apakclose(hArchive);
+    apakclose(&hArchive);
     chdir((odir));
   }
 
@@ -120,7 +120,7 @@ void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
   kprintf(TRUE, Text);
 
   aclose(file);
-  apakclose(hArchive);
+  apakclose(&hArchive);
   chdir((odir));
 }
 

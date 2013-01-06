@@ -742,7 +742,7 @@ int fn2_Set_Font(char *cPAK)
   b2_3d_font.file = aopen(b2_3d_font.pArchive, "texts.txt", "rb");
 
   if (!b2_3d_font.file) {
-    apakclose(b2_3d_font.pArchive);
+    apakclose(&b2_3d_font.pArchive);
     return 0;
   }
   else {
@@ -752,7 +752,7 @@ int fn2_Set_Font(char *cPAK)
     b2_3d_font.pTBuffer = wchar_windows_to_linux((word *) b2_3d_font.pTBuffer, iTSize);
 
     if (!b2_3d_font.pTBuffer) {
-      apakclose(b2_3d_font.pArchive);
+      apakclose(&b2_3d_font.pArchive);
       return 0;
     }
   }
@@ -796,7 +796,7 @@ void fn2_Release_Font(void)
   int i;
 
   aclose(b2_3d_font.file);
-  apakclose(b2_3d_font.pArchive);
+  apakclose(&b2_3d_font.pArchive);
 
 //      if(_2dd.bitmap)
   for (i = 0; i < FONT_MAX_BMP; i++)

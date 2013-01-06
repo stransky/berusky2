@@ -520,7 +520,7 @@ int fn_Set_Font(char *cPAK)
   b2_2d_font.file = aopen(b2_2d_font.pArchive, "texts.txt", "rb");
 
   if (!b2_2d_font.file) {
-    apakclose(b2_2d_font.pArchive);
+    apakclose(&b2_2d_font.pArchive);
     return 0;
   }
   else {
@@ -528,7 +528,7 @@ int fn_Set_Font(char *cPAK)
     b2_2d_font.pTBuffer = wchar_windows_to_linux((word *) b2_2d_font.pTBuffer, b2_2d_font.iTSize);
 
     if (!b2_2d_font.pTBuffer) {
-      apakclose(b2_2d_font.pArchive);
+      apakclose(&b2_2d_font.pArchive);
       return 0;
     }
   }
@@ -574,7 +574,7 @@ void fn_Release_Font(int bTextures)
   int i;
 
   aclose(b2_2d_font.file);
-  apakclose(b2_2d_font.pArchive);
+  apakclose(&b2_2d_font.pArchive);
 
   //if(_2dd.bitmap)
   if (bTextures)

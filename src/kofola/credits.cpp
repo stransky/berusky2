@@ -256,7 +256,7 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 	if(c > CREDIT_SURFACES-1)
 	{
 		kprintf(1, "Kredity: radku je vic jak surfacu!");
-		apakclose(hArchive);
+		apakclose(&hArchive);
 		return 0;
 	}
 
@@ -271,7 +271,7 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 	if(cs[iActual].iSurface == -1)
 	{
 		cr_Release_Bitmaps(cs, iClock);
-		apakclose(hArchive);
+		apakclose(&hArchive);
 		return 0;
 	}
 	else
@@ -286,7 +286,7 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 	if(cs[iActual].iSurface == -1)
 	{
 		cr_Release_Bitmaps(cs, iClock);
-		apakclose(hArchive);
+		apakclose(&hArchive);
 		return 0;
 	}
 	else
@@ -319,7 +319,7 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 					if(cs[iActual].iSurface == -1)
 					{
 						cr_Release_Bitmaps(cs, iClock);
-						apakclose(hArchive);
+						apakclose(&hArchive);
 						return 0;
 					}
 					else
@@ -338,7 +338,7 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 			if(cs[iActual].iSurface == -1)
 			{
 				cr_Release_Bitmaps(cs, iClock);
-				apakclose(hArchive);
+				apakclose(&hArchive);
 				return 0;
 			}
 			else
@@ -357,7 +357,7 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 				if(cs[iActual].iSurface == -1)
 				{
 					cr_Release_Bitmaps(cs, iClock);
-					apakclose(hArchive);
+					apakclose(&hArchive);
 					return 0;
 				}
 				else
@@ -415,7 +415,7 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 		{
 			ddxSetFlip(1);
 			ddxSetCursor(1);
-			apakclose(hArchive);
+			apakclose(&hArchive);
 			return 1;
 		}
 	}
@@ -432,7 +432,7 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 	ddxSetCursor(1);
 	ddxSetFlip(1);
 	key[K_ESC] = 0;
-	apakclose(hArchive);
+	apakclose(&hArchive);
 
   return 0;
 }
@@ -519,7 +519,7 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 	if(c > CREDIT_SURFACES-1)
 	{
 		kprintf(1, "Kredity: radku je vic jak surfacu!");
-		apakclose(hArchive);
+		apakclose(&hArchive);
 		return 0;
 	}
 
@@ -534,7 +534,7 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 	if(cs[iActual].iSurface == -1)
 	{
 		cr_Release_Bitmaps(cs, iClock);
-		apakclose(hArchive);
+		apakclose(&hArchive);
 		return 0;
 	}
 	else
@@ -549,7 +549,7 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 	if(cs[iActual].iSurface == -1)
 	{
 		cr_Release_Bitmaps(cs, iClock);
-		apakclose(hArchive);
+		apakclose(&hArchive);
 		return 0;
 	}
 	else
@@ -582,7 +582,7 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 					if(cs[iActual].iSurface == -1)
 					{
 						cr_Release_Bitmaps(cs, iClock);
-						apakclose(hArchive);
+						apakclose(&hArchive);
 						return 0;
 					}
 					else
@@ -601,7 +601,7 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 			if(cs[iActual].iSurface == -1)
 			{
 				cr_Release_Bitmaps(cs, iClock);
-				apakclose(hArchive);
+				apakclose(&hArchive);
 				return 0;
 			}
 			else
@@ -620,7 +620,7 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 				if(cs[iActual].iSurface == -1)
 				{
 					cr_Release_Bitmaps(cs, iClock);
-					apakclose(hArchive);
+					apakclose(&hArchive);
 					return 0;
 				}
 				else
@@ -678,7 +678,7 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 		{
 			ddxSetFlip(1);
 			ddxSetCursor(1);
-			apakclose(hArchive);
+			apakclose(&hArchive);
 			return 1;
 		}
 	}
@@ -695,7 +695,7 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 	ddxSetCursor(1);
 	ddxSetFlip(1);
 	key[K_ESC] = 0;
-	apakclose(hArchive);
+	apakclose(&hArchive);
 
   return 0;
 }

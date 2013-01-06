@@ -1,6 +1,8 @@
 TODO:
+game_logic.cpp:10451
 - load level name -> double click?
 - load level -> crash
+- can't load level from start menu? -> exit
 - set fps
 - transparent objects
 - bad exit animations

@@ -2591,8 +2591,7 @@ void RunStretchAnimation(char *cScene, int x, int y, AUDIO_DATA * p_ad)
 
   if (idx < 0) {
     if (iLanguageVersion == 4)
-      apakclose(hArchive);
-
+      apakclose(&hArchive);
     return;
   }
 
@@ -2605,7 +2604,7 @@ void RunStretchAnimation(char *cScene, int x, int y, AUDIO_DATA * p_ad)
   ddxReleaseBitmap(idx);
 
   if (iLanguageVersion == 4)
-    apakclose(hArchive);
+    apakclose(&hArchive);
 }
 
 void RunMenuNewGameSceneActivate(CMD_LINE * res)
@@ -3409,7 +3408,7 @@ void LoadSceneMap(int *pBmp, char *cSceneBmp, char *cSceneAnim, int iScene,
       DrawClock(iClock, i);
     }
 
-    apakclose(hArchive);
+    apakclose(&hArchive);
   }
   else {
     pBmp[0] = ddxLoadBitmap(cSceneBmp, pBmpArchive);
@@ -5331,8 +5330,7 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
 //      ddxTransparentBlt(BackDC, 0, 0, 1024, 768, Ltmp1DC, 0, 0, 1024, 768, TRANSCOLOR);
   //Sleep(10000);
   //TransparentBltU(_2dd.hDC, 0, 0, 1024, 768, BackDC, 0, 0, 1024, 768, RGB(255, 0, 255));
-  ddxTransparentBltDisplay(0, 0, 1024, 768, BackDC, 0, 0, 1024, 768,
-    TRANSCOLOR);
+  ddxTransparentBltDisplay(0, 0, 1024, 768, BackDC, 0, 0, 1024, 768, TRANSCOLOR);
 
   for (i = 0; i < lastcmd; i++)
     if (res[i].iParam[0] == COM_RUNANIMATION) {
@@ -5382,8 +5380,7 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
                   }
                   else {
                     //menucommand_DrawT(_2dd.hDC, res[lastabv].iAnim[0]);
-                    ddxDrawDisplayColorKey(res[lastabv].iAnim[0], 0,
-                      TRANSCOLOR);
+                    ddxDrawDisplayColorKey(res[lastabv].iAnim[0], 0, TRANSCOLOR);
                     //menucommand_Draw(FontDC, res[lastabv].iAnim[0], 3);
                     ddxDrawSurface(FontDC, res[lastabv].iAnim[0], 3);
                   }
@@ -5440,8 +5437,7 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
                   }
                   else {
                     //menucommand_DrawT(_2dd.hDC, res[anbind].iAnim[0]);
-                    ddxDrawDisplayColorKey(res[anbind].iAnim[0], 0,
-                      TRANSCOLOR);
+                    ddxDrawDisplayColorKey(res[anbind].iAnim[0], 0, TRANSCOLOR);
                     //menucommand_DrawT(FontDC, res[anbind].iAnim[0]);
                     ddxDrawSurface(FontDC, res[anbind].iAnim[0], 3);
                   }
@@ -5478,20 +5474,17 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
           {
             //fn_Release_Font(1);
             StopAll();
-            RunMenuNewGameScene("Mmnew_game_scene.txt", NULL, p_ad, cpu, 1,
-              p_li->piValue[p_li->cSelected].cValue, 0);
-            fn_Set_Font("font_system.pak");
-            fn_Load_Bitmaps();
+            RunMenuNewGameScene("Mmnew_game_scene.txt", NULL, p_ad, cpu, 1, p_li->piValue[p_li->cSelected].cValue, 0);
+            //fn_Set_Font("font_system.pak");
+            //fn_Load_Bitmaps();
             key[K_ESC] = 1;
           }
           else                  //LOAD DEMO
           {
             char ctext[256];
 
-            CreateLevelCommandLine(p_li->piValue[p_li->cSelected].cValue,
-              ctext);
-            demo_Set_Scene_Level(p_li->piValue[p_li->cSelected].cValue,
-              &iActualScene, &iActualLevel);
+            CreateLevelCommandLine(p_li->piValue[p_li->cSelected].cValue, ctext);
+            demo_Set_Scene_Level(p_li->piValue[p_li->cSelected].cValue, &iActualScene, &iActualLevel);
             RunLevel(NULL, p_ad, cpu, ctext, "LOAD_DEMO");
 
             for (i = 0; i < 32; i++)
@@ -5598,8 +5591,7 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
               {
                 //fn_Release_Font(1);
                 StopAll();
-                RunMenuNewGameScene("Mmnew_game_scene.txt", NULL, p_ad, cpu,
-                  1, p_li->piValue[p_li->cClckSel].cValue, 0);
+                RunMenuNewGameScene("Mmnew_game_scene.txt", NULL, p_ad, cpu, 1, p_li->piValue[p_li->cClckSel].cValue, 0);
                 //fn_Set_Font("font_system.pak");
                 //fn_Load_Bitmaps();
                 key[K_ESC] = 1;
@@ -5608,10 +5600,8 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
               {
                 char ctext[256];
 
-                CreateLevelCommandLine(p_li->piValue[p_li->cClckSel].cValue,
-                  ctext);
-                demo_Set_Scene_Level(p_li->piValue[p_li->cClckSel].cValue,
-                  &iActualScene, &iActualLevel);
+                CreateLevelCommandLine(p_li->piValue[p_li->cClckSel].cValue, ctext);
+                demo_Set_Scene_Level(p_li->piValue[p_li->cClckSel].cValue, &iActualScene, &iActualLevel);
                 RunLevel(NULL, p_ad, cpu, ctext, "LOAD_DEMO");
 
                 for (i = 0; i < 32; i++)
@@ -7093,9 +7083,7 @@ BEGIN_MENU_CHILDNEWGAME:
             bBackDC = 0;
             iActualScene = 10;
 
-            RunMenuNewGameScene("Mmnew_game_scene.txt", NULL, p_ad, cpu, 0,
-              NULL, 0);
-
+            RunMenuNewGameScene("Mmnew_game_scene.txt", NULL, p_ad, cpu, 0, NULL, 0);
             key[K_ESC] = 1;
           }
         }
@@ -8288,10 +8276,11 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
 
   if (iLanguageVersion == 4) {
     LoadCList(ccomix, &bmpc, bmp, &iClock, hArchive);
-    apakclose(hArchive);
+    apakclose(&hArchive);
   }
-  else
+  else {
     LoadCList(ccomix, &bmpc, bmp, &iClock, pBmpArchive);
+  }
 
   DrawClock(&iClock, 0);
   ddxSetCursor(0);

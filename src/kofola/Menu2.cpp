@@ -4133,7 +4133,7 @@ void RunMenuLoadScreen2(void)
         hArchive->pActualNode = hArchive->pRootNode->pNextNode;
 
       iLoadScreenBitmap = ddx2LoadBitmap(text, hArchive);
-      apakclose(hArchive);
+      apakclose(&hArchive);
     }
     else
       iLoadScreenBitmap = ddx2LoadBitmap(text, pBmpArchive);
@@ -4203,6 +4203,9 @@ void RunMenuLoadScreenAddProgress(float fPercent)
     _2dd.ProgressStatus += fPercent;
   else
     _2dd.ProgressStatus += _2dd.ProgressPlus;
+  
+  if(_2dd.ProgressStatus > 100.0f)
+    _2dd.ProgressStatus = 100.0f;
 }
 
 void RunMenuLoadScreenDrawProgress(int x, int y)

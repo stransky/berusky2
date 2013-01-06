@@ -36,8 +36,7 @@ void gi_Set_Win_Version(void)
 */
 }
 
-int gi_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *cAppName,
-  char *cKeyName)
+int gi_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *cAppName, char *cKeyName)
 {
   int e;
   char text[256];

@@ -10214,16 +10214,20 @@ void gl_Resetini(LEVELINFO * p_Level, char *bOvladaniBerusek1)
   kom_reload_ini();
 }
 
-void gl_Change_Dir_To_Level(char *p_Level_Name)
+int gl_Change_Dir_To_Level(char *p_Level_Name)
 {
   char ctext[MAX_PATH + 1];
 
-  GetPrivateProfileString("game", "save_dir", "c:\\", ctext, MAX_PATH,
-    ini_file);
+  GetPrivateProfileString("game", "save_dir", "c:\\", ctext, MAX_PATH, 
+                          ini_file);
   working_file_translate(ctext, MAX_PATH);
 
-  chdir((ctext));
-  chdir((p_Level_Name));
+  if(chdir(ctext))
+    return(FALSE);
+  if(chdir(p_Level_Name))
+    return(FALSE);
+  
+  return(TRUE);
 }
 
 //------------------------------------------------------------------------------------------------
@@ -10392,13 +10396,11 @@ PLAY_LEVEL_START:
 
   am_Change_Wind(&Level);
 
-  Level.bPosouvatKameru =
-    GetPrivateProfileInt("hra", "posouvat_kameru", 0, ini_file);
+  Level.bPosouvatKameru = GetPrivateProfileInt("hra", "posouvat_kameru", 0, ini_file);
   bOvladaniBerusek1 = GetPrivateProfileInt("hra", "ovladani", 0, ini_file);
   bVisibility = GetPrivateProfileInt("hra", "init_visibility", 0, ini_file);
   no_Menu = GetPrivateProfileInt("hra", "no_menu", 0, ini_file);
-  Level.bPohled_Berusky =
-    GetPrivateProfileInt("hra", "pohled_berusky", 0, ini_file);
+  Level.bPohled_Berusky = GetPrivateProfileInt("hra", "pohled_berusky", 0, ini_file);
 
   kprintf(1, "demo_Load...");
   if (demo) {
@@ -10434,9 +10436,7 @@ PLAY_LEVEL_START:
   Level.p_ad = &ad;
 //      ad                 = *p_ad;
 
-  kprintf(1, "_3d_Scale_Factor: X = %f, Y = %f", _3d_Scale_Factor[0],
-    _3d_Scale_Factor[1]);
-
+  kprintf(1, "_3d_Scale_Factor: X = %f, Y = %f", _3d_Scale_Factor[0], _3d_Scale_Factor[1]);
   Level.Base_Priority = iCPU;
 
   RunMenuLoadScreenAddProgress(-1);
@@ -10449,18 +10449,22 @@ PLAY_LEVEL_START:
     char ctext[MAX_PATH];
 
     lsi_Get_Dir_Name(ctext, cLevelName);
-    gl_Change_Dir_To_Level(ctext);
+    if(!gl_Change_Dir_To_Level(ctext))
+      return(-1);
 
     kprintf(1, "lsi_Create_Level_Raw...");
 
     if (!lsi_Create_Level_Raw(cLevelName, &b_l_d, &isize)) {
-//                      MyMessageBox(hwnd_hry, "##error_title", "##level_load_error","");
-      return -1;
+      // MyMessageBox(hwnd_hry, "##error_title", "##level_load_error","");
+      return(-1);
     }
 
     kprintf(1, "kom_load_level...");
     kom_load_level(cLevelName, 0, 0, b_l_d, isize);
-    gl_Change_Dir_To_Level(ctext);
+    if(!gl_Change_Dir_To_Level(ctext)) {
+      // MyMessageBox(hwnd_hry, "##error_title", "##level_load_error","");
+      return(-1);
+    }
 
     kprintf(1, "free((void *) b_l_d);");
     free((void *) b_l_d);
@@ -10470,8 +10474,7 @@ PLAY_LEVEL_START:
     int isize;
     char ctext[MAX_PATH];
 
-    GetPrivateProfileString("game", "game_level_dir", "c:\\", ctext, 256,
-      ini_file);
+    GetPrivateProfileString("game", "game_level_dir", "c:\\", ctext, 256, ini_file);
     working_file_translate(ctext, 256);
     chdir(ctext);
     lsi_Get_Dir_Name(ctext, cLevelName);
@@ -10484,8 +10487,7 @@ PLAY_LEVEL_START:
     strcpy(Level.cLoadedFrom, cLevelName);
     kprintf(1, "kom_load_level...");
     kom_load_level(cLevelName, 1, bRestart, b_l_d, isize);
-    GetPrivateProfileString("game", "game_level_dir", "c:\\", ctext, 256,
-      ini_file);
+    GetPrivateProfileString("game", "game_level_dir", "c:\\", ctext, 256, ini_file);
     working_file_translate(ctext, 256);
     chdir(ctext);
     lsi_Get_Dir_Name(ctext, cLevelName);
@@ -12436,7 +12438,7 @@ PLAY_LEVEL_START:
     WCHAR cText[128];
 
     ZeroMemory(cText, 128);
-    if (RunMenuLoadGameLoad2("Mmload_game_loads3d.txt", NULL /*Level.p_ad */ ,
+    if (RunMenuLoadGameLoad2("Mmload_game_loads3d.txt", Level.p_ad,
         &Level, &am, 2, cText))
       if (wcslen(cText))
         demo_SaveWC(&Demo, cText, bOvladaniBerusek1, cLevelName, p_Env_Name);
@@ -12683,17 +12685,17 @@ void gl_Kofola_End(int DirectX)
   }
 
   kprintf(1, "apakclose pGDataArchive");
-  apakclose(pGDataArchive);
+  apakclose(&pGDataArchive);
   kprintf(1, "apakclose pDataArchive");
-  apakclose(pDataArchive);
+  apakclose(&pDataArchive);
   kprintf(1, "apakclose pBmpArchive");
-  apakclose(pBmpArchive);
+  apakclose(&pBmpArchive);
   kprintf(1, "apakclose pSndArchive");
-  apakclose(pSndArchive);
+  apakclose(&pSndArchive);
   kprintf(1, "apakclose p3DMArchive");
-  apakclose(p3DMArchive);
+  apakclose(&p3DMArchive);
   kprintf(1, "apakclose pControlsArchive");
-  apakclose(pControlsArchive);
+  apakclose(&pControlsArchive);
 
   //kprintf(1, "apakclose FONT");
   //fn_Release_Font();
