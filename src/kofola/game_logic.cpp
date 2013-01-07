@@ -87,6 +87,7 @@ DEMOSTRUCTURE Demo;
 ANIMATION_QUEUE_SET queue_set[3];
 ANIMATION_QUEUE_SET *p_set = NULL;
 ANIMATION_QUEUE_SET *p_set_anim = NULL;
+
 int cam_flag;
 extern char CurrentWorkingDirectory[256];
 int CamRotationFlag;
@@ -95,11 +96,13 @@ int PRCameraFlag;               //indikator, ze je pozno pohybovat kamerou pomoc
 int PRCameraFlagChange;         // byl pozit pohyb pomoci P&R
 LEVELINFO Level;
 CONTROL_KEYS control;
+static char demo = 0;           // 1 = real play, 2= fast play, 0 = record
+
 extern int Xresolution;
 extern int Yresolution;
 extern B2_FONT b2_3d_font;
 _2D_DATA _2dd;
-static char demo = 0;           // 1 = real play, 2= fast play, 0 = record
+
 int gl_Do_Lift(int Lift, int *pos, LEVELINFO * p_Level);
 int gl_Gate_Keeper(int Door, int *Item, LEVELINFO * p_Level);
 int gl_Count_Weight(int *column, LEVELINFO * p_Level);
@@ -109,20 +112,17 @@ void gl_Hrebik(ITEMDESC * pItem);
 void gl_Go_Animations(void);
 int gl_Find_Bottom(int *p_Pos, int *bVoda, LEVELINFO * p_Level);
 int gl_Is_There_Beatle(int *iPos, ITEMDESC ** pItem, LEVELINFO * p_Level);
-int gl_Will_Go_Under_Water(int *iPos, int DontCountPos, int Plus, int *pVaha,
-  LEVELINFO * p_Level);
+int gl_Will_Go_Under_Water(int *iPos, int DontCountPos, int Plus, int *pVaha, LEVELINFO * p_Level);
 int gl_Can_Go_Into_Water(ITEMDESC * pItem);
 int gl_Check_Detonation_Pack_Water_Rules(int *iPos, LEVELINFO * p_Level);
-int gl_Test_Rule1(ITEMDESC * pItem, ITEMDESC * pTestItem,
-  LEVELINFO * p_Level);
+int gl_Test_Rule1(ITEMDESC * pItem, ITEMDESC * pTestItem, LEVELINFO * p_Level);
 void gl_Logical2Real(int x, int y, int z, int *Real_Pos, LEVELINFO * p_Level);
 int gl_Test_Rule2(int *pos, LEVELINFO * p_Level);
 int gl_Test_Rule1B(ITEMDESC * pItem, int *pTestPos, LEVELINFO * p_Level);
 int gl_Is_Included_In(SIM_ANIMATION * p_animation, int mesh);
 void gl_Add_Mesh(SIM_ANIMATION * p_animation, int mesh);
 int gl_Include_Coincidence(SIM_ANIMATION * p_anim1, SIM_ANIMATION * p_anim2);
-SIM_ANIMATION *gl_Is_Included_In_AnimSet(ANIMATION_QUEUE_SET * p_aset,
-  int mesh);
+SIM_ANIMATION *gl_Is_Included_In_AnimSet(ANIMATION_QUEUE_SET * p_aset, int mesh);
 int gl_Is_There_Water(int *from, int *to, LEVELINFO * p_Level);
 char MenuCheckBossExit(void);
 char MenuCheckSuccessExit(void);

@@ -46,12 +46,11 @@ void tiskni_chybu(int line, char *p_file, char *p_text, ...);
 
 inline void *mmalloc(size_t velikost)
 {
-  //assert(velikost);
   if (velikost) {
     void *p_mem = malloc(velikost);
-      assert(p_mem);
-      memset(p_mem, 0, velikost);
-      return (p_mem);
+    assert(p_mem);
+    memset(p_mem, 0, velikost);
+    return(p_mem);
   }
   else
   {

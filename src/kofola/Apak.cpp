@@ -273,7 +273,7 @@ APAK_HANDLE *apakopen(char *cArchive, char *cDir, int *pError)
     return NULL;
   }
 
-  pHandle = (APAK_HANDLE *) mmalloc(sizeof(APAK_HANDLE));
+  pHandle = (APAK_HANDLE *)mmalloc(sizeof(APAK_HANDLE));
   pHandle->pFILE = pFile;
 
   iRet = fread(&pHandle->FileHeader, sizeof(APAKFILEHEADER), 1, pFile);
@@ -286,7 +286,8 @@ APAK_HANDLE *apakopen(char *cArchive, char *cDir, int *pError)
   }
 
   if (pHandle->FileHeader.apBFileHiVersion != APAK_VERSION_HI ||
-    pHandle->FileHeader.apBFileLoVersion != APAK_VERSION_LOW) {
+      pHandle->FileHeader.apBFileLoVersion != APAK_VERSION_LOW) 
+  {
     fclose(pHandle->pFILE);
     free((void *) pHandle);
     *pError = APAK_VERSION_MISMATCH;

@@ -1789,12 +1789,9 @@ int lsi_Load_Saved_Level(char *p_Level_Name, LEVELINFO * p_Level)
   WCHAR pwc_Level_Name[32];
   int ver;
 
-//      char    *bSet;
-
   ZeroMemory(&b_l_d, sizeof(b_l_d));
 
   lsi_Get_Dir_Name(ctext, p_Level_Name);
-
   strcat(ctext, ".lvc");
 
   file = fopen(ctext, "rb");
@@ -1810,36 +1807,22 @@ int lsi_Load_Saved_Level(char *p_Level_Name, LEVELINFO * p_Level)
   fread(pwc_Level_Name, 32 * sizeof(WCHAR), 1, file);
 
   fread(&ver, sizeof(int), 1, file);
-
   if (ver != SAVE_VER) {
     kprintf(1, "Save version mismatch");
     fclose(file);
     return -2;
   }
 
-  fread(p_Level->cLoadedFrom, (MAX_PATH + 1) * sizeof(WCHAR), 1, file);
-
+  fread(p_Level->cLoadedFrom, (MAX_PATH+1)*sizeof(WCHAR), 1, file);
   fread(&l_h, sizeof(LEVEL_HEADER), 1, file);
 
-  for (i = 0; i < p_Level->Size_of_Level; i++)
-    p_Level->Level[i] = 0;
+  memset(p_Level->Level, 0, sizeof(p_Level->Level[0])*p_Level->Size_of_Level);
 
   iActualLevel = l_h.rezerved[0];
   iActualScene = l_h.rezerved[1];
 
   fread(&p_Level->dwPlayTime, sizeof(DWORD), 1, file);
   fread(&p_Level->iNumOfSteps, sizeof(int), 1, file);
-
-/*		bSet = (char *) malloc(p_Level->Size_of_Level);
-	
-		if(!bSet)
-		{
-			fclose(file);
-			return -1;
-		}
-
-		memset(bSet, 0, p_Level->Size_of_Level);*/
-  memset(p_Level->Level, 0, p_Level->Size_of_Level * sizeof(ITEMDESC *));
 
   for (i = 0; i < p_Level->Count_Of_Items; i++) {
 #ifdef _DEBUG
@@ -1851,14 +1834,10 @@ int lsi_Load_Saved_Level(char *p_Level_Name, LEVELINFO * p_Level)
     if (b_l_d.rez[0]) {
       lsi_Destroy_Beetle(p_Level, b_l_d.guid, b_l_d.mesh);
       kom_zrus_prvek(b_l_d.mesh);
-      gl_Logical2Real(b_l_d.rez[1], b_l_d.rez[2], b_l_d.rez[3], &real,
-        p_Level);
+      gl_Logical2Real(b_l_d.rez[1], b_l_d.rez[2], b_l_d.rez[3], &real, p_Level);
 
       if (b_l_d.guid >= 13000 && b_l_d.guid < 14000)
         am_Remove_Animate_itemB(i, p_Level);
-
-/*				if(!bSet[real])
-					p_Level->Level[real] = 0;*/
 
       p_Level->Item[i].bDestroed = 1;
     }
@@ -1872,18 +1851,15 @@ int lsi_Load_Saved_Level(char *p_Level_Name, LEVELINFO * p_Level)
       p_Level->Item[i].Pos[2] = b_l_d.rez[3];
       p_Level->Item[i].bDestroed = 0;
 
-      kom_umisti_prvek(b_l_d.mesh, b_l_d.rez[1], b_l_d.rez[3], b_l_d.rez[2],
-        b_l_d.Rotace);
+      kom_umisti_prvek(b_l_d.mesh, b_l_d.rez[1], b_l_d.rez[3], b_l_d.rez[2], b_l_d.Rotace);
 
       if (p_Level->Item[i].p_Object->Class == 1)
         for (j = 0; j < 6; j++)
           if (p_Level->BeetleAnim[j].Mesh == b_l_d.mesh)
             p_Level->BeetleAnim[j].iRot = b_l_d.Rotace;
 
-      gl_Logical2Real(b_l_d.rez[1], b_l_d.rez[2], b_l_d.rez[3], &real,
-        p_Level);
+      gl_Logical2Real(b_l_d.rez[1], b_l_d.rez[2], b_l_d.rez[3], &real, p_Level);
 
-//                              bSet[real] = 1;
       p_Level->Level[real] = &p_Level->Item[i];
     }
   }
@@ -1928,7 +1904,6 @@ int lsi_Load_Saved_Level(char *p_Level_Name, LEVELINFO * p_Level)
     }
 
   fclose(file);
-//      free((void *) bSet);
 
   return 1;
 }
