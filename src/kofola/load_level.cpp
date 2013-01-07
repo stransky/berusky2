@@ -1673,7 +1673,7 @@ void lsi_Save_Level(WCHAR * pwc_Level_Name, LEVELINFO * p_Level)
 	//zapis jmeno level
 	fwrite(pwc_Level_Name, 32 * sizeof(WCHAR), 1, file);
 	fwrite(&ver, sizeof(int), 1, file);
-	fwrite(p_Level->cLoadedFrom, (MAX_PATH+1) * sizeof(WCHAR), 1, file);
+	fwrite(p_Level->cLoadedFrom, (MAX_PATH+1)*sizeof(char), 1, file);
 
 	p_Level->LevelHeader.rezerved[0] = iActualLevel;
 	p_Level->LevelHeader.rezerved[1] = iActualScene;
@@ -1813,7 +1813,7 @@ int lsi_Load_Saved_Level(char *p_Level_Name, LEVELINFO * p_Level)
     return -2;
   }
 
-  fread(p_Level->cLoadedFrom, (MAX_PATH+1)*sizeof(WCHAR), 1, file);
+  fread(p_Level->cLoadedFrom, (MAX_PATH+1)*sizeof(char), 1, file);
   fread(&l_h, sizeof(LEVEL_HEADER), 1, file);
 
   memset(p_Level->Level, 0, sizeof(p_Level->Level[0])*p_Level->Size_of_Level);
