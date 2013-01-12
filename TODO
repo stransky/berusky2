@@ -17,6 +17,15 @@ TODO:
 - defaultne je vypla/zakazana hudba/zvuky?
 - defaultni klavesy sou tragedie!! (delam novy profil) 
 
+int ddxInit(void)
+//TODO
+//ddx2DeviceSetScreenRec(0, 0, hwconf.xres, hwconf.yres);
+ddx2DeviceSetScreenRec(0, 0, 1024, 768);
+
+void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
+  ANIMATION_MODULE * p_am)
+
+
 -D_DEBUG -Wall -Wno-write-strings -Wsign-conversion
 
 Valgrind setup:
@@ -40,19 +49,10 @@ run
 Tips:
   - disable sound&music -> set volume to 0
 
-
 - rozdelit ini soubory na 2? nastaveni uzivatelu + globalni datove soubory?
-int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
-
-- klikani mysi do obrazovky
 - nefunguji animace!! (z menu) - spatne data soubory
   - nikde!! (ani ve fedore) -> chyba v ini souboru??
 - nefunguje pruhledne veci - stopy, flares a podobne
-
-int ddxInit(void)
-//TODO
-//ddx2DeviceSetScreenRec(0, 0, hwconf.xres, hwconf.yres);
-ddx2DeviceSetScreenRec(0, 0, 1024, 768);
 
 > asm code in lighting -> writting to ligtmap updates
 > hwconf -> game resolution/fulscreen

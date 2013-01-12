@@ -497,7 +497,6 @@ graph3d::graph3d(GRAPH_TYPE type, tpos width, tpos height, int screen_depth, boo
 
 graph3d::~graph3d(void)
 {
-  destroy();
 }
 
 #ifdef ENABLE_GTK_BACKEND

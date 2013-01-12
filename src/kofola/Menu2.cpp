@@ -2761,7 +2761,7 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
 
 //      ddx2DeviceScreenAktivuj(0,0,hwconf.xres,hwconf.yres,1024,768);
 //      ddx2DeviceBackBufferMapRec(0,0,1024,768);
-
+  
   ddx2DeviceSetBackBufferSize(1024, 768);
   ddx2DeviceSetBackBufferRect(0, 0, 1024, 768);
   ddx2DeviceSetTextRenderRec(0, 0, 1024, 768);
