@@ -354,7 +354,7 @@ void kprintfe(char log, const char *p_text, ...)
       fflush(p_ber->debug_file);
     }
   }
-  exit(1);
+  exit(-1);
 }
 
 void kprintfl(char log, const char *p_text, ...)

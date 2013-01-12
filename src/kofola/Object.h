@@ -575,8 +575,8 @@ void gl_Kofola_Maximalize(void);
 
 int gl_Allow_Key(int iScanCode);
 
-void gl_Kofola_End(int DirectX);
+void gl_Kofola_End(int InMenu);
 
-extern char bDXAktivni;
+extern char bInMenu;
 
 #endif

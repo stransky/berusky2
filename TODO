@@ -10,8 +10,8 @@ TODO:
 - Why menu is not animated?
 - Game title is not set?
 - Wait for game tip to load (wait for a key?)
+- Auto-full screen -> leave the recent screen resolution?
 
-- fullscreen -> konec hry nevraci rozliseni
 - 1280x1024 full -> menu je jen v hornim rohu
 - in-game menu - to menu je nejake hnusne?
 - defaultne je vypla/zakazana hudba/zvuky?

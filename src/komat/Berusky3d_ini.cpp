@@ -515,7 +515,7 @@ int spracuj_spravy(int param)
         }
         break;
       case SDL_QUIT:
-        gl_Kofola_End(bDXAktivni);
+        gl_Kofola_End(bInMenu);
         break;
       default:
         printf("I don't know what this event is!\n");

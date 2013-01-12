@@ -68,8 +68,7 @@ void init(int ini)
   alGenBuffers(NUM_BUFFERS, buffer);
 
   if(alGetError() != AL_NO_ERROR) {
-      printf("- Error creating buffers !!\n");
-      exit(1);
+      kerror(TRUE, "- Error creating buffers !!\n");
   }
     
   alutLoadWAVFile(reinterpret_cast<ALbyte*>(const_cast<char *>(HOME_DIR"1.wav")),&format,&data,&size,&freq,0);
@@ -88,8 +87,7 @@ void init(int ini)
   alGenSources(NUM_SOURCES, source);
 
   if(alGetError() != AL_NO_ERROR) {
-      printf("- Error creating sources !!\n");
-      exit(2);
+    kerror(TRUE,"- Error creating sources !!\n");
   }
 
   int i;

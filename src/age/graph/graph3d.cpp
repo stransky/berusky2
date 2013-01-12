@@ -619,8 +619,8 @@ bool graph3d_sdl::screen_create(void)
                                              graphics_bpp, flag);
   
   if(!p_hwscreen) {
-    fprintf (stderr, "Unable to set the video mode: %s", SDL_GetError());
-    exit(0);
+    fprintf(stderr, "Unable to set the video mode: %s", SDL_GetError());
+    exit(-1);
   }
    
   p_screen_surface = new SURFACE_SDL(p_hwscreen);

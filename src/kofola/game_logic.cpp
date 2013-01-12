@@ -126,7 +126,7 @@ SIM_ANIMATION *gl_Is_Included_In_AnimSet(ANIMATION_QUEUE_SET * p_aset, int mesh)
 int gl_Is_There_Water(int *from, int *to, LEVELINFO * p_Level);
 char MenuCheckBossExit(void);
 char MenuCheckSuccessExit(void);
-void gl_Kofola_End(int DirectX);
+void gl_Kofola_End(int InMenu);
 
 int gl_Get_Active_Beetle_Mesh(void)
 {
@@ -12575,6 +12575,7 @@ PLAY_LEVEL_START:
 
   adas_Set_Listener_Environment(EAX_ENVIRONMENT_GENERIC);
 
+  // BossKey exit
   if (Level.Level_Exit == 5)
     exit(0);
 
@@ -12626,9 +12627,9 @@ int gl_Allow_Key(int iScanCode)
   return 0;
 }
 
-void gl_Kofola_End(int DirectX)
+void gl_Kofola_End(int InMenu)
 {
-  if (!DirectX) {
+  if (!InMenu) {
     kprintf(1, "am_Do_Street_Lights_Release");
     am_Do_Street_Lights_Release(&Level);
     kprintf(1, "am_Do_Swamp_Lights_Release");
@@ -12715,12 +12716,10 @@ void gl_Kofola_End(int DirectX)
 	kprintf(1, "ap_Release");
 	ap_Release(&ad);
 
-//      ChangeDisplaySettings(NULL,0);
 //      ShowWindow(hwnd_hry, SW_MAXIMIZE);
   spracuj_spravy(0);
   ShowCursor(TRUE);
   spracuj_spravy(0);
 
-//      DestroyWindow(hwnd_hry);
   exit(0);
 }

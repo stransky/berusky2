@@ -37,7 +37,7 @@ char * sstrdup(char *p_src)
    char *p_tmp = strdup(p_src);
    if(!p_tmp) {
      PERROR(TRUE, "Out of memory!");
-     exit(0);
+     exit(-1);
    } else {
      return(p_tmp);
    }
@@ -55,7 +55,7 @@ void * rrealloc(void *p_mem, int size)
    void *p_tmp = realloc(p_mem,size);
    if(!p_tmp) {
      PERROR(TRUE, "Out of memory!");
-     exit(0);
+     exit(-1);
    } else {
      return(p_tmp);
    } 

@@ -504,12 +504,12 @@ int ddxGetMode(void)
 
 void InitDirectDraw(HWND hWnd, int x, int y, int bpp)
 {
-  bDXAktivni = 1;
+  bInMenu = 1;
 }
 
 void FreeDirectDraw()
 {
-  bDXAktivni = 0;
+  bInMenu = 0;
 }
 
 char *strlwr(char *cFile)

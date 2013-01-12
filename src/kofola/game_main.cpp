@@ -35,7 +35,7 @@ extern PLAYER_PROFILE pPlayerProfile;
 extern AUDIO_DATA ad;
 extern int iActualScene;
 extern int iActualLevel;
-char bDXAktivni = 0;
+char bInMenu = 0;
 
 char cFontFile[5][64];
 
