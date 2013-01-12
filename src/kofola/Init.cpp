@@ -37,8 +37,7 @@ int lsi_Load_Items(LEVELINFO * p_Level)
   aHandle = apakopen("items.pak", dir, &error_open);
 
   if (!aHandle) {
-    kprintf(1, "nepodarilo se otevrit archiv items.pak!!!");
-    exit(0);
+    kerror(1, "nepodarilo se otevrit archiv items.pak!!!");    
   }
   aHandle->pActualNode = aHandle->pRootNode->pNextNode;
 

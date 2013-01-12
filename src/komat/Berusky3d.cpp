@@ -377,6 +377,30 @@ void kprintfl(char log, const char *p_text, ...)
   }
 }
 
+void kerror(char log, const char *p_text, ...)
+{
+  char text[2000];
+  va_list argumenty;
+
+  if (log && p_ber->debug_file) {
+
+    va_start(argumenty, p_text);
+    vsprintf(text, p_text, argumenty);
+    va_end(argumenty);
+
+    fprintf(stderr, "FATAL ERROR: %s\n", text);
+
+    if (log && p_ber->debug_file) {
+      fputs(text, p_ber->debug_file);
+      fputc('\n', p_ber->debug_file);
+      fflush(p_ber->debug_file);
+    }
+  
+    assert(0);
+    exit(-1);
+  }
+}
+
 void ddw(const char *p_text, ...)
 {
   char text[2000];

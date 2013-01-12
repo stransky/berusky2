@@ -6415,10 +6415,7 @@ BEGIN_MENU:
       }
 
   if (!cStartCount) {
-    int idx = ddxCreateSurface(1024, 768, ddxFindFreeSurface());
-
-    if (idx == -1)
-      exit(0);
+    int idx = ddxCreateSurface(1024, 768, ddxFindFreeSurface());    
 
     ddxBitBlt(idx, 0, 0, 1024, 768, HDC2DD, 0, 0);
 

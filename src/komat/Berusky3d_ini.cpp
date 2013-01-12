@@ -294,12 +294,21 @@ void user_directory_create(void)
   }
 }
 
+void game_exit(void)
+{
+  AGE_MAIN *p_age = p_ber->p_age;
+  if(p_age)      
+    delete p_age;
+}
+
 int main(int argc, char **argv)
 {
   //feenableexcept(FE_DIVBYZERO|FE_INEXACT|FE_INVALID|FE_OVERFLOW|FE_UNDERFLOW);
   //feenableexcept(FE_DIVBYZERO|FE_INVALID);  
   //quat_test();
   //alut_test(TRUE);
+
+  atexit(game_exit);
 
   print_banner();
   process_params(p_ber, argc, argv);
@@ -360,7 +369,7 @@ int main(int argc, char **argv)
 
   if(export_level) {
     json_export_end();
-  }
+  } 
 
   return (TRUE);
 }

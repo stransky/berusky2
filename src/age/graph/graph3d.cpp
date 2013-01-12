@@ -477,8 +477,7 @@ void graph3d::destroy_GL(void)
 void graph3d::destroy(void)
 {
   destroy_GL();
-  screen_destroy();
-  
+  screen_destroy();  
   SDL_Quit();
 }
 

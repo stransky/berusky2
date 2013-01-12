@@ -1,8 +1,4 @@
 TODO:
-game_logic.cpp:10451
-- load level name -> double click?
-- load level -> crash
-- can't load level from start menu? -> exit
 - set fps
 - transparent objects
 - bad exit animations
@@ -11,7 +7,6 @@ game_logic.cpp:10451
 - mark all movable boxes?
 - better camera (automatic?)
 - Default keys - F11, F12 and so
-- Game Load/Save
 - Why menu is not animated?
 - Game title is not set?
 - Wait for game tip to load (wait for a key?)

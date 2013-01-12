@@ -590,7 +590,7 @@ SurfaceHandle ddx2FindFreeSurface(void)
       return (i);
   }
   // We don't have a free surface
-  assert(0);
+  kerror(TRUE, "Unable to find free surface! ddx2FindFreeSurface()");  
   return (K_CHYBA);
 }
 
@@ -729,6 +729,7 @@ SurfaceHandle ddx2CreateSurface(int x, int y, int idx)
     return (slist.p_slist[idx].p_bmp ? idx : K_CHYBA);
   }
   else {
+    kerror(TRUE, "Unable to create surface - ddx2CreateSurface(%d, %d, %d)", x, y, idx) ;
     return (K_CHYBA);
   }
 }
