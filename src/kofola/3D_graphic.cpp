@@ -54,8 +54,11 @@ int _3d_Init(void)
     _3dd.p_sysramtexture[i].bVLoaded = 0;
   }
 
-  GetPrivateProfileString("game", "bitmap_dir", "c:\\", _3dd.bm_dir, 256, ini_file);
+  GetPrivateProfileString("game", "bitmap_dir", "", _3dd.bm_dir, 256, ini_file);
+  if(!_3dd.bm_dir[0])
+    kerror(TRUE, "Unable to load bitmap_dir from %s", ini_file);
   working_file_translate(_3dd.bm_dir, 256);
+  
   _3dd.bMenuVRAMLoad = GetPrivateProfileInt("hra", "menu_vram_load", 0, ini_file);
 
   return 1;
@@ -176,7 +179,6 @@ void _3d_Get_Cursor_Name(char *cName)
   strcat(text, ".inf");
 
   file = fopen(text, "r");
-
   if (!file) {
     kprintf(1, "Soubor %s, nebyl nalezen!", text);
     return;

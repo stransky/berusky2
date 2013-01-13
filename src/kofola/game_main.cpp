@@ -215,9 +215,7 @@ int winmain_Game_Run(char *p_Level_Name)
     }
 #endif
 
-    InitDirectDraw(NULL, 1024, 768, GetPrivateProfileInt("hra", "menu_bpp",
-        16, ini_file));
-
+    InitDirectDraw();
     spracuj_spravy(0);
 /*
 		if(!bWindowMenu)

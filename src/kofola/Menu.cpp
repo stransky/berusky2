@@ -782,30 +782,19 @@ int RunLevel(HWND hWnd, AUDIO_DATA * p_ad, int cpu, char *lvl, char *env)
     ShowCursor(TRUE);
     spracuj_spravy(0);
   }
-
-  kprintf(1, "ddxInit");
+  
   ddxInit();
   spracuj_spravy(0);
-  kprintf(1, "InitDirectDraw");
-  InitDirectDraw(NULL, 1024, 768, GetPrivateProfileInt("hra", "menu_bpp", 16,
-      ini_file));
-  spracuj_spravy(0);
-  kprintf(1, "ddxLoadList");
+  InitDirectDraw();
+  spracuj_spravy(0);  
   ddxLoadList("2d_load.dat", 0);
   spracuj_spravy(0);
-  kprintf(1, "ddxFindFreeSurface");
   iCompositDC = ddxFindFreeSurface();
-  kprintf(1, "ddxCreateSurface");
   CompositDC = ddxCreateSurface(1024, 768, iCompositDC);
-  kprintf(1, "ddxFindFreeSurface");
   iFontDC = ddxFindFreeSurface();
-  kprintf(1, "ddxCreateSurface");
   FontDC = ddxCreateSurface(1024, 768, iFontDC);
-  kprintf(1, "ddxFindFreeSurface");
   iBackDC = ddxFindFreeSurface();
-  kprintf(1, "ddxCreateSurface");
   BackDC = ddxCreateSurface(1024, 768, iBackDC);
-
   spracuj_spravy(0);
 
   ZeroAnimations();
@@ -2211,12 +2200,12 @@ MENU_SETTING_BRUTAL_RESTART:
     //pohnul mysi
     if (dim.dx || dim.dy) {
       //dostala se mys do akcni oblasti (OnAbove)?
-      if (!click)
-        for (i = 0; i < lastcmd; i++)
+      if (!click) {
+        for (i = 0; i < lastcmd; i++) {
           if (res[i].iParam[0] == COM_ONABOVE) {
-            if ((dim.x >= res[i].iParam[1]) &&
-              (dim.x <= res[i].iParam[3]) &&
-              (dim.y >= res[i].iParam[2]) && (dim.y <= res[i].iParam[4])) {
+            if ((dim.x >= res[i].iParam[1]) && (dim.x <= res[i].iParam[3]) &&
+                (dim.y >= res[i].iParam[2]) && (dim.y <= res[i].iParam[4])) 
+            {
               //spusteni animace v OnAbove
               if (i != lastabv) {
                 if (in) {
@@ -2307,7 +2296,8 @@ MENU_SETTING_BRUTAL_RESTART:
               strcpy(dir, "");
             }
           }
-
+        }
+      }
       dim.dx = 0;
       dim.dy = 0;
     }
@@ -3844,16 +3834,7 @@ int LoadClock(int *iClock)
 
     if (!c) {
       i = ddxLoadBitmap(text, pBmpArchive);
-
       iClock[c] = i;
-
-/*			if(i != -1)
-			{
-				int x = dim.x - ftoi(ddxGetWidth(i) / 2.0f);
-				int y = dim.y - ftoi(ddxGetHight(i) / 2.0f);
-
-				ddxTransparentBltDisplay(x, y, ddxGetWidth(i), ddxGetHight(i), i, 0, 0, ddxGetWidth(i), ddxGetHight(i), TRANSCOLOR);
-			}*/
     }
     else {
       t = ddxLoadBitmap(text, pBmpArchive);
@@ -7785,12 +7766,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
 
   bBackDC = 0;
 
-  res = (CMD_LINE *) malloc(RES_NUM * sizeof(CMD_LINE));
-
-  if (!res) {
-    kprintf(1, "RunMenuSceneMap: Out of Memory");
-    return 0;
-  }
+  res = (CMD_LINE *) mmalloc(RES_NUM * sizeof(CMD_LINE));
 
   _2d_Clear_RectLine(&rline);
 
@@ -7800,8 +7776,6 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
   anmid = -1;
   resid = -1;
   anbind = -1;
-
-  ZeroMemory(res, RES_NUM * sizeof(CMD_LINE));
 
   ddxCleareSurface(CompositDC);
   ddxCleareSurface(FontDC);
@@ -7813,14 +7787,12 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
   DrawClock(&iClock, 0);
   iTVBut = LoadCList("telload.txt", &ccc, &ccc, &ccc, pBmpArchive);
 
-  sprintf(ccomix, "comix%d.bmp", iScene);
-  //iComix = LoadCList(ccomix);
-
+  sprintf(ccomix, "comix%d.bmp", iScene);  
   iComix = ddxLoadBitmap(ccomix, pBmpArchive);
 
   if (iTVBmp == -1 || iTVBut == -1 || iComix == -1 || iTVTBmp == -1) {
-    kprintf(1, "saaaaakra ... nepodarilo se nahrat nejakou grafiku na comix");
-    return 0;
+    kerror(1, "Unable to load comix graphics! (iTVBmp == %d, iTVBut == %d, iComix == %d, iTVTBmp == %d)",
+           iTVBmp,iTVBut,iComix,iTVTBmp);
   }
 
   for (bind = 0; bind < RES_NUM; bind++) {
@@ -7838,7 +7810,9 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
   lastcmd = 0;
   timercnt = 0;
 
-  GetPrivateProfileString("game", "data_dir", "c:\\", dir, 256, ini_file);
+  GetPrivateProfileString("game", "data_dir", "", dir, 256, ini_file);
+  if(!dir[0])
+    kerror(TRUE, "Unable to read data_dir from ini_file!", ini_file);
   working_file_translate(dir, 256);
   chdir((dir));
 
@@ -7941,12 +7915,6 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
   iSongTime = GetComixTime(iScene);
 
   ap_Play_Song(iScene+1,0, p_ad);
-/*	if (p_ad->bAudio && p_ad->Music_Gain >= 0.05f)
-		ap_Setup_and_Play_Song(iScene+1,0, p_ad);
-
-	if (p_ad->bAudio && p_ad->Music_Gain >= 0.05f)
-		adas_OGG_Play_Stream();*/
-
 
   dwLTime = timeGetTime();
 

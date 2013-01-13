@@ -321,19 +321,16 @@ void kprintf(char log, const char *p_text, ...)
   char text[2000];
   va_list argumenty;
 
+  va_start(argumenty, p_text);
+  vsprintf(text, p_text, argumenty);
+  va_end(argumenty);
+
+  fprintf(stderr, "%s\n", text);
+
   if (log && p_ber->debug_file) {
-
-    va_start(argumenty, p_text);
-    vsprintf(text, p_text, argumenty);
-    va_end(argumenty);
-
-    fprintf(stderr, "%s\n", text);
-
-    if (log && p_ber->debug_file) {
-      fputs(text, p_ber->debug_file);
-      fputc('\n', p_ber->debug_file);
-      fflush(p_ber->debug_file);
-    }
+    fputs(text, p_ber->debug_file);
+    fputc('\n', p_ber->debug_file);
+    fflush(p_ber->debug_file);
   }
 }
 
@@ -342,17 +339,14 @@ void kprintfe(char log, const char *p_text, ...)
   char text[2000];
   va_list argumenty;
 
+  va_start(argumenty, p_text);
+  vsprintf(text, p_text, argumenty);
+  va_end(argumenty);
+
   if (log && p_ber->debug_file) {
-
-    va_start(argumenty, p_text);
-    vsprintf(text, p_text, argumenty);
-    va_end(argumenty);
-
-    if (log && p_ber->debug_file) {
-      fputs(text, p_ber->debug_file);
-      fputc('\n', p_ber->debug_file);
-      fflush(p_ber->debug_file);
-    }
+    fputs(text, p_ber->debug_file);
+    fputc('\n', p_ber->debug_file);
+    fflush(p_ber->debug_file);
   }
   exit(-1);
 }
@@ -362,18 +356,16 @@ void kprintfl(char log, const char *p_text, ...)
   char text[2000];
   va_list argumenty;
 
+  va_start(argumenty, p_text);
+  vsprintf(text, p_text, argumenty);
+  va_end(argumenty);
+
+  fprintf(stderr, text);
+
   if (log && p_ber->debug_file) {
-    va_start(argumenty, p_text);
-    vsprintf(text, p_text, argumenty);
-    va_end(argumenty);
-
-    fprintf(stderr, text);
-
-    if (log && p_ber->debug_file) {
-      fputs(text, p_ber->debug_file);
-      fputc('\n', p_ber->debug_file);
-      fflush(p_ber->debug_file);
-    }
+    fputs(text, p_ber->debug_file);
+    fputc('\n', p_ber->debug_file);
+    fflush(p_ber->debug_file);
   }
 }
 
@@ -382,23 +374,20 @@ void kerror(char log, const char *p_text, ...)
   char text[2000];
   va_list argumenty;
 
+  va_start(argumenty, p_text);
+  vsprintf(text, p_text, argumenty);
+  va_end(argumenty);
+
+  fprintf(stderr, "FATAL ERROR: %s\n", text);
+
   if (log && p_ber->debug_file) {
-
-    va_start(argumenty, p_text);
-    vsprintf(text, p_text, argumenty);
-    va_end(argumenty);
-
-    fprintf(stderr, "FATAL ERROR: %s\n", text);
-
-    if (log && p_ber->debug_file) {
-      fputs(text, p_ber->debug_file);
-      fputc('\n', p_ber->debug_file);
-      fflush(p_ber->debug_file);
-    }
-  
-    assert(0);
-    exit(-1);
+    fputs(text, p_ber->debug_file);
+    fputc('\n', p_ber->debug_file);
+    fflush(p_ber->debug_file);
   }
+  
+  assert(0);
+  exit(-1);
 }
 
 void ddw(const char *p_text, ...)
@@ -406,11 +395,11 @@ void ddw(const char *p_text, ...)
   char text[2000];
   va_list argumenty;
 
-  if (p_ber->debug_file) {
-    va_start(argumenty, p_text);
-    vsprintf(text, p_text, argumenty);
-    va_end(argumenty);
+  va_start(argumenty, p_text);
+  vsprintf(text, p_text, argumenty);
+  va_end(argumenty);
 
+  if (p_ber->debug_file) {
     fputs(text, p_ber->debug_file);
     fputc('\n', p_ber->debug_file);
     fflush(p_ber->debug_file);

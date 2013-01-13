@@ -1,4 +1,6 @@
 TODO:
+- http://www.opengl.org/wiki/Programming_OpenGL_in_Linux:_Changing_the_Screen_Resolution
+  - change game resolution
 - set fps
 - transparent objects
 - bad exit animations
@@ -11,8 +13,11 @@ TODO:
 - Game title is not set?
 - Wait for game tip to load (wait for a key?)
 - Auto-full screen -> leave the recent screen resolution?
+- vertex buffers? (in menu?)
+- Menu cursor (2D) is not rendered!
 
 - 1280x1024 full -> menu je jen v hornim rohu
+- graphics menu -> switch full screen/window mode
 - in-game menu - to menu je nejake hnusne?
 - defaultne je vypla/zakazana hudba/zvuky?
 - defaultni klavesy sou tragedie!! (delam novy profil) 

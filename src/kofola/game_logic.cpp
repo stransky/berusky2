@@ -12268,7 +12268,6 @@ PLAY_LEVEL_START:
       // click
       if (mi.t2 && !demo) {
         _3d_Display_Hint(&Level, _3d_Scale_Factor);
-
         mi.t2 = 0;
       }
 

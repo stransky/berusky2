@@ -77,9 +77,10 @@ unsigned int timeGetTime(void)
 // ddx2 interface
 //-----------------------------------------------------------------------------
 extern APAK_HANDLE *pBmpArchive;
-char bmp_dir[MAX_PATH];
 DeviceHandle ddxDevice;
+int i_Cursor[2] = {0,0};
 int i_CursorDDX = 0;
+int bDrawCursor = 0;
 int ddxInitDone = FALSE;
 int bFlip;
 static long bLastGameState = 1;
@@ -109,9 +110,6 @@ int ddxInit(void)
   if (!ddxInitDone) {
     ddx2Init(10000, RGB(255, 0, 255));
 
-    GetPrivateProfileString("game", "bitmap_dir", "c:\\", bmp_dir, MAX_PATH,
-      (const char *) ini_file);
-
     ddxSetCursor(1);
     ddxSetCursorSurface(0);
     ddxSetFlip(1);
@@ -122,10 +120,8 @@ int ddxInit(void)
     ddx2DeviceSetBackBufferSize(1024, 768);
     ddx2DeviceSetBackBufferRect(0, 0, 1024, 768);
     ddx2DeviceSetTextRenderRec(0, 0, 1024, 768);
-  
-    //TODO
-    //ddx2DeviceSetScreenRec(0, 0, hwconf.xres, hwconf.yres);
-    ddx2DeviceSetScreenRec(0, 0, 1024, 768);
+          
+    ddx2DeviceSetScreenRec(0, 0, hwconf.xres, hwconf.yres);
     ddx2DeviceSetRender(TRUE);
 
     ddxInitDone = TRUE;
@@ -146,16 +142,6 @@ void ddxPublish(void)
 {
   int i, x = 0;
 
-  /*
-     RECT       r;
-
-     r.left = mx;
-     r.top = my;
-     r.right = _3dCur.idx;
-     r.bottom = _3dCur.idy;
-
-     ddx2AddRectItem(rline, r, 0);
-   */
   if (!rline.rlast)
     ddx2SetRect(NULL, 0);
   else {
@@ -171,7 +157,11 @@ void ddxPublish(void)
 
   spracuj_spravy(0);
   ddx2RenderujVse(p_ber);
-
+/* TODO
+  if(bDrawCursor) {
+    g_pDisplay->ColorKeyBlt(dim.rx, dim.ry, ddx.surface[i_CursorDDX].g_pSurface->GetDDrawSurface(), &r);
+  }
+*/
   flip();
 
   _2d_Clear_RectLine(&rline);
@@ -194,6 +184,11 @@ int ddxLoadList(char *pFileName, int bProgress)
     ddxSetFlip(0);
   }
 
+  char bmp_dir[MAX_PATH];
+  GetPrivateProfileString("game", "bitmap_dir", "", bmp_dir, MAX_PATH, (const char *) ini_file);
+  if(!bmp_dir[0])
+    kerror(TRUE, "Unable to read bitmap_dir from ini file '%s'",ini_file);
+
   kprintf(1, "Kofola: - Load bitmap pro herni menu");
   ddx2LoadList(pFileName, pBmpArchive, bmp_dir);
 
@@ -201,6 +196,13 @@ int ddxLoadList(char *pFileName, int bProgress)
     ddxSetCursor(1);
     ddxSetFlip(1);
   }
+
+  i_Cursor[0] = ddxFindFreeSurface();
+  ddxCreateSurface(ddxGetWidth(0), ddxGetHight(0), i_Cursor[0]);
+
+  i_Cursor[1] = ddxFindFreeSurface();
+  ddxCreateSurface(ddxGetWidth(0), ddxGetHight(0), i_Cursor[1]);
+
   return (1);
 }
 
@@ -386,16 +388,18 @@ int ddxStretchBlt(int iSDest, RECT * rDest, int iSSource, RECT * rSource)
 
 int ddxUpdateMouse(void)
 {
+  float s_factor[] = { (float) 1024 / (float) hwconf.xres, 
+                       (float) 768 / (float) hwconf.yres };
   spracuj_spravy(1);
 
-  dim.dx = mi.dx;
-  dim.dy = mi.dy;
+  dim.dx = (int)ceil(mi.dx * s_factor[0]);
+  dim.dy = (int)ceil(mi.dy * s_factor[1]);
 
-  dim.x = mi.x;
-  dim.y = mi.y;
+  dim.x = (int)ceil(mi.x * s_factor[0]);
+  dim.y = (int)ceil(mi.y * s_factor[1]);
 
-  dim.rx = mi.x - start_x;
-  dim.ry = mi.y - start_y;
+  dim.rx = dim.x - start_x;
+  dim.ry = dim.y - start_y;
 
   dim.t1 = dim.dt1 = mi.t1;
   dim.t2 = dim.dt2 = mi.t2;
@@ -421,7 +425,7 @@ int ddxUpdateMouse(void)
     dim.lt2 = 1;
     dim.tf2 = 1;
   }
-
+  
   return TRUE;
 }
 
@@ -432,20 +436,17 @@ void ddxSetFlip(char bSwitch)
 
 void ddxSetCursor(char bSwitch)
 {
-  //SDL_ShowCursor(bSwitch ? SDL_ENABLE : SDL_DISABLE);
+  bDrawCursor = bSwitch;
 }
 
 void ddxResizeCursorBack(int iSurface)
 {
+  // TODO
+  assert(0);
 }
 
 bool ddxRestore(AUDIO_DATA * p_ad)
 {
-  /*if(key[K_S])
-     {
-     key[K_S] = 0;
-     ddxSaveSurfaces();
-     } */
   static dword dwLastMenuMusicCheck = 0;
 
 	if(karmin_aktivni && timeGetTime() - dwLastMenuMusicCheck > 20000)
@@ -461,11 +462,6 @@ bool ddxRestore(AUDIO_DATA * p_ad)
 
     // Game is restored
     if (bLastGameState) {
-    /*
-      if (!bWindowMenu) {
-        assert(0);
-      }
-    */
 			if(!ogg_playing())
 				ap_Play_Song(0, 0, p_ad);
 
@@ -490,10 +486,14 @@ bool ddxRestore(AUDIO_DATA * p_ad)
 
 void ddxSaveSurface(int idx)
 {
+  // TODO
+  assert(0);
 }
 
 void ddxCleareSurfaceColorDisplay(COLORREF color)
 {
+  // TODO
+  assert(0);
 }
 
 // Return always "windowed" mode
@@ -502,7 +502,7 @@ int ddxGetMode(void)
   return (TRUE);
 }
 
-void InitDirectDraw(HWND hWnd, int x, int y, int bpp)
+void InitDirectDraw(void)
 {
   bInMenu = 1;
 }
@@ -548,7 +548,8 @@ void ShowCursor(bool state)
 }
 
 void SetCursor(void *tmp)
-{
+{  
+  // WinAPI - we don't need it
 }
 
 char *strupr(char *string)

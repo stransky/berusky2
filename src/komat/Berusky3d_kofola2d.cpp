@@ -622,10 +622,7 @@ SurfaceHandle ddx2LoadBitmapPos(SurfaceHandle handle, char *pFileName,
     }
   }
 
-  kprintf(TRUE, "FILE %s LINE %d Chyba loadu bmp %s...", __FILE__, __LINE__,
-    pFileName);
-  assert(0);
-
+  kerror(TRUE, "FILE %s LINE %d Chyba loadu bmp %s...", __FILE__, __LINE__, pFileName);
   return (K_CHYBA);
 }
 
@@ -644,10 +641,7 @@ SurfaceHandle ddx2LoadBitmapPosDisk(SurfaceHandle handle, char *pFileName)
     }
   }
 
-  kprintf(TRUE, "FILE %s LINE %d Chyba loadu bmp %s...", __FILE__, __LINE__,
-    pFileName);
-  assert(0);
-
+  kerror(TRUE, "FILE %s LINE %d Chyba loadu bmp %s...", __FILE__, __LINE__, pFileName);
   return (K_CHYBA);
 }
 

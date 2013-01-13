@@ -5,8 +5,8 @@
 
 #define CLIST_ITEMC 55
 #define TAB_NUM		4
-#define TAB_X		90
-#define TAB_Y		88
+#define TAB_X		  90
+#define TAB_Y		  88
 #define TAB_XRES	850
 #define TAB_YRES	650
 #define MENU_ANIMATION_CORECTION 1

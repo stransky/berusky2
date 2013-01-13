@@ -214,8 +214,8 @@ void ddxCleareSurfaceColorDisplay(COLORREF color);
 
 int ddxGetMode(void);
 
-void InitDirectDraw(HWND hWnd, int x, int y, int bpp);
-void FreeDirectDraw();
+void InitDirectDraw(void);
+void FreeDirectDraw(void);
 
 char MenuCheckBossExit(void);
 
