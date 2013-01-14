@@ -780,8 +780,8 @@ void ddx2DrawDisplay(int *com, int layer)
 
 // color to make transparent
 BOOL ddx2TransparentBlt(SurfaceHandle dst, int dx, int dy, int dsirka,
-  int dvyska, SurfaceHandle src, int sx, int sy, int ssirka, int svyska,
-  dword pruhledna)
+                        int dvyska, SurfaceHandle src, int sx, int sy, 
+                        int ssirka, int svyska, dword pruhledna)
 {
   bitmapa *p_src = get_bmp(src);
   bitmapa *p_dst = get_bmp(dst);
@@ -832,17 +832,16 @@ BOOL ddx2TransparentBlt(SurfaceHandle dst, int dx, int dy, int dsirka,
 }
 
 BOOL ddx2TransparentBltFull(SurfaceHandle dst, int dx, int dy,
-  SurfaceHandle src, dword barva)
+                            SurfaceHandle src, dword barva)
 {
   bitmapa *p_src = get_bmp(src);
-
   return (ddx2TransparentBlt(dst, dx, dy, p_src->x, p_src->y,
       src, 0, 0, p_src->x, p_src->y, barva));
 }
 
 BOOL ddx2TransparentBltDisplay(int dx, int dy, int dsirka, int dvyska,
-  int dcSrcSurface, int sx, int sy, int ssirka, int svyska,
-  UINT crTransparent)
+                               int dcSrcSurface, int sx, int sy, 
+                               int ssirka, int svyska, UINT crTransparent)
 {
   return (ddx2TransparentBlt(DDX2_BACK_BUFFER, dx, dy, dsirka, dvyska,
       dcSrcSurface, sx, sy, ssirka, svyska, crTransparent));

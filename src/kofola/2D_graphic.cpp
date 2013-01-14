@@ -812,11 +812,15 @@ int _2d_Is_InRectLine(RECT * rline, RECT * p_r, int size)
 {
   int i;
 
-  for (i = 0; i < size; i++)
+  for (i = 0; i < size; i++) {
     if (rline[i].bottom == p_r->bottom &&
-      rline[i].left == p_r->left &&
-      rline[i].right == p_r->right && rline[i].top == p_r->top)
+        rline[i].left == p_r->left &&
+        rline[i].right == p_r->right && 
+        rline[i].top == p_r->top)
+    {
       return 1;
+    }
+  }
 
   return 0;
 }

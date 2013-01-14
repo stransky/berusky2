@@ -155,13 +155,14 @@ void ddxPublish(void)
     ddx2SetRect(rDrawRect, x);
   }
 
+  if(bDrawCursor) {
+    ddx2TransparentBltFull(DDX2_BACK_BUFFER, dim.rx, dim.ry, i_CursorDDX, TRANSCOLOR);
+    - it's not added to redraw area!!
+  }
+
   spracuj_spravy(0);
   ddx2RenderujVse(p_ber);
-/* TODO
-  if(bDrawCursor) {
-    g_pDisplay->ColorKeyBlt(dim.rx, dim.ry, ddx.surface[i_CursorDDX].g_pSurface->GetDDrawSurface(), &r);
-  }
-*/
+
   flip();
 
   _2d_Clear_RectLine(&rline);
