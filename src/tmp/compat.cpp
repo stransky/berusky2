@@ -142,6 +142,10 @@ void ddxPublish(void)
 {
   int i, x = 0;
 
+  if(bDrawCursor) {
+    ddx2TransparentBltFull(DDX2_BACK_BUFFER, dim.rx, dim.ry, i_CursorDDX, TRANSCOLOR);    
+  }
+
   if (!rline.rlast)
     ddx2SetRect(NULL, 0);
   else {
@@ -156,8 +160,7 @@ void ddxPublish(void)
   }
 
   if(bDrawCursor) {
-    ddx2TransparentBltFull(DDX2_BACK_BUFFER, dim.rx, dim.ry, i_CursorDDX, TRANSCOLOR);
-    - it's not added to redraw area!!
+    ddx2TransparentBltFull(DDX2_BACK_BUFFER, dim.rx, dim.ry, i_CursorDDX, TRANSCOLOR);    
   }
 
   spracuj_spravy(0);
@@ -237,13 +240,6 @@ void ddxDrawSurface(int iSurface, int *com, int layer)
   ddx2DrawSurface(iSurface, com, layer);
 }
 
-/*
-BOOL ddx2TransparentBltFull(SurfaceHandle dst, int dx, int dy, 
-                            SurfaceHandle src, dword barva);
-
-BOOL ddx2BitBltFull(SurfaceHandle dst, int dx, int dy, SurfaceHandle src);
-*/
-
 BOOL ddxTransparentBlt(int dcDestSurface,       // handle to Dest DC
   int nXOriginDest,             // x-coord of destination upper-left corner
   int nYOriginDest,             // y-coord of destination upper-left corner
@@ -265,8 +261,6 @@ BOOL ddxTransparentBlt(int dcDestSurface,       // handle to Dest DC
     dcSrcSurface,
     nXOriginSrc,
     nYOriginSrc,
-    nWidthSrc,
-    nHeightSrc,
     crTransparent);
 
   return (ret);

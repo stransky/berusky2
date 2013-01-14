@@ -246,7 +246,7 @@ void fn2_Draw_Message(int iSurface, int iXpos, int iYpos, GAME_TRIGER * gt,
 
       ddx2TransparentBlt(iSurface, x, y + ycor, right - left + 1,
         bottom - top + 1, b2_3d_font.iBitmap[iSection], left, top,
-        right - left + 1, bottom - top + 1, b2_3d_font.tcolor);
+        b2_3d_font.tcolor);
 
       x += right - left + 2;
 
@@ -303,7 +303,7 @@ void fn2_Draw_Format_Line(GAME_TRIGER * gt, TRIGER_STRUCTURE * ts,
             (float) ddx2GetHeight(b2_3d_font.iBitmap[iSection]))) {
           ddx2TransparentBlt(iSurface, sx, y + ycor, right - left + 1,
             bottom - top + 1, b2_3d_font.iBitmap[iSection], left, top,
-            right - left + 1, bottom - top + 1, b2_3d_font.tcolor);
+            b2_3d_font.tcolor);
 
           sx += right - left + 2;
         }
@@ -527,7 +527,7 @@ void fn2_Draw_MessageA(int iSurface, int iXpos, int iYpos, GAME_TRIGER * gt,
 
       ddx2TransparentBlt(iSurface, x, y + ycor, right - left + 1,
         bottom - top + 1, b2_3d_font.iBitmap[iSection], left, top,
-        right - left + 1, bottom - top + 1, b2_3d_font.tcolor);
+        b2_3d_font.tcolor);
 
       x += right - left + 2;
 
@@ -907,11 +907,10 @@ int fn2_Text_Blt(int hdc, WCHAR * ws, WCHAR * wc, int iSurface, int iSection,
 
   //tmpDC = fn2_CreateDC(hdc, x, y, *i);
   tmpDC = ddx2CreateSurface(x, y, *i);
-
   if (!tmpDC)
     return 0;
   else
-    ddx2TransparentBlt(tmpDC, 0, 0, x, y, iSurface, 0, 0, x, y, TRANSCOLOR);
+    ddx2TransparentBlt(tmpDC, 0, 0, x, y, iSurface, 0, 0, TRANSCOLOR);
 
   //TransparentBltU(tmpDC, 0, 0, x, y, fDC, 0, 0, x, y, RGB(255, 0, 255));
 

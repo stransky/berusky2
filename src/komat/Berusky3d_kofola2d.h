@@ -210,29 +210,26 @@ int ddx2LoadList(char *pFileName, APAK_HANDLE * pBmpArchive, char *p_bmp_dir);
 //------------------------------------------------------------------------------------------------
 SurfaceHandle ddx2CreateSurface(int x, int y, int idx);
 
-
-void ddx2DrawSurfaceColorKey(int iSurface, int *com, int layer,
-  COLORREF color);
+void ddx2DrawSurfaceColorKey(int iSurface, int *com, int layer, COLORREF color);
 void ddx2DrawDisplayColorKey(int *com, int layer, COLORREF color);
 void ddx2DrawSurface(int iSurface, int *com, int layer);
 void ddx2DrawDisplay(int *com, int layer);
 
-
-BOOL ddx2TransparentBlt(SurfaceHandle dst, int dx, int dy, int dsirka,
-  int dvyska, SurfaceHandle src, int sx, int sy, int ssirka, int svyska,
-  dword pruhledna);
+BOOL ddx2TransparentBlt(SurfaceHandle dst, int dx, int dy, int dsirka, int dvyska,
+                        SurfaceHandle src, int sx, int sy, dword pruhledna);
 BOOL ddx2TransparentBltDisplay(int dx, int dy, int dsirka, int dvyska,
-  int dcSrcSurface, int sx, int sy, int ssirka, int svyska,
-  UINT crTransparent);
+                               int dcSrcSurface, 
+                               int sx, int sy, int ssirka, int svyska,
+                               UINT crTransparent);
 BOOL ddx2TransparentBltFull(SurfaceHandle dst, int dx, int dy,
-  SurfaceHandle src, dword barva);
+                            SurfaceHandle src, dword barva);
 
 BOOL ddx2BitBlt(SurfaceHandle dst, int dx, int dy, int sirka, int vyska,
-  SurfaceHandle src, int sx, int sy);
+                SurfaceHandle src, int sx, int sy);
 BOOL ddx2BitBltStretch(SurfaceHandle dst, int dx, int dy, int dst_width, int dst_height,
                        SurfaceHandle src, int sx, int sy, int src_width, int src_height);
 BOOL ddx2BitBltDisplay(int dx, int dy, int sirka, int vyska,
-  int dcSrcSurface, int sx, int sy);
+                       int dcSrcSurface, int sx, int sy);
 BOOL ddx2BitBltFull(SurfaceHandle dst, int dx, int dy, SurfaceHandle src);
 
 

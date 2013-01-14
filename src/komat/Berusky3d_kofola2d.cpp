@@ -739,7 +739,7 @@ void ddx2DrawSurfaceColorKey(int iSurface, int *com, int layer,
   bitmapa *p_src = get_bmp(com[1]);
 
   ddx2TransparentBlt(iSurface, com[2], com[3], p_src->x, p_src->y,
-    com[1], 0, 0, p_src->x, p_src->y, color);
+    com[1], 0, 0, color);
 }
 
 void ddx2DrawDisplayColorKey(int *com, int layer, COLORREF color)
@@ -747,7 +747,7 @@ void ddx2DrawDisplayColorKey(int *com, int layer, COLORREF color)
   bitmapa *p_src = get_bmp(com[1]);
 
   ddx2TransparentBlt(DDX2_BACK_BUFFER, com[2], com[3], p_src->x, p_src->y,
-    com[1], 0, 0, p_src->x, p_src->y, color);
+    com[1], 0, 0, color);
 }
 
 // ----------------------------------------------------------
@@ -779,12 +779,42 @@ void ddx2DrawDisplay(int *com, int layer)
 }
 
 // color to make transparent
-BOOL ddx2TransparentBlt(SurfaceHandle dst, int dx, int dy, int dsirka,
-                        int dvyska, SurfaceHandle src, int sx, int sy, 
-                        int ssirka, int svyska, dword pruhledna)
+BOOL ddx2TransparentBlt(SurfaceHandle dst, int dx, int dy, int dsirka, int dvyska,
+                        SurfaceHandle src, int sx, int sy,
+                        dword pruhledna)
 {
   bitmapa *p_src = get_bmp(src);
   bitmapa *p_dst = get_bmp(dst);
+
+  // Clip the coordinates
+  if(dx < 0) {
+    dsirka += dx;
+    dx = 0;
+  }
+  if(dy < 0) {
+    dvyska += dy;
+    dy = 0;
+  }
+
+  assert(sx >= 0 && sy >= 0);
+
+  if(dx + dsirka > p_dst->x) {
+    dsirka = p_dst->x - dx;
+    if(dsirka <= 0)
+      return(FALSE);
+  }
+
+  if(dy + dvyska > p_dst->y) {
+    dvyska = p_dst->y - dy;
+    if(dvyska <= 0)
+      return(FALSE);
+  }  
+
+  assert(sx + dsirka <= p_src->x && sy + dvyska <= p_src->y);
+
+  int ssirka = dsirka; 
+  int svyska = dvyska;
+
   int sirka_src = p_src->x;
   int sirka_dst = p_dst->x;
   int rozdil_src = sirka_src - ssirka;
@@ -836,7 +866,7 @@ BOOL ddx2TransparentBltFull(SurfaceHandle dst, int dx, int dy,
 {
   bitmapa *p_src = get_bmp(src);
   return (ddx2TransparentBlt(dst, dx, dy, p_src->x, p_src->y,
-      src, 0, 0, p_src->x, p_src->y, barva));
+                             src, 0, 0, barva));
 }
 
 BOOL ddx2TransparentBltDisplay(int dx, int dy, int dsirka, int dvyska,
@@ -844,7 +874,7 @@ BOOL ddx2TransparentBltDisplay(int dx, int dy, int dsirka, int dvyska,
                                int ssirka, int svyska, UINT crTransparent)
 {
   return (ddx2TransparentBlt(DDX2_BACK_BUFFER, dx, dy, dsirka, dvyska,
-      dcSrcSurface, sx, sy, ssirka, svyska, crTransparent));
+      dcSrcSurface, sx, sy, crTransparent));
 }
 
 BOOL ddx2BitBlt(SurfaceHandle dst, int dx, int dy, int sirka, int vyska,

@@ -263,18 +263,16 @@ void AnimationEvent2(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime)
       for (i = 0; i < rline.rlast; i++) {
         dr = &rline.rect[i];
 
-        ddx2TransparentBlt(BackDC, dr->rect.left, dr->rect.top,
-          dr->rect.right, dr->rect.bottom, FontDC, dr->rect.left,
-          dr->rect.top, dr->rect.right, dr->rect.bottom, TRANSCOLOR);
+        ddx2TransparentBlt(BackDC, dr->rect.left, dr->rect.top, dr->rect.right, dr->rect.bottom, FontDC, dr->rect.left,
+          dr->rect.top, TRANSCOLOR);
       }
 
       for (i = 0; i < rline.rlast; i++) {
         dr = &rline.rect[i];
 
         ddx2TransparentBlt(CompositDC, dr->rect.left, dr->rect.top,
-          dr->rect.right, dr->rect.bottom, BackDC, dr->rect.left,
-          dr->rect.top, dr->rect.right, dr->rect.bottom, TRANSCOLOR);
-
+                           dr->rect.right, dr->rect.bottom, BackDC, dr->rect.left,
+                           dr->rect.top, TRANSCOLOR);
       }
     }
     else
@@ -282,8 +280,8 @@ void AnimationEvent2(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime)
         dr = &rline.rect[i];
 
         ddx2TransparentBlt(CompositDC, dr->rect.left, dr->rect.top,
-          dr->rect.right, dr->rect.bottom, FontDC, dr->rect.left,
-          dr->rect.top, dr->rect.right, dr->rect.bottom, TRANSCOLOR);
+                           dr->rect.right, dr->rect.bottom, FontDC, dr->rect.left,
+                           dr->rect.top, TRANSCOLOR);
       }
 
     for (i = 0; i < rline.rlast; i++) {

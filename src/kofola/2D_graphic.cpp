@@ -801,7 +801,6 @@ void _2d_Blackness(void)
 //  BitBlt(_2dd.hDC, 0, 0, hwconf.xres, hwconf.yres, NULL, 0, 0, BLACKNESS);
 }
 
-
 void _2d_Clear_RectLine(RECT_LINE * p_rl)
 {
   memset(p_rl, 0, sizeof(RECT_LINE));
