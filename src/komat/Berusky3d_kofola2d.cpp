@@ -461,41 +461,6 @@ void ddx2RenderujDevice(G_KONFIG * p_ber, DDX2_SURFACE_DEVICE * p_dev)
   glEnd();
 }
 
-
-//------------------------------------------------------------------------------------------------
-// Nastavi pruhlednost
-// 1 - nepruhledne
-// 0 - plne pruhledne
-//------------------------------------------------------------------------------------------------
-void ddx2SetPruhlednost(float stupen)
-{
-  /*
-     if(stupen >= 1.0f) {
-    glColor4f(1,1,1,1);
-     glDisable(GL_BLEND);
-     glEnable(GL_ALPHA_TEST);
-     glAlphaFunc(GL_LEQUAL,0);
-     } else {
-     glColor4f(1,1,1,stupen);
-     glEnable(GL_ALPHA_TEST);
-     glAlphaFunc(GL_LEQUAL,0);
-     glEnable(GL_BLEND);
-     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-     }
-   */
-}
-
-/*
-
-bila (1) nepruhledna
-cerna (0) pruhledna
-
-glColor4f(1,1,1,1);
-glDisable(GL_DEPTH_TEST);
-glEnable(GL_BLEND);
-
-*/
-
 //------------------------------------------------------------------------------------------------
 // zacatek 3d kresleni
 //------------------------------------------------------------------------------------------------
@@ -1039,15 +1004,4 @@ void ddx2AddRectItem(RECT_LINE * p_rl, RECT rect, int iLayer)
 void ddx2GameRender(int render)
 {
   p_ber->conf_menu_render = !render;
-}
-
-//------------------------------------------------------------------------------------------------
-// Nastavi pruhlednost pro aktualni device
-// 0 - nepruhledne
-// 1 - plne pruhledne
-//------------------------------------------------------------------------------------------------
-void ddx2DeviceSetPruhlednost(float pruhlednost)
-{
-
-
 }

@@ -189,8 +189,7 @@ int demo_Save(DEMOSTRUCTURE * p_Demo, char *p_File_Name, char Ovladani,
 
   FileHeader.iHiVer = DEMO_HIVERSION;
   FileHeader.iLoVer = DEMO_LOVERSION;
-  FileHeader.bOvladaniBerusek1 = Ovladani;
-  //wcscpy(FileHeader.cPlayerName, pPlayerProfile.cName);
+  FileHeader.bOvladaniBerusek1 = Ovladani;  
   strcpy(FileHeader.cLevelName, cLevelName);
   FileHeader.iDemoID = 123456789;
   FileHeader.iLevel = iActualLevel;

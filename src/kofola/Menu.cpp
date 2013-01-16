@@ -3320,14 +3320,7 @@ BEGIN_MENU_NEWGAMESCENE:
           }
     }
 
-/*		spracuj_spravy(0);
-		ddxUpdateMouse();
-
-		if(dim.dx || dim.dy)
-			DisplayFrame();*/
-
     dwStop = timeGetTime();
-
     dwEplased += dwStop - dwStart;
 
     spracuj_spravy(0);

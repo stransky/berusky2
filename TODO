@@ -1,4 +1,5 @@
 TODO:
+- Menu cursor (2D) is not rendered!
 - set fps
 - http://www.opengl.org/wiki/Programming_OpenGL_in_Linux:_Changing_the_Screen_Resolution
   - change game resolution
@@ -14,22 +15,12 @@ TODO:
 - Wait for game tip to load (wait for a key?)
 - Auto-full screen -> leave the recent screen resolution?
 - vertex buffers? (in menu?)
-- Menu cursor (2D) is not rendered!
 
 - 1280x1024 full -> menu je jen v hornim rohu
 - graphics menu -> switch full screen/window mode
 - in-game menu - to menu je nejake hnusne?
 - defaultne je vypla/zakazana hudba/zvuky?
 - defaultni klavesy sou tragedie!! (delam novy profil) 
-
-int ddxInit(void)
-//TODO
-//ddx2DeviceSetScreenRec(0, 0, hwconf.xres, hwconf.yres);
-ddx2DeviceSetScreenRec(0, 0, 1024, 768);
-
-void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
-  ANIMATION_MODULE * p_am)
-
 
 -D_DEBUG -Wall -Wno-write-strings -Wsign-conversion
 

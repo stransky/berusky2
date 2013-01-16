@@ -42,11 +42,6 @@ extern APAK_HANDLE *pBmpArchive;
 extern APAK_HANDLE *p3DMArchive;
 extern APAK_HANDLE *pDataArchive;
 
-/*
-extern	   HDC CompositDC;
-extern	   HDC FontDC;
-extern	   HDC BackDC;
-*/
 typedef struct
 {
   float vfLocation[4];

@@ -295,9 +295,6 @@ void AnimationEvent2(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime)
     }
   }
 
-//      if(!bAnim)
-//              DisplayFrame();
-
   dwLTime = dwTime;
   timercnt += e;
 
@@ -626,9 +623,7 @@ void SetTab2(int iTab, int iLTab, CONTROL_LIST_ITEM2 * p_list, int lsize,
     else if ((p_list + i)->iTab != -1)
       (p_list + i)->bActive = 0;
 
-  //BitBlt(_2dd.hDC, TAB_X, TAB_Y, TAB_XRES, TAB_YRES, hdcTab[iTab], 0, 0, SRCCOPY);
   ddx2BitBltDisplay(TAB_X, TAB_Y, TAB_XRES, TAB_YRES, hdcTab[iTab], 0, 0);
-//      DisplayFrame();
 }
 
 void CharMenuCheckMultyKyes2(LIST_VIEW_CONTROL2 * p_li, int iKey)
@@ -1245,8 +1240,6 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
     }
   }
 
-  //DisplayFrame();
-
   am_FlipA(p_Level, p_am, 1, &rline, CLIST_ITEMC, 0, 0, 0);
 
   for (i = 0; i < TAB_NUM; i++) {
@@ -1261,8 +1254,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
   am_FlipA(p_Level, p_am, 1, &rline, CLIST_ITEMC, 0, 0, 0);
 
   if (!co2_Load_Graphic(0)) {
-    kprintf(1, "co2_Load_Graphic ... can't load controls!");
-    //MessageBox(NULL,"co2_Load_Graphic","co2_Load_Graphic", MB_OK);
+    kerror(1, "co2_Load_Graphic ... can't load controls!");
   }
   else {
 //    int count = 0;

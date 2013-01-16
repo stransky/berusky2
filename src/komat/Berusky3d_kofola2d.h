@@ -249,14 +249,6 @@ void ddx2AddRectItem(RECT_LINE * p_rl, RECT rect, int iLayer);
 //------------------------------------------------------------------------------------------------
 void ddx2GameRender(int render);
 
-//------------------------------------------------------------------------------------------------
-// Nastavi pruhlednost pro aktualni device
-// 0 - nepruhledne
-// 1 - plne pruhledne
-//------------------------------------------------------------------------------------------------
-void ddx2SetPruhlednost(float pruhlednost);
-
-
 // ----------------------------------------------------------------------------
 // Name: ddx2RenderujMenu()
 // Desc: Vykresli menu pouze menu, bez mazani obrazovky a flipu

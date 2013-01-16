@@ -3475,10 +3475,6 @@ int co2_Handle_Edit(CONTROL_EDIT2 * p_ed, int x, int y, int hdc, int xcor, int y
 
 
     co2_HANDLE_DRAW:
-      /*BitBlt(hdc, p_ed->rect.left + xcor,  p_ed->rect.top + ycor, 
-         _2dd.bitmap[hdcED.hdcEdit].bitmap.bmWidth, _2dd.bitmap[hdcED.hdcEdit].bitmap.bmHeight, 
-         _2dd.bitmap[hdcED.hdcEdit].bitmapDC, 0, 0, SRCCOPY); */
-
       ddx2BitBlt(hdc, p_ed->rect.left + xcor, p_ed->rect.top + ycor,
         ddx2GetWidth(hdcED.hdcEdit), ddx2GetHeight(hdcED.hdcEdit),
         hdcED.hdcEdit, 0, 0);
@@ -3552,13 +3548,6 @@ int co2_Handle_Edit(CONTROL_EDIT2 * p_ed, int x, int y, int hdc, int xcor, int y
     }
 
   }
-
-/*	r.left = p_ed->x;
-	r.top = p_ed->y;
-	r.right = ddx2GetWidth(hdcED.hdcEdit);
-	r.bottom = ddx2GetHeight(hdcED.hdcEdit);
-
-	_2d_Add_RectItem_IfNPresent(&rline, r, 1);*/
 
   return 1;
 }

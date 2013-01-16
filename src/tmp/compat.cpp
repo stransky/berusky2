@@ -143,6 +143,7 @@ void ddxPublish(void)
   int i, x = 0;
 
   if(bDrawCursor) {
+    // TODO -> save cursor background
     ddx2TransparentBltFull(DDX2_BACK_BUFFER, dim.rx, dim.ry, i_CursorDDX, TRANSCOLOR);
   }
 
