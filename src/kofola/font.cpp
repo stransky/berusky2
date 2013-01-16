@@ -9,7 +9,6 @@
 
 B2_FONT b2_2d_font;
 
-extern _2D_DATA _2dd;
 extern _3D_DATA _3dd;
 
 void fn_Release_Font(int bTextures);
@@ -176,7 +175,6 @@ int fn_Set_Font_Bmps(GAME_TRIGER * gt, TRIGER_STRUCTURE * ts)
 
             b2_2d_font.iBitmap[gt->command[i].Parametr[0].Value] =
               ddxLoadBitmap(text, b2_2d_font.pArchive);
-            //_2d_APAK_Load_Bitmap(text, b2_2d_font.pArchive);
           }
         }
         break;
@@ -581,7 +579,6 @@ void fn_Release_Font(int bTextures)
     for (i = 0; i < FONT_MAX_BMP; i++)
       if (b2_2d_font.iBitmap[i] != -1) {
         ddxReleaseBitmap(b2_2d_font.iBitmap[i]);
-        //_2d_Release_Bitmap(b2_2d_font.iBitmap[i]);
       }
 
   if (bTextures)
@@ -660,28 +657,17 @@ int fn_Text_Blt(int hdc, WCHAR * ws, WCHAR * wc, int iSurface, int iSection,
   int x, y;
   int tmpDC;
 
-  //BitBlt(fDC,0,0,1024,200,NULL,0,0,WHITENESS);
-
-/*	{
-		RECT r = {-1, -1, 1025, 201};
-		_2d_Fill_Rect(fDC, r, RGB(255, 0, 255));
-	}*/
-
   fn_Draw_Message(iSurface, 0, 0, &b2_2d_font.gt, &b2_2d_font.ts, wc, ws,
     iSection, &x, &y);
 
-  //*i = _2d_Find_Free_Surface();
   *i = ddxFindFreeSurface();
 
-  //tmpDC = fn_CreateDC(hdc, x, y, *i);
   tmpDC = ddxCreateSurface(x, y, *i);
 
   if (!tmpDC)
     return 0;
   else
     ddxTransparentBlt(tmpDC, 0, 0, x, y, iSurface, 0, 0, x, y, TRANSCOLOR);
-
-  //TransparentBltU(tmpDC, 0, 0, x, y, fDC, 0, 0, x, y, RGB(255, 0, 255));
 
   return 1;
 }
@@ -691,10 +677,7 @@ int fn_Gen_Menu_Text(int iSection, int hdc, char *cText, int *i1, int *i2)
   WCHAR wc[64];
   WCHAR ws[64];
 
-  //int sidx = _2d_Find_Free_Surface();
   int sidx = ddxFindFreeSurface();
-
-  //HDC   fDC = fn_CreateDC(hdc, 1024, 200, sidx);
   int fDC = ddxCreateSurface(1024, 200, sidx);
 
   if (!fDC)
@@ -725,8 +708,7 @@ int fn_Gen_Menu_Texts(int iSection, int hdc)
   int x;
   WCHAR wc[64];
   WCHAR ws[64];
-
-  //int sidx = _2d_Find_Free_Surface();
+  
   int sidx = ddxFindFreeSurface();
   int fDC = ddxCreateSurface(1024, 200, sidx);
 
@@ -767,9 +749,8 @@ int fn_Gen_Menu_Texts(int iSection, int hdc)
 
   if (!fn_Text_Blt(hdc, ws, wc, fDC, 1, &x))
     return 0;
-
-  _2d_Release_Bitmap(sidx);
-
+  
+  ddxReleaseBitmap(sidx);
   return 1;
 }
 

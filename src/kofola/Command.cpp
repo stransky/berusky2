@@ -5,7 +5,6 @@
 #include "Berusky3d_kofola_interface.h"
 #include "2D_graphic.h"
 
-extern _2D_DATA _2dd;
 extern RECT_LINE rline;
 
 //------------------------------------------------------------------------------------------------

@@ -143,7 +143,7 @@ void ddxPublish(void)
   int i, x = 0;
 
   if(bDrawCursor) {
-    ddx2TransparentBltFull(DDX2_BACK_BUFFER, dim.rx, dim.ry, i_CursorDDX, TRANSCOLOR);    
+    ddx2TransparentBltFull(DDX2_BACK_BUFFER, dim.rx, dim.ry, i_CursorDDX, TRANSCOLOR);
   }
 
   if (!rline.rlast)
@@ -157,10 +157,6 @@ void ddxPublish(void)
       }
     }
     ddx2SetRect(rDrawRect, x);
-  }
-
-  if(bDrawCursor) {
-    ddx2TransparentBltFull(DDX2_BACK_BUFFER, dim.rx, dim.ry, i_CursorDDX, TRANSCOLOR);    
   }
 
   spracuj_spravy(0);

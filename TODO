@@ -1,7 +1,7 @@
 TODO:
+- set fps
 - http://www.opengl.org/wiki/Programming_OpenGL_in_Linux:_Changing_the_Screen_Resolution
   - change game resolution
-- set fps
 - transparent objects
 - bad exit animations
 - per-pixel lighting

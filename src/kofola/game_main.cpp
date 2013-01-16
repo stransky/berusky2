@@ -229,11 +229,7 @@ int winmain_Game_Run(char *p_Level_Name)
   if (bGame) {
     //kom_prvnotni_init();
 
-    //_2d_Init(hWnd);
-
     //fn_Convert_Rect("", 1024, 1024);
-
-    //_2d_Release();
 
     iActualScene = 0;
     RunMenuLoadScreen2();

@@ -65,7 +65,6 @@ typedef struct
   char bStop;
 } ANIMATION;
 
-extern _2D_DATA _2dd;
 extern HW_KONFIG hwconf;
 
 MOUSE_INFO dim;
@@ -852,6 +851,7 @@ int RunLevel(HWND hWnd, AUDIO_DATA * p_ad, int cpu, char *lvl, char *env)
 //------------------------------------------------------------------------------------------------
 void Credits(HWND hWnd, AUDIO_DATA * p_ad, int cpu)
 {
+/*
   char dir[256];
 
   StopAll();
@@ -883,6 +883,7 @@ void Credits(HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   spracuj_spravy(0);
   ShowCursor(TRUE);
   spracuj_spravy(0);
+  */
 }
 
 void CreateFontAnimations(CMD_LINE * res, int *lastcmd)
@@ -2007,15 +2008,11 @@ MENU_SETTING_BRUTAL_RESTART:
   }
 
   DrawClock(iClock, 2);
-  //DisplayFrame();
-
   for (i = 0; i < TAB_NUM; i++) {
-    //hdcTab[i] = fn_CreateDC(_2dd.hDC, TAB_XRES, TAB_YRES, _2d_Find_Free_Surface());
     hdcTab[i] = ddxCreateSurface(TAB_XRES, TAB_YRES, ddxFindFreeSurface());
 
     if (hdcTab[i]) {
       ddxBitBlt(hdcTab[i], 0, 0, TAB_XRES, TAB_YRES, BackDC, TAB_X, TAB_Y);
-      //BitBlt(hdcTab[i], 0, 0, TAB_XRES, TAB_YRES, BackDC, TAB_X, TAB_Y, SRCCOPY);
     }
 
     hdcTabUse[i] = 0;
@@ -5191,41 +5188,23 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
       case COM_DRAW:
         {
           if (!c) {
-/*						hdcBT = fn_CreateDC(_2dd.hDC, _2dd.bitmap[res[i].iParam[1]].bitmap.bmWidth, 
-											_2dd.bitmap[res[i].iParam[1]].bitmap.bmHeight, _2d_Find_Free_Surface());*/
-
             hdcBT = ddxCreateSurface(ddxGetWidth(res[i].iParam[1]),
               ddxGetHight(res[i].iParam[1]), ddxFindFreeSurface());
-
-            /*BitBlt(BackDC,res[i].iParam[2], res[i].iParam[3], _2dd.bitmap[res[i].iParam[1]].bitmap.bmWidth, 
-               _2dd.bitmap[res[i].iParam[1]].bitmap.bmHeight,
-               _2dd.bitmap[res[i].iParam[1]].bitmapDC, 0, 0, SRCCOPY); */
 
             ddxTransparentBlt(BackDC, res[i].iParam[2], res[i].iParam[3],
               ddxGetWidth(res[i].iParam[1]), ddxGetHight(res[i].iParam[1]),
               res[i].iParam[1], 0, 0, ddxGetWidth(res[i].iParam[1]),
               ddxGetHight(res[i].iParam[1]), TRANSCOLOR);
 
-            /*BitBlt(hdcBT, 0, 0, _2dd.bitmap[res[i].iParam[1]].bitmap.bmWidth, 
-               _2dd.bitmap[res[i].iParam[1]].bitmap.bmHeight,
-               _2dd.hDC, res[i].iParam[2], res[i].iParam[3], SRCCOPY); */
-
             ddxBitBlt(hdcBT, 0, 0, ddxGetWidth(res[i].iParam[1]),
               ddxGetHight(res[i].iParam[1]),
               HDC2DD, res[i].iParam[2], res[i].iParam[3]);
 
-
-            //menucommand_DrawT(_2dd.hDC, res[i].iParam);
-
             idx = i;
           }
           else {
-            //menucommand_DrawT(BackDC, res[i].iParam);
             ddxDrawSurfaceColorKey(BackDC, res[i].iParam, 2, TRANSCOLOR);
           }
-          //menucommand_DrawT(_2dd.hDC, res[i].iParam);
-
-
           c++;
         }
         break;
@@ -7293,44 +7272,23 @@ void RunMenuStartGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
       case COM_DRAW:
         {
           if (!c) {
-/*						hdcBT = fn_CreateDC(_2dd.hDC, _2dd.bitmap[res[i].iParam[1]].bitmap.bmWidth, 
-											_2dd.bitmap[res[i].iParam[1]].bitmap.bmHeight, _2d_Find_Free_Surface());*/
-
-            /*hdcBT = fn_CreateDC(_2dd.hDC, _2dd.bitmap[res[i].iParam[1]].bitmap.bmWidth, 
-               _2dd.bitmap[res[i].iParam[1]].bitmap.bmHeight, ddxFindFreeSurface()); */
-
             hdcBT = ddxCreateSurface(ddxGetWidth(res[i].iParam[1]),
               ddxGetHight(res[i].iParam[1]), ddxFindFreeSurface());
-
-            /*BitBlt(hdcBT, 0, 0, _2dd.bitmap[res[i].iParam[1]].bitmap.bmWidth, 
-               _2dd.bitmap[res[i].iParam[1]].bitmap.bmHeight,
-               _2dd.hDC, res[i].iParam[2], res[i].iParam[3], SRCCOPY); */
 
             ddxBitBlt(hdcBT, 0, 0, ddxGetWidth(res[i].iParam[1]),
               ddxGetHight(res[i].iParam[1]),
               HDC2DD, res[i].iParam[2], res[i].iParam[3]);
-
-
-            /*BitBlt(BackDC,res[i].iParam[2], res[i].iParam[3], _2dd.bitmap[res[i].iParam[1]].bitmap.bmWidth, 
-               _2dd.bitmap[res[i].iParam[1]].bitmap.bmHeight,
-               _2dd.bitmap[res[i].iParam[1]].bitmapDC, 0, 0, SRCCOPY); */
 
             ddxTransparentBlt(BackDC, res[i].iParam[2], res[i].iParam[3],
               ddxGetWidth(res[i].iParam[1]), ddxGetHight(res[i].iParam[1]),
               res[i].iParam[1], 0, 0, ddxGetWidth(res[i].iParam[1]),
               ddxGetHight(res[i].iParam[1]), TRANSCOLOR);
 
-            //menucommand_DrawT(_2dd.hDC, res[i].iParam);
-
             idx = i;
           }
           else {
             ddxDrawSurfaceColorKey(BackDC, res[i].iParam, 2, TRANSCOLOR);
-            //menucommand_DrawT(BackDC, res[i].iParam);
           }
-          //menucommand_DrawT(_2dd.hDC, res[i].iParam);
-
-
           c++;
         }
         break;

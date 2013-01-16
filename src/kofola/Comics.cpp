@@ -26,7 +26,6 @@ static MCI_DGV_WINDOW_PARMS		mciWindow;
 static DWORD					wDeviceID = 0;
 static DWORD					wError;*/
 
-extern _2D_DATA _2dd;
 extern APAK_HANDLE *pBmpArchive;
 
 void cmcs_Draw(int iIndex, int xPos, int yPos)
@@ -94,12 +93,8 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA * p_ad, char bMusic)
   if (!file)
     return;
 
-  _2d_Init();
-
   for (i = 0; i < 64; i++)
     cmcs_Picture[i].iPicture = -1;
-
-  chdir((_2dd.bm_dir));
 
   while (strcmp(text, "LOAD_END")) {
     fgets(text, MAX_PATH, file);
@@ -108,7 +103,7 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA * p_ad, char bMusic)
     if (!strcmp(text, "LOAD_END"))
       break;
 
-    i = _2d_APAK_Load_Bitmap(text, pBmpArchive);
+    i = ddxLoadBitmap(text, pBmpArchive);
   }
 
   i = 0;
@@ -157,8 +152,9 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA * p_ad, char bMusic)
 			ap_Stop_Song(p_ad);
 
   KillTimer(NULL, uiTimerID);
-
-  _2d_Release();
+    
+  // TODO
+  // _2D_Release()
 }
 
 void cmcs_Play_Intro(char *cFile, HWND hWnd, AUDIO_DATA * p_ad)

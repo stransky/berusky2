@@ -167,7 +167,6 @@ int fn2_Set_Font_Bmps(GAME_TRIGER * gt, TRIGER_STRUCTURE * ts)
 
             b2_3d_font.iBitmap[gt->command[i].Parametr[0].Value] =
               ddx2LoadBitmap(text, b2_3d_font.pArchive);
-            //_2d_APAK_Load_Bitmap(text, b2_3d_font.pArchive);
           }
         }
         break;
@@ -802,7 +801,6 @@ void fn2_Release_Font(void)
   for (i = 0; i < FONT_MAX_BMP; i++)
     if (b2_3d_font.iBitmap[i] != -1) {
       ddx2ReleaseBitmap(b2_3d_font.iBitmap[i]);
-      //_2d_Release_Bitmap(b2_3d_font.iBitmap[i]);
     }
 
   for (i = 0; i < FONT_MAX_BMP; i++)
@@ -810,8 +808,6 @@ void fn2_Release_Font(void)
       txt_zrus_texturu_ram(&b2_3d_font.tex[i]);
       b2_3d_font.tex[i].load = 0;
     }
-
-  //b2_3d_font.iTSize = 0;
 
   if (b2_3d_font.pTTable)
     free((void *) b2_3d_font.pTTable);
@@ -892,27 +888,16 @@ int fn2_Text_Blt(int hdc, WCHAR * ws, WCHAR * wc, int iSurface, int iSection,
   int x, y;
   int tmpDC;
 
-  //BitBlt(fDC,0,0,1024,200,NULL,0,0,WHITENESS);
-
-/*	{
-		RECT r = {-1, -1, 1025, 201};
-		_2d_Fill_Rect(fDC, r, RGB(255, 0, 255));
-	}*/
-
   fn2_Draw_Message(iSurface, 0, 0, &b2_3d_font.gt, &b2_3d_font.ts, wc, ws,
     iSection, &x, &y);
 
-  //*i = _2d_Find_Free_Surface();
   *i = ddx2FindFreeSurface();
 
-  //tmpDC = fn2_CreateDC(hdc, x, y, *i);
   tmpDC = ddx2CreateSurface(x, y, *i);
   if (!tmpDC)
     return 0;
   else
     ddx2TransparentBlt(tmpDC, 0, 0, x, y, iSurface, 0, 0, TRANSCOLOR);
-
-  //TransparentBltU(tmpDC, 0, 0, x, y, fDC, 0, 0, x, y, RGB(255, 0, 255));
 
   return 1;
 }
@@ -922,10 +907,7 @@ int fn2_Gen_Menu_Text(int iSection, int hdc, char *cText, int *i1, int *i2)
   WCHAR wc[64];
   WCHAR ws[64];
 
-  //int sidx = _2d_Find_Free_Surface();
   int sidx = ddx2FindFreeSurface();
-
-  //HDC   fDC = fn2_CreateDC(hdc, 1024, 200, sidx);
   int fDC = ddx2CreateSurface(1024, 200, sidx);
 
   if (!fDC)
@@ -953,10 +935,11 @@ int fn2_Gen_Menu_Text(int iSection, int hdc, char *cText, int *i1, int *i2)
 
 int fn2_Gen_Menu_Texts(int iSection, int hdc)
 {
+  // TODO?
+  assert(0);
 /*	int x;
 	WCHAR wc[64];
 	WCHAR ws[64];
-	//int sidx = _2d_Find_Free_Surface();
 	int sidx = ddx2FindFreeSurface();
 	int	fDC = ddx2CreateSurface(1024, 200, sidx);
 

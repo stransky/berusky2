@@ -26,7 +26,6 @@
 extern ANIMATION_MODULE am;
 
 extern  AUDIO_DATA ad;
-extern _2D_DATA _2dd;
 extern _3D_DATA _3dd;
 extern G_KONFIG ber;
 extern _3D_CURSOR _3dCur;
@@ -1614,10 +1613,8 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out,
 }
 
 void _3d_Start_Settings(float *_3d_Scale_Factor)
-{
-
-  _2d_Init();
-  _2d_APAK_Load_Bitmap("settings.bmp", pBmpArchive);
+{  
+  ddxLoadBitmap("settings.bmp", pBmpArchive);
   // TODO
   //co_CreateDC(_2dd.hDC, 1024, 1024, &hdc_info);
 }

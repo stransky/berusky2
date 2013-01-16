@@ -10,7 +10,6 @@
 #include "menu_def.h"
 //#include "2ddx.h"
 
-
 extern B2_FONT b2_3d_font;
 extern APAK_HANDLE *pControlsArchive;
 extern HDC BackDC;

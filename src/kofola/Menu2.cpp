@@ -49,7 +49,6 @@ typedef struct
   char bStop;
 } ANIMATION;
 
-extern _2D_DATA _2dd;
 extern HW_KONFIG hwconf;
 
 static ANIMATION anm[32];
@@ -4189,21 +4188,24 @@ void RunMenuLoadScreenRelease(int iCount)
   ddx2GameRender(TRUE);
 }
 
+static float ProgressStatus;
+static float ProgressPlus;
+
 void RunMenuLoadScreenInitBar(int iNumOfItems)
 {
-  _2dd.ProgressStatus = 0;
-  _2dd.ProgressPlus = 100.0f / (float) iNumOfItems;
+  ProgressStatus = 0;
+  ProgressPlus = 100.0f / (float) iNumOfItems;
 }
 
 void RunMenuLoadScreenAddProgress(float fPercent)
 {
   if (fPercent >= 0)
-    _2dd.ProgressStatus += fPercent;
+    ProgressStatus += fPercent;
   else
-    _2dd.ProgressStatus += _2dd.ProgressPlus;
+    ProgressStatus += ProgressPlus;
   
-  if(_2dd.ProgressStatus > 100.0f)
-    _2dd.ProgressStatus = 100.0f;
+  if(ProgressStatus > 100.0f)
+    ProgressStatus = 100.0f;
 }
 
 void RunMenuLoadScreenDrawProgress(int x, int y)
@@ -4211,7 +4213,7 @@ void RunMenuLoadScreenDrawProgress(int x, int y)
   RECT r = { 0, 753, 0, 768 };
   int Width;
 
-  Width = (int) ftoi((1024 * _2dd.ProgressStatus) / 100.0f);
+  Width = (int) ftoi((1024 * ProgressStatus) / 100.0f);
 
   r.right = Width;
 

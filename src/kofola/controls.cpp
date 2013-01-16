@@ -15,7 +15,6 @@
 
 extern B2_FONT b2_2d_font;
 extern APAK_HANDLE *pControlsArchive;
-extern _2D_DATA _2dd;
 extern HDC BackDC;
 static char bBlockList = 0;
 static char bExclusive = 0;
@@ -167,6 +166,7 @@ int co_Release_Graphic(void)
   zero_memory(&hdcBU, sizeof(hdcBU));
   
   ddxReleaseBitmap(hdcCH.hdcCheck);
+  ddxReleaseBitmap(hdcCH.hdcGray);
   zero_memory(&hdcCH,sizeof(hdcCH));
   
   ddxReleaseBitmap(hdcPR.hdcLine);
@@ -176,22 +176,8 @@ int co_Release_Graphic(void)
   ddxReleaseBitmap(hdcFR.hdcFrame);
   zero_memory(&hdcFR,sizeof(hdcFR));
   
-  ddxReleaseBitmap(hdcCH.hdcGray);
-  zero_memory(&hdcCH,sizeof(hdcCH));
-
   return 1;
 }
-
-/*
-void co_Frame_Draw(HDC hdc, int x, int y, int xr, int yr)
-{
-	TransparentBltU(hdc, x, y, xr, yr, _2dd.bitmap[hdcFR.hdcFrame].bitmapDC, 
-                  0, 0,
-                  _2dd.bitmap[hdcFR.hdcFrame].bitmap.bmWidth,
-                  _2dd.bitmap[hdcFR.hdcFrame].bitmap.bmHeight,
-                  RGB(238, 77, 0));
-}
-*/
 
 void co_Combo_Draw(int hdc, COMBO_CONTROL * p_co, int xcor, int ycor)
 {
