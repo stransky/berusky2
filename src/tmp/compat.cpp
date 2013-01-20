@@ -89,6 +89,21 @@ extern MOUSE_INFO dim;
 int start_x = 0;
 int start_y = 0;
 
+#define CURSOR_DEVICE_DX 75
+#define CURSOR_DEVICE_DY 75
+
+//-----------------------------------------------------------------------------
+// Name: ddxDrawCursor()
+// Desc: Draw cursor.
+//-----------------------------------------------------------------------------
+void ddxDrawCursor(void)
+{
+  if(bDrawCursor) {
+    ddx2DrawCursor(i_CursorDDX, dim.x_orig, dim.y_orig, 
+                   CURSOR_DEVICE_DX, CURSOR_DEVICE_DY, TRANSCOLOR);
+  }
+}
+
 //-----------------------------------------------------------------------------
 // Name: DisplayFrame()
 // Desc: Blts a the sprites to the back buffer, then flips the 
@@ -114,6 +129,16 @@ int ddxInit(void)
     ddxSetCursorSurface(0);
     ddxSetFlip(1);
 
+    // Create cursor device
+    ddxDevice = ddx2DeviceCreate(TRUE, 32, TRUE);
+    ddx2DeviceSetActive(ddxDevice);
+    ddx2DeviceSetBackBufferSize(CURSOR_DEVICE_DX, CURSOR_DEVICE_DY);
+    ddx2DeviceSetBackBufferRect(0, 0, CURSOR_DEVICE_DX, CURSOR_DEVICE_DY);
+    ddx2DeviceSetTextRenderRec(0, 0, CURSOR_DEVICE_DX, CURSOR_DEVICE_DY);
+    ddx2DeviceSetScreenRec(0, 0, CURSOR_DEVICE_DX, CURSOR_DEVICE_DY);
+    ddx2DeviceSetRender(TRUE);
+  
+    // Create screen device
     ddxDevice = ddx2DeviceCreate(TRUE, 32);
     ddx2DeviceSetActive(ddxDevice);
 
@@ -123,7 +148,7 @@ int ddxInit(void)
           
     ddx2DeviceSetScreenRec(0, 0, hwconf.xres, hwconf.yres);
     ddx2DeviceSetRender(TRUE);
-
+  
     ddxInitDone = TRUE;
   }
   return (TRUE);
@@ -142,10 +167,7 @@ void ddxPublish(void)
 {
   int i, x = 0;
 
-  if(bDrawCursor) {
-    // TODO -> save cursor background
-    ddx2TransparentBltFull(DDX2_BACK_BUFFER, dim.rx, dim.ry, i_CursorDDX, TRANSCOLOR);
-  }
+  ddxDrawCursor();
 
   if (!rline.rlast)
     ddx2SetRect(NULL, 0);
@@ -383,6 +405,9 @@ int ddxUpdateMouse(void)
   float s_factor[] = { (float) 1024 / (float) hwconf.xres, 
                        (float) 768 / (float) hwconf.yres };
   spracuj_spravy(1);
+                     
+  dim.x_orig = mi.x;
+  dim.y_orig = mi.y;
 
   dim.dx = (int)ceil(mi.dx * s_factor[0]);
   dim.dy = (int)ceil(mi.dy * s_factor[1]);
@@ -536,7 +561,7 @@ int WideCharToMultiByte(int CodePage, int dwFlags, wchar_t * lpWideCharStr,
 
 void ShowCursor(bool state)
 {
-  //SDL_ShowCursor(state ? SDL_ENABLE : SDL_DISABLE);
+  SDL_ShowCursor(state ? SDL_ENABLE : SDL_DISABLE);
 }
 
 void SetCursor(void *tmp)

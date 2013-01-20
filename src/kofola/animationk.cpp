@@ -6207,7 +6207,7 @@ void am_Flip(LEVELINFO * p_Level, ANIMATION_MODULE * p_am, char bAll,
   if (bAll)
     ddx2RenderujVse(p_ber);
   else
-    ddx2RenderujMenu(p_ber);
+    ddx2RenderDevices(p_ber);
 
   _3d_Begin_Draw();
   _3d_Set_Smooth();

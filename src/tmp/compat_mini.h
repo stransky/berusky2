@@ -80,9 +80,9 @@ extern dword karmin_aktivni;
 
 typedef struct _MOUSE_INFO
 {
-  int x_res, y_res;
-
-  int x, y;
+  int x_orig, 
+      y_orig;
+  int x,  y;
   int rx, ry;
   int dx, dy;
 

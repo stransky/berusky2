@@ -1143,7 +1143,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
   //ddx2GameRender(FALSE);
 
   // - volat jako soucast hry (po vykreslni listi)
-  //void ddx2RenderujMenu(G_KONFIG *p_ber)
+  //void ddx2RenderDevices(G_KONFIG *p_ber)
 
 
   // - volat pokud jede menu bez hry - maze obrazovku a kresli menu
@@ -3717,7 +3717,7 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA * p_ad,
   ddx2DeviceSetBackBufferRect(10, 200, 900, 450);
   ddx2DeviceSetTextRenderRec(0, 0, 900, 450);
   ddx2DeviceSetScreenRec(ftoi(10 * s_bfactor[0]), ftoi(200 * s_bfactor[1]),
-    ftoi(900 * s_bfactor[0]), ftoi(450 * s_bfactor[1]));
+                         ftoi(900 * s_bfactor[0]), ftoi(450 * s_bfactor[1]));
   //ddx2DeviceSetScreenRec(0, 0, hwconf.xres,hwconf.yres);
 
   ddx2DeviceSetRender(TRUE);

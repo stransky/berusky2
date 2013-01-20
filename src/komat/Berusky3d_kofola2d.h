@@ -10,12 +10,9 @@
 
 #define  DDX2_BACK_BUFFER   (-1)
 
-
 typedef struct _DDX2_SURFACE
 {
-
   bitmapa *p_bmp;
-
 } DDX2_SURFACE;
 
 typedef struct _DDX2_SURFACE_DEVICE_3D
@@ -31,16 +28,16 @@ typedef struct _DDX2_SURFACE_DEVICE_3D
       back_dy;
 
   int text_x,                   // Pozice a rozmery textury v Back-bufferu
-      text_y, 
-      text_dx, 
-      text_dy, 
-      text_real_dx, 
+      text_y,
+      text_dx,
+      text_dy,
+      text_real_dx,
       text_real_dy;
 
   int scr_x,                    // Rozmery a pozice device na obrazovce
       scr_y, 
-      scr_kx, 
-      scr_ky;
+      scr_dx, 
+      scr_dy;
 
 } DDX2_SURFACE_DEVICE_3D;
 
@@ -91,7 +88,7 @@ void ddx2Release(void);
 //       filtr - TRUE - linear, FALSE - near
 //       bpp - 16/32
 //-----------------------------------------------------------------------------
-DeviceHandle ddx2DeviceCreate(int linear_filtr, int bpp);
+DeviceHandle ddx2DeviceCreate(int linear_filtr, int bpp, bool cursor_device = FALSE);
 
 
 //-----------------------------------------------------------------------------
@@ -100,6 +97,11 @@ DeviceHandle ddx2DeviceCreate(int linear_filtr, int bpp);
 //-----------------------------------------------------------------------------
 DeviceHandle ddx2DeviceSetActive(DeviceHandle handle);
 
+//-----------------------------------------------------------------------------
+// Name: ddx2DeviceSetCursor()
+// Desc: Set this device as a cursor device
+//-----------------------------------------------------------------------------
+DeviceHandle ddx2DeviceSetCursor(DeviceHandle handle);
 
 //-----------------------------------------------------------------------------
 // Name: ddx2DeviceRemove()
@@ -119,8 +121,7 @@ DeviceHandle ddx2DeviceSetBackBufferSize(int back_dx, int back_dy);
 // Name: ddx2DeviceSetBackBufferRect(int text_x, int text_y, int text_dx, int text_dy)
 // Desc: Nastavi pozici a rozmery textury v back-bufferu
 //-----------------------------------------------------------------------------
-DeviceHandle ddx2DeviceSetBackBufferRect(int text_x, int text_y, int text_dx,
-  int text_dy);
+DeviceHandle ddx2DeviceSetBackBufferRect(int text_x, int text_y, int text_dx, int text_dy);
 
 
 //-----------------------------------------------------------------------------
@@ -134,8 +135,7 @@ DeviceHandle ddx2DeviceSetTextRenderRec(int vx, int vy, int v_dx, int v_dy);
 // Name: ddx2DeviceSetScreenRec(int scr_x, int scr_y, int scr_dx, int scr_dy)
 // Desc: Nastavi pozici textury na obrazovce (umisteni + rozmer)
 //-----------------------------------------------------------------------------
-DeviceHandle ddx2DeviceSetScreenRec(int scr_x, int scr_y, int scr_dx,
-  int scr_dy);
+DeviceHandle ddx2DeviceSetScreenRec(int scr_x, int scr_y, int scr_dx = 0, int scr_dy = 0);
 
 
 //-----------------------------------------------------------------------------
@@ -165,12 +165,10 @@ DeviceHandle ddx2DeviceGetInfo(int *p_surfacu, int *p_mem);
 //-----------------------------------------------------------------------------
 void ddx2SetRect(RECT * p_rlist, int rnum);
 
-
 //------------------------------------------------------------------------------------------------
 // finds first free index
 //------------------------------------------------------------------------------------------------
 SurfaceHandle ddx2FindFreeSurface(void);
-
 
 //------------------------------------------------------------------------------------------------
 // release bitmap
@@ -180,8 +178,7 @@ SurfaceHandle ddx2ReleaseBitmap(SurfaceHandle iSurface);
 //------------------------------------------------------------------------------------------------
 // load bitmap from APAK na pozici
 //------------------------------------------------------------------------------------------------
-SurfaceHandle ddx2LoadBitmapPos(SurfaceHandle handle, char *pFileName,
-  APAK_HANDLE * pHandle);
+SurfaceHandle ddx2LoadBitmapPos(SurfaceHandle handle, char *pFileName, APAK_HANDLE * pHandle);
 
 //------------------------------------------------------------------------------------------------
 // load bitmap from APAK
@@ -241,8 +238,8 @@ void ddx2FillRect(SurfaceHandle iSurface, RECT * rect, COLORREF color);
 
 void ddx2CleareSurface(SurfaceHandle iSurface);
 
-
 void ddx2AddRectItem(RECT_LINE * p_rl, RECT rect, int iLayer);
+void ddx2DrawCursor(SurfaceHandle iSurface, int x, int y, int dx, int dy, dword pruhledna);
 
 //------------------------------------------------------------------------------------------------
 // Povoli/zakaze rendering hry (3D modelu a pod.)
@@ -250,12 +247,12 @@ void ddx2AddRectItem(RECT_LINE * p_rl, RECT rect, int iLayer);
 void ddx2GameRender(int render);
 
 // ----------------------------------------------------------------------------
-// Name: ddx2RenderujMenu()
+// Name: ddx2RenderDevices()
 // Desc: Vykresli menu pouze menu, bez mazani obrazovky a flipu
 //       Vola se pokud se menu ma kreslit jako soucast hry (volat po renderingu
 //       menu s listim)
 // ----------------------------------------------------------------------------
-void ddx2RenderujMenu(G_KONFIG * p_ber);
+void ddx2RenderDevices(G_KONFIG * p_ber);
 
 
 // ----------------------------------------------------------------------------

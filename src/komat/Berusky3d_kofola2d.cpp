@@ -26,15 +26,15 @@
 
 #include "Berusky3d_kofola2d.h"
 
-#define  MAX_TEXT_BUFFER_X 2048
-#define  MAX_TEXT_BUFFER_Y 2048
+#define  MAX_TEXT_BUFFER_X  2048
+#define  MAX_TEXT_BUFFER_Y  2048
 
 /*
   Alfa = 0 - viditelne
        = 1 - ne-viditelne
 */
 
-#define  COLOR_MASKA        0x00ffffff
+#define  COLOR_MASKA        (0x00ffffff)
 #define  PRUHL_BARVA        (0xff000000|slist.pruhledna_barva)
 
 #define  bmp_nepruhl(barva) (barva&0x00ffffff)
@@ -44,7 +44,8 @@
 
 static DDX2_SURFACE_DEVICE *p_dev;
 static DDX2_SURFACE_DEVICE *p_dev_list;
-static DDX2_SURFACE_LIST slist;
+static DDX2_SURFACE_DEVICE *p_dev_cursor;
+static DDX2_SURFACE_LIST    slist;
 static int ddx2InitDone = FALSE;
 
 #define  vysledna_barva(barva) ((nepruhl(barva) == slist.pruhledna_barva) ? PRUHL_BARVA : nepruhl(barva))
@@ -70,8 +71,7 @@ extern RECT_LINE rline;
 int ddx2Init(int max_surfacu, dword pruhledna_barva)
 {
   if (!ddx2InitDone) {
-    slist.p_slist =
-      (DDX2_SURFACE *) mmalloc(sizeof(slist.p_slist[0]) * max_surfacu);
+    slist.p_slist = (DDX2_SURFACE *)mmalloc(sizeof(slist.p_slist[0]) * max_surfacu);
     slist.surf_max = max_surfacu;
     slist.pruhledna_barva = pruhledna_barva;
     slist.surf_num = 0;
@@ -103,26 +103,43 @@ void ddx2Release(void)
 //       filtr - TRUE - linear, FALSE - near
 //       bpp - 16/32
 //-----------------------------------------------------------------------------
-DeviceHandle ddx2DeviceCreate(int linear_filtr, int bpp)
+DeviceHandle ddx2DeviceCreate(int linear_filtr, int bpp, bool cursor_device)
 {
-  DDX2_SURFACE_DEVICE *p_tmp =
-    (DDX2_SURFACE_DEVICE *) mmalloc(sizeof(p_tmp[0]));
-  p_tmp->p_next = p_dev_list;
-  p_dev_list = p_tmp;
+  DDX2_SURFACE_DEVICE *p_tmp = (DDX2_SURFACE_DEVICE *) mmalloc(sizeof(p_tmp[0]));
+
   p_tmp->p_back_buffer = NULL;
   p_tmp->hw.filtr = linear_filtr;
   p_tmp->hw.format = (bpp == 16) ? GL_RGB5_A1 : GL_RGBA8;
+
+  if(!cursor_device) {
+    p_tmp->p_next = p_dev_list;
+    p_dev_list = p_tmp;
+  }
+  else {
+    assert(!p_dev_cursor);
+    p_dev_cursor = p_tmp;
+  }
+
   return ((DeviceHandle) p_tmp);
 }
 
 //-----------------------------------------------------------------------------
-// Name: ddx2DeviceSetActive()
+// Name: ddx2DeviceSetCursor()
 // Desc: Nastavi renderovaci device jako aktivni
 //-----------------------------------------------------------------------------
 DeviceHandle ddx2DeviceSetActive(DeviceHandle handle)
-{
-  if (handle)
-    p_dev = (DDX2_SURFACE_DEVICE *) handle;
+{  
+  p_dev = (DDX2_SURFACE_DEVICE *) handle;
+  return (handle);
+}
+
+//-----------------------------------------------------------------------------
+// Name: ddx2DeviceSetCursor()
+// Desc: Set this device as a cursor device
+//-----------------------------------------------------------------------------
+DeviceHandle ddx2DeviceSetCursor(DeviceHandle handle)
+{  
+  p_dev_cursor = (DDX2_SURFACE_DEVICE *) handle;
   return (handle);
 }
 
@@ -135,7 +152,6 @@ void ddx2DeviceRemoveRec(DDX2_SURFACE_DEVICE ** p_rm)
 
   if (p_dev) {
     DDX2_SURFACE_DEVICE_3D *p_hw = &p_dev->hw;
-
     if (p_hw->text)
       txt_zrus_2D_texturu(&p_hw->text);
     bmp_zrus(&p_dev->p_back_buffer);
@@ -173,6 +189,12 @@ DeviceHandle ddx2DeviceRemove(DeviceHandle handle)
         return (TRUE);
       }
     }
+    // It's a cursor device?
+    if(p_dev_cursor == p_rm) {
+      ddx2DeviceRemoveRec(&p_rm);
+      p_dev_cursor = NULL;
+      return (TRUE);
+    }
     return (FALSE);
   }
 }
@@ -193,8 +215,6 @@ DeviceHandle ddx2DeviceSetBackBufferSize(int back_dx, int back_dy)
       bmp_zrus(&p_dev->p_back_buffer);
 
     p_dev->p_back_buffer = bmp_vyrob(p_hw->back_dx, p_hw->back_dy);
-//    MSS_SET_BLOCK_LABEL(p_dev->p_back_buffer, "back-buffer");
-
     if (p_dev->p_back_buffer)
       ddx2CleareSurface(DDX2_BACK_BUFFER);
 
@@ -208,8 +228,7 @@ DeviceHandle ddx2DeviceSetBackBufferSize(int back_dx, int back_dy)
 // Name: ddx2DeviceSetBackBufferRect(int text_x, int text_y, int text_dx, int text_dy)
 // Desc: Nastavi pozici a rozmery textury v back-bufferu
 //-----------------------------------------------------------------------------
-DeviceHandle ddx2DeviceSetBackBufferRect(int text_x, int text_y, int text_dx,
-  int text_dy)
+DeviceHandle ddx2DeviceSetBackBufferRect(int text_x, int text_y, int text_dx, int text_dy)
 {
   if (p_dev) {
     DDX2_SURFACE_DEVICE_3D *p_hw = &p_dev->hw;
@@ -291,18 +310,18 @@ DeviceHandle ddx2DeviceSetTextRenderRec(int vx, int vy, int v_dx, int v_dy)
 // Name: ddx2DeviceSetScreenRec(int scr_x, int scr_y, int scr_dx, int scr_dy)
 // Desc: Nastavi pozici textury na obrazovce (umisteni + rozmer)
 //-----------------------------------------------------------------------------
-DeviceHandle ddx2DeviceSetScreenRec(int scr_x, int scr_y, int scr_dx,
-  int scr_dy)
+DeviceHandle ddx2DeviceSetScreenRec(int scr_x, int scr_y, int scr_dx, int scr_dy)
 {
   if (p_dev) {
     DDX2_SURFACE_DEVICE_3D *p_hw = &p_dev->hw;
 
-
     p_hw->scr_x = scr_x;
     p_hw->scr_y = scr_y;
 
-    p_hw->scr_kx = scr_x + scr_dx;
-    p_hw->scr_ky = scr_y + scr_dy;
+    if(scr_dx)
+      p_hw->scr_dx = scr_dx;
+    if(scr_dy)
+      p_hw->scr_dy = scr_dy;
 
     return ((DeviceHandle) p_dev);
   }
@@ -444,21 +463,35 @@ void ddx2RenderujDevice(G_KONFIG * p_ber, DDX2_SURFACE_DEVICE * p_dev)
     }
   }
 
-  glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+  glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);  
 
   glBegin(GL_QUADS);
   glTexCoord2fv((float *) (p_v + 3));
-  glVertex2i(p_hw->scr_x, p_hw->scr_ky);
+  glVertex2i(p_hw->scr_x, p_hw->scr_y+p_hw->scr_dy);
 
   glTexCoord2fv((float *) (p_v + 2));
-  glVertex2i(p_hw->scr_kx, p_hw->scr_ky);
+  glVertex2i(p_hw->scr_x+p_hw->scr_dx, p_hw->scr_y+p_hw->scr_dy);
 
   glTexCoord2fv((float *) (p_v + 1));
-  glVertex2i(p_hw->scr_kx, p_hw->scr_y);
+  glVertex2i(p_hw->scr_x+p_hw->scr_dx, p_hw->scr_y);
 
   glTexCoord2fv((float *) (p_v));
   glVertex2i(p_hw->scr_x, p_hw->scr_y);
   glEnd();
+}
+
+//------------------------------------------------------------------------------------------------
+// Renderuj Kurzor
+//------------------------------------------------------------------------------------------------
+void ddx2DrawCursor(SurfaceHandle iSurface, int x, int y, int dx, int dy, dword pruhledna)
+{
+  DDX2_SURFACE_DEVICE *p_dev_back = p_dev;
+  p_dev = p_dev_cursor;
+  ddx2TransparentBltFull(DDX2_BACK_BUFFER, 0, 0, iSurface, pruhledna);
+  ddx2DeviceSetScreenRec(x,y);
+  static RECT drawRect = {0,0,dx,dy};
+  ddx2SetRect(&drawRect, 1);
+  p_dev = p_dev_back;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -489,12 +522,12 @@ void ddx2StopRender2D(void)
 }
 
 // ----------------------------------------------------------------------------
-// Name: ddx2RenderujMenu()
-// Desc: Vykresli menu
+// Name: ddx2RenderDevices()
+// Desc: Render all devices
 //       Vola se pokud se menu ma kreslit jako soucast hry (volat po renderingu
 //       menu s listim) - vykresli pouze menu a nic jineho
 // ----------------------------------------------------------------------------
-void ddx2RenderujMenu(G_KONFIG * p_ber)
+void ddx2RenderDevices(G_KONFIG * p_ber)
 {
   DDX2_SURFACE_DEVICE *p_tmp = p_dev_list;
 
@@ -505,10 +538,12 @@ void ddx2RenderujMenu(G_KONFIG * p_ber)
         ddx2RenderujDevice(p_ber, p_tmp);
       p_tmp = p_tmp->p_next;
     }
+    if(p_dev_cursor) {
+      ddx2RenderujDevice(p_ber, p_dev_cursor);
+    }
     ddx2StopRender2D();
   }
 }
-
 
 // ----------------------------------------------------------------------------
 // Name: ddx2RenderujVse()
@@ -537,7 +572,7 @@ void ddx2RenderujVse(G_KONFIG * p_ber)
 
   /* 2D rendering
    */
-  ddx2RenderujMenu(p_ber);
+  ddx2RenderDevices(p_ber);
 }
 
 //------------------------------------------------------------------------------------------------
@@ -698,8 +733,7 @@ SurfaceHandle ddx2CreateSurface(int x, int y, int idx)
 // com[1] je index v poli surafacu a 
 // com[2],[3] je x,y kam se to ma kreslit
 //------------------------------------------------------------------------------------------------
-void ddx2DrawSurfaceColorKey(int iSurface, int *com, int layer,
-  COLORREF color)
+void ddx2DrawSurfaceColorKey(int iSurface, int *com, int layer, COLORREF color)
 {
   bitmapa *p_src = get_bmp(com[1]);
 
