@@ -78,6 +78,7 @@ unsigned int timeGetTime(void)
 //-----------------------------------------------------------------------------
 extern APAK_HANDLE *pBmpArchive;
 DeviceHandle ddxDevice;
+DeviceHandle ddxCursorDevice;
 int i_Cursor[2] = {0,0};
 int i_CursorDDX = 0;
 int bDrawCursor = 0;
@@ -130,8 +131,8 @@ int ddxInit(void)
     ddxSetFlip(1);
 
     // Create cursor device
-    ddxDevice = ddx2DeviceCreate(TRUE, 32, TRUE);
-    ddx2DeviceSetActive(ddxDevice);
+    ddxCursorDevice = ddx2DeviceCreate(TRUE, 32, TRUE);
+    ddx2DeviceSetActive(ddxCursorDevice);
     ddx2DeviceSetBackBufferSize(CURSOR_DEVICE_DX, CURSOR_DEVICE_DY);
     ddx2DeviceSetBackBufferRect(0, 0, CURSOR_DEVICE_DX, CURSOR_DEVICE_DY);
     ddx2DeviceSetTextRenderRec(0, 0, CURSOR_DEVICE_DX, CURSOR_DEVICE_DY);
@@ -157,6 +158,7 @@ int ddxInit(void)
 void ddxRelease(void)
 {
   if (ddxInitDone) {
+    ddx2DeviceRemove(ddxCursorDevice);
     ddx2DeviceRemove(ddxDevice);
     ddx2Release();
     ddxInitDone = FALSE;
