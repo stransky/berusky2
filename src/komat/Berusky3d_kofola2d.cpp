@@ -188,6 +188,7 @@ DeviceHandle ddx2DeviceRemove(DeviceHandle handle)
         }
         return (TRUE);
       }
+      p_tmp = p_tmp->p_next;
     }
     // It's a cursor device?
     if(p_dev_cursor == p_rm) {

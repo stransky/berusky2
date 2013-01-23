@@ -79,7 +79,6 @@ unsigned int timeGetTime(void)
 extern APAK_HANDLE *pBmpArchive;
 DeviceHandle ddxDevice;
 DeviceHandle ddxCursorDevice;
-int i_Cursor[2] = {0,0};
 int i_CursorDDX = 0;
 int bDrawCursor = 0;
 int ddxInitDone = FALSE;
@@ -221,12 +220,6 @@ int ddxLoadList(char *pFileName, int bProgress)
     ddxSetCursor(1);
     ddxSetFlip(1);
   }
-
-  i_Cursor[0] = ddxFindFreeSurface();
-  ddxCreateSurface(ddxGetWidth(0), ddxGetHight(0), i_Cursor[0]);
-
-  i_Cursor[1] = ddxFindFreeSurface();
-  ddxCreateSurface(ddxGetWidth(0), ddxGetHight(0), i_Cursor[1]);
 
   return (1);
 }
@@ -460,8 +453,6 @@ void ddxSetCursor(char bSwitch)
 
 void ddxResizeCursorBack(int iSurface)
 {
-  // TODO
-  assert(0);
 }
 
 bool ddxRestore(AUDIO_DATA * p_ad)
