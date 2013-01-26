@@ -80,6 +80,7 @@ extern APAK_HANDLE *pBmpArchive;
 DeviceHandle ddxDevice;
 DeviceHandle ddxCursorDevice;
 int i_CursorDDX = 0;
+int i_CursorDDXChange = TRUE;
 int bDrawCursor = 0;
 int ddxInitDone = FALSE;
 int bFlip;
@@ -99,8 +100,12 @@ int start_y = 0;
 void ddxDrawCursor(void)
 {
   if(bDrawCursor) {
-    ddx2DrawCursor(i_CursorDDX, dim.x_orig, dim.y_orig, 
-                   CURSOR_DEVICE_DX, CURSOR_DEVICE_DY, TRANSCOLOR);
+    ddx2DrawCursor(i_CursorDDXChange ? i_CursorDDX : NO_SURFACE,
+                   dim.x_orig, dim.y_orig,
+                   CURSOR_DEVICE_DX, CURSOR_DEVICE_DY,
+                   TRANSCOLOR);
+    if(i_CursorDDXChange)
+      i_CursorDDXChange = FALSE;
   }
 }
 
@@ -118,6 +123,7 @@ int DisplayFrame()
 void ddxSetCursorSurface(int iSurface)
 {
   i_CursorDDX = iSurface;
+  i_CursorDDXChange = TRUE;
 }
 
 int ddxInit(void)

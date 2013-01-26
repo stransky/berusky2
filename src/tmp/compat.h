@@ -187,7 +187,7 @@ BOOL ddxBitBltDisplay(int nXOriginDest, // x-coord of destination upper-left cor
   int nXOriginSrc,              // x-coord of source upper-left corner
   int nYOriginSrc               // y-coord of source upper-left corner
   );
-
+  
 int ddxGetWidth(int iSurface);
 int ddxGetHight(int iSurface);
 

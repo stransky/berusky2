@@ -488,7 +488,10 @@ void ddx2DrawCursor(SurfaceHandle iSurface, int x, int y, int dx, int dy, dword 
 {
   DDX2_SURFACE_DEVICE *p_dev_back = p_dev;
   p_dev = p_dev_cursor;
-  ddx2TransparentBltFull(DDX2_BACK_BUFFER, 0, 0, iSurface, pruhledna);
+  if(iSurface != NO_SURFACE) {
+    ddx2CleareSurface(DDX2_BACK_BUFFER);
+    ddx2TransparentBltFull(DDX2_BACK_BUFFER, 0, 0, iSurface, pruhledna);
+  }
   ddx2DeviceSetScreenRec(x,y);
   static RECT drawRect = {0,0,dx,dy};
   ddx2SetRect(&drawRect, 1);

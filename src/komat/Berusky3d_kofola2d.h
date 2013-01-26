@@ -9,6 +9,7 @@
 #include "2D_graphic.h"
 
 #define  DDX2_BACK_BUFFER   (-1)
+#define  NO_SURFACE         (-1)
 
 typedef struct _DDX2_SURFACE
 {
