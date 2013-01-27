@@ -110,12 +110,15 @@ public:
     
 public:
   
-  timer(void)
+  timer(int fps = 0)
   {
     frame_time_start = 0;
     frame_time_end = 0;    
     frame_time_delay = 50;
     frame_time_length_last = 50;
+  
+    if(fps)
+      fps_set(fps);
   } 
   
 } TIMER;

@@ -464,7 +464,7 @@ void ddx2RenderujDevice(G_KONFIG * p_ber, DDX2_SURFACE_DEVICE * p_dev)
     }
   }
 
-  glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);  
+  glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
 
   glBegin(GL_QUADS);
   glTexCoord2fv((float *) (p_v + 3));

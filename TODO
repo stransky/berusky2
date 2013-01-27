@@ -1,8 +1,10 @@
 TODO:
 - set fps
+
 - http://www.opengl.org/wiki/Programming_OpenGL_in_Linux:_Changing_the_Screen_Resolution
   - change game resolution
-- transparent objects
+  
+- transparent 3D objects
 - bad exit animations
 - per-pixel lighting
 - texttures are not sharp

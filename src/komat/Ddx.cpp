@@ -246,9 +246,7 @@ int nahraj_device_config(char *p_file, char *p_sekce,
   p_conf->bpp = GetPrivateProfileInt(p_sekce, "bpp", 32, p_file);
   p_conf->fullscreen = GetPrivateProfileInt(p_sekce, "fullscreen", 1, p_file);
   p_conf->game_fps = GetPrivateProfileInt(p_sekce, "game_fps", 60, p_file);
-
-  p_conf->frekvence = GetPrivateProfileInt(p_sekce, "freq", 0, p_file);
-  p_conf->safe_frekvence = GetPrivateProfileInt(p_sekce, "safe_freq", 0, p_file);
+  p_conf->menu_fps = GetPrivateProfileInt(p_sekce, "menu_fps", 60, p_file);
   p_conf->ditering = GetPrivateProfileInt(p_sekce, "ditering", 0, p_file);
   p_conf->typ_mlhy = GetPrivateProfileInt(p_sekce, "typ_mlhy", 0, p_file);
   p_conf->bump_mapping = GetPrivateProfileInt(p_sekce, "bump_mapping", 0, p_file);
