@@ -42,6 +42,10 @@ void flip(void)
   GRAPH3D *p_grf = p_age->graph_get();
 
   p_grf->flip();
+
+  static TIMER tm(hwconf.game_fps);
+  tm.frame_end(TRUE);
+  tm.frame_start();
 }
 
 inline int filtr_klaves(int scancode)

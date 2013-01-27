@@ -1899,7 +1899,7 @@ void ber_renderuj_scenu(void)
 
 #ifdef DEBUG_MOD
   memset(&p_ber->debug, 0, sizeof(p_ber->debug));
-#endif
+#endif  
 
   if (!p_ber->conf_menu_render) {
 

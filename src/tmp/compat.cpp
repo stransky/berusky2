@@ -116,12 +116,7 @@ void ddxDrawCursor(void)
 //-----------------------------------------------------------------------------
 int DisplayFrame()
 {
-  static TIMER tm(hwconf.menu_fps);  
-  tm.frame_start();
-
   ddxPublish();
-
-  tm.frame_end(TRUE);
   return(TRUE);
 }
 

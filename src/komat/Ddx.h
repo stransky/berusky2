@@ -11,7 +11,6 @@ typedef struct _HW_KONFIG
   int yres;
   int bpp;
   int game_fps;
-  int menu_fps;
   int ditering;
   int typ_mlhy;
   int pn_triangles;
