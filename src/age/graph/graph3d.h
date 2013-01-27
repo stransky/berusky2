@@ -421,6 +421,7 @@ public:
   
   void set(void);  
   void set(tpos width, tpos height, int screen_depth = 0, bool full_screen = FALSE);
+  void get(tpos *p_width, tpos *p_height, int *p_screen_depth);
 
 public:
 

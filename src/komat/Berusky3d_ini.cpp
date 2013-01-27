@@ -333,6 +333,7 @@ int main(int argc, char **argv)
   p_age->graph_set(hwconf.xres, hwconf.yres, hwconf.bpp, hwconf.fullscreen);
   if (!p_age->graph_screen_create())
     return (FALSE);
+  p_age->graph_get(&hwconf.xres, &hwconf.yres, &hwconf.bpp);
   
   if (!grf_start(ini_file))
     pperror(1, "Inicializace");

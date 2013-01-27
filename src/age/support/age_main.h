@@ -245,6 +245,11 @@ public:
     return(p_graph);
   }
 
+  void graph_get(tpos *p_width, tpos *p_height, int *p_screen_depth)
+  {
+    return(p_graph->get(p_width, p_height, p_screen_depth));
+  }
+
   // Draw whole scene
   void graph_draw(void)
   {

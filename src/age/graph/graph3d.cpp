@@ -437,6 +437,13 @@ void graph3d::set(tpos width, tpos height, int screen_depth, bool full_screen)
   graphics_fullscreen = full_screen;
 }
 
+void graph3d::get(tpos *p_width, tpos *p_height, int *p_screen_depth)
+{
+  *p_width = graphics_width;
+  *p_height = graphics_height;
+  *p_screen_depth = graphics_bpp;
+}
+
 bool graph3d::create_GL(void)
 {
   // Are we already created?
@@ -612,6 +619,15 @@ bool graph3d_sdl::screen_create(void)
   
   /* Sets up OpenGL double buffering */
   SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
+  
+  /* Get resolution from screen */
+  if(!graphics_width || !graphics_height) {  
+    graphics_width = videoInfo->current_w;
+    graphics_height = videoInfo->current_h; 
+  }
+  if(!graphics_bpp) {
+    graphics_bpp = videoInfo->vfmt->BitsPerPixel;
+  }  
   
   pprintf("Init video surface...\n");
   SDL_Surface *p_hwscreen = SDL_SetVideoMode(graphics_width, graphics_height,

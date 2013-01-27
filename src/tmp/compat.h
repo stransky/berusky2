@@ -41,9 +41,6 @@ typedef RGBF RGB_M;
 typedef RGBAF BARVA_RGBA;
 typedef PLANE ROVINA;
 
-//typedef MATERIAL_TEXT   EDIT_TEXT;
-//typedef SURFACE_SW      bitmapa;
-
 typedef struct _ROVINAD
 {
   double x, y, z, e;
@@ -280,7 +277,6 @@ char *working_file_get(const char *p_file);
 char *working_file_get(const char *p_file, char *p_target, int size);
 
 extern char cCheckMusicExeption;
-
 void alut_test(int ini);
 
 #endif //__COMPAT_H__
