@@ -12,47 +12,47 @@
   1.1 - Build of berusky2 code from tar.gz:
 
     * Install devel packages for libraries (SDL, SDL_Image, GL, GLU, X11, zlib).
-  
+
     * Download berusky2-version.tar.gz and extract it and rebuild by:
-  
+
       $tar xzf berusky2-version.tar.gz
       $cd berusky2-version
       $./configure
       $make
 
   1.2 - Build of berusky2 code from src.rpm package:
-  
+
     * Download berusky2-version.src.rpm and run:
-    
+
       $rpmbuild --rebuild berusky2-version.src.rpm
-    
+
     * Install the built game binary as root by:
-    
+
       $su -
       #rpm -ihv berusky2-version.arch.rpm
-  
+
 2. Configuration
 
   2.1 - Configuration/installation from tar.gz:
 
     * Download berusky2-data-version.tar.gz and extract it somewhere:
-      
+
       $tar xzf berusky2-data-version.tar.gz
       $cd berusky2-data-version
-    
+
     * Grab berusky3d-local.ini from berusky2-version.tar.gz (it's in the data dir) 
       and copy it to created berusky2-data-version directory.
-    
+
     * Grab the binary (from 1.1) and copy it to your berusky2-data-version dir.
-    
+
   2.2 - Configuration/installation from src.rpm:
-  
+
     * Download berusky2-data-version.src.rpm and run:
-    
+
       $rpmbuild --rebuild berusky2-data-version.src.rpm
-      
+
     * Install the built rpm file as root by:
-    
+
       $su -
       #rpm -ihv berusky2-data-version.arch.rpm
 
@@ -65,7 +65,7 @@
                                                            from game directory.
 
   3.2. - Run from installed rpm packages:
-  
+
     $berusky2                 - runs main game
     $berusky2 level_name.lv6  - runs user level named "level_name" 
                                 from game directory.

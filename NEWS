@@ -1,3 +1,10 @@
+* 0.9
+    - set game fps (60 fps by default)
+    - level load/save support
+    - support native screen resolution
+    - fixed menu in fullscreen and cursor rendering
+    - fixed more crashes
+
 * 0.8
     - fixed crash at level end (rhbz#858887)
 
