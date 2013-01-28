@@ -68,17 +68,14 @@ int cr_Set_Text_CenterW(int hdc, WCHAR * text, int isection, RECT r)
   h = ddxCreateSurface(1024, 110, ddxFindFreeSurface());
 
   MultiByteToWideChar(CP_ACP, 0, (char *) text, strlen((char *) text) + 1, wc,
-    sizeof(wc) / sizeof(wc[0]));
+                      sizeof(wc) / sizeof(wc[0]));
 
-  fn_Draw_MessageA(h, 0, 0, &b2_2d_font.gt, &b2_2d_font.ts, text, isection,
-    &tx, &ty);
+  fn_Draw_MessageA(h, 0, 0, &b2_2d_font.gt, &b2_2d_font.ts, text, isection, &tx, &ty);
 
   xp = ftoi(((r.right - r.left) - tx) / 2.0f);
   yp = 0;
 
-  ddxTransparentBlt(hdc, r.left + xp, r.top + yp, tx, ty, h, 0, 0, tx, 90,
-    TRANSCOLOR);
-
+  ddxTransparentBlt(hdc, r.left + xp, r.top + yp, tx, ty, h, 0, 0, tx, 90, TRANSCOLOR);
   ddxReleaseBitmap(h);
 
   return 1;

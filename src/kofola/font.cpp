@@ -53,15 +53,18 @@ void Uni2Char(WCHAR * cUni, char *cText, int ctsize);
 }*/
 
 
-int fn_Find_Char(GAME_TRIGER * gt, TRIGER_STRUCTURE * ts, int *top, int *left,
-  int *bottom, int *right, int *ycor, WCHAR cWChar, float xbmp, float ybmp)
+int fn_Find_Char(GAME_TRIGER * gt, TRIGER_STRUCTURE * ts, 
+                 int *top, int *left, int *bottom, int *right, int *ycor, 
+                 WCHAR cWChar, float xbmp, float ybmp)
 {
   float *l, *t, *r, *b, *y;
   int i;
 
   if (cWChar > b2_2d_font.iMaxCharValue)
     return 0;
-
+  
+  assert(cWChar >= 0 && b2_2d_font.iMaxCharValue);
+  
   i = b2_2d_font.pTTable[cWChar];
 
   if (i < 0)
@@ -262,7 +265,8 @@ void fn_Draw_Message(int iSurface, int iXpos, int iYpos, GAME_TRIGER * gt,
 }
 
 void fn_Draw_MessageA(int iSurface, int iXpos, int iYpos, GAME_TRIGER * gt,
-  TRIGER_STRUCTURE * ts, WCHAR * cText, int iSection, int *iXmax, int *iYmax)
+                      TRIGER_STRUCTURE * ts, 
+                      WCHAR * cText, int iSection, int *iXmax, int *iYmax)
 {
   WCHAR wtext[1024];
   int i;
@@ -292,14 +296,15 @@ void fn_Draw_MessageA(int iSurface, int iXpos, int iYpos, GAME_TRIGER * gt,
     }
     else
       if (fn_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor, wtext[i],
-        (float) ddxGetWidth(b2_2d_font.iBitmap[iSection]),
-        (float) ddxGetHight(b2_2d_font.iBitmap[iSection]))) {
-      /*TransparentBltU(hdc, x, y + ycor, right - left + 1, bottom - top + 1, _2dd.bitmap[b2_2d_font.iBitmap[iSection]].bitmapDC, 
-         left, top, right - left + 1, bottom - top + 1, b2_2d_font.tcolor); */
+                       (float)ddxGetWidth(b2_2d_font.iBitmap[iSection]),
+                       (float)ddxGetHight(b2_2d_font.iBitmap[iSection])))
+      {
 
-      ddxTransparentBlt(iSurface, x, y + ycor, right - left + 1,
-        bottom - top + 1, b2_2d_font.iBitmap[iSection], left, top,
-        right - left + 1, bottom - top + 1, b2_2d_font.tcolor);
+      ddxTransparentBlt(iSurface,
+                        x, y + ycor, right - left + 1, bottom - top + 1,
+                        b2_2d_font.iBitmap[iSection], 
+                        left, top, right - left + 1, bottom - top + 1,
+                        b2_2d_font.tcolor);
 
       x += right - left + 2;
 

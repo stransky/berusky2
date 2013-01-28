@@ -1,7 +1,9 @@
 TODO:
 - http://www.opengl.org/wiki/Programming_OpenGL_in_Linux:_Changing_the_Screen_Resolution
   - change game resolution
+- Update settings - remove obsolete settings
 
+- credit fix
 - update default ini file fox xres/yres = 0
 - transparent 3D objects
 - bad exit animations
