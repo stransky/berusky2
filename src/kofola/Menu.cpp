@@ -891,7 +891,7 @@ void CreateFontAnimations(CMD_LINE * res, int *lastcmd)
   int lcmd = *lastcmd;
 
   char text[256];
-  RECT r = { 0, 0, 0, 0 };
+  RECT r = {0, 0, 0, 0 };
   int i;
   int sidx1, sidx2;
   int y;
@@ -2553,7 +2553,7 @@ void RunStretchAnimation(char *cScene, int x, int y, AUDIO_DATA * p_ad)
 {
   int idx;
   RECT r;
-  RECT s = { 0, 0, 1024, 768 };
+  RECT s = {0, 0, 1024, 768};
   APAK_HANDLE *hArchive = NULL;
   char cFile[MAX_PATH];
   char cDir[MAX_PATH];

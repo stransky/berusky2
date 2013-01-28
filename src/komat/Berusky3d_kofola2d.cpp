@@ -498,6 +498,12 @@ void ddx2DrawCursor(SurfaceHandle iSurface, int x, int y, int dx, int dy, dword 
   p_dev = p_dev_back;
 }
 
+void ddx2DrawCursorSetDraw(int draw)
+{
+  if(p_dev_cursor)
+    p_dev_cursor->draw = draw;
+}
+
 //------------------------------------------------------------------------------------------------
 // zacatek 3d kresleni
 //------------------------------------------------------------------------------------------------
@@ -542,7 +548,7 @@ void ddx2RenderDevices(G_KONFIG * p_ber)
         ddx2RenderujDevice(p_ber, p_tmp);
       p_tmp = p_tmp->p_next;
     }
-    if(p_dev_cursor) {
+    if(p_dev_cursor && p_dev_cursor->draw) {
       ddx2RenderujDevice(p_ber, p_dev_cursor);
     }
     ddx2StopRender2D();

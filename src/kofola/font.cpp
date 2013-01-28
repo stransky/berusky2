@@ -14,45 +14,6 @@ extern _3D_DATA _3dd;
 void fn_Release_Font(int bTextures);
 void Uni2Char(WCHAR * cUni, char *cText, int ctsize);
 
-/*HDC fn_CreateDC(HDC hdc, int x, int y, int _2dd_idx)
-{
-	HDC				hdcBack = NULL;
-	HBITMAP			hback_bitmap = NULL;
-//	BITMAP			back_bitmap;
-
-	if(!hdc)
-		return NULL;
-	
-	hdcBack = CreateCompatibleDC(hdc);
-	if(!hdcBack)
-		return 0;
-	
-	hback_bitmap = CreateCompatibleBitmap(hdc, x, y);
-	if(!hback_bitmap)
-		return 0;
-
-	//GetObject(hback_bitmap, sizeof(back_bitmap), &back_bitmap);
-	_2dd.bitmap[_2dd_idx].old_hbitmap = SelectObject(hdcBack, hback_bitmap);
-
-	//DeleteObject(hback_bitmap);
-
-	SetStretchBltMode(hdcBack, HALFTONE);
-	SetBrushOrgEx(hdcBack,0,0,NULL);
-
-	_2dd.bitmap[_2dd_idx].bitmapDC = hdcBack;
-
-	_2dd.bitmap[_2dd_idx].bitmap.bmType = 0;
-	_2dd.bitmap[_2dd_idx].bitmap.bmWidth = x;
-	_2dd.bitmap[_2dd_idx].bitmap.bmHeight = y;
-	_2dd.bitmap[_2dd_idx].bLoad = 1;
-	_2dd.bitmap[_2dd_idx].hbitmap = hback_bitmap;
-
-	BitBltU(hdcBack,0,0,x,y,NULL,0,0,WHITENESS);
-
-	return hdcBack;
-}*/
-
-
 int fn_Find_Char(GAME_TRIGER * gt, TRIGER_STRUCTURE * ts, 
                  int *top, int *left, int *bottom, int *right, int *ycor, 
                  WCHAR cWChar, float xbmp, float ybmp)
@@ -60,10 +21,8 @@ int fn_Find_Char(GAME_TRIGER * gt, TRIGER_STRUCTURE * ts,
   float *l, *t, *r, *b, *y;
   int i;
 
-  if (cWChar > b2_2d_font.iMaxCharValue)
+  if (cWChar < 0 || cWChar > b2_2d_font.iMaxCharValue)
     return 0;
-  
-  assert(cWChar >= 0 && b2_2d_font.iMaxCharValue);
   
   i = b2_2d_font.pTTable[cWChar];
 

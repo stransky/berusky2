@@ -455,10 +455,12 @@ void ddxSetFlip(char bSwitch)
 void ddxSetCursor(char bSwitch)
 {
   bDrawCursor = bSwitch;
+  ddx2DrawCursorSetDraw(bSwitch);
 }
 
 void ddxResizeCursorBack(int iSurface)
 {
+  // We don't need this on Linux
 }
 
 bool ddxRestore(AUDIO_DATA * p_ad)
@@ -508,8 +510,9 @@ void ddxSaveSurface(int idx)
 
 void ddxCleareSurfaceColorDisplay(COLORREF color)
 {
-  // TODO
-  assert(0);
+  ddx2CleareSurfaceColor(DDX2_BACK_BUFFER, color);
+  RECT r = {0,0,ddx2GetWidth(DDX2_BACK_BUFFER),ddx2GetHeight(DDX2_BACK_BUFFER)};
+  ddx2AddRectItem(&rline, r);
 }
 
 // Return always "windowed" mode

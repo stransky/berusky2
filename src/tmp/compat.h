@@ -46,7 +46,7 @@ typedef struct _ROVINAD
   double x, y, z, e;
 } ROVINAD;
 
-typedef struct _RECT
+typedef struct _rect
 {
   int left;
   int top;

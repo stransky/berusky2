@@ -422,8 +422,7 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 
 	if(ogg_playing())
 		ap_Stop_Song(p_ad);
-
-	Sleep(1000);
+	
 	ap_Play_Song(0, 0, p_ad);
 
 	ddxSetCursor(1);
@@ -686,7 +685,7 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 	if(ogg_playing())
 		ap_Stop_Song(p_ad);
 
-	Sleep(1000);
+	//Sleep(1000);
 	ap_Play_Song(0, 0, p_ad);
 
 	ddxSetCursor(1);

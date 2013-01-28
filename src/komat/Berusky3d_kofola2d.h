@@ -239,8 +239,9 @@ void ddx2FillRect(SurfaceHandle iSurface, RECT * rect, COLORREF color);
 
 void ddx2CleareSurface(SurfaceHandle iSurface);
 
-void ddx2AddRectItem(RECT_LINE * p_rl, RECT rect, int iLayer);
+void ddx2AddRectItem(RECT_LINE * p_rl, RECT rect, int iLayer = 0);
 void ddx2DrawCursor(SurfaceHandle iSurface, int x, int y, int dx, int dy, dword pruhledna);
+void ddx2DrawCursorSetDraw(int draw);
 
 //------------------------------------------------------------------------------------------------
 // Povoli/zakaze rendering hry (3D modelu a pod.)
