@@ -408,13 +408,7 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 		dwStop = timeGetTime();
 		dwEplased = dwStop - dwStart;
 
-		if(ddxRestore(p_ad))
-		{
-			ddxSetFlip(1);
-			ddxSetCursor(1);
-			apakclose(&hArchive);
-			return 1;
-		}
+		ddxRestore(p_ad);
 	}
 
 	cr_Release_Bitmaps(cs, iClock);
@@ -670,13 +664,7 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 		dwStop = timeGetTime();
 		dwEplased = dwStop - dwStart;
 
-		if(ddxRestore(p_ad))
-		{
-			ddxSetFlip(1);
-			ddxSetCursor(1);
-			apakclose(&hArchive);
-			return 1;
-		}
+		ddxRestore(p_ad);
 	}
 
 	cr_Release_Bitmaps(cs, iClock);

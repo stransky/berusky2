@@ -1,10 +1,9 @@
 TODO:
-- http://www.opengl.org/wiki/Programming_OpenGL_in_Linux:_Changing_the_Screen_Resolution
-  - change game resolution
+- remove resolution from menu
+- simplify game settings (3D settings)
 - Update settings - remove obsolete settings
 
-- credit fix
-- update default ini file fox xres/yres = 0
+- credit fix - texts
 - transparent 3D objects
 - bad exit animations
 - per-pixel lighting

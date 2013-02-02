@@ -46,7 +46,6 @@ extern APAK_HANDLE *pDataArchive;
 extern PLAYER_PROFILE pPlayerProfile;
 extern HINT_TEXTURE pHintTexture[26];
 extern char cFontFile[5][64];
-extern int bWindowMenu;
 extern int iLanguageVersion;
 
 typedef struct __2D_HINT
@@ -395,7 +394,7 @@ int AddAnimation(CMD_LINE * cmd, AUDIO_DATA * p_ad, char bOnlyOnes,
   int i, r;
   float pos[3] = { 0.0f, 0.0f, 1.0f };
 
-  if (!bButton && bWindowMenu)
+  if (!bButton)
     return -1;
 
   if (cmd->iAnim[0][0] == -1)
@@ -614,14 +613,7 @@ void StretchAnimation(RECT * rStart, RECT * rFinish, int iSurface, int iSpeed,
     spracuj_spravy(0);
     ddxUpdateMouse();
 
-    /*if(rDraw.left <= rFinish->left &&
-       rDraw.top  <= rFinish->top &&
-       rDraw.bottom >= rFinish->bottom &&
-       rDraw.right >= rFinish->right)
-       done = 1; */
-
-    if (ddxRestore(p_ad))
-      return;
+    ddxRestore(p_ad);
   }
 
   ddxStretchBltDisplay(rFinish, iSurface, &rBmp);
@@ -1940,8 +1932,6 @@ void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
     DrawClock(iClock, 0);
   }
 
-MENU_SETTING_BRUTAL_RESTART:
-
   ActiveTab = 0;
 
   ZeroMemory(citem, CLIST_ITEMC * sizeof(CONTROL_LIST_ITEM));
@@ -2500,12 +2490,6 @@ MENU_SETTING_BRUTAL_RESTART:
           }
     }
 
-/*		spracuj_spravy(0);
-		ddxUpdateMouse();
-
-		if(dim.dx || dim.dy)
-			DisplayFrame();*/
-
     dwStop = timeGetTime();
 
     dwEplased += dwStop - dwStart;
@@ -2524,13 +2508,10 @@ MENU_SETTING_BRUTAL_RESTART:
       dim.tf2 = 0;
     }
 
-    if (ddxRestore(p_ad))
-      goto MENU_SETTING_BRUTAL_RESTART;
+    ddxRestore(p_ad);
   }
 
 __QUIT:
-  //BitBltU(FontDC, 0, 0, 1024, 768, NULL, 0, 0, WHITENESS);
-  //BitBltU(BackDC, 0, 0, 1024, 768, NULL, 0, 0, WHITENESS);
   ddxCleareSurface(FontDC);
   ddxCleareSurface(BackDC);
   ddxCleareSurface(CompositDC);
@@ -2870,8 +2851,6 @@ void RunMenuNewGameScene(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   ddxCleareSurface(CompositDC);
   ddxCleareSurface(FontDC);
   ddxCleareSurface(BackDC);
-
-BEGIN_MENU_NEWGAMESCENE_BRUTAL:
 
   for (bind = 0; bind < RES_NUM; bind++) {
     for (lastcmd = 0; lastcmd < 200; lastcmd++) {
@@ -3337,11 +3316,7 @@ BEGIN_MENU_NEWGAMESCENE:
       dim.tf2 = 0;
     }
 
-    if (ddxRestore(p_ad)) {
-      StopAll();
-      FreeAnimations(res, RES_NUM);
-      goto BEGIN_MENU_NEWGAMESCENE_BRUTAL;
-    }
+    ddxRestore(p_ad);
   }
 
 __QUIT:
@@ -4396,11 +4371,7 @@ BRUTAL_RESTART_SCENE_MAP_MENU:
       dim.tf2 = 0;
     }
 
-    if (ddxRestore(p_ad)) {
-      StopAll();
-      FreeAnimations(res, RES_NUM);
-      goto BRUTAL_RESTART_SCENE_MAP_MENU;
-    }
+    ddxRestore(p_ad);
   }
 
 __QUIT:
@@ -4837,11 +4808,7 @@ BEGIN_MENU_NEWGAME:
       dim.tf2 = 0;
     }
 
-    if (ddxRestore(p_ad)) {
-      fn_Release_Font(0);
-      free((void *) res);
-      return 1;
-    }
+    ddxRestore(p_ad);
   }
 
 __QUIT:
@@ -5613,10 +5580,7 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
       dim.tf2 = 0;
     }
 
-    if (ddxRestore(p_ad)) {
-      cRestartMainMenu = 1;
-      key[K_ESC] = 1;
-    }
+    ddxRestore(p_ad);
   }
 
 __QUIT:
@@ -6051,10 +6015,7 @@ BEGIN_MENU_LOAD:
       dim.tf2 = 0;
     }
 
-    if (ddxRestore(p_ad)) {
-      cRestartMainMenu = 1;
-      key[K_ESC] = 1;
-    }
+    ddxRestore(p_ad);
   }
 
 __QUIT:
@@ -6686,10 +6647,7 @@ BEGIN_MENU:
       dim.tf2 = 0;
     }
 
-    if (ddxRestore(p_ad))
-      goto RUN_MENU_BRUTAL_RESTART;
-
-//              updatuj_pozici_mysi();
+    ddxRestore(p_ad);
   }
 
 __QUIT:
@@ -7139,20 +7097,12 @@ BEGIN_MENU_CHILDNEWGAME:
       dim.tf2 = 0;
     }
 
-    if (ddxRestore(p_ad)) {
-      cRestartMainMenu = 1;
-      key[K_ESC] = 1;
-    }
+    ddxRestore(p_ad);
   }
 
 __QUIT:
 
   ddxCleareSurface(FontDC);
-
-/*	if(!cRestartMainMenu)
-		ddxTransparentBltDisplay( 0, 0, 1024, 768, BackDC, 0, 0, 1024, 768, TRANSCOLOR);*/
-
-  //ddxCleareSurface(BackDC);
 
   if (!cRestartMainMenu) {
     ddxBitBltDisplay(res[idx].iParam[2], res[idx].iParam[3],
@@ -7571,10 +7521,7 @@ BEGIN_MENU_NEWGAME:
       dim.tf2 = 0;
     }
 
-    if (ddxRestore(p_ad)) {
-      cRestartMainMenu = 1;
-      key[K_ESC] = 1;
-    }
+    ddxRestore(p_ad);
   }
 
 __QUIT:
@@ -8086,8 +8033,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
     dwEplased = dwStop - dwStart;
     //kprintf(1, "%d", dwEplased);
 
-    if (ddxRestore(p_ad))
-      return 1;
+    ddxRestore(p_ad);
   }
 
 __QUIT:
@@ -8259,10 +8205,7 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
       dwStart -= ftoi(iSongTime / (float) bmpc);
     }
 
-    if (ddxRestore(p_ad)) {
-      cCheckMusicExeption = 0;
-      return 1;
-    }
+    ddxRestore(p_ad);
   }
 
 	adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);

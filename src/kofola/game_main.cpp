@@ -39,21 +39,6 @@ char bInMenu = 0;
 
 char cFontFile[5][64];
 
-int winmain_Check_Window_Menu(void)
-{
-	if(!GetPrivateProfileInt("hra","fullscreen", 1, (char *) ini_file))
-	{    
-    const SDL_VideoInfo *info = SDL_GetVideoInfo();
-  
-		if(info->current_w < 1024 || info->current_h < 768)  
-		{
-			pperror(0, "Desktop resolution must be at least 1024x768.");
-      return 0;
-		}
-	}
-  return 1;
-}
-
 //------------------------------------------------------------------------------------------------
 // kostra behu hry
 //------------------------------------------------------------------------------------------------
@@ -63,17 +48,11 @@ int winmain_Game_Run(char *p_Level_Name)
   TIMER_ID Timer_ID;
   int cpu;
   char bGame = strlen(p_Level_Name);
-//  char bConsole = GetPrivateProfileInt("debug", "start-konzole", 0, ini_file);
   char bitmap_pak[256];
 
   cpu = sizeof(AUDIO_DATA);
 
   kprintf(1, "Kofola - verze zdrojaku: MASTER %d.%d", VERZEHI, VERZELO);
-
-  if (!winmain_Check_Window_Menu())
-    return 0;
-
-  bWindowMenu = !GetPrivateProfileInt("hra", "fullscreen", 1, ini_file);
 
   gi_Set_Win_Version();
   getcwd(CurrentWorkingDirectory, 256);
@@ -194,9 +173,6 @@ int winmain_Game_Run(char *p_Level_Name)
   }
 #endif
 
-  //cpu = (int)ceil(tools_Base_Priority(tools_Get_CPU_Speed()));
-  //kprintf(1, "OGG Decompression Thread Priority: %d", cpu);
-
 	gi_Init_Sound_Engine(&ad);
 	chdir(ad.Music_Dir);
 	ap_Load_Play_List("play_list.dat",&ad);
@@ -217,20 +193,9 @@ int winmain_Game_Run(char *p_Level_Name)
 
     InitDirectDraw();
     spracuj_spravy(0);
-/*
-		if(!bWindowMenu)
-			ShowWindow(SW_MAXIMIZE);
-		else		
-			ShowWindow(SW_SHOWNORMAL);
-*/
-    //maximalizuj_okno(hwnd_hry);
   }
 
   if (bGame) {
-    //kom_prvnotni_init();
-
-    //fn_Convert_Rect("", 1024, 1024);
-
     iActualScene = 0;
     RunMenuLoadScreen2();
     RunMenuLoadScreenInitBar(15);

@@ -85,7 +85,6 @@ int bDrawCursor = 0;
 int ddxInitDone = FALSE;
 int bFlip;
 static long bLastGameState = 1;
-extern int bWindowMenu;
 extern MOUSE_INFO dim;
 int start_x = 0;
 int start_y = 0;
@@ -463,7 +462,7 @@ void ddxResizeCursorBack(int iSurface)
   // We don't need this on Linux
 }
 
-bool ddxRestore(AUDIO_DATA * p_ad)
+void ddxRestore(AUDIO_DATA * p_ad)
 {
   static dword dwLastMenuMusicCheck = 0;
 
@@ -482,11 +481,6 @@ bool ddxRestore(AUDIO_DATA * p_ad)
     if (bLastGameState) {
 			if(!ogg_playing())
 				ap_Play_Song(0, 0, p_ad);
-
-      if (!bWindowMenu)
-        return TRUE;
-      else
-        return FALSE;
     }
     else {
       adas_Release_Source(-1, ALL_TYPES, UNDEFINED_VALUE);
@@ -498,8 +492,6 @@ bool ddxRestore(AUDIO_DATA * p_ad)
   if (MenuCheckBossExit()) {
     gl_Kofola_End(1);
   }
-
-  return FALSE;
 }
 
 void ddxSaveSurface(int idx)

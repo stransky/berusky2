@@ -203,7 +203,7 @@ void ddxSetCursor(char bSwitch);
 void ddxResizeCursorBack(int iSurface);
 void ddxSetCursorSurface(int iSurface);
 
-bool ddxRestore(AUDIO_DATA * p_ad);
+void ddxRestore(AUDIO_DATA * p_ad);
 
 void ddxSaveSurface(int idx);
 
