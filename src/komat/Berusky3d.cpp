@@ -259,8 +259,8 @@ void ber_konfiguruj_berusky(G_KONFIG * p_ber)
 
   p_ber->conf_barva_pozadi_pouzit_default = p_ber->conf_barva_pozadi_pouzit =
     GetPrivateProfileInt("hra", "barva_pozadi", 1, ini_file);
-  p_ber->conf_extra_light_vertex =
-    !GetPrivateProfileInt("hra", "extra_light_vertex", 0, ini_file);
+  p_ber->conf_extra_light_vertex = 
+    !GetPrivateProfileInt("hra", "extra_light_vertex", 1, ini_file);
 
   ber_rekonfiguruj_hra(p_ber);
   ber_rekonfiguruj_3D(p_ber);

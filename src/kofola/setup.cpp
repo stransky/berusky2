@@ -11,45 +11,22 @@ void Save_ini(void)
   setup.kvalita_castic = setup.kvalita_casticp = setup.kvalita_casticv;
   setup.text_detail_light = setup.text_detail;
 
-  //WritePrivateProfileString("hra","no_menu",itoa(setup.no_menu,text,10),ini_file);
-  //WritePrivateProfileString("hra","no_sound",itoa(setup.no_sound,text,10),ini_file);
   WritePrivateProfileString("hra", "camera_type", itoa(setup.camera_type,
       text, 10), ini_file);
-  //WritePrivateProfileString("hra","log_file",setup.log_file,ini_file);
-  WritePrivateProfileString("hra", "xres", itoa(setup.xres, text, 10),
-    ini_file);
-  WritePrivateProfileString("hra", "yres", itoa(setup.yres, text, 10),
-    ini_file);
-  WritePrivateProfileString("hra", "bpp", itoa(setup.bpp, text, 10),
-    ini_file);
   WritePrivateProfileString("hra", "fullscreen", itoa(setup.fullscreen, text,
       10), ini_file);
   WritePrivateProfileString("hra", "ditering", itoa(setup.ditering, text, 10),
-    ini_file);
-  WritePrivateProfileString("hra", "barva_pozadi", itoa(setup.barva_pozadi,
-      text, 10), ini_file);
-  WritePrivateProfileString("hra", "strip", itoa(setup.strip, text, 10),
     ini_file);
   WritePrivateProfileString("hra", "typ_mlhy", itoa(setup.typ_mlhy, text, 10),
     ini_file);
   WritePrivateProfileString("hra", "pohled_berusky",
     itoa(setup.pohled_berusky, text, 10), ini_file);
-  WritePrivateProfileString("hra", "kvalita_castic",
-    itoa(setup.kvalita_castic, text, 10), ini_file);
-  WritePrivateProfileString("hra", "kvalita_casticv",
-    itoa(setup.kvalita_casticv, text, 10), ini_file);
-  WritePrivateProfileString("hra", "kvalita_casticp",
-    itoa(setup.kvalita_casticp, text, 10), ini_file);
   WritePrivateProfileString("hra", "ovladani", itoa(setup.ovladani, text, 10),
     ini_file);
   WritePrivateProfileString("hra", "posouvat_kameru",
     itoa(setup.posouvat_kameru, text, 10), ini_file);
-  WritePrivateProfileString("hra", "extra_light_vertex",
-    itoa(setup.extra_light_vertex, text, 10), ini_file);
   WritePrivateProfileString("hra", "init_visibility",
     itoa(setup.init_visibility, text, 10), ini_file);
-  WritePrivateProfileString("hra", "menu_vram_load",
-    itoa(setup.menu_vram_load, text, 10), ini_file);
   WritePrivateProfileString("hra", "zrcado_aktivni",
     itoa(setup.zrcado_aktivni, text, 10), ini_file);
   sprintf(text, "%f", setup.p_kamera_alfa);
@@ -57,21 +34,13 @@ void Save_ini(void)
   sprintf(text, "%f", setup.p_kamera_radius);
   WritePrivateProfileString("hra", "p_kamera_radius", text, ini_file);
   WritePrivateProfileString("hra", "cursor", setup.cursor, ini_file);
-  WritePrivateProfileString("hra", "bump_mapping", itoa(setup.bump_mapping,
-      text, 10), ini_file);
-  WritePrivateProfileString("hra", "bump_mapping_typ",
-    itoa(setup.bump_mapping_typ, text, 10), ini_file);
   WritePrivateProfileString("hra", "camera_intro", itoa(setup.camera_intro,
       text, 10), ini_file);
 
-  WritePrivateProfileString("hra", "light_dyn", itoa(setup.light_dyn, text,
-      10), ini_file);
+  WritePrivateProfileString("hra", "light_dyn", itoa(setup.light_dyn, text, 10), 
+    ini_file);
   WritePrivateProfileString("hra", "light_rychlost",
     itoa(setup.light_rychlost, text, 10), ini_file);
-  WritePrivateProfileString("hra", "scene_materialy",
-    itoa(setup.scene_materialy, text, 10), ini_file);
-  WritePrivateProfileString("hra", "vertex_arrays", itoa(setup.vertex_arrays,
-      text, 10), ini_file);
 
   sprintf(text, "%f", setup.ovladani_rohy_rychlost);
   WritePrivateProfileString("hra", "ovladani_rohy_rychlost", text, ini_file);
@@ -89,44 +58,22 @@ void Save_ini(void)
     itoa(setup.ovladani_pr_posun, text, 10), ini_file);
   WritePrivateProfileString("hra", "animace_okoli", itoa(setup.animace_okoli,
       text, 10), ini_file);
-  WritePrivateProfileString("hra", "general_3d", itoa(setup.general_3d, text,
-      10), ini_file);
 
-  WritePrivateProfileString("textury", "text_detail", itoa(setup.text_detail,
-      text, 10), ini_file);
   WritePrivateProfileString("textury", "text_detail_light",
     itoa(setup.text_detail_light, text, 10), ini_file);
-  WritePrivateProfileString("textury", "text_kvalita",
-    itoa(setup.text_kvalita, text, 10), ini_file);
-  WritePrivateProfileString("textury", "text_komprese",
-    itoa(setup.text_komprese, text, 10), ini_file);
   WritePrivateProfileString("textury", "text_mip_mapping",
     itoa(setup.text_mip_mapping, text, 10), ini_file);
   WritePrivateProfileString("textury", "text_mip_filtr",
     itoa(setup.text_mip_filtr, text, 10), ini_file);
   WritePrivateProfileString("textury", "text_bpp", itoa(setup.text_bpp, text,
       10), ini_file);
-  WritePrivateProfileString("textury", "text_bpp_plocha",
-    itoa(setup.text_bpp_plocha, text, 10), ini_file);
-  WritePrivateProfileString("textury", "text_perspective",
-    itoa(setup.text_perspective, text, 10), ini_file);
   WritePrivateProfileString("textury", "text_hi_res",
     itoa(setup.hires_textury, text, 10), ini_file);
-  WritePrivateProfileString("textury", "text_ans", itoa(setup.text_ans, text,
-      10), ini_file);
-  sprintf(text, "%f", setup.text_ans_level);
+  WritePrivateProfileString("textury", "text_ans", itoa(setup.text_ans, text, 10), ini_file);
   WritePrivateProfileString("textury", "text_ans_level", text, ini_file);
   sprintf(text, "%f", setup.text_ostrost);
   WritePrivateProfileString("textury", "text_ostrost", text, ini_file);
 
-  WritePrivateProfileString("textury", "text_detail2",
-    itoa(setup.text_detail2, text, 10), ini_file);
-  WritePrivateProfileString("textury", "text_detail3",
-    itoa(setup.text_detail3, text, 10), ini_file);
-  WritePrivateProfileString("textury", "text_bump2", itoa(setup.text_bump2,
-      text, 10), ini_file);
-  WritePrivateProfileString("textury", "text_bump3", itoa(setup.text_bump3,
-      text, 10), ini_file);
   WritePrivateProfileString("textury", "text_ans_stupen",
     itoa(setup.text_ans_stupen, text, 10), ini_file);
 
@@ -264,113 +211,54 @@ void Load_ini(void)
   setup.no_menu = GetPrivateProfileInt("hra", "no_menu", 0, ini_file);
   setup.no_sound = GetPrivateProfileInt("hra", "no_sound", 0, ini_file);
   setup.camera_type = GetPrivateProfileInt("hra", "camera_type", 0, ini_file);
-  GetPrivateProfileString("hra", "log_file", "c:\\ber2log.txt",
-    setup.log_file, 256, ini_file);
+  GetPrivateProfileString("hra", "log_file", "c:\\ber2log.txt", setup.log_file, 256, ini_file);
 
   setup.xres = GetPrivateProfileInt("hra", "xres", 0, ini_file);
   setup.yres = GetPrivateProfileInt("hra", "yres", 0, ini_file);
   setup.bpp = GetPrivateProfileInt("hra", "bpp", 0, ini_file);
   setup.fullscreen = GetPrivateProfileInt("hra", "fullscreen", 0, ini_file);
   setup.ditering = GetPrivateProfileInt("hra", "ditering", 0, ini_file);
-  setup.barva_pozadi =
-    GetPrivateProfileInt("hra", "barva_pozadi", 0, ini_file);
-  setup.strip = GetPrivateProfileInt("hra", "strip", 0, ini_file);
   setup.typ_mlhy = GetPrivateProfileInt("hra", "typ_mlhy", 0, ini_file);
-  setup.pohled_berusky =
-    GetPrivateProfileInt("hra", "pohled_berusky", 0, ini_file);
-  setup.kvalita_castic =
-    GetPrivateProfileInt("hra", "kvalita_castic", 0, ini_file);
-  setup.kvalita_casticv =
-    GetPrivateProfileInt("hra", "kvalita_casticv", 0, ini_file);
-  setup.kvalita_casticp =
-    GetPrivateProfileInt("hra", "kvalita_casticp", 0, ini_file);
+  setup.pohled_berusky = GetPrivateProfileInt("hra", "pohled_berusky", 0, ini_file);
+  setup.kvalita_castic = GetPrivateProfileInt("hra", "kvalita_castic", 0, ini_file);
+  setup.kvalita_casticv = GetPrivateProfileInt("hra", "kvalita_casticv", 0, ini_file);
+  setup.kvalita_casticp = GetPrivateProfileInt("hra", "kvalita_casticp", 0, ini_file);
   setup.ovladani = GetPrivateProfileInt("hra", "ovladani", 0, ini_file);
-  setup.posouvat_kameru =
-    GetPrivateProfileInt("hra", "posouvat_kameru", 0, ini_file);
-  setup.extra_light_vertex =
-    GetPrivateProfileInt("hra", "extra_light_vertex", 0, ini_file);
-  setup.init_visibility =
-    GetPrivateProfileInt("hra", "init_visibility", 0, ini_file);
-  setup.menu_vram_load =
-    GetPrivateProfileInt("hra", "menu_vram_load", 0, ini_file);
-  setup.zrcado_aktivni =
-    GetPrivateProfileInt("hra", "zrcado_aktivni", 0, ini_file);
-  GetPrivateProfileString("hra", "p_kamera_alfa", "c:\\", text, 256,
-    ini_file);
+  setup.posouvat_kameru = GetPrivateProfileInt("hra", "posouvat_kameru", 0, ini_file);
+  setup.extra_light_vertex = GetPrivateProfileInt("hra", "extra_light_vertex", 0, ini_file);
+  setup.init_visibility = GetPrivateProfileInt("hra", "init_visibility", 0, ini_file);
+  setup.zrcado_aktivni = GetPrivateProfileInt("hra", "zrcado_aktivni", 0, ini_file);
+  
+  GetPrivateProfileString("hra", "p_kamera_alfa", "0.35", text, 256, ini_file);
   setup.p_kamera_alfa = (float) atof(text);
-  GetPrivateProfileString("hra", "p_kamera_radius", "c:\\", text, 256,
-    ini_file);
+  GetPrivateProfileString("hra", "p_kamera_radius", "3.0", text, 256, ini_file);
   setup.p_kamera_radius = (float) atof(text);
-  GetPrivateProfileString("hra", "cursor", "cursor", setup.cursor, 32,
-    ini_file);
-  setup.bump_mapping =
-    GetPrivateProfileInt("hra", "bump_mapping", 0, ini_file);
-  setup.bump_mapping_typ =
-    GetPrivateProfileInt("hra", "bump_mapping_typ", 0, ini_file);
+  
+  GetPrivateProfileString("hra", "cursor", "cursor", setup.cursor, 32, ini_file);
   setup.light_dyn = GetPrivateProfileInt("hra", "light_dyn", 0, ini_file);
-  setup.light_rychlost =
-    GetPrivateProfileInt("hra", "light_rychlost", 0, ini_file);
-  setup.scene_materialy =
-    GetPrivateProfileInt("hra", "scene_materialy", 0, ini_file);
-  setup.vertex_arrays =
-    GetPrivateProfileInt("hra", "vertex_arrays", 0, ini_file);
-  GetPrivateProfileString("hra", "ovladani_rohy_rychlost", "c:\\", text, 256,
-    ini_file);
+  setup.light_rychlost = GetPrivateProfileInt("hra", "light_rychlost", 0, ini_file);
+  GetPrivateProfileString("hra", "ovladani_rohy_rychlost", "0.5", text, 256, ini_file);
   setup.ovladani_rohy_rychlost = (float) atof(text);
-  setup.start_zpruhlednovani =
-    GetPrivateProfileInt("hra", "start_zpruhlednovani", 0, ini_file);
-  setup.start_zvyraznovani =
-    GetPrivateProfileInt("hra", "start_zvyraznovani", 0, ini_file);
-  setup.ovladani_rohy =
-    GetPrivateProfileInt("hra", "ovladani_rohy", 0, ini_file);
-  setup.ovladani_rohy_default =
-    GetPrivateProfileInt("hra", "ovladani_rohy_default", 0, ini_file);
-  setup.ovladani_rohy_smer =
-    GetPrivateProfileInt("hra", "ovladani_rohy_smer", 0, ini_file);
-  setup.ovladani_pr_posun =
-    GetPrivateProfileInt("hra", "ovladani_pr_posun", 0, ini_file);
-  setup.animace_okoli =
-    GetPrivateProfileInt("hra", "animace_okoli", 0, ini_file);
-  setup.general_3d = GetPrivateProfileInt("hra", "general_3d", 0, ini_file);
-  setup.camera_intro =
-    GetPrivateProfileInt("hra", "camera_intro", 0, ini_file);
+  
+  setup.start_zpruhlednovani = GetPrivateProfileInt("hra", "start_zpruhlednovani", 0, ini_file);
+  setup.start_zvyraznovani = GetPrivateProfileInt("hra", "start_zvyraznovani", 0, ini_file);
+  setup.ovladani_rohy = GetPrivateProfileInt("hra", "ovladani_rohy", 0, ini_file);
+  setup.ovladani_rohy_default = GetPrivateProfileInt("hra", "ovladani_rohy_default", 0, ini_file);
+  setup.ovladani_rohy_smer = GetPrivateProfileInt("hra", "ovladani_rohy_smer", 0, ini_file);
+  setup.ovladani_pr_posun = GetPrivateProfileInt("hra", "ovladani_pr_posun", 0, ini_file);
+  setup.animace_okoli = GetPrivateProfileInt("hra", "animace_okoli", 0, ini_file);
+  setup.camera_intro = GetPrivateProfileInt("hra", "camera_intro", 0, ini_file);
 
-  setup.text_detail =
-    GetPrivateProfileInt("textury", "text_detail", 0, ini_file);
-  setup.text_detail_light =
-    GetPrivateProfileInt("textury", "text_detail_light", 0, ini_file);
-  setup.text_kvalita =
-    GetPrivateProfileInt("textury", "text_kvalita", 0, ini_file);
-  setup.text_komprese =
-    GetPrivateProfileInt("textury", "text_komprese", 0, ini_file);
-  setup.text_mip_mapping =
-    GetPrivateProfileInt("textury", "text_mip_mapping", 0, ini_file);
-  setup.text_mip_filtr =
-    GetPrivateProfileInt("textury", "text_mip_filtr", 0, ini_file);
+  setup.text_detail = GetPrivateProfileInt("textury", "text_detail", 0, ini_file);
+  setup.text_detail_light = GetPrivateProfileInt("textury", "text_detail_light", 0, ini_file);
+  setup.text_mip_mapping = GetPrivateProfileInt("textury", "text_mip_mapping", 0, ini_file);
+  setup.text_mip_filtr = GetPrivateProfileInt("textury", "text_mip_filtr", 0, ini_file);
   setup.text_bpp = GetPrivateProfileInt("textury", "text_bpp", 0, ini_file);
-  setup.text_bpp_plocha =
-    GetPrivateProfileInt("textury", "text_bpp_plocha", 0, ini_file);
-  setup.text_perspective =
-    GetPrivateProfileInt("textury", "text_perspective", 0, ini_file);
-  setup.hires_textury =
-    GetPrivateProfileInt("textury", "text_hi_res", 0, ini_file);
+  setup.hires_textury = GetPrivateProfileInt("textury", "text_hi_res", 0, ini_file);
   setup.text_ans = GetPrivateProfileInt("textury", "text_ans", 0, ini_file);
-  setup.text_detail2 =
-    GetPrivateProfileInt("textury", "text_detail2", 0, ini_file);
-  setup.text_detail3 =
-    GetPrivateProfileInt("textury", "text_detail3", 0, ini_file);
-  setup.text_bump2 =
-    GetPrivateProfileInt("textury", "text_bump2", 0, ini_file);
-  setup.text_bump3 =
-    GetPrivateProfileInt("textury", "text_bump3", 0, ini_file);
-  setup.text_ans_stupen =
-    GetPrivateProfileInt("textury", "text_ans_stupen", 0, ini_file);
+  setup.text_ans_stupen = GetPrivateProfileInt("textury", "text_ans_stupen", 0, ini_file);
 
-  GetPrivateProfileString("textury", "text_ans_level", "c:\\", text, 256,
-    ini_file);
-  setup.text_ans_level = (float) atof(text);
-  GetPrivateProfileString("textury", "text_ostrost", "c:\\", text, 256,
-    ini_file);
+  GetPrivateProfileString("textury", "text_ostrost", "1", text, 256, ini_file);
   setup.text_ostrost = (float) atof(text);
 
   setup.channels =
@@ -385,8 +273,7 @@ void Load_ini(void)
     GetPrivateProfileInt("soundengine", "ambientvolume", 0, ini_file);
 
   setup.key[0] = -1;
-  setup.key[1] =
-    GetPrivateProfileInt("controls", "move_forward", 0, ini_file);
+  setup.key[1] = GetPrivateProfileInt("controls", "move_forward", 0, ini_file);
   setup.key[2] = GetPrivateProfileInt("controls", "turn_back", 0, ini_file);
   setup.key[3] = GetPrivateProfileInt("controls", "turn_left", 0, ini_file);
   setup.key[4] = GetPrivateProfileInt("controls", "turn_right", 0, ini_file);
@@ -519,20 +406,4 @@ void Load_ini(void)
     256, ini_file);
   GetPrivateProfileString("game", "system_material_20", "", setup.sada[19],
     256, ini_file);
-}
-
-int GetResCombobox(ROZLISENI * p_roz, int roz_size)
-{
-  int i;
-
-  for (i = 0; i < roz_size; i++)
-    if ((p_roz[i].x == (unsigned int) setup.xres) &&
-      (p_roz[i].y == (unsigned int) setup.yres) &&
-      (p_roz[i].bpp == (unsigned int) setup.bpp))
-      return i;
-
-  kprintf(1, "-- SETTINGS -- nenasel jsem rozliseni %dx%dx%d v seznamu",
-    setup.xres, setup.yres, setup.bpp);
-
-  return 0;
 }

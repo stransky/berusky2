@@ -10074,8 +10074,7 @@ void gl_Start_Level_Environment(LEVELINFO * p_Level, AUDIO_DATA * p_ad)
   int i, kvalita_castic;
   LEVEL_ENVIRONMENT *pEnv = kom_get_level_environment();
 
-  kvalita_castic =
-    GetPrivateProfileInt("hra", "kvalita_casticp", 0, ini_file);
+  kvalita_castic = GetPrivateProfileInt("hra", "kvalita_casticp", 0, ini_file);
   kvalita_castic++;
 
   p_Level->Rain.bRain = 0;

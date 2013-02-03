@@ -1145,7 +1145,6 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
   // - volat jako soucast hry (po vykreslni listi)
   //void ddx2RenderDevices(G_KONFIG *p_ber)
 
-
   // - volat pokud jede menu bez hry - maze obrazovku a kresli menu
   //void ddx2RenderujVse(G_KONFIG *p_ber)
 
@@ -1155,16 +1154,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
 
   _2d_Clear_RectLine(&rline);
 
-  res = (CMD_LINE *) malloc(RES_NUM * sizeof(CMD_LINE));
-
-  if (!res) {
-    kprintf(1, "RunMenuSettings2: Out of Memory");
-    return;
-  }
-  else
-    ZeroMemory(res, RES_NUM * sizeof(CMD_LINE));
-
-//      ZeroMemory(roz, POCETROZLICENI * sizeof(ROZLISENI));
+  res = (CMD_LINE *) mmalloc(RES_NUM * sizeof(CMD_LINE));
 
   Load_ini();
 

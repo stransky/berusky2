@@ -11,28 +11,23 @@ typedef struct
   char no_menu;
   char camera_type;
   char log_file[256];
-  int xres;
-  int yres;
+  int  xres;
+  int  yres;
   char bpp;
   char fullscreen;
   char ditering;
-  char barva_pozadi;            //TF
-  char strip;                   //TF
   char typ_mlhy;                //0 = vertex, 1 - pixel
   char text_detail;             //Texture-level - Uroven detailu textur (0 = max)
-  char text_detail_light;       //Uroven detailu textur lightmap (0 = max)
-  char text_kvalita;            //OpenGL - Nice = 1/Fast = 0 TF
-  char text_komprese;           //Komprese do DXT formatu, pokud to karta povoluje TF
+  char text_detail_light;       //Uroven detailu textur lightmap (0 = max)  
   char text_mip_mapping;        //Generovat pro startu mip-mapy + jejich povoleni  TF
   char text_mip_filtr;          //Filtr mip-map 0 - linearni/1 - trilinearni TF
-  char text_bpp;                //Hloubka textur 16/32 bitu
-  char text_perspective;        //Perspektivni korekce textur TF
+  char text_bpp;                //Hloubka textur 16/32 bitu  
   char channels;
   long pre_load;
   char soundvolume;
   char musicvolume;
   char ambientvolume;
-  int key[POCETKLAVES];
+  int  key[POCETKLAVES];
   char bitmap_dir[256];
   char data_dir[256];
   char prvky_dir[256];
@@ -76,33 +71,21 @@ typedef struct
   float p_kamera_radius;
   char init_visibility;
   char cursor[32];
-  char text_bpp_plocha;
   char hires_textury;
-  char menu_vram_load;
   char zrcado_aktivni;
   char debug_kamery;
-  char text_ans;
-  float text_ans_level;
-  char bump_mapping;
-  int bump_mapping_typ;
-  int text_detail2;
-  int text_detail3;
-  int light_dyn;
-  int light_rychlost;
-  int text_bump2;
-  int text_bump3;
-  int scene_materialy;
-  int text_ans_stupen;
-  int vertex_arrays;
-  int start_zpruhlednovani;
-  int start_zvyraznovani;
-  int ovladani_rohy;
-  int ovladani_rohy_default;
-  int ovladani_rohy_smer;
+  char text_ans;  
+  int  text_ans_stupen;
+  int  light_dyn;
+  int  light_rychlost;
+  int  start_zpruhlednovani;
+  int  start_zvyraznovani;
+  int  ovladani_rohy;
+  int  ovladani_rohy_default;
+  int  ovladani_rohy_smer;
   float ovladani_rohy_rychlost;
-  int ovladani_pr_posun;
-  int animace_okoli;
-  int general_3d;
+  int  ovladani_pr_posun;
+  int  animace_okoli;
   char camera_intro;
 } SETUP;
 
@@ -116,7 +99,5 @@ typedef struct
 
 void Load_ini(void);
 void Save_ini(void);
-
-int GetResCombobox(ROZLISENI * p_roz, int roz_size);
 
 #endif

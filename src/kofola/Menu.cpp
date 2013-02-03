@@ -843,6 +843,8 @@ int RunLevel(HWND hWnd, AUDIO_DATA * p_ad, int cpu, char *lvl, char *env)
 //------------------------------------------------------------------------------------------------
 void Credits(HWND hWnd, AUDIO_DATA * p_ad, int cpu)
 {
+  // TODO
+  assert(0);
 /*
   char dir[256];
 
@@ -1022,60 +1024,6 @@ void SetTab(int iTab, int iLTab, CONTROL_LIST_ITEM * p_list, int lsize,
   DisplayFrame();
 }
 
-void EnumRozliseni(ROZLISENI ** res, int *roz_size)
-{
-  SDL_Rect** modes;
-  int i;
-
-  kprintf(1, "Screen resolutions:");
-
-  modes = SDL_ListModes(NULL,SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_OPENGL|SDL_FULLSCREEN);
-
-  if(!modes) {
-    // No available resolutions?
-    res = NULL;
-    roz_size = 0;
-    return;
-  }
-
-  if (modes == (SDL_Rect**)-1) {
-    // Actually not very useful 
-    res = NULL;
-    roz_size = 0;
-  }
-
-  for(i = 0; modes[i]; i++)
-	{
-		kprintf(1, "%d x %d", modes[i]->w, modes[i]->h);
-	}
-
-	(*roz_size) = i;
-
-	kprintf(1, "Pocet rozliseni = %d", i);
-
-	(*res) = (ROZLISENI *)mmalloc((*roz_size) * sizeof(ROZLISENI));
-
-	memset((*res), 0, (*roz_size) * sizeof(ROZLISENI));
-
-  const SDL_VideoInfo *info = SDL_GetVideoInfo();
-  int bpp = info->vfmt->BitsPerPixel;
-
-  int j = 0;
-  for(i = 0; modes[i]; i++)
-	{
-		if(modes[i]->w > 600)
-		{
-			(*res)[j].bpp = bpp;
-			(*res)[j].x = modes[i]->w;
-			(*res)[j].y = modes[i]->h;
-			(*res)[j].freq = 0;
-			j++;
-
-			kprintf(1, "ComboAddItem (%d x %d x %d)", modes[i]->w, modes[i]->h, bpp);
-		}
-  }
-}
-
 void CharMenuCheckMultyKyes(LIST_VIEW_CONTROL * p_li, int iKey)
 {
   int y;
@@ -1199,8 +1147,7 @@ void SetCharMenu(LIST_VIEW_CONTROL * p_li)
   DisplayFrame();
 }
 
-void SetMenuSettings(ROZLISENI * roz, CONTROL_LIST_ITEM * citem,
-  int *hdcTabUse)
+void SetMenuSettings(CONTROL_LIST_ITEM * citem, int *hdcTabUse)
 {
   float f;
   int i;
@@ -1209,7 +1156,6 @@ void SetMenuSettings(ROZLISENI * roz, CONTROL_LIST_ITEM * citem,
     //setup.pohled_berusky = co_Check_Get_State(citem, CLIST_ITEMC, 0);
     setup.posouvat_kameru = co_Check_Get_State(citem, CLIST_ITEMC, 1);
     setup.ovladani = co_Check_Get_State(citem, CLIST_ITEMC, 2);
-    //setup.menu_vram_load = co_Check_Get_State(citem, CLIST_ITEMC, 3);
     setup.start_zpruhlednovani = co_Check_Get_State(citem, CLIST_ITEMC, 10);
     setup.start_zvyraznovani = co_Check_Get_State(citem, CLIST_ITEMC, 11);
     setup.ovladani_rohy = co_Check_Get_State(citem, CLIST_ITEMC, 12);
@@ -1225,32 +1171,14 @@ void SetMenuSettings(ROZLISENI * roz, CONTROL_LIST_ITEM * citem,
     setup.ovladani_rohy_smer = co_Check_Get_State(citem, CLIST_ITEMC, 15);
     //setup.ovladani_pr_posun = co_Check_Get_State(citem, CLIST_ITEMC, 16);
 
-    setup.ovladani_rohy_rychlost =
-      co_Progres_Get(citem, CLIST_ITEMC, 0) / 10.0f;
+    setup.ovladani_rohy_rychlost = co_Progres_Get(citem, CLIST_ITEMC, 0) / 10.0f;
     setup.p_kamera_radius = co_Progres_Get(citem, CLIST_ITEMC, 1) / 2.0f;
   }
 
   if (hdcTabUse[1]) {
-
-    i = co_Combo_Get_Sel(citem, CLIST_ITEMC, 0);
-
-    setup.xres = roz[i].x;
-    setup.yres = roz[i].y;
-    setup.bpp = (char) roz[i].bpp;
-
-    setup.general_3d = co_Combo_Get_Sel(citem, CLIST_ITEMC, 1);
-
-    i = co_Combo_Get_Sel(citem, CLIST_ITEMC, 2);
-
-    if (!i)
-      setup.extra_light_vertex = 1;
-    else
-      setup.extra_light_vertex = 0;
-
     setup.kvalita_casticv = co_Combo_Get_Sel(citem, CLIST_ITEMC, 5);
-
+  
     i = co_Combo_Get_Sel(citem, CLIST_ITEMC, 6);
-
     if (i == 3)
       setup.light_dyn = 0;
     else {
@@ -1258,38 +1186,15 @@ void SetMenuSettings(ROZLISENI * roz, CONTROL_LIST_ITEM * citem,
       setup.light_rychlost = i + 1;
     }
 
-    setup.text_detail2 = co_Combo_Get_Sel(citem, CLIST_ITEMC, 3);
-    setup.text_detail3 = co_Combo_Get_Sel(citem, CLIST_ITEMC, 4);
-
-    i = co_Combo_Get_Sel(citem, CLIST_ITEMC, 7);
-
-    switch (i) {
-      case 2:
-        setup.bump_mapping = 0;
-        break;
-      case 1:
-        setup.bump_mapping = 1;
-        setup.text_bump2 = 1;
-        setup.text_bump3 = 0;
-        break;
-      case 0:
-        setup.bump_mapping = 1;
-        setup.text_bump2 = 1;
-        setup.text_bump3 = 1;
-        break;
-    }
-
     setup.text_mip_mapping = co_Combo_Get_Sel(citem, CLIST_ITEMC, 8);
 
     i = co_Combo_Get_Sel(citem, CLIST_ITEMC, 9);
-
     if (!i)
       setup.text_bpp = 32;
     else
       setup.text_bpp = 16;
 
     i = co_Combo_Drop_Get_Sel(citem, CLIST_ITEMC, 0, &f);
-
     if (!i)
       setup.text_ans = 0;
     else {
@@ -1297,14 +1202,8 @@ void SetMenuSettings(ROZLISENI * roz, CONTROL_LIST_ITEM * citem,
       setup.text_ans_stupen = i;
     }
 
-    setup.text_kvalita = co_Combo_Get_Sel(citem, CLIST_ITEMC, 10);
-
-    setup.text_komprese = co_Check_Get_State(citem, CLIST_ITEMC, 6);
     setup.ditering = co_Check_Get_State(citem, CLIST_ITEMC, 7);
     setup.zrcado_aktivni = co_Check_Get_State(citem, CLIST_ITEMC, 4);
-    setup.scene_materialy = co_Check_Get_State(citem, CLIST_ITEMC, 8);
-    setup.vertex_arrays = co_Check_Get_State(citem, CLIST_ITEMC, 9);
-    setup.menu_vram_load = co_Check_Get_State(citem, CLIST_ITEMC, 10);
 
     co_Combo_Drop_Get_Sel(citem, CLIST_ITEMC, 10, &setup.text_ostrost);
   }
@@ -1349,8 +1248,7 @@ void SetMenuSettings(ROZLISENI * roz, CONTROL_LIST_ITEM * citem,
   }
 }
 
-void SetMenuSettingsS(ROZLISENI * roz, CONTROL_LIST_ITEM * citem,
-  int *hdcTabUse)
+void SetMenuSettingsS(CONTROL_LIST_ITEM * citem, int *hdcTabUse)
 {
   if (hdcTabUse[2]) {
     setup.soundvolume = co_Progres_Get(citem, CLIST_ITEMC, 4);
@@ -1359,8 +1257,7 @@ void SetMenuSettingsS(ROZLISENI * roz, CONTROL_LIST_ITEM * citem,
   }
 }
 
-void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab, ROZLISENI * roz,
-  int roz_size)
+void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab)
 {
   int i;
   int count = 0;
@@ -1369,7 +1266,7 @@ void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab, ROZLISENI * roz,
   iClock = ddxLoadBitmap("clock1-1.bmp", pBmpArchive);
   ddxResizeCursorBack(iClock);
   DrawClock(&iClock, 0);
-
+/*
   co_Set_Text_Right(hdcTab[1], "##settings_resolution", 0, 285, 57);
 
   citem[8].p_combo = co_Create_Combo(hdcTab[1], 300, 50, 450, 0);
@@ -1394,8 +1291,9 @@ void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab, ROZLISENI * roz,
 
   co_Combo_Set_Sel(hdcTab[1], citem[8].p_combo, GetResCombobox(roz,
       roz_size));
-
+*/
   //////////////////////////////##settings_gemeral_3d
+/*  
   co_Set_Text_Right(hdcTab[1], "##settings_gemeral_3d", 0, 285, 97);
   citem[9].p_combo = co_Create_Combo(hdcTab[1], 300, 90, 100, 1);
   citem[9].iTab = 1;
@@ -1407,8 +1305,9 @@ void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab, ROZLISENI * roz,
   co_Combo_Set_Params(citem[9].p_combo, 4);
 
   co_Combo_Set_Sel(hdcTab[1], citem[9].p_combo, setup.general_3d);
-
+*/
   /////////////////////////////////##settings_model
+/*  
   co_Set_Text_Right(hdcTab[1], "##settings_model", 0, 285, 137);
   citem[33].p_combo = co_Create_Combo(hdcTab[1], 300, 130, 100, 2);
   citem[33].iTab = 1;
@@ -1431,7 +1330,8 @@ void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab, ROZLISENI * roz,
   co_Combo_Add_StringWC(citem[10].p_combo, "##settings_gemeral_3d_elow");
   co_Combo_Set_Params(citem[10].p_combo, 4);
   co_Combo_Set_Sel(hdcTab[1], citem[10].p_combo, setup.kvalita_casticv);
-
+*/
+/*
   co_Set_Text_Right(hdcTab[1], "#settings_lights", 0, 285, 217);
   citem[32].p_combo = co_Create_Combo(hdcTab[1], 300, 210, 130, 6);
   citem[32].iTab = 1;
@@ -1447,9 +1347,9 @@ void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab, ROZLISENI * roz,
     co_Combo_Set_Sel(hdcTab[1], citem[32].p_combo, 3);
   else
     co_Combo_Set_Sel(hdcTab[1], citem[32].p_combo, setup.light_rychlost - 1);
-
-
+*/
   /////////////////////////////////##settings_item_textures
+/*  
   co_Set_Text_Right(hdcTab[1], "##settings_item_textures", 0, 285, 257);
   citem[34].p_combo = co_Create_Combo(hdcTab[1], 300, 250, 100, 3);
   citem[34].iTab = 1;
@@ -1459,8 +1359,9 @@ void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab, ROZLISENI * roz,
   co_Combo_Add_StringWC(citem[34].p_combo, "##settings_gemeral_3d_low");
   co_Combo_Set_Params(citem[34].p_combo, 3);
   co_Combo_Set_Sel(hdcTab[1], citem[34].p_combo, setup.text_detail2);
-
+*/
   /////////////////////////////////##settings_scene_textures
+/*  
   co_Set_Text_Right(hdcTab[1], "##settings_scene_textures", 0, 285, 297);
   citem[35].p_combo = co_Create_Combo(hdcTab[1], 300, 290, 100, 4);
   citem[35].iTab = 1;
@@ -1486,13 +1387,12 @@ void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab, ROZLISENI * roz,
     co_Combo_Set_Sel(hdcTab[1], citem[25].p_combo, 1);
   else
     co_Combo_Set_Sel(hdcTab[1], citem[25].p_combo, 0);
-
+*/
   co_Set_Text_Right(hdcTab[1], "##settings_texture_filterig", 0, 285, 377);
   citem[18].p_combo = co_Create_Combo(hdcTab[1], 300, 370, 100, 8);
   citem[18].iTab = 1;
 
-  co_Combo_Add_StringWC(citem[18].p_combo,
-    "##settings_texture_filterig_linear");
+  co_Combo_Add_StringWC(citem[18].p_combo, "##settings_texture_filterig_linear");
   co_Combo_Add_StringWC(citem[18].p_combo, "##settings_texture_mip_mapping");
   co_Combo_Set_Params(citem[18].p_combo, 2);
 
@@ -1511,13 +1411,11 @@ void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab, ROZLISENI * roz,
   else
     co_Combo_Set_Sel(hdcTab[1], citem[26].p_combo, 1);
 
-  co_Set_Text_Right(hdcTab[1], "##settings_anisotropic_filtering", 0, 285,
-    457);
+  co_Set_Text_Right(hdcTab[1], "##settings_anisotropic_filtering", 0, 285, 457);
   citem[27].p_combod = co_Create_Combo_Drop(hdcTab[1], 300, 450, 0);
   citem[27].iTab = 1;
 
-  co_Combo_Drop_Add_StringWC(citem[27].p_combod, "##settings_lights_turnoff",
-    0.0f);
+  co_Combo_Drop_Add_StringWC(citem[27].p_combod, "##settings_lights_turnoff", 0.0f);
   co_Combo_Drop_Add_String(citem[27].p_combod, "2", 2.0f);
   co_Combo_Drop_Add_String(citem[27].p_combod, "4", 4.0f);
   co_Combo_Drop_Add_String(citem[27].p_combod, "8", 8.0f);
@@ -1527,8 +1425,7 @@ void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab, ROZLISENI * roz,
   if (!setup.text_ans)
     co_Combo_Drop_Set_Sel(hdcTab[1], citem[27].p_combod, 0);
   else
-    co_Combo_Drop_Set_Sel(hdcTab[1], citem[27].p_combod,
-      setup.text_ans_stupen);
+    co_Combo_Drop_Set_Sel(hdcTab[1], citem[27].p_combod, setup.text_ans_stupen);
 
 
   co_Set_Text_Right(hdcTab[1], "##settings_sharpness", 0, 285, 497);
@@ -1567,7 +1464,7 @@ void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab, ROZLISENI * roz,
     i = 24;
 
   co_Combo_Drop_Set_Sel(hdcTab[1], citem[42].p_combod, i);
-
+/*
   co_Set_Text_Right(hdcTab[1], "##settings_opengl", 0, 285, 537);
   citem[28].p_combo = co_Create_Combo(hdcTab[1], 300, 530, 100, 10);
   citem[28].iTab = 1;
@@ -1576,13 +1473,12 @@ void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab, ROZLISENI * roz,
   co_Combo_Add_StringWC(citem[28].p_combo, "##settings_opengl_kvalita");
   co_Combo_Set_Params(citem[28].p_combo, 2);
   co_Combo_Set_Sel(hdcTab[1], citem[28].p_combo, setup.text_kvalita);
-
-  citem[16].p_check =
-    co_Create_CheckBox(hdcTab[1], 525, 255, "##settings_texture_commpression",
-    0, 6);
+*/
+/*
+  citem[16].p_check = co_Create_CheckBox(hdcTab[1], 525, 255, "##settings_texture_commpression", 0, 6);
   citem[16].iTab = 1;
   co_Check_Set_State(citem[16].p_check, hdcTab[1], setup.text_komprese, 1);
-
+*/
   citem[29].p_check =
     co_Create_CheckBox(hdcTab[1], 525, 415, "##settings_dithering", 0, 7);
   citem[29].iTab = 1;
@@ -1592,23 +1488,31 @@ void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab, ROZLISENI * roz,
     co_Create_CheckBox(hdcTab[1], 525, 135, "##settings_draw_mirror", 0, 4);
   citem[11].iTab = 1;
   co_Check_Set_State(citem[11].p_check, hdcTab[1], setup.zrcado_aktivni, 1);
-
+/*
   citem[30].p_check =
     co_Create_CheckBox(hdcTab[1], 525, 535, "##settings_caustic", 0, 8);
   citem[30].iTab = 1;
   co_Check_Set_State(citem[30].p_check, hdcTab[1], setup.scene_materialy, 1);
-
+*/
+/*
+  citem[30].p_check =
+    co_Create_CheckBox(hdcTab[1], 525, 535, "##settings_caustic", 0, 8);
+  citem[30].iTab = 1;
+  co_Check_Set_State(citem[30].p_check, hdcTab[1], setup.scene_materialy, 1);
+*/  
+/*
   citem[31].p_check =
     co_Create_CheckBox(hdcTab[1], 300, 580, "##settings_vertex", 0, 9);
   citem[31].iTab = 1;
   co_Check_Set_State(citem[31].p_check, hdcTab[1], setup.vertex_arrays, 1);
-
+*/
+/*
   citem[44].p_check =
     co_Create_CheckBox(hdcTab[1], 300, 610, "##settings_load_menu_vram", 0,
     10);
   citem[44].iTab = 1;
   co_Check_Set_State(citem[44].p_check, hdcTab[1], setup.menu_vram_load, 1);
-
+*/
   ddxSetCursor(0);
   DisplayFrame();
   DisplayFrame();
@@ -1757,131 +1661,9 @@ void InitTabControls(CONTROL_LIST_ITEM * citem, int *hdcTab)
   ddxReleaseBitmap(iClock);
 }
 
-void RunMenuSetGeneralSettings(CONTROL_LIST_ITEM * citem, int iset)
-{
-
-  int i;
-
-  ddxSetFlip(0);
-
-  for (i = 0; i < 2; i++) {
-    switch (iset) {
-      case 0:
-
-        //modely
-        co_Combo_Set_Sel(HDC2DD, citem[33].p_combo, 0);
-
-        //castice
-        co_Combo_Set_Sel(HDC2DD, citem[10].p_combo, 0);
-
-        //svetla
-        setup.light_dyn = 1;
-        co_Combo_Set_Sel(HDC2DD, citem[32].p_combo, 0);
-
-        //textury predmetu
-        co_Combo_Set_Sel(HDC2DD, citem[34].p_combo, 0);
-
-        //textury okoli
-        co_Combo_Set_Sel(HDC2DD, citem[35].p_combo, 0);
-
-        //zrcadlo
-        co_Check_Set_State(citem[11].p_check, HDC2DD, 1, 1);
-
-        //caustic
-        co_Check_Set_State(citem[30].p_check, HDC2DD, 1, 1);
-
-        break;
-      case 1:
-
-        //modely
-        co_Combo_Set_Sel(HDC2DD, citem[33].p_combo, 1);
-
-        //castice
-        co_Combo_Set_Sel(HDC2DD, citem[10].p_combo, 1);
-
-        //svetla
-        setup.light_dyn = 1;
-        co_Combo_Set_Sel(HDC2DD, citem[32].p_combo, 1);
-
-        //textury predmetu
-        co_Combo_Set_Sel(HDC2DD, citem[34].p_combo, 1);
-
-        //textury okoli
-        co_Combo_Set_Sel(HDC2DD, citem[35].p_combo, 1);
-
-        //zrcadlo
-        co_Check_Set_State(citem[11].p_check, HDC2DD, 0, 1);
-
-        //caustic
-        co_Check_Set_State(citem[30].p_check, HDC2DD, 0, 1);
-
-        break;
-      case 2:
-
-        //modely
-        co_Combo_Set_Sel(HDC2DD, citem[33].p_combo, 1);
-
-        //castice
-        co_Combo_Set_Sel(HDC2DD, citem[10].p_combo, 2);
-
-        //svetla
-        setup.light_dyn = 1;
-        co_Combo_Set_Sel(HDC2DD, citem[32].p_combo, 2);
-
-        //textury predmetu
-        co_Combo_Set_Sel(HDC2DD, citem[34].p_combo, 1);
-
-        //textury okoli
-        co_Combo_Set_Sel(HDC2DD, citem[35].p_combo, 2);
-
-        //zrcadlo
-        co_Check_Set_State(citem[11].p_check, HDC2DD, 0, 1);
-
-        //caustic
-        co_Check_Set_State(citem[30].p_check, HDC2DD, 0, 1);
-
-        break;
-      case 3:
-
-        //modely
-        co_Combo_Set_Sel(HDC2DD, citem[33].p_combo, 1);
-
-        //castice
-        co_Combo_Set_Sel(HDC2DD, citem[10].p_combo, 2);
-
-        //svetla
-        setup.light_dyn = 0;
-        co_Combo_Set_Sel(HDC2DD, citem[32].p_combo, 3);
-
-        //textury predmetu
-        co_Combo_Set_Sel(HDC2DD, citem[34].p_combo, 2);
-
-        //textury okoli
-        co_Combo_Set_Sel(HDC2DD, citem[35].p_combo, 2);
-
-        //zrcadlo
-        co_Check_Set_State(citem[11].p_check, HDC2DD, 0, 1);
-
-        //caustic
-        co_Check_Set_State(citem[30].p_check, HDC2DD, 0, 1);
-
-        break;
-    }
-
-    if (!i)
-      DisplayFrame();
-  }
-
-  ddxSetFlip(1);
-
-}
-
 void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
 {
   DWORD dwEplased = 0, dwStart, dwStop;
-
-  ROZLISENI *roz = NULL;
-  int roz_size = 0;
   int ActiveTab = 0;
   int hdcTab[TAB_NUM];
   int hdcTabUse[TAB_NUM];
@@ -1899,25 +1681,14 @@ void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   int lastabv = -1;
   char in, click = 0;
   int anmid = -1, resid = -1, anbind = -1;
-  int bind;
-  int igeneral_3d;
-  int iComboActSel = -1;
+  int bind;  
 
   for (i = 0; i < 12; i++)
     iClock[i] = -1;
 
-  res = (CMD_LINE *) malloc(RES_NUM * sizeof(CMD_LINE));
+  res = (CMD_LINE *) mmalloc(RES_NUM * sizeof(CMD_LINE));
 
-  if (!res) {
-    kprintf(1, "RunMenuSettings: Out of Memory");
-    return;
-  }
-  else
-    ZeroMemory(res, RES_NUM * sizeof(CMD_LINE));
-
-  EnumRozliseni(&roz, &roz_size);
-  Load_ini();
-  igeneral_3d = setup.general_3d;
+  Load_ini();  
 
   //BitBltU(FontDC, 0, 0, 1024, 768, NULL, 0, 0, WHITENESS);
   //BitBltU(BackDC, 0, 0, 1024, 768, NULL, 0, 0, WHITENESS);
@@ -2310,15 +2081,6 @@ void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
 
     }
 
-    if (ActiveTab == 1) {
-      iComboActSel = co_Combo_Get_Sel_Not_Opend(citem, CLIST_ITEMC, 1);
-
-      if (iComboActSel != -1 && iComboActSel != igeneral_3d) {
-        igeneral_3d = iComboActSel;
-        RunMenuSetGeneralSettings(citem, igeneral_3d);
-      }
-    }
-
     //stlacil leve tlacitko
     if (dim.t1 && !click) {
       int iCheck = -1;
@@ -2411,7 +2173,7 @@ void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
           if(karmin_aktivni)
             ap_Play_Sound(0,1,0,pos,54 + (rand()%3), NULL, p_ad);
 
-          SetMenuSettings(roz, citem, hdcTabUse);
+          SetMenuSettings(citem, hdcTabUse);
           Save_ini();
           key[K_ESC] = 1;
         }
@@ -2433,7 +2195,7 @@ void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
 
         if (!strcmp(res[resid].cParam[1], "3D") && ActiveTab != 1) {
           if (!hdcTabUse[1])
-            InitTab3d(citem, hdcTab, roz, roz_size);
+            InitTab3d(citem, hdcTab);
 
           SetTab(1, ActiveTab, citem, CLIST_ITEMC, hdcTab);
           ActiveTab = 1;
@@ -2516,7 +2278,7 @@ __QUIT:
   ddxCleareSurface(BackDC);
   ddxCleareSurface(CompositDC);
 
-  SetMenuSettingsS(roz, citem, hdcTabUse);
+  SetMenuSettingsS(citem, hdcTabUse);
   Save_ini();
 
   fn_Release_Font(1);
@@ -2527,7 +2289,6 @@ __QUIT:
 
   FreeAnimations(res, RES_NUM);
   free((void *) res);
-  free((void *) roz);
 }
 
 void RunStretchAnimation(char *cScene, int x, int y, AUDIO_DATA * p_ad)

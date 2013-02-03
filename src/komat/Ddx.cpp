@@ -336,8 +336,7 @@ void anisotropic_filtr_init(TXT_KONFIG * p_txt)
       as = max_anis;
 
     p_txt->text_anis_level = as / max_anis;
-    kprintf(TRUE, "Text Max Anisotropy %.1f, akt %.1f", max_anis,
-      p_txt->text_anis_level);
+    kprintf(TRUE, "Text Max Anisotropy %.1f, akt %.1f", max_anis, p_txt->text_anis_level);
   }
   else {
     p_txt->text_anis = FALSE;
