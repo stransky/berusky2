@@ -51,11 +51,11 @@ int fn_Gen_Menu_Text(int iSection, int hdc, char *cText, int *i1, int *i2);
 
 void fn_Convert_Rect(char *cFile, int xmax, int ymax);
 void fn_Draw_Draw_Frames(void);
-void fn_Draw_Message(int iSurface, int iXpos, int iYpos, GAME_TRIGER * gt,
+bool fn_Draw_Message(int iSurface, int iXpos, int iYpos, GAME_TRIGER * gt,
   TRIGER_STRUCTURE * ts, WCHAR * cFile, WCHAR * cStop, int iSection,
   int *iXmax, int *iYmax);
 
-void fn_Draw_MessageA(int iSurface, int iXpos, int iYpos, GAME_TRIGER * gt,
+bool fn_Draw_MessageA(int iSurface, int iXpos, int iYpos, GAME_TRIGER * gt,
   TRIGER_STRUCTURE * ts, WCHAR * cText, int iSection, int *iXmax, int *iYmax);
 
         //int fn_DC2Tex(HDC hdc, int xr, int yr, int turn, int texture);

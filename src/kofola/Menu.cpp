@@ -1003,13 +1003,11 @@ void CreateFontAnimations(CMD_LINE * res, int *lastcmd)
         }
 }
 
-void SetTab(int iTab, int iLTab, CONTROL_LIST_ITEM * p_list, int lsize,
-  int *hdcTab)
+void SetTab(int iTab, int iLTab, CONTROL_LIST_ITEM * p_list, int lsize, int *hdcTab)
 {
   int i;
 
   if (iLTab > -1) {
-    //BitBlt(hdcTab[iLTab], 0, 0, TAB_XRES, TAB_YRES, _2dd.hDC, TAB_X, TAB_Y, SRCCOPY);
     ddxBitBlt(hdcTab[iLTab], 0, 0, TAB_XRES, TAB_YRES, HDC2DD, TAB_X, TAB_Y);
   }
 
@@ -1019,7 +1017,6 @@ void SetTab(int iTab, int iLTab, CONTROL_LIST_ITEM * p_list, int lsize,
     else if ((p_list + i)->iTab != -1)
       (p_list + i)->bActive = 0;
 
-  //BitBlt(_2dd.hDC, TAB_X, TAB_Y, TAB_XRES, TAB_YRES, hdcTab[iTab], 0, 0, SRCCOPY);
   ddxBitBltDisplay(TAB_X, TAB_Y, TAB_XRES, TAB_YRES, hdcTab[iTab], 0, 0);
   DisplayFrame();
 }
@@ -1321,7 +1318,11 @@ void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab)
   citem[11].p_check = co_Create_CheckBox(hdcTab[1], 300, 220, "##settings_draw_mirror", 0, 4);
   citem[11].iTab = 1;
   co_Check_Set_State(citem[11].p_check, hdcTab[1], setup.zrcado_aktivni, 1);
-  
+
+  citem[12].p_check = co_Create_CheckBox(hdcTab[1], 300, 260, "##settings_fullscreen", 0, 5);
+  citem[12].iTab = 1;
+  co_Check_Set_State(citem[12].p_check, hdcTab[1], setup.fullscreen, 1);
+
   ddxSetCursor(0);
   DisplayFrame();
   DisplayFrame();

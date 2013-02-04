@@ -1027,7 +1027,6 @@ BUTTON_CONTROL *co_Create_Button(int hdc, int x, int y, int type, char *text,
       bmpx = ddxGetWidth(hdcBU.hdcButtonL);
       bmpy = ddxGetHight(hdcBU.hdcButtonL);
       bmpDC = hdcBU.hdcButtonL;
-      //co_CreateDC(hdc, bmpx, bmpy, &p_bu->dc);
       p_bu->dc = ddxCreateSurface(bmpx, bmpy, ddxFindFreeSurface());
 
       p_bu->Rect.bottom = y + bmpy;
@@ -1037,7 +1036,6 @@ BUTTON_CONTROL *co_Create_Button(int hdc, int x, int y, int type, char *text,
       bmpx = ddxGetWidth(hdcBU.hdcButtonS);
       bmpy = ddxGetHight(hdcBU.hdcButtonS);
       bmpDC = hdcBU.hdcButtonS;
-      //co_CreateDC(hdc, bmpx, bmpy, &p_bu->dc);
       p_bu->dc = ddxCreateSurface(bmpx, bmpy, ddxFindFreeSurface());
 
       p_bu->Rect.bottom = y + bmpy;
@@ -1051,35 +1049,25 @@ BUTTON_CONTROL *co_Create_Button(int hdc, int x, int y, int type, char *text,
   p_bu->Rect.top = y;
   p_bu->Rect.left = x;
 
-  //BitBlt(p_bu->dc.hdc, 0, 0, bmpx, bmpy, bmpDC, 0, 0, SRCCOPY);
   ddxBitBlt(p_bu->dc, 0, 0, bmpx, bmpy, bmpDC, 0, 0);
 
-  //co_CreateDC(hdc, bmpx, bmpy, &tmpDC);
-  //BitBltU(tmpDC.hdc,0,0,bmpx,bmpy,NULL,0,0,WHITENESS);
   tmpDC = ddxCreateSurface(bmpx, bmpy, ddxFindFreeSurface());
 
   MultiByteToWideChar(CP_ACP, 0, text, strlen(text) + 1, wc,
     sizeof(wc) / sizeof(wc[0]));
   MultiByteToWideChar(CP_ACP, 0, "##endofmessage",
     strlen("##endofmessage") + 1, ws, sizeof(ws) / sizeof(ws[0]));
-
-  //fn_Draw_Message(tmpDC.hdc, 0, 0, &b2_2d_font.gt, &b2_2d_font.ts, wc, ws, isection, &tx, &ty);
-  fn_Draw_Message(tmpDC, 0, 0, &b2_2d_font.gt, &b2_2d_font.ts, wc, ws,
-    isection, &tx, &ty);
+  
+  fn_Draw_Message(tmpDC, 0, 0, &b2_2d_font.gt, &b2_2d_font.ts, wc, ws, isection, &tx, &ty);
 
   cx = ftoi(((p_bu->Rect.right - p_bu->Rect.left) - tx) / 2.0f);
   cy = ftoi(((p_bu->Rect.bottom - p_bu->Rect.top) - ty) / 2.0f);
 
-  //TransparentBltU(p_bu->dc.hdc, cx, cy, tx, ty,  tmpDC.hdc, 0, 0, tx, ty, TRANSCOLOR);
-  ddxTransparentBlt(p_bu->dc, cx, cy, tx, ty, tmpDC, 0, 0, tx, ty,
-    TRANSCOLOR);
+  ddxTransparentBlt(p_bu->dc, cx, cy, tx, ty, tmpDC, 0, 0, tx, ty, TRANSCOLOR);
 
-  //co_Release_Bitmap(&tmpDC);
   ddxReleaseBitmap(tmpDC);
 
-  //BitBlt(hdc, p_bu->Rect.left, p_bu->Rect.top, p_bu->dc.x, p_bu->dc.y, p_bu->dc.hdc, 0, 0, SRCCOPY);
-  ddxBitBlt(hdc, p_bu->Rect.left, p_bu->Rect.top, ddxGetWidth(p_bu->dc),
-    ddxGetHight(p_bu->dc), p_bu->dc, 0, 0);
+  ddxBitBlt(hdc, p_bu->Rect.left, p_bu->Rect.top, ddxGetWidth(p_bu->dc), ddxGetHight(p_bu->dc), p_bu->dc, 0, 0);
 
   return p_bu;
 }
@@ -1135,14 +1123,12 @@ void co_Release_CheckBox(CHECKBOX_CONTROL * p_ch)
   free((void *) p_ch);
 }
 
-CHECKBOX_CONTROL *co_Create_CheckBox(int hdc, int x, int y, char *text,
-  int isection, int checkID)
+CHECKBOX_CONTROL *co_Create_CheckBox(int hdc, int x, int y, char *text, int isection, int checkID)
 {
   WCHAR wc[128];
   WCHAR ws[128];
 
   int bmpx;
-  //int bmpy;
   int bmpDC;
   int tx, ty;
   CHECKBOX_CONTROL *p_ch = NULL;
@@ -1156,10 +1142,8 @@ CHECKBOX_CONTROL *co_Create_CheckBox(int hdc, int x, int y, char *text,
 
   p_ch->checkID = checkID;
 
-  bmpx = ddxGetWidth(hdcCH.hdcCheck);
-  //bmpy = ddxGetHight(hdcCH.hdcCheck);
+  bmpx = ddxGetWidth(hdcCH.hdcCheck);  
   bmpDC = hdcCH.hdcCheck;
-  //co_CreateDC(hdc, bmpx, bmpy, &p_bu->dc);
 
   p_ch->Rect.bottom = y + 20;
   p_ch->Rect.right = x + bmpx;
@@ -1170,26 +1154,18 @@ CHECKBOX_CONTROL *co_Create_CheckBox(int hdc, int x, int y, char *text,
   p_ch->bChecked = 0;
   p_ch->iDC = -1;
 
-  //TransparentBltU(hdc, x, y, bmpx, 24, bmpDC, 0, 80, bmpx, 24, RGB(237, 77, 0));
-  ddxTransparentBlt(hdc, x, y, bmpx, 20, bmpDC, 0, 1, bmpx, 20, RGB(237, 77,
-      0));
+  ddxTransparentBlt(hdc, x, y, bmpx, 20, bmpDC, 0, 1, bmpx, 20, RGB(237, 77, 0));
 
-  MultiByteToWideChar(CP_ACP, 0, text, strlen(text) + 1, wc,
-    sizeof(wc) / sizeof(wc[0]));
-  MultiByteToWideChar(CP_ACP, 0, "##endofmessage",
-    strlen("##endofmessage") + 1, ws, sizeof(ws) / sizeof(ws[0]));
+  MultiByteToWideChar(CP_ACP, 0, text, strlen(text) + 1, wc, sizeof(wc) / sizeof(wc[0]));
+  MultiByteToWideChar(CP_ACP, 0, "##endofmessage", strlen("##endofmessage") + 1, ws, sizeof(ws) / sizeof(ws[0]));
 
-  fn_Draw_Message(hdc, x + 30, y + 3, &b2_2d_font.gt, &b2_2d_font.ts, wc, ws,
-    isection, &tx, &ty);
-
-  p_ch->RectFull.left = x;
-  p_ch->RectFull.top = y;
-  p_ch->RectFull.right = 30 + tx - p_ch->RectFull.left;
-  p_ch->RectFull.bottom = ty - p_ch->RectFull.top;
-
-  p_ch->iDC =
-    ddxCreateSurface(p_ch->RectFull.right, p_ch->RectFull.bottom,
-    ddxFindFreeSurface());
+  if(fn_Draw_Message(hdc, x + 30, y + 3, &b2_2d_font.gt, &b2_2d_font.ts, wc, ws, isection, &tx, &ty)) {
+    p_ch->RectFull.left = x;
+    p_ch->RectFull.top = y;
+    p_ch->RectFull.right = 30 + tx - p_ch->RectFull.left;
+    p_ch->RectFull.bottom = ty - p_ch->RectFull.top;
+    p_ch->iDC = ddxCreateSurface(p_ch->RectFull.right, p_ch->RectFull.bottom, ddxFindFreeSurface());
+  }
 
   return p_ch;
 }
@@ -1466,9 +1442,6 @@ int co_Set_Text_Right(int hdc, char *text, int isection, int x, int y)
   xp = x - tx;
 
   ddxTransparentBlt(hdc, xp, y, tx, ty, h, 0, 0, tx, ty, TRANSCOLOR);
-
-  //ddxTransparentBltDisplay(xp, y, tx, ty, h, 0, 0, tx, ty, TRANSCOLOR); 
-
   ddxReleaseBitmap(h);
 
   return 1;
@@ -1486,14 +1459,10 @@ int co_Set_Text_RightWC(int hdc, char *text, int isection, int x, int y)
   MultiByteToWideChar(CP_ACP, 0, text, strlen(text) + 1, wc,
     sizeof(wc) / sizeof(wc[0]));
 
-  fn_Draw_MessageA(h, 0, 0, &b2_2d_font.gt, &b2_2d_font.ts, wc, isection, &tx,
-    &ty);
+  fn_Draw_MessageA(h, 0, 0, &b2_2d_font.gt, &b2_2d_font.ts, wc, isection, &tx, &ty);
 
   xp = x - tx;
-
   ddxTransparentBlt(hdc, xp, y, tx, ty, h, 0, 0, tx, ty, TRANSCOLOR);
-
-  //ddxSaveSurface(h);
   ddxReleaseBitmap(h);
 
   return 1;

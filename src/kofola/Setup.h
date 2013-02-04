@@ -11,12 +11,8 @@ typedef struct
   char no_menu;
   char camera_type;
   char log_file[256];
-  int  xres;
-  int  yres;
-  char bpp;
   char fullscreen;
-  char ditering;
-  char typ_mlhy;                //0 = vertex, 1 - pixel
+  char ditering;  
   char text_detail;             //Texture-level - Uroven detailu textur (0 = max)
   char text_detail_light;       //Uroven detailu textur lightmap (0 = max)  
   char text_mip_mapping;        //Generovat pro startu mip-mapy + jejich povoleni  TF

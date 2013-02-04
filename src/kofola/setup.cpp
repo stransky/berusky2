@@ -17,8 +17,6 @@ void Save_ini(void)
       10), ini_file);
   WritePrivateProfileString("hra", "ditering", itoa(setup.ditering, text, 10),
     ini_file);
-  WritePrivateProfileString("hra", "typ_mlhy", itoa(setup.typ_mlhy, text, 10),
-    ini_file);
   WritePrivateProfileString("hra", "pohled_berusky",
     itoa(setup.pohled_berusky, text, 10), ini_file);
   WritePrivateProfileString("hra", "ovladani", itoa(setup.ovladani, text, 10),
@@ -205,12 +203,8 @@ void Load_ini(void)
   setup.camera_type = GetPrivateProfileInt("hra", "camera_type", 0, ini_file);
   GetPrivateProfileString("hra", "log_file", "c:\\ber2log.txt", setup.log_file, 256, ini_file);
 
-  setup.xres = GetPrivateProfileInt("hra", "xres", 0, ini_file);
-  setup.yres = GetPrivateProfileInt("hra", "yres", 0, ini_file);
-  setup.bpp = GetPrivateProfileInt("hra", "bpp", 0, ini_file);
   setup.fullscreen = GetPrivateProfileInt("hra", "fullscreen", 0, ini_file);
   setup.ditering = GetPrivateProfileInt("hra", "ditering", 0, ini_file);
-  setup.typ_mlhy = GetPrivateProfileInt("hra", "typ_mlhy", 0, ini_file);
   setup.pohled_berusky = GetPrivateProfileInt("hra", "pohled_berusky", 0, ini_file);
   setup.kvalita_castic = GetPrivateProfileInt("hra", "kvalita_castic", 0, ini_file);
   setup.kvalita_casticv = GetPrivateProfileInt("hra", "kvalita_casticv", 0, ini_file);

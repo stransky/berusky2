@@ -162,7 +162,7 @@ int fn_Set_Font_Bmps(GAME_TRIGER * gt, TRIGER_STRUCTURE * ts)
   return 0;
 }
 
-void fn_Draw_Message(int iSurface, int iXpos, int iYpos, GAME_TRIGER * gt,
+bool fn_Draw_Message(int iSurface, int iXpos, int iYpos, GAME_TRIGER * gt,
   TRIGER_STRUCTURE * ts, WCHAR * cFile, WCHAR * cStop, int iSection,
   int *iXmax, int *iYmax)
 {
@@ -178,14 +178,12 @@ void fn_Draw_Message(int iSurface, int iXpos, int iYpos, GAME_TRIGER * gt,
   i = wcslen(cFile);
 
   cFile = wcsstr((WCHAR *) b2_2d_font.pTBuffer, cFile);
-
   if (!cFile)
-    return;
+    return(FALSE);
 
   cStop = wcsstr(cFile, cStop);
-
   if (!cStop)
-    return;
+    return(FALSE);
 
   ZeroMemory(wtext, 1024 * sizeof(WCHAR));
   wcsncpy(wtext, cFile + i, cStop - cFile - i);
@@ -221,9 +219,10 @@ void fn_Draw_Message(int iSurface, int iXpos, int iYpos, GAME_TRIGER * gt,
         *iYmax = (*iYmax) - b2_2d_font.iYPlus + (bottom - top + 1);
     }
   }
+  return(TRUE);
 }
 
-void fn_Draw_MessageA(int iSurface, int iXpos, int iYpos, GAME_TRIGER * gt,
+bool fn_Draw_MessageA(int iSurface, int iXpos, int iYpos, GAME_TRIGER * gt,
                       TRIGER_STRUCTURE * ts, 
                       WCHAR * cText, int iSection, int *iXmax, int *iYmax)
 {
@@ -274,6 +273,7 @@ void fn_Draw_MessageA(int iSurface, int iXpos, int iYpos, GAME_TRIGER * gt,
         *iYmax = (*iYmax) - b2_2d_font.iYPlus + (bottom - top + 1);
     }
   }
+  return(TRUE);
 }
 
 void fn_Set_Char(unsigned int *pTexture, int iXSize, int iYSize, int iXpos,
