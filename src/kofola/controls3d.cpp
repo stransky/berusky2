@@ -737,6 +737,8 @@ int co2_Combo_Set_String(int hdc, COMBO_CONTROL2 * p_co, int xcor, int ycor)
 
 int co2_Combo_Set_Sel(int hdc, COMBO_CONTROL2 * p_co, int i)
 {
+  assert(i >= 0);
+
   p_co->Selected = i;
   p_co->OSelected = i;
 

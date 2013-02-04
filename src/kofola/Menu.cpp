@@ -1177,22 +1177,7 @@ void SetMenuSettings(CONTROL_LIST_ITEM * citem, int *hdcTabUse)
 
   if (hdcTabUse[1]) {
     setup.kvalita_casticv = co_Combo_Get_Sel(citem, CLIST_ITEMC, 5);
-  
-    i = co_Combo_Get_Sel(citem, CLIST_ITEMC, 6);
-    if (i == 3)
-      setup.light_dyn = 0;
-    else {
-      setup.light_dyn = 1;
-      setup.light_rychlost = i + 1;
-    }
-
     setup.text_mip_mapping = co_Combo_Get_Sel(citem, CLIST_ITEMC, 8);
-
-    i = co_Combo_Get_Sel(citem, CLIST_ITEMC, 9);
-    if (!i)
-      setup.text_bpp = 32;
-    else
-      setup.text_bpp = 16;
 
     i = co_Combo_Drop_Get_Sel(citem, CLIST_ITEMC, 0, &f);
     if (!i)
@@ -1260,136 +1245,14 @@ void SetMenuSettingsS(CONTROL_LIST_ITEM * citem, int *hdcTabUse)
 void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab)
 {
   int i;
-  int count = 0;
   int iClock;
 
   iClock = ddxLoadBitmap("clock1-1.bmp", pBmpArchive);
   ddxResizeCursorBack(iClock);
   DrawClock(&iClock, 0);
-/*
-  co_Set_Text_Right(hdcTab[1], "##settings_resolution", 0, 285, 57);
 
-  citem[8].p_combo = co_Create_Combo(hdcTab[1], 300, 50, 450, 0);
-  citem[8].iTab = 1;
-
-  for (i = 0; i < roz_size; i++) {
-    if (roz[i].bpp > 0) {
-      char text[256];
-
-      sprintf(text, "%dx%dx%d", roz[i].x, roz[i].y, roz[i].bpp);
-
-      co_Combo_Add_String(citem[8].p_combo, text);
-
-      count++;
-    }
-  }
-
-  if (count > 10)
-    co_Combo_Set_Params(citem[8].p_combo, 10);
-  else
-    co_Combo_Set_Params(citem[8].p_combo, count);
-
-  co_Combo_Set_Sel(hdcTab[1], citem[8].p_combo, GetResCombobox(roz,
-      roz_size));
-*/
-  //////////////////////////////##settings_gemeral_3d
-/*  
-  co_Set_Text_Right(hdcTab[1], "##settings_gemeral_3d", 0, 285, 97);
-  citem[9].p_combo = co_Create_Combo(hdcTab[1], 300, 90, 100, 1);
-  citem[9].iTab = 1;
-
-  co_Combo_Add_StringWC(citem[9].p_combo, "##settings_gemeral_3d_high");
-  co_Combo_Add_StringWC(citem[9].p_combo, "##settings_gemeral_3d_normal");
-  co_Combo_Add_StringWC(citem[9].p_combo, "##settings_gemeral_3d_low");
-  co_Combo_Add_StringWC(citem[9].p_combo, "##settings_gemeral_3d_elow");
-  co_Combo_Set_Params(citem[9].p_combo, 4);
-
-  co_Combo_Set_Sel(hdcTab[1], citem[9].p_combo, setup.general_3d);
-*/
-  /////////////////////////////////##settings_model
-/*  
-  co_Set_Text_Right(hdcTab[1], "##settings_model", 0, 285, 137);
-  citem[33].p_combo = co_Create_Combo(hdcTab[1], 300, 130, 100, 2);
-  citem[33].iTab = 1;
-  co_Combo_Add_StringWC(citem[33].p_combo, "##settings_gemeral_3d_high");
-  co_Combo_Add_StringWC(citem[33].p_combo, "##settings_gemeral_3d_normal");
-  co_Combo_Set_Params(citem[33].p_combo, 2);
-
-  if (!setup.extra_light_vertex)
-    co_Combo_Set_Sel(hdcTab[1], citem[33].p_combo, 1);
-  else
-    co_Combo_Set_Sel(hdcTab[1], citem[33].p_combo, 0);
-
-  co_Set_Text_Right(hdcTab[1], "##settings_partices_weather", 0, 285, 177);
-  citem[10].p_combo = co_Create_Combo(hdcTab[1], 300, 170, 100, 5);
-  citem[10].iTab = 1;
-
-  co_Combo_Add_StringWC(citem[10].p_combo, "##settings_gemeral_3d_high");
-  co_Combo_Add_StringWC(citem[10].p_combo, "##settings_gemeral_3d_normal");
-  co_Combo_Add_StringWC(citem[10].p_combo, "##settings_gemeral_3d_low");
-  co_Combo_Add_StringWC(citem[10].p_combo, "##settings_gemeral_3d_elow");
-  co_Combo_Set_Params(citem[10].p_combo, 4);
-  co_Combo_Set_Sel(hdcTab[1], citem[10].p_combo, setup.kvalita_casticv);
-*/
-/*
-  co_Set_Text_Right(hdcTab[1], "#settings_lights", 0, 285, 217);
-  citem[32].p_combo = co_Create_Combo(hdcTab[1], 300, 210, 130, 6);
-  citem[32].iTab = 1;
-
-  co_Combo_Add_StringWC(citem[32].p_combo, "##settings_gemeral_3d_high");
-  co_Combo_Add_StringWC(citem[32].p_combo, "##settings_gemeral_3d_normal");
-  co_Combo_Add_StringWC(citem[32].p_combo, "##settings_gemeral_3d_low");
-  //co_Combo_Add_StringWC(citem[32].p_combo, "##settings_gemeral_3d_elow");
-  co_Combo_Add_StringWC(citem[32].p_combo, "##settings_lights_off");
-  co_Combo_Set_Params(citem[32].p_combo, 4);
-
-  if (!setup.light_dyn)
-    co_Combo_Set_Sel(hdcTab[1], citem[32].p_combo, 3);
-  else
-    co_Combo_Set_Sel(hdcTab[1], citem[32].p_combo, setup.light_rychlost - 1);
-*/
-  /////////////////////////////////##settings_item_textures
-/*  
-  co_Set_Text_Right(hdcTab[1], "##settings_item_textures", 0, 285, 257);
-  citem[34].p_combo = co_Create_Combo(hdcTab[1], 300, 250, 100, 3);
-  citem[34].iTab = 1;
-
-  co_Combo_Add_StringWC(citem[34].p_combo, "##settings_gemeral_3d_high");
-  co_Combo_Add_StringWC(citem[34].p_combo, "##settings_gemeral_3d_normal");
-  co_Combo_Add_StringWC(citem[34].p_combo, "##settings_gemeral_3d_low");
-  co_Combo_Set_Params(citem[34].p_combo, 3);
-  co_Combo_Set_Sel(hdcTab[1], citem[34].p_combo, setup.text_detail2);
-*/
-  /////////////////////////////////##settings_scene_textures
-/*  
-  co_Set_Text_Right(hdcTab[1], "##settings_scene_textures", 0, 285, 297);
-  citem[35].p_combo = co_Create_Combo(hdcTab[1], 300, 290, 100, 4);
-  citem[35].iTab = 1;
-
-  co_Combo_Add_StringWC(citem[35].p_combo, "##settings_gemeral_3d_high");
-  co_Combo_Add_StringWC(citem[35].p_combo, "##settings_gemeral_3d_normal");
-  co_Combo_Add_StringWC(citem[35].p_combo, "##settings_gemeral_3d_low");
-  co_Combo_Set_Params(citem[35].p_combo, 3);
-  co_Combo_Set_Sel(hdcTab[1], citem[35].p_combo, setup.text_detail3);
-
-  co_Set_Text_Right(hdcTab[1], "##settings_bump", 0, 285, 337);
-  citem[25].p_combo = co_Create_Combo(hdcTab[1], 300, 330, 100, 7);
-  citem[25].iTab = 1;
-
-  co_Combo_Add_StringWC(citem[25].p_combo, "##settings_combo_all");
-  co_Combo_Add_StringWC(citem[25].p_combo, "##settings_combo_items");
-  co_Combo_Add_StringWC(citem[25].p_combo, "##settings_combo_turnoff");
-  co_Combo_Set_Params(citem[25].p_combo, 3);
-
-  if (!setup.bump_mapping)
-    co_Combo_Set_Sel(hdcTab[1], citem[25].p_combo, 2);
-  else if (setup.bump_mapping && setup.text_bump2 && !setup.text_bump3)
-    co_Combo_Set_Sel(hdcTab[1], citem[25].p_combo, 1);
-  else
-    co_Combo_Set_Sel(hdcTab[1], citem[25].p_combo, 0);
-*/
-  co_Set_Text_Right(hdcTab[1], "##settings_texture_filterig", 0, 285, 377);
-  citem[18].p_combo = co_Create_Combo(hdcTab[1], 300, 370, 100, 8);
+  co_Set_Text_Right(hdcTab[1], "##settings_texture_filterig", 0, 285, 57);
+  citem[18].p_combo = co_Create_Combo(hdcTab[1], 300, 50, 100, 8);
   citem[18].iTab = 1;
 
   co_Combo_Add_StringWC(citem[18].p_combo, "##settings_texture_filterig_linear");
@@ -1398,21 +1261,8 @@ void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab)
 
   co_Combo_Set_Sel(hdcTab[1], citem[18].p_combo, setup.text_mip_mapping);
 
-  co_Set_Text_Right(hdcTab[1], "##settings_texture_depth", 0, 285, 417);
-  citem[26].p_combo = co_Create_Combo(hdcTab[1], 300, 410, 100, 9);
-  citem[26].iTab = 1;
-
-  co_Combo_Add_StringWC(citem[26].p_combo, "##settings_texture_depth_32");
-  co_Combo_Add_StringWC(citem[26].p_combo, "##settings_texture_depth_16");
-  co_Combo_Set_Params(citem[26].p_combo, 2);
-
-  if (setup.text_bpp == 32)
-    co_Combo_Set_Sel(hdcTab[1], citem[26].p_combo, 0);
-  else
-    co_Combo_Set_Sel(hdcTab[1], citem[26].p_combo, 1);
-
-  co_Set_Text_Right(hdcTab[1], "##settings_anisotropic_filtering", 0, 285, 457);
-  citem[27].p_combod = co_Create_Combo_Drop(hdcTab[1], 300, 450, 0);
+  co_Set_Text_Right(hdcTab[1], "##settings_anisotropic_filtering", 0, 285, 97);
+  citem[27].p_combod = co_Create_Combo_Drop(hdcTab[1], 300, 90, 0);
   citem[27].iTab = 1;
 
   co_Combo_Drop_Add_StringWC(citem[27].p_combod, "##settings_lights_turnoff", 0.0f);
@@ -1427,9 +1277,8 @@ void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab)
   else
     co_Combo_Drop_Set_Sel(hdcTab[1], citem[27].p_combod, setup.text_ans_stupen);
 
-
-  co_Set_Text_Right(hdcTab[1], "##settings_sharpness", 0, 285, 497);
-  citem[42].p_combod = co_Create_Combo_Drop(hdcTab[1], 300, 490, 10);
+  co_Set_Text_Right(hdcTab[1], "##settings_sharpness", 0, 285, 137);
+  citem[42].p_combod = co_Create_Combo_Drop(hdcTab[1], 300, 130, 10);
   citem[42].iTab = 1;
 
   co_Combo_Drop_Add_String(citem[42].p_combod, "-3.0", -3.0f);
@@ -1464,55 +1313,15 @@ void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab)
     i = 24;
 
   co_Combo_Drop_Set_Sel(hdcTab[1], citem[42].p_combod, i);
-/*
-  co_Set_Text_Right(hdcTab[1], "##settings_opengl", 0, 285, 537);
-  citem[28].p_combo = co_Create_Combo(hdcTab[1], 300, 530, 100, 10);
-  citem[28].iTab = 1;
-
-  co_Combo_Add_StringWC(citem[28].p_combo, "##settings_opengl_rychlost");
-  co_Combo_Add_StringWC(citem[28].p_combo, "##settings_opengl_kvalita");
-  co_Combo_Set_Params(citem[28].p_combo, 2);
-  co_Combo_Set_Sel(hdcTab[1], citem[28].p_combo, setup.text_kvalita);
-*/
-/*
-  citem[16].p_check = co_Create_CheckBox(hdcTab[1], 525, 255, "##settings_texture_commpression", 0, 6);
-  citem[16].iTab = 1;
-  co_Check_Set_State(citem[16].p_check, hdcTab[1], setup.text_komprese, 1);
-*/
-  citem[29].p_check =
-    co_Create_CheckBox(hdcTab[1], 525, 415, "##settings_dithering", 0, 7);
+  
+  citem[29].p_check = co_Create_CheckBox(hdcTab[1], 300, 180, "##settings_dithering", 0, 7);
   citem[29].iTab = 1;
   co_Check_Set_State(citem[29].p_check, hdcTab[1], setup.ditering, 1);
 
-  citem[11].p_check =
-    co_Create_CheckBox(hdcTab[1], 525, 135, "##settings_draw_mirror", 0, 4);
+  citem[11].p_check = co_Create_CheckBox(hdcTab[1], 300, 220, "##settings_draw_mirror", 0, 4);
   citem[11].iTab = 1;
   co_Check_Set_State(citem[11].p_check, hdcTab[1], setup.zrcado_aktivni, 1);
-/*
-  citem[30].p_check =
-    co_Create_CheckBox(hdcTab[1], 525, 535, "##settings_caustic", 0, 8);
-  citem[30].iTab = 1;
-  co_Check_Set_State(citem[30].p_check, hdcTab[1], setup.scene_materialy, 1);
-*/
-/*
-  citem[30].p_check =
-    co_Create_CheckBox(hdcTab[1], 525, 535, "##settings_caustic", 0, 8);
-  citem[30].iTab = 1;
-  co_Check_Set_State(citem[30].p_check, hdcTab[1], setup.scene_materialy, 1);
-*/  
-/*
-  citem[31].p_check =
-    co_Create_CheckBox(hdcTab[1], 300, 580, "##settings_vertex", 0, 9);
-  citem[31].iTab = 1;
-  co_Check_Set_State(citem[31].p_check, hdcTab[1], setup.vertex_arrays, 1);
-*/
-/*
-  citem[44].p_check =
-    co_Create_CheckBox(hdcTab[1], 300, 610, "##settings_load_menu_vram", 0,
-    10);
-  citem[44].iTab = 1;
-  co_Check_Set_State(citem[44].p_check, hdcTab[1], setup.menu_vram_load, 1);
-*/
+  
   ddxSetCursor(0);
   DisplayFrame();
   DisplayFrame();
@@ -1672,11 +1481,9 @@ void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
 
   int iClock[12];
 
-//      FILE    *file;
   char dir[256];
   int lastcmd, lastanm, i;
 
-  //CMD_LINE      res[RES_NUM];
   CMD_LINE *res = NULL;
   int lastabv = -1;
   char in, click = 0;
@@ -1688,7 +1495,7 @@ void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
 
   res = (CMD_LINE *) mmalloc(RES_NUM * sizeof(CMD_LINE));
 
-  Load_ini();  
+  Load_ini();
 
   //BitBltU(FontDC, 0, 0, 1024, 768, NULL, 0, 0, WHITENESS);
   //BitBltU(BackDC, 0, 0, 1024, 768, NULL, 0, 0, WHITENESS);
@@ -1884,8 +1691,7 @@ void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
       co_Check_Disable(hdcTab[0], 0, 0, citem, CLIST_ITEMC, 14);
       co_Check_Disable(hdcTab[0], 0, 0, citem, CLIST_ITEMC, 15);
       //co_Check_Disable(hdcTab[0], 0, 0, citem, CLIST_ITEMC, 16);
-      co_Progres_Disable(hdcTab[0], 0, 0, citem, CLIST_ITEMC, 0, 1,
-        hdcTab[0]);
+      co_Progres_Disable(hdcTab[0], 0, 0, citem, CLIST_ITEMC, 0, 1, hdcTab[0]);
     }
 
     DrawClock(iClock, 6);
@@ -1900,8 +1706,7 @@ void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
       co_Check_Disable(HDC2DD, TAB_X, TAB_Y, citem, CLIST_ITEMC, 14);
       co_Check_Disable(HDC2DD, TAB_X, TAB_Y, citem, CLIST_ITEMC, 15);
       //co_Check_Disable(HDC2DD, TAB_X, TAB_Y, citem, CLIST_ITEMC, 16);
-      co_Progres_Disable(HDC2DD, TAB_X, TAB_Y, citem, CLIST_ITEMC, 0, 0,
-        HDC2DD);
+      co_Progres_Disable(HDC2DD, TAB_X, TAB_Y, citem, CLIST_ITEMC, 0, 0, HDC2DD);
     }
 
     DrawClock(iClock, 7);
@@ -2243,13 +2048,15 @@ void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
     if (timercnt > 500) {
       timercnt = 0;
 
-      for (i = 0; i < lastcmd; i++)
-        if (res[i].iParam[0] == COM_RANDOMANIMATION)
-          if (rand() % 200 <= res[i].iParam[1] &&
-            strcmp(dir, res[i].cParam[0])) {
+      for (i = 0; i < lastcmd; i++) {
+        if (res[i].iParam[0] == COM_RANDOMANIMATION) {
+          if (rand() % 200 <= res[i].iParam[1] && strcmp(dir, res[i].cParam[0])) 
+          {
             CheckAnimation(&res[i], p_ad);
             AddAnimation(&res[i], p_ad, 0, 0);
           }
+        }
+      }
     }
 
     dwStop = timeGetTime();
@@ -2517,11 +2324,9 @@ void RunMenuNewGameScene(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
 {
   DWORD dwEplased = 0, dwStart, dwStop;
 
-//      FILE    *file;
   char dir[256];
   int lastcmd, lastanm, i;
 
-  //CMD_LINE      res[RES_NUM];
   CMD_LINE *res = NULL;
   int lastabv = -1;
   char in, click = 0;
@@ -2530,14 +2335,7 @@ void RunMenuNewGameScene(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
 
   bBackDC = 0;
 
-  res = (CMD_LINE *) malloc(RES_NUM * sizeof(CMD_LINE));
-
-  if (!res) {
-    kprintf(1, "RunMenuNewGameScene: Out of Memory");
-    return;
-  }
-  else
-    ZeroMemory(res, RES_NUM * sizeof(CMD_LINE));
+  res = (CMD_LINE *) mmalloc(RES_NUM * sizeof(CMD_LINE));
 
 #ifndef __DEMO
   if (!pPlayerProfile.cMovie[0] && bNewGame) {

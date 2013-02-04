@@ -784,22 +784,8 @@ void SetMenuSettings2(CONTROL_LIST_ITEM2 * citem, int *hdcTabUse)
     setup.p_kamera_radius = co2_Progres_Get(citem, CLIST_ITEMC, 1) / 2.0f;
   }
 
-  if (hdcTabUse[1]) {
-
-    i = co2_Combo_Get_Sel(citem, CLIST_ITEMC, 6);
-
-    if (i == 3)
-      setup.light_dyn = 0;
-    else {
-      setup.light_dyn = 1;
-      setup.light_rychlost = i + 1;
-    }
-
-    //setup.light_rychlost = co2_Combo_Get_Sel(citem, CLIST_ITEMC, 6) + 1;
-
+  if (hdcTabUse[1]) {    
     co2_Combo_Drop_Get_Sel(citem, CLIST_ITEMC, 10, &setup.text_ostrost);
-
-
     setup.ditering = co2_Check_Get_State(citem, CLIST_ITEMC, 7);
     setup.animace_okoli = co2_Check_Get_State(citem, CLIST_ITEMC, 8);
   }
@@ -856,31 +842,6 @@ void SetMenuSettingsS2(CONTROL_LIST_ITEM2 * citem, int *hdcTabUse)
 void InitTab3d2(CONTROL_LIST_ITEM2 * citem, int *hdcTab)
 {
   int i;
-
-  //kprintf(1, "#settings_lights");
-
-  co2_Set_Text_Right(hdcTab[1], "#settings_lights", 0, 285, 57);
-  citem[32].p_combo = co2_Create_Combo(hdcTab[1], 300, 50, 100, 6);
-  citem[32].iTab = 1;
-
-  co2_Combo_Add_StringWC(citem[32].p_combo, "##settings_gemeral_3d_high");
-  co2_Combo_Add_StringWC(citem[32].p_combo, "##settings_gemeral_3d_normal");
-  co2_Combo_Add_StringWC(citem[32].p_combo, "##settings_gemeral_3d_low");
-  //co2_Combo_Add_StringWC(citem[32].p_combo, "##settings_gemeral_3d_elow");
-  co2_Combo_Add_StringWC(citem[32].p_combo, "##settings_lights_off");
-  co2_Combo_Set_Params(citem[32].p_combo, 4);
-
-  if (setup.light_dyn) {
-    co2_Combo_Set_Sel(hdcTab[1], citem[32].p_combo, setup.light_rychlost - 1);
-  }
-  else {
-    co2_Combo_Set_Sel(hdcTab[1], citem[32].p_combo, 3);
-    //co2_Combo_Set_Sel(hdcTab[1], citem[32].p_combo, setup.light_rychlost - 1);
-    /*co2_Draw_Disable(hdcTab[1], 0, 0, 0, citem[32].p_combo->y, 500, 30);
-       citem[32].bActive = 0;
-       citem[32].bDisabled = 1; */
-  }
-
 
   //kprintf(1, "##settings_sharpness");
 
@@ -1082,14 +1043,12 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
 
   DWORD dwEplased = 0, dwStart, dwStop;
 
-//      ROZLISENI       roz[POCETROZLICENI];
   int ActiveTab = 0;
   int hdcTab[TAB_NUM];
   int hdcTabUse[TAB_NUM];
 
   CONTROL_LIST_ITEM2 citem[CLIST_ITEMC];
 
-//      FILE    *file;
   char dir[256];
   int lastcmd, lastanm, i;
   CMD_LINE *res = NULL;
@@ -1099,7 +1058,6 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
   int bind;
   DeviceHandle dh = 0;
   int sh = K_CHYBA;
-//  int iBmp;
 
   _3d_End_Draw();
 

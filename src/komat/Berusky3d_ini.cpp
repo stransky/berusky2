@@ -82,7 +82,7 @@ void maximalizuj_hru(void)
 
 int nahraj_konfig(void)
 {
-  /* Nahraje konfiguraci grafiky
+  /* TODO - sync with Setup
    */
   nahraj_device_config(ini_file, "hra", &hwconf);
   nahraj_universal_device_config(ini_file, "hra", &hwconf);

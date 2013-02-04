@@ -21,7 +21,6 @@ typedef struct
   char text_detail_light;       //Uroven detailu textur lightmap (0 = max)  
   char text_mip_mapping;        //Generovat pro startu mip-mapy + jejich povoleni  TF
   char text_mip_filtr;          //Filtr mip-map 0 - linearni/1 - trilinearni TF
-  char text_bpp;                //Hloubka textur 16/32 bitu  
   char channels;
   long pre_load;
   char soundvolume;
@@ -76,8 +75,6 @@ typedef struct
   char debug_kamery;
   char text_ans;  
   int  text_ans_stupen;
-  int  light_dyn;
-  int  light_rychlost;
   int  start_zpruhlednovani;
   int  start_zvyraznovani;
   int  ovladani_rohy;
@@ -88,14 +85,6 @@ typedef struct
   int  animace_okoli;
   char camera_intro;
 } SETUP;
-
-typedef struct
-{
-  DWORD x;
-  DWORD y;
-  DWORD bpp;
-  DWORD freq;
-} ROZLISENI;
 
 void Load_ini(void);
 void Save_ini(void);

@@ -34,13 +34,7 @@ void Save_ini(void)
   sprintf(text, "%f", setup.p_kamera_radius);
   WritePrivateProfileString("hra", "p_kamera_radius", text, ini_file);
   WritePrivateProfileString("hra", "cursor", setup.cursor, ini_file);
-  WritePrivateProfileString("hra", "camera_intro", itoa(setup.camera_intro,
-      text, 10), ini_file);
-
-  WritePrivateProfileString("hra", "light_dyn", itoa(setup.light_dyn, text, 10), 
-    ini_file);
-  WritePrivateProfileString("hra", "light_rychlost",
-    itoa(setup.light_rychlost, text, 10), ini_file);
+  WritePrivateProfileString("hra", "camera_intro", itoa(setup.camera_intro, text, 10), ini_file);
 
   sprintf(text, "%f", setup.ovladani_rohy_rychlost);
   WritePrivateProfileString("hra", "ovladani_rohy_rychlost", text, ini_file);
@@ -65,8 +59,6 @@ void Save_ini(void)
     itoa(setup.text_mip_mapping, text, 10), ini_file);
   WritePrivateProfileString("textury", "text_mip_filtr",
     itoa(setup.text_mip_filtr, text, 10), ini_file);
-  WritePrivateProfileString("textury", "text_bpp", itoa(setup.text_bpp, text,
-      10), ini_file);
   WritePrivateProfileString("textury", "text_hi_res",
     itoa(setup.hires_textury, text, 10), ini_file);
   WritePrivateProfileString("textury", "text_ans", itoa(setup.text_ans, text, 10), ini_file);
@@ -235,8 +227,6 @@ void Load_ini(void)
   setup.p_kamera_radius = (float) atof(text);
   
   GetPrivateProfileString("hra", "cursor", "cursor", setup.cursor, 32, ini_file);
-  setup.light_dyn = GetPrivateProfileInt("hra", "light_dyn", 0, ini_file);
-  setup.light_rychlost = GetPrivateProfileInt("hra", "light_rychlost", 0, ini_file);
   GetPrivateProfileString("hra", "ovladani_rohy_rychlost", "0.5", text, 256, ini_file);
   setup.ovladani_rohy_rychlost = (float) atof(text);
   
@@ -253,7 +243,6 @@ void Load_ini(void)
   setup.text_detail_light = GetPrivateProfileInt("textury", "text_detail_light", 0, ini_file);
   setup.text_mip_mapping = GetPrivateProfileInt("textury", "text_mip_mapping", 0, ini_file);
   setup.text_mip_filtr = GetPrivateProfileInt("textury", "text_mip_filtr", 0, ini_file);
-  setup.text_bpp = GetPrivateProfileInt("textury", "text_bpp", 0, ini_file);
   setup.hires_textury = GetPrivateProfileInt("textury", "text_hi_res", 0, ini_file);
   setup.text_ans = GetPrivateProfileInt("textury", "text_ans", 0, ini_file);
   setup.text_ans_stupen = GetPrivateProfileInt("textury", "text_ans_stupen", 0, ini_file);

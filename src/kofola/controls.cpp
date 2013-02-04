@@ -424,8 +424,7 @@ void co_Release_Combo(COMBO_CONTROL * p_co)
   free((void *) p_co);
 }
 
-COMBO_CONTROL *co_Create_Combo(int hdc, int x, int y, int maxlisthight,
-  int id)
+COMBO_CONTROL *co_Create_Combo(int hdc, int x, int y, int maxlisthight, int id)
 {
   COMBO_CONTROL *p_co = NULL;
 
@@ -1429,11 +1428,7 @@ int co_Set_Text_Center(int hdc, char *text, int isection, RECT r)
   WCHAR ws[128];
   int h;
 
-  //co_CreateDC(hdc, 600, 100, &h);
-
   h = ddxCreateSurface(600, 100, ddxFindFreeSurface());
-
-  //BitBltU(h.hdc, 0, 0, 600, 100, NULL, 0, 0, WHITENESS);
 
   MultiByteToWideChar(CP_ACP, 0, text, strlen(text) + 1, wc, sizeof(wc) / sizeof(wc[0]));
   MultiByteToWideChar(CP_ACP, 0, "##endofmessage", strlen("##endofmessage") + 1, ws, sizeof(ws) / sizeof(ws[0]));
@@ -1442,14 +1437,9 @@ int co_Set_Text_Center(int hdc, char *text, int isection, RECT r)
 
   xp = ftoi(((r.right - r.left) - tx) / 2.0f);
   yp = ftoi(((r.bottom - r.top) - ty) / 2.0f);
-
-  //TransparentBltU(hdc, r.left + xp, r.top + yp, tx, ty, h.hdc, 0, 0, tx, ty, TRANSCOLOR);
+  
   ddxTransparentBlt(hdc, r.left + xp, r.top + yp, tx, ty, h, 0, 0, tx, ty, TRANSCOLOR);
 
-  //TransparentBltU(_2dd.hDC, r.left + xp, r.top + yp, tx, ty, h.hdc, 0, 0, tx, ty, TRANSCOLOR);  
-  //ddxTransparentBltDisplay(r.left + xp, r.top + yp, tx, ty, h, 0, 0, tx, ty, TRANSCOLOR);       
-
-  //co_Release_Bitmap(&h);
   ddxReleaseBitmap(h);
 
   return 1;
