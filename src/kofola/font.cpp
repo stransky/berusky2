@@ -514,7 +514,7 @@ int fn_Set_Font(char *cPAK)
   if (!fn_Set_Font_Params(&b2_2d_font.gt, &b2_2d_font.ts))
     return 0;
 
-  //kprintf(1, "set font = %s", cPAK);
+  kprintf(1, "set font = %s", cPAK);
 
   return 1;
 }

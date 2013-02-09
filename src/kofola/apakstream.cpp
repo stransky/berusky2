@@ -38,32 +38,6 @@ void agetbuffer(FILE * stream, char **pBuffer, apuInt * psize)
   *psize = pFHandle->pFileInfo->apuLRealSizeofFile;
 }
 
-/*
-void agetfiledata(FILE *stream, struct _finddata_t *fileinfo)
-{
-	APAK_STREAM_TYPE	*pAStream = (APAK_STREAM_TYPE *) stream;
-	APAK_FILE_HANDLE    *pFHandle;
-
-	if(acheckstream(stream) < 1)
-		return;
-
-	pFHandle = (APAK_FILE_HANDLE *) pAStream->pAHandle;
-
-	if(!fileinfo)
-	{
-		apakError(pFHandle->pArchive, "fileinfo = NULL");
-		return;
-	}
-	
-	fileinfo->size = pFHandle->pFileInfo->apuLRealSizeofFile;
-	fileinfo->attrib = pFHandle->pFileInfo->uattFileAttribute;
-	strcpy(fileinfo->name, pFHandle->pFileInfo->cName);
-	fileinfo->time_create = pFHandle->pFileInfo->ttCreateTime;
-	fileinfo->time_access = 0;
-	fileinfo->time_write = 0;
-}
-*/
-
 FILE *agetfile(FILE * stream)
 {
   APAK_STREAM_TYPE *pAStream = (APAK_STREAM_TYPE *) stream;

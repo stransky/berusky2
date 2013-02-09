@@ -176,8 +176,8 @@ FILE *aopen(APAK_HANDLE * pHandle, char *filename, char *mode)
   memset(pFHandle->pBuffer, 0, pFHandle->pFileInfo->apuLSizeofFile);
 
   if (!fillbuffer(pFHandle)) {
-    free((void *) pFHandle);
     free((void *) pFHandle->pBuffer);
+    free((void *) pFHandle);
     free((void *) pAStream);
     apakError(pHandle, "Can't fill internal buffer");
     pHandle->pActualNode = pNode;

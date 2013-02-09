@@ -40,7 +40,7 @@ void fn_Release_Font(int bTextures);
 void fn_Release_3d_Textures_Full(void);
 void fn_Release_3d_Textures(void);
 void fn_Load_Textures_From_RAM(void);
-int fn_Load_Bitmaps(void);
+int  fn_Load_Bitmaps(void);
 void fn_Test(int hdc);
 void fn_Test2(int hdc);
 void fn_Texture(int iSection);
