@@ -426,15 +426,7 @@ void co_Release_Combo(COMBO_CONTROL * p_co)
 
 COMBO_CONTROL *co_Create_Combo(int hdc, int x, int y, int maxlisthight, int id)
 {
-  COMBO_CONTROL *p_co = NULL;
-
-  p_co = (COMBO_CONTROL *) malloc(sizeof(COMBO_CONTROL));
-
-  if (!p_co)
-    return 0;
-
-  ZeroMemory(p_co, sizeof(COMBO_CONTROL));
-
+  COMBO_CONTROL *p_co = (COMBO_CONTROL *) mmalloc(sizeof(COMBO_CONTROL));
   p_co->comboID = id;
   p_co->x = x;
   p_co->y = y;
@@ -1077,7 +1069,6 @@ int co_Check_Set_State(CHECKBOX_CONTROL * p_ch, int hdc, int state,
 {
   int x = 0, y = 0;
   int bmpx = ddxGetWidth(hdcCH.hdcCheck);
-  //int bmpy = ddxGetHight(hdcCH.hdcCheck);
   int bmpDC;
     
   bmpDC = hdcCH.hdcCheck;
@@ -1091,18 +1082,16 @@ int co_Check_Set_State(CHECKBOX_CONTROL * p_ch, int hdc, int state,
 
   if (p_ch->bChecked) {
     if (bDraw) {
-      //TransparentBltU(hdc, p_ch->Rect.left, p_ch->Rect.top, bmpx, 24, bmpDC, 0, 54, bmpx, 24, RGB(237, 77, 0));
       ddxTransparentBlt(hdc, p_ch->Rect.left + x, p_ch->Rect.top + y, bmpx,
-        20, bmpDC, 0, 25, bmpx, 20, RGB(237, 77, 0));
+                        20, bmpDC, 0, 25, bmpx, 20, RGB(237, 77, 0));
     }
 
     p_ch->bChange = 1;
   }
   else {
     if (bDraw) {
-      //TransparentBltU(hdc, p_ch->Rect.left, p_ch->Rect.top, bmpx, 24, bmpDC, 0, 80, bmpx, 24, RGB(237, 77, 0));
       ddxTransparentBlt(hdc, p_ch->Rect.left + x, p_ch->Rect.top + y, bmpx,
-        20, bmpDC, 0, 1, bmpx, 20, RGB(237, 77, 0));
+                        20, bmpDC, 0, 1, bmpx, 20, RGB(237, 77, 0));
     }
 
     p_ch->bChange = 1;
@@ -1110,7 +1099,7 @@ int co_Check_Set_State(CHECKBOX_CONTROL * p_ch, int hdc, int state,
 
   if (p_ch->iDC != -1)
     ddxBitBlt(p_ch->iDC, 0, 0, p_ch->RectFull.right, p_ch->RectFull.bottom,
-      hdc, p_ch->x + x, p_ch->y + y);
+              hdc, p_ch->x + x, p_ch->y + y);
 
   return 1;
 }
@@ -1123,7 +1112,10 @@ void co_Release_CheckBox(CHECKBOX_CONTROL * p_ch)
   free((void *) p_ch);
 }
 
-CHECKBOX_CONTROL *co_Create_CheckBox(int hdc, int x, int y, char *text, int isection, int checkID)
+CHECKBOX_CONTROL *co_Create_CheckBox(int hdc, int x, int y, char *text, 
+                                     int isection, int checkID, 
+                                     CONTROL_CALLBACK p_callback, 
+                                     void *p_callback_data)
 {
   WCHAR wc[128];
   WCHAR ws[128];
@@ -1133,13 +1125,7 @@ CHECKBOX_CONTROL *co_Create_CheckBox(int hdc, int x, int y, char *text, int isec
   int tx, ty;
   CHECKBOX_CONTROL *p_ch = NULL;
 
-  p_ch = (CHECKBOX_CONTROL *) malloc(sizeof(CHECKBOX_CONTROL));
-
-  if (!p_ch)
-    return 0;
-
-  ZeroMemory(p_ch, sizeof(CHECKBOX_CONTROL));
-
+  p_ch = (CHECKBOX_CONTROL *) mmalloc(sizeof(CHECKBOX_CONTROL));
   p_ch->checkID = checkID;
 
   bmpx = ddxGetWidth(hdcCH.hdcCheck);  
@@ -1153,6 +1139,8 @@ CHECKBOX_CONTROL *co_Create_CheckBox(int hdc, int x, int y, char *text, int isec
   p_ch->y = y;
   p_ch->bChecked = 0;
   p_ch->iDC = -1;
+  p_ch->p_callback = p_callback;
+  p_ch->p_callback_data = p_callback_data;
 
   ddxTransparentBlt(hdc, x, y, bmpx, 20, bmpDC, 0, 1, bmpx, 20, RGB(237, 77, 0));
 
@@ -2418,7 +2406,10 @@ int co_Handle_Checkbox(CHECKBOX_CONTROL * p_ch, int x, int y)
 		if(!p_ch->bChecked)
 		{
 			p_ch->bChecked = 1;
-			ddxTransparentBltDisplay(p_ch->Rect.left + TAB_X, p_ch->Rect.top + TAB_Y, bmpx, 20, bmpDC, 0, 25, bmpx, 20, RGB(237, 77, 0));
+			ddxTransparentBltDisplay(p_ch->Rect.left + TAB_X, 
+                               p_ch->Rect.top + TAB_Y, 
+                               bmpx, 20, bmpDC, 0, 25, 
+                               bmpx, 20, RGB(237, 77, 0));
 			p_ch->bChange = 1;
 
 			r.left = p_ch->Rect.left + TAB_X;
@@ -2428,15 +2419,19 @@ int co_Handle_Checkbox(CHECKBOX_CONTROL * p_ch, int x, int y)
 
 			_2d_Add_RectItem(&rline, r, 1);
 
-			if(p_ch->iDC != -1)
-				ddxBitBlt(p_ch->iDC, 0, 0, p_ch->RectFull.right, p_ch->RectFull.bottom, HDC2DD, p_ch->x + TAB_X, p_ch->y + TAB_Y);
-
-			return 1;
+			if(p_ch->iDC != -1) {
+				ddxBitBlt(p_ch->iDC, 0, 0, p_ch->RectFull.right, 
+                  p_ch->RectFull.bottom,
+                  HDC2DD, p_ch->x + TAB_X, p_ch->y + TAB_Y);
+      }
 		}
 		else
 		{
 			p_ch->bChecked = 0;
-			ddxTransparentBltDisplay(p_ch->Rect.left + TAB_X, p_ch->Rect.top + TAB_Y, bmpx, 20, bmpDC, 0, 1, bmpx, 20, RGB(237, 77, 0));
+			ddxTransparentBltDisplay(p_ch->Rect.left + TAB_X, 
+                               p_ch->Rect.top + TAB_Y, 
+                               bmpx, 20, bmpDC, 0, 1, 
+                               bmpx, 20, RGB(237, 77, 0));
 			p_ch->bChange = 1;
 
 			r.left = p_ch->Rect.left + TAB_X;
@@ -2447,10 +2442,15 @@ int co_Handle_Checkbox(CHECKBOX_CONTROL * p_ch, int x, int y)
 			_2d_Add_RectItem(&rline, r, 1);
 
 			if(p_ch->iDC != -1)
-				ddxBitBlt(p_ch->iDC, 0, 0, p_ch->RectFull.right, p_ch->RectFull.bottom, HDC2DD, p_ch->x + TAB_X, p_ch->y + TAB_Y);
-
-			return 1;
+				ddxBitBlt(p_ch->iDC, 0, 0, p_ch->RectFull.right, 
+                  p_ch->RectFull.bottom,
+                  HDC2DD, p_ch->x + TAB_X, p_ch->y + TAB_Y);
 		}
+
+    if(p_ch->p_callback)
+      p_ch->p_callback(p_ch);
+    
+  	return 1;
 	}
 
 	p_ch->bChange = 0;

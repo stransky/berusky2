@@ -110,13 +110,7 @@ long afindfirst(APAK_HANDLE * pHandle, char *filespec,
   APAK_FIND *pFind;
   APAK_FIND_SWITCH *pFSwitch;
 
-  pFSwitch = (APAK_FIND_SWITCH *) malloc(sizeof(APAK_FIND_SWITCH));
-
-  if (!pFSwitch)
-    return -1;
-
-  memset(pFSwitch, 0, sizeof(APAK_FIND_SWITCH));
-
+  pFSwitch = (APAK_FIND_SWITCH *) mmalloc(sizeof(APAK_FIND_SWITCH));
   assert(pHandle);
   /*
      if(!pHandle)
@@ -159,13 +153,7 @@ long afindfirst(APAK_HANDLE * pHandle, char *filespec,
     return -1;
   }
 
-  pFind = (APAK_FIND *) malloc(sizeof(APAK_FIND));
-
-  if (!pFind) {
-    apakError(pHandle, "Unable allocate memory for find structure");
-    free((void *) pFSwitch);
-    return -1;
-  }
+  pFind = (APAK_FIND *) mmalloc(sizeof(APAK_FIND));
 
   pFSwitch->pAFind = pFind;
 

@@ -1849,14 +1849,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
 
   ddx2GameRender(TRUE);
 
-  res = (CMD_LINE *) malloc(RES_NUM * sizeof(CMD_LINE));
-
-  if (!res) {
-    kprintf(1, "RunMenuLoadGameLoad2: Out of Memory");
-    return 0;
-  }
-  else
-    ZeroMemory(res, RES_NUM * sizeof(CMD_LINE));
+  res = (CMD_LINE *) mmalloc(RES_NUM * sizeof(CMD_LINE));
 
   iCompositDC = ddx2FindFreeSurface();
   CompositDC = ddx2CreateSurface(1024, 768, iCompositDC);
@@ -2715,21 +2708,10 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
 
   ddx2FillRect(DDX2_BACK_BUFFER, &rTMP, RGB(255, 0, 255));
   ddx2SetRect(&rTMP, 1);
-
-  // Stop renderu hry
-  //ddx2GameRender(FALSE);
-
+  
   am_FlipA(p_Level, p_am, 1, &rline, CLIST_ITEMC, 0, 0, 0);
 
-  res = (CMD_LINE *) malloc(RES_NUM * sizeof(CMD_LINE));
-
-  if (!res) {
-    kprintf(1, "RunHelp2: Out of Memory");
-    return;
-  }
-  else
-    ZeroMemory(res, RES_NUM * sizeof(CMD_LINE));
-
+  res = (CMD_LINE *) mmalloc(RES_NUM * sizeof(CMD_LINE));
 
   LoadHelp("helpbook.txt");
   iBmp = LoadHelp("helpload.txt");
@@ -3286,20 +3268,10 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
     return;
   }
 
-  //ddx2FillRect(DDX2_BACK_BUFFER, &rTMP, RGB(54, 47, 45));
   ddx2SetRect(&rTMP, 1);
-
-  // Stop renderu hry
   ddx2GameRender(FALSE);
 
-  res = (CMD_LINE *) malloc(RES_NUM * sizeof(CMD_LINE));
-
-  if (!res) {
-    kprintf(1, "RunMenuLevelStats2: Out of Memory");
-    return;
-  }
-  else
-    ZeroMemory(res, RES_NUM * sizeof(CMD_LINE));
+  res = (CMD_LINE *) mmalloc(RES_NUM * sizeof(CMD_LINE));
 
   iCompositDC = ddx2FindFreeSurface();
   CompositDC = ddx2CreateSurface(1024, 768, iCompositDC);
@@ -3671,22 +3643,12 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA * p_ad,
   ddx2DeviceSetRender(TRUE);
 
   ddx2CleareSurface(DDX2_BACK_BUFFER);
-//      sh = ddx2LoadBitmap("brouk.bmp", pBmpArchive);
-
-  //ddx2FillRect(DDX2_BACK_BUFFER, &rTMP, RGB(255, 0, 255));
   ddx2SetRect(&rTMP, 1);
 
   // Stop renderu hry
   ddx2GameRender(TRUE);
 
-  res = (CMD_LINE *) malloc(RES_NUM * sizeof(CMD_LINE));
-
-  if (!res) {
-    kprintf(1, "RunMenuLevelStats2: Out of Memory");
-    return;
-  }
-  else
-    ZeroMemory(res, RES_NUM * sizeof(CMD_LINE));
+  res = (CMD_LINE *) mmalloc(RES_NUM * sizeof(CMD_LINE));
 
   iCompositDC = ddx2FindFreeSurface();
   CompositDC = ddx2CreateSurface(1024, 768, iCompositDC);

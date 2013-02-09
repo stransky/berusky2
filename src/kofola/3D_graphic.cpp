@@ -29,20 +29,8 @@ int _3d_Init(void)
   _3dd.count = 200;
   _3dd.last = 0;
 
-  _3dd.p_texture = (EDIT_TEXT *) malloc((_3dd.count) * sizeof(EDIT_TEXT));
-  if (!_3dd.p_texture) {
-    //MessageBox(hWnd,"Unable to allocate memory for textures","Error",MB_OK);
-    kprintf(1, "Unable to allocate memory for textures");
-    return 0;
-  }
-
-  _3dd.p_sysramtexture =
-    (_3D_TEXTURE *) malloc((_3dd.count) * sizeof(_3D_TEXTURE));
-  if (!_3dd.p_sysramtexture) {
-    //MessageBox(hWnd,"Unable to allocate memory for textures","Error",MB_OK);
-    kprintf(1, "Unable to allocate memory for vram textures");
-    return 0;
-  }
+  _3dd.p_texture = (EDIT_TEXT *) mmalloc((_3dd.count) * sizeof(EDIT_TEXT));
+  _3dd.p_sysramtexture = (_3D_TEXTURE *) mmalloc((_3dd.count) * sizeof(_3D_TEXTURE));
 
   for (i = 0; i < _3dd.count; i++) {
     strcpy(_3dd.p_texture[i].jmeno, "\0");

@@ -1886,7 +1886,6 @@ void konfiguruj_look_up(int *p_looksqrt_linear, int *p_looksqrt_quadratic,
 // Minimalni intenzita svetla
 #define DELTA_MIN 0.00392156f
 
-//#define mmalloc(velikost) memset(malloc(velikost),0,velikost)
 inline void *kopiruj_pole(void *p_src, int velikost)
 {
   if (p_src) {

@@ -433,6 +433,7 @@ public:
   virtual bool screen_create(void) = 0;
   virtual void screen_destroy(void) = 0;
   virtual void screen_resize(tpos width, tpos height) = 0;
+  virtual void fullscreen_toggle(void) = 0;
 
 public:
 
@@ -521,6 +522,7 @@ public:
   virtual bool screen_create(void);
   virtual void screen_destroy(void);
   virtual void screen_resize(tpos width, tpos height);
+  virtual void fullscreen_toggle(void);
 
 public:
 

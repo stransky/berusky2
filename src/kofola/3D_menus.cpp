@@ -180,13 +180,7 @@ void _3d_RemoveDrawListItem(_3D_DRAW_LIST * pItem)
 void _3d_AddItemToDrawList(_3D_ANIMATION_FRAME * pFrame, int iOwnerID)
 {
   _3D_DRAW_LIST *pLDrawList = _3DAnimationStruct.pLDrawList;
-  _3D_DRAW_LIST *pDrawList = (_3D_DRAW_LIST *) malloc(sizeof(_3D_DRAW_LIST));
-
-  if (!pDrawList) {
-    kprintf(1, "Neporilo se alokovat pamet pro 'DrawListItem' iOwnerID: %d",
-      iOwnerID);
-    return;
-  }
+  _3D_DRAW_LIST *pDrawList = (_3D_DRAW_LIST *) mmalloc(sizeof(_3D_DRAW_LIST));
 
   if (!pLDrawList) {
     _3DAnimationStruct.pFDrawList = pDrawList;
@@ -285,12 +279,7 @@ int _3d_Start_Animation(int iIndex, float *vfLocation, int *pFlag)
   int i;
 
   _3D_ANIMATION *pL3DAnim = _3DAnimationStruct.pLAnimation;
-  _3D_ANIMATION *p3DAnim = (_3D_ANIMATION *) malloc(sizeof(_3D_ANIMATION));
-
-  if (!p3DAnim) {
-    kprintf(1, "Neporilo se alokovat pamet pro 3D animaci: %d", iIndex);
-    return -1;
-  }
+  _3D_ANIMATION *p3DAnim = (_3D_ANIMATION *) mmalloc(sizeof(_3D_ANIMATION));
 
   memcpy((void *) p3DAnim, (void *) &_3DAnimationStruct._3DAnimation[iIndex],
     sizeof(_3D_ANIMATION));

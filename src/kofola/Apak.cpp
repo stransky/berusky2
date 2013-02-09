@@ -96,13 +96,7 @@ void apakCreateNode(APAK_HANDLE * pHandle, char bFirst, APAKNODE * pPrevNode,
     }
   }
 
-  pNode = (APAKNODE *) malloc(sizeof(APAKNODE));
-
-  if (!pNode) {
-    apakError(pHandle, "Unable allocate memory for node");
-    return;
-  }
-
+  pNode = (APAKNODE *) mmalloc(sizeof(APAKNODE));
   if (pCpyNode)
     *pCpyNode = pNode;
 
@@ -140,13 +134,7 @@ void apakCreateNode(APAK_HANDLE * pHandle, char bFirst, APAKNODE * pPrevNode,
   iLastDir = 0;
 
   if (pNode->apuLSizeofFile) {
-    pNode->apakFile =
-      (APAKFILE *) malloc(pNode->apuLSizeofFile * sizeof(APAKFILE));
-
-    if (!pNode->apakFile) {
-      apakError(pHandle, "Unable allocate memory for file table");
-      return;
-    }
+    pNode->apakFile = (APAKFILE *) mmalloc(pNode->apuLSizeofFile * sizeof(APAKFILE));
   }
 
   for (i = 0; (unsigned int) i < pNode->apuLSizeofFile; i++)
@@ -154,13 +142,8 @@ void apakCreateNode(APAK_HANDLE * pHandle, char bFirst, APAKNODE * pPrevNode,
 
   if (pNode->apuLSizeofDirectory) {
     pNode->apakDirectory =
-      (APAKDIRECTORY *) malloc(pNode->apuLSizeofDirectory *
+      (APAKDIRECTORY *) mmalloc(pNode->apuLSizeofDirectory *
       sizeof(APAKDIRECTORY));
-
-    if (!pNode->apakDirectory) {
-      apakError(pHandle, "Unable allocate memory for directory table");
-      return;
-    }
   }
 
   for (i = 0; (unsigned int) i < pNode->apuLSizeofDirectory; i++)

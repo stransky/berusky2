@@ -1186,6 +1186,7 @@ void SetMenuSettings(CONTROL_LIST_ITEM * citem, int *hdcTabUse)
 
     setup.ditering = co_Check_Get_State(citem, CLIST_ITEMC, 7);
     setup.zrcado_aktivni = co_Check_Get_State(citem, CLIST_ITEMC, 4);
+    setup.fullscreen = co_Check_Get_State(citem, CLIST_ITEMC, 12);
 
     co_Combo_Drop_Get_Sel(citem, CLIST_ITEMC, 10, &setup.text_ostrost);
   }
@@ -1237,6 +1238,12 @@ void SetMenuSettingsS(CONTROL_LIST_ITEM * citem, int *hdcTabUse)
     setup.ambientvolume = co_Progres_Get(citem, CLIST_ITEMC, 5);
     setup.musicvolume = co_Progres_Get(citem, CLIST_ITEMC, 6);
   }
+}
+
+void ControlFullScreenCallback(void *p_control)
+{
+  GRAPH3D *p_grf = (p_ber->p_age)->graph_get();
+  p_grf->fullscreen_toggle();
 }
 
 void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab)
@@ -1319,7 +1326,8 @@ void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab)
   citem[11].iTab = 1;
   co_Check_Set_State(citem[11].p_check, hdcTab[1], setup.zrcado_aktivni, 1);
 
-  citem[12].p_check = co_Create_CheckBox(hdcTab[1], 300, 260, "##settings_fullscreen", 0, 5);
+  citem[12].p_check = co_Create_CheckBox(hdcTab[1], 300, 260, "##settings_fullscreen", 
+                                         0, 5, ControlFullScreenCallback);
   citem[12].iTab = 1;
   co_Check_Set_State(citem[12].p_check, hdcTab[1], setup.fullscreen, 1);
 
@@ -1623,7 +1631,6 @@ void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
       1);
     citem[46].bActive = 1;
 
-    // TODO?
     citem[51].p_check =
       co_Create_CheckBox(hdcTab[0], 25, 200, "##settings_camera_intro", 0,
       16);
@@ -3543,12 +3550,7 @@ void RunMenuSceneMap(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu,
 
   bBackDC = 0;
 
-  res = (CMD_LINE *) malloc(RES_NUM * sizeof(CMD_LINE));
-
-  if (!res) {
-    kprintf(1, "RunMenuSceneMap: Out of Memory");
-    return;
-  }
+  res = (CMD_LINE *) mmalloc(RES_NUM * sizeof(CMD_LINE));
 
 BRUTAL_RESTART_SCENE_MAP_MENU:
 
@@ -3981,17 +3983,9 @@ int RunMenuNewGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   char bDone = 0;
   int inumofitems = 0;
 
-  res = (CMD_LINE *) malloc(RES_NUM * sizeof(CMD_LINE));
-
-  if (!res) {
-    kprintf(1, "RunMenuNewGame: Out of Memory");
-    return 0;
-  }
-  else
-    ZeroMemory(res, RES_NUM * sizeof(CMD_LINE));
+  res = (CMD_LINE *) mmalloc(RES_NUM * sizeof(CMD_LINE));
 
   bBackDC = 0;
-
   ddxCleareSurface(BackDC);
   ddxBitBlt(BackDC, 0, 0, ddxGetWidth(BackDC), ddxGetHight(BackDC), FontDC, 0, 0);
   ddxCleareSurface(FontDC);
@@ -4435,8 +4429,7 @@ int FillStringList(char *cmask, LIST_ITEM_ ** list, int *isize)
     return 0;
   }
 
-  (*list) = (LIST_ITEM_ *) malloc(c * sizeof(LIST_ITEM_));
-  memset((*list), 0, c * sizeof(LIST_ITEM_));
+  (*list) = (LIST_ITEM_ *) mmalloc(c * sizeof(LIST_ITEM_));
 
   for(i = 0; i < c; i++) {
       strcpy((*list)[i].text, namelist[i]->d_name);
@@ -4643,21 +4636,9 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   int anmid = -1, resid = -1, anbind = -1;
   int bind;
 
-//      int             iComboSel = 0;
-//      int             iComboActSel = 0;
-
-  res = (CMD_LINE *) malloc(RES_NUM * sizeof(CMD_LINE));
-
-  if (!res) {
-    kprintf(1, "RunMenuLoadGameLoad: Out of Memory");
-    return;
-  }
-  else
-    ZeroMemory(res, RES_NUM * sizeof(CMD_LINE));
+  res = (CMD_LINE *) mmalloc(RES_NUM * sizeof(CMD_LINE));
 
   ddxCleareSurface(FontDC);
-//      ddxCleareSurface(BackDC);
-
   bBackDC = 0;
 
   memcpy(&pOldProfile, &pPlayerProfile, sizeof(PLAYER_PROFILE));
@@ -5192,23 +5173,10 @@ void RunMenuLoadGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   int bind;
   int iNadpisDC = -1;
 
-  res = (CMD_LINE *) malloc(RES_NUM * sizeof(CMD_LINE));
-
-  if (!res) {
-    kprintf(1, "RunMenuLoadGame: Out of Memory");
-    return;
-  }
-  else
-    ZeroMemory(res, RES_NUM * sizeof(CMD_LINE));
-
-  //bBackDC = 1;
-
-//      ddxCleareSurface(FontDC);
-//      ddxCleareSurface(BackDC);
+  res = (CMD_LINE *) mmalloc(RES_NUM * sizeof(CMD_LINE));
 
   ddxCleareSurface(BackDC);
-  ddxBitBlt(BackDC, 0, 0, ddxGetWidth(BackDC), ddxGetHight(BackDC), FontDC, 0,
-    0);
+  ddxBitBlt(BackDC, 0, 0, ddxGetWidth(BackDC), ddxGetHight(BackDC), FontDC, 0,  0);
   ddxCleareSurface(FontDC);
 
   //kprintf(1, "bitblt");
@@ -5768,12 +5736,7 @@ void RunMenu(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   int cStartCount = 0;
 
 
-  res = (CMD_LINE *) malloc(RES_NUM * sizeof(CMD_LINE));
-
-  if (!res) {
-    kprintf(1, "RunMenu: Out of Memory");
-    return;
-  }
+  res = (CMD_LINE *) mmalloc(RES_NUM * sizeof(CMD_LINE));
 
 RUN_MENU_BRUTAL_RESTART:
 
@@ -6247,32 +6210,18 @@ void RunMenuChildGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
 
   CONTROL_LIST_ITEM citem[CLIST_ITEMC];
 
-//      FILE    *file;
   char dir[256];
   int lastcmd, lastanm, i;
 
-  //CMD_LINE      res[RES_NUM];
   CMD_LINE *res = NULL;
   int lastabv = -1;
   char in, click = 0;
   int anmid = -1, resid = -1, anbind = -1;
   int bind;
 
-  res = (CMD_LINE *) malloc(RES_NUM * sizeof(CMD_LINE));
-
-  if (!res) {
-    kprintf(1, "RunMenuChildGame: Out of Memory");
-    return;
-  }
-  else
-    ZeroMemory(res, RES_NUM * sizeof(CMD_LINE));
+  res = (CMD_LINE *) mmalloc(RES_NUM * sizeof(CMD_LINE));
 
   ddxCleareSurface(FontDC);
-  //ddxCleareSurface(BackDC);
-/*	ddxCleareSurface(BackDC);
-	ddxBitBlt(BackDC, 0, 0, ddxGetWidth(BackDC), ddxGetHight(BackDC), FontDC, 0, 0);
-	ddxCleareSurface(FontDC);*/
-
   ZeroMemory(citem, CLIST_ITEMC * sizeof(CONTROL_LIST_ITEM));
 
   for (bind = 0; bind < RES_NUM; bind++) {
@@ -6712,22 +6661,10 @@ void RunMenuStartGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   int anmid = -1, resid = -1, anbind = -1;
   int bind;
 
-  res = (CMD_LINE *) malloc(RES_NUM * sizeof(CMD_LINE));
+  res = (CMD_LINE *) mmalloc(RES_NUM * sizeof(CMD_LINE));
 
-  if (!res) {
-    kprintf(1, "RunMenuLoadGame: Out of Memory");
-    return;
-  }
-  else
-    ZeroMemory(res, RES_NUM * sizeof(CMD_LINE));
-
-  //bBackDC = 1;
-
-  //ddxCleareSurface(FontDC);
-  //ddxCleareSurface(BackDC);
   ddxCleareSurface(BackDC);
-  ddxBitBlt(BackDC, 0, 0, ddxGetWidth(BackDC), ddxGetHight(BackDC), FontDC, 0,
-    0);
+  ddxBitBlt(BackDC, 0, 0, ddxGetWidth(BackDC), ddxGetHight(BackDC), FontDC, 0, 0);
   ddxCleareSurface(FontDC);
 
   //kprintf(1, "bitblt");

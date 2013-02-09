@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "compat_mini.h"
+#include "mmalloc.h"
 #include "Apak.h"
 
 #define APAKMAKEWORD(a, b)      ((unsigned short)(((unsigned char)(a)) | ((unsigned short)((unsigned char)(b))) << 8))
@@ -57,11 +58,7 @@ int fillbuffer(APAK_FILE_HANDLE * pFHandle)
 
   rsize = pFHandle->pFileInfo->apuLRealSizeofFile;
   size = pFHandle->pFileInfo->apuLSizeofFile;
-
-  pTmp = (char *) malloc(size);
-
-  if (!pTmp)
-    return 0;
+  pTmp = (char *) mmalloc(size);
 
   fseek(pFHandle->pArchive->pFILE, pFHandle->apuLfStartofFile, SEEK_SET);
   fread(pTmp, size, 1, pFHandle->pArchive->pFILE);
@@ -86,12 +83,7 @@ FILE *aopen(APAK_HANDLE * pHandle, char *filename, char *mode)
   APAK_FILE_HANDLE *pFHandle = NULL;
   APAK_STREAM_TYPE *pAStream = NULL;
 
-  pAStream = (APAK_STREAM_TYPE *) malloc(sizeof(APAK_STREAM_TYPE));
-
-  if (!pAStream)
-    return 0;
-
-  memset(pAStream, 0, sizeof(APAK_STREAM_TYPE));
+  pAStream = (APAK_STREAM_TYPE *) mmalloc(sizeof(APAK_STREAM_TYPE));  
 
   // strandard i/o stream (fopen, fclose, ....)
   if (!pHandle) {
@@ -132,16 +124,7 @@ FILE *aopen(APAK_HANDLE * pHandle, char *filename, char *mode)
     return 0;
   }
 
-  pFHandle = (APAK_FILE_HANDLE *) malloc(sizeof(APAK_FILE_HANDLE));
-
-  if (!pFHandle) {
-    apakError(pHandle, "Unable to allocate memory for file handle");
-    return 0;
-    free((void *) pAStream);
-  }
-
-  memset(pFHandle, 0, sizeof(APAK_FILE_HANDLE));
-
+  pFHandle = (APAK_FILE_HANDLE *) mmalloc(sizeof(APAK_FILE_HANDLE));
   pFHandle->pFileInfo = apakFile(pHandle, (char *) filename);
 
   if (!pFHandle->pFileInfo) {
@@ -162,18 +145,7 @@ FILE *aopen(APAK_HANDLE * pHandle, char *filename, char *mode)
 
   pHandle->pActualNode = pNode;
 
-  pFHandle->pBuffer =
-    (char *) malloc(pFHandle->pFileInfo->apuLRealSizeofFile);
-
-  if (!pFHandle->pBuffer) {
-    free((void *) pFHandle);
-    free((void *) pAStream);
-    apakError(pHandle, "Can't allocate memory for internal buffer");
-    pHandle->pActualNode = pNode;
-    return 0;
-  }
-
-  memset(pFHandle->pBuffer, 0, pFHandle->pFileInfo->apuLSizeofFile);
+  pFHandle->pBuffer =  (char *)mmalloc(pFHandle->pFileInfo->apuLRealSizeofFile);
 
   if (!fillbuffer(pFHandle)) {
     free((void *) pFHandle->pBuffer);

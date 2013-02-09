@@ -662,6 +662,17 @@ void graph3d_sdl::screen_resize(tpos width, tpos height)
   camera_interface::screen_size_set(width, height);
 }
 
+void graph3d_sdl::fullscreen_toggle(void)
+{
+
+  if(!SDL_WM_ToggleFullScreen(((SURFACE_SDL*)p_screen_surface)->surf_get())) {
+    fprintf(stderr, "SDL_WM_ToggleFullScreen() failed!");
+  }
+  else {
+    graphics_fullscreen = !graphics_fullscreen;
+  }
+}
+
 // flip GL buffers
 void graph3d_sdl::flip(void)
 { 

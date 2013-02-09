@@ -53,15 +53,7 @@ int lsi_Load_Items(LEVELINFO * p_Level)
   afindclose(Done);
 
   p_Level->Count_Of_Objects = Count;
-
-  p_Level->Object = (OBJECTDESC *) malloc(Count * sizeof(OBJECTDESC));
-  if (!p_Level->Object) {
-    //MessageBox(p_Level->hWnd,"Unable to allocate memory for objects","Error",MB_OK);
-    kprintf(1, "Unable to allocate memory for objects");
-    chdir((odir));
-    return 0;
-  }
-
+  p_Level->Object = (OBJECTDESC *) mmalloc(Count * sizeof(OBJECTDESC));
 
   Done = afindfirst(aHandle, text, &Data);
   error = Done;

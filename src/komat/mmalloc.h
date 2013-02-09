@@ -31,6 +31,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -45,16 +46,16 @@ void tiskni_chybu(int line, char *p_file, char *p_text, ...);
 #define chyba_be(text) tiskni_chybu_bez_exit(__LINE__,__FILE__,text)
 
 inline void *mmalloc(size_t velikost)
-{
-  if (velikost) {
-    void *p_mem = malloc(velikost);
-    assert(p_mem);
+{  
+  void *p_mem = malloc(velikost);
+  if(p_mem) {
     memset(p_mem, 0, velikost);
     return(p_mem);
   }
   else
   {
-    return (NULL);
+    tiskni_chybu(__LINE__, __FILE__, "Unable to allocate %d bytes", velikost);    
+    return(NULL);
   }
 }
 

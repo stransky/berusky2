@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "mmalloc.h"
 #include "Apak.h"
 
 extern void apakError(APAK_HANDLE * pHandle, char *cError);
@@ -50,15 +51,7 @@ FILE *agetfile(FILE * stream)
 
 FILE *afiletoswitch(FILE * stream)
 {
-  APAK_STREAM_TYPE *pAStream =
-    (APAK_STREAM_TYPE *) malloc(sizeof(APAK_STREAM_TYPE));
-
-  if (!pAStream)
-    return NULL;
-
-  memset(pAStream, 0, sizeof(APAK_STREAM_TYPE));
-
+  APAK_STREAM_TYPE *pAStream = (APAK_STREAM_TYPE *) mmalloc(sizeof(APAK_STREAM_TYPE));
   pAStream->pFile = stream;
-
   return (FILE *) pAStream;
 }

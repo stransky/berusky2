@@ -106,14 +106,10 @@ DEMOKEYFRAME *demo_Init(DEMOSTRUCTURE * p_Demo)
 {
   p_Demo->Frame_Counter = 0;
 
-  p_Demo->p_First = (DEMOKEYFRAME *) malloc(sizeof(DEMOKEYFRAME));
-  if (!p_Demo->p_First)
-    return NULL;
-  else {
-    p_Demo->p_Last = p_Demo->p_First;
-    p_Demo->p_First->p_Next = NULL;
-    return p_Demo->p_First;
-  }
+  p_Demo->p_First = (DEMOKEYFRAME *) mmalloc(sizeof(DEMOKEYFRAME));
+  p_Demo->p_Last = p_Demo->p_First;
+  p_Demo->p_First->p_Next = NULL;
+  return p_Demo->p_First;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -146,16 +142,12 @@ DEMOKEYFRAME *demo_Create_Frame(DEMOSTRUCTURE * p_Demo)
 {
   p_Demo->p_Last->p_Next = NULL;
 
-  p_Demo->p_Last->p_Next = (DEMOKEYFRAME *) malloc(sizeof(DEMOKEYFRAME));
-  if (!p_Demo->p_Last->p_Next)
-    return NULL;
-  else {
-    p_Demo->Frame_Counter++;
-    p_Demo->p_Last = p_Demo->p_Last->p_Next;
-    p_Demo->p_Last->p_Next = NULL;
-    p_Demo->Start = timeGetTime();
-    return p_Demo->p_Last;
-  }
+  p_Demo->p_Last->p_Next = (DEMOKEYFRAME *) mmalloc(sizeof(DEMOKEYFRAME));
+  p_Demo->Frame_Counter++;
+  p_Demo->p_Last = p_Demo->p_Last->p_Next;
+  p_Demo->p_Last->p_Next = NULL;
+  p_Demo->Start = timeGetTime();
+  return p_Demo->p_Last;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -365,11 +357,7 @@ int demo_Load(DEMOSTRUCTURE * p_Demo, char *p_File_Name, char *bOvladani,
 
   fread(p_Demo, sizeof(DEMOSTRUCTURE), 1, file);
 
-  p_Frame = (DEMOKEYFRAME *) malloc(sizeof(DEMOKEYFRAME));
-  if (!p_Frame)
-    return 0;
-
-  fread(p_Frame, sizeof(DEMOKEYFRAME), 1, file);
+  p_Frame = (DEMOKEYFRAME *) mmalloc(sizeof(DEMOKEYFRAME));
 
   p_Demo->bOvladaniBerusek1 = FileHeader.bOvladaniBerusek1;
   p_Demo->p_First = p_Frame;
@@ -377,10 +365,7 @@ int demo_Load(DEMOSTRUCTURE * p_Demo, char *p_File_Name, char *bOvladani,
   p_Last->p_Next = NULL;
 
   for (i = 0; i < p_Demo->Frame_Counter - 1; i++) {
-    p_Frame = (DEMOKEYFRAME *) malloc(sizeof(DEMOKEYFRAME));
-    if (!p_Frame)
-      return 0;
-    ZeroMemory(p_Frame, sizeof(DEMOKEYFRAME));
+    p_Frame = (DEMOKEYFRAME *) mmalloc(sizeof(DEMOKEYFRAME));
 
     fread(p_Frame, sizeof(DEMOKEYFRAME), 1, file);
     p_Last->p_Next = p_Frame;
