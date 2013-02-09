@@ -1186,7 +1186,7 @@ void SetMenuSettings(CONTROL_LIST_ITEM * citem, int *hdcTabUse)
 
     setup.ditering = co_Check_Get_State(citem, CLIST_ITEMC, 7);
     setup.zrcado_aktivni = co_Check_Get_State(citem, CLIST_ITEMC, 4);
-    setup.fullscreen = co_Check_Get_State(citem, CLIST_ITEMC, 12);
+    setup.fullscreen = co_Check_Get_State(citem, CLIST_ITEMC, 5);
 
     co_Combo_Drop_Get_Sel(citem, CLIST_ITEMC, 10, &setup.text_ostrost);
   }

@@ -664,7 +664,6 @@ void graph3d_sdl::screen_resize(tpos width, tpos height)
 
 void graph3d_sdl::fullscreen_toggle(void)
 {
-
   if(!SDL_WM_ToggleFullScreen(((SURFACE_SDL*)p_screen_surface)->surf_get())) {
     fprintf(stderr, "SDL_WM_ToggleFullScreen() failed!");
   }

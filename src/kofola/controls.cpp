@@ -2454,7 +2454,6 @@ int co_Handle_Checkbox(CHECKBOX_CONTROL * p_ch, int x, int y)
 	}
 
 	p_ch->bChange = 0;
-
   return 0;
 }
 
