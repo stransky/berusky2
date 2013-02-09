@@ -1,5 +1,7 @@
 TODO:
 - window mode - change resolution on the fly?
+- transform settings frm setup to text config
+- sync 3D settings (in game) with 2D (menu) - Add fullscreen mode
 
 - credit fix - texts
 - transparent 3D objects
@@ -16,7 +18,6 @@ TODO:
 
 unzip.h - use for pack files standard zip file format
 
-- graphics menu -> switch full screen/window mode
 - in-game menu - to menu je nejake hnusne?
 - defaultne je vypla/zakazana hudba/zvuky?
 - defaultni klavesy sou tragedie!! (delam novy profil) 

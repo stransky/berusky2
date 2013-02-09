@@ -30,8 +30,8 @@ void apakfile_from_disk(APAKFILE_DISK *src, APAKFILE *desc)
   desc->apuLRealSizeofFile = src->apuLRealSizeofFile;
   desc->bNotCompressed = src->bNotCompressed;
 
-  assert(desc->apuLRealSizeofFile != 0);
-  assert(desc->apuLSizeofFile != 0);
+  assert((desc->apuLRealSizeofFile != 0 && desc->apuLSizeofFile != 0) ||
+         (desc->apuLRealSizeofFile == 0 && desc->apuLSizeofFile == 0));
 }
 
 void apakdirectory_from_disk(APAKDIRECTORY_DISK *src, APAKDIRECTORY *desc)
