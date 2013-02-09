@@ -1623,6 +1623,7 @@ void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
       1);
     citem[46].bActive = 1;
 
+    // TODO?
     citem[51].p_check =
       co_Create_CheckBox(hdcTab[0], 25, 200, "##settings_camera_intro", 0,
       16);

@@ -1,9 +1,7 @@
 TODO:
-- remove resolution from menu
-- simplify game settings (3D settings)
-- Update settings - remove obsolete settings
 - window mode - change resolution on the fly?
 - fullscreen switch - menu settings
+- fix texts in apak files (czech in settings)
 
 - credit fix - texts
 - transparent 3D objects
