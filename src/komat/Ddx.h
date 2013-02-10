@@ -7,8 +7,8 @@
 typedef struct _HW_KONFIG
 {
   int fullscreen;
-  int xres;                     // rozliseni obrazovky
-  int yres;
+  int screen_width;
+  int screen_height;
   int bpp;
   int game_fps;
   int ditering;
@@ -25,6 +25,11 @@ typedef struct _HW_KONFIG
   GLuint font_baze;
 
 } HW_KONFIG;
+
+#define SCREEN_XRES        hwconf.screen_width
+#define SCREEN_YRES        hwconf.screen_height
+#define SCREEN_XSTART      0
+#define SCREEN_YSTART      0
 
 #define  FORMAT_POCET       8
 
@@ -83,10 +88,8 @@ int grf_start(char *p_file);
 int grf_stop();
 
 void nastav_konfig(HW_KONFIG * p_hwconf, TXT_KONFIG * p_txt);
-int nahraj_device_config(char *p_file, char *p_sekce,
-  HW_KONFIG * p_conf);
-int nahraj_universal_device_config(char *p_file, char *p_sekce,
-  HW_KONFIG * p_conf);
+int nahraj_device_config(char *p_file, char *p_sekce);
+int nahraj_universal_device_config(char *p_file, char *p_sekce);
 int nahraj_texture_config(char *p_file, TXT_KONFIG * p_txt);
 void ddw_surf(int x, int y, const char *fmt, ...);
 void ddw_surf_xy(int x, int y, const char *fmt, ...);

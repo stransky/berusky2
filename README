@@ -77,7 +77,7 @@
   You will be meeting miscellaneous game elements while completing individual
   missions, we will try to explain their meaning now.
 
-  Box             - It is possible to push it.
+  Box/Light Box   - It is possible to push it.
   Explosive       - Can destroy the boxes.
 
   Exit            - A gate to next level/exit.
@@ -85,10 +85,7 @@
   Stone           - Can be broken by a pickax.
   Pickax          - A tool for stone crushing.
 
-  Other elements not listed here are just walls, which have no interesting
-  properties. They cannot be push away nor it is possible 
-  to break them anywise.
-
+  There are some other elements, a comple list is available in help - pres F1 for it.
 
 5. Game keys
 
@@ -114,3 +111,6 @@ Mouse:
   left shift + mouse motion - camera move
   left ctrl + mouse motion  - camera rotation
   mouse wheel               - camera zoom
+
+  mouse left button         - select bug
+  mouse right button        - print element type (wall, box...)

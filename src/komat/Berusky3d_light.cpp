@@ -2101,7 +2101,6 @@ inline int sdl_poly_pripocitej_svetla_face(G_KONFIG * p_ber,
       skvl = skvp = -kvp;
     }
 
-
     // pokud je index po priteni mensi nez 0 -> vezmu maximum !!!
     // pokud je vetsi nez 255 -> kaslu na to    
 

@@ -128,17 +128,12 @@ void co2_Combo_Draw(int hdc, COMBO_CONTROL2 * p_co, int xcor, int ycor)
   int c = 0;
   int x = p_co->x;
   int y = p_co->y;
-  //int width = p_co->Width;
-  //int hight = p_co->Hight;
   int maxlisthight = p_co->ListMaxHight;
 
   int ax = p_co->x, ay = p_co->y, ly;
 
   //------------------------------------------------------- EDIT BOX ----------------------------------------------
   if (p_co->bEdit) {
-    /*BitBlt(hdc, ax, ay, _2dd.bitmap[hdcCO.hdcCombo].bitmap.bmWidth, _2dd.bitmap[hdcCO.hdcCombo].bitmap.bmHeight,
-       _2dd.bitmap[hdcCO.hdcCombo].bitmapDC, 0, 0, SRCCOPY); */
-
     ddx2BitBlt(hdc, ax, ay, ddx2GetWidth(hdcCO.hdcCombo),
       ddx2GetHeight(hdcCO.hdcCombo), hdcCO.hdcCombo, 0, 0);
   }
@@ -153,11 +148,6 @@ void co2_Combo_Draw(int hdc, COMBO_CONTROL2 * p_co, int xcor, int ycor)
   //------------------------------------------------------- EDIT BOX ----------------------------------------------
 
   //------------------------------------------------------- EDIT BOX DOWN BUTTON ----------------------------------
-  /*p_co->coDownRect.top = p_co->coEditRect.top+5;
-     p_co->coDownRect.bottom = p_co->coEditRect.bottom - 5;
-     p_co->coDownRect.left = p_co->coEditRect.right - 28;
-     p_co->coDownRect.right = p_co->coEditRect.right - 5; */
-
   p_co->coDownRect.top = p_co->y;
   p_co->coDownRect.bottom = p_co->y + ddx2GetHeight(hdcCO.hdcCombo);
   p_co->coDownRect.left = p_co->x;
@@ -171,14 +161,10 @@ void co2_Combo_Draw(int hdc, COMBO_CONTROL2 * p_co, int xcor, int ycor)
   //------------------------------------------------------- EDIT BOX LIST BOX -------------------------------------
   while (ay < ly + maxlisthight) {
     if (p_co->bList) {
-      /*BitBlt(hdc, ax + xcor, ay + ycor, _2dd.bitmap[hdcCO.hdcComboMid].bitmap.bmWidth, _2dd.bitmap[hdcCO.hdcComboMid].bitmap.bmHeight,
-         _2dd.bitmap[hdcCO.hdcComboMid].bitmapDC, 0, 0, SRCCOPY); */
       ddx2BitBlt(hdc, ax + xcor, ay + ycor, ddx2GetWidth(hdcCO.hdcComboMid),
         ddx2GetHeight(hdcCO.hdcComboMid), hdcCO.hdcComboMid, 0, 0);
 
       if (p_co->pItem) {
-        /*TransparentBltU(hdc, ax + xcor + 5, ay + ycor, p_co->pItem[c].Norm.x, p_co->pItem[c].Norm.y,
-           p_co->pItem[c].Norm.hdc, 0, 0, p_co->pItem[c].Norm.x, p_co->pItem[c].Norm.y, RGB(255, 0, 255)); */
         ddx2TransparentBlt(hdc, ax + xcor + 5, ay + ycor + 3,
           ddx2GetWidth(p_co->pItem[c].Norm),
           ddx2GetHeight(p_co->pItem[c].Norm), p_co->pItem[c].Norm, 0, 0,
@@ -192,8 +178,6 @@ void co2_Combo_Draw(int hdc, COMBO_CONTROL2 * p_co, int xcor, int ycor)
   }
 
   if (p_co->bList) {
-    /*BitBlt(hdc, ax + xcor, ay + ycor, _2dd.bitmap[hdcCO.hdcComboEnd].bitmap.bmWidth, _2dd.bitmap[hdcCO.hdcComboEnd].bitmap.bmHeight,
-       _2dd.bitmap[hdcCO.hdcComboEnd].bitmapDC, 0, 0, SRCCOPY); */
     ddx2BitBlt(hdc, ax + xcor, ay + ycor, ddx2GetWidth(hdcCO.hdcComboEnd),
       ddx2GetHeight(hdcCO.hdcComboEnd), hdcCO.hdcComboEnd, 0, 0);
   }
@@ -201,21 +185,6 @@ void co2_Combo_Draw(int hdc, COMBO_CONTROL2 * p_co, int xcor, int ycor)
   p_co->ListMaxHightR = ay + ddx2GetHeight(hdcCO.hdcComboEnd) - ly;
 
   if (p_co->CounfOfItems > p_co->CounfOfItemsL) {
-    /*BitBlt(hdc, x + _2dd.bitmap[hdcCO.hdcCombo].bitmap.bmWidth + xcor - 4 - 
-       _2dd.bitmap[hdcCO.hdcComboUp].bitmap.bmWidth, 
-       y + ycor + _2dd.bitmap[hdcCO.hdcCombo].bitmap.bmHeight, 
-       _2dd.bitmap[hdcCO.hdcComboUp].bitmap.bmWidth, 
-       _2dd.bitmap[hdcCO.hdcComboUp].bitmap.bmHeight,
-       _2dd.bitmap[hdcCO.hdcComboUp].bitmapDC, 0, 0, SRCCOPY); */
-
-    /*BitBlt(hdc, x + _2dd.bitmap[hdcCO.hdcCombo].bitmap.bmWidth + xcor - 4 - 
-       _2dd.bitmap[hdcCO.hdcComboDown].bitmap.bmWidth, 
-       ay + _2dd.bitmap[hdcCO.hdcComboEnd].bitmap.bmHeight + ycor - 
-       _2dd.bitmap[hdcCO.hdcComboDown].bitmap.bmHeight - 4, 
-       _2dd.bitmap[hdcCO.hdcComboDown].bitmap.bmWidth, 
-       _2dd.bitmap[hdcCO.hdcComboDown].bitmap.bmHeight,
-       _2dd.bitmap[hdcCO.hdcComboDown].bitmapDC, 0, 0, SRCCOPY); */
-
     ddx2BitBlt(hdc, x + ddx2GetWidth(hdcCO.hdcCombo) + xcor - 4 -
       ddx2GetWidth(hdcCO.hdcComboUp),
       y + ycor + ddx2GetHeight(hdcCO.hdcCombo),
@@ -315,9 +284,6 @@ void co2_Combo_Draw_List(int hdc, COMBO_CONTROL2 * p_co, int xcor, int ycor,
     if (p_co->bList) {
       if (c == p_co->CSelected && c != p_co->Selected) {
         if (p_co->pItem) {
-          /*TransparentBltU(hdc, ax + xcor + 5, ay + ycor, p_co->pItem[c].Sel.x, p_co->pItem[c].Sel.y,
-             p_co->pItem[c].Sel.hdc, 0, 0, p_co->pItem[c].Sel.x, p_co->pItem[c].Sel.y, RGB(255, 0, 255)); */
-
           ddx2TransparentBlt(hdc, ax + xcor + 5, ay + ycor + 3,
             ddx2GetWidth(p_co->pItem[c].Sel),
             ddx2GetHeight(p_co->pItem[c].Sel), 
@@ -326,9 +292,6 @@ void co2_Combo_Draw_List(int hdc, COMBO_CONTROL2 * p_co, int xcor, int ycor,
       }
       else {
         if (p_co->pItem) {
-          /*TransparentBltU(hdc, ax + xcor + 5, ay + ycor, p_co->pItem[c].Norm.x, p_co->pItem[c].Norm.y,
-             p_co->pItem[c].Norm.hdc, 0, 0, p_co->pItem[c].Norm.x, p_co->pItem[c].Norm.y, RGB(255, 0, 255)); */
-
           ddx2TransparentBlt(hdc, ax + xcor + 5, ay + ycor + 3,
             ddx2GetWidth(p_co->pItem[c].Norm),
             ddx2GetHeight(p_co->pItem[c].Norm), p_co->pItem[c].Norm, 0, 0,
@@ -366,9 +329,7 @@ void co2_Release_Combo(COMBO_CONTROL2 * p_co)
 
   if (p_co->pItem) {
     for (i = 0; i < p_co->CounfOfItems; i++) {
-      //co2_Release_Bitmap(&p_co->pItem[i].Norm);
       ddx2ReleaseBitmap(p_co->pItem[i].Norm);
-      //co2_Release_Bitmap(&p_co->pItem[i].Sel);
       ddx2ReleaseBitmap(p_co->pItem[i].Sel);
     }
 
@@ -376,7 +337,6 @@ void co2_Release_Combo(COMBO_CONTROL2 * p_co)
   }
 
   if (p_co->pBDC) {
-    //co2_Release_Bitmap(p_co->pBDC);
     ddx2ReleaseBitmap(*p_co->pBDC);
     free((void *) p_co->pBDC);
   }
@@ -428,9 +388,7 @@ void co2_Release_Combo_Drop(COMBO_DROP_CONTROL2 * p_co)
 
   if (p_co->pItem) {
     for (i = 0; i < p_co->CounfOfItems; i++) {
-      //co_Release_Bitmap(&p_co->pItem[i].Norm);
       ddx2ReleaseBitmap(p_co->pItem[i].Norm);
-      //co_Release_Bitmap(&p_co->pItem[i].Sel);
       ddx2ReleaseBitmap(p_co->pItem[i].Sel);
     }
 
@@ -459,9 +417,6 @@ COMBO_DROP_CONTROL2 *co2_Create_Combo_Drop(int hdc, int x, int y, int id)
   p_co->Selected = -1;
   p_co->x = x;
   p_co->y = y;
-
-/*	BitBlt(hdc, x, y, _2dd.bitmap[hdcCO.hdcComboDrop].bitmap.bmWidth, _2dd.bitmap[hdcCO.hdcComboDrop].bitmap.bmHeight, 
-		   _2dd.bitmap[hdcCO.hdcComboDrop].bitmapDC, 0, 0, SRCCOPY);*/
 
   ddx2BitBlt(hdc, x, y, ddx2GetWidth(hdcCO.hdcComboDrop),
     ddx2GetHeight(hdcCO.hdcComboDrop), hdcCO.hdcComboDrop, 0, 0);
@@ -497,27 +452,13 @@ int co2_Combo_Drop_Add_String(COMBO_DROP_CONTROL2 * p_co, char *text,
   if (!p_co->pItem)
     return 0;
 
-  /*co2_CreateDC(_2dd.hDC, 
-     _2dd.bitmap[hdcCO.hdcComboDrop].bitmap.bmWidth - 20, _2dd.bitmap[hdcCO.hdcComboMid].bitmap.bmHeight,
-     &p_co->pItem[p_co->CounfOfItems-1].Norm); */
-
   p_co->pItem[p_co->CounfOfItems - 1].Norm =
     ddx2CreateSurface(ddx2GetWidth(hdcCO.hdcComboDrop) - 20,
     ddx2GetHeight(hdcCO.hdcComboMid), ddx2FindFreeSurface());
 
-  /*BitBltU(p_co->pItem[p_co->CounfOfItems-1].Norm.hdc,
-     0,0,p_co->pItem[p_co->CounfOfItems-1].Norm.x,p_co->pItem[p_co->CounfOfItems-1].Norm.y,NULL,0,0,WHITENESS); */
-
-  /*co2_CreateDC(_2dd.hDC, 
-     _2dd.bitmap[hdcCO.hdcComboDrop].bitmap.bmWidth - 20, _2dd.bitmap[hdcCO.hdcComboMid].bitmap.bmHeight,
-     &p_co->pItem[p_co->CounfOfItems-1].Sel); */
-
   p_co->pItem[p_co->CounfOfItems - 1].Sel =
     ddx2CreateSurface(ddx2GetWidth(hdcCO.hdcComboDrop) - 20,
     ddx2GetHeight(hdcCO.hdcComboMid), ddx2FindFreeSurface());
-
-  /*BitBltU(p_co->pItem[p_co->CounfOfItems-1].Sel.hdc,
-     0,0,p_co->pItem[p_co->CounfOfItems-1].Sel.x,p_co->pItem[p_co->CounfOfItems-1].Sel.y,NULL,0,0,WHITENESS); */
 
   strcpy(p_co->pItem[p_co->CounfOfItems - 1].text, text);
 
@@ -537,18 +478,10 @@ int co2_Combo_Drop_Set_Sel(int hdc, COMBO_DROP_CONTROL2 * p_co, int i)
 {
   p_co->Selected = i;
 
-  /*
-     BitBlt(hdc, p_co->x, p_co->y, _2dd.bitmap[hdcCO.hdcComboDrop].bitmap.bmWidth, 
-     _2dd.bitmap[hdcCO.hdcComboDrop].bitmap.bmHeight,
-     _2dd.bitmap[hdcCO.hdcComboDrop].bitmapDC, 0, 0, SRCCOPY); */
-
   ddx2BitBlt(hdc, p_co->x, p_co->y, ddx2GetWidth(hdcCO.hdcComboDrop),
     ddx2GetHeight(hdcCO.hdcComboDrop), hdcCO.hdcComboDrop, 0, 0);
 
   if (p_co->pItem) {
-    /*TransparentBltU(hdc, p_co->x + 5, p_co->y + 7, p_co->pItem[p_co->Selected].Norm.x, p_co->pItem[p_co->Selected].Norm.y,
-       p_co->pItem[p_co->Selected].Norm.hdc, 0, 0, p_co->pItem[p_co->Selected].Norm.x, p_co->pItem[p_co->Selected].Norm.y, TRANSCOLOR); */
-
     ddx2TransparentBlt(hdc, p_co->x + 5, p_co->y + 7,
       ddx2GetWidth(p_co->pItem[p_co->Selected].Norm),
       ddx2GetHeight(p_co->pItem[p_co->Selected].Norm),
@@ -565,18 +498,11 @@ int co2_Combo_Drop_Set_String(int hdc, COMBO_DROP_CONTROL2 * p_co, int xcor,
   if (p_co->Selected < 0)
     return 0;
 
-  /*BitBlt(hdc, p_co->x + xcor, p_co->y + ycor, _2dd.bitmap[hdcCO.hdcComboDrop].bitmap.bmWidth, 
-     _2dd.bitmap[hdcCO.hdcComboDrop].bitmap.bmHeight,
-     _2dd.bitmap[hdcCO.hdcComboDrop].bitmapDC, 0, 0, SRCCOPY); */
-
   ddx2BitBlt(hdc, p_co->x + xcor, p_co->y + ycor,
     ddx2GetWidth(hdcCO.hdcComboDrop), ddx2GetHeight(hdcCO.hdcComboDrop),
     hdcCO.hdcComboDrop, 0, 0);
 
   if (p_co->pItem) {
-    /*TransparentBltU(hdc, p_co->x + xcor + 5, p_co->y + ycor + 7, p_co->pItem[p_co->Selected].Norm.x, p_co->pItem[p_co->Selected].Norm.y,
-       p_co->pItem[p_co->Selected].Norm.hdc, 0, 0, p_co->pItem[p_co->Selected].Norm.x, p_co->pItem[p_co->Selected].Norm.y, TRANSCOLOR); */
-
     ddx2TransparentBlt(hdc, p_co->x + xcor + 5, p_co->y + ycor + 7,
       ddx2GetWidth(p_co->pItem[p_co->Selected].Norm),
       ddx2GetHeight(p_co->pItem[p_co->Selected].Norm),
@@ -621,24 +547,9 @@ int co2_Combo_Add_String(COMBO_CONTROL2 * p_co, char *text)
   if (!p_co->pItem)
     return 0;
 
-  /*co2_CreateDC(_2dd.hDC, 
-     _2dd.bitmap[hdcCO.hdcCombo].bitmap.bmWidth - 10, _2dd.bitmap[hdcCO.hdcComboMid].bitmap.bmHeight,
-     &p_co->pItem[p_co->CounfOfItems-1].Norm); */
-
-
   p_co->pItem[p_co->CounfOfItems - 1].Norm =
     ddx2CreateSurface(ddx2GetWidth(hdcCO.hdcCombo),
     ddx2GetHeight(hdcCO.hdcComboMid), ddx2FindFreeSurface());
-
-  /*BitBltU(p_co->pItem[p_co->CounfOfItems-1].Norm.hdc,
-     0,0,p_co->pItem[p_co->CounfOfItems-1].Norm.x,p_co->pItem[p_co->CounfOfItems-1].Norm.y,NULL,0,0,WHITENESS); */
-
-  /*co2_CreateDC(_2dd.hDC, 
-     _2dd.bitmap[hdcCO.hdcCombo].bitmap.bmWidth - 10, _2dd.bitmap[hdcCO.hdcComboMid].bitmap.bmHeight,
-     &p_co->pItem[p_co->CounfOfItems-1].Sel);
-
-     BitBltU(p_co->pItem[p_co->CounfOfItems-1].Sel.hdc,
-     0,0,p_co->pItem[p_co->CounfOfItems-1].Sel.x,p_co->pItem[p_co->CounfOfItems-1].Sel.y,NULL,0,0,WHITENESS); */
 
   p_co->pItem[p_co->CounfOfItems - 1].Sel =
     ddx2CreateSurface(ddx2GetWidth(hdcCO.hdcCombo),
@@ -671,23 +582,9 @@ int co2_Combo_Add_StringWC(COMBO_CONTROL2 * p_co, char *text)
   if (!p_co->pItem)
     return 0;
 
-  /*co2_CreateDC(_2dd.hDC, 
-     _2dd.bitmap[hdcCO.hdcCombo].bitmap.bmWidth - 10, _2dd.bitmap[hdcCO.hdcComboMid].bitmap.bmHeight,
-     &p_co->pItem[p_co->CounfOfItems-1].Norm);
-
-     BitBltU(p_co->pItem[p_co->CounfOfItems-1].Norm.hdc,
-     0,0,p_co->pItem[p_co->CounfOfItems-1].Norm.x,p_co->pItem[p_co->CounfOfItems-1].Norm.y,NULL,0,0,WHITENESS); */
-
   p_co->pItem[p_co->CounfOfItems - 1].Norm =
     ddx2CreateSurface(ddx2GetWidth(hdcCO.hdcCombo),
     ddx2GetHeight(hdcCO.hdcComboMid), ddx2FindFreeSurface());
-
-  /*co2_CreateDC(_2dd.hDC, 
-     _2dd.bitmap[hdcCO.hdcCombo].bitmap.bmWidth - 10, _2dd.bitmap[hdcCO.hdcComboMid].bitmap.bmHeight,
-     &p_co->pItem[p_co->CounfOfItems-1].Sel);
-
-     BitBltU(p_co->pItem[p_co->CounfOfItems-1].Sel.hdc,
-     0,0,p_co->pItem[p_co->CounfOfItems-1].Sel.x,p_co->pItem[p_co->CounfOfItems-1].Sel.y,NULL,0,0,WHITENESS); */
 
   p_co->pItem[p_co->CounfOfItems - 1].Sel =
     ddx2CreateSurface(ddx2GetWidth(hdcCO.hdcCombo),
@@ -713,18 +610,11 @@ int co2_Combo_Set_String(int hdc, COMBO_CONTROL2 * p_co, int xcor, int ycor)
   if (p_co->Selected < 0)
     return 0;
 
-  /*BitBlt(hdc, p_co->x + xcor, p_co->y + ycor, _2dd.bitmap[hdcCO.hdcCombo].bitmap.bmWidth, 
-     _2dd.bitmap[hdcCO.hdcCombo].bitmap.bmHeight,
-     _2dd.bitmap[hdcCO.hdcCombo].bitmapDC, 0, 0, SRCCOPY); */
-
   ddx2BitBlt(hdc, p_co->x + xcor, p_co->y + ycor,
     ddx2GetWidth(hdcCO.hdcCombo), ddx2GetHeight(hdcCO.hdcCombo),
     hdcCO.hdcCombo, 0, 0);
 
   if (p_co->pItem) {
-    /*TransparentBltU(hdc, p_co->x + xcor + 5, p_co->y + ycor + 7, p_co->pItem[p_co->Selected].Norm.x, p_co->pItem[p_co->Selected].Norm.y,
-       p_co->pItem[p_co->Selected].Norm.hdc, 0, 0, p_co->pItem[p_co->Selected].Norm.x, p_co->pItem[p_co->Selected].Norm.y, TRANSCOLOR); */
-
     ddx2TransparentBlt(hdc, p_co->x + xcor + 5, p_co->y + ycor + 7,
       ddx2GetWidth(p_co->pItem[p_co->Selected].Norm),
       ddx2GetHeight(p_co->pItem[p_co->Selected].Norm),
@@ -742,17 +632,10 @@ int co2_Combo_Set_Sel(int hdc, COMBO_CONTROL2 * p_co, int i)
   p_co->Selected = i;
   p_co->OSelected = i;
 
-  /*BitBlt(hdc, p_co->x, p_co->y, _2dd.bitmap[hdcCO.hdcCombo].bitmap.bmWidth, 
-     _2dd.bitmap[hdcCO.hdcCombo].bitmap.bmHeight,
-     _2dd.bitmap[hdcCO.hdcCombo].bitmapDC, 0, 0, SRCCOPY); */
-
   ddx2BitBlt(hdc, p_co->x, p_co->y, ddx2GetWidth(hdcCO.hdcCombo),
     ddx2GetHeight(hdcCO.hdcCombo), hdcCO.hdcCombo, 0, 0);
 
   if (p_co->pItem) {
-    /*TransparentBltU(hdc, p_co->x + 5, p_co->y + 7, p_co->pItem[p_co->Selected].Norm.x, p_co->pItem[p_co->Selected].Norm.y,
-       p_co->pItem[p_co->Selected].Norm.hdc, 0, 0, p_co->pItem[p_co->Selected].Norm.x, p_co->pItem[p_co->Selected].Norm.y, TRANSCOLOR); */
-
     ddx2TransparentBlt(hdc, p_co->x + 5, p_co->y + 7,
       ddx2GetWidth(p_co->pItem[p_co->Selected].Norm),
       ddx2GetHeight(p_co->pItem[p_co->Selected].Norm),
@@ -810,9 +693,6 @@ int co2_Combo_Open(int hdc, COMBO_CONTROL2 * p_co, int xcor, int ycor)
   if (!p_co->pBDC)
     return 0;
 
-  //p_co->ListMaxHightR = (p_co->CounfOfItems * 35) + _2dd.bitmap[hdcCO.hdcComboEnd].bitmap.bmHeight;
-  //p_co->ListMaxHightR = (p_co->CounfOfItemsL * 25) + ddx2GetHeight(hdcCO.hdcComboEnd);
-
   if (p_co->CounfOfItems > p_co->CounfOfItemsL)
     p_co->ListMaxHightR =
       (p_co->CounfOfItemsL * 25) + ddx2GetHeight(hdcCO.hdcComboEnd);
@@ -820,7 +700,6 @@ int co2_Combo_Open(int hdc, COMBO_CONTROL2 * p_co, int xcor, int ycor)
     p_co->ListMaxHightR =
       (p_co->CounfOfItems * 25) + ddx2GetHeight(hdcCO.hdcComboEnd);
 
-  //co2_CreateDC(hdc, p_co->WidthR, p_co->ListMaxHightR, p_co->pBDC);
   *p_co->pBDC =
     ddx2CreateSurface(p_co->WidthR, p_co->ListMaxHightR,
     ddx2FindFreeSurface());
@@ -831,9 +710,6 @@ int co2_Combo_Open(int hdc, COMBO_CONTROL2 * p_co, int xcor, int ycor)
     free((void *) p_co->pBDC);
     return 0;
   }
-
-  /*BitBlt(pDCI->hdc, 0, 0, pDCI->x, pDCI->y, hdc, p_co->x + xcor, 
-     p_co->y + _2dd.bitmap[hdcCO.hdcCombo].bitmap.bmHeight + ycor, SRCCOPY); */
 
   ddx2BitBlt(*pDCI, 0, 0, ddx2GetWidth(*pDCI), ddx2GetHeight(*pDCI), hdc,
     p_co->x + xcor, p_co->y + ddx2GetHeight(hdcCO.hdcCombo) + ycor);
@@ -871,14 +747,10 @@ int co2_Combo_Close(int hdc, COMBO_CONTROL2 * p_co, int xcor, int ycor)
   p_co->SSelected = 0;
   p_co->bList = 0;
 
-/*	BitBlt(hdc, p_co->x + xcor, ycor + p_co->y + _2dd.bitmap[hdcCO.hdcCombo].bitmap.bmHeight, p_co->pBDC->x, p_co->pBDC->y,
-		   p_co->pBDC->hdc, 0, 0, SRCCOPY);*/
-
   ddx2BitBlt(hdc, p_co->x + xcor,
     ycor + p_co->y + ddx2GetHeight(hdcCO.hdcCombo), ddx2GetWidth(*p_co->pBDC),
     ddx2GetHeight(*p_co->pBDC), *p_co->pBDC, 0, 0);
 
-  //co2_Release_Bitmap(p_co->pBDC);
   ddx2ReleaseBitmap(*p_co->pBDC);
 
   free((void *) p_co->pBDC);
@@ -950,30 +822,20 @@ CONTROL_EDIT2 *co2_Create_Edit(int hdc, int x, int y, int editID)
   p_ed->rect.right = x + ddx2GetWidth(hdcED.hdcEdit);
   p_ed->rect.bottom = y + ddx2GetHeight(hdcED.hdcEdit);
 
-  /*BitBlt(hdc, x,  y, _2dd.bitmap[hdcED.hdcEdit].bitmap.bmWidth, _2dd.bitmap[hdcED.hdcEdit].bitmap.bmHeight, 
-     _2dd.bitmap[hdcED.hdcEdit].bitmapDC, 0, 0, SRCCOPY); */
-
   ddx2BitBlt(hdc, x, y, ddx2GetWidth(hdcED.hdcEdit),
-    ddx2GetHeight(hdcED.hdcEdit), hdcED.hdcEdit, 0, 0);
-
-  /*BitBlt(_2dd.hDC, x,  y, _2dd.bitmap[hdcED.hdcEdit].bitmap.bmWidth, _2dd.bitmap[hdcED.hdcEdit].bitmap.bmHeight, 
-     _2dd.bitmap[hdcED.hdcEdit].bitmapDC, 0, 0, SRCCOPY); */
+             ddx2GetHeight(hdcED.hdcEdit), hdcED.hdcEdit, 0, 0);
 
   ddx2BitBlt(HDC2DD, x, y, ddx2GetWidth(hdcED.hdcEdit),
-    ddx2GetHeight(hdcED.hdcEdit), hdcED.hdcEdit, 0, 0);
+             ddx2GetHeight(hdcED.hdcEdit), hdcED.hdcEdit, 0, 0);
 
-  /*co2_CreateDC(_2dd.hDC, _2dd.bitmap[hdcED.hdcEdit].bitmap.bmWidth + 25, _2dd.bitmap[hdcED.hdcEdit].bitmap.bmHeight, &p_ed->bDC);
-     BitBltU(p_ed->bDC.hdc,0,0,p_ed->bDC.x,p_ed->bDC.y,NULL,0,0,WHITENESS); */
-
-  p_ed->bDC =
-    ddx2CreateSurface(ddx2GetWidth(hdcED.hdcEdit) + 25,
-    ddx2GetHeight(hdcED.hdcEdit), ddx2FindFreeSurface());
+  p_ed->bDC = ddx2CreateSurface(ddx2GetWidth(hdcED.hdcEdit) + 25,
+                                ddx2GetHeight(hdcED.hdcEdit), 
+                                ddx2FindFreeSurface());
   return p_ed;
 }
 
 void co2_Release_Button(BUTTON_CONTROL2 * p_bu)
 {
-  //co2_Release_Bitmap(&p_bu->dc);
   ddx2ReleaseBitmap(p_bu->dc);
   free((void *) p_bu);
 }
@@ -1008,7 +870,6 @@ BUTTON_CONTROL2 *co2_Create_Button(int hdc, int x, int y, int type,
       bmpx = ddx2GetWidth(hdcBU.hdcButtonL);
       bmpy = ddx2GetHeight(hdcBU.hdcButtonL);
       bmpDC = hdcBU.hdcButtonL;
-      //co2_CreateDC(hdc, bmpx, bmpy, &p_bu->dc);
       p_bu->dc = ddx2CreateSurface(bmpx, bmpy, ddx2FindFreeSurface());
 
       p_bu->Rect.bottom = y + bmpy;
@@ -1018,7 +879,6 @@ BUTTON_CONTROL2 *co2_Create_Button(int hdc, int x, int y, int type,
       bmpx = ddx2GetWidth(hdcBU.hdcButtonS);
       bmpy = ddx2GetHeight(hdcBU.hdcButtonS);
       bmpDC = hdcBU.hdcButtonS;
-      //co2_CreateDC(hdc, bmpx, bmpy, &p_bu->dc);
       p_bu->dc = ddx2CreateSurface(bmpx, bmpy, ddx2FindFreeSurface());
 
       p_bu->Rect.bottom = y + bmpy;
@@ -1032,48 +892,33 @@ BUTTON_CONTROL2 *co2_Create_Button(int hdc, int x, int y, int type,
   p_bu->Rect.top = y;
   p_bu->Rect.left = x;
 
-  //BitBlt(p_bu->dc.hdc, 0, 0, bmpx, bmpy, bmpDC, 0, 0, SRCCOPY);
   ddx2BitBlt(p_bu->dc, 0, 0, bmpx, bmpy, bmpDC, 0, 0);
 
-  //co2_CreateDC(hdc, bmpx, bmpy, &tmpDC);
-  //BitBltU(tmpDC.hdc,0,0,bmpx,bmpy,NULL,0,0,WHITENESS);
   tmpDC = ddx2CreateSurface(bmpx, bmpy, ddx2FindFreeSurface());
 
-  MultiByteToWideChar(CP_ACP, 0, text, strlen(text) + 1, wc,
-    sizeof(wc) / sizeof(wc[0]));
-  MultiByteToWideChar(CP_ACP, 0, "##endofmessage",
-    strlen("##endofmessage") + 1, ws, sizeof(ws) / sizeof(ws[0]));
+  MultiByteToWideChar(CP_ACP, 0, text, strlen(text) + 1, wc, sizeof(wc) / sizeof(wc[0]));
+  MultiByteToWideChar(CP_ACP, 0, "##endofmessage", strlen("##endofmessage") + 1, ws, sizeof(ws) / sizeof(ws[0]));
 
-  //fn2_Draw_Message(tmpDC.hdc, 0, 0, &b2_3d_font.gt, &b2_3d_font.ts, wc, ws, isection, &tx, &ty);
-  fn2_Draw_Message(tmpDC, 0, 0, &b2_3d_font.gt, &b2_3d_font.ts, wc, ws,
-    isection, &tx, &ty);
+  fn2_Draw_Message(tmpDC, 0, 0, &b2_3d_font.gt, &b2_3d_font.ts, wc, ws, isection, &tx, &ty);
 
   cx = ftoi(((p_bu->Rect.right - p_bu->Rect.left) - tx) / 2.0f);
   cy = ftoi(((p_bu->Rect.bottom - p_bu->Rect.top) - ty) / 2.0f);
 
-  //TransparentBltU(p_bu->dc.hdc, cx, cy, tx, ty,  tmpDC.hdc, 0, 0, tx, ty, TRANSCOLOR);
   ddx2TransparentBlt(p_bu->dc, cx, cy, tx, ty, tmpDC, 0, 0, TRANSCOLOR);
-
-  //co2_Release_Bitmap(&tmpDC);
   ddx2ReleaseBitmap(tmpDC);
-
-  //BitBlt(hdc, p_bu->Rect.left, p_bu->Rect.top, p_bu->dc.x, p_bu->dc.y, p_bu->dc.hdc, 0, 0, SRCCOPY);
   ddx2BitBlt(hdc, p_bu->Rect.left, p_bu->Rect.top, ddx2GetWidth(p_bu->dc),
-    ddx2GetHeight(p_bu->dc), p_bu->dc, 0, 0);
+             ddx2GetHeight(p_bu->dc), p_bu->dc, 0, 0);
 
   return p_bu;
 }
 
-int co2_Check_Set_State(CHECKBOX_CONTROL2 * p_ch, int hdc, int state,
-  char bDraw)
+int co2_Check_Set_State(CHECKBOX_CONTROL2 * p_ch, int hdc, int state, char bDraw)
 {
   int x = 0, y = 0;
   int bmpx;
-//  int bmpy;
   int bmpDC;
 
   bmpx = ddx2GetWidth(hdcCH.hdcCheck);
-//  bmpy = ddx2GetHeight(hdcCH.hdcCheck);
   bmpDC = hdcCH.hdcCheck;
 
   if (hdc == HDC2DD) {
@@ -1085,23 +930,19 @@ int co2_Check_Set_State(CHECKBOX_CONTROL2 * p_ch, int hdc, int state,
 
   if (p_ch->bChecked) {
     if (bDraw) {
-      //TransparentBltU(hdc, p_ch->Rect.left, p_ch->Rect.top, bmpx, 24, bmpDC, 0, 54, bmpx, 24, RGB(237, 77, 0));
       ddx2TransparentBlt(hdc, p_ch->Rect.left + x, p_ch->Rect.top + y, bmpx,
         20, bmpDC, 0, 25, RGB(237, 77, 0));
     }
 
     p_ch->bChange = 1;
-    //return 1;
   }
   else {
     if (bDraw) {
-      //TransparentBltU(hdc, p_ch->Rect.left, p_ch->Rect.top, bmpx, 24, bmpDC, 0, 80, bmpx, 24, RGB(237, 77, 0));
       ddx2TransparentBlt(hdc, p_ch->Rect.left + x, p_ch->Rect.top + y, bmpx,
         20, bmpDC, 0, 1, RGB(237, 77, 0));
     }
 
     p_ch->bChange = 1;
-    //return 1;
   }
 
   if (p_ch->iDC != -1)
@@ -1183,30 +1024,23 @@ void co2_Release_CheckBox(CHECKBOX_CONTROL2 * p_ch)
 }
 
 CHECKBOX_CONTROL2 *co2_Create_CheckBox(int hdc, int x, int y, char *text,
-  int isection, int checkID)
+                                       int isection, int checkID,
+                                       CONTROL_CALLBACK p_callback,
+                                       void *p_callback_data)
 {
   WCHAR wc[128];
   WCHAR ws[128];
 
   int bmpx;
-  //int bmpy;
   int bmpDC;
   int tx, ty;
   CHECKBOX_CONTROL2 *p_ch = NULL;
 
-  p_ch = (CHECKBOX_CONTROL2 *) malloc(sizeof(CHECKBOX_CONTROL2));
-
-  if (!p_ch)
-    return 0;
-
-  ZeroMemory(p_ch, sizeof(CHECKBOX_CONTROL2));
-
+  p_ch = (CHECKBOX_CONTROL2 *) mmalloc(sizeof(CHECKBOX_CONTROL2));
   p_ch->checkID = checkID;
 
   bmpx = ddx2GetWidth(hdcCH.hdcCheck);
-  //bmpy = ddx2GetHeight(hdcCH.hdcCheck);
   bmpDC = hdcCH.hdcCheck;
-  //co2_CreateDC(hdc, bmpx, bmpy, &p_bu->dc);
 
   p_ch->Rect.bottom = y + 24;
   p_ch->Rect.right = x + bmpx;
@@ -1214,8 +1048,9 @@ CHECKBOX_CONTROL2 *co2_Create_CheckBox(int hdc, int x, int y, char *text,
   p_ch->Rect.left = x;
   p_ch->x = x;
   p_ch->y = y;
+  p_ch->p_callback = p_callback;
+  p_ch->p_callback_data = p_callback_data;
 
-  //TransparentBltU(hdc, x, y, bmpx, 24, bmpDC, 0, 80, bmpx, 24, RGB(237, 77, 0));
   ddx2TransparentBlt(hdc, x, y, bmpx, 20, bmpDC, 0, 1, RGB(237, 77, 0));
 
   MultiByteToWideChar(CP_ACP, 0, text, strlen(text) + 1, wc,
@@ -1245,9 +1080,6 @@ int co2_Progres_Set(PROGRES_CONTROL2 * p_pr, int hdc, int i)
   float in = md / (float) dd;
   int x = p_pr->rectProgres.left + ftoi((i - p_pr->min) * in);
 
-  // int yp;
-
-  //BitBlt(hdc, p_pr->rectMover.left, p_pr->rectMover.top, p_pr->bDC.x, p_pr->bDC.y, p_pr->bDC.hdc, 0, 0, SRCCOPY);
   ddx2BitBlt(hdc, p_pr->rectMover.left, p_pr->rectMover.top,
     ddx2GetWidth(p_pr->bDC), ddx2GetHeight(p_pr->bDC), p_pr->bDC, 0, 0);
 
@@ -1255,23 +1087,9 @@ int co2_Progres_Set(PROGRES_CONTROL2 * p_pr, int hdc, int i)
   p_pr->rectMover.left = p_pr->pos - p_pr->cor;
   p_pr->rectMover.right = p_pr->rectMover.left + ddx2GetWidth(hdcPR.hdcMover);
 
-  // yp = ftoi(ddx2GetHeight(hdcPR.hdcMover) / 2.0f);
-
-  /*BitBlt(p_pr->bDC.hdc, 0, 0, _2dd.bitmap[hdcPR.hdcMover].bitmap.bmWidth, 
-     _2dd.bitmap[hdcPR.hdcMover].bitmap.bmHeight, hdc, 
-     p_pr->rectMover.left, p_pr->rectMover.top, SRCCOPY); */
-
   ddx2BitBlt(p_pr->bDC, 0, 0, ddx2GetWidth(hdcPR.hdcMover),
     ddx2GetHeight(hdcPR.hdcMover), hdc,
     p_pr->rectMover.left, p_pr->rectMover.top);
-
-  /*BitBlt(hdc, p_pr->rectMover.left, p_pr->rectMover.top, 
-     _2dd.bitmap[hdcPR.hdcMover].bitmap.bmWidth, _2dd.bitmap[hdcPR.hdcMover].bitmap.bmHeight, 
-     _2dd.bitmap[hdcPR.hdcMover].bitmapDC, 0, 0, SRCCOPY); */
-
-  /*ddx2BitBlt(hdc, p_pr->rectMover.left, p_pr->rectMover.top, 
-     ddx2GetWidth(hdcPR.hdcMover), ddx2GetHeight(hdcPR.hdcMover), 
-     hdcPR.hdcMover, 0, 0); */
 
   ddx2TransparentBlt(hdc, p_pr->rectMover.left, p_pr->rectMover.top,
     ddx2GetWidth(hdcPR.hdcMover), ddx2GetHeight(hdcPR.hdcMover),
@@ -1372,9 +1190,7 @@ int co2_Progres_Changed(CONTROL_LIST_ITEM2 * p_list, int lsize, int id)
 
 void co2_Release_Progres(PROGRES_CONTROL2 * p_pr)
 {
-  //co2_Release_Bitmap(&p_pr->bDC);
   ddx2ReleaseBitmap(p_pr->bDC);
-
   free((void *) p_pr);
 }
 
@@ -1418,18 +1234,12 @@ PROGRES_CONTROL2 *co2_Create_Progres(int hdc, int x, int y, int min, int max,
   p_pr->rectProgres.bottom = p_pr->rectMover.bottom;
   p_pr->rectProgres.right = x + bmpx;
 
-  //BitBlt(hdc, x, y+yp, bmpx, _2dd.bitmap[hdcPR.hdcLine].bitmap.bmHeight, bmpDC, 0, 0, SRCCOPY);
   ddx2BitBlt(hdc, x, y + yp, bmpx, ddx2GetHeight(hdcPR.hdcLine), bmpDC, 0, 0);
-  //co2_CreateDC(hdc, _2dd.bitmap[hdcPR.hdcMover].bitmap.bmWidth, _2dd.bitmap[hdcPR.hdcMover].bitmap.bmHeight, &p_pr->bDC);
   p_pr->bDC =
     ddx2CreateSurface(ddx2GetWidth(hdcPR.hdcMover),
     ddx2GetHeight(hdcPR.hdcMover), ddx2FindFreeSurface());
 
-  //BitBlt(p_pr->bDC.hdc, 0, 0, _2dd.bitmap[hdcPR.hdcMover].bitmap.bmWidth, bmpy, hdc, x, y, SRCCOPY);
   ddx2BitBlt(p_pr->bDC, 0, 0, ddx2GetWidth(hdcPR.hdcMover), bmpy, hdc, x, y);
-
-  //BitBlt(hdc, x, y, _2dd.bitmap[hdcPR.hdcMover].bitmap.bmWidth, bmpy, _2dd.bitmap[hdcPR.hdcMover].bitmapDC, 0, 0, SRCCOPY);
-  //ddx2BitBlt(hdc, x, y, ddx2GetWidth(hdcPR.hdcMover), bmpy, hdcPR.hdcMover, 0, 0);
   ddx2TransparentBlt(hdc, x, y, ddx2GetWidth(hdcPR.hdcMover), bmpy, hdcPR.hdcMover, 0, 0, RGB(237, 77, 0));
 
   p_pr->RectFull.left = x - yp - 300;
@@ -1501,11 +1311,7 @@ int co2_Set_Text_Center(int hdc, char *text, int isection, RECT r)
   WCHAR ws[128];
   int h;
 
-  //co2_CreateDC(hdc, 600, 100, &h);
-
   h = ddx2CreateSurface(600, 100, ddx2FindFreeSurface());
-
-  //BitBltU(h.hdc, 0, 0, 600, 100, NULL, 0, 0, WHITENESS);
 
   MultiByteToWideChar(CP_ACP, 0, text, strlen(text) + 1, wc,
     sizeof(wc) / sizeof(wc[0]));
@@ -1518,15 +1324,8 @@ int co2_Set_Text_Center(int hdc, char *text, int isection, RECT r)
   xp = ftoi(((r.right - r.left) - tx) / 2.0f);
   yp = ftoi(((r.bottom - r.top) - ty) / 2.0f);
 
-  //TransparentBltU(hdc, r.left + xp, r.top + yp, tx, ty, h.hdc, 0, 0, tx, ty, TRANSCOLOR);
-  ddx2TransparentBlt(hdc, r.left + xp, r.top + yp, tx, ty, h, 0, 0,
-    TRANSCOLOR);
-
-  //TransparentBltU(_2dd.hDC, r.left + xp, r.top + yp, tx, ty, h.hdc, 0, 0, tx, ty, TRANSCOLOR);  
-  ddx2TransparentBltDisplay(r.left + xp, r.top + yp, tx, ty, h, 0, 0, tx, ty,
-    TRANSCOLOR);
-
-  //co2_Release_Bitmap(&h);
+  ddx2TransparentBlt(hdc, r.left + xp, r.top + yp, tx, ty, h, 0, 0, TRANSCOLOR);
+  ddx2TransparentBltDisplay(r.left + xp, r.top + yp, tx, ty, h, 0, 0, tx, ty, TRANSCOLOR);
   ddx2ReleaseBitmap(h);
 
   return 1;
@@ -1553,9 +1352,6 @@ int co2_Set_Text_Right(int hdc, char *text, int isection, int x, int y)
   xp = x - tx;
 
   ddx2TransparentBlt(hdc, xp, y, tx, ty, h, 0, 0, TRANSCOLOR);
-
-  //ddx2TransparentBltDisplay(xp, y, tx, ty, h, 0, 0, tx, ty, TRANSCOLOR);        
-
   ddx2ReleaseBitmap(h);
 
   return 1;
@@ -1785,9 +1581,6 @@ int co2_List_Add_StringWC2(LIST_VIEW_CONTROL2 * p_li, int index, int x,
 
 int co2_List_Redraw(int hdc, LIST_VIEW_CONTROL2 * p_li, int y)
 {
-  /*BitBlt(hdc, p_li->rectList.left, p_li->rectList.top, p_li->bDCn.x, 
-     p_li->rectList.bottom - p_li->rectList.top, p_li->bDCn.hdc, 0, y, SRCCOPY); */
-
   if (y + (p_li->rectList.bottom - p_li->rectList.top) >
     ddx2GetHeight(p_li->bDCn))
     y =
@@ -1817,11 +1610,8 @@ void co2_Release_List(LIST_VIEW_CONTROL2 * p_li)
 {
   int i;
 
-  //co2_Release_Bitmap(&p_li->bDCm);
   ddx2ReleaseBitmap(p_li->bDCm);
-  //co2_Release_Bitmap(&p_li->bDCn);
   ddx2ReleaseBitmap(p_li->bDCn);
-  //co2_Release_Bitmap(&p_li->bDCs);
   ddx2ReleaseBitmap(p_li->bDCs);
 
   if (p_li->piValue);
@@ -1903,9 +1693,6 @@ LIST_VIEW_CONTROL2 *co2_Create_List(int hdc, int x, int y, int width,
   ax = x;
   ay = y;
 
-  /*BitBlt(hdc, x, y, _2dd.bitmap[hdcLI.hdcListTL].bitmap.bmWidth, 
-     _2dd.bitmap[hdcLI.hdcListTL].bitmap.bmHeight, _2dd.bitmap[hdcLI.hdcListTL].bitmapDC, 0, 0, SRCCOPY); */
-
   ddx2BitBlt(hdc, x, y, ddx2GetWidth(hdcLI.hdcListTL),
     ddx2GetHeight(hdcLI.hdcListTL), hdcLI.hdcListTL, 0, 0);
 
@@ -1914,24 +1701,15 @@ LIST_VIEW_CONTROL2 *co2_Create_List(int hdc, int x, int y, int width,
   lx = ax;
 
   while (ax - lx < width - ddx2GetWidth(hdcLI.hdcListTop)) {
-    /*BitBlt(hdc, ax, ay, _2dd.bitmap[hdcLI.hdcListTop].bitmap.bmWidth, 
-       _2dd.bitmap[hdcLI.hdcListTop].bitmap.bmHeight, _2dd.bitmap[hdcLI.hdcListTop].bitmapDC, 0, 0, SRCCOPY); */
-
     ddx2BitBlt(hdc, ax, ay, ddx2GetWidth(hdcLI.hdcListTop),
       ddx2GetHeight(hdcLI.hdcListTop), hdcLI.hdcListTop, 0, 0);
 
     ax += ddx2GetWidth(hdcLI.hdcListTop);
   }
 
-  /*BitBlt(hdc, x + width - _2dd.bitmap[hdcLI.hdcListTop].bitmap.bmWidth, ay, _2dd.bitmap[hdcLI.hdcListTop].bitmap.bmWidth, 
-     _2dd.bitmap[hdcLI.hdcListTop].bitmap.bmHeight, _2dd.bitmap[hdcLI.hdcListTop].bitmapDC, 0, 0, SRCCOPY); */
-
   ddx2BitBlt(hdc, x + width - ddx2GetWidth(hdcLI.hdcListTop), ay,
     ddx2GetWidth(hdcLI.hdcListTop), ddx2GetHeight(hdcLI.hdcListTop),
     hdcLI.hdcListTop, 0, 0);
-
-  /*BitBlt(hdc, x + width - _2dd.bitmap[hdcLI.hdcListTR].bitmap.bmWidth, ay, _2dd.bitmap[hdcLI.hdcListTR].bitmap.bmWidth, 
-     _2dd.bitmap[hdcLI.hdcListTR].bitmap.bmHeight, _2dd.bitmap[hdcLI.hdcListTR].bitmapDC, 0, 0, SRCCOPY); */
 
   ddx2BitBlt(hdc, x + width - ddx2GetWidth(hdcLI.hdcListTR), ay,
     ddx2GetWidth(hdcLI.hdcListTR), ddx2GetHeight(hdcLI.hdcListTR),
@@ -1943,14 +1721,8 @@ LIST_VIEW_CONTROL2 *co2_Create_List(int hdc, int x, int y, int width,
   ax = x;
 
   while (ay - ly < hight - ddx2GetHeight(hdcLI.hdcListLeft)) {
-    /*BitBlt(hdc, ax, ay, _2dd.bitmap[hdcLI.hdcListLeft].bitmap.bmWidth, 
-       _2dd.bitmap[hdcLI.hdcListLeft].bitmap.bmHeight, _2dd.bitmap[hdcLI.hdcListLeft].bitmapDC, 0, 0, SRCCOPY); */
-
     ddx2BitBlt(hdc, ax, ay, ddx2GetWidth(hdcLI.hdcListLeft),
       ddx2GetHeight(hdcLI.hdcListLeft), hdcLI.hdcListLeft, 0, 0);
-
-    /*BitBlt(hdc, ax + width - _2dd.bitmap[hdcLI.hdcListRight].bitmap.bmWidth, ay, _2dd.bitmap[hdcLI.hdcListRight].bitmap.bmWidth, 
-       _2dd.bitmap[hdcLI.hdcListRight].bitmap.bmHeight, _2dd.bitmap[hdcLI.hdcListRight].bitmapDC, 0, 0, SRCCOPY); */
 
     ddx2BitBlt(hdc, ax + width - ddx2GetWidth(hdcLI.hdcListRight), ay,
       ddx2GetWidth(hdcLI.hdcListRight), ddx2GetHeight(hdcLI.hdcListRight),
@@ -1959,17 +1731,9 @@ LIST_VIEW_CONTROL2 *co2_Create_List(int hdc, int x, int y, int width,
     ay += ddx2GetHeight(hdcLI.hdcListLeft);
   }
 
-
-  /*BitBlt(hdc, ax, y + hight - _2dd.bitmap[hdcLI.hdcListLeft].bitmap.bmHeight, _2dd.bitmap[hdcLI.hdcListLeft].bitmap.bmWidth, 
-     _2dd.bitmap[hdcLI.hdcListLeft].bitmap.bmHeight, _2dd.bitmap[hdcLI.hdcListLeft].bitmapDC, 0, 0, SRCCOPY); */
-
   ddx2BitBlt(hdc, ax, y + hight - ddx2GetHeight(hdcLI.hdcListLeft),
     ddx2GetWidth(hdcLI.hdcListLeft), ddx2GetHeight(hdcLI.hdcListLeft),
     hdcLI.hdcListLeft, 0, 0);
-
-  /*BitBlt(hdc, ax + width - _2dd.bitmap[hdcLI.hdcListRight].bitmap.bmWidth, y + hight - _2dd.bitmap[hdcLI.hdcListRight].bitmap.bmHeight, 
-     _2dd.bitmap[hdcLI.hdcListRight].bitmap.bmWidth, _2dd.bitmap[hdcLI.hdcListRight].bitmap.bmHeight, 
-     _2dd.bitmap[hdcLI.hdcListRight].bitmapDC, 0, 0, SRCCOPY); */
 
   ddx2BitBlt(hdc, ax + width - ddx2GetWidth(hdcLI.hdcListRight),
     y + hight - ddx2GetHeight(hdcLI.hdcListRight),
@@ -1979,9 +1743,6 @@ LIST_VIEW_CONTROL2 *co2_Create_List(int hdc, int x, int y, int width,
   ay = y + hight - ddx2GetHeight(hdcLI.hdcListBottom);
   ax = x;
 
-  /*BitBlt(hdc, x, ay, _2dd.bitmap[hdcLI.hdcListBL].bitmap.bmWidth, 
-     _2dd.bitmap[hdcLI.hdcListBL].bitmap.bmHeight, _2dd.bitmap[hdcLI.hdcListBL].bitmapDC, 0, 0, SRCCOPY); */
-
   ddx2BitBlt(hdc, x, ay, ddx2GetWidth(hdcLI.hdcListBL),
     ddx2GetHeight(hdcLI.hdcListBL), hdcLI.hdcListBL, 0, 0);
 
@@ -1990,24 +1751,15 @@ LIST_VIEW_CONTROL2 *co2_Create_List(int hdc, int x, int y, int width,
   lx = ax;
 
   while (ax - lx < width - ddx2GetWidth(hdcLI.hdcListBottom)) {
-    /*BitBlt(hdc, ax, ay, _2dd.bitmap[hdcLI.hdcListBottom].bitmap.bmWidth, 
-       _2dd.bitmap[hdcLI.hdcListBottom].bitmap.bmHeight, _2dd.bitmap[hdcLI.hdcListBottom].bitmapDC, 0, 0, SRCCOPY); */
-
     ddx2BitBlt(hdc, ax, ay, ddx2GetWidth(hdcLI.hdcListBottom),
       ddx2GetHeight(hdcLI.hdcListBottom), hdcLI.hdcListBottom, 0, 0);
 
     ax += ddx2GetWidth(hdcLI.hdcListBottom);
   }
 
-  /*BitBlt(hdc, x + width - _2dd.bitmap[hdcLI.hdcListBottom].bitmap.bmWidth, ay, _2dd.bitmap[hdcLI.hdcListBottom].bitmap.bmWidth, 
-     _2dd.bitmap[hdcLI.hdcListBottom].bitmap.bmHeight, _2dd.bitmap[hdcLI.hdcListBottom].bitmapDC, 0, 0, SRCCOPY); */
-
   ddx2BitBlt(hdc, x + width - ddx2GetWidth(hdcLI.hdcListBottom), ay,
     ddx2GetWidth(hdcLI.hdcListBottom), ddx2GetHeight(hdcLI.hdcListBottom),
     hdcLI.hdcListBottom, 0, 0);
-
-  /*BitBlt(hdc, x + width - _2dd.bitmap[hdcLI.hdcListBR].bitmap.bmWidth, ay, _2dd.bitmap[hdcLI.hdcListBR].bitmap.bmWidth, 
-     _2dd.bitmap[hdcLI.hdcListBR].bitmap.bmHeight, _2dd.bitmap[hdcLI.hdcListBR].bitmapDC, 0, 0, SRCCOPY); */
 
   ddx2BitBlt(hdc, x + width - ddx2GetWidth(hdcLI.hdcListBR), ay,
     ddx2GetWidth(hdcLI.hdcListBR), ddx2GetHeight(hdcLI.hdcListBR),
@@ -2018,15 +1770,6 @@ LIST_VIEW_CONTROL2 *co2_Create_List(int hdc, int x, int y, int width,
   p_li->rectUp.left =
     x + width - ddx2GetWidth(hdcLI.hdcListBR) - ddx2GetWidth(hdcLI.hdcListUp);
   p_li->rectUp.right = p_li->rectUp.left + ddx2GetWidth(hdcLI.hdcListUp);
-
-  /*TransparentBltU(hdc, x + width - _2dd.bitmap[hdcLI.hdcListBR].bitmap.bmWidth - _2dd.bitmap[hdcLI.hdcListUp].bitmap.bmWidth, 
-     y + _2dd.bitmap[hdcLI.hdcListTop].bitmap.bmHeight, 
-     _2dd.bitmap[hdcLI.hdcListUp].bitmap.bmWidth, 
-     _2dd.bitmap[hdcLI.hdcListUp].bitmap.bmHeight, 
-     _2dd.bitmap[hdcLI.hdcListUp].bitmapDC, 
-     0, 0, 
-     _2dd.bitmap[hdcLI.hdcListUp].bitmap.bmWidth, 
-     _2dd.bitmap[hdcLI.hdcListUp].bitmap.bmHeight, RGB(238, 77, 0)); */
 
   ddx2TransparentBlt(hdc,
     x + width - ddx2GetWidth(hdcLI.hdcListBR) - ddx2GetWidth(hdcLI.hdcListUp),
@@ -2042,15 +1785,6 @@ LIST_VIEW_CONTROL2 *co2_Create_List(int hdc, int x, int y, int width,
     x + width - ddx2GetWidth(hdcLI.hdcListTR) - ddx2GetWidth(hdcLI.hdcListUp);
   p_li->rectDown.right = p_li->rectDown.left + ddx2GetWidth(hdcLI.hdcListUp);
 
-  /*TransparentBltU(hdc, x + width - _2dd.bitmap[hdcLI.hdcListTR].bitmap.bmWidth - _2dd.bitmap[hdcLI.hdcListUp].bitmap.bmWidth, 
-     y + hight - _2dd.bitmap[hdcLI.hdcListBR].bitmap.bmWidth - _2dd.bitmap[hdcLI.hdcListDown].bitmap.bmHeight, 
-     _2dd.bitmap[hdcLI.hdcListDown].bitmap.bmWidth, 
-     _2dd.bitmap[hdcLI.hdcListDown].bitmap.bmHeight, 
-     _2dd.bitmap[hdcLI.hdcListDown].bitmapDC, 
-     0, 0, 
-     _2dd.bitmap[hdcLI.hdcListDown].bitmap.bmWidth, 
-     _2dd.bitmap[hdcLI.hdcListDown].bitmap.bmHeight, RGB(238, 77, 0)); */
-
   ddx2TransparentBlt(hdc,
     x + width - ddx2GetWidth(hdcLI.hdcListTR) - ddx2GetWidth(hdcLI.hdcListUp),
     y + hight - ddx2GetHeight(hdcLI.hdcListBR) -
@@ -2058,30 +1792,14 @@ LIST_VIEW_CONTROL2 *co2_Create_List(int hdc, int x, int y, int width,
     ddx2GetHeight(hdcLI.hdcListDown), hdcLI.hdcListDown, 0, 0,    
     RGB(238, 77, 0));
 
-  //co2_CreateDC(hdc, _2dd.bitmap[hdcCH.hdcCheck].bitmap.bmWidth, 24, &p_li->bDCm);
-
   p_li->bDCm =
     ddx2CreateSurface(ddx2GetWidth(hdcCH.hdcCheck), 24,
     ddx2FindFreeSurface());
-
-  /*BitBlt(p_li->bDCm.hdc, 0, 0, p_li->bDCm.x, p_li->bDCm.y, hdc, 
-     x + width - _2dd.bitmap[hdcLI.hdcListBR].bitmap.bmWidth - _2dd.bitmap[hdcCH.hdcCheck].bitmap.bmWidth - 2, 
-     y + _2dd.bitmap[hdcLI.hdcListTop].bitmap.bmHeight + _2dd.bitmap[hdcLI.hdcListUp].bitmap.bmHeight, 
-     SRCCOPY); */
 
   ddx2BitBlt(p_li->bDCm, 0, 0, ddx2GetWidth(p_li->bDCm),
     ddx2GetHeight(p_li->bDCm), hdc,
     x + width - ddx2GetWidth(hdcLI.hdcListBR) - ddx2GetWidth(hdcCH.hdcCheck) -
     2, y + ddx2GetHeight(hdcLI.hdcListTop) + ddx2GetHeight(hdcLI.hdcListUp));
-
-  /*TransparentBltU(hdc, x + width - _2dd.bitmap[hdcLI.hdcListBR].bitmap.bmWidth - _2dd.bitmap[hdcCH.hdcCheck].bitmap.bmWidth - 2, 
-     y + _2dd.bitmap[hdcLI.hdcListTop].bitmap.bmHeight + _2dd.bitmap[hdcLI.hdcListUp].bitmap.bmHeight, 
-     _2dd.bitmap[hdcCH.hdcCheck].bitmap.bmWidth, 
-     24, 
-     _2dd.bitmap[hdcCH.hdcCheck].bitmapDC, 
-     0, 0, 
-     _2dd.bitmap[hdcCH.hdcCheck].bitmap.bmWidth, 
-     24, RGB(237, 77, 0)); */
 
   ddx2TransparentBlt(hdc,
     x + width - ddx2GetWidth(hdcLI.hdcListBR) - ddx2GetWidth(hdcCH.hdcCheck) -
@@ -2097,28 +1815,16 @@ LIST_VIEW_CONTROL2 *co2_Create_List(int hdc, int x, int y, int width,
     2;
   p_li->rectMover.right = p_li->rectMover.left + ddx2GetWidth(hdcCH.hdcCheck);
 
-  //co2_CreateDC(hdc, p_li->rectList.right - p_li->rectList.left, numofitems * 35, &p_li->bDCn);
   p_li->bDCn =
     ddx2CreateSurface(p_li->rectList.right - p_li->rectList.left,
     numofitems * 30, ddx2FindFreeSurface());
   ddx2CleareSurfaceColor(p_li->bDCn, 0);
 
-  //co2_CreateDC(hdc, p_li->rectList.right - p_li->rectList.left, numofitems * 35, &p_li->bDCs);
   p_li->bDCs =
     ddx2CreateSurface(p_li->rectList.right - p_li->rectList.left,
     numofitems * 30, ddx2FindFreeSurface());
   ddx2CleareSurfaceColor(p_li->bDCs, 0);
-
-  //co2_Draw_Lines(p_li->bDCn.hdc, p_li->bDCn.x, p_li->bDCn.y, RGB(101, 98, 93));
-  //co2_Draw_Lines(p_li->bDCs.hdc, p_li->bDCs.x, p_li->bDCs.y, RGB(101, 98, 93));
-
-  /*BitBlt(hdc, x + _2dd.bitmap[hdcLI.hdcListLeft].bitmap.bmWidth,
-     y + _2dd.bitmap[hdcLI.hdcListTop].bitmap.bmHeight,
-     p_li->bDCn.x,
-     p_li->rectList.bottom - p_li->rectList.top,
-     p_li->bDCn.hdc,
-     0, 0, SRCCOPY); */
-
+  
   ddx2BitBlt(hdc, x + ddx2GetWidth(hdcLI.hdcListLeft),
     y + ddx2GetHeight(hdcLI.hdcListTop),
     ddx2GetWidth(p_li->bDCn),
@@ -2154,8 +1860,6 @@ void co2_Set_List_View_List_Pos(LIST_VIEW2_CONTROL2 * p_li, int y, int hdc,
   if (y > dcm)
     y = dcm;
 
-  // pm = y;
-
   pos = p_li->mpmin + ftoi((mm * y) / (float) dcm);
 
   if (pos > p_li->mpmax)
@@ -2186,54 +1890,6 @@ void co2_Set_List_View_List_Pos(LIST_VIEW2_CONTROL2 * p_li, int y, int hdc,
   ddx2BitBlt(hdc, p_li->rectList.left + xcor, p_li->rectList.top + ycor,
     ddx2GetWidth(p_li->bDC), p_li->rectList.bottom - p_li->rectList.top,
     p_li->bDC, 0, y);
-
-/*HANDLE_LISTVIEW:
-
-		if(y > p_li->mpmax)
-			y = p_li->mpmax;
-		else
-			if(y < p_li->mpmin)
-				y = p_li->mpmin;
-
-		if(p_li->mpos == y)
-			return 1;
-
-		p_li->mpos = y;
-
-		ddx2BitBlt(hdc, p_li->rectMover.left + xcor, p_li->rectMover.top + ycor, ddx2GetWidth(p_li->bDCm), 
-				  ddx2GetHeight(p_li->bDCm), p_li->bDCm, 0, 0);
-
-		p_li->rectMover.top = p_li->mpos - 12;
-		p_li->rectMover.bottom = p_li->mpos + 12;
-
-		ddx2BitBlt(p_li->bDCm, 0, 0, ddx2GetWidth(p_li->bDCm), ddx2GetHeight(p_li->bDCm), hdc, 
-			      p_li->rectMover.left + xcor, p_li->rectMover.top + ycor);
-
-		ddx2TransparentBlt(hdc, p_li->rectMover.left + xcor, 
-					      p_li->rectMover.top + ycor, 
-					      ddx2GetWidth(hdcCH.hdcCheck), 
-				          24, 
-				          hdcCH.hdcCheck, 
-				          0, 0, 
-				          ddx2GetWidth(hdcCH.hdcCheck), 
-				          24, RGB(237, 77, 0));
-
-		dcm = ddx2GetHeight(p_li->bDCn) - (p_li->rectList.bottom - p_li->rectList.top);
-		mm = p_li->mpmax - p_li->mpmin;
-		pm = p_li->mpos - p_li->mpmin;
-
-		pos = ftoi((pm * dcm) / (float)mm);
-
-		if(p_li->mpos == p_li->mpmax)
-			pos = ddx2GetHeight(p_li->bDCn) - (p_li->rectList.bottom - p_li->rectList.top);
-
-		if(p_li->mpos == p_li->mpmin)
-			pos = 0;
-
-		p_li->dx = pos;
-
-		ddx2BitBlt(hdc, p_li->rectList.left + xcor, p_li->rectList.top + ycor, ddx2GetWidth(p_li->bDCn), 
-			      p_li->rectList.bottom - p_li->rectList.top, p_li->bDCn, 0, pos);*/
 }
 
 LIST_VIEW2_CONTROL2 *co2_Create_List_View(int hdc, int x, int y, int width,
@@ -2428,10 +2084,6 @@ void co2_Del_Combo_List(COMBO_CONTROL2 * p_co, int hdc, int xcor, int ycor)
   int i;
 
   for (i = 0; i < p_co->CounfOfItemsL; i++) {
-    /*BitBlt(hdc, p_co->x + xcor, y, 
-       p_co->coListRect.right - p_co->coListRect.left - 2, _2dd.bitmap[hdcCO.hdcComboMid].bitmap.bmHeight,
-       _2dd.bitmap[hdcCO.hdcComboMid].bitmapDC, 0, 0, SRCCOPY); */
-
     ddx2BitBlt(hdc, p_co->x + xcor, y,
       p_co->coListRect.right - p_co->coListRect.left - 2,
       ddx2GetHeight(hdcCO.hdcComboMid), hdcCO.hdcComboMid, 0, 0);
@@ -2680,8 +2332,6 @@ int co2_Handle_Combo(COMBO_CONTROL2 * p_co, char bFocus, int x, int y,
       r.right = p_co->WidthR;
       r.bottom = p_co->ListMaxHight + ddx2GetHeight(hdcCO.hdcComboEnd);
 
-      //_2d_Add_RectItem(&rline, r, 1);
-
       co2_Combo_Close(hdc, p_co, xcor, ycor);
       p_co->Selected = p_co->OSelected;
 
@@ -2689,8 +2339,6 @@ int co2_Handle_Combo(COMBO_CONTROL2 * p_co, char bFocus, int x, int y,
       r.top = p_co->y + ddx2GetHeight(hdcCO.hdcCombo) + ycor;
       r.right = p_co->WidthR;
       r.bottom = p_co->ListMaxHight + ddx2GetHeight(hdcCO.hdcComboEnd);
-
-      //_2d_Add_RectItem(&rline, r, 1);
     }
   }
 
@@ -2699,14 +2347,10 @@ int co2_Handle_Combo(COMBO_CONTROL2 * p_co, char bFocus, int x, int y,
   r.right = p_co->WidthR;
   r.bottom = p_co->ListMaxHight + ddx2GetHeight(hdcCO.hdcComboEnd);
 
-  //_2d_Add_RectItem_IfNPresent(&rline, r, 1);
-
   r.left = p_co->x + xcor;
   r.top = p_co->y + ycor;
   r.right = ddx2GetWidth(hdcCO.hdcCombo);
   r.bottom = ddx2GetHeight(hdcCO.hdcCombo);
-
-  //_2d_Add_RectItem_IfNPresent(&rline, r, 1);
 
   return c;
 }
@@ -2724,17 +2368,14 @@ int co2_Handle_Button(BUTTON_CONTROL2 * p_bu, int x, int y)
 int co2_Handle_Checkbox(CHECKBOX_CONTROL2 * p_ch, int x, int y)
 {
   int bmpx;
-  //int bmpy;
   int bmpDC;
 
   if (co2_Rect_Hit(p_ch->Rect, x, y)) {
     bmpx = ddx2GetWidth(hdcCH.hdcCheck);
-    //bmpy = ddx2GetHeight(hdcCH.hdcCheck);
     bmpDC = hdcCH.hdcCheck;
 
     if (!p_ch->bChecked) {
       p_ch->bChecked = 1;
-      //TransparentBltU(_2dd.hDC, p_ch->Rect.left + TAB_X, p_ch->Rect.top + TAB_Y, bmpx, 24, bmpDC, 0, 54, bmpx, 24, RGB(237, 77, 0));
       ddx2TransparentBltDisplay(p_ch->Rect.left + TAB_X,
         p_ch->Rect.top + TAB_Y, bmpx, 20, bmpDC, 0, 25, bmpx, 20, RGB(237, 77,
           0));
@@ -2743,12 +2384,9 @@ int co2_Handle_Checkbox(CHECKBOX_CONTROL2 * p_ch, int x, int y)
       if (p_ch->iDC != -1)
         ddx2BitBlt(p_ch->iDC, 0, 0, p_ch->RectFull.right,
           p_ch->RectFull.bottom, HDC2DD, p_ch->x + TAB_X, p_ch->y + TAB_Y);
-
-      return 1;
     }
     else {
       p_ch->bChecked = 0;
-      //TransparentBltU(_2dd.hDC, p_ch->Rect.left + TAB_X, p_ch->Rect.top + TAB_Y, bmpx, 24, bmpDC, 0, 80, bmpx, 24, RGB(237, 77, 0));
       ddx2TransparentBltDisplay(p_ch->Rect.left + TAB_X,
         p_ch->Rect.top + TAB_Y, bmpx, 20, bmpDC, 0, 1, bmpx, 20, RGB(237, 77,
           0));
@@ -2757,9 +2395,12 @@ int co2_Handle_Checkbox(CHECKBOX_CONTROL2 * p_ch, int x, int y)
       if (p_ch->iDC != -1)
         ddx2BitBlt(p_ch->iDC, 0, 0, p_ch->RectFull.right,
           p_ch->RectFull.bottom, HDC2DD, p_ch->x + TAB_X, p_ch->y + TAB_Y);
-
-      return 1;
     }
+  
+    if(p_ch->p_callback)
+      p_ch->p_callback(p_ch);
+    
+    return 1;  
   }
 
   p_ch->bChange = 0;
@@ -2787,10 +2428,6 @@ int co2_Handle_Progres(PROGRES_CONTROL2 * p_pr, int x, int y)
         ddx2GetHeight(p_pr->bDC), HDC2DD, p_pr->rectMover.left + TAB_X,
         p_pr->rectMover.top + TAB_Y);
 
-      /*ddx2BitBltDisplay(p_pr->rectMover.left + TAB_X, p_pr->rectMover.top + TAB_Y, 
-         ddx2GetWidth(hdcPR.hdcMover),  ddx2GetHeight(hdcPR.hdcMover), 
-         hdcPR.hdcMover, 0, 0); */
-
       ddx2TransparentBltDisplay(p_pr->rectMover.left + TAB_X,
         p_pr->rectMover.top + TAB_Y, ddx2GetWidth(hdcPR.hdcMover),
         ddx2GetHeight(hdcPR.hdcMover), hdcPR.hdcMover, 0, 0,
@@ -2806,11 +2443,6 @@ int co2_Handle_Progres(PROGRES_CONTROL2 * p_pr, int x, int y)
     }
 
   if (p_pr->bIn && mi.dt1) {
-/*		if(y > p_pr->rectProgres.bottom || y < p_pr->rectProgres.top)
-		{
-			p_pr->bIn = 0;
-			return 0;
-		}*/
 
     if (x >= p_pr->rectProgres.right)
       x = p_pr->rectProgres.right;
@@ -2833,10 +2465,6 @@ int co2_Handle_Progres(PROGRES_CONTROL2 * p_pr, int x, int y)
     ddx2BitBlt(p_pr->bDC, 0, 0, ddx2GetWidth(p_pr->bDC),
       ddx2GetHeight(p_pr->bDC), HDC2DD, p_pr->rectMover.left + TAB_X,
       p_pr->rectMover.top + TAB_Y);
-
-    /*ddx2BitBltDisplay(p_pr->rectMover.left + TAB_X, p_pr->rectMover.top + TAB_Y, 
-       ddx2GetWidth(hdcPR.hdcMover),  ddx2GetHeight(hdcPR.hdcMover), 
-       hdcPR.hdcMover, 0, 0); */
 
     ddx2TransparentBltDisplay(p_pr->rectMover.left + TAB_X,
       p_pr->rectMover.top + TAB_Y, ddx2GetWidth(hdcPR.hdcMover),
@@ -2933,19 +2561,11 @@ int co2_Handle_List(LIST_VIEW_CONTROL2 * p_li, int x, int y, int hdc,
   int xp = 0;
   int xt = 0;
 
-  //RECT r;
   DWORD t = timeGetTime();
 
   if (bBlockList)
     return 0;
-/*
-  r.left = p_li->rectList.left + xcor;
-  r.top = p_li->rectList.top + ycor;
-  r.right = ddx2GetWidth(p_li->bDCn);
-  r.bottom = p_li->rectList.bottom - p_li->rectList.top;
-*/
-  //_2d_Add_RectItem_IfNPresent(&rline, r, 1);
-
+  
   if (mi.dt1 && p_li->bIn > 0) {
     if (y < p_li->mpmin)
       y = p_li->mpmin;
@@ -3166,14 +2786,6 @@ int co2_Handle_List(LIST_VIEW_CONTROL2 * p_li, int x, int y, int hdc,
       return 1;
     }
 
-/*
-  r.left = p_li->rectList.left + xcor;
-  r.top = p_li->rectList.top + ycor;
-  r.right = ddx2GetWidth(p_li->bDCn);
-  r.bottom = p_li->rectList.bottom - p_li->rectList.top;
-*/
-  //_2d_Add_RectItem_IfNPresent(&rline, r, 1);
-
   if (key[K_DEL]) {
     char *cfile = NULL;
 
@@ -3194,22 +2806,11 @@ int co2_Handle_List(LIST_VIEW_CONTROL2 * p_li, int x, int y, int hdc,
 int co2_Handle_List_View(LIST_VIEW2_CONTROL2 * p_li, int x, int y, int hdc,
   int xcor, int ycor)
 {
-  //RECT r;
-
   if (bBlockList)
     return 0;
-/*
-  r.left = p_li->rectList.left + xcor;
-  r.top = p_li->rectList.top + ycor;
-  r.right = ddx2GetWidth(p_li->bDC);
-  r.bottom = p_li->rectList.bottom - p_li->rectList.top;
-*/
-  //_2d_Add_RectItem_IfNPresent(&rline, r, 1);
-
+  
   if ((mi.t1 && co2_Rect_Hit(p_li->rectUp, x, y)) || key[K_PLUS]
     || key[K_NAHORU]) {
-    //float dcm = (float)ddx2GetHeight(p_li->bDC) - (p_li->rectList.bottom - p_li->rectList.top);
-    //float c = (p_li->rectMoverA.bottom - p_li->rectMoverA.top) / dcm;
 
     p_li->bIn = -1;
     p_li->bInE = -1;
@@ -3222,16 +2823,11 @@ int co2_Handle_List_View(LIST_VIEW2_CONTROL2 * p_li, int x, int y, int hdc,
     if (p_li->dx < 0)
       p_li->dx = 0;
 
-    //goto HANDLE_LISTVIEW;
     co2_Set_List_View_List_Pos(p_li, p_li->dx, hdc, xcor, ycor);
     return 1;
   }
 
-  if ((mi.t1 && co2_Rect_Hit(p_li->rectDown, x, y)) || key[K_MINUS]
-    || key[K_DOLU]) {
-    /*float dcm = (float)ddx2GetHeight(p_li->bDC) - (p_li->rectList.bottom - p_li->rectList.top);
-       float c = (p_li->rectMoverA.bottom - p_li->rectMoverA.top) / dcm; */
-
+  if ((mi.t1 && co2_Rect_Hit(p_li->rectDown, x, y)) || key[K_MINUS] || key[K_DOLU]) {
     p_li->bIn = -1;
     p_li->bInE = -1;
 
@@ -3248,7 +2844,6 @@ int co2_Handle_List_View(LIST_VIEW2_CONTROL2 * p_li, int x, int y, int hdc,
 
     co2_Set_List_View_List_Pos(p_li, p_li->dx, hdc, xcor, ycor);
 
-    //goto HANDLE_LISTVIEW;
     return 1;
   }
 
@@ -3328,14 +2923,6 @@ int co2_Handle_List_View(LIST_VIEW2_CONTROL2 * p_li, int x, int y, int hdc,
 
   if (!mi.dt1)
     p_li->bIn = 0;
-/*
-  r.left = p_li->rectList.left + xcor;
-  r.top = p_li->rectList.top + ycor;
-  r.right = ddx2GetWidth(p_li->bDC);
-  r.bottom = p_li->rectList.bottom - p_li->rectList.top;
-*/
-  //_2d_Add_RectItem_IfNPresent(&rline, r, 1);
-
   return 0;
 }
 

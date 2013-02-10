@@ -1,20 +1,30 @@
+ddx2DeviceSetScreenRec(0, 0, hwconf.xres, hwconf.yres);
+
 TODO:
-- window mode - change resolution on the fly?
+
+- on-line manual/help (Web)
+- proper default keys (in default ini file)
+- window mode - change resolution on the fly
+
 - transform settings frm setup to text config
 - sync 3D settings (in game) with 2D (menu) - Add fullscreen mode
+- Tips - wait for click (Load screen) - space to continue?
+- All hints on web
+- Web help/tutorial
+- scroll help on mouse wheel
 
 - credit fix - texts
 - transparent 3D objects
 - bad exit animations
 - per-pixel lighting
-- texttures are not sharp
+- textures are not sharp
 - mark all movable boxes?
 - better camera (automatic?)
 - Default keys - F11, F12 and so
 - Why menu is not animated?
 - Game title is not set?
 - Wait for game tip to load (wait for a key?)
-- vertex buffers? (in menu?)
+- vertex arrays?
 
 unzip.h - use for pack files standard zip file format
 

@@ -1996,7 +1996,7 @@ void ber_renderuj_scenu(void)
       ber_kresli_kofoli_cary();
 
 #ifdef DEBUG_MOD
-      set_matrix_2d(OXRES, OYRES);
+      set_matrix_2d(SCREEN_XRES, SCREEN_YRES);
       ber_tiskni_statistiku(p_ber);
       ret_matrix_2d();
 
@@ -2595,15 +2595,15 @@ void ber_test_render_mysi(void)
 
   transf_2d_3d_z((float) mi.x, (float) mi.y, 500.0f, &a.x, &a.y, &a.z,
     p_ber->p_camera, p_ber->p_project,
-    OXRES, OYRES, OXSTART, OYSTART,
+    SCREEN_XRES, SCREEN_YRES, SCREEN_XSTART, SCREEN_YSTART,
     p_ber->kam.near_plane, p_ber->kam.far_plane);
   transf_2d_3d_z((float) mi.x, (float) mi.y, 250.0f, &b.x, &b.y, &b.z,
     p_ber->p_camera, p_ber->p_project,
-    OXRES, OYRES, OXSTART, OYSTART,
+    SCREEN_XRES, SCREEN_YRES, SCREEN_XSTART, SCREEN_YSTART,
     p_ber->kam.near_plane, p_ber->kam.far_plane);
   transf_2d_3d_z((float) mi.x, (float) mi.y, 0.01f, &c.x, &c.y, &c.z,
     p_ber->p_camera, p_ber->p_project,
-    OXRES, OYRES, OXSTART, OYSTART,
+    SCREEN_XRES, SCREEN_YRES, SCREEN_XSTART, SCREEN_YSTART,
     p_ber->kam.near_plane, p_ber->kam.far_plane);
 
   dbgprintf("m [%d %d]", mi.x, mi.y);
@@ -2625,22 +2625,22 @@ void ber_test_render_mysi(void)
 
   transf_3d_2d(a.x, a.y, a.z, &ax, &ay, &z1, get_matrix_init(),
     p_ber->p_camera, p_ber->p_project,
-    OXRES, OYRES, OXSTART, OYSTART,
+    SCREEN_XRES, SCREEN_YRES, SCREEN_XSTART, SCREEN_YSTART,
     p_ber->kam.near_plane, p_ber->kam.far_plane);
   transf_3d_2d(b.x, b.y, b.z, &bx, &by, &z2, get_matrix_init(),
     p_ber->p_camera, p_ber->p_project,
-    OXRES, OYRES, OXSTART, OYSTART,
+    SCREEN_XRES, SCREEN_YRES, SCREEN_XSTART, SCREEN_YSTART,
     p_ber->kam.near_plane, p_ber->kam.far_plane);
   transf_3d_2d(c.x, c.y, c.z, &cx, &cy, &z3, get_matrix_init(),
     p_ber->p_camera, p_ber->p_project,
-    OXRES, OYRES, OXSTART, OYSTART,
+    SCREEN_XRES, SCREEN_YRES, SCREEN_XSTART, SCREEN_YSTART,
     p_ber->kam.near_plane, p_ber->kam.far_plane);
 
   dbgprintf("a2 [%d %d %f]", ax, ay, z1);
   dbgprintf("b2 [%d %d %f]", bx, by, z2);
   dbgprintf("c2 [%d %d %f]", cx, cy, z3);
 
-  set_matrix_2d(OXRES, OYRES);
+  set_matrix_2d(SCREEN_XRES, SCREEN_YRES);
   kresli_ctverec_2d_diff(ax, ay, 10, 10, 1, 1, 1);
   kresli_ctverec_2d_diff(bx, by, 20, 20, 1, 1, 1);
   kresli_ctverec_2d_diff(cx, cy, 30, 30, 1, 1, 1);

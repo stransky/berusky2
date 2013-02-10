@@ -48,6 +48,8 @@
 
 #include "Berusky3d_kofola2d.h"
 
+float scale_factor[2];
+float scale_back_factor[2];
 char cCheckMusicExeption = 0;
 
 void Sleep(int ms)
@@ -151,7 +153,7 @@ int ddxInit(void)
     ddx2DeviceSetBackBufferRect(0, 0, 1024, 768);
     ddx2DeviceSetTextRenderRec(0, 0, 1024, 768);
           
-    ddx2DeviceSetScreenRec(0, 0, hwconf.xres, hwconf.yres);
+    ddx2DeviceSetScreenRec(0, 0, SCREEN_XRES, SCREEN_YRES);
     ddx2DeviceSetRender(TRUE);
   
     ddxInitDone = TRUE;
@@ -402,18 +404,16 @@ int ddxStretchBlt(int iSDest, RECT * rDest, int iSSource, RECT * rSource)
 
 int ddxUpdateMouse(void)
 {
-  float s_factor[] = { (float) 1024 / (float) hwconf.xres, 
-                       (float) 768 / (float) hwconf.yres };
   spracuj_spravy(1);
                      
   dim.x_orig = mi.x;
   dim.y_orig = mi.y;
 
-  dim.dx = (int)ceil(mi.dx * s_factor[0]);
-  dim.dy = (int)ceil(mi.dy * s_factor[1]);
+  dim.dx = (int)ceil(mi.dx * scale_factor_x());
+  dim.dy = (int)ceil(mi.dy * scale_factor_y());
 
-  dim.x = (int)ceil(mi.x * s_factor[0]);
-  dim.y = (int)ceil(mi.y * s_factor[1]);
+  dim.x = (int)ceil(mi.x * scale_factor_x());
+  dim.y = (int)ceil(mi.y * scale_factor_y());
 
   dim.rx = dim.x - start_x;
   dim.ry = dim.y - start_y;

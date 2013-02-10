@@ -31,9 +31,6 @@ G_KONFIG ber, *p_ber = &ber;
 
 void ber_ini_mod(G_KONFIG * p_ber)
 {
-  projection_matrix(&p_ber->kamera.project, p_ber->kam.fov,
-    (float) OXRES / (float) OYRES, p_ber->kam.near_plane,
-    p_ber->kam.far_plane);
   init_matrix(&p_ber->kamera.word);
   init_matrix(&p_ber->kamera.camera);
 
@@ -47,7 +44,10 @@ void ber_ini_mod(G_KONFIG * p_ber)
   p_ber->kamera.p.z = p_ber->z_start;
 
   calc_camera_bod(&p_ber->kamera.camera, &p_ber->kamera.invcam,
-    &p_ber->kamera.p, p_ber->kamera.vzdal, p_ber->kamera.fi, p_ber->kamera.r);
+                  &p_ber->kamera.p, p_ber->kamera.vzdal, 
+                  p_ber->kamera.fi, p_ber->kamera.r);
+
+  kam_set_normal_screen(p_ber);
 }
 
 void ber_nahod_mod(G_KONFIG * p_ber)
@@ -68,13 +68,12 @@ void ber_nahod_mod(G_KONFIG * p_ber)
   p_ber->kamera.aktivni |= GAME_KAMERA_POLAR;
   p_ber->kamera.zmena = TRUE;
 
-  kprintf(TRUE, "Screen %dx%d", OXRES, OYRES);
-
   set_matrix_world(p_ber->p_word);
   set_matrix_camera(p_ber->p_camera);
   set_matrix_project(p_ber->p_project);
-  set_matrix_view(OXSTART, OYSTART, OXRES, OYRES);
   set_matrix_camera_project(p_ber->p_project);
+  
+  kam_set_normal_screen(p_ber);
 
   kprintf(TRUE, "kam.fov = %.2fs", RAD2DEG(p_ber->kam.fov));
   kprintf(TRUE, "kam.near_plane = %.2fm", p_ber->kam.near_plane);
@@ -185,8 +184,7 @@ void ber_konfiguruj_berusky(G_KONFIG * p_ber)
 
   p_ber->conf_barva_pozadi = 0xff000000;
 
-  p_ber->kam_omezeni =
-    !GetPrivateProfileInt("debug", "debug_kamery", 0, ini_file);
+  p_ber->kam_omezeni = !GetPrivateProfileInt("debug", "debug_kamery", 0, ini_file);
   p_ber->kam.fov = DEF_PROJECT_FOV;
   p_ber->kam.far_plane = MAX_VZDAL_Z;
   p_ber->kam.near_plane = MIN_VZDAL_Z;
@@ -624,12 +622,12 @@ float ber_stredni_vzdalenost_ve_scene(G_KONFIG * p_ber)
   BOD a, b, p;
   ROVINA r(0.0f, 1.0f, 0.0f, 0.0f);
 
-  transf_2d_3d((float) OXRES / 2, (float) OYRES / 2, 0,
+  transf_2d_3d((float) SCREEN_XRES / 2, (float) SCREEN_YRES / 2, 0,
     &a.x, &a.y, &a.z,
-    p_ber->p_camera, p_ber->p_project, OXRES, OYRES, OXSTART, OYSTART);
-  transf_2d_3d((float) OXRES / 2, (float) OYRES / 2, 0.5f,
+    p_ber->p_camera, p_ber->p_project, SCREEN_XRES, SCREEN_YRES, SCREEN_XSTART, SCREEN_YSTART);
+  transf_2d_3d((float) SCREEN_XRES / 2, (float) SCREEN_YRES / 2, 0.5f,
     &b.x, &b.y, &b.z,
-    p_ber->p_camera, p_ber->p_project, OXRES, OYRES, OXSTART, OYSTART);
+    p_ber->p_camera, p_ber->p_project, SCREEN_XRES, SCREEN_YRES, SCREEN_XSTART, SCREEN_YSTART);
   if (!calc_prusek_bod(&r, &a, &b, &p))
     return (10.0f);
   else
@@ -664,13 +662,13 @@ void ber_prikaz_posun_sceny(G_KONFIG * p_ber, int ref)
     transf_2d_3d_z((float) rx, (float) ry, *p_ber->p_vzdal_kor,
       &v1.x, &v1.y, &v1.z,
       p_ber->p_camera, p_ber->p_project,
-      OXRES, OYRES, OXSTART, OYSTART,
+      SCREEN_XRES, SCREEN_YRES, SCREEN_XSTART, SCREEN_YSTART,
       p_ber->kam.near_plane, p_ber->kam.far_plane);
 
     transf_2d_3d_z((float) mi.x, (float) mi.y, *p_ber->p_vzdal_kor,
       &v2.x, &v2.y, &v2.z,
       p_ber->p_camera, p_ber->p_project,
-      OXRES, OYRES, OXSTART, OYSTART,
+      SCREEN_XRES, SCREEN_YRES, SCREEN_XSTART, SCREEN_YSTART,
       p_ber->kam.near_plane, p_ber->kam.far_plane);
 
     p_ber->p_target->x += v1.x - v2.x;
@@ -897,7 +895,7 @@ void ber_ovladani_mysi_posun(G_KONFIG * p_ber, int x, int y)
   kam_set_mod_polar();
 
   if (x) {
-    mx1 = (float) OXSTART;
+    mx1 = (float) SCREEN_XSTART;
     mx2 = mx1 - x * rych_posun * koef;
   }
   else {
@@ -905,7 +903,7 @@ void ber_ovladani_mysi_posun(G_KONFIG * p_ber, int x, int y)
   }
 
   if (y) {
-    my1 = (float) (OYSTART);
+    my1 = (float) (SCREEN_YSTART);
     my2 = my1 - y * rych_posun * koef;
   }
   else {
@@ -914,10 +912,10 @@ void ber_ovladani_mysi_posun(G_KONFIG * p_ber, int x, int y)
 
   calc_transf_3d_2d_matrix_smpl(p_ber->p_camera, p_ber->p_project, &proj);
   transf_2d_3d_z_matrix(mx1, my1, *p_ber->p_vzdal_kor,
-    &v1.x, &v1.y, &v1.z, &proj, OXRES, OYRES, OXSTART, OYSTART,
+    &v1.x, &v1.y, &v1.z, &proj, SCREEN_XRES, SCREEN_YRES, SCREEN_XSTART, SCREEN_YSTART,
     p_ber->kam.near_plane, p_ber->kam.far_plane);
   transf_2d_3d_z_matrix(mx2, my2, *p_ber->p_vzdal_kor,
-    &v2.x, &v2.y, &v2.z, &proj, OXRES, OYRES, OXSTART, OYSTART,
+    &v2.x, &v2.y, &v2.z, &proj, SCREEN_XRES, SCREEN_YRES, SCREEN_XSTART, SCREEN_YSTART,
     p_ber->kam.near_plane, p_ber->kam.far_plane);
 
   p_ber->p_target->x += v1.x - v2.x;
@@ -1035,7 +1033,7 @@ int ber_ovladani_mysi(G_KONFIG * p_ber, int *p_zmena)
     smer_rot = 1;
   }
 
-  if (mi.x <= OXSTART + X_HRANICE) {    // rotace/posun
+  if (mi.x <= SCREEN_XSTART + X_HRANICE) {    // rotace/posun
     if (posun) {
       ber_ovladani_mysi_posun(p_ber, -smer_pos, FALSE);
       *p_zmena = TRUE;
@@ -1045,7 +1043,7 @@ int ber_ovladani_mysi(G_KONFIG * p_ber, int *p_zmena)
       *p_zmena = TRUE;
     }
   }
-  else if (mi.x >= OXSTART + OXRES - X_HRANICE) {       // rotace/posun/zoom
+  else if (mi.x >= SCREEN_XSTART + SCREEN_XRES - X_HRANICE) {       // rotace/posun/zoom
     if (posun) {
       ber_ovladani_mysi_posun(p_ber, smer_pos, FALSE);
       *p_zmena = TRUE;
@@ -1056,7 +1054,7 @@ int ber_ovladani_mysi(G_KONFIG * p_ber, int *p_zmena)
     }
   }
 
-  if (mi.y <= OYSTART + Y_HRANICE) {    // rotace/posun
+  if (mi.y <= SCREEN_YSTART + Y_HRANICE) {    // rotace/posun
     if (posun) {
       ber_ovladani_mysi_posun(p_ber, 0, -smer_pos);
       *p_zmena = TRUE;
@@ -1066,7 +1064,7 @@ int ber_ovladani_mysi(G_KONFIG * p_ber, int *p_zmena)
       *p_zmena = TRUE;
     }
   }
-  else if (mi.y >= OYSTART + OYRES - Y_HRANICE) {       // rotace/posun/zoom
+  else if (mi.y >= SCREEN_YSTART + SCREEN_YRES - Y_HRANICE) {       // rotace/posun/zoom
     if (posun) {
       ber_ovladani_mysi_posun(p_ber, 0, smer_pos);
       *p_zmena = TRUE;

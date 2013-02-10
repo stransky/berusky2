@@ -535,7 +535,7 @@ typedef struct g_config
 
   char level_name[MAX_FILENAME];
 
-    g_config(void)
+  g_config(void)
   {
     memset(this, 0, sizeof(*this));
   }
@@ -543,10 +543,8 @@ typedef struct g_config
 }
 G_KONFIG;
 
-#define OXRES       hwconf.xres
-#define OYRES       hwconf.yres
-#define OXSTART     0
-#define OYSTART     0
+void ber_projection_set(G_KONFIG * p_ber);
+void ber_screen_size_set(G_KONFIG * p_ber);
 
 void ber_updatuj_fps(G_KONFIG * p_ber);
 void ber_konfiguruj_berusky(G_KONFIG * p_ber);
@@ -557,8 +555,6 @@ void ber_prikaz_zvyraznovac(G_KONFIG * p_ber);
 void ber_rekonfiguruj_hra(G_KONFIG * p_ber);
 void ber_rekonfiguruj_3D(G_KONFIG * p_ber);
 void ber_rekonfiguruj_3D_aplikuj(G_KONFIG * p_ber);
-
-#define centruj_kurzor() ber_nastav_kurzor(OXRES/2, OYRES/2)
 
 #define KONST_KVAD_UTLUM 0.00392156862745098039215686274509804f
 

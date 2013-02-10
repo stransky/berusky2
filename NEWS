@@ -1,7 +1,9 @@
 * 0.9
+    - fullscreen/windowed mode switch in menu
+    - fixed some english texts in menu
     - set game fps (60 fps by default)
     - level load/save support
-    - support native screen resolution
+    - fullscreen runs in native desktop resolution
     - fixed menu in fullscreen and cursor rendering
     - fixed more crashes
 

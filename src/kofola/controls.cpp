@@ -31,55 +31,6 @@ HDC_PROGRES_CONTROL hdcPR;
 HDC_FRAME_CONTROL hdcFR;
 
 void co_Del_Combo_List(COMBO_CONTROL * p_co, int hdc, int xcor, int ycor);
-/*
-HDC co_CreateDC(HDC hdc, int x, int y, HDC_INFO * pdcinfo)
-{
-	HDC				hdcBack = NULL;
-	HBITMAP			hback_bitmap = NULL;
-	BITMAP			back_bitmap;
-
-	if(!hdc)
-		return NULL;
-	
-	hdcBack = CreateCompatibleDC(hdc);
-	if(!hdcBack)
-		return 0;
-
-	hback_bitmap = CreateCompatibleBitmap(hdc, x, y);
-	if(!hback_bitmap)
-		return 0;
-
-	GetObject(hback_bitmap, sizeof(back_bitmap), &back_bitmap);
-	pdcinfo->hbitmapold = SelectObject(hdcBack, hback_bitmap);
-
-	DeleteObject(hback_bitmap);
-
-	//SetStretchBltMode(hdcBack, HALFTONE);
-	//SetBrushOrgEx(hdcBack,0,0,NULL);
-
-	pdcinfo->hdc = hdcBack;
-
-	pdcinfo->x = x;
-	pdcinfo->y = y;
-	pdcinfo->hbitmap = hback_bitmap;
-
-	BitBlt(hdcBack,0,0,x,y,NULL,0,0,BLACKNESS);
-
-	return hdcBack;
-}
-
-int co_Release_Bitmap(HDC_INFO * pdcinfo)
-{
-	if(!pdcinfo)
-		return 1;
-
-	SelectObject(pdcinfo->hdc,pdcinfo->hbitmapold);	
-  DeleteObject(pdcinfo->hbitmap); 
-	DeleteDC(pdcinfo->hdc);
-
-  return 1;
-}
-*/
 
 int co_Load_Graphic(int combo_var)
 {

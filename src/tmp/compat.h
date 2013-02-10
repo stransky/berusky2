@@ -279,4 +279,36 @@ char *working_file_get(const char *p_file, char *p_target, int size);
 extern char cCheckMusicExeption;
 void alut_test(int ini);
 
+extern float scale_factor[2];
+extern float scale_back_factor[2];
+
+inline void scale_factor_set(void)
+{
+  scale_factor[0] = (float) 1024.0f / (float) SCREEN_XRES;
+  scale_factor[1] = (float) 768.0f / (float) SCREEN_YRES;
+
+  scale_back_factor[0] = (float) SCREEN_XRES / 1024.0f;
+  scale_back_factor[1] = (float) SCREEN_YRES / 768.0f;
+}
+
+inline float scale_factor_x(void)
+{
+  return(scale_factor[0]);
+}
+
+inline float scale_factor_y(void)
+{
+  return(scale_factor[1]);
+}
+
+inline float scale_back_factor_x(void)
+{
+  return(scale_back_factor[0]);
+}
+
+inline float scale_back_factor_y(void)
+{
+  return(scale_back_factor[1]);
+}
+
 #endif //__COMPAT_H__

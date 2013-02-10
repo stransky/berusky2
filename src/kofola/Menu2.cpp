@@ -839,6 +839,12 @@ void SetMenuSettingsS2(CONTROL_LIST_ITEM2 * citem, int *hdcTabUse)
   }
 }
 
+void ControlFullScreenCallback2(void *p_control)
+{
+  GRAPH3D *p_grf = (p_ber->p_age)->graph_get();
+  p_grf->fullscreen_toggle();
+}
+
 void InitTab3d2(CONTROL_LIST_ITEM2 * citem, int *hdcTab)
 {
   int i;
@@ -895,6 +901,11 @@ void InitTab3d2(CONTROL_LIST_ITEM2 * citem, int *hdcTab)
     co2_Create_CheckBox(hdcTab[1], 300, 180, "##settings_animations", 0, 8);
   citem[30].iTab = 1;
   co2_Check_Set_State(citem[30].p_check, hdcTab[1], setup.animace_okoli, 1);
+  
+  citem[31].p_check = co2_Create_CheckBox(hdcTab[1], 300, 210, 
+                      "##settings_fullscreen", 0, 5, ControlFullScreenCallback2);
+  citem[31].iTab = 1;
+  co2_Check_Set_State(citem[31].p_check, hdcTab[1], setup.fullscreen, 1);
 }
 
 void InitTabSound2(CONTROL_LIST_ITEM2 * citem, int *hdcTab)
@@ -1038,7 +1049,6 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
                       LEVELINFO * p_Level, ANIMATION_MODULE * p_am)
 {
   int mix, miy;
-  float s_factor[2];
   RECT rTMP = { 0, 0, 1024, 768 };
 
   DWORD dwEplased = 0, dwStart, dwStop;
@@ -1069,8 +1079,6 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
 
   _2d_Clear_RectLine(&rline);
 
-  s_factor[0] = (float) 1024 / (float) hwconf.xres;
-  s_factor[1] = (float) 768 / (float) hwconf.yres;
 
   ddx2Init(200, RGB(255, 0, 255));
   dh = ddx2DeviceCreate(TRUE, 32);
@@ -1084,9 +1092,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
   ddx2DeviceSetBackBufferSize(1024, 768);
   ddx2DeviceSetBackBufferRect(0, 0, 1024, 768);
   ddx2DeviceSetTextRenderRec(0, 0, 1024, 768);
-  ddx2DeviceSetScreenRec(0, 0, hwconf.xres, hwconf.yres);
-
-  //ddx2DeviceSetRender(TRUE);
+  ddx2DeviceSetScreenRec(0, 0, SCREEN_XRES, SCREEN_YRES);
 
   ddx2CleareSurface(DDX2_BACK_BUFFER);
   sh = ddx2LoadBitmap("settings.bmp", pBmpArchive);
@@ -1361,8 +1367,8 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
     mix = mi.x;
     miy = mi.y;
 
-    mi.x = (int) ceil(mi.x * s_factor[0]);
-    mi.y = (int) ceil(mi.y * s_factor[1]);
+    mi.x = (int) ceil(mi.x * scale_factor_x());
+    mi.y = (int) ceil(mi.y * scale_factor_y());
 
     dwStart = timeGetTime();
 
@@ -1787,16 +1793,12 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
   LEVELINFO * p_Level, ANIMATION_MODULE * p_am, char bLoad, WCHAR * cText)
 {
   int iReturn = 0;
-  int mix, miy;
-  float s_factor[2], s_bfactor[2];
+  int mix, miy;  
   RECT rTMP = { 299, 209, 444, 415 };
-  //RECT  rTMP = {0,0,1024,768};
-
   DWORD dwEplased = 0, dwStart, dwStop;
 
   CONTROL_LIST_ITEM2 citem[CLIST_ITEMC];
 
-//      FILE    *file;
   char dir[256];
   int lastcmd, lastanm, i;
   CMD_LINE *res = NULL;
@@ -1814,12 +1816,6 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
 
   _2d_Clear_RectLine(&rline);
 
-  s_factor[0] = (float) 1024 / (float) hwconf.xres;
-  s_factor[1] = (float) 768 / (float) hwconf.yres;
-
-  s_bfactor[0] = (float) hwconf.xres / 1024.0f;
-  s_bfactor[1] = (float) hwconf.yres / 768.0f;
-
   p_Level->iCursor = 133;
   am_FlipA(p_Level, p_am, 1, &rline, CLIST_ITEMC, 0, 0, 0);
   p_Level->iCursor = 0;
@@ -1827,19 +1823,14 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
   ddx2Init(200, RGB(255, 0, 255));
   dh = ddx2DeviceCreate(TRUE, 32);
 
-  if (!dh)
-    return 0;
-
-  //fn2_Release_Font();
   ddx2DeviceSetActive(dh);
-
   ddx2DeviceSetBackBufferSize(1024, 768);
   ddx2DeviceSetBackBufferRect(299, 209, 444, 415);
   ddx2DeviceSetTextRenderRec(0, 0, 444, 415);
-  ddx2DeviceSetScreenRec((int) ceil(s_bfactor[0] * 299),
-    (int) ceil(s_bfactor[1] * 209), (int) ceil(s_bfactor[0] * 444),
-    (int) ceil(s_bfactor[1] * 415));
-
+  ddx2DeviceSetScreenRec((int) ceil(scale_back_factor_x() * 299),
+                         (int) ceil(scale_back_factor_y() * 209),
+                         (int) ceil(scale_back_factor_x() * 444),
+                         (int) ceil(scale_back_factor_y() * 415));
   ddx2DeviceSetRender(TRUE);
 
   ddx2CleareSurface(DDX2_BACK_BUFFER);
@@ -2006,8 +1997,8 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
     mix = mi.x;
     miy = mi.y;
 
-    mi.x = (int) ceil(mi.x * s_factor[0]);
-    mi.y = (int) ceil(mi.y * s_factor[1]);
+    mi.x = (int) ceil(mi.x * scale_factor_x());
+    mi.y = (int) ceil(mi.y * scale_factor_y());
 
     dwStart = timeGetTime();
 
@@ -2643,14 +2634,12 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
   ANIMATION_MODULE * p_am)
 {
   int mix, miy;
-  float s_factor[2];
   RECT rTMP = { 0, 0, 1024, 768 };
 
   DWORD dwEplased = 0, dwStart, dwStop;
 
   CONTROL_LIST_ITEM2 citem[CLIST_ITEMC];
 
-//      FILE    *file;
   char dir[256];
   int lastcmd, lastanm, i;
   CMD_LINE *res = NULL;
@@ -2663,7 +2652,6 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
   int sh1 = K_CHYBA;
   int sh2 = K_CHYBA;
   int iBmp;
-//  int iBook;
   int iHelpIndex[23];
   int iComboSel = 0;
   int iComboActSel = 0;
@@ -2675,29 +2663,16 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
 
   p_Level->iCursor = 133;
   am_FlipA(p_Level, p_am, 1, &rline, CLIST_ITEMC, 0, 0, 0);
-  //p_Level->iCursor = 0;
-
-  s_factor[0] = (float) 1024 / (float) hwconf.xres;
-  s_factor[1] = (float) 768 / (float) hwconf.yres;
 
   ddx2Init(200, RGB(255, 0, 255));
   dh = ddx2DeviceCreate(TRUE, 32);
 
-  if (!dh)
-    return;
-
-  //fn2_Release_Font();
   ddx2DeviceSetActive(dh);
-
-//      ddx2DeviceScreenAktivuj(0,0,hwconf.xres,hwconf.yres,1024,768);
-//      ddx2DeviceBackBufferMapRec(0,0,1024,768);
   
   ddx2DeviceSetBackBufferSize(1024, 768);
   ddx2DeviceSetBackBufferRect(0, 0, 1024, 768);
   ddx2DeviceSetTextRenderRec(0, 0, 1024, 768);
-  ddx2DeviceSetScreenRec(0, 0, hwconf.xres, hwconf.yres);
-
-  //ddx2DeviceSetRender(TRUE);
+  ddx2DeviceSetScreenRec(0, 0, SCREEN_XRES, SCREEN_YRES);
 
   am_FlipA(p_Level, p_am, 1, &rline, CLIST_ITEMC, 0, 0, 0);
 
@@ -2865,8 +2840,8 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
     mix = mi.x;
     miy = mi.y;
 
-    mi.x = (int) ceil(mi.x * s_factor[0]);
-    mi.y = (int) ceil(mi.y * s_factor[1]);
+    mi.x = (int) ceil(mi.x * scale_factor_x());
+    mi.y = (int) ceil(mi.y * scale_factor_y());
 
     dwStart = timeGetTime();
 
@@ -3200,27 +3175,20 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
   DeviceHandle dh = 0;
   int sh = K_CHYBA;
   int ifdx = 0;
-//  int iBack;
 
   _2d_Clear_RectLine(&rline);
 
   _2d_Add_RectItem(&rline, rTMP, 0);
 
-  s_factor[0] = (float) 1024 / (float) hwconf.xres;
-  s_factor[1] = (float) 768 / (float) hwconf.yres;
-
   ddx2Init(200, RGB(255, 0, 255));
   dh = ddx2DeviceCreate(TRUE, 32);
-
-  if (!dh)
-    return;
 
   ddx2DeviceSetActive(dh);
 
   ddx2DeviceSetBackBufferSize(1024, 768);
   ddx2DeviceSetBackBufferRect(0, 0, 1024, 768);
   ddx2DeviceSetTextRenderRec(0, 0, 1024, 768);
-  ddx2DeviceSetScreenRec(0, 0, hwconf.xres, hwconf.yres);
+  ddx2DeviceSetScreenRec(0, 0, SCREEN_XRES, SCREEN_YRES);
 
   ddx2DeviceSetRender(TRUE);
 
@@ -3583,14 +3551,10 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA * p_ad,
   LEVELINFO * p_Level, ANIMATION_MODULE * p_am)
 {
   int mix, miy;
-  float s_factor[2], s_bfactor[2];
   RECT rTMP = { 0, 0, 1024, 768 };
 
   DWORD dwEplased = 0, dwStart, dwStop;
-
   CONTROL_LIST_ITEM2 citem[CLIST_ITEMC];
-
-//      FILE    *file;
   char dir[256];
   int lastcmd, lastanm, i;
   CMD_LINE *res = NULL;
@@ -3601,7 +3565,6 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA * p_ad,
   DeviceHandle dh = 0;
   int ycorrection = 0;
   EDIT_TEXT ttext;
-  //int sh = K_CHYBA;
 
   ZeroMemory(&ttext, sizeof(EDIT_TEXT));
 
@@ -3611,18 +3574,10 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA * p_ad,
 
   txt_trida(TEXT_MENU);
   kom_set_default_text_config(0, 0, 1, 0, 0, 1);
-  txt_nahraj_texturu_z_func(p3DMArchive, "tutor_frame.bmp", &ttext, 0, 1,
-    NULL, bmp_nahraj);
-  //txt_nahraj_texturu_z_func(p3DMArchive,"Hneda_a.bmp", &ttext, 0, 1, NULL,bmp_nahraj);
+  txt_nahraj_texturu_z_func(p3DMArchive, "tutor_frame.bmp", &ttext, 0, 1, NULL, bmp_nahraj);
   kom_ret_default_text_config();
 
   _2d_Clear_RectLine(&rline);
-
-  s_factor[0] = (float) 1024 / (float) hwconf.xres;
-  s_factor[1] = (float) 768 / (float) hwconf.yres;
-
-  s_bfactor[0] = (float) hwconf.xres / 1024.0f;
-  s_bfactor[1] = (float) hwconf.yres / 768.0f;
 
   ddx2Init(200, RGB(255, 0, 255));
   dh = ddx2DeviceCreate(FALSE, 32);
@@ -3630,16 +3585,15 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA * p_ad,
   if (!dh)
     return;
 
-  //fn2_Release_Font();
   ddx2DeviceSetActive(dh);
 
   ddx2DeviceSetBackBufferSize(1024, 768);
   ddx2DeviceSetBackBufferRect(10, 200, 900, 450);
   ddx2DeviceSetTextRenderRec(0, 0, 900, 450);
-  ddx2DeviceSetScreenRec(ftoi(10 * s_bfactor[0]), ftoi(200 * s_bfactor[1]),
-                         ftoi(900 * s_bfactor[0]), ftoi(450 * s_bfactor[1]));
-  //ddx2DeviceSetScreenRec(0, 0, hwconf.xres,hwconf.yres);
-
+  ddx2DeviceSetScreenRec(ftoi(10 *  scale_back_factor_x()),
+                         ftoi(200 * scale_back_factor_y()),
+                         ftoi(900 * scale_back_factor_x()),
+                         ftoi(450 * scale_back_factor_y()));
   ddx2DeviceSetRender(TRUE);
 
   ddx2CleareSurface(DDX2_BACK_BUFFER);
@@ -3764,8 +3718,8 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA * p_ad,
     mix = mi.x;
     miy = mi.y;
 
-    mi.x = (int) ceil(mi.x * s_factor[0]);
-    mi.y = (int) ceil(mi.y * s_factor[1]);
+    mi.x = (int) ceil(mi.x * scale_factor_x());
+    mi.y = (int) ceil(mi.y * scale_factor_y());
 
     dwStart = timeGetTime();
 
@@ -4001,7 +3955,7 @@ void RunMenuLoadScreen2(void)
   ddx2DeviceSetBackBufferSize(1024, 768);
   ddx2DeviceSetBackBufferRect(0, 0, 1024, 768);
   ddx2DeviceSetTextRenderRec(0, 0, 1024, 768);
-  ddx2DeviceSetScreenRec(0, 0, hwconf.xres, hwconf.yres);
+  ddx2DeviceSetScreenRec(0, 0, SCREEN_XRES, SCREEN_YRES);
 
   ddx2DeviceSetRender(TRUE);
 

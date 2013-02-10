@@ -119,7 +119,7 @@ public:
     projection_needs_update = TRUE;
     camera_projection_needs_update = TRUE;
   }
-  
+ 
   void view_relative_set(float x, float y, float widht, float height)
   {
     view_relative = TRUE;

@@ -6132,11 +6132,7 @@ void am_Flip(LEVELINFO * p_Level, ANIMATION_MODULE * p_am, char bAll,
 
   char c;
   int i, x = 0;
-  float s[2];
   float pos[4];
-
-  s[0] = (float) hwconf.xres / 1024.0f;
-  s[1] = (float) hwconf.yres / 768.0f;
 
   am_Animate_Items(p_am, p_Level);
   am_Animate_Beetles(p_Level);
@@ -6200,7 +6196,7 @@ void am_Flip(LEVELINFO * p_Level, ANIMATION_MODULE * p_am, char bAll,
   _3d_Begin_Draw();
 
   if (!bAll)
-    _3d_Draw_MenusB(p_Level, -1, &c, s, bTutor, bTText, ty);
+    _3d_Draw_MenusB(p_Level, -1, &c, bTutor, bTText, ty);
 
   _3d_End_Draw();
 
@@ -6213,10 +6209,10 @@ void am_Flip(LEVELINFO * p_Level, ANIMATION_MODULE * p_am, char bAll,
   _3d_Set_Smooth();
 
   if (p_Level->bRestart)
-    p_Level->iMessageBoxReturn = _3d_Draw_MessageBox(5, s);
+    p_Level->iMessageBoxReturn = _3d_Draw_MessageBox(5);
 
   if (p_Level->bReturnToMenu)
-    p_Level->iMessageBoxReturn = _3d_Draw_MessageBox(7, s);
+    p_Level->iMessageBoxReturn = _3d_Draw_MessageBox(7);
 
   pos[0] = (float) mi.x + _3dCur.iaddx;
   pos[1] = (float) mi.y + _3dCur.iaddy;
@@ -6237,11 +6233,7 @@ void am_FlipA(LEVELINFO * p_Level, ANIMATION_MODULE * p_am, char bAll,
   RECT_LINE * rline, int rsize, int bTutor, int bTText, int ty)
 {
   char c;
-  float s[2];
   float pos[4];
-
-  s[0] = (float) hwconf.xres / 1024.0f;
-  s[1] = (float) hwconf.yres / 768.0f;
 
   am_Animate_Items(p_am, p_Level);
   am_Animate_Beetles(p_Level);
@@ -6279,7 +6271,7 @@ void am_FlipA(LEVELINFO * p_Level, ANIMATION_MODULE * p_am, char bAll,
 
   _3d_Begin_Draw();
 
-  _3d_Draw_MenusB(p_Level, -1, &c, s, bTutor, bTText, ty);
+  _3d_Draw_MenusB(p_Level, -1, &c, bTutor, bTText, ty);
 
   if (!p_Level->iCursor) {
     pos[0] = (float) mi.x + _3dCur.iaddx;

@@ -509,7 +509,7 @@ void ddx2DrawCursorSetDraw(int draw)
 //------------------------------------------------------------------------------------------------
 void ddx2StartRender2D(void)
 {
-  set_matrix_2d(OXRES, OYRES);
+  set_matrix_2d(SCREEN_XRES, SCREEN_YRES);
   glColor4f(1, 1, 1, 1);
   glDisable(GL_BLEND);
   glDisable(GL_DEPTH_TEST);

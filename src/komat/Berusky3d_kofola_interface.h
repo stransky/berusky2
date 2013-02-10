@@ -408,11 +408,6 @@ int lani_get(MeshHandle mh);
     int  kam_pol_get(BOD *p_p, float *p_r, float *p_fi, float *p_vzdal);
     int  kam_3ds_get(BOD *p_pos, BOD *p_target, float *p_roll);
 
-  4. Ovladani perspektivy/zoomu - pro vsechny mody
-    
-    void  kam_set_fov(float fov);  - Nastavi uhel kameru (def. je asi 55 stupnu)
-    float kam_get_fov(void);       - cte fov kamery
-
  * Jednoduche animace kamer
 
    Tohle jsou rychle a jednoduche animace, kdy zadas  kam se ma kamera
@@ -565,11 +560,6 @@ void kam_get_float(float *p_body);
 
 // Nacte vektory kamery + pozici
 void kam_get_float_ext(float *p_dir, float *p_pos);
-
-// ovladani perspektivy/zoomu kamery
-void kam_set_fov(float fov);
-float kam_get_fov(void);
-
 
 // nastaveni, pricteni a nacteni kamery v polarnich souradnicich
 int kam_pol_set(BOD * p_p, float r, float fi, float vzdal, int korekce);

@@ -948,13 +948,6 @@ void kani_updatuj(G_KONFIG * p_ber)
 
 
   if (p_kam->aktivni & GAME_KAMERA_3DS) {
-/*
-    if(p_track->fov_keys) {
-      key_track_interpolace_float(&p_kam->fov,  p_track->p_fov,  p_track->p_fkeys, p_kam->time, p_track->endtime, p_track->fov_keys, loop);
-      projection_matrix(&p_ber->kamera.project,p_kam->fov,(float)OXRES/(float)OYRES,p_ber->kam.near_plane,p_ber->kam.far_plane);
-      set_matrix_project(p_ber->p_project);
-    }
-*/
     if (p_track->pos_keys)
       key_track_interpolace_bod(&p_kam->p, p_track->p_pos, p_track->p_pkeys,
         p_kam->time, p_track->endtime, p_track->pos_keys, loop);
@@ -1089,22 +1082,6 @@ RunHandle kam_3ds_anim_add(BOD * p_p, BOD * p_t, float roll, int *p_flag,
   kam_start(ah, p_flag, flag | GK_REMOVE, 0, 0);
   return (0);
 }
-
-void kam_set_fov(float fov)
-{
-  p_ber->kamera.fov = DEG2RAD(fov);
-  projection_matrix(p_ber->p_project, p_ber->kamera.fov,
-    (float) OXRES / (float) OYRES, p_ber->kam.near_plane,
-    p_ber->kam.far_plane);
-  set_matrix_project(p_ber->p_project);
-  set_matrix_camera_project(p_ber->p_project);
-}
-
-float kam_get_fov(void)
-{
-  return (RAD2DEG(p_ber->kamera.fov));
-}
-
 
 static BOD __last_kam_bod;
 
@@ -1465,24 +1442,49 @@ void kam_game_set_clear(G_KONFIG * p_ber)
   }
 }
 
+typedef enum _CAMERA_SCREEN {
+
+  CAMERA_NORMAL,
+  CAMERA_KINO,
+
+} CAMERA_SCREEN;
+
+CAMERA_SCREEN camera_screen_mode = CAMERA_NORMAL;
+
 void kam_set_kino_screen(G_KONFIG * p_ber)
 {
-  int kxres = OXRES;
-  int kyres = ftoi(OXRES * KINO_POMER);
-  int kx = OXSTART, ky = OYSTART + (OYRES - kyres) / 2;
+  int kxres = SCREEN_XRES;
+  int kyres = ftoi(SCREEN_XRES * KINO_POMER);
+  int kx = SCREEN_XSTART, ky = SCREEN_YSTART + (SCREEN_YRES - kyres) / 2;
 
   set_matrix_view(kx, ky, kxres, kyres);
+
   projection_matrix(&p_ber->kamera.project, p_ber->kam.fov,
-    (float) kxres / (float) kyres, p_ber->kam.near_plane,
-    p_ber->kam.far_plane);
-  set_matrix_project(p_ber->p_project);
+                    (float) kxres / (float) kyres, 
+                    p_ber->kam.near_plane,
+                    p_ber->kam.far_plane);
+  set_matrix_project(&p_ber->kamera.project);
+
+  camera_screen_mode = CAMERA_KINO;
 }
 
 void kam_set_normal_screen(G_KONFIG * p_ber)
 {
-  set_matrix_view(OXSTART, OYSTART, OXRES, OYRES);
+  set_matrix_view(SCREEN_XSTART, SCREEN_YSTART, SCREEN_XRES, SCREEN_YRES);
+
   projection_matrix(&p_ber->kamera.project, p_ber->kam.fov,
-    (float) OXRES / (float) OYRES, p_ber->kam.near_plane,
-    p_ber->kam.far_plane);
-  set_matrix_project(p_ber->p_project);
+                    (float) SCREEN_XRES / (float) SCREEN_YRES,
+                    p_ber->kam.near_plane,
+                    p_ber->kam.far_plane);
+  set_matrix_project(&p_ber->kamera.project);
+
+  camera_screen_mode = CAMERA_NORMAL;
+}
+
+void kam_set_last(G_KONFIG * p_ber)
+{
+  if(camera_screen_mode == CAMERA_NORMAL)
+    kam_set_normal_screen(p_ber);
+  else
+    kam_set_kino_screen(p_ber);
 }

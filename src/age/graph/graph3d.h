@@ -143,6 +143,11 @@ typedef struct grf_config {
 void gl_error(void);
 
 /* 
+ * Screen resize callback
+ */
+typedef void (* SCREEN_RESIZE_CALLBACK)(tpos width, tpos height);
+
+/* 
  * Type of graphics backend
  */
 typedef enum {
@@ -435,6 +440,14 @@ public:
   virtual void screen_resize(tpos width, tpos height) = 0;
   virtual void fullscreen_toggle(void) = 0;
 
+protected:
+
+  SCREEN_RESIZE_CALLBACK p_screen_resize_callback;
+
+public:
+  
+  void resize_callback_set(SCREEN_RESIZE_CALLBACK p_callback);
+
 public:
 
   void destroy(void);
@@ -511,6 +524,7 @@ typedef class graph3d_sdl :
 private:
 
   SURFACE *p_screen_surface;
+  int      sdl_video_flags;
 
 public:
   
@@ -523,6 +537,10 @@ public:
   virtual void screen_destroy(void);
   virtual void screen_resize(tpos width, tpos height);
   virtual void fullscreen_toggle(void);
+
+private:
+  
+  bool screen_regenerate(void);
 
 public:
 

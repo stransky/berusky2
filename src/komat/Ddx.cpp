@@ -238,39 +238,37 @@ void nastav_konfig(HW_KONFIG * p_hwconf, TXT_KONFIG * p_txt)
 
 /* load hw konfigu
 */
-int nahraj_device_config(char *p_file, char *p_sekce, HW_KONFIG * p_conf)
+int nahraj_device_config(char *p_file, char *p_sekce)
 {
-  p_conf->fullscreen = GetPrivateProfileInt(p_sekce, "fullscreen", 1, p_file);
+  hwconf.fullscreen = GetPrivateProfileInt(p_sekce, "fullscreen", 1, p_file);
 
   // 0 in p_conf->xres, p_conf->yres and p_conf->bpp means use current
   // screen resolution and color depth
 
   // set screen resolution for windowed mode only
-  if(!p_conf->fullscreen) {
-    p_conf->xres = GetPrivateProfileInt(p_sekce, "xres", 1024, p_file);
-    p_conf->yres = GetPrivateProfileInt(p_sekce, "yres", 768, p_file);
+  if(!hwconf.fullscreen) {
+    hwconf.screen_width = GetPrivateProfileInt(p_sekce, "xres", 1024, p_file);
+    hwconf.screen_height = GetPrivateProfileInt(p_sekce, "yres", 768, p_file);
   }
   else {
-    p_conf->xres = p_conf->yres = 0;
+    hwconf.screen_width = hwconf.screen_height = 0;
   }
-  p_conf->bpp = GetPrivateProfileInt(p_sekce, "bpp", 0, p_file);
+  hwconf.bpp = GetPrivateProfileInt(p_sekce, "bpp", 0, p_file);
 
-  p_conf->game_fps = GetPrivateProfileInt(p_sekce, "game_fps", 60, p_file);
-  p_conf->ditering = GetPrivateProfileInt(p_sekce, "ditering", 0, p_file);
-  p_conf->typ_mlhy = GetPrivateProfileInt(p_sekce, "typ_mlhy", 0, p_file);
-  p_conf->bump_mapping = GetPrivateProfileInt(p_sekce, "bump_mapping", 0, p_file);
-  p_conf->bump_mapping_typ = AUTO_BUMP_DOT3;
-  p_conf->vertex_arrays = GetPrivateProfileInt(p_sekce, "vertex_arrays", 0, p_file);
+  hwconf.game_fps = GetPrivateProfileInt(p_sekce, "game_fps", 60, p_file);
+  hwconf.ditering = GetPrivateProfileInt(p_sekce, "ditering", 0, p_file);
+  hwconf.typ_mlhy = GetPrivateProfileInt(p_sekce, "typ_mlhy", 0, p_file);
+  hwconf.bump_mapping = GetPrivateProfileInt(p_sekce, "bump_mapping", 0, p_file);
+  hwconf.bump_mapping_typ = AUTO_BUMP_DOT3;
+  hwconf.vertex_arrays = GetPrivateProfileInt(p_sekce, "vertex_arrays", 1, p_file);
 
   return (TRUE);
 }
 
-int nahraj_universal_device_config(char *p_file, char *p_sekce, HW_KONFIG * p_conf)
+int nahraj_universal_device_config(char *p_file, char *p_sekce)
 {
-  p_conf->pn_triangles =
-    GetPrivateProfileInt(p_sekce, "pn_triangles", 0, p_file);
-  p_conf->pn_triangles_detail =
-    GetPrivateProfileInt(p_sekce, "pn_triangles_tesell", 0, p_file);
+  hwconf.pn_triangles = GetPrivateProfileInt(p_sekce, "pn_triangles", 0, p_file);
+  hwconf.pn_triangles_detail = GetPrivateProfileInt(p_sekce, "pn_triangles_tesell", 0, p_file);
   return (TRUE);
 }
 

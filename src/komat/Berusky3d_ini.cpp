@@ -23,6 +23,7 @@
 #include "Berusky3d_render.h"
 #include "Berusky3d_animace.h"
 #include "Berusky3d_kofola_interface.h"
+#include "Berusky3d_kamery.h"
 
 #include "config.h"
 #include "json_export.h"
@@ -48,44 +49,31 @@ void flip(void)
   tm.frame_start();
 }
 
+void screen_resize_callback(tpos width, tpos height)
+{
+  printf("Screen resize %dx%d\n", width, height);
+
+  SCREEN_XRES = width;
+  SCREEN_YRES = height;
+
+  // Set scale factor
+  scale_factor_set();
+
+  // Projection & View matrix
+  kam_set_last(p_ber);
+}
+
 inline int filtr_klaves(int scancode)
 {
   return (gl_Allow_Key(scancode) ? scancode : 0);
-}
-
-void minimalizuj_hru(void)
-{
-/*
-  if(hwnd_hry) {
-    grf_prehod_mod_zpet(&hwconf);
-    ShowWindow(hwnd_hry,SW_MINIMIZE);
-    UpdateWindow(hwnd_hry);
-    gl_Kofola_Minimalize();
-    clip_ret();
-  }
-*/
-}
-
-void maximalizuj_hru(void)
-{
-/*
-  if(hwnd_hry) {
-    grf_prehod_mod_hra(&hwconf);
-    ShowWindow(hwnd_hry,SW_RESTORE);
-    UpdateWindow(hwnd_hry);
-    nastav_okno(&hwconf,FALSE);
-    SetFocus(hwnd_hry);
-    gl_Kofola_Maximalize();
-  }
-*/
 }
 
 int nahraj_konfig(void)
 {
   /* TODO - sync with Setup
    */
-  nahraj_device_config(ini_file, "hra", &hwconf);
-  nahraj_universal_device_config(ini_file, "hra", &hwconf);
+  nahraj_device_config(ini_file, "hra");
+  nahraj_universal_device_config(ini_file, "hra");
   nahraj_texture_config(ini_file, &txconf);
 
   return (TRUE);
@@ -93,10 +81,8 @@ int nahraj_konfig(void)
 
 void kom_ret_default_text_config(void)
 {
-  txconf.text_mip_mapping =
-    GetPrivateProfileInt(TXT_SEKCE, "text_mip_mapping", 1, ini_file);
-  txconf.text_mip_filtr =
-    GetPrivateProfileInt(TXT_SEKCE, "text_mip_filtr", 1, ini_file);
+  txconf.text_mip_mapping = GetPrivateProfileInt(TXT_SEKCE, "text_mip_mapping", 1, ini_file);
+  txconf.text_mip_filtr = GetPrivateProfileInt(TXT_SEKCE, "text_mip_filtr", 1, ini_file);
   txconf.text_wrap_x = 1;
   txconf.text_wrap_y = 1;
 }
@@ -146,11 +132,9 @@ void quat_test(void)
 
 void print_banner(void)
 {
-  printf("Berusky2 v.%s (C) Anakreon 2011, http://www.anakreon.cz/\n",
-    VERSION);
+  printf("Berusky2 v.%s (C) Anakreon 2011, http://www.anakreon.cz/\n", VERSION);
   printf("This is free software; see the source for copying conditions.\n");
-  printf
-    ("There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n");
+  printf("There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n");
 }
 
 void print_help(void)
@@ -329,11 +313,13 @@ int main(int argc, char **argv)
   nahraj_konfig();
 
   AGE_MAIN *p_age = p_ber->p_age = new AGE_MAIN(main_callback);
-
-  p_age->graph_set(hwconf.xres, hwconf.yres, hwconf.bpp, hwconf.fullscreen);
+  
+  p_age->graph_set(SCREEN_XRES, SCREEN_YRES, hwconf.bpp, hwconf.fullscreen);
   if (!p_age->graph_screen_create())
-    return (FALSE);
-  p_age->graph_get(&hwconf.xres, &hwconf.yres, &hwconf.bpp);
+    return(FALSE);
+  
+  GRAPH3D *p_grf = p_age->graph_get();
+  p_grf->get(&SCREEN_XRES, &SCREEN_YRES, &hwconf.bpp);
   
   if (!grf_start(ini_file))
     pperror(1, "Inicializace");
@@ -346,29 +332,25 @@ int main(int argc, char **argv)
   SCENE *p_scene = p_age->scene_new();
 
   p_age->scene_active_set(p_scene);
-
-  GRAPH3D *p_grf = p_age->graph_get();
-
-  if (p_grf) {
-    p_grf->config_draw_grid(FALSE);
-    p_grf->config_draw_mouse_cursor(FALSE);
-    p_grf->config_draw_boxes(FALSE);
-    p_grf->config_draw_console(FALSE);
-    p_grf->config_draw_fps(FALSE);
-    p_grf->config_draw_normals(FALSE);
-    p_grf->config_opengl_lighting(FALSE);
-    p_grf->config_draw_all_objects(TRUE);
-    p_grf->config_draw_pivots(TRUE);
-    p_grf->config_draw_selection(TRUE);
-  }
-
+  
+  p_grf->config_draw_grid(FALSE);
+  p_grf->config_draw_mouse_cursor(FALSE);
+  p_grf->config_draw_boxes(FALSE);
+  p_grf->config_draw_console(FALSE);
+  p_grf->config_draw_fps(FALSE);
+  p_grf->config_draw_normals(FALSE);
+  p_grf->config_opengl_lighting(FALSE);
+  p_grf->config_draw_all_objects(TRUE);
+  p_grf->config_draw_pivots(TRUE);
+  p_grf->config_draw_selection(TRUE);
+  
+  p_grf->resize_callback_set(screen_resize_callback);
+  
   glstav_reset();
 
   if(export_level) {
     json_export_start(export_level_file);
   }
-
-  //alut_test(TRUE);
 
   winmain_Game_Run(p_ber->level_name);  
 
@@ -519,6 +501,15 @@ int spracuj_spravy(int param)
           }
         }
         break;
+      case SDL_VIDEORESIZE:
+        {
+          AGE_MAIN *p_age = p_ber->p_age;
+          if(p_age) {
+            GRAPH3D *p_grf = p_age->graph_get();
+            p_grf->screen_resize(event.resize.w, event.resize.h);
+          }
+          break;
+        }
       case SDL_QUIT:
         gl_Kofola_End(bInMenu);
         break;

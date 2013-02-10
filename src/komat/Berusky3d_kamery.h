@@ -22,6 +22,8 @@ void ber_kamera_zpruhledni_objekty_reset(G_KONFIG * p_ber);
 
 void kam_set_kino_screen(G_KONFIG * p_ber);
 void kam_set_normal_screen(G_KONFIG * p_ber);
+void kam_set_last(G_KONFIG * p_ber);
+
 void kam_kino_set_clear(G_KONFIG * p_ber);
 void kam_game_set_clear(G_KONFIG * p_ber);
 

@@ -4,6 +4,8 @@
 #define BUTTON_LARGE 0
 #define BUTTON_SMALL 1
 
+typedef void (* CONTROL_CALLBACK)(void *p_control);
+
 typedef struct _HDC_INFO2
 {
   int x;
@@ -144,6 +146,8 @@ typedef struct _CHECKBOX_CONTROL2
   int checkID;
   char bChecked;
   char bChange;
+  void *p_callback_data;
+  CONTROL_CALLBACK p_callback;
 } CHECKBOX_CONTROL2;
 
 typedef struct _PROGRES_CONTROL2
@@ -271,7 +275,10 @@ int co2_Is_Button_Activated(CONTROL_LIST_ITEM2 * p_list, int lsize, int id);
 void co2_Release_Button(BUTTON_CONTROL2 * p_bu);
 
 CHECKBOX_CONTROL2 *co2_Create_CheckBox(int hdc, int x, int y, char *text,
-  int isection, int checkID);
+                                       int isection, int checkID, 
+                                       CONTROL_CALLBACK p_callback = NULL,
+                                       void *p_callback_data = NULL);
+
 int co2_Check_Get_State(CONTROL_LIST_ITEM2 * p_list, int lsize, int id);
 int co2_Check_Set_State(CHECKBOX_CONTROL2 * p_ch, int hdc, int state,
   char bDraw);

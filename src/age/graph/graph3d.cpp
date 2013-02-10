@@ -423,6 +423,8 @@ void graph3d::set(void)
   
   selection_rectangle_active = FALSE;
   selection_rectangle_color.set(255,0,0);
+
+  p_screen_resize_callback = NULL;
 }
 
 void graph3d::set(tpos width, tpos height, int screen_depth, bool full_screen)
@@ -439,9 +441,19 @@ void graph3d::set(tpos width, tpos height, int screen_depth, bool full_screen)
 
 void graph3d::get(tpos *p_width, tpos *p_height, int *p_screen_depth)
 {
-  *p_width = graphics_width;
-  *p_height = graphics_height;
-  *p_screen_depth = graphics_bpp;
+  if(p_width)
+    *p_width = graphics_width;
+  if(p_height)
+    *p_height = graphics_height;
+  if(p_screen_depth)
+    *p_screen_depth = graphics_bpp;
+}
+
+void graph3d::resize_callback_set(SCREEN_RESIZE_CALLBACK p_callback)
+{
+  p_screen_resize_callback = p_callback;
+  if(p_callback)
+    p_callback(graphics_width, graphics_height);
 }
 
 bool graph3d::create_GL(void)
@@ -555,6 +567,9 @@ void graph3d_gtk::screen_resize(tpos width, tpos height)
   graphics_height = height;
   
   camera_interface::screen_size_set(width, height);
+
+  if(p_screen_resize_callback)
+    p_screen_resize_callback(width, height);
 }
 
 // flip GL buffers
@@ -587,6 +602,25 @@ graph3d_gtk::~graph3d_gtk(void)
 
 #ifdef ENABLE_SDL_BACKEND
 
+// Obtain the screen from SDL
+// If we have any screen/surface, release them first
+bool graph3d_sdl::screen_regenerate(void)
+{
+  screen_destroy();
+
+  pprintf("Init video surface...\n");
+  SDL_Surface *p_hwscreen = SDL_SetVideoMode(graphics_width, graphics_height,
+                                             graphics_bpp, sdl_video_flags);
+  
+  if(!p_hwscreen) {
+    fprintf(stderr, "Unable to set the video mode: %s", SDL_GetError());
+    exit(-1);
+  }
+   
+  p_screen_surface = new SURFACE_SDL(p_hwscreen);
+  return(TRUE);
+}
+
 bool graph3d_sdl::screen_create(void)
 { 
   assert(graphics == FALSE);
@@ -599,23 +633,23 @@ bool graph3d_sdl::screen_create(void)
   }
     
   /* the flags to pass to SDL_SetVideoMode */
-  int flag = SDL_OPENGL;       /* Enable OpenGL in SDL */
-  flag |= SDL_GL_DOUBLEBUFFER; /* Enable double buffering */
-  flag |= SDL_HWPALETTE;       /* Store the palette in hardware */
-  //flag |= SDL_RESIZABLE;     /* Disable window resizing */
+  sdl_video_flags = SDL_OPENGL;       /* Enable OpenGL in SDL */
+  sdl_video_flags |= SDL_GL_DOUBLEBUFFER; /* Enable double buffering */
+  sdl_video_flags |= SDL_HWPALETTE;       /* Store the palette in hardware */
+  sdl_video_flags |= SDL_RESIZABLE;       /* Enable window resizing */
 
   /* This checks to see if surfaces can be stored in memory */
   if(videoInfo->hw_available)
-    flag |= SDL_HWSURFACE;
+    sdl_video_flags |= SDL_HWSURFACE;
   else
-    flag |= SDL_SWSURFACE;
+    sdl_video_flags |= SDL_SWSURFACE;
 
   /* This checks if hardware blits can be done */
-  if(videoInfo->blit_hw )
-    flag |= SDL_HWACCEL;
+  if(videoInfo->blit_hw)
+    sdl_video_flags |= SDL_HWACCEL;
 
   if(graphics_fullscreen)
-    flag |= SDL_FULLSCREEN;
+    sdl_video_flags |= SDL_FULLSCREEN;
   
   /* Sets up OpenGL double buffering */
   SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
@@ -628,20 +662,9 @@ bool graph3d_sdl::screen_create(void)
   if(!graphics_bpp) {
     graphics_bpp = videoInfo->vfmt->BitsPerPixel;
   }  
-  
-  pprintf("Init video surface...\n");
-  SDL_Surface *p_hwscreen = SDL_SetVideoMode(graphics_width, graphics_height,
-                                             graphics_bpp, flag);
-  
-  if(!p_hwscreen) {
-    fprintf(stderr, "Unable to set the video mode: %s", SDL_GetError());
-    exit(-1);
-  }
-   
-  p_screen_surface = new SURFACE_SDL(p_hwscreen);
-    
-  camera_interface::screen_size_set(graphics_width, graphics_height);
- 
+
+  screen_resize(graphics_width, graphics_height);
+
 #ifdef ENABLE_GL
   create_GL();
 #endif
@@ -651,7 +674,8 @@ bool graph3d_sdl::screen_create(void)
 
 void graph3d_sdl::screen_destroy(void)
 {
-  
+  if(p_screen_surface)
+    delete p_screen_surface;
 }
 
 void graph3d_sdl::screen_resize(tpos width, tpos height)
@@ -660,6 +684,11 @@ void graph3d_sdl::screen_resize(tpos width, tpos height)
   graphics_height = height;
   
   camera_interface::screen_size_set(width, height);
+
+  screen_regenerate();
+
+  if(p_screen_resize_callback)
+    p_screen_resize_callback(width, height);
 }
 
 void graph3d_sdl::fullscreen_toggle(void)
@@ -686,9 +715,10 @@ graph3d_sdl::graph3d_sdl(void)
 }
 
 graph3d_sdl::graph3d_sdl(tpos width, tpos height, int screen_depth, bool full_screen)
-  : graph3d(GRAPH_SDL, width, height, screen_depth, full_screen)
+  : graph3d(GRAPH_SDL, width, height, screen_depth, full_screen), 
+    p_screen_surface(NULL),
+    sdl_video_flags(0)
 {
-  
 }
 
 graph3d_sdl::~graph3d_sdl(void)

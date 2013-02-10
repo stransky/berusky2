@@ -7,12 +7,9 @@
 extern int mouse_move;
 extern bool export_level;
 
+int  spracuj_spravy(int param);
+int  nahraj_konfig(void);
 void konec(int konec);
-int spracuj_spravy(int param);
-int nahraj_konfig(void);
-
-void minimalizuj_hru(void);
-void maximalizuj_hru(void);
 
 #define XRES_MENU 1024
 #define YRES_MENU 768

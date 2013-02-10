@@ -222,7 +222,7 @@ public:
     if(p_graph)
       delete p_graph;
     
-    p_graph = new GRAPH3D_SDL(width, height, screen_depth, fullscreen);            
+    p_graph = new GRAPH3D_SDL(width, height, screen_depth, fullscreen);
     return((GRAPH3D_SDL *)p_graph);
   }
   

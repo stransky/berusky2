@@ -9488,7 +9488,7 @@ void gl_Init_Buttons(LEVELINFO * p_Level)
 void gl_Flip(AUDIO_DATA * pad, LEVELINFO * p_Level, int *Frame_Rate_Counter,
   char *bCursor, int *Cursor_Time_Out, CAMERA_ANIMATION * p_camera,
   unsigned long *NoKeyCounter, char *bBeetleAdded, char *bLastSunuti,
-  CAMERA_STRUCT * pGetCamera, char *no_Menu, float *_3d_Scale_Factor,
+  CAMERA_STRUCT * pGetCamera, char *no_Menu,
   int *act_item, int *iReturn, char demo, char *bOvladaniBerusek1)
 {
   float orientation[6];
@@ -9590,8 +9590,7 @@ void gl_Flip(AUDIO_DATA * pad, LEVELINFO * p_Level, int *Frame_Rate_Counter,
 
   if (*bCursor) {
     if (!*no_Menu)
-      _3d_Draw_Menus(bCursor, Cursor_Time_Out, _3d_Scale_Factor, p_Level,
-        *act_item, iReturn, demo);
+      _3d_Draw_Menus(bCursor, Cursor_Time_Out, p_Level, *act_item, iReturn, demo);
     else
       flip();
 
@@ -9600,8 +9599,7 @@ void gl_Flip(AUDIO_DATA * pad, LEVELINFO * p_Level, int *Frame_Rate_Counter,
   }
   else {
     if (!*no_Menu)
-      _3d_Draw_Menus(bCursor, Cursor_Time_Out, _3d_Scale_Factor, p_Level,
-        *act_item, iReturn, demo);
+      _3d_Draw_Menus(bCursor, Cursor_Time_Out, p_Level, *act_item, iReturn, demo);
     else
       flip();
 
@@ -10288,15 +10286,9 @@ int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, AUDIO_DATA * p_ad,
 
   Level.iNSrart = 0;
 
-  Xresolution = hwconf.xres;
-  Yresolution = hwconf.yres;
-
   //      camera.last_move = -1;
   Level.bInventory = GetPrivateProfileInt("hra", "bInventory", 1, ini_file);
   Level.bTopLedge = GetPrivateProfileInt("hra", "bTopLedge", 1, ini_file);;
-
-  _3d_Scale_Factor[0] = (float) Xresolution / 1024.0f;
-  _3d_Scale_Factor[1] = (float) Yresolution / 768.0f;
 
   Level.Level_Exit = 0;
   Level.lCamera.Position[0] = 0;
@@ -10496,8 +10488,8 @@ PLAY_LEVEL_START:
   }
 
   if (!no_Menu) {
-    _3d_Create_Top_Ledge_Display_List(_3d_Scale_Factor);
-    _3d_Create_Inventory_Display_List(_3d_Scale_Factor);
+    _3d_Create_Top_Ledge_Display_List();
+    _3d_Create_Inventory_Display_List();
   }
 
   RunMenuLoadScreenAddProgress(-1);
@@ -12265,7 +12257,7 @@ PLAY_LEVEL_START:
 
       // click
       if (mi.t2 && !demo) {
-        _3d_Display_Hint(&Level, _3d_Scale_Factor);
+        _3d_Display_Hint(&Level);
         mi.t2 = 0;
       }
 
@@ -12291,7 +12283,7 @@ PLAY_LEVEL_START:
         float fpos[3] = { 0, 0, 0 };
         int btl;
 
-        btl = _3d_Check_Beatle_Select(_3d_Scale_Factor);
+        btl = _3d_Check_Beatle_Select();
 
         if (btl != -1 && Level.bTopLedge && !Level.Flip && !Level.status) {
           if (!demo)
@@ -12396,9 +12388,9 @@ PLAY_LEVEL_START:
     Level.bGameResume = 0;
 
     gl_Flip(p_ad, &Level, &Frame_Rate_Counter, &bCursor, &Cursor_Time_Out,
-      NULL, &NoKeyCounter, &bBeetleAdded, &bLastSunuti, &GetCamera,
-      &no_Menu, _3d_Scale_Factor, &act_item, iReturn, demo,
-      &bOvladaniBerusek1);
+            NULL, &NoKeyCounter, &bBeetleAdded, &bLastSunuti, &GetCamera,
+            &no_Menu, &act_item, iReturn, demo,
+            &bOvladaniBerusek1);
 
     if (Level.Level_Exit)
       Level.lLevel_Exitc -= ber.TimeLastFrame;
