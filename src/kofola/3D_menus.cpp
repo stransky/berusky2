@@ -341,7 +341,14 @@ void _3d_Draw_3DAnimations(void)
     return;
 
   while (pItem) {
-    _3d_Draw_Box(pItem->iTexture, pItem->vfLocation);
+    float p[4];
+  
+    p[0] = pItem->vfLocation[0] * scale_back_factor_x();
+    p[1] = pItem->vfLocation[1] * scale_back_factor_y();
+    p[2] = pItem->vfLocation[2] * scale_back_factor_x();
+    p[3] = pItem->vfLocation[3] * scale_back_factor_y();
+    
+    _3d_Draw_Box(pItem->iTexture, p);
     pItem = pItem->pNext;
   }
 }
@@ -494,10 +501,6 @@ void _3d_Load_Animations(void)
             pFrame->vfLocation[2] = pFrame->vfLocation[0] + (_3dd.p_sysramtexture[pFrame->iTexture].x * pFrame->fScale);
             pFrame->vfLocation[3] = pFrame->vfLocation[1] + _3dd.p_sysramtexture[pFrame->iTexture].y * pFrame->fScale;
           }
-          pFrame->vfLocation[0] *= scale_back_factor_x();
-          pFrame->vfLocation[1] *= scale_back_factor_y();
-          pFrame->vfLocation[2] *= scale_back_factor_x();
-          pFrame->vfLocation[3] *= scale_back_factor_y();
 
           j++;
         }
@@ -1301,9 +1304,9 @@ int _3d_HitRect(int iAnimation)
 {
   _3D_ANIMATION *p_an = &_3DAnimationStruct._3DAnimation[iAnimation];
 
-  if (mi.x > p_an->_3dFrame[0].vfLocation[0] &&
+  if (mi.x > p_an->_3dFrame[0].vfLocation[0] * scale_back_factor_x() &&
       mi.x < p_an->_3dFrame[0].vfLocation[0] + (_3dd.p_sysramtexture[p_an->_3dFrame[0].iTexture].tx * scale_back_factor_x() * p_an->_3dFrame[0].fScale) && 
-      mi.y > p_an->_3dFrame[0].vfLocation[1] && 
+      mi.y > p_an->_3dFrame[0].vfLocation[1] * scale_back_factor_y() && 
       mi.y < p_an->_3dFrame[0].vfLocation[1] + (_3dd.p_sysramtexture[p_an->_3dFrame[0].iTexture].ty * scale_back_factor_y() * p_an->_3dFrame[0].fScale))
     return 1;
   else
