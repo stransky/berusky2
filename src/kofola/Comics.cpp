@@ -123,11 +123,6 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA * p_ad, char bMusic)
 			ap_Setup_and_Play_Song(1,0, p_ad);
 
   cmcs_Draw(0, 0, 0);
-
-/*	if(bMusic)
-		if (p_ad->bAudio && p_ad->Music_Gain >= 0.05f)
-			adas_OGG_Play_Stream();*/
-
   cmcs_Draw(cmcs_Picture[0].iPicture, cmcs_Picture[0].xPos,
     cmcs_Picture[0].yPos);
 
@@ -292,10 +287,6 @@ void cmcs_Start_Picture(int Index, long time, AUDIO_DATA * p_ad, char bMusic)
   char bCimicsEnd = 0;
 
   cmcs_Draw(Index, 0, 0);
-
-/*	if(bMusic)
-		if (p_ad->bAudio && p_ad->Music_Gain >= 0.05f)
-			adas_OGG_Play_Stream();*/
 
   while (!bCimicsEnd) {
     spracuj_spravy(0);

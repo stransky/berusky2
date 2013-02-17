@@ -635,6 +635,7 @@ bool graph3d_sdl::screen_create(void)
   /* the flags to pass to SDL_SetVideoMode */
   sdl_video_flags = SDL_OPENGL;       /* Enable OpenGL in SDL */
   sdl_video_flags |= SDL_GL_DOUBLEBUFFER; /* Enable double buffering */
+  sdl_video_flags |= SDL_DOUBLEBUF;       /* Enable double buffering */
   sdl_video_flags |= SDL_HWPALETTE;       /* Store the palette in hardware */
   sdl_video_flags |= SDL_RESIZABLE;       /* Enable window resizing */
 

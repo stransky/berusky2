@@ -1,13 +1,14 @@
-ddx2DeviceSetScreenRec(0, 0, hwconf.xres, hwconf.yres);
-
 TODO:
+void _3d_Load_Animations(void)
+_3d_Draw_3DAnimations(void)
 
 - on-line manual/help (Web)
 - proper default keys (in default ini file)
-- window mode - change resolution on the fly
+- sync screen rendering with desktop frame rate? (blit/flip with sync wait?)
+- Set Window App name
+- Zrusit rotace na okrajich obrazovky!
 
 - transform settings frm setup to text config
-- sync 3D settings (in game) with 2D (menu) - Add fullscreen mode
 - Tips - wait for click (Load screen) - space to continue?
 - All hints on web
 - Web help/tutorial

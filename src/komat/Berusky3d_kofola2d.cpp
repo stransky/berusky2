@@ -561,10 +561,10 @@ void ddx2RenderDevices(G_KONFIG * p_ber)
       if(p_dev->p_resize_callback) {
         p_dev->p_resize_callback();
       }
-    
+
       if (p_tmp->draw)
         ddx2RenderujDevice(p_ber, p_tmp);
-      
+
       p_tmp = p_tmp->p_next;
     }
     if(p_dev_cursor && p_dev_cursor->draw) {

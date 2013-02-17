@@ -20,25 +20,19 @@ typedef struct
   char bKUK;
 } KUK_STATE;
 
-        // draws all 3d menus in game to the surface
 void _3d_Draw_Menus(char *bCursor, int *Cursor_Time_Out, 
                     LEVELINFO * p_Level, int act_item, int *p_Return,
                     int demo);
 
-int _3d_Check_Beatle_Select(void);
-
-int _3d_Is_There_Beetle(int SubClass, LEVELINFO * p_Level);
-
-void _3d_Load_Animations(float *fScaleFactor);
-int _3d_Start_Animation(int iIndex, float *vfLocation, int *pFlag);
+int  _3d_Check_Beatle_Select(void);
+int  _3d_Is_There_Beetle(int SubClass, LEVELINFO * p_Level);
+void _3d_Load_Animations(void);
+int  _3d_Start_Animation(int iIndex, float *vfLocation, int *pFlag);
 
 void _3d_Run_Cibule(void);
-
-void _3d_Release_Display_Lists(void);
-void _3d_Create_Top_Ledge_Display_List(void);
-void _3d_Create_Inventory_Display_List(void);
-
 void _3d_Cancel_Animations(LEVELINFO * p_Level);
+
+void _3d_Draw_Inventory(void);
 
 void _3d_Draw_MenusB(LEVELINFO * p_Level, int act_item, char *bCursor,
                      int bTutor, int bTText, int ty);
@@ -51,7 +45,7 @@ void _3d_Release_Kuk(void);
 
 void _3d_Load_Indikace(void);
 
-int _3d_Draw_MessageBox(int iMessage);
+int  _3d_Draw_MessageBox(int iMessage);
 
 void _3d_Cancel_Menu(LEVELINFO * p_Level);
 

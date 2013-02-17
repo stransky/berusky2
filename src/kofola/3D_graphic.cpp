@@ -17,8 +17,6 @@ extern EDIT_TEXT sIndikace[3];
 extern char cFontFile[5][64];
 extern HINT_TEXTURE pMessageTexture[8];
 
-int Xresolution, Yresolution;
-
 //------------------------------------------------------------------------------------------------
 // init 3d
 //------------------------------------------------------------------------------------------------
@@ -123,15 +121,14 @@ int _3d_Load_Texture(char *p_File_Name, int Index, char bVideoRAM, char bSeek)
   }
 
   if (bVideoRAM) {
-    //txt_nahraj_texturu_z_bmp(p_File_Name, &_3dd.p_texture[Index], 0, bVideoRAM, NULL);
-    txt_nahraj_texturu_z_func(p3DMArchive, p_File_Name,
-      &_3dd.p_texture[Index], 0, bVideoRAM, NULL, bmp_nahraj);
+    txt_nahraj_texturu_z_func(p3DMArchive, p_File_Name, 
+                              &_3dd.p_texture[Index], 0, bVideoRAM, 
+                              NULL, bmp_nahraj);
   }
   else {
-    //txt_nahraj_texturu_z_bmp(p_File_Name, &_3dd.p_texture[Index], 1, bVideoRAM, &_3dd.p_sysramtexture[Index].konf);
     txt_nahraj_texturu_z_func(p3DMArchive, p_File_Name,
-      &_3dd.p_texture[Index], 1, bVideoRAM, &_3dd.p_sysramtexture[Index].konf,
-      bmp_nahraj);
+                              &_3dd.p_texture[Index], 1, bVideoRAM, 
+                              &_3dd.p_sysramtexture[Index].konf, bmp_nahraj);
   }
 
   if (!_3dd.p_texture[Index].load) {
@@ -218,15 +215,11 @@ int _3d_Load_List(char *p_File_Name)
         _3d_Get_Cursor_Name(text);
 
       if (c < 107 || c > 132) {
-        if (!c)
-          _3d_Load_Texture(text, c, 1, 1);
-        else
-          _3d_Load_Texture(text, c, 1, 0);
+        _3d_Load_Texture(text, c, TRUE, !c);
       }
-      else if (_3dd.bMenuVRAMLoad)
-        _3d_Load_Texture(text, c, 1, 0);
-      else
-        _3d_Load_Texture(text, c, 0, 0);
+      else {
+        _3d_Load_Texture(text, c, _3dd.bMenuVRAMLoad, 0);
+      }
 
       c++;
     }
@@ -264,8 +257,7 @@ void _3d_Release_From_Video(int iStart)
 
   for (i = iStart; i < 133; i++)
     if (_3dd.p_sysramtexture[i].bVLoaded && _3dd.p_texture[i].load) {
-      txt_zrus_texturu_z_vram(&_3dd.p_texture[i]);
-      //txt_zrus_texturu(&_3dd.p_texture[i]);
+      txt_zrus_texturu_z_vram(&_3dd.p_texture[i]);      
       _3dd.p_sysramtexture[i].bVLoaded = 0;
     }
 }
@@ -285,9 +277,7 @@ void _3d_Set_Smooth(void)
 
 void _3d_Begin_Draw(void)
 {
-  //kprintf(1,"_3d_Begin_Draw");
-
-  set_matrix_2d(Xresolution, Yresolution);
+  set_matrix_2d(SCREEN_XRES, SCREEN_YRES);
   glColor4f(1, 1, 1, 1);
   glDisable(GL_DEPTH_TEST);
   glEnable(GL_ALPHA_TEST);
@@ -299,8 +289,6 @@ void _3d_Begin_Draw(void)
 
 void _3d_End_Draw(void)
 {
-  //kprintf(1,"_3d_End_Draw");
-
   glDisable(GL_ALPHA_TEST);
   glAlphaFunc(GL_GREATER, 0.5f);
 
@@ -337,7 +325,7 @@ void _3d_Put_Texture_In_VRAM(int *text, int x, int y, char *data)
   glGenTextures(1, (GLuint *) text);
   glBindTexture(GL_TEXTURE_2D, *text);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y,
-    0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+               0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

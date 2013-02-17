@@ -1968,7 +1968,6 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
       FillListLoad2(citem[1].p_list, "*.dem", 1, bLoad);
     }
 
-
     co2_List_Redraw(HDC2DD, citem[1].p_list, 0);
   }
 
@@ -2027,8 +2026,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
                     ddx2DrawSurface(CompositDC, res[lastabv].iAnim[0], 3);
                   }
                   else {
-                    ddx2DrawDisplayColorKey(res[lastabv].iAnim[0], 3,
-                      TRANSCOLOR);
+                    ddx2DrawDisplayColorKey(res[lastabv].iAnim[0], 3, TRANSCOLOR);
                     ddx2DrawSurface(FontDC, res[lastabv].iAnim[0], 3);
                   }
                 }

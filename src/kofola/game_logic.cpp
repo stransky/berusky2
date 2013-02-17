@@ -10200,11 +10200,9 @@ int gl_CheckCamera(LEVELINFO * p_Level)
 
 void gl_Resetini(LEVELINFO * p_Level, char *bOvladaniBerusek1)
 {
-  p_Level->bPosouvatKameru =
-    GetPrivateProfileInt("hra", "posouvat_kameru", 0, ini_file);
-  *bOvladaniBerusek1 = GetPrivateProfileInt("hra", "ovladani", 0, ini_file);
-  p_Level->bPohled_Berusky =
-    GetPrivateProfileInt("hra", "pohled_berusky", 0, ini_file);
+  p_Level->bPosouvatKameru = GetPrivateProfileInt("hra", "posouvat_kameru", 0, ini_file);
+ *bOvladaniBerusek1 = GetPrivateProfileInt("hra", "ovladani", 0, ini_file);
+  p_Level->bPohled_Berusky = GetPrivateProfileInt("hra", "pohled_berusky", 0, ini_file);
   Bind_Keys(&control);
 
   kom_reload_ini();
@@ -10246,7 +10244,6 @@ int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, AUDIO_DATA * p_ad,
   //float p_pos[3];
   char bCursor;
   int Cursor_Time_Out;
-  float _3d_Scale_Factor[2];
   int act_item;
   //int top_item;
   int iReturn[2];
@@ -10381,9 +10378,6 @@ PLAY_LEVEL_START:
 
   ZeroMemory(iKeyLine, 3 * sizeof(int));
 
-  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//      Level.bUnderWaterLevel = 1;
-
   am_Change_Wind(&Level);
 
   Level.bPosouvatKameru = GetPrivateProfileInt("hra", "posouvat_kameru", 0, ini_file);
@@ -10406,11 +10400,8 @@ PLAY_LEVEL_START:
     strcat(Demo_File, DIR_SLASH_STRING);
     strcat(Demo_File, cDemoName);
 
-    if (!demo_Load(&Demo, Demo_File, &bOvladaniBerusek1, cLevelName,
-        p_Env_Name)) {
-      //MessageBox(NULL,"Chyba pri nahravani dema!", "Chyba", MB_OK);
+    if (!demo_Load(&Demo, Demo_File, &bOvladaniBerusek1, cLevelName, p_Env_Name)) {
       kprintf(1, "Chyba pri nahravani dema!");
-//                      MyMessageBox(hwnd_hry, "##error_title", "##demo_load_error","");
       return 2;
     }
 
@@ -10422,11 +10413,7 @@ PLAY_LEVEL_START:
 
   Bind_Keys(&control);
 
-//      Level.hWnd = hwnd_hry;
   Level.p_ad = &ad;
-//      ad                 = *p_ad;
-
-  kprintf(1, "_3d_Scale_Factor: X = %f, Y = %f", _3d_Scale_Factor[0], _3d_Scale_Factor[1]);
   Level.Base_Priority = iCPU;
 
   RunMenuLoadScreenAddProgress(-1);
@@ -10487,19 +10474,12 @@ PLAY_LEVEL_START:
     free((void *) b_l_d);
   }
 
-  if (!no_Menu) {
-    _3d_Create_Top_Ledge_Display_List();
-    _3d_Create_Inventory_Display_List();
-  }
-
   RunMenuLoadScreenAddProgress(-1);
   RunMenuLoadScreenDrawProgress(-1, -1);
 
   kprintf(1, "lsi_Load_Items");
   if (lsi_Load_Items(&Level) == FALSE) {
-    //MessageBox(hWnd,"Unable to load items","Error",MB_OK);
-    kprintf(1, "Unable to load items");
-//              MyMessageBox(hwnd_hry, "##error_title", "##level_load_error","");
+    kerror(1, "Unable to load items!");
     return -1;
   }
 
@@ -10515,16 +10495,13 @@ PLAY_LEVEL_START:
   }
 
   strcpy(Level.cLevelName, cLevelName);
-  //_getcwd(Level.cLevelDir, MAX_PATH);
 
   RunMenuLoadScreenAddProgress(-1);
   RunMenuLoadScreenDrawProgress(-1, -1);
 
   if (Return == -1) {
     lsi_Release_Items(&Level);
-    //MessageBox(hWnd,"Unable to load level","Error",MB_OK);
-    kprintf(1, "Unable to load level");
-//              MyMessageBox(hwnd_hry, "##error_title", "##level_load_error","");
+    kerror(1, "Unable to load level %s!", Level.cLevelName);
     return -1;
   }
 
@@ -10532,7 +10509,6 @@ PLAY_LEVEL_START:
     char text[100];
 
     sprintf(text, "Unresolved GUIDs: %d", Return);
-    //MessageBox(hWnd,text,"Warning",MB_OK);
     kprintf(1, text);
   }
 
@@ -10540,8 +10516,7 @@ PLAY_LEVEL_START:
     json_export_level(&Level);
   }
 
-  kprintf(1,
-    "gl_Set_Water_Marks, w_Create_Water_Boundaries, gl_Add_Walls_Bellow_Lifts...");
+  kprintf(1,"gl_Set_Water_Marks, w_Create_Water_Boundaries, gl_Add_Walls_Bellow_Lifts...");
   gl_Set_Water_Marks(&Level);
   w_Create_Water_Boundaries();
   gl_Add_Walls_Bellow_Lifts(&Level);
@@ -10550,8 +10525,7 @@ PLAY_LEVEL_START:
   if (!am_Init(&am, &Level)) {
     lsi_Release_Level(&Level);
     lsi_Release_Items(&Level);
-    //MessageBox(hWnd,"Unable to init animation module","Error",MB_OK);
-    kprintf(1, "Unable to init animation module");
+    kerror(1, "Unable to init animation module!");
     return -1;
   }
   else
@@ -10562,7 +10536,6 @@ PLAY_LEVEL_START:
 
   kprintf(1, "fn_Set_Font...");
 
-  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   if (!fn_Set_Font(cFontFile[1]))
     kprintf(1, "Unable to set font!");
 
@@ -10572,25 +10545,17 @@ PLAY_LEVEL_START:
   kprintf(1, "fn_Texture...");
 
   fn_Texture(1);
-  _3d_Load_Animations(_3d_Scale_Factor);
+  _3d_Load_Animations();
   fn_Release_Font(1);
-
-  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
   RunMenuLoadScreenAddProgress(-1);
   RunMenuLoadScreenDrawProgress(-1, -1);
 
   am_Init_Zhave_Castice(&Level);
 
-  /*kprintf(1,"Load gramatiky trigeru...");
-     gr_Load_Grammar("trigers_grammar.txt", &gr);
-     kprintf(1,"Load trigeru...");
-     trig_Load_Trigers(cLevelName,"trigers.txt", &tri, &gr); */
-
   RunMenuLoadScreenAddProgress(-1);
   RunMenuLoadScreenDrawProgress(-1, -1);
 
-  //kprintf(1,"1...");
   kprintf(1, "kom_post_init_level...");
   kom_post_init_level();
 
@@ -10600,7 +10565,6 @@ PLAY_LEVEL_START:
   if (Level.iKursorMesh == K_CHYBA)
     kprintf(1, "kom_pridej_kurzor_do_levelu == K_CHYBA");
 
-  //kprintf(1,"2...");
   RunMenuLoadScreenAddProgress(-1);
   RunMenuLoadScreenDrawProgress(-1, -1);
 
@@ -10626,12 +10590,6 @@ PLAY_LEVEL_START:
 
   //am_Start_Voda_Akvarko();
 
-  //kprintf(1,"10...");
-
-  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  //gl_TEST(&Level);
-  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
   kprintf(1, "gl_Start_Level_Environment...");
   gl_Start_Level_Environment(&Level, p_ad);
 
@@ -10642,29 +10600,21 @@ PLAY_LEVEL_START:
 
   kprintf(1, "gl_Set_Underwater_Level_Snorchl...");
   gl_Set_Underwater_Level_Snorchl(&Level);
-  //kprintf(1,"11...");
 
   RunMenuLoadScreenAddProgress(-1);
   RunMenuLoadScreenDrawProgress(-1, -1);
 
-  //kprintf(1,"12...");
   //nastav uvodni visibility
   kprintf(1, "kom_zpruhlednovat_prvky...");
   kom_zpruhlednovat_prvky(bVisibility);
 
-  //kprintf(1,"13...");
   //load animacnich materialu
   kprintf(1, "kom_amat_mesh_get_num...");
   Level.iMaterialb = kom_amat_mesh_get_num();
 
-  Level.pMaterialb =
-    (MATERIAL_BUNKA_K *) malloc(Level.iMaterialb * sizeof(MATERIAL_BUNKA));
-  if (!Level.pMaterialb)
-    kprintf(1, "Nelze alokovat pamet pro animovane materialy");
-  else {
-    kom_amat_mesh_get_all((MATERIAL_BUNKA *) Level.pMaterialb);
-    lsi_Bind_Materials2Items(&Level);
-  }
+  Level.pMaterialb = (MATERIAL_BUNKA_K *)mmalloc(Level.iMaterialb * sizeof(MATERIAL_BUNKA));
+  kom_amat_mesh_get_all((MATERIAL_BUNKA *)Level.pMaterialb);
+  lsi_Bind_Materials2Items(&Level);
 
   kprintf(1, "gl_Find_Next_Beatle...");
   am.frame_per_quater = 1;
@@ -10672,31 +10622,22 @@ PLAY_LEVEL_START:
   Level.Actual_Item = gl_Find_Next_Beatle(0, &Level);
 
   kprintf(1, "gl_Create_SelectionFlek...");
-  //kprintf(1,"14...");
   if (Level.Actual_Item != -1)
     gl_Create_SelectionFlek(Level.Level[Level.Actual_Item], &Level);
 
-   adas_Set_Listener_Environment(Level.Environment.room);
-   as_Start(Level.Environment.id,p_ad,&Level);
-
-  //schovej_konzoli();
-
-  //kprintf(1,"15...");
-  //adas_OGG_Set_Priority(Level.Base_Priority);
+  adas_Set_Listener_Environment(Level.Environment.room);
+  as_Start(Level.Environment.id,p_ad,&Level);
 
   RunMenuLoadScreenAddProgress(-1);
   RunMenuLoadScreenDrawProgress(-1, -1);
 
-
-  //kprintf(1,"16...");
   kam_get_float(orientation);
   adas_Set_Listener_Orientation(orientation);
 
   kprintf(1, "demo_Init...");
   if (!demo) {
     if (demo_Init(&Demo) == NULL) {
-      //MessageBox(Level.hWnd,"Unable to create first demo frame","Error", MB_OK);
-      kprintf(1, "Unable to create first demo frame");
+      kerror(1, "Unable to create first demo frame");
     }
   }
 
@@ -10727,16 +10668,12 @@ PLAY_LEVEL_START:
   gl_Next_Queue_Set(&Level);
   gl_Next_Queue_Set(&Level);
 
-  //kprintf(1,"17...");
-
   bCursor = 0;
   Cursor_Time_Out = 21;
 
   if (demo) {
     if (demo == 1)
       Demo.dwTimeCounter = 0;
-    //Demo.Timer_ID = SetTimer(Level.hWnd, NEXTDEMOFRAMETIMERID, Demo.p_Last->Time, (TIMERPROC)gl_Do_Next_Demo_Frame);
-
   }
   else
     Demo.Start = timeGetTime();
@@ -10750,15 +10687,12 @@ PLAY_LEVEL_START:
   kprintf(1, "kom_get_level_environment, kam_3ds_nahraj_animaci...");
   if (!demo) {
     char file[256];
-    //int camerarun;
-    int icamanimrestart =
-      GetPrivateProfileInt("hra", "camera_intro", 0, ini_file);
+    int icamanimrestart = GetPrivateProfileInt("hra", "camera_intro", 0, ini_file);
 
     if (bRestart)
       icamanimrestart = 0;
 
-    GetPrivateProfileString("game", "game_data_dir", "c:\\", file, 255,
-      ini_file);
+    GetPrivateProfileString("game", "game_data_dir", "c:\\", file, 255, ini_file);
     working_file_translate(file, 255);
     pEnv = kom_get_level_environment();
     if (pEnv) {
@@ -12305,9 +12239,10 @@ PLAY_LEVEL_START:
         cx = (float) mi.x + _3dCur.iaddx;
         cy = (float) mi.y + _3dCur.iaddy;
 
-        if (cx > 745 * _3d_Scale_Factor[0] && cx < 809 * _3d_Scale_Factor[0]
-          && cy > 42 * _3d_Scale_Factor[1] && cy < 106 * _3d_Scale_Factor[1]
-          && Level.bTopLedge) {
+        if (cx > 745 * scale_back_factor_x() && cx < 809 * scale_back_factor_x() && 
+            cy > 42 * scale_back_factor_y() && cy < 106 * scale_back_factor_y() && 
+            Level.bTopLedge) 
+        {
           sHint.bHint = 0;
           PRCameraFlag = 0;
           RunMenuHelp2("mmhelp3d.txt", p_ad, &Level, &am);
@@ -12512,10 +12447,6 @@ PLAY_LEVEL_START:
   else
     kom_zrus_level(0);
 
-  kprintf(1, "_3d_Release_Display_Lists");
-  if (!no_Menu)
-    _3d_Release_Display_Lists();
-
   if (Level.Level_Exit == 3 || Level.Level_Exit == 4) {
     kprintf(1, "RunMenuLoadScreenAddProgress");
     RunMenuLoadScreenAddProgress(-1);
@@ -12656,9 +12587,6 @@ void gl_Kofola_End(int InMenu)
 
     kprintf(1, "kom_zrus_level");
     kom_zrus_level(0);
-
-    kprintf(1, "_3d_Release_Display_Lists");
-    _3d_Release_Display_Lists();
 
     //kprintf(1, "adas_Release_Loaded_Data");
     //adas_Release_Loaded_Data();

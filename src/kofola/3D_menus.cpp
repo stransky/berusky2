@@ -25,7 +25,7 @@
 
 extern ANIMATION_MODULE am;
 
-extern  AUDIO_DATA ad;
+extern AUDIO_DATA ad;
 extern _3D_DATA _3dd;
 extern G_KONFIG ber;
 extern _3D_CURSOR _3dCur;
@@ -95,8 +95,6 @@ typedef struct
 _3D_ANIMATION_STRUCTURE _3DAnimationStruct;
 
 extern AUDIO_DATA ad;
-int iTopLedgeDL;
-int iInventoryDL;
 HINT_TEXTURE pHintTexture[26];
 HINT_TEXTURE pMessageTexture[8];
 
@@ -189,11 +187,9 @@ void _3d_AddItemToDrawList(_3D_ANIMATION_FRAME * pFrame, int iOwnerID)
   }
 
 //      kprintf(1, "%d - pridano do draw listu ....", pFrame->iTexture);
-
   pDrawList->iOwnerID = iOwnerID;
   pDrawList->iTexture = pFrame->iTexture;
-  memcpy((void *) pDrawList->vfLocation, (void *) pFrame->vfLocation,
-    4 * sizeof(float));
+  memcpy((void *) pDrawList->vfLocation, (void *) pFrame->vfLocation, 4 * sizeof(float));
   pDrawList->pNext = NULL;
   _3DAnimationStruct.pLDrawList = pDrawList;
 }
@@ -230,25 +226,20 @@ _3D_ANIMATION_DRAW:
     }
 
     iTime -= p3DAnim->_3dFrame[p3DAnim->iActFrame].iTimeToNextFrame;
-
     p3DAnim->iActFrame = p3DAnim->_3dFrame[p3DAnim->iActFrame].iNextFrame;
   }
 
   while (iTime > 0) {
     if (p3DAnim->_3dFrame[p3DAnim->iActFrame].iNextFrame == -1) {
-      _3d_AddItemToDrawList(&p3DAnim->_3dFrame[p3DAnim->iActFrame],
-        p3DAnim->iID);
+      _3d_AddItemToDrawList(&p3DAnim->_3dFrame[p3DAnim->iActFrame], p3DAnim->iID);
       p3DAnim->bStop = 1;
       break;
     }
 
     iTime -= p3DAnim->_3dFrame[p3DAnim->iActFrame].iTimeToNextFrame;
-
-    if (iTime >
-      (p3DAnim->_3dFrame[p3DAnim->_3dFrame[p3DAnim->iActFrame].iNextFrame].
-        iTimeToNextFrame / 2.0f)) {
-      _3d_AddItemToDrawList(&p3DAnim->_3dFrame[p3DAnim->iActFrame],
-        p3DAnim->iID);
+    if (iTime > (p3DAnim->_3dFrame[p3DAnim->_3dFrame[p3DAnim->iActFrame].iNextFrame].iTimeToNextFrame / 2.0f)) 
+    {
+      _3d_AddItemToDrawList(&p3DAnim->_3dFrame[p3DAnim->iActFrame], p3DAnim->iID);
       p3DAnim->iActFrame = p3DAnim->_3dFrame[p3DAnim->iActFrame].iNextFrame;
     }
     else if (!p3DAnim->_3dFrame[p3DAnim->iActFrame].iTimeToNextFrame)
@@ -263,8 +254,7 @@ _3D_ANIMATION_DRAW:
     goto _3D_ANIMATION_DRAW;
 
   if (p3DAnim->_3dFrame[p3DAnim->iActFrame].iNextFrame == -1) {
-    _3d_AddItemToDrawList(&p3DAnim->_3dFrame[p3DAnim->iActFrame],
-      p3DAnim->iID);
+    _3d_AddItemToDrawList(&p3DAnim->_3dFrame[p3DAnim->iActFrame], p3DAnim->iID);
     p3DAnim->bStop = 1;
     return;
   }
@@ -277,8 +267,7 @@ int _3d_Start_Animation(int iIndex, float *vfLocation, int *pFlag)
   _3D_ANIMATION *pL3DAnim = _3DAnimationStruct.pLAnimation;
   _3D_ANIMATION *p3DAnim = (_3D_ANIMATION *) mmalloc(sizeof(_3D_ANIMATION));
 
-  memcpy((void *) p3DAnim, (void *) &_3DAnimationStruct._3DAnimation[iIndex],
-    sizeof(_3D_ANIMATION));
+  memcpy((void *) p3DAnim, (void *) &_3DAnimationStruct._3DAnimation[iIndex], sizeof(_3D_ANIMATION));
 
   if (!pL3DAnim) {
     _3DAnimationStruct.pFAnimation = p3DAnim;
@@ -299,10 +288,11 @@ int _3d_Start_Animation(int iIndex, float *vfLocation, int *pFlag)
   p3DAnim->pFlag = pFlag;
   _3DAnimationStruct.pLAnimation = p3DAnim;
 
-  if (vfLocation)
-    for (i = 0; i < p3DAnim->iLastFrame; i++)
-      memcpy((void *) p3DAnim->_3dFrame[i].vfLocation, (void *) vfLocation,
-        4 * sizeof(float));
+  if (vfLocation) {
+    for (i = 0; i < p3DAnim->iLastFrame; i++) {
+      memcpy((void *) p3DAnim->_3dFrame[i].vfLocation, (void *) vfLocation, 4 * sizeof(float));
+    }
+  }
 
   _3d_Animation(p3DAnim, -1);
 
@@ -438,44 +428,31 @@ void _3d_Add_To_OpenMenuAnim(_3D_ANIMATION * p3DAnim)
 
   for (i = 16; i < 22; i++) {
     p3DAnim->_3dFrame[p3DAnim->iLastFrame].cCleanDrawLine = 0;
-    p3DAnim->_3dFrame[p3DAnim->iLastFrame].fScale =
-      _3DAnimationStruct._3DAnimation[i]._3dFrame[0].fScale;
-    p3DAnim->_3dFrame[p3DAnim->iLastFrame].iNextFrame =
-      p3DAnim->iLastFrame + 1;
-    p3DAnim->_3dFrame[p3DAnim->iLastFrame].iTexture =
-      _3DAnimationStruct._3DAnimation[i]._3dFrame[0].iTexture;
+    p3DAnim->_3dFrame[p3DAnim->iLastFrame].fScale = _3DAnimationStruct._3DAnimation[i]._3dFrame[0].fScale;
+    p3DAnim->_3dFrame[p3DAnim->iLastFrame].iNextFrame = p3DAnim->iLastFrame + 1;
+    p3DAnim->_3dFrame[p3DAnim->iLastFrame].iTexture = _3DAnimationStruct._3DAnimation[i]._3dFrame[0].iTexture;
     p3DAnim->_3dFrame[p3DAnim->iLastFrame].iTimeToNextFrame = 0;
-    p3DAnim->_3dFrame[p3DAnim->iLastFrame].vfLocation[0] =
-      _3DAnimationStruct._3DAnimation[i]._3dFrame[0].vfLocation[0];
-    p3DAnim->_3dFrame[p3DAnim->iLastFrame].vfLocation[1] =
-      _3DAnimationStruct._3DAnimation[i]._3dFrame[0].vfLocation[1];
-    p3DAnim->_3dFrame[p3DAnim->iLastFrame].vfLocation[2] =
-      _3DAnimationStruct._3DAnimation[i]._3dFrame[0].vfLocation[2];
-    p3DAnim->_3dFrame[p3DAnim->iLastFrame].vfLocation[3] =
-      _3DAnimationStruct._3DAnimation[i]._3dFrame[0].vfLocation[3];
+    p3DAnim->_3dFrame[p3DAnim->iLastFrame].vfLocation[0] = _3DAnimationStruct._3DAnimation[i]._3dFrame[0].vfLocation[0];
+    p3DAnim->_3dFrame[p3DAnim->iLastFrame].vfLocation[1] = _3DAnimationStruct._3DAnimation[i]._3dFrame[0].vfLocation[1];
+    p3DAnim->_3dFrame[p3DAnim->iLastFrame].vfLocation[2] = _3DAnimationStruct._3DAnimation[i]._3dFrame[0].vfLocation[2];
+    p3DAnim->_3dFrame[p3DAnim->iLastFrame].vfLocation[3] = _3DAnimationStruct._3DAnimation[i]._3dFrame[0].vfLocation[3];
     p3DAnim->iLastFrame++;
   }
 
   p3DAnim->_3dFrame[p3DAnim->iLastFrame].cCleanDrawLine = 0;
-  p3DAnim->_3dFrame[p3DAnim->iLastFrame].fScale =
-    _3DAnimationStruct._3DAnimation[i]._3dFrame[0].fScale;
+  p3DAnim->_3dFrame[p3DAnim->iLastFrame].fScale = _3DAnimationStruct._3DAnimation[i]._3dFrame[0].fScale;
   p3DAnim->_3dFrame[p3DAnim->iLastFrame].iNextFrame = -1;
-  p3DAnim->_3dFrame[p3DAnim->iLastFrame].iTexture =
-    _3DAnimationStruct._3DAnimation[i]._3dFrame[0].iTexture;
+  p3DAnim->_3dFrame[p3DAnim->iLastFrame].iTexture = _3DAnimationStruct._3DAnimation[i]._3dFrame[0].iTexture;
   p3DAnim->_3dFrame[p3DAnim->iLastFrame].iTimeToNextFrame = 50;
-  p3DAnim->_3dFrame[p3DAnim->iLastFrame].vfLocation[0] =
-    _3DAnimationStruct._3DAnimation[i]._3dFrame[0].vfLocation[0];
-  p3DAnim->_3dFrame[p3DAnim->iLastFrame].vfLocation[1] =
-    _3DAnimationStruct._3DAnimation[i]._3dFrame[0].vfLocation[1];
-  p3DAnim->_3dFrame[p3DAnim->iLastFrame].vfLocation[2] =
-    _3DAnimationStruct._3DAnimation[i]._3dFrame[0].vfLocation[2];
-  p3DAnim->_3dFrame[p3DAnim->iLastFrame].vfLocation[3] =
-    _3DAnimationStruct._3DAnimation[i]._3dFrame[0].vfLocation[3];
+  p3DAnim->_3dFrame[p3DAnim->iLastFrame].vfLocation[0] = _3DAnimationStruct._3DAnimation[i]._3dFrame[0].vfLocation[0];
+  p3DAnim->_3dFrame[p3DAnim->iLastFrame].vfLocation[1] = _3DAnimationStruct._3DAnimation[i]._3dFrame[0].vfLocation[1];
+  p3DAnim->_3dFrame[p3DAnim->iLastFrame].vfLocation[2] = _3DAnimationStruct._3DAnimation[i]._3dFrame[0].vfLocation[2];
+  p3DAnim->_3dFrame[p3DAnim->iLastFrame].vfLocation[3] = _3DAnimationStruct._3DAnimation[i]._3dFrame[0].vfLocation[3];
   p3DAnim->iLastFrame++;
 
 }
 
-void _3d_Load_Animations(float *fScaleFactor)
+void _3d_Load_Animations(void)
 {
   _3D_ANIMATION_FRAME *pFrame;
   _3D_ANIMATION *p3DAnim;
@@ -505,38 +482,22 @@ void _3d_Load_Animations(float *fScaleFactor)
 
         while (!aeof(pFile)) {
           pFrame = &p3DAnim->_3dFrame[j];
-
           Parse_3DAnimLine(pFile, pFrame);
 
           if (i >= 16 && i < 23) {
             float dx;
 
             pFrame->iTexture += MENU_ANIMATION_CORECTION;
-
-            dx =
-              ((pFrame->vfLocation[2] - pFrame->vfLocation[0]) -
-              (_3dd.p_sysramtexture[pFrame->iTexture].tx * pFrame->fScale)) /
-              2.0f;
+            dx = ((pFrame->vfLocation[2] - pFrame->vfLocation[0]) - (_3dd.p_sysramtexture[pFrame->iTexture].tx * pFrame->fScale)) / 2.0f;
 
             pFrame->vfLocation[0] += dx;
-            pFrame->vfLocation[2] =
-              pFrame->vfLocation[0] +
-              (_3dd.p_sysramtexture[pFrame->iTexture].x * pFrame->fScale);
-            pFrame->vfLocation[3] =
-              pFrame->vfLocation[1] +
-              _3dd.p_sysramtexture[pFrame->iTexture].y * pFrame->fScale;
-
-            pFrame->vfLocation[0] *= fScaleFactor[0];
-            pFrame->vfLocation[1] *= fScaleFactor[1];
-            pFrame->vfLocation[2] *= fScaleFactor[0];
-            pFrame->vfLocation[3] *= fScaleFactor[1];
+            pFrame->vfLocation[2] = pFrame->vfLocation[0] + (_3dd.p_sysramtexture[pFrame->iTexture].x * pFrame->fScale);
+            pFrame->vfLocation[3] = pFrame->vfLocation[1] + _3dd.p_sysramtexture[pFrame->iTexture].y * pFrame->fScale;
           }
-          else {
-            pFrame->vfLocation[0] *= fScaleFactor[0];
-            pFrame->vfLocation[1] *= fScaleFactor[1];
-            pFrame->vfLocation[2] *= fScaleFactor[0];
-            pFrame->vfLocation[3] *= fScaleFactor[1];
-          }
+          pFrame->vfLocation[0] *= scale_back_factor_x();
+          pFrame->vfLocation[1] *= scale_back_factor_y();
+          pFrame->vfLocation[2] *= scale_back_factor_x();
+          pFrame->vfLocation[3] *= scale_back_factor_y();
 
           j++;
         }
@@ -560,7 +521,6 @@ void _3d_Load_Animations(float *fScaleFactor)
     aclose(pListFile);
   }
   else {
-    //MessageBox(NULL,"Nenalezen soubor se seznamem 3d animaci!","Chyba", MB_OK);
     kprintf(1, "Nenalezen soubor se seznamem 3d animaci!");
   }
 
@@ -610,9 +570,7 @@ void _3d_Draw_Item(float *pos, int iBackPack, int iItem, LEVELINFO * p_Level,
   else
     switch (iBackPack) {
       case 0:
-        _3d_Draw_Box(26 +
-          (6 * p_Level->Level[p_Level->Actual_Item]->p_Object->SubClass),
-          pos);
+        _3d_Draw_Box(26 + (6 * p_Level->Level[p_Level->Actual_Item]->p_Object->SubClass), pos);
         break;
       case 4:
         _3d_Draw_Box(56, pos);
@@ -634,10 +592,8 @@ void _3d_Animate_Item(float *pos, int iItem, LEVELINFO * p_Level)
   for (i = 0; i < 16; i++) {
     if (i != 3 && i != 5)
       m += p_Level->Level[p_Level->Actual_Item]->p_Back_Pack->item[i];
-
     if (m > iItem)
       break;
-
   }
 
   _3d_Draw_Item(pos, i, iItem, p_Level, 1);
@@ -651,8 +607,8 @@ int _3d_Draw_Invertory(LEVELINFO * p_Level, int act_item, char bCursor)
   char bAnimated = 0;
   float pos[4];
   int ret = -1, i, c, m = 0;
-
-  glCallList(iInventoryDL);
+  
+  _3d_Draw_Inventory();
 
   if (p_Level->Actual_Item == -1)
     return ret;
@@ -663,34 +619,34 @@ int _3d_Draw_Invertory(LEVELINFO * p_Level, int act_item, char bCursor)
         c < p_Level->Level[p_Level->Actual_Item]->p_Back_Pack->item[i]; c++) {
         switch (m) {
           case 0:
-            pos[0] = 68  * scale_factor_x();
-            pos[1] = 696 * scale_factor_y();
-            pos[2] = 100 * scale_factor_x();
-            pos[3] = 728 * scale_factor_y();
+            pos[0] = 68  * scale_back_factor_x();
+            pos[1] = 696 * scale_back_factor_y();
+            pos[2] = 100 * scale_back_factor_x();
+            pos[3] = 728 * scale_back_factor_y();
             _3d_Draw_Item(pos, i, act_item, p_Level, 0);
             m++;
             break;
           case 1:
-            pos[0] = 114 * scale_factor_x();
-            pos[1] = 726 * scale_factor_y();
-            pos[2] = 146 * scale_factor_x();
-            pos[3] = 758 * scale_factor_y();
+            pos[0] = 114 * scale_back_factor_x();
+            pos[1] = 726 * scale_back_factor_y();
+            pos[2] = 146 * scale_back_factor_x();
+            pos[3] = 758 * scale_back_factor_y();
             _3d_Draw_Item(pos, i, act_item, p_Level, 0);
             m++;
             break;
           case 2:
-            pos[0] = 167 * scale_factor_x();
-            pos[1] = 726 * scale_factor_y();
-            pos[2] = 199 * scale_factor_x();
-            pos[3] = 758 * scale_factor_y();
+            pos[0] = 167 * scale_back_factor_x();
+            pos[1] = 726 * scale_back_factor_y();
+            pos[2] = 199 * scale_back_factor_x();
+            pos[3] = 758 * scale_back_factor_y();
             _3d_Draw_Item(pos, i, act_item, p_Level, 0);
             m++;
             break;
           case 3:
-            pos[0] = 221 * scale_factor_x();
-            pos[1] = 726 * scale_factor_y();
-            pos[2] = 254 * scale_factor_x();
-            pos[3] = 758 * scale_factor_y();
+            pos[0] = 221 * scale_back_factor_x();
+            pos[1] = 726 * scale_back_factor_y();
+            pos[2] = 254 * scale_back_factor_x();
+            pos[3] = 758 * scale_back_factor_y();
             _3d_Draw_Item(pos, i, act_item, p_Level, 0);
             m++;
             break;
@@ -705,15 +661,15 @@ int _3d_Draw_Invertory(LEVELINFO * p_Level, int act_item, char bCursor)
         m += p_Level->Level[p_Level->Actual_Item]->p_Back_Pack->item[i];
 
     if (m > 0)
-      if ((mi.x >= 67 * scale_factor_x())
-        && (mi.x <= 101 * scale_factor_x())
-        && (mi.y >= 696 * scale_factor_y())
-        && (mi.y <= 728 * scale_factor_y())) {
+      if ((mi.x >= 67 * scale_back_factor_x())
+        && (mi.x <= 101 * scale_back_factor_x())
+        && (mi.y >= 696 * scale_back_factor_y())
+        && (mi.y <= 728 * scale_back_factor_y())) {
         bAnimated = 1;
-        pos[0] = 68 * scale_factor_x();
-        pos[1] = 696 * scale_factor_y();
-        pos[2] = 100 * scale_factor_x();
-        pos[3] = 728 * scale_factor_y();
+        pos[0] = 68 * scale_back_factor_x();
+        pos[1] = 696 * scale_back_factor_y();
+        pos[2] = 100 * scale_back_factor_x();
+        pos[3] = 728 * scale_back_factor_y();
         _3d_Animate_Item(pos, 0, p_Level);
         if (mi.t1)
           ret = 0;
@@ -724,15 +680,15 @@ int _3d_Draw_Invertory(LEVELINFO * p_Level, int act_item, char bCursor)
       }
 
     if (m > 1)
-      if ((mi.x >= 114 * scale_factor_x())
-        && (mi.x <= 146 * scale_factor_x())
-        && (mi.y >= 725 * scale_factor_y())
-        && (mi.y <= 759 * scale_factor_y())) {
+      if ((mi.x >= 114 * scale_back_factor_x())
+        && (mi.x <= 146 * scale_back_factor_x())
+        && (mi.y >= 725 * scale_back_factor_y())
+        && (mi.y <= 759 * scale_back_factor_y())) {
         bAnimated = 1;
-        pos[0] = 114 * scale_factor_x();
-        pos[1] = 726 * scale_factor_y();
-        pos[2] = 146 * scale_factor_x();
-        pos[3] = 758 * scale_factor_y();
+        pos[0] = 114 * scale_back_factor_x();
+        pos[1] = 726 * scale_back_factor_y();
+        pos[2] = 146 * scale_back_factor_x();
+        pos[3] = 758 * scale_back_factor_y();
         _3d_Animate_Item(pos, 1, p_Level);
         if (mi.t1)
           ret = 1;
@@ -743,15 +699,15 @@ int _3d_Draw_Invertory(LEVELINFO * p_Level, int act_item, char bCursor)
       }
 
     if (m > 2)
-      if ((mi.x >= 167 * scale_factor_x())
-        && (mi.x <= 199 * scale_factor_x())
-        && (mi.y >= 725 * scale_factor_y())
-        && (mi.y <= 759 * scale_factor_y())) {
+      if ((mi.x >= 167 * scale_back_factor_x())
+        && (mi.x <= 199 * scale_back_factor_x())
+        && (mi.y >= 725 * scale_back_factor_y())
+        && (mi.y <= 759 * scale_back_factor_y())) {
         bAnimated = 1;
-        pos[0] = 167 * scale_factor_x();
-        pos[1] = 726 * scale_factor_y();
-        pos[2] = 199 * scale_factor_x();
-        pos[3] = 758 * scale_factor_y();
+        pos[0] = 167 * scale_back_factor_x();
+        pos[1] = 726 * scale_back_factor_y();
+        pos[2] = 199 * scale_back_factor_x();
+        pos[3] = 758 * scale_back_factor_y();
         _3d_Animate_Item(pos, 2, p_Level);
         if (mi.t1)
           ret = 2;
@@ -760,57 +716,56 @@ int _3d_Draw_Invertory(LEVELINFO * p_Level, int act_item, char bCursor)
       }
 
     if (m > 3)
-      if ((mi.x >= 221 * scale_factor_x())
-        && (mi.x <= 254 * scale_factor_x())
-        && (mi.y >= 725 * scale_factor_y())
-        && (mi.y <= 759 * scale_factor_y())) {
+      if ((mi.x >= 221 * scale_back_factor_x())
+        && (mi.x <= 254 * scale_back_factor_x())
+        && (mi.y >= 725 * scale_back_factor_y())
+        && (mi.y <= 759 * scale_back_factor_y())) {
         bAnimated = 1;
-        pos[0] = 221 * scale_factor_x();
-        pos[1] = 726 * scale_factor_y();
-        pos[2] = 254 * scale_factor_x();
-        pos[3] = 758 * scale_factor_y();
+        pos[0] = 221 * scale_back_factor_x();
+        pos[1] = 726 * scale_back_factor_y();
+        pos[2] = 254 * scale_back_factor_x();
+        pos[3] = 758 * scale_back_factor_y();
         _3d_Animate_Item(pos, 3, p_Level);
         if (mi.t1)
           ret = 3;
 
-        _3d_Display_Hint_Inventory(p_Level, p_Level->Level[p_Level->Actual_Item], 
-                                   3, 221, 726);
+        _3d_Display_Hint_Inventory(p_Level, p_Level->Level[p_Level->Actual_Item], 3, 221, 726);
       }
   }
   else {
     if (!act_item) {
       bAnimated = 1;
-      pos[0] = 68 * scale_factor_x();
-      pos[1] = 696 * scale_factor_y();
-      pos[2] = 100 * scale_factor_x();
-      pos[3] = 728 * scale_factor_y();
+      pos[0] = 68 * scale_back_factor_x();
+      pos[1] = 696 * scale_back_factor_y();
+      pos[2] = 100 * scale_back_factor_x();
+      pos[3] = 728 * scale_back_factor_y();
       _3d_Animate_Item(pos, 0, p_Level);
     }
 
     if (act_item == 1) {
       bAnimated = 1;
-      pos[0] = 114 * scale_factor_x();
-      pos[1] = 726 * scale_factor_y();
-      pos[2] = 146 * scale_factor_x();
-      pos[3] = 758 * scale_factor_y();
+      pos[0] = 114 * scale_back_factor_x();
+      pos[1] = 726 * scale_back_factor_y();
+      pos[2] = 146 * scale_back_factor_x();
+      pos[3] = 758 * scale_back_factor_y();
       _3d_Animate_Item(pos, 1, p_Level);
     }
 
     if (act_item == 2) {
       bAnimated = 1;
-      pos[0] = 167 * scale_factor_x();
-      pos[1] = 726 * scale_factor_y();
-      pos[2] = 199 * scale_factor_x();
-      pos[3] = 758 * scale_factor_y();
+      pos[0] = 167 * scale_back_factor_x();
+      pos[1] = 726 * scale_back_factor_y();
+      pos[2] = 199 * scale_back_factor_x();
+      pos[3] = 758 * scale_back_factor_y();
       _3d_Animate_Item(pos, 2, p_Level);
     }
 
     if (act_item == 3) {
       bAnimated = 1;
-      pos[0] = 221 * scale_factor_x();
-      pos[1] = 726 * scale_factor_y();
-      pos[2] = 254 * scale_factor_x();
-      pos[3] = 758 * scale_factor_y();
+      pos[0] = 221 * scale_back_factor_x();
+      pos[1] = 726 * scale_back_factor_y();
+      pos[2] = 254 * scale_back_factor_x();
+      pos[3] = 758 * scale_back_factor_y();
       _3d_Animate_Item(pos, 3, p_Level);
     }
   }
@@ -823,7 +778,6 @@ int _3d_Draw_Invertory(LEVELINFO * p_Level, int act_item, char bCursor)
     sHint.bHint = 0;
   }
 
-  //kprintf(1, "ret %d", ret);
   return ret;
 }
 
@@ -833,8 +787,7 @@ int _3d_Draw_Invertory(LEVELINFO * p_Level, int act_item, char bCursor)
 //------------------------------------------------------------------------------------------------
 float _3d_Count_Distance(float *a, float *b)
 {
-  return ((float) sqrt((b[0] - a[0]) * (b[0] - a[0]) + (b[1] - a[1]) * (b[1] -
-        a[1])));
+  return ((float) sqrt((b[0] - a[0]) * (b[0] - a[0]) + (b[1] - a[1]) * (b[1] - a[1])));
 }
 
 void _3d_Stop_Menu_Select(void)
@@ -850,10 +803,10 @@ int _3d_Check_Menu_Select(char bCursor, LEVELINFO * p_Level)
   if (p_Level->bMenuRunning)
     return 0;
 
-  if ((mi.x >= 960 * scale_factor_x())
-    && (mi.x <= 1019 * scale_factor_x())
-    && (mi.y >= 95 * scale_factor_y())
-    && (mi.y <= 111 * scale_factor_y()) && bCursor) {
+  if ((mi.x >= 960 * scale_back_factor_x())
+    && (mi.x <= 1019 * scale_back_factor_x())
+    && (mi.y >= 95 * scale_back_factor_y())
+    && (mi.y <= 111 * scale_back_factor_y()) && bCursor) {
     if (!_3DAnimationStruct.bMenuButton) {
       _3DAnimationStruct.bMenuButton = 1;
       _3d_Start_Animation(0, NULL, NULL);
@@ -882,34 +835,34 @@ int _3d_Check_Beatle_Select(void)
   m[0] = (float) mi.x;
   m[1] = (float) mi.y;
 
-  c[0] = 194 * scale_factor_x();
-  c[1] = 57 * scale_factor_y();
-  if (_3d_Count_Distance(c, m) <= 32 * scale_factor_x())
+  c[0] = 194 * scale_back_factor_x();
+  c[1] = 57 * scale_back_factor_y();
+  if (_3d_Count_Distance(c, m) <= 32 * scale_back_factor_x())
     return 0;
 
   c[0] = 279 * scale_factor_x();
-  c[1] = 58 * scale_factor_y();
-  if (_3d_Count_Distance(c, m) <= 32 * scale_factor_x())
+  c[1] = 58 * scale_back_factor_y();
+  if (_3d_Count_Distance(c, m) <= 32 * scale_back_factor_x())
     return 1;
 
-  c[0] = 439 * scale_factor_x();
-  c[1] = 88 * scale_factor_y();
-  if (_3d_Count_Distance(c, m) <= 32 * scale_factor_x())
+  c[0] = 439 * scale_back_factor_x();
+  c[1] = 88 * scale_back_factor_y();
+  if (_3d_Count_Distance(c, m) <= 32 * scale_back_factor_x())
     return 2;
 
-  c[0] = 529 * scale_factor_x();
-  c[1] = 89 * scale_factor_y();
-  if (_3d_Count_Distance(c, m) <= 32 * scale_factor_x())
+  c[0] = 529 * scale_back_factor_x();
+  c[1] = 89 * scale_back_factor_y();
+  if (_3d_Count_Distance(c, m) <= 32 * scale_back_factor_x())
     return 3;
 
-  c[0] = 617 * scale_factor_x();
-  c[1] = 88 * scale_factor_y();
-  if (_3d_Count_Distance(c, m) <= 32 * scale_factor_x())
+  c[0] = 617 * scale_back_factor_x();
+  c[1] = 88 * scale_back_factor_y();
+  if (_3d_Count_Distance(c, m) <= 32 * scale_back_factor_x())
     return 4;
 
-  c[0] = 777 * scale_factor_x();
-  c[1] = 74 * scale_factor_y();
-  if (_3d_Count_Distance(c, m) <= 32 * scale_factor_x())
+  c[0] = 777 * scale_back_factor_x();
+  c[1] = 74 * scale_back_factor_y();
+  if (_3d_Count_Distance(c, m) <= 32 * scale_back_factor_x())
     return 5;
 
   return -1;
@@ -946,10 +899,10 @@ void _3d_Draw_Top_Ledge(LEVELINFO * p_Level, char bCursor)
   cy = (float) mi.y + _3dCur.iaddy;
 
   //zluta beruska
-  pos[0] = 162 * scale_factor_x();
-  pos[1] = 25 * scale_factor_y();
-  pos[2] = 226 * scale_factor_x();
-  pos[3] = 89 * scale_factor_y();
+  pos[0] = 162 * scale_back_factor_x();
+  pos[1] = 25 * scale_back_factor_y();
+  pos[2] = 226 * scale_back_factor_x();
+  pos[3] = 89 * scale_back_factor_y();
   if (_3d_Is_Selected(0, p_Level))
     _3d_Draw_Box(6, pos);
   else if (_3d_Is_There_Beetle(0, p_Level) == -1)
@@ -958,10 +911,10 @@ void _3d_Draw_Top_Ledge(LEVELINFO * p_Level, char bCursor)
     _3d_Draw_Box(5, pos);
 
   //hneda beruska
-  pos[0] = 247 * scale_factor_x();
-  pos[1] = 26 * scale_factor_y();
-  pos[2] = 311 * scale_factor_x();
-  pos[3] = 90 * scale_factor_y();
+  pos[0] = 247 * scale_back_factor_x();
+  pos[1] = 26 * scale_back_factor_y();
+  pos[2] = 311 * scale_back_factor_x();
+  pos[3] = 90 * scale_back_factor_y();
   if (_3d_Is_Selected(1, p_Level))
     _3d_Draw_Box(9, pos);
   else if (_3d_Is_There_Beetle(1, p_Level) == -1)
@@ -970,10 +923,10 @@ void _3d_Draw_Top_Ledge(LEVELINFO * p_Level, char bCursor)
     _3d_Draw_Box(8, pos);
 
   //cervena beruska
-  pos[0] = 407 * scale_factor_x();
-  pos[1] = 56 * scale_factor_y();
-  pos[2] = 471 * scale_factor_x();
-  pos[3] = 120 * scale_factor_y();
+  pos[0] = 407 * scale_back_factor_x();
+  pos[1] = 56 * scale_back_factor_y();
+  pos[2] = 471 * scale_back_factor_x();
+  pos[3] = 120 * scale_back_factor_y();
   if (_3d_Is_Selected(2, p_Level))
     _3d_Draw_Box(12, pos);
   else if (_3d_Is_There_Beetle(2, p_Level) == -1)
@@ -982,10 +935,10 @@ void _3d_Draw_Top_Ledge(LEVELINFO * p_Level, char bCursor)
     _3d_Draw_Box(11, pos);
 
   //modra beruska
-  pos[0] = 497 * scale_factor_x();
-  pos[1] = 57 * scale_factor_y();
-  pos[2] = 561 * scale_factor_x();
-  pos[3] = 121 * scale_factor_y();
+  pos[0] = 497 * scale_back_factor_x();
+  pos[1] = 57 * scale_back_factor_y();
+  pos[2] = 561 * scale_back_factor_x();
+  pos[3] = 121 * scale_back_factor_y();
   if (_3d_Is_Selected(3, p_Level))
     _3d_Draw_Box(15, pos);
   else if (_3d_Is_There_Beetle(3, p_Level) == -1)
@@ -994,10 +947,10 @@ void _3d_Draw_Top_Ledge(LEVELINFO * p_Level, char bCursor)
     _3d_Draw_Box(14, pos);
 
   //zelena beruska
-  pos[0] = 585 * scale_factor_x();
-  pos[1] = 56 * scale_factor_y();
-  pos[2] = 649 * scale_factor_x();
-  pos[3] = 120 * scale_factor_y();
+  pos[0] = 585 * scale_back_factor_x();
+  pos[1] = 56 * scale_back_factor_y();
+  pos[2] = 649 * scale_back_factor_x();
+  pos[3] = 120 * scale_back_factor_y();
   if (_3d_Is_Selected(4, p_Level))
     _3d_Draw_Box(18, pos);
   else if (_3d_Is_There_Beetle(4, p_Level) == -1)
@@ -1006,107 +959,79 @@ void _3d_Draw_Top_Ledge(LEVELINFO * p_Level, char bCursor)
     _3d_Draw_Box(17, pos);
 
   //vodomerka beruska
-  pos[0] = 745 * scale_factor_x();
-  pos[1] = 42 * scale_factor_y();
-  pos[2] = 809 * scale_factor_x();
-  pos[3] = 106 * scale_factor_y();
+  pos[0] = 745 * scale_back_factor_x();
+  pos[1] = 42 * scale_back_factor_y();
+  pos[2] = 809 * scale_back_factor_x();
+  pos[3] = 106 * scale_back_factor_y();
 
-  if (cx > pos[0] && cx < pos[2] && cy > pos[1] && cy < pos[3]
-    && !p_Level->bMenuRunning)
+  if (cx > pos[0] && cx < pos[2] && cy > pos[1] && cy < pos[3] && !p_Level->bMenuRunning)
     _3d_Draw_Box(21, pos);
   else
     _3d_Draw_Box(20, pos);
-
-/*	if(_3d_Is_Selected(5, p_Level))
-		_3d_Draw_Box(21, pos);
-	else
-		if(_3d_Is_There_Beetle(5, p_Level) == -1)
-			_3d_Draw_Box(19, pos);
-		else
-			_3d_Draw_Box(20, pos);*/
-
 }
 
-void _3d_Create_Top_Ledge_Display_List(void)
+void _3d_Draw_Top_Ledge(void)
 {
   float pos[4];
-
-  iTopLedgeDL = glGenLists(1);
-
-  glNewList(iTopLedgeDL, GL_COMPILE);
 
   pos[0] = 0;
   pos[1] = 0;
-  pos[2] = 1024 * scale_factor_x();
-  pos[3] = 128 * scale_factor_y();
+  pos[2] = 1024 * scale_back_factor_x();
+  pos[3] = 128 * scale_back_factor_y();
   _3d_Draw_Box(1, pos);
 
   pos[0] = 0;
-  pos[1] = 128 * scale_factor_y();
-  pos[2] = 1024 * scale_factor_x();
-  pos[3] = 192 * scale_factor_y();
+  pos[1] = 128 * scale_back_factor_y();
+  pos[2] = 1024 * scale_back_factor_x();
+  pos[3] = 192 * scale_back_factor_y();
   _3d_Draw_Box(2, pos);
 
-  pos[0] = 896 * scale_factor_x();
-  pos[1] = 192 * scale_factor_y();
-  pos[2] = 1024 * scale_factor_x();
-  pos[3] = 320 * scale_factor_y();
+  pos[0] = 896 * scale_back_factor_x();
+  pos[1] = 192 * scale_back_factor_y();
+  pos[2] = 1024 * scale_back_factor_x();
+  pos[3] = 320 * scale_back_factor_y();
   _3d_Draw_Box(3, pos);
 
-  pos[0] = 960 * scale_factor_x();
-  pos[1] = 320 * scale_factor_y();
-  pos[2] = 1024 * scale_factor_x();
-  pos[3] = 352 * scale_factor_y();
+  pos[0] = 960 * scale_back_factor_x();
+  pos[1] = 320 * scale_back_factor_y();
+  pos[2] = 1024 * scale_back_factor_x();
+  pos[3] = 352 * scale_back_factor_y();
   _3d_Draw_Box(104, pos);
-
-  glEndList();
 }
 
-void _3d_Create_Inventory_Display_List(void)
+void _3d_Draw_Inventory(void)
 {
   float pos[4];
 
-  iInventoryDL = glGenLists(1);
-
-  glNewList(iInventoryDL, GL_COMPILE);
-
   pos[0] = 0;
-  pos[1] = 704 * scale_factor_y();
-  pos[2] = 256 * scale_factor_x();
-  pos[3] = 768 * scale_factor_y();
+  pos[1] = 704 * scale_back_factor_y();
+  pos[2] = 256 * scale_back_factor_x();
+  pos[3] = 768 * scale_back_factor_y();
   _3d_Draw_Box(22, pos);
 
-  pos[0] = 256 * scale_factor_x();
-  pos[1] = 704 * scale_factor_y();
-  pos[2] = 288 * scale_factor_x();
-  pos[3] = 768 * scale_factor_y();
+  pos[0] = 256 * scale_back_factor_x();
+  pos[1] = 704 * scale_back_factor_y();
+  pos[2] = 288 * scale_back_factor_x();
+  pos[3] = 768 * scale_back_factor_y();
   _3d_Draw_Box(105, pos);
 
   pos[0] = 0;
-  pos[1] = 671 * scale_factor_y();
-  pos[2] = 128 * scale_factor_x();
-  pos[3] = 704 * scale_factor_y();
+  pos[1] = 671 * scale_back_factor_y();
+  pos[2] = 128 * scale_back_factor_x();
+  pos[3] = 704 * scale_back_factor_y();
   _3d_Draw_Box(23, pos);
 
-  pos[0] = 128 * scale_factor_x();
-  pos[1] = 671 * scale_factor_y();
-  pos[2] = 160 * scale_factor_x();
-  pos[3] = 704 * scale_factor_y();
+  pos[0] = 128 * scale_back_factor_x();
+  pos[1] = 671 * scale_back_factor_y();
+  pos[2] = 160 * scale_back_factor_x();
+  pos[3] = 704 * scale_back_factor_y();
   _3d_Draw_Box(24, pos);
 
   pos[0] = 0;
-  pos[1] = 607 * scale_factor_y();
-  pos[2] = 32 * scale_factor_x();
-  pos[3] = 671 * scale_factor_y();
+  pos[1] = 607 * scale_back_factor_y();
+  pos[2] = 32 * scale_back_factor_x();
+  pos[3] = 671 * scale_back_factor_y();
   _3d_Draw_Box(106, pos);
-
-  glEndList();
-}
-
-void _3d_Release_Display_Lists(void)
-{
-  glDeleteLists(iTopLedgeDL, 1);
-  glDeleteLists(iInventoryDL, 1);
 }
 
 void _3d_Draw_MenusB(LEVELINFO * p_Level, int act_item, char *bCursor,
@@ -1115,22 +1040,23 @@ void _3d_Draw_MenusB(LEVELINFO * p_Level, int act_item, char *bCursor,
   float pos[4];
 
   if (p_Level->bTopLedge) {
-    glCallList(iTopLedgeDL);
+    _3d_Draw_Top_Ledge();
     _3d_Draw_Top_Ledge(p_Level, *bCursor);
   }
 
-  if (p_Level->bInventory)
+  if (p_Level->bInventory) {    
     _3d_Draw_Invertory(p_Level, act_item, *bCursor);
+  }
 
   _3d_AnimationEvent();
   _3d_Draw_3DAnimations();
 
   if (bTutor) {
     _3d_Set_Smooth();
-    pos[0] = 10 * scale_factor_x();
-    pos[1] = 200 * scale_factor_y();
-    pos[2] = 1034 * scale_factor_x();
-    pos[3] = (ty * scale_factor_y());
+    pos[0] = 10 * scale_back_factor_x();
+    pos[1] = 200 * scale_back_factor_y();
+    pos[2] = 1034 * scale_back_factor_x();
+    pos[3] = (ty * scale_back_factor_y());
 
     glBindTexture(GL_TEXTURE_2D, bTText);
 
@@ -1150,7 +1076,7 @@ void _3d_Draw_MenusB(LEVELINFO * p_Level, int act_item, char *bCursor,
 
 void _3d_Start_Kuk(void)
 {
-  sKuk.y = randf() * (640 * scale_factor_y());
+  sKuk.y = randf() * (640 * scale_back_factor_y());
   sKuk.x = (float) SCREEN_XRES;
   sKuk.bKUK = 1;
   sKuk.iState = 0;
@@ -1167,8 +1093,8 @@ void _3d_Process_Kuk(void)
     case 0:
       sKuk.x -= f;
 
-      if (sKuk.x < (SCREEN_XRES - (128 * scale_factor_x()))) {
-        sKuk.x = (SCREEN_XRES - (128 * scale_factor_x()));
+      if (sKuk.x < (SCREEN_XRES - (128 * scale_back_factor_x()))) {
+        sKuk.x = (SCREEN_XRES - (128 * scale_back_factor_x()));
         sKuk.iState = 1;
       }
       break;
@@ -1190,8 +1116,8 @@ void _3d_Process_Kuk(void)
 
   pos[0] = sKuk.x;
   pos[1] = sKuk.y;
-  pos[2] = sKuk.x + (128 * scale_factor_x());
-  pos[3] = sKuk.y + (128 * scale_factor_y());
+  pos[2] = sKuk.x + (128 * scale_back_factor_x());
+  pos[3] = sKuk.y + (128 * scale_back_factor_y());
 
   //kprintf(1, "%f, %f, %f, %f", pos[0], pos[1], pos[2], pos[3]);
 
@@ -1228,8 +1154,7 @@ void _3d_Draw_Menus(char *bCursor, int *Cursor_Time_Out,
   _3d_Begin_Draw();
 
   if (p_Level->bTopLedge) {
-    glCallList(iTopLedgeDL);
-
+    _3d_Draw_Top_Ledge();
     _3d_Draw_Top_Ledge(p_Level, *bCursor);
 
     p_Return[1] = _3d_Check_Menu_Select(*bCursor, p_Level);
@@ -1269,7 +1194,6 @@ void _3d_Draw_Menus(char *bCursor, int *Cursor_Time_Out,
     if (sHint.dwTCounter > 5000)
       sHint.bHint = 0;
   }
-
 
   if (p_Level->bRestart) {
     (*bCursor) = 1;
@@ -1378,15 +1302,9 @@ int _3d_HitRect(int iAnimation)
   _3D_ANIMATION *p_an = &_3DAnimationStruct._3DAnimation[iAnimation];
 
   if (mi.x > p_an->_3dFrame[0].vfLocation[0] &&
-    mi.x <
-    p_an->_3dFrame[0].vfLocation[0] +
-    (_3dd.p_sysramtexture[p_an->_3dFrame[0].iTexture].tx *
-      scale_factor_x() * p_an->_3dFrame[0].fScale)
-    && mi.y > p_an->_3dFrame[0].vfLocation[1]
-    && mi.y <
-    p_an->_3dFrame[0].vfLocation[1] +
-    (_3dd.p_sysramtexture[p_an->_3dFrame[0].iTexture].ty *
-      scale_factor_y() * p_an->_3dFrame[0].fScale))
+      mi.x < p_an->_3dFrame[0].vfLocation[0] + (_3dd.p_sysramtexture[p_an->_3dFrame[0].iTexture].tx * scale_back_factor_x() * p_an->_3dFrame[0].fScale) && 
+      mi.y > p_an->_3dFrame[0].vfLocation[1] && 
+      mi.y < p_an->_3dFrame[0].vfLocation[1] + (_3dd.p_sysramtexture[p_an->_3dFrame[0].iTexture].ty * scale_back_factor_y() * p_an->_3dFrame[0].fScale))
     return 1;
   else
     return 0;
@@ -1437,9 +1355,6 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out,
 
       ap_Play_Sound(0,1,0, pos, rnd + 23, NULL, &ad);
 
-      //_3d_Cancel_Menu(p_Level);
-      /*p_Level->Level_Exit = 3;
-         p_Level->lLevel_Exitc = 0; */
       p_Level->bRestart = 1;
       p_Level->iMessageBoxReturn = -1;
       p_Level->bCancelMenu = 0;
@@ -1566,11 +1481,9 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out,
   }
 }
 
-void _3d_Start_Settings(float *_3d_Scale_Factor)
+void _3d_Start_Settings(void)
 {  
   ddxLoadBitmap("settings.bmp", pBmpArchive);
-  // TODO
-  //co_CreateDC(_2dd.hDC, 1024, 1024, &hdc_info);
 }
 
 int _3d_BackPack2Hint(int idx)
@@ -1673,10 +1586,10 @@ void _3d_Draw_Hint(void)
   float pos[4];
 
 
-  pos[0] =  sHint.x - (6 * scale_factor_x());
-  pos[1] =  sHint.y - (6 * scale_factor_y());
-  pos[2] = (sHint.x - (6 * scale_factor_x())) + (((pHintTexture[sHint.iHint].tx + 12) * HINT_SCALE) * scale_factor_x());
-  pos[3] = (sHint.y - (6 * scale_factor_y())) + (((pHintTexture[sHint.iHint].ty + 12) * HINT_SCALE) * scale_factor_y());
+  pos[0] =  sHint.x - (6 * scale_back_factor_x());
+  pos[1] =  sHint.y - (6 * scale_back_factor_y());
+  pos[2] = (sHint.x - (6 * scale_back_factor_x())) + (((pHintTexture[sHint.iHint].tx + 12) * HINT_SCALE) * scale_back_factor_x());
+  pos[3] = (sHint.y - (6 * scale_back_factor_y())) + (((pHintTexture[sHint.iHint].ty + 12) * HINT_SCALE) * scale_back_factor_y());
 
   glBindTexture(GL_TEXTURE_2D, pHintTexture[0].text.text);
 
@@ -1693,8 +1606,8 @@ void _3d_Draw_Hint(void)
 
   pos[0] = sHint.x;
   pos[1] = sHint.y;
-  pos[2] = sHint.x + (pHintTexture[sHint.iHint].x * HINT_SCALE * scale_factor_x());
-  pos[3] = sHint.y + (pHintTexture[sHint.iHint].y * HINT_SCALE * scale_factor_y());
+  pos[2] = sHint.x + (pHintTexture[sHint.iHint].x * HINT_SCALE * scale_back_factor_x());
+  pos[3] = sHint.y + (pHintTexture[sHint.iHint].y * HINT_SCALE * scale_back_factor_y());
 
   glBindTexture(GL_TEXTURE_2D, pHintTexture[sHint.iHint].text.text);
 
@@ -1732,19 +1645,11 @@ void _3d_Display_Hint(LEVELINFO * p_Level)
   sHint.x = (float) mi.x + _3dCur.idx + _3dCur.iaddx;
   sHint.y = (float) mi.y + _3dCur.idy + _3dCur.iaddy;
 
-  if (sHint.y +
-    (pHintTexture[sHint.iHint].ty * HINT_SCALE * scale_factor_y()) >
-    SCREEN_YRES - 25)
-    sHint.y =
-      (float) (SCREEN_YRES -
-      (pHintTexture[sHint.iHint].ty * HINT_SCALE * scale_factor_y()) - 25);
+  if (sHint.y + (pHintTexture[sHint.iHint].ty * HINT_SCALE * scale_back_factor_y()) > SCREEN_YRES - 25)
+    sHint.y = (float)(SCREEN_YRES - (pHintTexture[sHint.iHint].ty * HINT_SCALE * scale_back_factor_y()) - 25);
 
-  if (sHint.x +
-    (pHintTexture[sHint.iHint].tx * HINT_SCALE * scale_factor_x()) >
-    SCREEN_XRES - 25)
-    sHint.x =
-      (float) (SCREEN_XRES -
-      (pHintTexture[sHint.iHint].tx * HINT_SCALE * scale_factor_x()) - 25);
+  if (sHint.x + (pHintTexture[sHint.iHint].tx * HINT_SCALE * scale_back_factor_x()) > SCREEN_XRES - 25)
+    sHint.x = (float) (SCREEN_XRES - (pHintTexture[sHint.iHint].tx * HINT_SCALE * scale_back_factor_x()) - 25);
 
   sHint.bHint = 1;
   sHint.dwTCounter = 0;
@@ -1771,11 +1676,11 @@ void _3d_Display_Hint_Inventory(LEVELINFO * p_Level, ITEMDESC * pItem,
 
   sHint.iHint = iHint;
 
-  sHint.x = x * scale_factor_x();
-  sHint.y = (y - 32) * scale_factor_y();
+  sHint.x = x * scale_back_factor_x();
+  sHint.y = (y - 32) * scale_back_factor_y();
 
-  if (sHint.x + (pHintTexture[sHint.iHint].tx * HINT_SCALE * scale_factor_x()) > SCREEN_XRES - 25)
-    sHint.x =(float) (SCREEN_XRES - (pHintTexture[sHint.iHint].tx * HINT_SCALE * scale_factor_x()) - 25);
+  if (sHint.x + (pHintTexture[sHint.iHint].tx * HINT_SCALE * scale_back_factor_x()) > SCREEN_XRES - 25)
+    sHint.x =(float) (SCREEN_XRES - (pHintTexture[sHint.iHint].tx * HINT_SCALE * scale_back_factor_x()) - 25);
 
   sHint.bHint = 1;
   sHint.dwTCounter = 0;
@@ -1799,10 +1704,10 @@ void _3d_Draw_Indikace(LEVELINFO * p_Level)
   float pos[4];
 
   if (p_Level->bSaveDemo) {
-    pos[0] = 960 * scale_factor_x();
-    pos[1] = 704 * scale_factor_y();
-    pos[2] = 1024 * scale_factor_x();
-    pos[3] = 768 * scale_factor_y();
+    pos[0] = 960 * scale_back_factor_x();
+    pos[1] = 704 * scale_back_factor_y();
+    pos[2] = 1024 * scale_back_factor_x();
+    pos[3] = 768 * scale_back_factor_y();
 
     glBindTexture(GL_TEXTURE_2D, sIndikace[0].text);
 
@@ -1819,10 +1724,10 @@ void _3d_Draw_Indikace(LEVELINFO * p_Level)
   }
 
   if (p_Level->Item_Lock) {
-    pos[0] = 896 * scale_factor_x();
-    pos[1] = 704 * scale_factor_y();
-    pos[2] = 960 * scale_factor_x();
-    pos[3] = 768 * scale_factor_y();
+    pos[0] = 896 * scale_back_factor_x();
+    pos[1] = 704 * scale_back_factor_y();
+    pos[2] = 960 * scale_back_factor_x();
+    pos[3] = 768 * scale_back_factor_y();
 
     glBindTexture(GL_TEXTURE_2D, sIndikace[2].text);
 
@@ -1842,10 +1747,10 @@ void _3d_Draw_Indikace(LEVELINFO * p_Level)
     return;
 
   if (p_Level->Level[p_Level->Actual_Item]->p_Back_Pack->Strength > 2) {
-    pos[0] = 832 * scale_factor_x();
-    pos[1] = 704 * scale_factor_y();
-    pos[2] = 896 * scale_factor_x();
-    pos[3] = 768 * scale_factor_y();
+    pos[0] = 832 * scale_back_factor_x();
+    pos[1] = 704 * scale_back_factor_y();
+    pos[2] = 896 * scale_back_factor_x();
+    pos[3] = 768 * scale_back_factor_y();
 
     glBindTexture(GL_TEXTURE_2D, sIndikace[1].text);
 
@@ -1872,10 +1777,10 @@ int _3d_Draw_MessageBox(int iMessage)
   float dy;
   float f;
 
-  pos[0] = (x - 6) * scale_factor_x();
-  pos[1] = (y - 6) * scale_factor_y();
-  pos[2] = (x - 6) * scale_factor_x() + (((pMessageTexture[iMessage].tx + 12) * HINT_SCALE) * scale_factor_x());
-  pos[3] = (y - 6) * scale_factor_y() + ((((pMessageTexture[iMessage].ty * 3) + 12) * HINT_SCALE) * scale_factor_y());
+  pos[0] = (x - 6) * scale_back_factor_x();
+  pos[1] = (y - 6) * scale_back_factor_y();
+  pos[2] = (x - 6) * scale_back_factor_x() + (((pMessageTexture[iMessage].tx + 12) * HINT_SCALE) * scale_back_factor_x());
+  pos[3] = (y - 6) * scale_back_factor_y() + ((((pMessageTexture[iMessage].ty * 3) + 12) * HINT_SCALE) * scale_back_factor_y());
 
   dx = (pMessageTexture[iMessage].tx + 12) / 2.0f;
   dy = pMessageTexture[iMessage].ty * 2.0f;
@@ -1893,10 +1798,10 @@ int _3d_Draw_MessageBox(int iMessage)
   glVertex2d(pos[2], pos[3]);
   glEnd();
 
-  pos[0] = x * scale_factor_x();
-  pos[1] = y * scale_factor_y();
-  pos[2] = (x + (pMessageTexture[iMessage].x * HINT_SCALE)) * scale_factor_x();
-  pos[3] = (y + (pMessageTexture[iMessage].y * HINT_SCALE)) * scale_factor_y();
+  pos[0] = x * scale_back_factor_x();
+  pos[1] = y * scale_back_factor_y();
+  pos[2] = (x + (pMessageTexture[iMessage].x * HINT_SCALE)) * scale_back_factor_x();
+  pos[3] = (y + (pMessageTexture[iMessage].y * HINT_SCALE)) * scale_back_factor_y();
 
   glBindTexture(GL_TEXTURE_2D, pMessageTexture[iMessage].text.text);
 
@@ -1913,17 +1818,17 @@ int _3d_Draw_MessageBox(int iMessage)
 
   f = x + dx - pMessageTexture[0].tx - 10;
 
-  pos[0] = f * scale_factor_x();
-  pos[1] = (y + dy) * scale_factor_y();
-  pos[2] = (f + (pMessageTexture[0].x * HINT_SCALE)) * scale_factor_x();
-  pos[3] = (y + dy + (pMessageTexture[0].y * HINT_SCALE)) * scale_factor_y();
+  pos[0] = f * scale_back_factor_x();
+  pos[1] = (y + dy) * scale_back_factor_y();
+  pos[2] = (f + (pMessageTexture[0].x * HINT_SCALE)) * scale_back_factor_x();
+  pos[3] = (y + dy + (pMessageTexture[0].y * HINT_SCALE)) * scale_back_factor_y();
 
   ret = -1;
 
   if (mi.x >= pos[0]
-    && mi.x <= pos[0] + (pMessageTexture[1].tx * scale_factor_x())
+    && mi.x <= pos[0] + (pMessageTexture[1].tx * scale_back_factor_x())
     && mi.y >= pos[1]
-    && mi.y <= pos[1] + (pMessageTexture[1].ty * scale_factor_y())) {
+    && mi.y <= pos[1] + (pMessageTexture[1].ty * scale_back_factor_y())) {
     glBindTexture(GL_TEXTURE_2D, pMessageTexture[1].text.text);
     ret = 1;
   }
@@ -1943,15 +1848,16 @@ int _3d_Draw_MessageBox(int iMessage)
 
   f = x + dx + 10;
 
-  pos[0] = f * scale_factor_x();
-  pos[1] = (y + dy) * scale_factor_y();
-  pos[2] = (f + (pMessageTexture[2].x * HINT_SCALE)) * scale_factor_x();
-  pos[3] = (y + dy + (pMessageTexture[2].y * HINT_SCALE)) * scale_factor_y();
+  pos[0] = f * scale_back_factor_x();
+  pos[1] = (y + dy) * scale_back_factor_y();
+  pos[2] = (f + (pMessageTexture[2].x * HINT_SCALE)) * scale_back_factor_x();
+  pos[3] = (y + dy + (pMessageTexture[2].y * HINT_SCALE)) * scale_back_factor_y();
 
   if (mi.x >= pos[0]
-    && mi.x <= pos[0] + (pMessageTexture[1].tx * scale_factor_x())
+    && mi.x <= pos[0] + (pMessageTexture[1].tx * scale_back_factor_x())
     && mi.y >= pos[1]
-    && mi.y <= pos[1] + (pMessageTexture[1].ty * scale_factor_y())) {
+    && mi.y <= pos[1] + (pMessageTexture[1].ty * scale_back_factor_y())) 
+  {
     glBindTexture(GL_TEXTURE_2D, pMessageTexture[3].text.text);
     ret = 0;
   }
