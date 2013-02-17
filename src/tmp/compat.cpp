@@ -138,7 +138,7 @@ int ddxInit(void)
 
     // Create cursor device
     ddxCursorDevice = ddx2DeviceCreate(TRUE, 32, TRUE);
-    ddx2DeviceSetActive(ddxCursorDevice);
+    ddx2DeviceSetActive(ddxCursorDevice);    
     ddx2DeviceSetBackBufferSize(CURSOR_DEVICE_DX, CURSOR_DEVICE_DY);
     ddx2DeviceSetBackBufferRect(0, 0, CURSOR_DEVICE_DX, CURSOR_DEVICE_DY);
     ddx2DeviceSetTextRenderRec(0, 0, CURSOR_DEVICE_DX, CURSOR_DEVICE_DY);
@@ -153,7 +153,7 @@ int ddxInit(void)
     ddx2DeviceSetBackBufferRect(0, 0, 1024, 768);
     ddx2DeviceSetTextRenderRec(0, 0, 1024, 768);
           
-    ddx2DeviceSetScreenRec(0, 0, SCREEN_XRES, SCREEN_YRES);
+    ddx2DeviceSetScreenRecCallback(ddx2ScreenResDefaultCallback);
     ddx2DeviceSetRender(TRUE);
   
     ddxInitDone = TRUE;

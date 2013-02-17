@@ -42,11 +42,11 @@
 
 #define  VELIKOST_PIXELU    (sizeof(dword))
 
-static DDX2_SURFACE_DEVICE *p_dev;
-static DDX2_SURFACE_DEVICE *p_dev_list;
-static DDX2_SURFACE_DEVICE *p_dev_cursor;
-static DDX2_SURFACE_LIST    slist;
-static int ddx2InitDone = FALSE;
+static DDX2_SURFACE_DEVICE        *p_dev;
+static DDX2_SURFACE_DEVICE        *p_dev_list;
+static DDX2_SURFACE_DEVICE        *p_dev_cursor;
+static DDX2_SURFACE_LIST           slist;
+static int                         ddx2InitDone = FALSE;
 
 #define  vysledna_barva(barva) ((nepruhl(barva) == slist.pruhledna_barva) ? PRUHL_BARVA : nepruhl(barva))
 
@@ -331,6 +331,20 @@ DeviceHandle ddx2DeviceSetScreenRec(int scr_x, int scr_y, int scr_dx, int scr_dy
 }
 
 //-----------------------------------------------------------------------------
+// Name: ddx2DeviceSetScreenRecCallback(DDX2_DEVICE_SCREEN_CALLBACK p_callback)
+// Desc: Sets a callback for screen resize
+//-----------------------------------------------------------------------------
+DeviceHandle ddx2DeviceSetScreenRecCallback(DDX2_DEVICE_SCREEN_CALLBACK p_callback)
+{
+  if(p_dev) {
+    p_dev->p_resize_callback = p_callback;
+    return((DeviceHandle)p_dev);
+  }
+  else
+    return(FALSE);
+}
+
+//-----------------------------------------------------------------------------
 // Name: ddx2DeviceSetRender(int draw)
 // Desc: Povoli/zakaze kresleni device
 //-----------------------------------------------------------------------------
@@ -544,8 +558,13 @@ void ddx2RenderDevices(G_KONFIG * p_ber)
   if (p_tmp) {
     ddx2StartRender2D();
     while (p_tmp) {
+      if(p_dev->p_resize_callback) {
+        p_dev->p_resize_callback();
+      }
+    
       if (p_tmp->draw)
         ddx2RenderujDevice(p_ber, p_tmp);
+      
       p_tmp = p_tmp->p_next;
     }
     if(p_dev_cursor && p_dev_cursor->draw) {
@@ -1040,6 +1059,11 @@ void ddx2AddRectItem(RECT_LINE * p_rl, RECT rect, int iLayer)
 
     p_rl->rlast++;
   }
+}
+
+void ddx2ScreenResDefaultCallback(void)
+{
+  ddx2DeviceSetScreenRec(0, 0, SCREEN_XRES, SCREEN_YRES);
 }
 
 //------------------------------------------------------------------------------------------------

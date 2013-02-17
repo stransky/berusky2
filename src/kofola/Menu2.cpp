@@ -1092,7 +1092,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
   ddx2DeviceSetBackBufferSize(1024, 768);
   ddx2DeviceSetBackBufferRect(0, 0, 1024, 768);
   ddx2DeviceSetTextRenderRec(0, 0, 1024, 768);
-  ddx2DeviceSetScreenRec(0, 0, SCREEN_XRES, SCREEN_YRES);
+  ddx2DeviceSetScreenRecCallback(ddx2ScreenResDefaultCallback);
 
   ddx2CleareSurface(DDX2_BACK_BUFFER);
   sh = ddx2LoadBitmap("settings.bmp", pBmpArchive);
@@ -1789,6 +1789,14 @@ int FillListLoad2(LIST_VIEW_CONTROL2 * p_li, char *mask, char bAdd,
   return x;
 }
 
+static void RunMenuLoadGameLoad2ResizeCallback(void)
+{
+  ddx2DeviceSetScreenRec((int) ceil(scale_back_factor_x() * 299),
+                         (int) ceil(scale_back_factor_y() * 209),
+                         (int) ceil(scale_back_factor_x() * 444),
+                         (int) ceil(scale_back_factor_y() * 415));
+}
+
 int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
   LEVELINFO * p_Level, ANIMATION_MODULE * p_am, char bLoad, WCHAR * cText)
 {
@@ -1827,10 +1835,8 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
   ddx2DeviceSetBackBufferSize(1024, 768);
   ddx2DeviceSetBackBufferRect(299, 209, 444, 415);
   ddx2DeviceSetTextRenderRec(0, 0, 444, 415);
-  ddx2DeviceSetScreenRec((int) ceil(scale_back_factor_x() * 299),
-                         (int) ceil(scale_back_factor_y() * 209),
-                         (int) ceil(scale_back_factor_x() * 444),
-                         (int) ceil(scale_back_factor_y() * 415));
+  ddx2DeviceSetScreenRecCallback(RunMenuLoadGameLoad2ResizeCallback);
+  
   ddx2DeviceSetRender(TRUE);
 
   ddx2CleareSurface(DDX2_BACK_BUFFER);
@@ -2672,7 +2678,7 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
   ddx2DeviceSetBackBufferSize(1024, 768);
   ddx2DeviceSetBackBufferRect(0, 0, 1024, 768);
   ddx2DeviceSetTextRenderRec(0, 0, 1024, 768);
-  ddx2DeviceSetScreenRec(0, 0, SCREEN_XRES, SCREEN_YRES);
+  ddx2DeviceSetScreenRecCallback(ddx2ScreenResDefaultCallback);
 
   am_FlipA(p_Level, p_am, 1, &rline, CLIST_ITEMC, 0, 0, 0);
 
@@ -3188,7 +3194,7 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
   ddx2DeviceSetBackBufferSize(1024, 768);
   ddx2DeviceSetBackBufferRect(0, 0, 1024, 768);
   ddx2DeviceSetTextRenderRec(0, 0, 1024, 768);
-  ddx2DeviceSetScreenRec(0, 0, SCREEN_XRES, SCREEN_YRES);
+  ddx2DeviceSetScreenRecCallback(ddx2ScreenResDefaultCallback);
 
   ddx2DeviceSetRender(TRUE);
 
@@ -3540,11 +3546,16 @@ __QUIT:
   FreeAnimations2(res, RES_NUM);
   free((void *) res);
 
-//      fn2_Set_Font("font3d.pak");
-//      fn2_Load_Bitmaps();
-
   // Start renderu hry
   ddx2GameRender(TRUE);
+}
+
+static void RunMenuTutorial2ResizeCallback(void)
+{
+  ddx2DeviceSetScreenRec(ftoi(10 *  scale_back_factor_x()),
+                         ftoi(200 * scale_back_factor_y()),
+                         ftoi(900 * scale_back_factor_x()),
+                         ftoi(450 * scale_back_factor_y()));
 }
 
 void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA * p_ad,
@@ -3590,10 +3601,7 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA * p_ad,
   ddx2DeviceSetBackBufferSize(1024, 768);
   ddx2DeviceSetBackBufferRect(10, 200, 900, 450);
   ddx2DeviceSetTextRenderRec(0, 0, 900, 450);
-  ddx2DeviceSetScreenRec(ftoi(10 *  scale_back_factor_x()),
-                         ftoi(200 * scale_back_factor_y()),
-                         ftoi(900 * scale_back_factor_x()),
-                         ftoi(450 * scale_back_factor_y()));
+  ddx2DeviceSetScreenRecCallback(RunMenuTutorial2ResizeCallback);
   ddx2DeviceSetRender(TRUE);
 
   ddx2CleareSurface(DDX2_BACK_BUFFER);
@@ -3955,7 +3963,7 @@ void RunMenuLoadScreen2(void)
   ddx2DeviceSetBackBufferSize(1024, 768);
   ddx2DeviceSetBackBufferRect(0, 0, 1024, 768);
   ddx2DeviceSetTextRenderRec(0, 0, 1024, 768);
-  ddx2DeviceSetScreenRec(0, 0, SCREEN_XRES, SCREEN_YRES);
+  ddx2DeviceSetScreenRecCallback(ddx2ScreenResDefaultCallback);
 
   ddx2DeviceSetRender(TRUE);
 

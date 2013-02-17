@@ -24,6 +24,7 @@
 #include "Berusky3d_animace.h"
 #include "Berusky3d_kofola_interface.h"
 #include "Berusky3d_kamery.h"
+#include "Berusky3d_kofola2d.h"
 
 #include "config.h"
 #include "json_export.h"

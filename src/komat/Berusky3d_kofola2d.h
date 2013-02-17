@@ -11,6 +11,8 @@
 #define  DDX2_BACK_BUFFER   (-1)
 #define  NO_SURFACE         (-1)
 
+typedef void (* DDX2_DEVICE_SCREEN_CALLBACK)(void);
+
 typedef struct _DDX2_SURFACE
 {
   bitmapa *p_bmp;
@@ -44,14 +46,16 @@ typedef struct _DDX2_SURFACE_DEVICE_3D
 
 typedef struct _DDX2_SURFACE_DEVICE
 {
-
-  bitmapa *p_back_buffer;
-  DDX2_SURFACE_DEVICE_3D hw;
   struct _DDX2_SURFACE_DEVICE *p_next;
-  int rnum;
-  RECT *p_rlist;
-  int draw;
-
+  
+  bitmapa                     *p_back_buffer;
+  DDX2_SURFACE_DEVICE_3D       hw;
+  
+  int                          rnum;
+  RECT                        *p_rlist;
+  int                          draw;
+  
+  DDX2_DEVICE_SCREEN_CALLBACK  p_resize_callback;
 } DDX2_SURFACE_DEVICE;
 
 typedef struct _DDX2_SURFACE_LIST
@@ -138,6 +142,12 @@ DeviceHandle ddx2DeviceSetTextRenderRec(int vx, int vy, int v_dx, int v_dy);
 //-----------------------------------------------------------------------------
 DeviceHandle ddx2DeviceSetScreenRec(int scr_x, int scr_y, int scr_dx = 0, int scr_dy = 0);
 
+//-----------------------------------------------------------------------------
+// Name: ddx2DeviceSetScreenRecCallback(DDX2DEVICESCREENRECCALLBACK p_callback)
+// Desc: Sets a callback for screen resize
+//-----------------------------------------------------------------------------
+void         ddx2ScreenResDefaultCallback(void);
+DeviceHandle ddx2DeviceSetScreenRecCallback(DDX2_DEVICE_SCREEN_CALLBACK p_callback);
 
 //-----------------------------------------------------------------------------
 // Name: ddx2DeviceDeaktivuj()
