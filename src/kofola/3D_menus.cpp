@@ -1305,9 +1305,9 @@ int _3d_HitRect(int iAnimation)
   _3D_ANIMATION *p_an = &_3DAnimationStruct._3DAnimation[iAnimation];
 
   if (mi.x > p_an->_3dFrame[0].vfLocation[0] * scale_back_factor_x() &&
-      mi.x < p_an->_3dFrame[0].vfLocation[0] + (_3dd.p_sysramtexture[p_an->_3dFrame[0].iTexture].tx * scale_back_factor_x() * p_an->_3dFrame[0].fScale) && 
+      mi.x < p_an->_3dFrame[0].vfLocation[0] * scale_back_factor_x() + (_3dd.p_sysramtexture[p_an->_3dFrame[0].iTexture].tx * scale_back_factor_x() * p_an->_3dFrame[0].fScale) && 
       mi.y > p_an->_3dFrame[0].vfLocation[1] * scale_back_factor_y() && 
-      mi.y < p_an->_3dFrame[0].vfLocation[1] + (_3dd.p_sysramtexture[p_an->_3dFrame[0].iTexture].ty * scale_back_factor_y() * p_an->_3dFrame[0].fScale))
+      mi.y < p_an->_3dFrame[0].vfLocation[1] * scale_back_factor_y() + (_3dd.p_sysramtexture[p_an->_3dFrame[0].iTexture].ty * scale_back_factor_y() * p_an->_3dFrame[0].fScale))
     return 1;
   else
     return 0;
