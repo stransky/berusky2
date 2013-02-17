@@ -276,6 +276,8 @@ void working_file_translate(char *p_file, int size);
 char *working_file_get(const char *p_file);
 char *working_file_get(const char *p_file, char *p_target, int size);
 
+void window_set_title(char *p_title);
+
 extern char cCheckMusicExeption;
 void alut_test(int ini);
 

@@ -33,6 +33,8 @@
 dword start_debug;
 #endif
 
+#define WINDOW_TITLE "Berusky 2"
+
 char ini_file[MAX_FILENAME] = "";
 bool create_user_data = TRUE;
 bool export_level = FALSE;
@@ -133,7 +135,7 @@ void quat_test(void)
 
 void print_banner(void)
 {
-  printf("Berusky2 v.%s (C) Anakreon 2011, http://www.anakreon.cz/\n", VERSION);
+  printf("%s v.%s (C) Anakreon 2011, http://www.anakreon.cz/\n", WINDOW_TITLE, VERSION);
   printf("This is free software; see the source for copying conditions.\n");
   printf("There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n");
 }
@@ -322,14 +324,16 @@ int main(int argc, char **argv)
   GRAPH3D *p_grf = p_age->graph_get();
   p_grf->get(&SCREEN_XRES, &SCREEN_YRES, &hwconf.bpp);
   
+  window_set_title(WINDOW_TITLE);
+  
   if (!grf_start(ini_file))
-    pperror(1, "Inicializace");
+    pperror(1, "Init");
   
   ber_nahod_render_funkce();
   ber_konfiguruj_berusky(&ber);
 
   timeGetTimeInit();
-
+  
   SCENE *p_scene = p_age->scene_new();
 
   p_age->scene_active_set(p_scene);

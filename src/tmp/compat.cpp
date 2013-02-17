@@ -618,6 +618,11 @@ wchar_t *wchar_windows_to_linux(word * p_in, int bytes_in_len)
   return (p_tmp);
 }
 
+void window_set_title(char *p_title)
+{
+  SDL_WM_SetCaption(p_title, NULL);
+}
+
 /* type definition for the "new" timer callback function */
 Uint32 callback(Uint32 interval, void *param)
 {

@@ -1,6 +1,7 @@
 * 0.9
+    - game window can be resized on the fly
     - fullscreen/windowed mode switch in menu
-    - fixed some english texts in menu
+    - fixed some texts in menu
     - set game fps (60 fps by default)
     - level load/save support
     - fullscreen runs in native desktop resolution
