@@ -240,7 +240,7 @@ void nastav_konfig(HW_KONFIG * p_hwconf, TXT_KONFIG * p_txt)
 */
 int nahraj_device_config(char *p_file, char *p_sekce)
 {
-  hwconf.fullscreen = GetPrivateProfileInt(p_sekce, "fullscreen", 1, p_file);
+  hwconf.fullscreen = GetPrivateProfileInt(p_sekce, "fullscreen", 0, p_file);
 
   // 0 in p_conf->xres, p_conf->yres and p_conf->bpp means use current
   // screen resolution and color depth
@@ -258,7 +258,7 @@ int nahraj_device_config(char *p_file, char *p_sekce)
   hwconf.game_fps = GetPrivateProfileInt(p_sekce, "game_fps", 60, p_file);
   hwconf.ditering = GetPrivateProfileInt(p_sekce, "ditering", 0, p_file);
   hwconf.typ_mlhy = GetPrivateProfileInt(p_sekce, "typ_mlhy", 0, p_file);
-  hwconf.bump_mapping = GetPrivateProfileInt(p_sekce, "bump_mapping", 0, p_file);
+  hwconf.bump_mapping = FALSE;
   hwconf.bump_mapping_typ = AUTO_BUMP_DOT3;
   hwconf.vertex_arrays = GetPrivateProfileInt(p_sekce, "vertex_arrays", 1, p_file);
 

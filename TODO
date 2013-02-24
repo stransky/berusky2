@@ -2,8 +2,6 @@ TODO:
 
 - on-line manual/help (Web)
 - proper default keys (in default ini file)
-- sync screen rendering with desktop frame rate? (blit/flip with sync wait?)
-- Set Window App name
 - Zrusit rotace na okrajich obrazovky!
 - grey beetle can't be selected by mouse when screen is resized
 - remove unnecessary options from ini files
