@@ -1,5 +1,11 @@
 TODO:
-RunMenuLoadGameLoad2 - fails to load?
+
+check_Save_Owner()
+  pPlayerProfile.cName, pProfile.cName
+  - both are NULL (run from commnad-line)
+  pProfile.cName is NULL (from menu)
+  
+
 
 - levels are not shown in Load in Main menu
 - remove unnecessary options from ini files

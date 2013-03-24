@@ -673,3 +673,28 @@ void GetFileSize(FILE *f, dword *size)
 {
   *size = file_size_get(f);
 }
+
+#ifndef WINDOWS
+static char *p_file_mask;
+
+void file_filter_mask(char *p_file_mask_)
+{
+  p_file_mask = p_file_mask_;
+}
+
+// returns TRUE = match
+int file_filter(const struct dirent *file)
+{
+  const char *file_mask = p_file_mask ? p_file_mask : "*";
+
+  // remove "." and ".." dirs
+  if(file->d_name[0] == '.') {
+    if(file->d_name[1] == 0)
+      return(0);
+    if(file->d_name[1] == '.' && file->d_name[2] == 0)
+      return(0);
+  }
+
+  return(!fnmatch(file_mask, file->d_name, 0));
+}
+#endif

@@ -313,4 +313,9 @@ inline float scale_back_factor_y(void)
   return(scale_back_factor[1]);
 }
 
+#ifndef WINDOWS
+void file_filter_mask(char *p_file_mask_);
+int  file_filter(const struct dirent *file);
+#endif
+
 #endif //__COMPAT_H__

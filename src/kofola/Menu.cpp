@@ -4407,22 +4407,15 @@ int compare(const void *arg1, const void *arg2)
   return pP2->timespamp - pP1->timespamp;
 }
 
-#ifdef LINUX
-static char *p_file_mask;
-
-static int filter(const struct dirent *file)
-{
-  return(!fnmatch(p_file_mask, file->d_name, 0));
-}
-  
+#ifdef LINUX  
 int FillStringList(char *cmask, LIST_ITEM_ ** list, int *isize)
 {  
   struct dirent **namelist;
   int i;
   struct stat sb;
     
-  p_file_mask = cmask;
-  int c = scandir(".", &namelist, &filter, alphasort); 
+  file_filter_mask(cmask);
+  int c = scandir(".", &namelist, &file_filter, alphasort); 
   
   if (c < 0) {
     (*isize) = 0;

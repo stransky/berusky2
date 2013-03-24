@@ -1519,29 +1519,14 @@ void delete_dir(char *p_Level_Name)
 #endif
 
 #ifdef LINUX
-// returns TRUE = match
-static int lsi_Save_Exist_filter(const struct dirent *file)
-{
-  static char *file_mask = "*";
-
-  // remove "." and ".." dirs
-  if(file->d_name[0] == '\.') {
-    if(file->d_name[1] == '\0')
-      return(0);
-    if(file->d_name[1] == '\.' && file->d_name[2] == '\0')
-      return(0);
-  }
-
-  return(!fnmatch(file_mask, file->d_name, 0));
-}
-
 int lsi_Save_Exist(WCHAR * wName, char *cFile)
 {
   struct dirent **namelist;
 	char	cwd[MAX_PATH+1];	
   int   i;
   
-  int c = scandir(".", &namelist, &lsi_Save_Exist_filter, alphasort); 
+  file_filter_mask("*");
+  int c = scandir(".", &namelist, &file_filter, alphasort); 
   if (c < 0) {    
     return 0;
   }
@@ -1597,7 +1582,8 @@ void delete_dir(char *p_Level_Name)
 	if(chdir(p_Level_Name) == -1)
 		return;
 
-  int c = scandir(".", &namelist, &lsi_Save_Exist_filter, alphasort); 
+  file_filter_mask("*");
+  int c = scandir(".", &namelist, &file_filter, alphasort);
   if (c < 0) {    
     return;
   }

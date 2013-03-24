@@ -40,6 +40,8 @@ extern "C" {
 #include <wchar.h>
 #ifndef WINDOWS
 #include <pthread.h>
+#include <fnmatch.h>
+#include <dirent.h>
 #endif
 
 #define  MAX_JMENO       50

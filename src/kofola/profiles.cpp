@@ -207,21 +207,14 @@ int pr_ReadProfile(char *cFileName, PLAYER_PROFILE * pProfile)
 }
 
 #ifdef LINUX
-static const char *p_file_mask;
-
-static int filter(const struct dirent *file)
-{
-  return(!fnmatch(p_file_mask, file->d_name, 0));
-}
-
 int pr_FindFileToProfile(WCHAR * wName, char *cFile)
 {
   struct dirent **namelist;
   int ret = FALSE;
   int i;
 	
-  p_file_mask = "*.prf";
-  int c = scandir(".", &namelist, &filter, alphasort);
+  file_filter_mask("*.prf");
+  int c = scandir(".", &namelist, &file_filter, alphasort);
   if (c < 0) {
     return 0;
   }
