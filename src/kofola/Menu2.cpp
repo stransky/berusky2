@@ -763,7 +763,6 @@ void SetMenuSettings2(CONTROL_LIST_ITEM2 * citem, int *hdcTabUse)
     //setup.pohled_berusky = co2_Check_Get_State(citem, CLIST_ITEMC, 0);
     setup.posouvat_kameru = co2_Check_Get_State(citem, CLIST_ITEMC, 1);
     setup.ovladani = co2_Check_Get_State(citem, CLIST_ITEMC, 2);
-    //setup.menu_vram_load = co_Check_Get_State(citem, CLIST_ITEMC, 3);
     setup.start_zpruhlednovani = co2_Check_Get_State(citem, CLIST_ITEMC, 10);
     setup.start_zvyraznovani = co2_Check_Get_State(citem, CLIST_ITEMC, 11);
     setup.ovladani_rohy = co2_Check_Get_State(citem, CLIST_ITEMC, 12);
@@ -1711,18 +1710,12 @@ __QUIT:
   ddx2GameRender(TRUE);
 }
 
-int FillListLoad2(LIST_VIEW_CONTROL2 * p_li, char *mask, char bAdd,
-  char bLoad)
+int FillListLoad2(LIST_VIEW_CONTROL2 * p_li, char *mask, char bAdd, char bLoad)
 {
-//      char text[128];
-//      char *t;
   char dir[256];
   WCHAR wFile[128];
   int x = 0;
   int c = 0;
-
-  //long Done, error;
-  //struct _finddata_t    Data;
 
   LIST_ITEM_ *list;
   int isize;
@@ -1751,39 +1744,6 @@ int FillListLoad2(LIST_VIEW_CONTROL2 * p_li, char *mask, char bAdd,
 
     x++;
   }
-
-/*	Done = _findfirst(mask,&Data);
-	error = Done;
-			
-	while(error != -1)
-	{
-		ZeroMemory(wFile, 128 * sizeof(WCHAR));
-
-		if(error != -1)
-		{
-			if(bLoad == 2)
-			{
-				if(!demo_Check_Owner(pPlayerProfile.cName, Data.name, wFile))
-				{
-					error = _findnext(Done,&Data);
-					continue;
-				}
-			}
-			else
-				if(!check_Save_Owner(Data.name, wFile))
-				{
-					error = _findnext(Done,&Data);
-					continue;
-				}
-
-				if(bAdd)
-					co2_List_Add_StringWC2(p_li, c, 2, wFile, Data.name, c, 0);
-
-			error = _findnext(Done,&Data);
-			c++;
-		}
-	}
-	_findclose(Done); */
 
   free((void *) list);
   return x;
@@ -4030,12 +3990,10 @@ void RunMenuLoadScreen2(void)
 
 void RunMenuLoadScreenRelease(int iCount)
 {
-  int i = GetPrivateProfileInt("hra", "numofbackbuffers", 2, ini_file);
-
   if (iLoadScreenDevice) {
     ddx2CleareSurfaceColor(DDX2_BACK_BUFFER, 0);
 
-    for (i = 0; i < iCount; i++) {
+    for (int i = 0; i < iCount; i++) {
       ddx2RenderujVse(p_ber);
       flip();
     }

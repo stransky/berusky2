@@ -4564,8 +4564,7 @@ int check_Save_Owner(char *cDir, WCHAR * wFileName)
   return 1;
 }
 
-int FillListLoad(LIST_VIEW_CONTROL * p_li, char *mask, char bAdd,
-  int LoadGame)
+int FillListLoad(LIST_VIEW_CONTROL * p_li, char *mask, char bAdd, int LoadGame)
 {
   char dir[256];
   WCHAR wFile[128];

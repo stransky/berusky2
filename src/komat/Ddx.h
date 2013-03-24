@@ -17,7 +17,6 @@ typedef struct _HW_KONFIG
   int pn_triangles_detail;
   int bump_mapping;
   int bump_mapping_typ;
-  int vertex_arrays;
 
   char **p_ext;
   int extnum;

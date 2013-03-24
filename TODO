@@ -1,15 +1,19 @@
 TODO:
+RunMenuLoadGameLoad2 - fails to load?
+
+- levels are not shown in Load in Main menu
+- remove unnecessary options from ini files
+- transform settings from setup to text config
+- spltit ini file
+
+- crash at level20.lv6 (Adam)
 
 - on-line manual/help (Web)
-- proper default keys (in default ini file)
-- Zrusit rotace na okrajich obrazovky!
-- grey beetle can't be selected by mouse when screen is resized
-- remove unnecessary options from ini files
-
-- transform settings frm setup to text config
-- Tips - wait for click (Load screen) - space to continue?
 - All hints on web
 - Web help/tutorial
+
+- grey beetle can't be selected by mouse when screen is resized
+- Tips - wait for click (Load screen) - space to continue?
 - scroll help on mouse wheel
 
 - credit fix - texts
@@ -19,11 +23,9 @@ TODO:
 - textures are not sharp
 - mark all movable boxes?
 - better camera (automatic?)
-- Default keys - F11, F12 and so
 - Why menu is not animated?
 - Game title is not set?
 - Wait for game tip to load (wait for a key?)
-- vertex arrays?
 
 unzip.h - use for pack files standard zip file format
 

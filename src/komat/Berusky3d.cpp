@@ -140,24 +140,18 @@ void ber_rekonfiguruj_3D(G_KONFIG * p_ber)
 
   hwconf.ditering = GetPrivateProfileInt("hra", "ditering", 0, ini_file);
 
-  p_ber->conf_zrcadlo =
-    GetPrivateProfileInt("hra", "zrcado_aktivni", 1, ini_file);
-  p_ber->conf_animace_okoli =
-    GetPrivateProfileInt("hra", "animace_okoli", 1, ini_file);
-  p_ber->conf_caustic =
-    GetPrivateProfileInt("hra", "scene_materialy", 1, ini_file);
+  p_ber->conf_zrcadlo = GetPrivateProfileInt("hra", "zrcado_aktivni", 1, ini_file);
+  p_ber->conf_animace_okoli = GetPrivateProfileInt("hra", "animace_okoli", 1, ini_file);
+  p_ber->conf_caustic = GetPrivateProfileInt("hra", "scene_materialy", 1, ini_file);
 
-  GetPrivateProfileString("textury", "text_ostrost", "0.0", pom, 200,
-    ini_file);
+  GetPrivateProfileString("textury", "text_ostrost", "0.0", pom, 200, ini_file);
   txconf.text_ostrost = (float) atof(pom);
 
   // 0/1 - on/off
-  // 1,2,3 - vysoka/stredni/nizka
-  p_ber->conf_dyn_light =
-    GetPrivateProfileInt("hra", "light_dyn", 1, ini_file);
+  // 1,2,3 - hi/mid/low
+  p_ber->conf_dyn_light = GetPrivateProfileInt("hra", "light_dyn", 1, ini_file);
   if (p_ber->conf_dyn_light)
-    p_ber->conf_dyn_rychlost =
-      GetPrivateProfileInt("hra", "light_rychlost", 1, ini_file);
+    p_ber->conf_dyn_rychlost = GetPrivateProfileInt("hra", "light_dyn_speed", 1, ini_file);
   else
     p_ber->conf_dyn_rychlost = LIGHT_NIC;
 }
@@ -255,10 +249,12 @@ void ber_konfiguruj_berusky(G_KONFIG * p_ber)
       GetPrivateProfileInt("game", pom, 0, ini_file);
   }
 
-  p_ber->conf_barva_pozadi_pouzit_default = p_ber->conf_barva_pozadi_pouzit =
-    GetPrivateProfileInt("hra", "barva_pozadi", 1, ini_file);
+  p_ber->conf_barva_pozadi_pouzit_default = 
+  p_ber->conf_barva_pozadi_pouzit = 
+  GetPrivateProfileInt("hra", "barva_pozadi", 0, ini_file);
+
   p_ber->conf_extra_light_vertex = 
-    !GetPrivateProfileInt("hra", "extra_light_vertex", 1, ini_file);
+  GetPrivateProfileInt("hra", "extra_light_vertex", 1, ini_file);
 
   ber_rekonfiguruj_hra(p_ber);
   ber_rekonfiguruj_3D(p_ber);
@@ -386,6 +382,24 @@ void kerror(char log, const char *p_text, ...)
   
   assert(0);
   exit(-1);
+}
+
+void kwarning(char log, const char *p_text, ...)
+{
+  char text[2000];
+  va_list argumenty;
+
+  va_start(argumenty, p_text);
+  vsprintf(text, p_text, argumenty);
+  va_end(argumenty);
+
+  fprintf(stderr, "WARNING: %s\n", text);
+
+  if (log && p_ber->debug_file) {
+    fputs(text, p_ber->debug_file);
+    fputc('\n', p_ber->debug_file);
+    fflush(p_ber->debug_file);
+  }  
 }
 
 void ddw(const char *p_text, ...)

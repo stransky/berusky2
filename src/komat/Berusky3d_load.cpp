@@ -497,37 +497,6 @@ int ber_mat_vloz_dot3_env(EDIT_TEXT * p_text, int textnum,
 // SMAT je bez bump-mappingu!!!
 int ber_uprava_materialu_bump_mapping(G_KONFIG * p_ber)
 {
-/*
-  int matnum, i, bmptyp = hwconf.bump_mapping_typ, trida;
-  EDIT_MATERIAL *p_mat;
-
-  matnum = lo_pocet_materialu(p_ber->p_mat, MAX_CELKEM_MATERIALU);
-
-  for(i = 0; i < MAX_CELKEM_TEXTUR; i++) {
-    if(p_ber->p_text[i].load && p_ber->p_text[i].bump) {
-      trida = p_ber->p_text[i].trida;
-      if(txconf.text_bump[trida]) {
-        txt_trida(trida);
-        if(p_mat = lo_najdi_material_text_point(p_ber->p_mat,matnum,p_ber->p_text+i)) {
-          if(!(p_mat->flag&(MAT_NO_BUMP|MAT_SCENE|MAT_PRUHLEDNY))) {
-            switch(bmptyp) {
-            case AUTO_BUMP_DOT3:
-              kprintf(TRUE,"Dot3-Bump-material %s",p_mat->jmeno);
-              ber_mat_vloz_dot3(p_ber->p_text,MAX_CELKEM_TEXTUR,p_mat);
-              break;
-            case AUTO_BUMP_DOT3ENV:
-              kprintf(TRUE,"Env-Dot3-Bump-material %s",p_mat->jmeno);
-              ber_mat_vloz_dot3_env(p_ber->p_text,MAX_CELKEM_TEXTUR,p_mat);
-              break;
-            default:
-              break;
-            }
-          }
-        }
-      }
-    }
-  }  
-  */
   return (TRUE);
 }
 
@@ -636,8 +605,7 @@ int ber_nahraj_scenu(G_KONFIG * p_ber, char *p_jmeno, char *p_dir, int reload,
 
     p_ber->conf_barva_pozadi = lc.barva_pozadi;
     p_ber->conf_barva_pozadi_pouzit =
-      p_ber->
-      conf_barva_pozadi_pouzit_default ? TRUE : lc.barva_pozadi_aktivni;
+      p_ber->conf_barva_pozadi_pouzit_default ? TRUE : lc.barva_pozadi_aktivni;
     p_ber->zm = lc.zm;
 
     p_ber->kam.min = kam.min;

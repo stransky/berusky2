@@ -36,17 +36,6 @@ typedef struct
   char music_dir[256];
   char sound_dir[256];
   char save_dir[256];
-  char e_ditering;
-  char mazat_dummy;
-  char kolize_materialu;
-  char load_prvky;
-  char load_textury;
-  char load_default_materialy;
-  char default_materialy[256];
-  char obalky_kontejner;
-  char obalky_objekt;
-  char berusky_hra[256];
-  char e_log_file[256];
   char debug_vypisy;
   char debug_light;
   char pohled_berusky;
@@ -55,8 +44,6 @@ typedef struct
   char kvalita_casticp;
   char ovladani;
   char debug_fps;
-  char lista_prvku;
-  char berusky_hra_dir[256];
   char debug_draty;
   char sada[20][256];
   char posouvat_kameru;

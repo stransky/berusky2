@@ -840,7 +840,7 @@ public:
   
   virtual BOX * object_box_get(void)
   {
-    return(p_geom ? p_geom->box_get() : FALSE);
+    return(p_geom ? p_geom->box_get() : NULL);
   }  
   
   virtual void object_box_set(BOX *p_box)

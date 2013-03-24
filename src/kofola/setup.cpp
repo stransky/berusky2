@@ -137,71 +137,15 @@ void Save_ini(void)
     ini_file);
   WritePrivateProfileString("controls", "pause", itoa(setup.key[30], text,
       10), ini_file);
-
-  /*WritePrivateProfileString("game","bitmap_dir",setup.bitmap_dir,ini_file);
-     WritePrivateProfileString("game","data_dir",setup.data_dir,ini_file);
-     WritePrivateProfileString("game","prvky_dir",setup.prvky_dir,ini_file);
-     WritePrivateProfileString("game","level_dir",setup.level_dir,ini_file);
-     WritePrivateProfileString("game","out_dir",setup.out_dir,ini_file);
-     WritePrivateProfileString("game","texture_dir",setup.texture_dir,ini_file);
-     WritePrivateProfileString("game","material_dir",setup.material_dir,ini_file);
-     WritePrivateProfileString("game","game_level_dir",setup.game_level_dir,ini_file);
-     WritePrivateProfileString("game","scene_dir",setup.scene_dir,ini_file);
-     WritePrivateProfileString("game","game_data_dir",setup.game_data_dir,ini_file);
-     WritePrivateProfileString("game","save_dir",setup.save_dir,ini_file);
-     WritePrivateProfileString("soundengine","music_dir",setup.music_dir,ini_file);
-     WritePrivateProfileString("soundengine","sound_dir",setup.sound_dir,ini_file); */
-
-  /*WritePrivateProfileString("editor","ditering",itoa(setup.e_ditering,text,10),ini_file);
-     WritePrivateProfileString("editor","mazat_dummy",itoa(setup.mazat_dummy,text,10),ini_file);
-     WritePrivateProfileString("editor","kolize_materialu",itoa(setup.kolize_materialu,text,10),ini_file);
-     WritePrivateProfileString("editor","load_prvky",itoa(setup.load_prvky,text,10),ini_file);
-     WritePrivateProfileString("editor","load_textury",itoa(setup.load_textury,text,10),ini_file);
-     WritePrivateProfileString("editor","load_default_materialy",itoa(setup.load_default_materialy,text,10),ini_file);
-     WritePrivateProfileString("editor","obalky_kontejner",itoa(setup.obalky_kontejner,text,10),ini_file);
-     WritePrivateProfileString("editor","obalky_objekt",itoa(setup.obalky_objekt,text,10),ini_file);
-     WritePrivateProfileString("editor","lista_prvku",itoa(setup.lista_prvku,text,10),ini_file);
-     WritePrivateProfileString("editor","default_materialy",setup.default_materialy,ini_file);
-     WritePrivateProfileString("editor","berusky_hra",setup.berusky_hra,ini_file);
-     WritePrivateProfileString("editor","berusky_hra_dir",setup.berusky_hra_dir,ini_file);
-     WritePrivateProfileString("editor","log_file",setup.e_log_file,ini_file);
-
-     WritePrivateProfileString("debug","debug_vypisy",itoa(setup.debug_vypisy,text,10),ini_file);
-     WritePrivateProfileString("debug","debug_light",itoa(setup.debug_light,text,10),ini_file);
-     WritePrivateProfileString("debug","debug_fps",itoa(setup.debug_fps,text,10),ini_file);
-     WritePrivateProfileString("debug","debug_draty",itoa(setup.debug_draty,text,10),ini_file);
-     WritePrivateProfileString("debug","debug_kamery",itoa(setup.debug_kamery,text,10),ini_file);
-
-     WritePrivateProfileString("game","system_material_1",setup.sada[0],ini_file);
-     WritePrivateProfileString("game","system_material_2",setup.sada[1],ini_file);
-     WritePrivateProfileString("game","system_material_3",setup.sada[2],ini_file);
-     WritePrivateProfileString("game","system_material_4",setup.sada[3],ini_file);
-     WritePrivateProfileString("game","system_material_5",setup.sada[4],ini_file);
-     WritePrivateProfileString("game","system_material_6",setup.sada[5],ini_file);
-     WritePrivateProfileString("game","system_material_7",setup.sada[6],ini_file);
-     WritePrivateProfileString("game","system_material_8",setup.sada[7],ini_file);
-     WritePrivateProfileString("game","system_material_9",setup.sada[8],ini_file);
-     WritePrivateProfileString("game","system_material_10",setup.sada[9],ini_file);
-     WritePrivateProfileString("game","system_material_11",setup.sada[10],ini_file);
-     WritePrivateProfileString("game","system_material_12",setup.sada[11],ini_file);
-     WritePrivateProfileString("game","system_material_13",setup.sada[12],ini_file);
-     WritePrivateProfileString("game","system_material_14",setup.sada[13],ini_file);
-     WritePrivateProfileString("game","system_material_15",setup.sada[14],ini_file);
-     WritePrivateProfileString("game","system_material_16",setup.sada[15],ini_file);
-     WritePrivateProfileString("game","system_material_17",setup.sada[16],ini_file);
-     WritePrivateProfileString("game","system_material_18",setup.sada[17],ini_file);
-     WritePrivateProfileString("game","system_material_19",setup.sada[18],ini_file);
-     WritePrivateProfileString("game","system_material_20",setup.sada[19],ini_file); */
 }
 
 void Load_ini(void)
 {
   char text[256];
 
-  setup.no_menu = GetPrivateProfileInt("hra", "no_menu", 0, ini_file);
   setup.no_sound = GetPrivateProfileInt("hra", "no_sound", 0, ini_file);
   setup.camera_type = GetPrivateProfileInt("hra", "camera_type", 0, ini_file);
-  GetPrivateProfileString("hra", "log_file", "c:\\ber2log.txt", setup.log_file, 256, ini_file);
+  GetPrivateProfileString("debug", "log_file", "ber2log.txt", setup.log_file, 256, ini_file);
 
   setup.fullscreen = GetPrivateProfileInt("hra", "fullscreen", 0, ini_file);
   setup.ditering = GetPrivateProfileInt("hra", "ditering", 0, ini_file);
@@ -244,16 +188,11 @@ void Load_ini(void)
   GetPrivateProfileString("textury", "text_ostrost", "1", text, 256, ini_file);
   setup.text_ostrost = (float) atof(text);
 
-  setup.channels =
-    GetPrivateProfileInt("soundengine", "channels", 0, ini_file);
-  setup.pre_load =
-    GetPrivateProfileInt("soundengine", "pre_load", 0, ini_file);
-  setup.soundvolume =
-    GetPrivateProfileInt("soundengine", "soundvolume", 0, ini_file);
-  setup.musicvolume =
-    GetPrivateProfileInt("soundengine", "musicvolume", 0, ini_file);
-  setup.ambientvolume =
-    GetPrivateProfileInt("soundengine", "ambientvolume", 0, ini_file);
+  setup.channels = GetPrivateProfileInt("soundengine", "channels", 0, ini_file);
+  setup.pre_load = GetPrivateProfileInt("soundengine", "pre_load", 0, ini_file);
+  setup.soundvolume = GetPrivateProfileInt("soundengine", "soundvolume", 0, ini_file);
+  setup.musicvolume = GetPrivateProfileInt("soundengine", "musicvolume", 0, ini_file);
+  setup.ambientvolume = GetPrivateProfileInt("soundengine", "ambientvolume", 0, ini_file);
 
   setup.key[0] = -1;
   setup.key[1] = GetPrivateProfileInt("controls", "move_forward", 0, ini_file);
@@ -267,30 +206,21 @@ void Load_ini(void)
   setup.key[9] = GetPrivateProfileInt("controls", "beatle4", 0, ini_file);
   setup.key[10] = GetPrivateProfileInt("controls", "beatle5", 0, ini_file);
   setup.key[11] = -1;
-  setup.key[12] =
-    GetPrivateProfileInt("controls", "camera_rotation", 0, ini_file);
-  setup.key[13] =
-    GetPrivateProfileInt("controls", "camera_move", 0, ini_file);
-  setup.key[14] =
-    GetPrivateProfileInt("controls", "camera_zoom_in", 0, ini_file);
-  setup.key[15] =
-    GetPrivateProfileInt("controls", "camera_zoom_out", 0, ini_file);
-  setup.key[16] =
-    GetPrivateProfileInt("controls", "camera_fast_turn_left", 0, ini_file);
-  setup.key[17] =
-    GetPrivateProfileInt("controls", "camera_fast_turn_right", 0, ini_file);
-  setup.key[18] =
-    GetPrivateProfileInt("controls", "camera_center", 0, ini_file);
+  setup.key[12] = GetPrivateProfileInt("controls", "camera_rotation", 0, ini_file);
+  setup.key[13] = GetPrivateProfileInt("controls", "camera_move", 0, ini_file);
+  setup.key[14] = GetPrivateProfileInt("controls", "camera_zoom_in", 0, ini_file);
+  setup.key[15] = GetPrivateProfileInt("controls", "camera_zoom_out", 0, ini_file);
+  setup.key[16] = GetPrivateProfileInt("controls", "camera_fast_turn_left", 0, ini_file);
+  setup.key[17] = GetPrivateProfileInt("controls", "camera_fast_turn_right", 0, ini_file);
+  setup.key[18] = GetPrivateProfileInt("controls", "camera_center", 0, ini_file);
   setup.key[19] = -1;
   setup.key[20] = GetPrivateProfileInt("controls", "menu", 0, ini_file);
   setup.key[21] = GetPrivateProfileInt("controls", "restart", 0, ini_file);
   setup.key[22] = GetPrivateProfileInt("controls", "item_lock", 0, ini_file);
   //setup.key[23] = GetPrivateProfileInt("controls", "blow_detonation_pack",0,ini_file);
   setup.key[23] = GetPrivateProfileInt("controls", "next_song", 0, ini_file);
-  setup.key[24] =
-    GetPrivateProfileInt("controls", "disable_inventory", 0, ini_file);
-  setup.key[25] =
-    GetPrivateProfileInt("controls", "disable_top_ledge", 0, ini_file);
+  setup.key[24] = GetPrivateProfileInt("controls", "disable_inventory", 0, ini_file);
+  setup.key[25] = GetPrivateProfileInt("controls", "disable_top_ledge", 0, ini_file);
   setup.key[26] = GetPrivateProfileInt("controls", "screenshot", 0, ini_file);
   setup.key[27] = GetPrivateProfileInt("controls", "visibility", 0, ini_file);
   setup.key[28] = GetPrivateProfileInt("controls", "highlight", 0, ini_file);
@@ -298,56 +228,11 @@ void Load_ini(void)
   setup.key[30] = GetPrivateProfileInt("controls", "pause", 0, ini_file);
   setup.key[31] = -1;
 
-
-  /*GetPrivateProfileString("game","bitmap_dir","c:\\", setup.bitmap_dir, 256, ini_file);
-     GetPrivateProfileString("game","data_dir","c:\\", setup.data_dir, 256, ini_file);
-     GetPrivateProfileString("game","prvky_dir","c:\\", setup.prvky_dir, 256, ini_file);
-     GetPrivateProfileString("game","level_dir","c:\\", setup.level_dir, 256, ini_file);
-     GetPrivateProfileString("game","out_dir","c:\\", setup.out_dir, 256, ini_file);
-     GetPrivateProfileString("game","texture_dir","c:\\", setup.texture_dir, 256, ini_file);
-     GetPrivateProfileString("game","material_dir","c:\\", setup.material_dir, 256, ini_file);
-     GetPrivateProfileString("game","game_level_dir","c:\\", setup.game_level_dir, 256, ini_file);
-     GetPrivateProfileString("game","scene_dir","c:\\", setup.scene_dir, 256, ini_file);
-     GetPrivateProfileString("game","game_data_dir","c:\\", setup.game_data_dir, 256, ini_file);
-     GetPrivateProfileString("game","save_dir","c:\\", setup.save_dir, 256, ini_file);
-     GetPrivateProfileString("soundengine","music_dir","c:\\", setup.music_dir, 256, ini_file);
-     GetPrivateProfileString("soundengine","sound_dir","c:\\", setup.sound_dir, 256, ini_file); */
-
-  setup.e_ditering = GetPrivateProfileInt("editor", "ditering", 0, ini_file);
-  setup.mazat_dummy =
-    GetPrivateProfileInt("editor", "mazat_dummy", 0, ini_file);
-  setup.kolize_materialu =
-    GetPrivateProfileInt("editor", "kolize_materialu", 0, ini_file);
-  setup.load_prvky =
-    GetPrivateProfileInt("editor", "load_prvky", 0, ini_file);
-  setup.load_textury =
-    GetPrivateProfileInt("editor", "load_textury", 0, ini_file);
-  setup.load_default_materialy =
-    GetPrivateProfileInt("editor", "load_default_materialy", 0, ini_file);
-  setup.obalky_kontejner =
-    GetPrivateProfileInt("editor", "obalky_kontejner", 0, ini_file);
-  setup.obalky_objekt =
-    GetPrivateProfileInt("editor", "obalky_objekt", 0, ini_file);
-  setup.lista_prvku =
-    GetPrivateProfileInt("editor", "lista_prvku", 0, ini_file);
-  GetPrivateProfileString("editor", "default_materialy", "c:\\",
-    setup.default_materialy, 256, ini_file);
-  GetPrivateProfileString("editor", "berusky_hra", "c:\\", setup.berusky_hra,
-    256, ini_file);
-  GetPrivateProfileString("editor", "berusky_hra_dir", "c:\\",
-    setup.berusky_hra_dir, 256, ini_file);
-  GetPrivateProfileString("editor", "log_file", "c:\\", setup.e_log_file, 256,
-    ini_file);
-
-  setup.debug_vypisy =
-    GetPrivateProfileInt("debug", "debug_vypisy", 0, ini_file);
-  setup.debug_light =
-    GetPrivateProfileInt("debug", "debug_light", 0, ini_file);
+  setup.debug_vypisy = GetPrivateProfileInt("debug", "debug_vypisy", 0, ini_file);
+  setup.debug_light = GetPrivateProfileInt("debug", "debug_light", 0, ini_file);
   setup.debug_fps = GetPrivateProfileInt("debug", "debug_fps", 0, ini_file);
-  setup.debug_draty =
-    GetPrivateProfileInt("debug", "debug_draty", 0, ini_file);
-  setup.debug_kamery =
-    GetPrivateProfileInt("debug", "debug_kamery", 0, ini_file);
+  setup.debug_draty = GetPrivateProfileInt("debug", "debug_draty", 0, ini_file);
+  setup.debug_kamery = GetPrivateProfileInt("debug", "debug_kamery", 0, ini_file);
 
   GetPrivateProfileString("game", "system_material_1", "", setup.sada[0], 256,
     ini_file);

@@ -882,29 +882,19 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
   getcwd(text, 255);
 
   kprintf(1, "Loading level from %s ...", text);
-  //GetPrivateProfileString("game","game_level_dir","c:\\",text,256,ini_file);
-
+  
   kvalita_castic = GetPrivateProfileInt("hra", "kvalita_castic", 0, ini_file);
   kvalita_castic++;
 
-  kvalita_casticv =
-    GetPrivateProfileInt("hra", "kvalita_casticv", 0, ini_file);
+  kvalita_casticv = GetPrivateProfileInt("hra", "kvalita_casticv", 0, ini_file);
   kvalita_casticv++;
 
   p_Level->KvalitaCastic = kvalita_castic;
   p_Level->KvalitaCasticV = kvalita_casticv;
 
-/*	chdir(text);
-	text[0] = '\0';
-	strncpy(text,p_Level_Name,strlen(p_Level_Name)-4);
-	text[strlen(p_Level_Name)-4] = '\0'; //TODO - newline?
-	chdir(text);*/
-
-
   file = fopen(p_Level_Name, "rb");
   if (!file) {
-    sprintf(text, "Unable to find level %s", p_Level_Name);
-    //MessageBox(p_Level->hWnd,text,"Error",MB_OK);
+    sprintf(text, "Unable to find level %s", p_Level_Name);    
     kprintf(1, text);
     return -1;
   }
@@ -923,18 +913,14 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
 
   p_Level->Count_Of_Items = l_h.prvku;
 
-  p_Level->Level =
-    (ITEMDESC **) malloc((p_Level->Size_of_Level) * sizeof(ITEMDESC *));
-  if (!p_Level->Level) {
-    //MessageBox(p_Level->hWnd,"Unable to allocate memory for level","Error",MB_OK);
+  p_Level->Level = (ITEMDESC **) malloc((p_Level->Size_of_Level) * sizeof(ITEMDESC *));
+  if (!p_Level->Level) {    
     kprintf(1, "Unable to allocate memory for level");
     return -1;
   }
 
-  p_Level->Square =
-    (SQUAREINFO *) malloc((p_Level->Size_of_Level) * sizeof(SQUAREINFO));
+  p_Level->Square = (SQUAREINFO *) malloc((p_Level->Size_of_Level) * sizeof(SQUAREINFO));
   if (!p_Level->Square) {
-    //MessageBox(p_Level->hWnd,"Unable to allocate memory for level","Error",MB_OK);
     kprintf(1, "Unable to allocate memory for aditional level info");
     return -1;
   }
@@ -945,7 +931,6 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
 
   p_Level->Item = (ITEMDESC *) malloc((p_Level->Count_Of_Items) * sizeof(ITEMDESC));
   if (!p_Level->Item) {
-    //MessageBox(p_Level->hWnd,"Unable to allocate memory for items","Error",MB_OK);
     kprintf(1, "Unable to allocate memory for items");
     return -1;
   }
@@ -955,10 +940,8 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
   for (i = 0; i < p_Level->Count_Of_Items; i++)
     p_Level->Item[i].hSvetlo = -1;
 
-  p_Level->Action_Item =
-    (long *) malloc((p_Level->Count_Of_Items) * sizeof(long) * 2);
+  p_Level->Action_Item = (long *) malloc((p_Level->Count_Of_Items) * sizeof(long) * 2);
   if (!p_Level->Action_Item) {
-    //MessageBox(p_Level->hWnd,"Unable to allocate memory for action items","Error",MB_OK);
     kprintf(1, "Unable to allocate memory for action items");
     return -1;
   }
@@ -967,7 +950,6 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
 
   p_Level->Anim_Item = (long *) malloc((p_Level->Count_Of_Items) * sizeof(long));
   if (!p_Level->Anim_Item) {
-    //MessageBox(p_Level->hWnd,"Unable to allocate memory for action items","Error",MB_OK);
     kprintf(1, "Unable to allocate memory for animation items");
     return -1;
   }
@@ -1537,9 +1519,19 @@ void delete_dir(char *p_Level_Name)
 #endif
 
 #ifdef LINUX
+// returns TRUE = match
 static int lsi_Save_Exist_filter(const struct dirent *file)
 {
   static char *file_mask = "*";
+
+  // remove "." and ".." dirs
+  if(file->d_name[0] == '\.') {
+    if(file->d_name[1] == '\0')
+      return(0);
+    if(file->d_name[1] == '\.' && file->d_name[2] == '\0')
+      return(0);
+  }
+
   return(!fnmatch(file_mask, file->d_name, 0));
 }
 
@@ -1559,8 +1551,12 @@ int lsi_Save_Exist(WCHAR * wName, char *cFile)
   int ret = false;
   for(i = 0; i < c; i++) {
     char	text[MAX_PATH+1];
-  
-    chdir(namelist[i]->d_name);
+      
+    if(chdir(namelist[i]->d_name)) {
+      kwarning(1, "Unable to chdir(%s)", namelist[i]->d_name);
+      continue;
+    }
+    
     sprintf(text,"%s.lvc", namelist[i]->d_name);
     
     FILE *file = fopen(text, "rb");
@@ -1580,9 +1576,11 @@ int lsi_Save_Exist(WCHAR * wName, char *cFile)
         break;
       }
     }
+
+    chdir(cwd);
   }
 
-  chdir(cwd);  
+  chdir(cwd);
 
   for(i = 0; i < c; i++)
     free(namelist[i]);

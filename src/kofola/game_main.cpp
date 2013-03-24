@@ -248,7 +248,8 @@ int winmain_Game_Run(char *p_Level_Name)
     Timer_ID = SetTimer(NULL, 0, 250, (TIMERPROC) gl_Set_Frame_Rate);
     _3d_Load_Indikace();
     iActualScene = 0;
-    gl_Run_Level(p_Level_Name, "default.env", &ad, cpu);
+    char cenv[64] = "default.env";
+    gl_Run_Level(p_Level_Name, cenv, &ad, cpu);
     _3d_Release_Hints(pHintTexture, 26);
     KillTimer(NULL, Timer_ID);
   }

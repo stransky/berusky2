@@ -1436,8 +1436,8 @@ int kom_rozvaz_mesh(MeshHandle m_low)
   p_low->flag &= ~PRV_LOW;
 
   // Odstraneni vazeb
-  p_low->p_next_low = FALSE;
-  p_low->p_prev_low = FALSE;
+  p_low->p_next_low = NULL;
+  p_low->p_prev_low = NULL;
 
   // reanimuj jako konecny prvek
   rani_updatuj_prvek_matice_vnitrek_end_top(p_low);

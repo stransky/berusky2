@@ -29,7 +29,7 @@ typedef struct
   char bm_dir[MAX_PATH];
   EDIT_TEXT *p_texture;
   _3D_TEXTURE *p_sysramtexture;
-  char bMenuVRAMLoad;
+  int bMenuVRAMLoad;
 } _3D_DATA;
 
 typedef struct

@@ -10230,8 +10230,7 @@ int gl_Change_Dir_To_Level(char *p_Level_Name)
 //                              2  = Level restart
 //                              3  = Level nedokoncen uspesne
 //------------------------------------------------------------------------------------------------
-int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, AUDIO_DATA * p_ad,
-  int iCPU)
+int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, AUDIO_DATA * p_ad, int iCPU)
 {
   int iKeyLine[3];
   int iKeyCursor;
@@ -10248,7 +10247,6 @@ int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, AUDIO_DATA * p_ad,
   //int top_item;
   int iReturn[2];
   //char Active_Beetle;
-  char no_Menu;
 
 //      CAMERA_ANIMATION        camera;
   char bLastSunuti;
@@ -10271,6 +10269,7 @@ int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, AUDIO_DATA * p_ad,
   int iRestart = 0;
   char bRestart = 0;
   char bPause = 0;
+  char no_Menu = 0;
 
   //...................... *** oprava
   char bCamera;
@@ -10382,8 +10381,7 @@ PLAY_LEVEL_START:
 
   Level.bPosouvatKameru = GetPrivateProfileInt("hra", "posouvat_kameru", 0, ini_file);
   bOvladaniBerusek1 = GetPrivateProfileInt("hra", "ovladani", 0, ini_file);
-  bVisibility = GetPrivateProfileInt("hra", "init_visibility", 0, ini_file);
-  no_Menu = GetPrivateProfileInt("hra", "no_menu", 0, ini_file);
+  bVisibility = GetPrivateProfileInt("hra", "init_visibility", 0, ini_file);  
   Level.bPohled_Berusky = GetPrivateProfileInt("hra", "pohled_berusky", 0, ini_file);
 
   kprintf(1, "demo_Load...");
@@ -10393,8 +10391,7 @@ PLAY_LEVEL_START:
     Level.bPosouvatKameru = 0;
     Level.bPohled_Berusky = 0;
 
-    GetPrivateProfileString("game", "save_dir", "c:\\", Demo_File, 255,
-      ini_file);
+    GetPrivateProfileString("game", "save_dir", "c:\\", Demo_File, 255, ini_file);
     working_file_translate(Demo_File, 255);
 
     strcat(Demo_File, DIR_SLASH_STRING);
@@ -11026,34 +11023,6 @@ PLAY_LEVEL_START:
         camera_Center(&cameraflag, &Level, 2, 0, 0);
       }
 
-/*		if (key[control.camera_move_right])
-		{
-			if (!demo)
-				gl_Next_Demo_Frame(control.camera_move_right);
-			camera_Move(control.camera_move_right, 0, -1, &camera, am.frame_per_quater);
-		}
-
-		if (key[control.camera_move_left])
-		{
-			if (!demo)
-				gl_Next_Demo_Frame(control.camera_move_left);
-			camera_Move(control.camera_move_left, 1, -1, &camera, am.frame_per_quater);
-		}
-
-		if (key[control.camera_move_forward])
-		{
-		if (!demo)
-				gl_Next_Demo_Frame(control.camera_move_forward);
-			camera_Move(control.camera_move_forward, -1, 0, &camera, am.frame_per_quater);
-		}
-
-		if (key[control.camera_move_back])
-		{
-			if (!demo)
-				gl_Next_Demo_Frame(control.camera_move_back);
-			camera_Move(control.camera_move_back, -1, 1, &camera, am.frame_per_quater);
-		}*/
-
       if (key[control.camera_fast_turn_right])
         camera_Fast_Turn(control.camera_fast_turn_right, 0, &cameraflag,
           am.frame_per_quater);
@@ -11068,44 +11037,10 @@ PLAY_LEVEL_START:
 		if (key[control.camera_zoom_out])
 			camera_Zoom(control.camera_zoom_out, 1, &cameraflag, am.frame_per_quater);
 */
-      /*if (key[control.camera_turn_right] && !bOvladaniBerusek1)
-         {
-         if (!demo)
-         gl_Next_Demo_Frame(control.camera_turn_right);
-         camera_Turn(control.camera_turn_right, 0, -1, &camera, am.frame_per_quater);
-         }
-
-         if (key[control.camera_turn_left] && !bOvladaniBerusek1)
-         {
-         if (!demo)
-         gl_Next_Demo_Frame(control.camera_turn_left);
-         camera_Turn(control.camera_turn_left, 1, -1, &camera, am.frame_per_quater);
-         }
-
-         if (key[control.camera_turn_up])
-         {
-         if (!demo)
-         gl_Next_Demo_Frame(control.camera_turn_up);
-         camera_Turn(control.camera_turn_up, -1, 0, &camera, am.frame_per_quater);
-         }
-
-         if (key[control.camera_turn_down])
-         {
-         if (!demo)
-         gl_Next_Demo_Frame(control.camera_turn_down);
-         camera_Turn(control.camera_turn_down, -1, 1, &camera, am.frame_per_quater);
-         } */
     }
 
     //if(bCamera && cameraflag == -1 && !camera.flag)
     if (bCamera && cameraflag == -1) {
-/*		float p_roll = 0;
-
-		kam_3ds_get((BOD *)&camera.finish.Position, (BOD *)&camera.finish.Target, &camera.finish.Roll);
-		kam_3ds_get((BOD *)&camera.real.Position, (BOD *)&camera.real.Target, &camera.real.Roll);
-		kam_pol_get((BOD *)&camera.finish.Position, &camera.finish.r, &camera.finish.fi, &camera.finish.Distance);
-		kam_pol_get((BOD *)&camera.real.Position, &camera.real.r, &camera.real.fi, &camera.real.Distance);*/
-
       kam_set_normal_screen(p_ber);
 
       Level.bInventory =
@@ -11143,11 +11078,6 @@ PLAY_LEVEL_START:
         kam_stop();
         kam_3ds_set(&p_p, &p_t, p_roll);
       }
-
-/*		kam_3ds_get((BOD *)&camera.finish.Position, (BOD *)&camera.finish.Target, &camera.finish.Roll);
-		kam_3ds_get((BOD *)&camera.real.Position, (BOD *)&camera.real.Target, &camera.real.Roll);
-		kam_pol_get((BOD *)&camera.finish.Position, &camera.finish.r, &camera.finish.fi, &camera.finish.Distance);
-		kam_pol_get((BOD *)&camera.real.Position, &camera.real.r, &camera.real.fi, &camera.real.Distance);*/
 
       kam_set_normal_screen(p_ber);
       kom_zpruhlednovac_on();
@@ -11228,159 +11158,6 @@ PLAY_LEVEL_START:
         }
       }
 
-      //drop item
-/*		if((key[control.item1]) ||
-		   (key[control.item2]) ||
-		   (key[control.item3]) ||
-		   (key[control.item4]))
-		{
-			int pos[3];
-			long real_pos;
-			ITEMDESC *p_Item;
-		
-			p_Item = Level.Level[Level.Actual_Item];
-
-			pos[0] = p_Item->Pos[0];
-			pos[1] = p_Item->Pos[1];
-			pos[2] = p_Item->Pos[2];
-
-			if (!p_Item->Rotation) pos[1]++;
-			if (p_Item->Rotation == 1) pos[0]++;
-			if (p_Item->Rotation == 2) pos[1]--;
-			if (p_Item->Rotation == 3) pos[0]--;
-
-			gl_Logical2Real(pos[0], pos[1], pos[2], &real_pos, &Level);
-
-			if(key[control.item1])
-			{
-				if (!demo)
-					gl_Next_Demo_Frame(control.item1, &control, 0);
-				act_item = 0;
-				key[control.item1] = 0;
-			}
-			else
-				if(key[control.item2])
-				{
-					if (!demo)
-						gl_Next_Demo_Frame(control.item2, &control, 0);
-					act_item = 1;
-					key[control.item2] = 0;
-				}
-				else
-					if(key[control.item3])
-					{
-						if (!demo)
-							gl_Next_Demo_Frame(control.item3, &control, 0);
-						act_item = 2;
-						key[control.item3] = 0;
-					}
-					else
-						if(key[control.item4])
-						{
-							if (!demo)
-								gl_Next_Demo_Frame(control.item4, &control, 0);
-							act_item = 3;
-							key[control.item4] = 0;
-						}
-
-			if((pos[0] >= 0) && (pos[0] < Level.Size[0]) &&
-			   (pos[1] >= 0) && (pos[1] < Level.Size[1]) &&
-			   (p_Item->p_Back_Pack->Count_of_Items) &&
-			   !Level.Level[real_pos])
-					if(act_item < Level.Level[Level.Actual_Item]->p_Back_Pack->Count_of_Items)
-						gl_Drop_Item(act_item, pos, &Level);
-
-			act_item = -1;
-		}*/
-
-/*		if(key[control.inventory])
-		{
-			int pos[3];
-			long real_pos;
-			ITEMDESC *p_Item;
-		
-			if (!demo)
-				gl_Next_Demo_Frame(control.inventory, &control, 0);
-
-			key[control.inventory] = 0;
-
-			act_item = 0;
-			bCursor = 0;
-			Cursor_Time_Out = 0;
-
-			p_Item = Level.Level[Level.Actual_Item];
-
-			pos[0] = p_Item->Pos[0];
-			pos[1] = p_Item->Pos[1];
-			pos[2] = p_Item->Pos[2];
-
-			if (!p_Item->Rotation) pos[1]++;
-			if (p_Item->Rotation == 1) pos[0]++;
-			if (p_Item->Rotation == 2) pos[1]--;
-			if (p_Item->Rotation == 3) pos[0]--;
-			
-			gl_Logical2Real(pos[0], pos[1], pos[2], &real_pos, &Level);
-
-			if((pos[0] >= 0) && (pos[0] < Level.Size[0]) &&
-			   (pos[1] >= 0) && (pos[1] < Level.Size[1]) &&
-			   (p_Item->p_Back_Pack->Count_of_Items) &&
-			   !Level.Level[real_pos])
-			{
-
-			while(!key[control.inventory_cancel] && !mi.t2)
-			{
-
-				if (key[control.inventory_right])
-				{
-					if (!demo)
-						gl_Next_Demo_Frame(control.inventory_right, &control, 0);
-
-					key[control.inventory_right] = 0;
-
-					act_item++;
-					if(act_item > (p_Item->p_Back_Pack->Count_of_Items-1))
-						act_item = p_Item->p_Back_Pack->Count_of_Items-1;
-				}
-
-				if (key[control.inventory_left])
-				{
-					if (!demo)
-						gl_Next_Demo_Frame(control.inventory_left, &control, 0);
-
-					key[control.inventory_left] = 0;
-
-					act_item--;
-					if(act_item < 0)
-						act_item = 0;
-				}
-
-				if ((key[control.inventory_select] || mi.t1) && act_item != -1)
-				{
-					if (!demo)
-						gl_Next_Demo_Frame(control.inventory_select, &control, 0);
-
-					key[control.inventory_select] = 0;
-					mi.t1 = 0;
-
-					if(gl_Drop_Item(act_item, pos, &Level))
-					{
-						key[control.inventory_cancel] = 1;
-						act_item = -1;
-					}
-				}
-
-				gl_Flip(p_ad, &Level, &Frame_Rate_Counter, &bCursor, &Cursor_Time_Out,
-						NULL, &NoKeyCounter, &bBeetleAdded, &bLastSunuti, &GetCamera,
-						&no_Menu, _3d_Scale_Factor, &act_item, iReturn, demo);
-
-			}
-			}
-
-			act_item = -1;
-			key[control.inventory_cancel] = 0;
-			mi.t2 = 0;
-		}
-*/
       if (key[control.blow_detonation_pack]) {
         if (!demo)
           gl_Next_Demo_Frame(control.blow_detonation_pack, &control, 0, NULL,

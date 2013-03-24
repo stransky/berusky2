@@ -135,10 +135,8 @@ void nastav_konfig(HW_KONFIG * p_hwconf, TXT_KONFIG * p_txt)
    */
   p_txt->text_perspective = TRUE;
 
-  kprintf(1, "OpenGL Render quality: %s",
-    p_txt->text_kvalita ? "Nicest" : "Fastest");
-  glHint(GL_POLYGON_SMOOTH_HINT,
-    (p_txt->text_kvalita) ? GL_NICEST : GL_FASTEST);
+  kprintf(1, "OpenGL Render quality: %s", p_txt->text_kvalita ? "Nicest" : "Fastest");
+  glHint(GL_POLYGON_SMOOTH_HINT, (p_txt->text_kvalita) ? GL_NICEST : GL_FASTEST);
 
   kprintf(1, "Fog type: %s", p_hwconf->typ_mlhy ? "Pixel-Fog" : "Vertex-Fog");
   glHint(GL_FOG_HINT, (p_hwconf->typ_mlhy) ? GL_NICEST : GL_FASTEST);
@@ -257,10 +255,9 @@ int nahraj_device_config(char *p_file, char *p_sekce)
 
   hwconf.game_fps = GetPrivateProfileInt(p_sekce, "game_fps", 60, p_file);
   hwconf.ditering = GetPrivateProfileInt(p_sekce, "ditering", 0, p_file);
-  hwconf.typ_mlhy = GetPrivateProfileInt(p_sekce, "typ_mlhy", 0, p_file);
-  hwconf.bump_mapping = FALSE;
+  hwconf.typ_mlhy = TRUE; // Use pixel fog
+  hwconf.bump_mapping = FALSE; // Disable bump-mapping - is not used anyway
   hwconf.bump_mapping_typ = AUTO_BUMP_DOT3;
-  hwconf.vertex_arrays = GetPrivateProfileInt(p_sekce, "vertex_arrays", 1, p_file);
 
   return (TRUE);
 }

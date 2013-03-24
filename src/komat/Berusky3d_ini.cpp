@@ -249,7 +249,7 @@ void debug_file_init(void)
 {
   if (GetPrivateProfileInt("debug", "debug_file", 0, ini_file)) {
     char pom[200];
-    GetPrivateProfileString("hra", "log_file", "~/.berusky2/default_game_log.txt", pom, 200, ini_file);
+    GetPrivateProfileString("debug", "log_file", "~/.berusky2/default_game_log.txt", pom, 200, ini_file);
     p_ber->debug_file = fopen(pom, "a");
   }
 }
