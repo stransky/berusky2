@@ -1078,16 +1078,10 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
 
   _2d_Clear_RectLine(&rline);
 
-
   ddx2Init(200, RGB(255, 0, 255));
+  
   dh = ddx2DeviceCreate(TRUE, 32);
-
-  if (!dh)
-    return;
-
-  //fn2_Release_Font();
   ddx2DeviceSetActive(dh);
-
   ddx2DeviceSetBackBufferSize(1024, 768);
   ddx2DeviceSetBackBufferRect(0, 0, 1024, 768);
   ddx2DeviceSetTextRenderRec(0, 0, 1024, 768);
@@ -3122,13 +3116,9 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
   LEVELINFO * p_Level, ANIMATION_MODULE * p_am)
 {
   int mix, miy;
-  float s_factor[2];
   RECT rTMP = { 0, 0, 1024, 768 };
-
   DWORD dwEplased = 0, dwStart, dwStop;
-
   CONTROL_LIST_ITEM2 citem[CLIST_ITEMC];
-
   char dir[256];
   int lastcmd, lastanm, i;
   CMD_LINE *res = NULL;
@@ -3141,23 +3131,19 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
   int ifdx = 0;
 
   _2d_Clear_RectLine(&rline);
-
   _2d_Add_RectItem(&rline, rTMP, 0);
 
   ddx2Init(200, RGB(255, 0, 255));
+
   dh = ddx2DeviceCreate(TRUE, 32);
-
   ddx2DeviceSetActive(dh);
-
   ddx2DeviceSetBackBufferSize(1024, 768);
   ddx2DeviceSetBackBufferRect(0, 0, 1024, 768);
   ddx2DeviceSetTextRenderRec(0, 0, 1024, 768);
   ddx2DeviceSetScreenRecCallback(ddx2ScreenResDefaultCallback);
-
+  
   ddx2DeviceSetRender(TRUE);
-
   ddx2CleareSurface(DDX2_BACK_BUFFER);
-
 
   switch (iActualScene) {
     case 1:
@@ -3304,8 +3290,8 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
     mix = mi.x;
     miy = mi.y;
 
-    mi.x = (int) ceil(mi.x * s_factor[0]);
-    mi.y = (int) ceil(mi.y * s_factor[1]);
+    mi.x = (int) ceil(mi.x * scale_factor_x());
+    mi.y = (int) ceil(mi.y * scale_factor_y());
 
     dwStart = timeGetTime();
 
@@ -3385,8 +3371,7 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
                     ddx2DrawSurface(CompositDC, res[anbind].iAnim[0], 3);
                   }
                   else {
-                    ddx2DrawDisplayColorKey(res[anbind].iAnim[0], 0,
-                      TRANSCOLOR);
+                    ddx2DrawDisplayColorKey(res[anbind].iAnim[0], 0,TRANSCOLOR);
                     ddx2DrawSurface(FontDC, res[anbind].iAnim[0], 3);
                   }
                 }
@@ -3412,11 +3397,13 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
     //stlacil leve tlacitko
     if (mi.t1 && !click) {
       //dostala se mys do akcni oblasti (OnClick)?
-      for (i = 0; i < lastcmd; i++)
-        if (res[i].iParam[0] == COM_ONCLICK)
+      for (i = 0; i < lastcmd; i++) {
+        if (res[i].iParam[0] == COM_ONCLICK) {
           if ((mi.x >= res[i].iParam[1]) &&
-            (mi.x <= res[i].iParam[3]) &&
-            (mi.y >= res[i].iParam[2]) && (mi.y <= res[i].iParam[4])) {
+              (mi.x <= res[i].iParam[3]) &&
+              (mi.y >= res[i].iParam[2]) && 
+              (mi.y <= res[i].iParam[4])) 
+          {
             if (res[i].iAnim[0][0] >= 0) {
               //pokud je animace, tak ji spust
               anmid = AddAnimation2(&res[i], &ad, 0);
@@ -3436,16 +3423,15 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
               anmid = 31;
             }
           }
-
+        }
+      }
       mi.t1 = 0;
     }
 
     //provedeni akce po animaci menu
-    if (click)
+    if (click) {
       if (!anm[anmid].cmd) {
         click = 0;
-
-        //StopAll();
 
         if (!strcmp(res[resid].cParam[1], "EXIT")) {
           key[K_ESC] = 1;
@@ -3458,18 +3444,20 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
           goto __QUIT;
         }
       }
+    }
 
     //pokud prisel cas, tak provedu nahodne animace (podle jejich pravdepodobnosti)
     if (timercnt > 500) {
       timercnt = 0;
 
-      for (i = 0; i < lastcmd; i++)
-        if (res[i].iParam[0] == COM_RANDOMANIMATION)
-          if (rand() % 200 <= res[i].iParam[1] &&
-            strcmp(dir, res[i].cParam[0])) {
+      for (i = 0; i < lastcmd; i++) {
+        if (res[i].iParam[0] == COM_RANDOMANIMATION) {
+          if (rand() % 200 <= res[i].iParam[1] && strcmp(dir, res[i].cParam[0])) {
             CheckAnimation2(&res[i], &ad);
             AddAnimation2(&res[i], &ad, 0);
           }
+        }
+      }
     }
 
     dwStop = timeGetTime();

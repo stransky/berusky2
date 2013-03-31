@@ -1,13 +1,4 @@
 TODO:
-
-check_Save_Owner()
-  pPlayerProfile.cName, pProfile.cName
-  - both are NULL (run from commnad-line)
-  pProfile.cName is NULL (from menu)
-  
-
-
-- levels are not shown in Load in Main menu
 - remove unnecessary options from ini files
 - transform settings from setup to text config
 - spltit ini file
@@ -27,13 +18,10 @@ check_Save_Owner()
 - bad exit animations
 - per-pixel lighting
 - textures are not sharp
-- mark all movable boxes?
 - better camera (automatic?)
 - Why menu is not animated?
 - Game title is not set?
 - Wait for game tip to load (wait for a key?)
-
-unzip.h - use for pack files standard zip file format
 
 - in-game menu - to menu je nejake hnusne?
 - defaultne je vypla/zakazana hudba/zvuky?

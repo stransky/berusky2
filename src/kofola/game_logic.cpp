@@ -9625,8 +9625,7 @@ void gl_Beetle_Exit(LEVELINFO * p_Level)
     p_Level->Level[p_Level->Actual_Item]->Square.Flek.pFlek = 0;
   }
 
-  memcpy((void *) iPos, (void *) p_Level->Level[p_Level->Actual_Item]->Pos,
-    3 * sizeof(int));
+  memcpy((void *)iPos, (void *)p_Level->Level[p_Level->Actual_Item]->Pos, 3*sizeof(int));
 
   iPos[2]--;
 
@@ -9662,8 +9661,6 @@ void gl_Beetle_Exit(LEVELINFO * p_Level)
     gl_Create_SelectionFlek(p_Level->Level[p_Level->Actual_Item], p_Level);
 
     if (p_Level->bPosouvatKameru) {
-//                      camera.flag = 0;
-
       kom_mesh_get_float(p_Level->Level[p_Level->Actual_Item]->Index_Of_Game_Mesh, 
                          &b.x, &b.y, &b.z, &rot);
 
