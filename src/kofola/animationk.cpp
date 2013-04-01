@@ -2292,7 +2292,7 @@ void am_Do_Vybuch_Bublin(int *iPos, float *fPos, LEVELINFO * p_Level)
   pSystem->dwStop = 0;
 
   par_pripoj_funkci(pSystem->System, anmend_ZrusCastice3, 0, 0,
-    reinterpret_cast<size_ptr>(pKourovaS));
+                    reinterpret_cast<size_ptr>(pKourovaS));
 
   par_go(pSystem->System, &pSystem->flag, 0, 0);
 }
@@ -2300,7 +2300,7 @@ void am_Do_Vybuch_Bublin(int *iPos, float *fPos, LEVELINFO * p_Level)
 void am_Do_Exit_Efects(LEVELINFO * p_Level)
 {
   EXITEFECT *pEEfect;
-  int i;
+  int i;  
 
   for (i = 0; i < 10; i++)
     if (p_Level->ExitEfect[i].System.System) {
@@ -2317,7 +2317,8 @@ void am_Do_Exit_Efects(LEVELINFO * p_Level)
           par_vloz_hnizdo_pivot(pEEfect->System.hHnizdo[1], NULL);
       }
 
-      if (par_get_hnizda(pEEfect->System.System) < 2) {
+      if (par_get_hnizda(pEEfect->System.System) < 2) {        
+      
         par_zrus(pEEfect->System.System);
         pEEfect->System.System = (size_ptr)NULL;
 
@@ -2366,7 +2367,6 @@ void am_Do_Exit(int Bmesh, int Emesh, LEVELINFO * p_Level)
   int rot;
 
   i = am_Get_Free_ExitSystem(p_Level);
-
   if (i == -1)
     return;
 
@@ -2391,12 +2391,10 @@ void am_Do_Exit(int Bmesh, int Emesh, LEVELINFO * p_Level)
   else
     pEEfect->hSvetlo = -1;
 
-  pEEfect->hEXSvetlo[0] =
-    edl_svetlo_vyrob(EDL_BODOVE | EDL_GOURAND | EDL_SPEC_ADD | EDL_DOSAH |
-    EDL_UTLUM_LIN, 0);
-
+  pEEfect->hEXSvetlo[0] = edl_svetlo_vyrob(EDL_BODOVE | EDL_GOURAND | 
+                                           EDL_SPEC_ADD | EDL_DOSAH | 
+                                           EDL_UTLUM_LIN, 0);
   hSvetlo = pEEfect->hEXSvetlo[0];
-
   if (hSvetlo != -1) {
     kom_mesh_get_float(Emesh, &pos[0], &pos[1], &pos[2], &rot);
 
@@ -2407,12 +2405,9 @@ void am_Do_Exit(int Bmesh, int Emesh, LEVELINFO * p_Level)
     edl_svetlo_set_par(hSvetlo, 1, 3, 0, 4.0f);
   }
 
-  pEEfect->hEXSvetlo[1] =
-    edl_svetlo_vyrob(EDL_MESH_LIGHT | EDL_PRUHL_LIGHT | EDL_ALFA_SET |
-    EDL_DOSAH | EDL_UTLUM_KVAD | EDL_PLOSNE_Y, 1);
-
+  pEEfect->hEXSvetlo[1] = edl_svetlo_vyrob(EDL_MESH_LIGHT | EDL_PRUHL_LIGHT | EDL_ALFA_SET |
+                                           EDL_DOSAH | EDL_UTLUM_KVAD | EDL_PLOSNE_Y, 1);
   hSvetlo = pEEfect->hEXSvetlo[1];
-
   if (hSvetlo != -1) {
     edl_svetlo_pridej_mesh(hSvetlo, Bmesh);
     edl_svetlo_uzavri_meshe(hSvetlo);
@@ -2429,16 +2424,11 @@ void am_Do_Exit(int Bmesh, int Emesh, LEVELINFO * p_Level)
     edl_anim_start(hSvetlo, &p_Level->TrashFlag, 0, 0, 0);
   }
 
-//      pEEfect->hEXSvetlo[1] = -1;
-
   kom_mesh_get_float(Bmesh, &pos[0], &pos[1], &pos[2], &rot);
 
   pSystem = &pEEfect->System;
 
-  pKourovaS = (PAR_KOUR_STOPA *) malloc(100 * sizeof(PAR_KOUR_STOPA));
-
-  if (!pKourovaS)
-    return;
+  pKourovaS = (PAR_KOUR_STOPA *) mmalloc(100 * sizeof(PAR_KOUR_STOPA));
 
   pSystem->pCastice = pKourovaS;
   pSystem->Sizeof = 100;
@@ -2461,17 +2451,14 @@ void am_Do_Exit(int Bmesh, int Emesh, LEVELINFO * p_Level)
 
   pSystem->System = par_vyrob();
 
-  par_set_param(pSystem->System, m,
-    TPAR_NO_FOG | TPAR_YPLANE_LOW | TPAR_DIR | TPAR_3D | TPAR_VETSI |
-    TPAR_AUTOREMOVE, (BOD *) pos, NULL);
+  par_set_param(pSystem->System, m, TPAR_NO_FOG | TPAR_YPLANE_LOW | TPAR_DIR |
+                TPAR_3D | TPAR_VETSI | TPAR_AUTOREMOVE, (BOD *) pos, NULL);
   par_vloz_kour_stopu(pSystem->System, pKourovaS, pSystem->Sizeof);
-
 
   for (k = 0; k < 2; k++) {
     pSystem->hHnizdo[k] = par_vloz_hnizdo(pSystem->System);
 
-    par_vloz_hnizdo_komplet(pSystem->hHnizdo[k], 1000,
-      (BOD *) pSystem->pivot[k], pKourovaS);
+    par_vloz_hnizdo_komplet(pSystem->hHnizdo[k], 1000, (BOD *)pSystem->pivot[k], pKourovaS);
     par_vloz_hnizdo_timer(pSystem->hHnizdo[k], 1000, -1000);
 
     memcpy((void *) pSystem->pivot[k], (void *) pos, 3 * sizeof(float));
@@ -2509,8 +2496,7 @@ void am_Do_Exit(int Bmesh, int Emesh, LEVELINFO * p_Level)
     pSystem->dwStop = 250;
   }
 
-  par_pripoj_funkci(pSystem->System, anmend_ZrusCastice3, 0, 0,
-    reinterpret_cast<size_ptr>(pKourovaS));
+  par_pripoj_funkci(pSystem->System, anmend_ZrusCastice3, 0, 0, reinterpret_cast<size_ptr>(pKourovaS));
   par_go(pSystem->System, &pSystem->flag, 0, 0);
 
   kom_mesh_get_float(Emesh, &pos[0], &pos[1], &pos[2], &rot);

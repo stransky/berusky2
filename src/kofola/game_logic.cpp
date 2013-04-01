@@ -12129,15 +12129,13 @@ PLAY_LEVEL_START:
   kprintf(1, "kam_pol_get...");
 
   kam_pol_get((BOD *) & Level.lCamera.Position, &Level.lCamera.r,
-    &Level.lCamera.fi, &Level.lCamera.Distance);
+              &Level.lCamera.fi, &Level.lCamera.Distance);
 
   kprintf(1, "Save Demo?");
   if (Level.bSaveDemo) {
     WCHAR cText[128];
-
     ZeroMemory(cText, 128);
-    if (RunMenuLoadGameLoad2("Mmload_game_loads3d.txt", Level.p_ad,
-        &Level, &am, 2, cText))
+    if (RunMenuLoadGameLoad2("Mmload_game_loads3d.txt", Level.p_ad, &Level, &am, 2, cText))
       if (wcslen(cText))
         demo_SaveWC(&Demo, cText, bOvladaniBerusek1, cLevelName, p_Env_Name);
   }

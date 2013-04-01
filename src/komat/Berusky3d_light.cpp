@@ -381,48 +381,40 @@ void sdla_animaci_zrus_online(DYN_LIGHT_ANIM * p_an)
 }
 
 inline void sdla_animaci_vyrob(DYN_LIGHT_ANIM * p_an, int framenum,
-  int pos_keys, int dir_keys, int diff_keys,
-  int spec_keys, int dos_keys, int alfa_keys)
+                               int pos_keys, int dir_keys, int diff_keys,
+                               int spec_keys, int dos_keys, int alfa_keys)
 {
   p_an->endtime = calc_endtime(framenum);
 
   p_an->pos_keys = pos_keys;
   if (pos_keys) {
-    p_an->p_pkeys =
-      (KEY_POINT_BRS *) mmalloc(sizeof(p_an->p_pkeys[0]) * pos_keys);
+    p_an->p_pkeys = (KEY_POINT_BRS *) mmalloc(sizeof(p_an->p_pkeys[0]) * pos_keys);
     p_an->p_pos = (BOD *) mmalloc(sizeof(p_an->p_pos[0]) * pos_keys);
   }
   p_an->trg_keys = dir_keys;
   if (dir_keys) {
-    p_an->p_tkeys =
-      (KEY_POINT_BRS *) mmalloc(sizeof(p_an->p_tkeys[0]) * dir_keys);
+    p_an->p_tkeys = (KEY_POINT_BRS *) mmalloc(sizeof(p_an->p_tkeys[0]) * dir_keys);
     p_an->p_trg = (BOD *) mmalloc(sizeof(p_an->p_trg[0]) * dir_keys);
   }
   p_an->dos_keys = dos_keys;
   if (dos_keys) {
-    p_an->p_dskeys =
-      (KEY_POINT_BRS *) mmalloc(sizeof(p_an->p_dskeys[0]) * dos_keys);
+    p_an->p_dskeys = (KEY_POINT_BRS *) mmalloc(sizeof(p_an->p_dskeys[0]) * dos_keys);
     p_an->p_dosah = (BOD *) mmalloc(sizeof(p_an->p_dosah[0]) * dos_keys);
   }
   p_an->diff_keys = diff_keys;
   if (diff_keys) {
-    p_an->p_dfkeys =
-      (KEY_POINT_BRS *) mmalloc(sizeof(p_an->p_dfkeys[0]) * diff_keys);
-    p_an->p_diff =
-      (BARVA_RGBA *) mmalloc(sizeof(p_an->p_diff[0]) * diff_keys);
+    p_an->p_dfkeys = (KEY_POINT_BRS *) mmalloc(sizeof(p_an->p_dfkeys[0]) * diff_keys);
+    p_an->p_diff = (BARVA_RGBA *) mmalloc(sizeof(p_an->p_diff[0]) * diff_keys);
   }
   p_an->alfa_keys = alfa_keys;
   if (alfa_keys) {
-    p_an->p_akeys =
-      (KEY_POINT_BRS *) mmalloc(sizeof(p_an->p_akeys[0]) * alfa_keys);
+    p_an->p_akeys = (KEY_POINT_BRS *) mmalloc(sizeof(p_an->p_akeys[0]) * alfa_keys);
     p_an->p_alfa = (float *) mmalloc(sizeof(p_an->p_alfa[0]) * alfa_keys);
   }
   p_an->spec_keys = spec_keys;
   if (spec_keys) {
-    p_an->p_spkeys =
-      (KEY_POINT_BRS *) mmalloc(sizeof(p_an->p_spkeys[0]) * spec_keys);
-    p_an->p_spec =
-      (BARVA_RGBA *) mmalloc(sizeof(p_an->p_spec[0]) * spec_keys);
+    p_an->p_spkeys = (KEY_POINT_BRS *) mmalloc(sizeof(p_an->p_spkeys[0]) * spec_keys);
+    p_an->p_spec = (BARVA_RGBA *) mmalloc(sizeof(p_an->p_spec[0]) * spec_keys);
   }
 }
 
@@ -436,12 +428,12 @@ inline void sdl_light_to_light(DYN_LIGHT * p_light, DYN_LIGHT_ANIM * p_track,
 
   if (p_track->pos_keys) {
     key_track_interpolace_bod(&p_light->np, p_track->p_pos, p_track->p_pkeys,
-      time, p_track->endtime, p_track->pos_keys, loop);
+                              time, p_track->endtime, p_track->pos_keys, loop);
     p_light->tp = p_light->np;
   }
   if (p_track->dos_keys) {
     key_track_interpolace_bod_linear(&d, p_track->p_dosah, p_track->p_dskeys,
-      time, p_track->endtime, p_track->dos_keys, loop);
+                                     time, p_track->endtime, p_track->dos_keys, loop);
     sdl_maxlook_korekce(p_light, d.y, d.z, d.x);        // interpolace je dosah/min/max
   }
   if (p_track->diff_keys) {
@@ -644,7 +636,7 @@ RunHandle sdl_svetlo_anim(LightHandle handle, BOD * p_bod,
 
 
 LightHandle sdl_anim_vyrob(LightHandle lh, int framenum, int pos_keys,
-  int diff_keys, int dosah_keys)
+                           int diff_keys, int dosah_keys)
 {
   DYN_LIGHT *p_light = p_ber->p_dlight + lh;
   DYN_LIGHT_ANIM *p_an;
@@ -653,8 +645,7 @@ LightHandle sdl_anim_vyrob(LightHandle lh, int framenum, int pos_keys,
     p_an = &p_light->an;
     if (p_an->endtime)
       sdla_animaci_zrus(p_an);
-    sdla_animaci_vyrob(p_an, framenum, pos_keys, 0, diff_keys, 0, dosah_keys,
-      0);
+    sdla_animaci_vyrob(p_an, framenum, pos_keys, 0, diff_keys, 0, dosah_keys, 0);
     return (lh);
   }
   else
@@ -985,8 +976,7 @@ int dl_mesh_pripocitej_svetla(G_KONFIG * p_ber, GAME_MESH_OLD * p_mesh,
   if (!diffuse && !specular)
     return (FALSE);
 
-  if (!diffuse || 
-      (dyn_light && !(kflag & KONT_POHYB) && !p_ber->dl_new && !dl_mesh_svetlo_update(p_data))) 
+  if (!diffuse || (dyn_light && !(kflag & KONT_POHYB) && !p_ber->dl_new && !dl_mesh_svetlo_update(p_data))) 
   {
     dyn_light = FALSE;
   }
@@ -1215,7 +1205,7 @@ int dl_mesh_pripocitej_svetla(G_KONFIG * p_ber, GAME_MESH_OLD * p_mesh,
             }
           }
 
-          // Update extra-svetel - pokud jsou          
+          // Update extra-svetel - pokud jsou
           if (extra_light) {
             for (i = 0; i < extra_light; i++) {
               p_light = p_data->p_edlight[i];
@@ -1406,13 +1396,13 @@ void dl_reset_svetel(G_KONFIG * p_ber)
   }
 }
 
-inline void dl_updatuj_mesh(G_KONFIG * p_ber, GAME_MESH_OLD * p_mesh,
-  int full_light, int all)
+inline void dl_updatuj_mesh(G_KONFIG * p_ber, GAME_MESH_OLD * p_mesh, int full_light, int all)
 {
   int v1, v2;
 
   v1 = dl_mesh_pridej_svetla(p_ber, p_mesh);
   v2 = edl_mesh_pridej_svetla(p_ber, p_mesh);
+
   if (v1 || v2) {
     dl_mesh_pripocitej_svetla(p_ber, p_mesh, v1, v2, full_light, all);
     p_mesh->p_data->kflag |= KONT_POHYB_ZRUS;
@@ -1422,8 +1412,7 @@ inline void dl_updatuj_mesh(G_KONFIG * p_ber, GAME_MESH_OLD * p_mesh,
 inline void dl_updatuj_seznam_meshu(G_KONFIG * p_ber, int all)
 {
   GAME_MESH_OLD *p_mesh;
-  int flag = (p_ber->conf_dyn_light_prvky
-    || p_ber->conf_dyn_light_beruska) ? KONT_PRVEK : FALSE;
+  int flag = (p_ber->conf_dyn_light_prvky || p_ber->conf_dyn_light_beruska) ? KONT_PRVEK : FALSE;
   int full = p_ber->conf_full_light;
   int m;
 
@@ -1431,18 +1420,16 @@ inline void dl_updatuj_seznam_meshu(G_KONFIG * p_ber, int all)
     for (m = 0; m < p_ber->meshnum; m++) {
       p_mesh = p_ber->p_mesh[m];
       if (p_mesh) {
-        dl_updatuj_mesh(p_ber, p_mesh,
-          full ? ber_je_mesh_prvek_fast(p_mesh) : FALSE, all);
+        dl_updatuj_mesh(p_ber, p_mesh, full ? ber_je_mesh_prvek_fast(p_mesh) : FALSE, all);
       }
     }
   }
   else {
     ber_mesh_render_list_reset(p_ber);
     while ((p_mesh = ber_mesh_render_list_next_flag(p_ber, flag, FALSE))) {
-      if (!p_ber->conf_dyn_light_beruska || (p_ber->conf_dyn_light_beruska
-          && ber_je_mesh_beruska_fast(p_mesh)))
-        dl_updatuj_mesh(p_ber, p_mesh,
-          full ? ber_je_mesh_prvek_fast(p_mesh) : FALSE, FALSE);
+      if (!p_ber->conf_dyn_light_beruska || (p_ber->conf_dyn_light_beruska && ber_je_mesh_beruska_fast(p_mesh))) {        
+        dl_updatuj_mesh(p_ber, p_mesh, full ? ber_je_mesh_prvek_fast(p_mesh) : FALSE, FALSE);
+      }
     }
   }
 }
@@ -3014,8 +3001,7 @@ inline void sdl_updatuj_seznam_poly(G_KONFIG * p_ber, int all)
   if (all) {
     for (p = 0; p < p_ber->polynum; p++) {
       p_poly = p_ber->p_poly + p;
-      sdl_updatuj_poly(p_ber, p_poly,
-        full ? p_poly->kflag & KONT_PRVEK : FALSE);
+      sdl_updatuj_poly(p_ber, p_poly, full ? p_poly->kflag & KONT_PRVEK : FALSE);
     }
   }
   else {
@@ -3419,8 +3405,7 @@ ExtraLightHandle edl_anim_vyrob(ExtraLightHandle lh, int framenum,
     p_an = &p_light->an;
     if (p_an->endtime)
       sdla_animaci_zrus(p_an);
-    sdla_animaci_vyrob(p_an, framenum, pos_keys, trg_keys,
-      0, spec_keys, dosah_keys, alfa_keys);
+    sdla_animaci_vyrob(p_an, framenum, pos_keys, trg_keys, 0, spec_keys, dosah_keys, alfa_keys);
     return (lh);
   }
   else

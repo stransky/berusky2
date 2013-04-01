@@ -88,8 +88,7 @@ void am_Do_Vodni_Cakanec2(float *pos, int VyskaPadu, int predmet,
 void am_Do_Lift_VParticles(float *pos, int mesh, LEVELINFO * p_Level);
 
 void am_Do_Water_KolaB(LEVELINFO * p_Level);
-int am_Kola_na_VodeB(float *pos, int Beruska, int mesh, int infinity,
-  LEVELINFO * p_Level);
+int am_Kola_na_VodeB(float *pos, int Beruska, int mesh, int infinity, LEVELINFO * p_Level);
 
 void am_Do_Bubliny_Berusek(LEVELINFO * p_Level);
 

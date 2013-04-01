@@ -1277,7 +1277,9 @@ void anmend_Exit(size_ptr param, size_ptr param2, size_ptr p_param)
   am_Do_Exit(param, param2, p_Level);
 
   lani_set(param, 0, K_CHYBA, &p_Level->TrashFlag,0,0,0);
-  kom_zrus_prvek(param);
+
+  // We don't need it - the bug is removed in am_Do_Exit_Efects()
+  //kom_zrus_prvek(param);
 }
 
 void anmend_Lift_Item(size_ptr param, size_ptr param2, size_ptr p_param)

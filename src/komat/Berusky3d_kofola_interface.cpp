@@ -821,7 +821,7 @@ void kom_post_init_level(void)
 /* Zruseni meshe
 */
 void kom_zrus_prvek(MeshHandle prvek_handle)
-{
+{  
   PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[prvek_handle];
   if (p_prv) {
     int mh = p_prv->mesh;
@@ -829,12 +829,9 @@ void kom_zrus_prvek(MeshHandle prvek_handle)
       GAME_MESH_DATA *p_data = p_ber->p_mesh[mh]->p_data;
       lo_vymaz_svetla_ze_sceny_mesh(p_data);
       if (p_data->p_ldlight)
-        p_ber->dl_lightnum =
-          lo_najdi_prepocitej_dsvetlo(p_ber->p_dlight, MAX_FLARE_SVETEL);
+        p_ber->dl_lightnum = lo_najdi_prepocitej_dsvetlo(p_ber->p_dlight, MAX_FLARE_SVETEL);
       if (p_data->p_lelight)
-        p_ber->edl_lightnum =
-          lo_najdi_prepocitej_extra_svetlo(p_ber->p_edlight,
-          MAX_FLARE_SVETEL);
+        p_ber->edl_lightnum = lo_najdi_prepocitej_extra_svetlo(p_ber->p_edlight, MAX_FLARE_SVETEL);
       zrus_mesh(p_ber->p_mesh + mh);
     }
     free(p_ber->p_prv_lev[prvek_handle]);

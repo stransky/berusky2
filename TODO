@@ -1,4 +1,16 @@
 TODO:
+- ini file - see all saves options (regardless the profile)
+- Bad exit animations (lighting)
+- Wait for game tip to load (wait for a key?)
+- Scroll help on mouse wheel
+- Credit fix - texts
+- Grey beetle can't be selected by mouse when screen is resized
+- Tips - wait for click (Load screen) - space to continue?
+- Missing/wrong Transparent 3D objects (marks on ground, water in underground)
+- Enable music/sound by default?
+- Camera center -> rotate to follow bug sight?
+
+
 - remove unnecessary options from ini files
 - transform settings from setup to text config
 - spltit ini file
@@ -9,19 +21,10 @@ TODO:
 - All hints on web
 - Web help/tutorial
 
-- grey beetle can't be selected by mouse when screen is resized
-- Tips - wait for click (Load screen) - space to continue?
-- scroll help on mouse wheel
-
-- credit fix - texts
-- transparent 3D objects
-- bad exit animations
 - per-pixel lighting
 - textures are not sharp
 - better camera (automatic?)
 - Why menu is not animated?
-- Game title is not set?
-- Wait for game tip to load (wait for a key?)
 
 - in-game menu - to menu je nejake hnusne?
 - defaultne je vypla/zakazana hudba/zvuky?
