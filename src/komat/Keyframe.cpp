@@ -3926,7 +3926,7 @@ void key_kosti_serad_klice(byte * p_hodnoty, KEY_POINT_BRS * p_skeys,
    Streamovy animace vertexu
 */
 void key_kosti_stream_animuj_rec(JOINT_ANIMACE * p_anim, JOINT * p_joint,
-  GLMATRIX * p_top, int time, int keynum)
+                                 GLMATRIX * p_top, int time, int keynum)
 {
   float frame, t, t1, x1, y1, z1, x2, y2, z2;
   BOD *p1, *p2, pv;
@@ -3957,13 +3957,15 @@ void key_kosti_stream_animuj_rec(JOINT_ANIMACE * p_anim, JOINT * p_joint,
       }
       if (p_joint->p_rot) {
         quat_to_matrix(p_m, slerp(p_joint->p_rot + kn,
-            p_joint->p_rot + kn + 1, t, &p_joint->r));
+                       p_joint->p_rot + kn + 1, t, &p_joint->r));
       }
       if (p_joint->p_scs) {
         p1 = p_joint->p_scs + kn;
         p2 = p_joint->p_scs + kn + 1;
-        scale_matrix(p_m, p1->x * t1 + p2->x * t, p1->y * t1 + p2->y * t,
-          p1->z * t1 + p2->z * t);
+        scale_matrix(p_m, 
+                     p1->x * t1 + p2->x * t, 
+                     p1->y * t1 + p2->y * t,
+                     p1->z * t1 + p2->z * t);
       }
     }
     else {
@@ -4001,7 +4003,7 @@ void key_kosti_stream_animuj_rec(JOINT_ANIMACE * p_anim, JOINT * p_joint,
     num = p_joint->vertexnum;
     p_ind = p_joint->p_vertexlist;
 
-    if (ps1in && ps1out) {
+    if (ps1in && ps1out && ps2in && ps2out) {
 
       num = p_joint->vertexnum;
       p_ind = p_joint->p_vertexlist;
