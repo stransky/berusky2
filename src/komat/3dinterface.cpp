@@ -42,13 +42,13 @@ int glstav_text_array_akt;      // aktualni texturovaci pole
 int glstav_text_map_indicie[6]; // mapovaci indicie pro textury (cislo mapy)
 int glstav_text_poly_indicie;   // mapovaci indicie pro poly (cislo mapy)
 
-int glstav_posun_flagy2[6] =
+unsigned int glstav_posun_flagy2[6] =
   { MAT2_T1_MATRIX, MAT2_T2_MATRIX, MAT2_T3_MATRIX, MAT2_T4_MATRIX, 0, 0 };
-int glstav_texgen_on[6] =
+unsigned int glstav_texgen_on[6] =
   { MAT2_CALC_MAP1, MAT2_CALC_MAP2, MAT2_CALC_MAP3, MAT2_CALC_MAP4, 0, 0 };
-int glstav_texgen_eye_lin_flagy[6] =
+unsigned int glstav_texgen_eye_lin_flagy[6] =
   { MAT_T1_EYE_LIN, MAT_T2_EYE_LIN, MAT_T3_EYE_LIN, MAT_T4_EYE_LIN, 0, 0 };
-int glstav_texgen_sphere_flagy[6] =
+unsigned int glstav_texgen_sphere_flagy[6] =
   { MAT_T1_SPHERE, MAT_T2_SPHERE, MAT_T3_SPHERE, MAT_T4_SPHERE, 0, 0 };
 GLMATRIX glstav_texgen[6];
 

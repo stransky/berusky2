@@ -45,10 +45,10 @@ extern int glstav_text_array_akt;       // aktualni texturovaci pole
 extern int glstav_text_map_indicie[6];  // mapovaci indicie pro textury (cislo mapy, cislo stavu)
 extern int glstav_text_poly_indicie;    // mapovaci indicie pro poly (cislo mapy)
 
-extern int glstav_posun_flagy2[6];
-extern int glstav_texgen_on[6];
-extern int glstav_texgen_eye_lin_flagy[6];
-extern int glstav_texgen_sphere_flagy[6];
+extern unsigned int glstav_posun_flagy2[6];
+extern unsigned int glstav_texgen_on[6];
+extern unsigned int glstav_texgen_eye_lin_flagy[6];
+extern unsigned int glstav_texgen_sphere_flagy[6];
 extern GLMATRIX glstav_texgen[6];
 
 extern int glstav_view_x;

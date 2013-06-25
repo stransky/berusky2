@@ -69,8 +69,8 @@ int     gl_texture::multitext_units = 0;
 int     gl_texture::text_akt = ERROR;
 int     gl_texture::textures_2d[MAX_GL_TEXT_UNITS] = {0,0,0,0,0,0};
 int     gl_texture::textures_1d[MAX_GL_TEXT_UNITS] = {0,0,0,0,0,0};
-GLuint  gl_texture::last_text_2d[MAX_GL_TEXT_UNITS] = {-1,-1,-1,-1,-1,-1};
-GLuint  gl_texture::last_text_1d[MAX_GL_TEXT_UNITS] = {-1,-1,-1,-1,-1,-1};
+GLint   gl_texture::last_text_2d[MAX_GL_TEXT_UNITS] = {-1,-1,-1,-1,-1,-1};
+GLint   gl_texture::last_text_1d[MAX_GL_TEXT_UNITS] = {-1,-1,-1,-1,-1,-1};
 GLenum  gl_texture::arb_translation_table[MAX_GL_TEXT_UNITS] = 
 {
   GL_TEXTURE0_ARB,

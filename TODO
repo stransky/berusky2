@@ -1,26 +1,39 @@
 TODO:
+
+- fix configure script, fix install from sources (make install)
+- use that in rpm
+- web info - co to je za verze a co obsahuji - roztridit to
+
+Web:
 - wiki page with debugging info
+- troubleshooting
+- on-line manual/help (Web)
+- All hints on web
+- Web help/tutorial
+
+- nefunguje pruhledne veci - stopy, flares a podobne
+- Wait for game tip to load (wait for a key?)
+- Credit fix - texts
+- Scroll help on mouse wheel
+- better camera
+- lighting
+
+- better effects
+
+- windows version?
 
 - ini file - see all saves options (regardless the profile)
-- Wait for game tip to load (wait for a key?)
-- Scroll help on mouse wheel
-- Credit fix - texts
 - Grey beetle can't be selected by mouse when screen is resized
 - Tips - wait for click (Load screen) - space to continue?
 - Missing/wrong Transparent 3D objects (marks on ground, water in underground)
 - Enable music/sound by default?
 - Camera center -> rotate to follow bug sight?
 
-
 - remove unnecessary options from ini files
 - transform settings from setup to text config
-- spltit ini file
+- split ini file
 
 - crash at level20.lv6 (Adam)
-
-- on-line manual/help (Web)
-- All hints on web
-- Web help/tutorial
 
 - per-pixel lighting
 - textures are not sharp
@@ -49,15 +62,12 @@ set env LD_PRELOAD=libefence.so.0.0
 set env EF_ALLOW_MALLOC_0=1
 run
 
-- Update readme
-
 Tips:
   - disable sound&music -> set volume to 0
 
 - rozdelit ini soubory na 2? nastaveni uzivatelu + globalni datove soubory?
 - nefunguji animace!! (z menu) - spatne data soubory
   - nikde!! (ani ve fedore) -> chyba v ini souboru??
-- nefunguje pruhledne veci - stopy, flares a podobne
 
 > asm code in lighting -> writting to ligtmap updates
 > hwconf -> game resolution/fulscreen

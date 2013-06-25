@@ -25,9 +25,9 @@ int fn_Find_Char(GAME_TRIGER * gt, TRIGER_STRUCTURE * ts,
     return 0;
   
   i = b2_2d_font.pTTable[cWChar];
-
-  if (i < 0)
+  if (i < 0) {
     return 0;
+  }
   else {
     l = (float *) &gt->command[i].Parametr[1].Value;
     t = (float *) &gt->command[i].Parametr[2].Value;
@@ -239,38 +239,36 @@ bool fn_Draw_MessageA(int iSurface, int iXpos, int iYpos, GAME_TRIGER * gt,
   wcsncpy(wtext, cText, wcslen(cText));
 
   for (i = 0; i < (int) wcslen(wtext); i++) {
-    if (wtext[i] == 32) {
-      //x+= 50;
+    if (wtext[i] == 32) {      
       x += b2_2d_font.iXPlus;
       continue;
     }
     else if (wtext[i] == 10) {
-      //y+= 17;
       y += b2_2d_font.iYPlus;
       x = iXpos;
 
       *iYmax += b2_2d_font.iYPlus;
       continue;
     }
-    else
-      if (fn_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor, wtext[i],
-                       (float)ddxGetWidth(b2_2d_font.iBitmap[iSection]),
-                       (float)ddxGetHight(b2_2d_font.iBitmap[iSection])))
-      {
-
-      ddxTransparentBlt(iSurface,
-                        x, y + ycor, right - left + 1, bottom - top + 1,
-                        b2_2d_font.iBitmap[iSection], 
-                        left, top, right - left + 1, bottom - top + 1,
-                        b2_2d_font.tcolor);
-
-      x += right - left + 2;
-
-      if (x > *iXmax)
-        *iXmax = x;
-
-      if (bottom - top + 1 > b2_2d_font.iYPlus)
-        *iYmax = (*iYmax) - b2_2d_font.iYPlus + (bottom - top + 1);
+    else {
+      int ret = fn_Find_Char(gt, ts, &top, &left, &bottom, &right, &ycor, wtext[i],
+                            (float)ddxGetWidth(b2_2d_font.iBitmap[iSection]),
+                            (float)ddxGetHight(b2_2d_font.iBitmap[iSection]));      
+      if(ret) {
+        ddxTransparentBlt(iSurface,
+                          x, y + ycor, right - left + 1, bottom - top + 1,
+                          b2_2d_font.iBitmap[iSection], 
+                          left, top, right - left + 1, bottom - top + 1,
+                          b2_2d_font.tcolor);
+  
+        x += right - left + 2;
+  
+        if (x > *iXmax)
+          *iXmax = x;
+  
+        if (bottom - top + 1 > b2_2d_font.iYPlus)
+          *iYmax = (*iYmax) - b2_2d_font.iYPlus + (bottom - top + 1);
+      }
     }
   }
   return(TRUE);

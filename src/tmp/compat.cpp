@@ -538,11 +538,38 @@ void dbgprintf(char *p_tmp, ...)
 {
 }
 
+int CP1250ToWideChar(char *lpMultiByteStr, size_t multiByteStrLen,
+                     char *lpWideCharStr, size_t wideCharLen)
+{
+  iconv_t cd = iconv_open("UTF32", "WINDOWS-1250");
+  if (cd == (iconv_t)-1)
+    return(-1);
+  
+  int ret = iconv(cd, 
+                  &lpMultiByteStr, &multiByteStrLen,
+                  &lpWideCharStr, &wideCharLen);
+
+  iconv_close(cd);
+  assert(wideCharLen);
+  return(ret != -1 && wideCharLen);
+}
+
+// Converts UTF-8 to wide-char string
 int MultiByteToWideChar(int CodePage, int dwFlags, char *lpMultiByteStr,
                         int cbMultiByte, WCHAR * lpWideCharStr, int cchWideChar)
 {
   int ret = mbstowcs(lpWideCharStr, lpMultiByteStr, cchWideChar);
-  assert(ret && ret < cchWideChar);
+  if(ret != -1) {
+    assert(ret && ret < cchWideChar);
+  }
+  else {
+    // invalid multi-byte sequence has been detected - try to convert
+    // from Windows-1250 codepage      
+    ret = CP1250ToWideChar(lpMultiByteStr, 
+                           cbMultiByte, 
+                           (char *)lpWideCharStr,
+                           cchWideChar*sizeof(WCHAR));    
+  }
   return (ret);
 }
 

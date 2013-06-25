@@ -35,23 +35,18 @@ int cr_Set_Text_Center(int hdc, char *text, int isection, RECT r)
 {
   int xp, yp;
   int tx, ty;
-  WCHAR wc[128];
+  WCHAR wc[256];
   int h;
 
   h = ddxCreateSurface(1024, 110, ddxFindFreeSurface());
 
-  MultiByteToWideChar(CP_ACP, 0, text, strlen(text) + 1, wc,
-    sizeof(wc) / sizeof(wc[0]));
+  MultiByteToWideChar(CP_ACP, 0, text, strlen(text) + 1, wc, sizeof(wc) / sizeof(wc[0]));
+  fn_Draw_MessageA(h, 0, 0, &b2_2d_font.gt, &b2_2d_font.ts, wc, isection, &tx, &ty);
 
-  fn_Draw_MessageA(h, 0, 0, &b2_2d_font.gt, &b2_2d_font.ts, wc, isection, &tx,
-    &ty);
-
-  xp = ftoi(((r.right - r.left) - tx) / 2.0f);
-  //yp = ftoi(((r.bottom - r.top) - ty) / 2.0f);
+  xp = ftoi(((r.right - r.left) - tx) / 2.0f);  
   yp = 0;
 
-  ddxTransparentBlt(hdc, r.left + xp, r.top + yp, tx, ty, h, 0, 0, tx, 90,
-    TRANSCOLOR);
+  ddxTransparentBlt(hdc, r.left + xp, r.top + yp, tx, ty, h, 0, 0, tx, 90, TRANSCOLOR);
 
   ddxReleaseBitmap(h);
 
@@ -96,8 +91,7 @@ void cr_Cleare(int iSurface)
 {
   int idx = ddxCreateSurface(1024, 100, ddxFindFreeSurface());
   int i;
-
-  //ddxCleareSurfaceColor(iSurface, RGB(255, 0, 255));
+  
   if (idx == -1) {
     ddxCleareSurfaceColor(iSurface, 0);
     kprintf(1, "cr_Cleare probehl neuspesne!!!");

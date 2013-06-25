@@ -362,8 +362,8 @@ public:
   static int      textures_2d[MAX_GL_TEXT_UNITS];   // textury on/off
   static int      textures_1d[MAX_GL_TEXT_UNITS];   // textury on/off
   
-  static GLuint   last_text_2d[MAX_GL_TEXT_UNITS]; // posledni textura
-  static GLuint   last_text_1d[MAX_GL_TEXT_UNITS]; // posledni textura
+  static GLint   last_text_2d[MAX_GL_TEXT_UNITS]; // posledni textura
+  static GLint   last_text_1d[MAX_GL_TEXT_UNITS]; // posledni textura
 
   static GLenum   arb_translation_table[MAX_GL_TEXT_UNITS];// = {GL_TEXTURE0_ARB,GL_TEXTURE1_ARB, GL_TEXTURE2_ARB, GL_TEXTURE3_ARB, GL_TEXTURE4_ARB, GL_TEXTURE5_ARB};
   
@@ -392,7 +392,7 @@ public:
   }
 
   // Nastavi texturu
-  static void set(GLuint text, GLenum typ)
+  static void set(GLint text, GLenum typ)
   {
     if(typ == GL_TEXTURE_2D) {
       if(textures_2d[text_akt] && last_text_2d[text_akt] != text) {

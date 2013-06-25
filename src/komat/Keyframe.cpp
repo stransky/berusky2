@@ -3451,9 +3451,9 @@ ANIM_TEXT *key_text_nahraj(char *p_file, char *p_dir)
 
   chdir((p_dir));
   if (!(f = fopen(p_file, "r"))) {
-    ddw("File %s Line %d Chyba otevreni souboru '%s' v %s", __FILE__,
-      __LINE__, p_file, (p_dir));
-    return (FALSE);
+    ddw("File %s Line %d Chyba otevreni souboru '%s' v %s", 
+        __FILE__, __LINE__, p_file, (p_dir));
+    return (NULL);
   }
 
   p = r = s = v = 0;
