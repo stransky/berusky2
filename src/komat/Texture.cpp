@@ -3,7 +3,6 @@
 */
 #include "3d_all.h"
 #include "Texture_import.h"
-#include "Tga.h"
 
 bitmapa *surface2bmp(SURFACE_SDL * p_surf);
 
@@ -611,37 +610,12 @@ int txt_nahraj_lightmapu_z_bmp(char *p_file, KFILE * f,
 int txt_nahraj_texturu_z_dds(APAK_HANDLE * pHandle, char *p_file,
   EDIT_TEXT_OLD * p_text, int save)
 {
-  /*
-     EDIT_TEXT_KONFIG konf;  
-     AUX_RGBImageRec *p_tmp = NULL;
-     void            *p_vysl;
-     int              ret;
-
-     if((ret = txt_dds_to_bmp(pHandle,p_file,&p_vysl))) {
-     konf.mip = txconf.text_mip_mapping;
-     konf.mip_filtr = txconf.text_mip_filtr;
-     konf.wrap_x = GL_REPEAT;
-     konf.wrap_y = GL_REPEAT;
-     if(ret == 3) {
-     konf.format = txconf.format2d[FORMAT_RGB];
-     p_tmp = (AUX_RGBImageRec *)p_vysl;
-     p_text->p_bmp = txt_aux2bmp(p_tmp,FALSE);
-     zrus_aux(&p_tmp);
-     } else {
-     konf.format = txconf.format2d[FORMAT_RGBA4];  
-     p_text->p_bmp = (bitmapa *)p_vysl;
-     }
-     p_text->p_bmp = txt_bmp2textura(p_text->p_bmp, p_text, &konf, FALSE);
-     p_text->load = TRUE;
-     if(!save) {
-     bmp_zrus(&p_text->p_bmp);
-     }
-     }
-   */
+  /* Not implemented */
   assert(0);
-  return (p_text->load);
+  return (FALSE);
 }
 
+/*
 int txt_nahraj_texturu_z_tga(APAK_HANDLE * pHandle, char *p_file,
   EDIT_TEXT_OLD * p_text)
 {
@@ -660,7 +634,7 @@ int txt_nahraj_texturu_z_tga(APAK_HANDLE * pHandle, char *p_file,
   }
   return (p_text->load);
 }
-
+*/
 int txt_zrus_2D_texturu(int *p_text)
 {
   if (glIsTexture(*p_text)) {

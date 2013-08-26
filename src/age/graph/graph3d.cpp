@@ -675,8 +675,10 @@ bool graph3d_sdl::screen_create(void)
 
 void graph3d_sdl::screen_destroy(void)
 {
-  if(p_screen_surface)
+  if(p_screen_surface) {
     delete p_screen_surface;
+    p_screen_surface = NULL;
+  }
 }
 
 void graph3d_sdl::screen_resize(tpos width, tpos height)

@@ -55,7 +55,6 @@ typedef struct _rect
 } RECT, *PRECT;
 
 #include "kfile.h"
-#include "Bmp.h"
 #include "Texture.h"
 #include "Matrix.h"
 #include "Mat3d.h"

@@ -104,8 +104,6 @@ src/komat/Berusky3d_load.h
 src/komat/Berusky3d_render.cpp
 src/komat/Berusky3d_render.h
 src/komat/Berusky_universal.h
-src/komat/Bmp.cpp
-src/komat/Bmp.h
 src/komat/Ddx.h
 src/komat/Di.cpp
 src/komat/Di.h
@@ -115,12 +113,8 @@ src/komat/Load_chunks.cpp
 src/komat/Load_chunks.h
 src/komat/Load_out.cpp
 src/komat/Load_out.h
-src/komat/NvTriStrip.h
-src/komat/Tga.cpp
-src/komat/Tga.h
 src/komat/kfile.h
 src/komat/mmalloc.h
-src/komat/mss.h
 src/komat/strip.cpp
 src/komat/strip.h
 src/komat/zlib_io.h

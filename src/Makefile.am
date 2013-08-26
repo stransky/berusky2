@@ -117,8 +117,6 @@ berusky2_SOURCES = \
 	komat/Berusky3d_render.cpp\
 	komat/Berusky3d_render.h\
 	komat/Berusky_universal.h\
-	komat/Bmp.cpp\
-	komat/Bmp.h\
 	komat/Ddx.h\
 	komat/Di.cpp\
 	komat/Di.h\
@@ -128,12 +126,8 @@ berusky2_SOURCES = \
 	komat/Load_chunks.h\
 	komat/Load_out.cpp\
 	komat/Load_out.h\
-	komat/NvTriStrip.h\
-	komat/Tga.cpp\
-	komat/Tga.h\
 	komat/kfile.h\
 	komat/mmalloc.h\
-	komat/mss.h\
 	komat/strip.cpp\
 	komat/strip.h\
 	komat/zlib_io.h\

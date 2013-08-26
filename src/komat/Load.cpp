@@ -2343,13 +2343,10 @@ int lo_reload_textur_formaty(APAK_HANDLE * pHandle, EDIT_TEXT * p_text,
   for (i = 0; i < max; i++) {
     if (p_text[i].jmeno[0] && !p_text[i].load) {
       kprintf(TRUE, "Texture %s...", p_text[i].jmeno);
-      if (strcasestr(p_text[i].jmeno, ".bmp")
-        || strcasestr(p_text[i].jmeno, ".btx")) {
-        if (!txt_nahraj_texturu_z_func(pHandle, p_text[i].jmeno, p_text + i,
-            save, TRUE, NULL, bmp_nahraj)) {
+      if (strcasestr(p_text[i].jmeno, ".bmp") || strcasestr(p_text[i].jmeno, ".btx")) {
+        if (!txt_nahraj_texturu_z_func(pHandle, p_text[i].jmeno, p_text + i, save, TRUE, NULL, bmp_nahraj)) {
           zamen_koncovku(strcpy(file, p_text[i].jmeno), ".jpg");
-          if (txt_nahraj_texturu_z_func(pHandle, file, p_text + i, save, TRUE,
-              NULL, bmp_nahraj)) {
+          if (txt_nahraj_texturu_z_func(pHandle, file, p_text + i, save, TRUE, NULL, bmp_nahraj)) {
             strcpy(p_text[i].jmeno, file);
           }
         }
@@ -2358,14 +2355,13 @@ int lo_reload_textur_formaty(APAK_HANDLE * pHandle, EDIT_TEXT * p_text,
         txt_nahraj_texturu_z_dds(pHandle, p_text[i].jmeno, p_text + i, save);
       }
       else if (strstr(p_text[i].jmeno, ".tga")) {
-        txt_nahraj_texturu_z_tga(pHandle, p_text[i].jmeno, p_text + i);
+        txt_nahraj_texturu_z_func(pHandle, p_text[i].jmeno, p_text + i,
+                                  save, TRUE, NULL, bmp_nahraj);
       }
       else {
         char file[MAX_JMENO];
-
         zamen_koncovku(strcpy(file, p_text[i].jmeno), ".bmp");
-        if (txt_nahraj_texturu_z_func(pHandle, file, p_text + i, save, TRUE,
-            NULL, bmp_nahraj)) {
+        if (txt_nahraj_texturu_z_func(pHandle, file, p_text + i, save, TRUE, NULL, bmp_nahraj)) {
           strcpy(p_text[i].jmeno, file);
         }
       }

@@ -1,5 +1,9 @@
 TODO:
 
+- better camera (remove the camera obstructions)
+- better lighting (no-lighting mode?)
+- screen icons? (for quick set-up) - better side menu?
+
 - fix configure script, fix install from sources (make install)
 - use that in rpm
 - web info - co to je za verze a co obsahuji - roztridit to
@@ -13,7 +17,6 @@ Web:
 
 - nefunguje pruhledne veci - stopy, flares a podobne
 - Wait for game tip to load (wait for a key?)
-- Credit fix - texts
 - Scroll help on mouse wheel
 - better camera
 - lighting

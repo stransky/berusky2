@@ -1578,8 +1578,7 @@ inline void transformuj_wbod_matici_wbod(WBOD * p_s, GLMATRIX * m,
   p_c->w = m->_14 * x + m->_24 * y + m->_34 * z + m->_44 * w;
 } 
 
-inline BOD *transformuj_bod_matici_bod(BOD * p_bod, GLMATRIX * m,
-  BOD * p_cil)
+inline BOD *transformuj_bod_matici_bod(BOD * p_bod, GLMATRIX * m, BOD * p_cil)
 {
   float x, y, z;
 

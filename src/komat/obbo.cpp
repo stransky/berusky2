@@ -706,8 +706,10 @@ float obb_calc_poly_obalka(EDIT_MESH_POLY * p_poly, BOD * p_vx, BOD * p_vy,
   GLMATRIX m, mi;
 
   mat_rot(&m, p_vx, p_vy, p_vz);
-  invert_matrix(&m, &mi);
-
+  
+  bool inv = invert_matrix(&m, &mi);
+  assert(inv);
+  
   poly_obalka(p_poly, &m, &min, &max);
 
   vektor_sub(&max, &min, &tmp); // lokalni stred !!!
