@@ -955,7 +955,7 @@ int dl_mesh_pripocitej_svetla(G_KONFIG * p_ber, GAME_MESH_OLD * p_mesh,
   BODRGBA *p_vertex_diff_mat = NULL;
   BODRGB *p_vertex_spec = NULL;
   BODRGB *p_vertex_spec_mat = NULL;
-  BOD p, n, dir, cam;
+  BOD p(0), n(0), dir(0), cam(0);
   int i, v, vnum, dflag, m2flag, j;
   int diffuse, specular, specular_light;
   int diffuse_ray, specular_ray;
@@ -1600,7 +1600,7 @@ int edl_poly_pripocitej_svetla(G_KONFIG * p_ber, EDIT_MESH_POLY * p_poly)
   BODRGBA *p_vertex_diff_mat = NULL;
   BODRGB *p_vertex_spec = NULL;
   BODRGB *p_vertex_spec_mat = NULL;
-  BOD *p, *n, dir, cam;
+  BOD *p, *n, dir(0), cam(0);
   int i, v, vnum, dflag;
   int specular, specular_light;
   int extra_light;
