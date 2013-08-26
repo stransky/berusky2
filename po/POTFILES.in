@@ -115,8 +115,6 @@ src/komat/Load_out.cpp
 src/komat/Load_out.h
 src/komat/kfile.h
 src/komat/mmalloc.h
-src/komat/strip.cpp
-src/komat/strip.h
 src/komat/zlib_io.h
 src/tmp/compat.cpp
 src/tmp/compat.h

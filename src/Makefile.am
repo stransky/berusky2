@@ -128,8 +128,6 @@ berusky2_SOURCES = \
 	komat/Load_out.h\
 	komat/kfile.h\
 	komat/mmalloc.h\
-	komat/strip.cpp\
-	komat/strip.h\
 	komat/zlib_io.h\
 	tmp/compat.cpp\
 	tmp/compat.h\

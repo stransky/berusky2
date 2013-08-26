@@ -83,10 +83,10 @@ am_berusky2_OBJECTS = 3D_graphic.$(OBJEXT) 3D_menus.$(OBJEXT) \
 	Berusky3d_kofola_interface.$(OBJEXT) Berusky3d_light.$(OBJEXT) \
 	Berusky3d_load.$(OBJEXT) Berusky3d_render.$(OBJEXT) \
 	Di.$(OBJEXT) Load.$(OBJEXT) Load_chunks.$(OBJEXT) \
-	Load_out.$(OBJEXT) strip.$(OBJEXT) compat.$(OBJEXT) \
-	2D_graphic.$(OBJEXT) age.$(OBJEXT) alpha.$(OBJEXT) \
-	animation.$(OBJEXT) animation_time.$(OBJEXT) \
-	animation_track.$(OBJEXT) animation_track_bezier.$(OBJEXT) \
+	Load_out.$(OBJEXT) compat.$(OBJEXT) 2D_graphic.$(OBJEXT) \
+	age.$(OBJEXT) alpha.$(OBJEXT) animation.$(OBJEXT) \
+	animation_time.$(OBJEXT) animation_track.$(OBJEXT) \
+	animation_track_bezier.$(OBJEXT) \
 	animation_track_linear.$(OBJEXT) bitmap.$(OBJEXT) \
 	box.$(OBJEXT) camera.$(OBJEXT) camera_interface.$(OBJEXT) \
 	color.$(OBJEXT) color_hsv.$(OBJEXT) draw.$(OBJEXT) \
@@ -431,8 +431,6 @@ berusky2_SOURCES = \
 	komat/Load_out.h\
 	komat/kfile.h\
 	komat/mmalloc.h\
-	komat/strip.cpp\
-	komat/strip.h\
 	komat/zlib_io.h\
 	tmp/compat.cpp\
 	tmp/compat.h\
@@ -867,7 +865,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/selection.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/setup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/square_cut.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strip.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/surface.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/surface_height.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/surface_mask.Po@am__quote@
@@ -1682,20 +1679,6 @@ Load_out.obj: komat/Load_out.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/Load_out.cpp' object='Load_out.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Load_out.obj `if test -f 'komat/Load_out.cpp'; then $(CYGPATH_W) 'komat/Load_out.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/Load_out.cpp'; fi`
-
-strip.o: komat/strip.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT strip.o -MD -MP -MF $(DEPDIR)/strip.Tpo -c -o strip.o `test -f 'komat/strip.cpp' || echo '$(srcdir)/'`komat/strip.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/strip.Tpo $(DEPDIR)/strip.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/strip.cpp' object='strip.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o strip.o `test -f 'komat/strip.cpp' || echo '$(srcdir)/'`komat/strip.cpp
-
-strip.obj: komat/strip.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT strip.obj -MD -MP -MF $(DEPDIR)/strip.Tpo -c -o strip.obj `if test -f 'komat/strip.cpp'; then $(CYGPATH_W) 'komat/strip.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/strip.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/strip.Tpo $(DEPDIR)/strip.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='komat/strip.cpp' object='strip.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o strip.obj `if test -f 'komat/strip.cpp'; then $(CYGPATH_W) 'komat/strip.cpp'; else $(CYGPATH_W) '$(srcdir)/komat/strip.cpp'; fi`
 
 compat.o: tmp/compat.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT compat.o -MD -MP -MF $(DEPDIR)/compat.Tpo -c -o compat.o `test -f 'tmp/compat.cpp' || echo '$(srcdir)/'`tmp/compat.cpp

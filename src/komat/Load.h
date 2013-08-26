@@ -364,14 +364,8 @@ int lo_najdi_objekt_kont_plny(EDIT_KONTEJNER * p_kont);
 void zrus_kosti_rec(JOINT ** p_joint);
 void zrus_kosti(EDIT_OBJEKT * p_obj);
 void zrus_kosti_key(JOINT_KEYS ** p_key);
-
 void zrus_kosti_prs_rec(JOINT * p_joint);
 
-int *NvConsolidateSingleFace(EXTRA_FACE * p_eface, int facenum,
-  int *p_facevel);
-void NvStripToGL(EXTRA_FACE * p_face, int facenum);
-void oe_obj_to_strip(EDIT_OBJEKT * p_obj);
-void oe_kont_to_strip(EDIT_KONTEJNER * p_kont_top);
 int lo_reload_textur_vypis(EDIT_TEXT * p_text, int num);
 int lo_pocet_textur(EDIT_TEXT * p_text, int max);
 int lo_smaz_textury_bmp(EDIT_TEXT * p_text, int max);

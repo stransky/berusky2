@@ -6,10 +6,7 @@
 #include "Apak.h"
 #include "compat_mini.h"
 #include "Berusky_universal.h"
-
 #include "3d_all.h"
-
-#include "strip.h"
 
 void json_export_kont_single(EDIT_KONTEJNER *p_kont, EDIT_MATERIAL ** p_mat, int max_mat);
 
@@ -4524,91 +4521,4 @@ void poly_pridej_vertex_array(EDIT_MESH_POLY * p_poly)
   memset(&p_poly->varray, 0, sizeof(p_poly->varray));
   poly_vertex_array_init(p_poly);
   poly_vertex_array_upload(p_poly);
-}
-
-int *NvConsolidateSingleFace(EXTRA_FACE * p_eface, int facenum,
-  int *p_facevel)
-{
-  int f, velikost;
-  int *p_face;
-  int akt, j;
-
-  velikost = 0;
-  for (f = 0; f < facenum; f++) {
-    velikost += p_eface[f].facenum + 2;
-  }
-
-  p_face = (int *) mmalloc(sizeof(int) * velikost);
-  *p_facevel = velikost;
-
-  akt = 0;
-  for (f = 0; f < facenum; f++) {
-    p_face[akt++] = p_eface[f].facenum;
-    p_face[akt++] = p_eface[f].typ;
-    for (j = 0; j < p_eface[f].facenum; j++)
-      p_face[akt++] = p_eface[f].p_face[j];
-    free(p_eface[f].p_face);
-  }
-  return (p_face);
-}
-
-
-void NvStripToGL(EXTRA_FACE * p_face, int facenum)
-{
-  int i;
-
-  for (i = 0; i < facenum; i++) {
-    if (p_face[i].typ == ST_LIST) {
-      p_face[i].typ = GL_TRIANGLES;
-    }
-    else if (p_face[i].typ == ST_STRIP) {
-      p_face[i].typ = GL_TRIANGLE_STRIP;
-    }
-    else if (p_face[i].typ == ST_FAN) {
-      p_face[i].typ = GL_TRIANGLE_FAN;
-    }
-  }
-}
-
-void NvGenerateStrips_fast(unsigned short *p_ind, int num,
-  STRIP_FACE ** p_fface, int *p_facenum)
-{
-  STRIP_FACE *p_face = (STRIP_FACE *) mmalloc(sizeof(STRIP_FACE));
-
-  p_face->typ = GL_TRIANGLES;
-  p_face->facenum = num;
-  p_face->p_face = (unsigned short *) mmalloc(sizeof(p_ind[0]) * num);
-  memcpy(p_face->p_face, p_ind, sizeof(p_ind[0]) * num);
-
-  *p_fface = p_face;
-  *p_facenum = 1;
-}
-
-void oe_obj_to_strip(EDIT_OBJEKT * p_obj)
-{
-  EXTRA_FACE *p_face;
-  unsigned short facenum;
-
-  NvGenerateStrips(p_obj->p_face, p_obj->facenum, (STRIP_FACE **) & p_face,
-    &facenum);
-  NvStripToGL(p_face, facenum);
-
-  p_obj->p_opt = NvConsolidateSingleFace(p_face, facenum, &p_obj->optnum);
-  free(p_face);
-}
-
-void oe_kont_to_strip(EDIT_KONTEJNER * p_kont_top)
-{
-  EDIT_KONTEJNER *p_kont;
-  EDIT_OBJEKT *p_obj;
-  int o;
-
-  p_kont = p_kont_top;
-  while (p_kont) {
-    oe_olist_reset(&o);
-    while ((p_obj = oe_olist_next(p_kont, &o))) {
-      oe_obj_to_strip(p_obj);
-    }
-    p_kont = p_kont->p_next;
-  }
 }
