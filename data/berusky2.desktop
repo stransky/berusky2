@@ -1,6 +1,5 @@
 [Desktop Entry]
 Version=1.0
-Encoding=UTF-8
 Name=Berusky2
 Comment=Rescue the bugs!
 Exec=berusky2
@@ -9,3 +8,4 @@ Terminal=false
 Type=Application
 Icon=berusky2
 Categories=Game;LogicGame;
+Keywords=logic;game;bugs;3D;camera;level;zooming;
