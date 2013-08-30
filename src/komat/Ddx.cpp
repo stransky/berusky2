@@ -488,7 +488,7 @@ void tiskni_chybu(int line, char *p_file, char *p_text, ...)
   va_end(argumenty);
 
   strcat(text1, text);
-  fprintf(stderr, text1);
+  fprintf(stderr,"%s\n", text1);
 
   assert(0);
   exit(-1);
@@ -507,7 +507,7 @@ void tiskni_chybu_bez_exit(int line, char *p_file, char *p_text, ...)
   va_end(argumenty);
 
   strcat(text1, text);
-  fprintf(stderr, text1);
+  fprintf(stderr,"%s\n", text1);
 }
 
 void mfree(void **p_mem)

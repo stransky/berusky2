@@ -354,7 +354,7 @@ void kprintfl(char log, const char *p_text, ...)
   vsprintf(text, p_text, argumenty);
   va_end(argumenty);
 
-  fprintf(stderr, text);
+  fprintf(stderr,"%s\n", text);
 
   if (log && p_ber->debug_file) {
     fputs(text, p_ber->debug_file);
