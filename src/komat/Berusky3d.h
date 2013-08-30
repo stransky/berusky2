@@ -103,7 +103,7 @@ typedef struct _GAME_KAMERA
 
   /* Flagy kontrolujici animaci
    */
-  int flag;                     // flag animace  
+  int flag;                     // flag animace
 
   int time;                     // cas animace (0-1)
   int time_stop;
