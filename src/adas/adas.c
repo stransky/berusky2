@@ -4,7 +4,6 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
-#include <assert.h>
 #include <stdlib.h>
 #include "compat_mini.h"
 #include "3d_math.h"
@@ -166,8 +165,7 @@ void adas_Set_Last_Error(char *p_Text)
 {
   fprintf(stderr,"adas_Set_Last_Error(): %s\n",p_Text);
   strcpy(Last_Error, p_Text);
-  bLast_Error = 1;
-  assert(0);
+  bLast_Error = 1;  
 }
 
 //------------------------------------------------------------------------------------------------
@@ -617,8 +615,6 @@ void adas_Release_Loaded_Data(void)
 
   for (i = 0; i < Size_of_Sound_Data; i++)
     alDeleteBuffers(1, &SoundData[i].Buffer);
-
-  assert(WaveFile);
   
   if (WaveFile) {
     free((void *)WaveFile);
@@ -2578,8 +2574,7 @@ adasLoadWAVMemory(ALbyte * buffer, ALsizei buffer_length, ALenum * format,
   *data = alutLoadMemoryFromFileImage(buffer, buffer_length, format, size, &freq);
   if (!(*data)) {
     fprintf(stderr, "ADAS: adasLoadWAVMemory(): %s\n",
-            alutGetErrorString(alutGetError()));
-    assert(0);
+            alutGetErrorString(alutGetError()));    
     return (FALSE);
   }
   *frequency = (ALuint)freq;
