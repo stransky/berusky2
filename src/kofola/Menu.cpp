@@ -884,7 +884,7 @@ void CreateFontAnimations(CMD_LINE * res, int *lastcmd)
 {
   int lcmd = *lastcmd;
 
-  char text[256];
+  char text[MAX_FILENAME];
   RECT r = {0, 0, 0, 0 };
   int i;
   int sidx1, sidx2;
@@ -1362,7 +1362,7 @@ void InitTabSound(CONTROL_LIST_ITEM * citem, int *hdcTab)
 
 void InitTabControls(CONTROL_LIST_ITEM * citem, int *hdcTab)
 {
-  char ctext[256];
+  char ctext[MAX_FILENAME];
   int iClock;
 
   iClock = ddxLoadBitmap("clock1-1.bmp", pBmpArchive);
@@ -1490,9 +1490,9 @@ void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
 
   int iClock[12];
 
-  char dir[256];
   int lastcmd, lastanm, i;
-
+  
+  char dir[MAX_FILENAME];
   CMD_LINE *res = NULL;
   int lastabv = -1;
   char in, click = 0;
@@ -1541,9 +1541,8 @@ void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   lastcmd = 0;
   timercnt = 0;
 
-  GetPrivateProfileString("game", "data_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
-  chdir((dir));
+  chdir(DATA_DIR);
+  strcpy(dir, DATA_DIR);
 
   //natadhe skript menu
   LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -2113,12 +2112,12 @@ void RunStretchAnimation(char *cScene, int x, int y, AUDIO_DATA * p_ad)
   RECT r;
   RECT s = {0, 0, 1024, 768};
   APAK_HANDLE *hArchive = NULL;
-  char cFile[MAX_PATH];
-  char cDir[MAX_PATH];
+  char cFile[MAX_FILENAME];
+  char cDir[MAX_FILENAME];
 
   if (iLanguageVersion == 4) {
-    GetPrivateProfileString("game", "bitmap_dir", "c:\\", cDir, MAX_PATH, ini_file);
-    working_file_translate(cDir, MAX_PATH);
+    strcpy(cDir, BITMAP_DIR);
+  
     sprintf(cFile, "%s%cscene%d.pak", cDir, DIR_SLASH, iActualScene);    
     hArchive = apakopen(cFile, cDir, &idx);
 
@@ -2333,7 +2332,6 @@ void RunMenuNewGameScene(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
 {
   DWORD dwEplased = 0, dwStart, dwStop;
 
-  char dir[256];
   int lastcmd, lastanm, i;
 
   CMD_LINE *res = NULL;
@@ -2435,9 +2433,10 @@ void RunMenuNewGameScene(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   lastcmd = 0;
   timercnt = 0;
 
-  GetPrivateProfileString("game", "data_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
-  chdir((dir));
+  chdir(DATA_DIR);
+  
+  char dir[MAX_FILENAME];
+  strcpy(dir, DATA_DIR);
 
   //natadhe skript menu
   LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -2904,15 +2903,13 @@ void LoadSceneMap(int *pBmp, char *cSceneBmp, char *cSceneAnim, int iScene,
   int *iClock)
 {
   int i;
-  char text[256];
+  char text[MAX_FILENAME];
   APAK_HANDLE *hArchive = NULL;
-  char cFile[MAX_PATH];
-  char cDir[MAX_PATH];
+  char cFile[MAX_FILENAME];
+  char cDir[MAX_FILENAME];
 
   if (iLanguageVersion == 4) {
-    GetPrivateProfileString("game", "bitmap_dir", "c:\\", cDir, MAX_PATH,
-      ini_file);
-    working_file_translate(cDir, MAX_PATH);
+    strcpy(cDir, BITMAP_DIR);
     sprintf(cFile, "%s%cscene%d.pak", cDir, DIR_SLASH, iScene);
     hArchive = apakopen(cFile, cDir, &i);
 
@@ -3000,7 +2997,7 @@ void LoadSceneMap(int *pBmp, char *cSceneBmp, char *cSceneAnim, int iScene,
 void DrawLevelHint(int x, int y, int iLevel)
 {
   int idx;
-  char text[256];
+  char text[MAX_FILENAME];
 
   sprintf(text, "t_%d.bmp", iLevel - 200);
 
@@ -3181,7 +3178,7 @@ void CreateLevelButton(int x, int y, CMD_LINE * res, int *lastcmd, int *pBmp,
 void CreateLevelButtons(CMD_LINE * res, int *lastcmd, int *pBmp, int iScene,
   int iLevelStart, int iNumOfLevels, char *cLevelList, char bTutorial)
 {
-  char text[256];
+  char text[MAX_FILENAME];
   int r[4];
   int i;
   FILE *file;
@@ -3208,7 +3205,7 @@ void CreateLevelButtons(CMD_LINE * res, int *lastcmd, int *pBmp, int iScene,
 int LoadTV(void)
 {
   int c = 0, i = -1;
-  char text[256];
+  char text[MAX_FILENAME];
   FILE *file;
 
   file = aopen(pBmpArchive, "tvload.txt", "r");
@@ -3217,9 +3214,9 @@ int LoadTV(void)
     return -1;
 
   while (!aeof(file)) {
-    memset(text, 0, 256);
+    memset(text, 0, MAX_FILENAME);
 
-    agets(text, 256, file);
+    agets(text, MAX_FILENAME, file);
     if (text[0]) {
       newline_cut(text);
 
@@ -3348,7 +3345,7 @@ void DrawClock(int *iClock, int i)
 int LoadClock(int *iClock)
 {
   int c = 0, i = -1, t;
-  char text[256];
+  char text[MAX_FILENAME];
   FILE *file;
 
   file = aopen(pBmpArchive, "loadclock.txt", "r");
@@ -3496,7 +3493,6 @@ void RunMenuSceneMap(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu,
   DWORD dwEplased = 0, dwStart, dwStop;
 
   FILE *file;
-  char dir[256];
   int lastcmd, lastanm, i;
   CMD_LINE *res = NULL;
   int lastabv = -1;
@@ -3512,6 +3508,7 @@ void RunMenuSceneMap(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu,
   char csrriptname[64];
   char cscenelevels[64];
   char bReload = 0;
+  char dir[MAX_FILENAME];
 
   ZeroMemory(&_2d_hint, sizeof(_2D_HINT));
 
@@ -3594,9 +3591,7 @@ BRUTAL_RESTART_SCENE_MAP_MENU:
   lastcmd = 0;
   timercnt = 0;
 
-  GetPrivateProfileString("game", "data_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
-  chdir((dir));
+  chdir(DATA_DIR);
 
   //natadhe skript menu
   LoadMenuScript(csrriptname, res, &lastcmd);
@@ -3863,7 +3858,7 @@ BRUTAL_RESTART_SCENE_MAP_MENU:
           //break;
         }
         else {
-          char cLevel[256];
+          char cLevel[MAX_FILENAME];
 
           iActualLevel = iLevelStart + atoi(res[resid].cParam[1]) - 1;
 
@@ -3973,7 +3968,6 @@ int RunMenuNewGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   CONTROL_LIST_ITEM citem[CLIST_ITEMC];
 
 //      FILE    *file;
-  char dir[256];
   int lastcmd, lastanm, i;
   CMD_LINE *res = NULL;
   int lastabv = -1;
@@ -4008,9 +4002,10 @@ int RunMenuNewGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   lastcmd = 0;
   timercnt = 0;
 
-  GetPrivateProfileString("game", "data_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
-  chdir((dir));
+  chdir(DATA_DIR);
+
+  char dir[MAX_FILENAME];
+  strcpy(dir, DATA_DIR);
 
   //natadhe skript menu
   LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -4442,9 +4437,9 @@ int FillStringList(char *cmask, LIST_ITEM_ ** list, int *isize)
 int FillComboProfiles(COMBO_CONTROL * p_co, int *iSel)
 {
   int retsel = 0;
-  char cprofile[128];
-  char dir[256];
-  WCHAR wName[256];
+  char cprofile[MAX_FILENAME];
+  char dir[MAX_FILENAME];
+  WCHAR wName[MAX_FILENAME];
 
   PLAYER_PROFILE Profile;
 
@@ -4454,12 +4449,10 @@ int FillComboProfiles(COMBO_CONTROL * p_co, int *iSel)
   LIST_ITEM_ *list;
   int isize;
 
-  GetPrivateProfileString("game", "profile_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
+  strcpy(dir, PROFILE_DIR);
+  chdir(dir);
 
-  GetPrivateProfileString("hra", "last_profile", "c:\\", cprofile, 128,
-  ini_file);
-  chdir((dir));
+  GetPrivateProfileString("hra", "last_profile", "c:\\", cprofile, MAX_FILENAME, ini_file);
 
   FillStringList("*.prf", &list, &isize);
 
@@ -4467,7 +4460,7 @@ int FillComboProfiles(COMBO_CONTROL * p_co, int *iSel)
     return 0;
 
   for (c = 0; c < isize; c++) {
-    ZeroMemory(wName, 256 * sizeof(WCHAR));
+    ZeroMemory(wName, MAX_FILENAME * sizeof(WCHAR));
     if (pr_GetPlayerName(list[c].text, wName)) {
       co_Combo_Add_StringWC2(p_co, wName, list[c].text);
 
@@ -4500,18 +4493,18 @@ int FillComboProfiles(COMBO_CONTROL * p_co, int *iSel)
 
 int check_Save_Owner(char *cDir, WCHAR * wFileName)
 {
-  char text[256];
+  char text[MAX_FILENAME];
   FILE *file;
   PLAYER_PROFILE pProfile;
 
   LEVEL_HEADER l_h;
 
-  char dir[MAX_PATH + 1];
-  WCHAR wdir[MAX_PATH + 1];
+  char dir[MAX_FILENAME + 1];
+  WCHAR wdir[MAX_FILENAME + 1];
 
   int ver;
 
-  getcwd(dir, MAX_PATH);
+  getcwd(dir, MAX_FILENAME);
 
   chdir((cDir));
 
@@ -4536,7 +4529,7 @@ int check_Save_Owner(char *cDir, WCHAR * wFileName)
     return 0;
   }
 
-  fread(wdir, (MAX_PATH + 1) * sizeof(WCHAR), 1, file);
+  fread(wdir, (MAX_FILENAME + 1) * sizeof(WCHAR), 1, file);
 
   fread(&l_h, sizeof(LEVEL_HEADER), 1, file);
 
@@ -4559,8 +4552,7 @@ int check_Save_Owner(char *cDir, WCHAR * wFileName)
 
 int FillListLoad(LIST_VIEW_CONTROL * p_li, char *mask, char bAdd, int LoadGame)
 {
-  char dir[256];
-  WCHAR wFile[128];
+  WCHAR wFile[MAX_FILENAME];
 
   int x = 0;
   int c = 0;
@@ -4568,9 +4560,7 @@ int FillListLoad(LIST_VIEW_CONTROL * p_li, char *mask, char bAdd, int LoadGame)
   LIST_ITEM_ *list;
   int isize;
 
-  GetPrivateProfileString("game", "save_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
-  chdir((dir));
+  chdir(SAVE_DIR);
 
   FillStringList(mask, &list, &isize);
 
@@ -4578,7 +4568,7 @@ int FillListLoad(LIST_VIEW_CONTROL * p_li, char *mask, char bAdd, int LoadGame)
     return 0;
 
   for (c = 0; c < isize; c++) {
-    ZeroMemory(wFile, 128 * sizeof(WCHAR));
+    ZeroMemory(wFile, MAX_FILENAME * sizeof(WCHAR));
 
     if (!LoadGame) {
       if (!demo_Check_Owner(pPlayerProfile.cName, list[c].text, wFile))
@@ -4617,11 +4607,8 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
 
   CONTROL_LIST_ITEM citem[CLIST_ITEMC];
 
-//      FILE    *file;
-  char dir[256];
   int lastcmd, lastanm, i;
 
-  //CMD_LINE      res[RES_NUM];
   CMD_LINE *res = NULL;
   int lastabv = -1;
   char in, click = 0;
@@ -4653,9 +4640,10 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   lastcmd = 0;
   timercnt = 0;
 
-  GetPrivateProfileString("game", "data_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
-  chdir((dir));
+  chdir(DATA_DIR);
+
+  char dir[MAX_FILENAME];
+  strcpy(dir, DATA_DIR);
 
   //natadhe skript menu
   LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -4935,7 +4923,7 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
           }
           else                  //LOAD DEMO
           {
-            char ctext[256];
+            char ctext[MAX_FILENAME];
 
             CreateLevelCommandLine(p_li->piValue[p_li->cSelected].cValue, ctext);
             demo_Set_Scene_Level(p_li->piValue[p_li->cSelected].cValue, &iActualScene, &iActualLevel);
@@ -5052,7 +5040,7 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
               }
               else              //LOAD DEMO
               {
-                char ctext[256];
+                char ctext[MAX_FILENAME];
 
                 CreateLevelCommandLine(p_li->piValue[p_li->cClckSel].cValue, ctext);
                 demo_Set_Scene_Level(p_li->piValue[p_li->cClckSel].cValue, &iActualScene, &iActualLevel);
@@ -5153,11 +5141,7 @@ void RunMenuLoadGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
 
   CONTROL_LIST_ITEM citem[CLIST_ITEMC];
 
-//      FILE    *file;
-  char dir[256];
   int lastcmd, lastanm, i;
-
-  //CMD_LINE      res[RES_NUM];
   CMD_LINE *res = NULL;
   int lastabv = -1;
   char in, click = 0;
@@ -5189,9 +5173,10 @@ void RunMenuLoadGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   lastcmd = 0;
   timercnt = 0;
 
-  GetPrivateProfileString("game", "data_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
-  chdir((dir));
+  chdir(DATA_DIR);
+
+  char dir[MAX_FILENAME];
+  strcpy(dir, DATA_DIR);
 
   //natadhe skript menu
   LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -5667,7 +5652,7 @@ void RunMenuCinemax(void)
 
 void RunMenuDrawVersion(int iSurface)
 {
-  char text[256];
+  char text[MAX_FILENAME];
 
   sprintf(text, "v%d.%d", VERZEHI, VERZELO);
 
@@ -5718,7 +5703,6 @@ void RunMenu(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   DWORD dwEplased = 0, dwStart, dwStop;
 
   char bStop = 1;
-  char dir[256];
   int lastcmd, lastanm, i, j;
   CMD_LINE *res = NULL;
   int lastabv = -1;
@@ -5749,9 +5733,10 @@ RUN_MENU_BRUTAL_RESTART:
 
   ZeroMemory(res, RES_NUM * sizeof(CMD_LINE));
 
-  GetPrivateProfileString("game", "data_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
-  chdir((dir));
+  chdir(DATA_DIR);
+
+  char dir[MAX_FILENAME];
+  strcpy(dir, DATA_DIR);
 
   if (!cBrutalRestart) {
     iCompositDC = ddxFindFreeSurface();
@@ -6202,7 +6187,6 @@ void RunMenuChildGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
 
   CONTROL_LIST_ITEM citem[CLIST_ITEMC];
 
-  char dir[256];
   int lastcmd, lastanm, i;
 
   CMD_LINE *res = NULL;
@@ -6231,9 +6215,10 @@ void RunMenuChildGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   lastcmd = 0;
   timercnt = 0;
 
-  GetPrivateProfileString("game", "data_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
-  chdir((dir));
+  chdir(DATA_DIR);
+
+  char dir[MAX_FILENAME];
+  strcpy(dir, DATA_DIR);
 
   //natadhe skript menu
   LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -6643,7 +6628,6 @@ void RunMenuStartGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   CONTROL_LIST_ITEM citem[CLIST_ITEMC];
 
 //      FILE    *file;
-  char dir[256];
   int lastcmd, lastanm, i;
 
   //CMD_LINE      res[RES_NUM];
@@ -6677,9 +6661,10 @@ void RunMenuStartGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   lastcmd = 0;
   timercnt = 0;
 
-  GetPrivateProfileString("game", "data_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
-  chdir((dir));
+  chdir(DATA_DIR);
+
+  char dir[MAX_FILENAME];
+  strcpy(dir, DATA_DIR);
 
   //natadhe skript menu
   LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -6740,9 +6725,7 @@ void RunMenuStartGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
 BEGIN_MENU_NEWGAME:
 
   bBackDC = 1;
-  //TransparentBltU(_2dd.hDC, 0, 0, 1024, 768, BackDC, 0, 0, 1024, 768, RGB(255, 0, 255));
-  ddxTransparentBltDisplay(0, 0, 1024, 768, BackDC, 0, 0, 1024, 768,
-    TRANSCOLOR);
+  ddxTransparentBltDisplay(0, 0, 1024, 768, BackDC, 0, 0, 1024, 768, TRANSCOLOR);
   DisplayFrame();
 
   for (i = 0; i < lastcmd; i++)
@@ -7047,7 +7030,7 @@ int LoadCList(char *cFile, int *p_count, int *p_bmp, int *iClock,
   APAK_HANDLE * hArchive)
 {
   int c = 0, i = -1, t;
-  char text[256];
+  char text[MAX_FILENAME];
   FILE *file;
 
   file = aopen(pBmpArchive, cFile, "r");
@@ -7089,7 +7072,7 @@ int LoadCList(char *cFile, int *p_count, int *p_bmp, int *iClock,
 
 int GetComixTime(int iScene)
 {
-  char text[256] = "";
+  char text[MAX_FILENAME] = "";
   int i;
   FILE *file;
 
@@ -7099,7 +7082,7 @@ int GetComixTime(int iScene)
     return 1000;
 
   for (i = 0; i < iScene + 1; i++)
-    agets(text, 256, file);
+    agets(text, MAX_FILENAME, file);
 
   aclose(file);
 
@@ -7112,7 +7095,6 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
         dwStart = 0,
         dwStop = 0;
   FILE *file;
-  char dir[256];
   int lastcmd, lastanm, i, j;
   CMD_LINE *res = NULL;
   int lastabv = -1;
@@ -7198,11 +7180,10 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
   lastcmd = 0;
   timercnt = 0;
 
-  GetPrivateProfileString("game", "data_dir", "", dir, 256, ini_file);
-  if(!dir[0])
-    kerror(TRUE, "Unable to read data_dir from ini_file!", ini_file);
-  working_file_translate(dir, 256);
-  chdir((dir));
+  chdir(DATA_DIR);
+
+  char dir[MAX_FILENAME];
+  strcpy(dir, DATA_DIR);
 
   //natadhe skript menu
   LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -7575,13 +7556,11 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
   int bmp[64];
   int i;
   APAK_HANDLE *hArchive = NULL;
-  char cFile[MAX_PATH];
-  char cDir[MAX_PATH];
+  char cFile[MAX_FILENAME];
+  char cDir[MAX_FILENAME];
 
   if (iLanguageVersion == 4) {
-    GetPrivateProfileString("game", "bitmap_dir", "c:\\", cDir, MAX_PATH,
-      ini_file);
-    working_file_translate(cDir, MAX_PATH);
+    strcpy(cDir, BITMAP_DIR);
     sprintf(cFile, "%s%cscene%d.pak", cDir, DIR_SLASH, iScene);
     hArchive = apakopen(cFile, cDir, &idx);
 

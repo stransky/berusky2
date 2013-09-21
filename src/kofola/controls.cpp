@@ -2609,8 +2609,8 @@ void co_get_XP_XT(LIST_VIEW_CONTROL * p_li, int i, int *p_xp, int *p_xt,
 void co_delete(char *cfile)
 {
 /*
-	char olddir[MAX_PATH+1];
-	char dir[MAX_PATH+1];
+	char olddir[MAX_FILENAME+1];
+	char dir[MAX_FILENAME+1];
 	char *c;
 	long Done, error;
 	struct _finddata_t	Data;
@@ -2620,9 +2620,9 @@ void co_delete(char *cfile)
 
 	c =strstr(cfile, ".");
 
-	_getcwd(olddir, MAX_PATH);
+	_getcwd(olddir, MAX_FILENAME);
 
-	GetPrivateProfileString("game","save_dir","c:\\",dir,MAX_PATH,ini_file);
+	GetPrivateProfileString("game","save_dir","c:\\",dir,MAX_FILENAME,ini_file);
   working_file_translate(dir,256);
 
 	chdir((dir));

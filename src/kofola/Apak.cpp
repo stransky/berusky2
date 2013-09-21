@@ -335,7 +335,7 @@ void apak_dir_correction(char *dir, char *out)
 
 char * apak_dir_correction(char *dir)
 {
-  static char tmp[MAX_PATH] = "c:";
+  static char tmp[MAX_FILENAME] = "c:";
   if(dir || (tolower(dir[0]) == 'c' && dir[1] == ':'))
     return(dir);
   

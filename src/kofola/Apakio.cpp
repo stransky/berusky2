@@ -11,7 +11,7 @@ extern int apakReadError(int iError, APAK_HANDLE * pHandle);
 
 int apakDir(APAK_HANDLE * pHandle, char *cFileName)
 {
-  char buffer[256];
+  char buffer[MAX_FILENAME];
   int j, i = strlen(cFileName);
 
   for (j = i; j >= 0; j--)    

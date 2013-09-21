@@ -336,7 +336,7 @@ void ap_Stop_Song(AUDIO_DATA * p_ad)
 int ap_Play_Sound(int Type, char Relative, char bAmbient, float *p_Pos,
   int Wave_Index, EAX_DATA * p_eax, AUDIO_DATA * p_ad)
 {
-  char text[256];
+  char text[MAX_FILENAME];
   ADAS_SOUND_SOURCE_DATA ssd;
   int source;
   void *p_callback = 0;
@@ -396,7 +396,7 @@ int ap_Play_Sound(int Type, char Relative, char bAmbient, float *p_Pos,
 
   adas_Reset_Last_Error();
   source = adas_Create_Source(&ssd, &p_callback);
-  if (adas_Get_Last_Error(text, 256)) {
+  if (adas_Get_Last_Error(text, MAX_FILENAME)) {
     //MessageBox(p_ad->hWnd,text,"Error",MB_OK);
     kprintf(1, text);
   }
@@ -562,7 +562,7 @@ int ap_Load_Material_List(char *p_File_Name, AUDIO_DATA * p_ad)
 {
   FILE *file = 0;
   FILE *Material_file = 0;
-  char text[30] = "", error[256];
+  char text[30] = "", error[MAX_FILENAME];
   int i;
 
   if (p_ad->p_Material)

@@ -70,8 +70,8 @@ void GetText(char *Buffer, char *mask, char *text)
 
 void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
 {
-  char odir[MAX_PATH + 1];
-  char dir[MAX_PATH + 1];
+  char odir[MAX_FILENAME + 1];
+  char dir[MAX_FILENAME + 1];
   int error;
   apuInt ulsize;
 
@@ -85,10 +85,9 @@ void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
   if (!ctagtitle || !ctagtext)
     return;
 
-  getcwd(odir, MAX_PATH);
+  getcwd(odir, MAX_FILENAME);
 
-  GetPrivateProfileString("game", "bitmap_dir", "c:\\", dir, MAX_PATH, ini_file);
-  working_file_translate(dir, 256);
+  strcpy(dir, BITMAP_DIR);
   chdir(dir);
   hArchive = apakopen(cFontFile[2], dir, &error);
 

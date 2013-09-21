@@ -1,3 +1,6 @@
+GetPrivateProfileString - remove from berusky files
+256 -> filename
+
 TODO:
 
 - better camera (remove the camera obstructions)

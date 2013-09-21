@@ -9,6 +9,7 @@
 // 0.0.1
 //------------------------------------------------------------------------------------------------
 
+#include "compat_mini.h"
 #include "game_init.h"
 
 #include "3d_all.h"
@@ -39,10 +40,10 @@ void gi_Set_Win_Version(void)
 int gi_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *cAppName, char *cKeyName)
 {
   int e;
-  char text[256];
+  char text[MAX_FILENAME];
 
-  GetPrivateProfileString(cAppName, cKeyName, "c:\\", text, 256, ini_file);
-  working_file_translate(text, 256);
+  GetPrivateProfileString(cAppName, cKeyName, "c:\\", text, MAX_FILENAME, ini_file);
+  working_file_translate(text, MAX_FILENAME);
   chdir((text));
 
   (*pAHandle) = apakopen(cFile, text, &e);
@@ -116,7 +117,7 @@ int gi_APAK_Load(unsigned long mem, struct _finddata_t *pData)
 //------------------------------------------------------------------------------------------------
 void gi_Init_Sound_Engine(AUDIO_DATA *p_ad)
 {
-	char				text[256];
+	char				text[MAX_FILENAME];
 	ADAS_INIT_DATA		init_data;
 	//unsigned long	max_mem;
   //unsigned long mem = 0;
@@ -142,12 +143,12 @@ void gi_Init_Sound_Engine(AUDIO_DATA *p_ad)
 
 	//max_mem = GetPrivateProfileInt("soundengine","pre_load",0,ini_file);
 	
-	GetPrivateProfileString("soundengine","sound_dir","c:\\",init_data.Sound_Dir,256,ini_file);
-  working_file_translate(init_data.Sound_Dir,256);
-	GetPrivateProfileString("soundengine","sound_dir","c:\\",p_ad->Sound_Dir,256,ini_file);
-  working_file_translate(p_ad->Sound_Dir,256);
-	GetPrivateProfileString("soundengine","music_dir","c:\\",p_ad->Music_Dir,256,ini_file);
-  working_file_translate(p_ad->Music_Dir,256);
+	GetPrivateProfileString("soundengine","sound_dir","c:\\",init_data.Sound_Dir,MAX_FILENAME,ini_file);
+  working_file_translate(init_data.Sound_Dir,MAX_FILENAME);
+	GetPrivateProfileString("soundengine","sound_dir","c:\\",p_ad->Sound_Dir,MAX_FILENAME,ini_file);
+  working_file_translate(p_ad->Sound_Dir,MAX_FILENAME);
+	GetPrivateProfileString("soundengine","music_dir","c:\\",p_ad->Music_Dir,MAX_FILENAME,ini_file);
+  working_file_translate(p_ad->Music_Dir,MAX_FILENAME);
 	
 	iValue = GetPrivateProfileInt("soundengine","soundvolume",0,ini_file);
 		p_ad->Sound_Gain = (float)(iValue/100.0f);
@@ -169,7 +170,7 @@ void gi_Init_Sound_Engine(AUDIO_DATA *p_ad)
 		adas_Reset_Last_Error();
 		kprintf(1,"Init Sound Engine...");
 		adas_Init(&init_data);
-		if (adas_Get_Last_Error(text,256))
+		if (adas_Get_Last_Error(text,MAX_FILENAME))
 		{
 			//MessageBox(hWnd,text,"Error",MB_OK);
 			kprintf(1,text);
@@ -178,7 +179,7 @@ void gi_Init_Sound_Engine(AUDIO_DATA *p_ad)
 		}
 		else
 		{
-			if (adas_Get_Last_Warning(text,256))
+			if (adas_Get_Last_Warning(text,MAX_FILENAME))
 			{
 				//MessageBox(hWnd,text,"Error",MB_OK);
 				kprintf(1,text);
@@ -215,7 +216,7 @@ void gi_Init_Sound_Engine(AUDIO_DATA *p_ad)
 						
 						gi_APAK_Load(mem, &Data);
 
-						if (adas_Get_Last_Error(text,256))
+						if (adas_Get_Last_Error(text,MAX_FILENAME))
 						{
 							kprintf(1,"File not found: index.dat");
 						}
@@ -240,7 +241,7 @@ void gi_Init_Sound_Engine(AUDIO_DATA *p_ad)
 			adas_Set_Listener_Orientation(listenerOri);
 			adas_Set_Listener_Environment(EAX_ENVIRONMENT_GENERIC);
 
-			if (adas_Get_Last_Error(text,256))
+			if (adas_Get_Last_Error(text,MAX_FILENAME))
 				{
 				//MyMessageBox(hwnd_hry, "##error_title", "##adas_init_error","");
 					//MessageBox(hWnd,text,"Error",MB_OK);

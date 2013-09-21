@@ -631,10 +631,10 @@ int fn2_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *cAppName,
   char *cKeyName)
 {
   int e;
-  char text[256];
+  char text[MAX_FILENAME];
 
-  GetPrivateProfileString(cAppName, cKeyName, "c:\\", text, 256, ini_file);
-  working_file_translate(text, 256);
+  GetPrivateProfileString(cAppName, cKeyName, "c:\\", text, MAX_FILENAME, ini_file);
+  working_file_translate(text, MAX_FILENAME);
   chdir((text));
 
   (*pAHandle) = apakopen(cFile, text, &e);

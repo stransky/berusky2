@@ -173,8 +173,8 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 	DWORD	dwStart, dwStop, dwEplased = 0;
 	int		y = 868;
 	int		dy = 868*2 + 2000;
-	char	text[256];
-	char	cbmp[256];
+	char	text[MAX_FILENAME];
+	char	cbmp[MAX_FILENAME];
 	FILE	*file;
 	int		c = 0;
 	int		bmp = 0;
@@ -218,9 +218,8 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 		cs[i].y = 0;
 	}
 
-	GetPrivateProfileString("game","bitmap_dir","c:\\",text,255,ini_file);
-  working_file_translate(text,256);
-	chdir((text));
+  strcpy(text, BITMAP_DIR);
+	chdir(text);
 	hArchive = apakopen(cFontFile[2], text, &error);
 
 	if(!hArchive)
@@ -471,9 +470,8 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 		cs[i].y = 0;
 	}
 
-	GetPrivateProfileString("game","bitmap_dir","c:\\",text,255,ini_file);
-  working_file_translate(text,255);
-	chdir((text));
+  strcpy(text,BITMAP_DIR);
+	chdir(text);
 
 	hArchive = apakopen(cFontFile[2], text, &error);
 	

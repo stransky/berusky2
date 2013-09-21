@@ -593,22 +593,16 @@ char lsi_Create_Vodni_Cakance2(LEVELINFO * p_Level, int PocetCastic)
 
 void lsi_Load_Level_Script(LEVELINFO * p_Level, char *cFile)
 {
-  int i, mesh;
-  char text[256];
+  int i, mesh;  
   TRIGER_STRUCTURE ts;
   GAME_TRIGER gt;
   GRAMMAR gr;
 
-  GetPrivateProfileString("game", "data_dir", "c:\\", text, 256, ini_file);
-  working_file_translate(text, 256);
-  chdir((text));
+  chdir(DATA_DIR);
 
   gr_Load_Grammar("lsc_grammar.txt", &gr);
 
-  GetPrivateProfileString("game", "game_data_dir", "c:\\", text, 256,
-    ini_file);
-  working_file_translate(text, 256);
-  chdir((text));
+  chdir(GAME_DATA_DIR);
 
   ts.LastStr = 0;
   ts.sizeofT = 0;
@@ -734,7 +728,7 @@ void lsi_Load_Level_Script(LEVELINFO * p_Level, char *cFile)
         break;
       case 7:
         {
-          char text[256];
+          char text[MAX_FILENAME];
           int iVal, j;
 
           if (gt.command[i].LastParam > 0) {
@@ -784,7 +778,7 @@ void lsi_Load_Level_Script(LEVELINFO * p_Level, char *cFile)
         break;
       case 11:
         {
-          char text[256];
+          char text[MAX_FILENAME];
           int iVal, j;
 
           if (gt.command[i].LastParam > 0) {
@@ -805,11 +799,11 @@ int lsi_Create_Level_Raw(char *p_Level_Name, BUNKA_LEVELU_DISK ** b_l_d,
   int *size)
 {
   LEVEL_HEADER l_h;
-  char text[MAX_PATH + 1];
+  char text[MAX_FILENAME + 1];
   FILE *file;
 
   kprintf(1, "Tvorba raw struktury pro komata...");
-  getcwd(text, MAX_PATH);
+  getcwd(text, MAX_FILENAME);
   kprintf(1, "_getcwd = %s", text);
 
   file = fopen(p_Level_Name, "rb");
@@ -1361,7 +1355,7 @@ void lsi_Get_Dir_Name(char *cText, char *cLevel)
 {
   char *c;
 
-  ZeroMemory(cText, MAX_PATH);
+  ZeroMemory(cText, MAX_FILENAME);
 
   c = strstr(cLevel, ".");
 
@@ -1371,14 +1365,12 @@ void lsi_Get_Dir_Name(char *cText, char *cLevel)
 
 void lsi_copy_save(char *cMask, LEVELINFO * p_Level)
 {
-  char dir[MAX_PATH + 1];
-  char cLevelMask[MAX_PATH];
-  char csrc[MAX_PATH + 1];
-  char cout[MAX_PATH + 1];
+  char dir[MAX_FILENAME + 1];
+  char cLevelMask[MAX_FILENAME];
+  char csrc[MAX_FILENAME + 1];
+  char cout[MAX_FILENAME + 1];
 
-  GetPrivateProfileString("game", "game_level_dir", "c:\\", dir, MAX_PATH,
-    ini_file);
-  working_file_translate(dir, MAX_PATH);
+  strcpy(dir, GAME_LEVEL_DIR);
   lsi_Get_Dir_Name(cLevelMask, p_Level->cLoadedFrom);
 
   sprintf(cout, "%s%s", cMask, ".b2l");
@@ -1408,14 +1400,11 @@ int lsi_Get_Save_Info(char *p_Level_Name, int *pActLevel, int *pActScene)
   char text[256];
   PLAYER_PROFILE pPlayer;
   LEVEL_HEADER l_h;
-  WCHAR wTmp[MAX_PATH + 1];
+  WCHAR wTmp[MAX_FILENAME + 1];
   int ver;
 
-  GetPrivateProfileString("game", "save_dir", "c:\\", text, 256, ini_file);
-  working_file_translate(text, 256);
-
-  chdir((text));
-  chdir((p_Level_Name));
+  chdir(SAVE_DIR);
+  chdir(p_Level_Name);
 
   sprintf(text, "%s.lvc", p_Level_Name);
 
@@ -1427,7 +1416,7 @@ int lsi_Get_Save_Info(char *p_Level_Name, int *pActLevel, int *pActScene)
   fread(&pPlayer, sizeof(PLAYER_PROFILE), 1, file);
   fread(wTmp, 32 * sizeof(WCHAR), 1, file);
   fread(&ver, sizeof(int), 1, file);
-  fread(wTmp, (MAX_PATH + 1) * sizeof(WCHAR), 1, file);
+  fread(wTmp, (MAX_FILENAME + 1) * sizeof(WCHAR), 1, file);
   fread(&l_h, sizeof(LEVEL_HEADER), 1, file);
 
   *pActLevel = l_h.rezerved[0];
@@ -1444,8 +1433,8 @@ int lsi_Save_Exist(WCHAR * wName, char *cFile)
 	FILE *file;
 	long Done, error;
 	struct _finddata_t	Data;
-	char	cwd[MAX_PATH+1];
-	char	text[MAX_PATH+1];
+	char	cwd[MAX_FILENAME+1];
+	char	text[MAX_FILENAME+1];
 	PLAYER_PROFILE	pPlayer;
 	WCHAR	wTmp[32];
 
@@ -1456,7 +1445,7 @@ int lsi_Save_Exist(WCHAR * wName, char *cFile)
 	{
 		if(error != -1)
 		{
-			getcwd(cwd,MAX_PATH);
+			getcwd(cwd,MAX_FILENAME);
 
 			chdir(Data.name);
 
@@ -1522,7 +1511,7 @@ void delete_dir(char *p_Level_Name)
 int lsi_Save_Exist(WCHAR * wName, char *cFile)
 {
   struct dirent **namelist;
-	char	cwd[MAX_PATH+1];	
+	char	cwd[MAX_FILENAME+1];	
   int   i;
   
   file_filter_mask("*");
@@ -1531,11 +1520,11 @@ int lsi_Save_Exist(WCHAR * wName, char *cFile)
     return 0;
   }
 
-  getcwd(cwd,MAX_PATH);
+  getcwd(cwd,MAX_FILENAME);
 
   int ret = false;
   for(i = 0; i < c; i++) {
-    char	text[MAX_PATH+1];
+    char	text[MAX_FILENAME+1];
       
     if(chdir(namelist[i]->d_name)) {
       kwarning(1, "Unable to chdir(%s)", namelist[i]->d_name);
@@ -1603,7 +1592,6 @@ void lsi_Save_Level(WCHAR * pwc_Level_Name, LEVELINFO * p_Level)
 {
 	FILE *file;
 	int i;
-	char text[256];
 	char p_Level_Name[256];
 	BUNKA_LEVELU_DISK b_l_d;
 	DWORD	time;
@@ -1613,10 +1601,7 @@ void lsi_Save_Level(WCHAR * pwc_Level_Name, LEVELINFO * p_Level)
 
 	ZeroMemory(p_Level_Name, 256);
 
-	GetPrivateProfileString("game","save_dir","c:\\",text,256,ini_file);
-  working_file_translate(text,256);
-
-	chdir(text);
+	chdir(SAVE_DIR);
 
 	_strdate(pom);
 
@@ -1657,7 +1642,7 @@ void lsi_Save_Level(WCHAR * pwc_Level_Name, LEVELINFO * p_Level)
 	//zapis jmeno level
 	fwrite(pwc_Level_Name, 32 * sizeof(WCHAR), 1, file);
 	fwrite(&ver, sizeof(int), 1, file);
-	fwrite(p_Level->cLoadedFrom, (MAX_PATH+1)*sizeof(char), 1, file);
+	fwrite(p_Level->cLoadedFrom, (MAX_FILENAME+1)*sizeof(char), 1, file);
 
 	p_Level->LevelHeader.rezerved[0] = iActualLevel;
 	p_Level->LevelHeader.rezerved[1] = iActualScene;
@@ -1797,7 +1782,7 @@ int lsi_Load_Saved_Level(char *p_Level_Name, LEVELINFO * p_Level)
     return -2;
   }
 
-  fread(p_Level->cLoadedFrom, (MAX_PATH+1)*sizeof(char), 1, file);
+  fread(p_Level->cLoadedFrom, (MAX_FILENAME+1)*sizeof(char), 1, file);
   fread(&l_h, sizeof(LEVEL_HEADER), 1, file);
 
   memset(p_Level->Level, 0, sizeof(p_Level->Level[0])*p_Level->Size_of_Level);

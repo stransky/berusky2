@@ -313,8 +313,7 @@ AnimHandle sim_nahraj_animaci(APAK_HANDLE * pHandle, char *p_jmeno,
 
 naslo_se_to1:;
 
-  if (!key_sim_nahraj(pHandle, p_ber->p_sim + sim, p_jmeno,
-      p_ber->dir.data_dir, linearne))
+  if (!key_sim_nahraj(pHandle, p_ber->p_sim + sim, p_jmeno, p_ber->dir.data_dir, linearne))
     return (K_CHYBA);
 
   p_ber->p_sim[sim].flag |= SIMPLE_AKTIVNI;

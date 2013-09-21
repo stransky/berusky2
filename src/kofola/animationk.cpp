@@ -77,9 +77,7 @@ int am_Init(ANIMATION_MODULE * p_am, LEVELINFO * p_Level)
     p_am->p_animation[i].p_matrix = -1;
   }
 
-  GetPrivateProfileString("game", "data_dir", "c:\\", text, 256, ini_file);
-  working_file_translate(text, 255);
-  chdir((text));
+  chdir(DATA_DIR);
 
   pDataArchive->pActualNode = pDataArchive->pRootNode->pNextNode;
 
@@ -1793,7 +1791,7 @@ int am_Find_Corresponding_VodniKolaB(int mesh, LEVELINFO * p_Level)
 }
 
 int am_Kola_na_VodeB(float *pos, int Beruska, int mesh, int infinity,
-  LEVELINFO * p_Level)
+                     LEVELINFO * p_Level)
 {
   int k, m;
   PAR_KOUR_STOPA *pKourovaS;

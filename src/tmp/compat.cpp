@@ -215,13 +215,8 @@ int ddxLoadList(char *pFileName, int bProgress)
     ddxSetFlip(0);
   }
 
-  char bmp_dir[MAX_PATH];
-  GetPrivateProfileString("game", "bitmap_dir", "", bmp_dir, MAX_PATH, (const char *) ini_file);
-  if(!bmp_dir[0])
-    kerror(TRUE, "Unable to read bitmap_dir from ini file '%s'",ini_file);
-
   kprintf(1, "Kofola: - Load bitmap pro herni menu");
-  ddx2LoadList(pFileName, pBmpArchive, bmp_dir);
+  ddx2LoadList(pFileName, pBmpArchive, BITMAP_DIR);
 
   if (bProgress) {
     ddxSetCursor(1);
@@ -670,18 +665,18 @@ UINT KillTimer(HWND hWnd, TIMER_ID uIDEvent)
   return (SDL_RemoveTimer(uIDEvent));
 }
 
-char current_working_dir[PATH_MAX];
-char current_working_dir_file[PATH_MAX];
+char current_working_dir[MAX_FILENAME];
+char current_working_dir_file[MAX_FILENAME];
 
 void working_dir_init(void)
 {
-  getcwd(current_working_dir, PATH_MAX);
+  getcwd(current_working_dir, MAX_FILENAME);
 }
 
 char *working_file_get(const char *p_file)
 {
   return (return_path_ext(p_file, current_working_dir,
-      current_working_dir_file, PATH_MAX));
+      current_working_dir_file, MAX_FILENAME));
 }
 
 char *working_file_get(const char *p_file, char *p_target, int size)
@@ -691,8 +686,8 @@ char *working_file_get(const char *p_file, char *p_target, int size)
 
 void working_file_translate(char *p_file, int size)
 {
-  return_path_ext(p_file, current_working_dir, current_working_dir_file, PATH_MAX);
-  assert(size <= PATH_MAX);
+  return_path_ext(p_file, current_working_dir, current_working_dir_file, MAX_FILENAME);
+  assert(size <= MAX_FILENAME);
   strcpy(p_file, current_working_dir_file);
 }
 

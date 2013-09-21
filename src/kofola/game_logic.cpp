@@ -10207,13 +10207,7 @@ void gl_Resetini(LEVELINFO * p_Level, char *bOvladaniBerusek1)
 
 int gl_Change_Dir_To_Level(char *p_Level_Name)
 {
-  char ctext[MAX_PATH + 1];
-
-  GetPrivateProfileString("game", "save_dir", "c:\\", ctext, MAX_PATH, 
-                          ini_file);
-  working_file_translate(ctext, MAX_PATH);
-
-  if(chdir(ctext))
+  if(chdir(SAVE_DIR))
     return(FALSE);
   if(chdir(p_Level_Name))
     return(FALSE);
@@ -10388,9 +10382,7 @@ PLAY_LEVEL_START:
     Level.bPosouvatKameru = 0;
     Level.bPohled_Berusky = 0;
 
-    GetPrivateProfileString("game", "save_dir", "c:\\", Demo_File, 255, ini_file);
-    working_file_translate(Demo_File, 255);
-
+    strcpy(Demo_File, SAVE_DIR);
     strcat(Demo_File, DIR_SLASH_STRING);
     strcat(Demo_File, cDemoName);
 
@@ -10417,7 +10409,7 @@ PLAY_LEVEL_START:
   if (!strcmp(p_Env_Name, "LOAD_GAME")) {
     BUNKA_LEVELU_DISK *b_l_d;
     int isize;
-    char ctext[MAX_PATH];
+    char ctext[MAX_FILENAME];
 
     lsi_Get_Dir_Name(ctext, cLevelName);
     if(!gl_Change_Dir_To_Level(ctext))
@@ -10443,11 +10435,9 @@ PLAY_LEVEL_START:
   else {
     BUNKA_LEVELU_DISK *b_l_d;
     int isize;
-    char ctext[MAX_PATH];
+    char ctext[MAX_FILENAME];
 
-    GetPrivateProfileString("game", "game_level_dir", "c:\\", ctext, 256, ini_file);
-    working_file_translate(ctext, 256);
-    chdir(ctext);
+    chdir(GAME_LEVEL_DIR);
     lsi_Get_Dir_Name(ctext, cLevelName);
     chdir(ctext);
 
@@ -10458,9 +10448,8 @@ PLAY_LEVEL_START:
     strcpy(Level.cLoadedFrom, cLevelName);
     kprintf(1, "kom_load_level...");
     kom_load_level(cLevelName, 1, bRestart, b_l_d, isize);
-    GetPrivateProfileString("game", "game_level_dir", "c:\\", ctext, 256, ini_file);
-    working_file_translate(ctext, 256);
-    chdir(ctext);
+    
+    chdir(GAME_LEVEL_DIR);
     lsi_Get_Dir_Name(ctext, cLevelName);
     chdir(ctext);
 
@@ -10680,14 +10669,14 @@ PLAY_LEVEL_START:
 
   kprintf(1, "kom_get_level_environment, kam_3ds_nahraj_animaci...");
   if (!demo) {
-    char file[256];
     int icamanimrestart = GetPrivateProfileInt("hra", "camera_intro", 0, ini_file);
 
     if (bRestart)
       icamanimrestart = 0;
-
-    GetPrivateProfileString("game", "game_data_dir", "c:\\", file, 255, ini_file);
-    working_file_translate(file, 255);
+    
+    char file[MAX_FILENAME];
+    strcpy(file, GAME_DATA_DIR);
+    
     pEnv = kom_get_level_environment();
     if (pEnv) {
       strcat(file, DIR_SLASH_STRING);

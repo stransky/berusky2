@@ -39,13 +39,9 @@ int _3d_Init(void)
     _3dd.p_sysramtexture[i].bSLoaded = 0;
     _3dd.p_sysramtexture[i].bVLoaded = 0;
   }
-
-  GetPrivateProfileString("game", "bitmap_dir", "", _3dd.bm_dir, 256, ini_file);
-  if(!_3dd.bm_dir[0])
-    kerror(TRUE, "Unable to load bitmap_dir from %s", ini_file);
-  working_file_translate(_3dd.bm_dir, 256);
   
   _3dd.bMenuVRAMLoad = GetPrivateProfileInt("hra", "menu_vram_load", 1, ini_file);
+  strcpy(_3dd.bm_dir, BITMAP_DIR);
 
   return 1;
 }
@@ -154,7 +150,7 @@ int _3d_Load_Texture(char *p_File_Name, int Index, char bVideoRAM, char bSeek)
 void _3d_Get_Cursor_Name(char *cName)
 {
   FILE *file;
-  char text[MAX_PATH];
+  char text[MAX_FILENAME];
 
   GetPrivateProfileString("hra", "cursor", "cursor", text, 32, ini_file);
 
@@ -189,7 +185,7 @@ void _3d_Get_Cursor_Name(char *cName)
 //------------------------------------------------------------------------------------------------
 int _3d_Load_List(char *p_File_Name)
 {
-  char text[MAX_PATH];
+  char text[MAX_FILENAME];
   FILE *file = 0;
   int c = 0;
 
@@ -208,7 +204,7 @@ int _3d_Load_List(char *p_File_Name)
   kom_set_default_text_config(0, 0, 1, 0, 0, 1);
 
   while (!aeof(file)) {    
-    if (agets(text, MAX_PATH, file) && !aeof(file)) {
+    if (agets(text, MAX_FILENAME, file) && !aeof(file)) {
       newline_cut(text);
 
       if (!c)
@@ -370,7 +366,7 @@ void _3d_Load_Indikace(void)
 
 void _3d_Gen_Hints(HINT_TEXTURE * bTexture, int tsize)
 {
-  char text[MAX_PATH];
+  char text[MAX_FILENAME];
   int i;
 
   ZeroMemory(bTexture, sizeof(EDIT_TEXT) * tsize);

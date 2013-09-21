@@ -527,10 +527,8 @@ int CreateFontAnimations2(CMD_LINE * res, int *lastcmd, int ycor, char bcor)
           y += ddx2GetHeight(sidx1);
 
           //OnAbove(16,661,100,748, quit_game.txt, NO_EXEPTION)
-          sprintf(text, "OnAbove(%d,%d,%d,%d, NO_EXEPTION, NO_EXEPTION)", x,
-            oy, x + ddx2GetWidth(sidx1), y);
-          Parse_LineT(text, res[*lastcmd].iParam, 6, res[*lastcmd].cParam[0],
-            res[*lastcmd].cParam[1]);
+          sprintf(text, "OnAbove(%d,%d,%d,%d, NO_EXEPTION, NO_EXEPTION)", x, oy, x + ddx2GetWidth(sidx1), y);
+          Parse_LineT(text, res[*lastcmd].iParam, 6, res[*lastcmd].cParam[0], res[*lastcmd].cParam[1]);
           res[*lastcmd].uiTimerID = 0;
           res[*lastcmd].iLastfrm = 1;
           res[*lastcmd].iCounter = 0;
@@ -550,9 +548,7 @@ int CreateFontAnimations2(CMD_LINE * res, int *lastcmd, int ycor, char bcor)
           for (ii = 6; ii < 13; ii++)
             res[*lastcmd].iAnim[0][ii] = -1;
 
-          x =
-            r.left + ftoi((r.right - r.left -
-              ddx2GetWidth(sidx2)) / (float) 2.0f);
+          x = r.left + ftoi((r.right - r.left - ddx2GetWidth(sidx2)) / (float) 2.0f);
 
           if (res[i].iParam[1] != -1)
             x = res[i].iParam[1];
@@ -582,17 +578,17 @@ int CreateFontAnimations2(CMD_LINE * res, int *lastcmd, int ycor, char bcor)
 
           //Draw(1,0,0)
           sprintf(text, "Draw(%d,%d,%d)", sidx1, x, oy);
-          Parse_LineT(text, res[*lastcmd].iParam, 6, res[*lastcmd].cParam[0],
-            res[*lastcmd].cParam[1]);
+          Parse_LineT(text, res[*lastcmd].iParam, 6, res[*lastcmd].cParam[0], 
+                      res[*lastcmd].cParam[1]);
           res[*lastcmd].iLayer = 1;
           (*lastcmd)++;
 
           //OnClick(16,661,100,748, quit_gamec.txt, EXIT)
           sprintf(text, "OnClick(%d,%d,%d,%d, NO_EXEPTION, %s)", x, oy,
-            x + ddx2GetWidth(sidx1), y, res[i].cParam[1]);
+                  x + ddx2GetWidth(sidx1), y, res[i].cParam[1]);
 
           Parse_LineT(text, res[*lastcmd].iParam, 6, res[*lastcmd].cParam[0],
-            res[*lastcmd].cParam[1]);
+                      res[*lastcmd].cParam[1]);
           res[*lastcmd].iLayer = 1;
           (*lastcmd)++;
 
@@ -1058,7 +1054,6 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
 
   CONTROL_LIST_ITEM2 citem[CLIST_ITEMC];
 
-  char dir[256];
   int lastcmd, lastanm, i;
   CMD_LINE *res = NULL;
   int lastabv = -1;
@@ -1144,9 +1139,10 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
   lastcmd = 0;
   timercnt = 0;
 
-  GetPrivateProfileString("game", "data_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
-  chdir((dir));
+  chdir(DATA_DIR);
+
+  char dir[MAX_FILENAME];
+  strcpy(dir, DATA_DIR);
 
   //natadhe skript menu
   LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -1706,7 +1702,6 @@ __QUIT:
 
 int FillListLoad2(LIST_VIEW_CONTROL2 * p_li, char *mask, char bAdd, char bLoad)
 {
-  char dir[256];
   WCHAR wFile[128];
   int x = 0;
   int c = 0;
@@ -1714,9 +1709,7 @@ int FillListLoad2(LIST_VIEW_CONTROL2 * p_li, char *mask, char bAdd, char bLoad)
   LIST_ITEM_ *list;
   int isize;
 
-  GetPrivateProfileString("game", "save_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
-  chdir((dir));
+  chdir(SAVE_DIR);
 
   FillStringList(mask, &list, &isize);
 
@@ -1761,7 +1754,6 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
 
   CONTROL_LIST_ITEM2 citem[CLIST_ITEMC];
 
-  char dir[256];
   int lastcmd, lastanm, i;
   CMD_LINE *res = NULL;
   int lastabv = -1;
@@ -1827,9 +1819,10 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
   lastcmd = 0;
   timercnt = 0;
 
-  GetPrivateProfileString("game", "data_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
-  chdir((dir));
+  chdir(DATA_DIR);
+
+  char dir[MAX_FILENAME];
+  strcpy(dir, DATA_DIR);
 
   //natadhe skript menu
   LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -2598,7 +2591,6 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
 
   CONTROL_LIST_ITEM2 citem[CLIST_ITEMC];
 
-  char dir[256];
   int lastcmd, lastanm, i;
   CMD_LINE *res = NULL;
   int lastabv = -1;
@@ -2678,9 +2670,10 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
   lastcmd = 0;
   timercnt = 0;
 
-  GetPrivateProfileString("game", "data_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
-  chdir((dir));
+  chdir(DATA_DIR);
+
+  char dir[MAX_FILENAME];
+  strcpy(dir, DATA_DIR);
 
   //natadhe skript menu
   LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -3119,7 +3112,6 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
   RECT rTMP = { 0, 0, 1024, 768 };
   DWORD dwEplased = 0, dwStart, dwStop;
   CONTROL_LIST_ITEM2 citem[CLIST_ITEMC];
-  char dir[256];
   int lastcmd, lastanm, i;
   CMD_LINE *res = NULL;
   int lastabv = -1;
@@ -3218,9 +3210,10 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
   lastcmd = 0;
   timercnt = 0;
 
-  GetPrivateProfileString("game", "data_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
-  chdir((dir));
+  chdir(DATA_DIR);
+
+  char dir[MAX_FILENAME];
+  strcpy(dir, DATA_DIR);
 
   //natadhe skript menu
   LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -3512,7 +3505,6 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA * p_ad,
 
   DWORD dwEplased = 0, dwStart, dwStop;
   CONTROL_LIST_ITEM2 citem[CLIST_ITEMC];
-  char dir[256];
   int lastcmd, lastanm, i;
   CMD_LINE *res = NULL;
   int lastabv = -1;
@@ -3583,9 +3575,10 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA * p_ad,
   lastcmd = 0;
   timercnt = 0;
 
-  GetPrivateProfileString("game", "data_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
-  chdir((dir));
+  chdir(DATA_DIR);
+
+  char dir[MAX_FILENAME];
+  strcpy(dir, DATA_DIR);
 
   //natadhe skript menu
   LoadMenuScript(p_File_Name, res, &lastcmd);
@@ -3920,15 +3913,13 @@ void RunMenuLoadScreen2(void)
   if (iActualScene < 13) {
     char text[256];
     APAK_HANDLE *hArchive = NULL;
-    char cFile[MAX_PATH];
-    char cDir[MAX_PATH];
+    char cFile[MAX_FILENAME];
+    char cDir[MAX_FILENAME];
 
     sprintf(text, "scene%d.bmp", iActualScene);
 
     if (iLanguageVersion == 4) {
-      GetPrivateProfileString("game", "bitmap_dir", "c:\\", cDir, MAX_PATH,
-        ini_file);
-      working_file_translate(cDir, MAX_PATH);
+      strcpy(cDir, BITMAP_DIR);
       sprintf(cFile, "%s%cscene%d.pak", cDir, DIR_SLASH, iActualScene);
       hArchive = apakopen(cFile, cDir, &sh);
 

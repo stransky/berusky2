@@ -540,8 +540,7 @@ typedef struct g_config
     memset(this, 0, sizeof(*this));
   }
 
-}
-G_KONFIG;
+} G_KONFIG;
 
 void ber_projection_set(G_KONFIG * p_ber);
 void ber_screen_size_set(G_KONFIG * p_ber);
@@ -612,8 +611,17 @@ inline void ber_position_level(PRVEK_LEVELU_GAME * p_lev, GLMATRIX * p_m,
 }\
 
 
-#define PRV_LOW      0x01       // Low-prvek
-#define PRV_TOP      0x02       // Tow-prvek
-#define PRV_ANIM_END 0x04       // Konec top-animace prvku
+#define PRV_LOW         0x01       // Low-prvek
+#define PRV_TOP         0x02       // Tow-prvek
+#define PRV_ANIM_END    0x04       // Konec top-animace prvku
+
+
+#define PRVKY_DIR       (p_ber->dir.prvky_dir)
+#define DATA_DIR        (p_ber->dir.data_dir)
+#define SAVE_DIR        (p_ber->dir.save_dir)
+#define BITMAP_DIR      (p_ber->dir.bitmap_dir)
+#define PROFILE_DIR     (p_ber->dir.profile_dir)
+#define GAME_LEVEL_DIR  (p_ber->dir.game_level_dir)
+#define GAME_DATA_DIR   (p_ber->dir.game_data_dir)
 
 #endif

@@ -234,44 +234,24 @@ void Load_ini(void)
   setup.debug_draty = GetPrivateProfileInt("debug", "debug_draty", 0, ini_file);
   setup.debug_kamery = GetPrivateProfileInt("debug", "debug_kamery", 0, ini_file);
 
-  GetPrivateProfileString("game", "system_material_1", "", setup.sada[0], 256,
-    ini_file);
-  GetPrivateProfileString("game", "system_material_2", "", setup.sada[1], 256,
-    ini_file);
-  GetPrivateProfileString("game", "system_material_3", "", setup.sada[2], 256,
-    ini_file);
-  GetPrivateProfileString("game", "system_material_4", "", setup.sada[3], 256,
-    ini_file);
-  GetPrivateProfileString("game", "system_material_5", "", setup.sada[4], 256,
-    ini_file);
-  GetPrivateProfileString("game", "system_material_6", "", setup.sada[5], 256,
-    ini_file);
-  GetPrivateProfileString("game", "system_material_7", "", setup.sada[6], 256,
-    ini_file);
-  GetPrivateProfileString("game", "system_material_8", "", setup.sada[7], 256,
-    ini_file);
-  GetPrivateProfileString("game", "system_material_9", "", setup.sada[8], 256,
-    ini_file);
-  GetPrivateProfileString("game", "system_material_10", "", setup.sada[9],
-    256, ini_file);
-  GetPrivateProfileString("game", "system_material_11", "", setup.sada[10],
-    256, ini_file);
-  GetPrivateProfileString("game", "system_material_12", "", setup.sada[11],
-    256, ini_file);
-  GetPrivateProfileString("game", "system_material_13", "", setup.sada[12],
-    256, ini_file);
-  GetPrivateProfileString("game", "system_material_14", "", setup.sada[13],
-    256, ini_file);
-  GetPrivateProfileString("game", "system_material_15", "", setup.sada[14],
-    256, ini_file);
-  GetPrivateProfileString("game", "system_material_16", "", setup.sada[15],
-    256, ini_file);
-  GetPrivateProfileString("game", "system_material_17", "", setup.sada[16],
-    256, ini_file);
-  GetPrivateProfileString("game", "system_material_18", "", setup.sada[17],
-    256, ini_file);
-  GetPrivateProfileString("game", "system_material_19", "", setup.sada[18],
-    256, ini_file);
-  GetPrivateProfileString("game", "system_material_20", "", setup.sada[19],
-    256, ini_file);
+  GetPrivateProfileString("game", "system_material_1", "", setup.sada[0], MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "system_material_2", "", setup.sada[1], MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "system_material_3", "", setup.sada[2], MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "system_material_4", "", setup.sada[3], MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "system_material_5", "", setup.sada[4], MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "system_material_6", "", setup.sada[5], MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "system_material_7", "", setup.sada[6], MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "system_material_8", "", setup.sada[7], MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "system_material_9", "", setup.sada[8], MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "system_material_10", "", setup.sada[9], MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "system_material_11", "", setup.sada[10], MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "system_material_12", "", setup.sada[11], MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "system_material_13", "", setup.sada[12], MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "system_material_14", "", setup.sada[13], MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "system_material_15", "", setup.sada[14], MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "system_material_16", "", setup.sada[15], MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "system_material_17", "", setup.sada[16], MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "system_material_18", "", setup.sada[17], MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "system_material_19", "", setup.sada[18], MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "system_material_20", "", setup.sada[19], MAX_FILENAME, ini_file);
 }

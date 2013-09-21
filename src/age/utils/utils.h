@@ -43,27 +43,7 @@
 #include <limits.h>
 #include <zlib.h>
 
-#ifndef  MAX_FILENAME_LENGTH
-#define  MAX_FILENAME_LENGTH  200
-
-#if PATH_MAX > MAX_FILENAME_LENGTH
-#define  MAX_FILENAME         MAX_FILENAME_LENGTH
-#else
-#define  MAX_FILENAME         PATH_MAX
-#endif
-#endif
-
-#ifndef  FALSE
-#define  FALSE (1!=1)
-#endif
-
-#ifndef  TRUE
-#define  TRUE  (1==1)
-#endif
-
-#ifndef  ERROR
-#define  ERROR (-1)
-#endif
+#include "compat_mini.h"
 
 
 // -------------------------------------------------------

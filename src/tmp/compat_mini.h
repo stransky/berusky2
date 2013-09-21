@@ -49,6 +49,10 @@ extern "C" {
 #define  TRUE   (1==1)
 #define  FALSE  (1!=1)
 
+#ifndef  ERROR
+#define  ERROR (-1)
+#endif
+
 #ifdef WINDOWS
 #define DIR_SLASH         '\\'
 #define DIR_SLASH_STRING  "\\"
@@ -77,9 +81,6 @@ typedef size_t size_ptr;
 
 extern dword karmin_aktivni;
 
-// default filename size
-#define MAX_PATH 255
-
 typedef struct _MOUSE_INFO
 {
   int x_orig, 
@@ -106,7 +107,11 @@ void kerror(char log, const char *p_text, ...);
 void kwarning(char log, const char *p_text, ...);
 void ddw(const char *p_text, ...);
 
-#define  MAX_FILENAME_LENGTH  200
+#define  MAX_FILENAME_LENGTH  256
+
+#ifndef  PATH_MAX
+#define  PATH_MAX 1024
+#endif
 
 #if PATH_MAX > MAX_FILENAME_LENGTH
 #define  MAX_FILENAME         MAX_FILENAME_LENGTH

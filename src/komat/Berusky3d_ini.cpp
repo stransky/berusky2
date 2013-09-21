@@ -205,7 +205,7 @@ void ini_file_init(void)
       pperror(1, "Unable to open ini file '%s'!", ini_file);
     }
     else {
-      char tmp_ini[MAX_PATH];
+      char tmp_ini[MAX_FILENAME];
 
       if (!realpath(ini_file, tmp_ini)) {
         pperror(1, "Unable to resolve ini file path! (%s)", ini_file);

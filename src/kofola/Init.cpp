@@ -15,7 +15,7 @@
 //------------------------------------------------------------------------------------------------
 int lsi_Load_Items(LEVELINFO * p_Level)
 {
-  char text[256], dir[256], odir[256];
+  char text[MAX_FILENAME], dir[MAX_FILENAME], odir[MAX_FILENAME];
   int Count, m, error_open;
   struct _finddata_t Data;
   size_ptr Done;
@@ -23,13 +23,10 @@ int lsi_Load_Items(LEVELINFO * p_Level)
   FILE *file;
   SECONDDATADESC sec;
   APAK_HANDLE *aHandle;
-
-  GetPrivateProfileString("game", "prvky_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
-
-  getcwd(odir, 255);
-
-  chdir((dir));
+  
+  getcwd(odir, MAX_FILENAME);
+  strcpy(dir, PRVKY_DIR);
+  chdir(dir);
 
   strcpy(text, "*.itm");
   Count = 0;

@@ -26,7 +26,7 @@ typedef struct
 {
   int count;
   int last;
-  char bm_dir[MAX_PATH];
+  char bm_dir[MAX_FILENAME];
   EDIT_TEXT *p_texture;
   _3D_TEXTURE *p_sysramtexture;
   int bMenuVRAMLoad;

@@ -18,16 +18,13 @@ extern int iLanguageVersion;
 
 void demo_Set_Scene_Level(char *cDemo, int *pScene, int *pLevel)
 {
-  char odir[MAX_PATH + 1];
-  char dir[MAX_PATH + 1];
+  char odir[MAX_FILENAME + 1];
   FILE *file;
   DEMOFILEHEADER FileHeader;
 
-  getcwd(odir, MAX_PATH);
+  getcwd(odir, MAX_FILENAME);
 
-  GetPrivateProfileString("game", "save_dir", "c:\\", dir, MAX_PATH,
-    ini_file);
-  chdir((dir));
+  chdir(SAVE_DIR);
 
   file = fopen(cDemo, "rb");
 
@@ -245,7 +242,6 @@ int demo_Exist(WCHAR * wName, char *cFile)
 int demo_SaveWC(DEMOSTRUCTURE * p_Demo, WCHAR * wcName, char Ovladani,
   char *cLevelName, char *cLoadSignature)
 {
-  char cText[1024];
   char cFile[1024];
   char pom[128];
   char pom2[128];
@@ -269,9 +265,7 @@ int demo_SaveWC(DEMOSTRUCTURE * p_Demo, WCHAR * wcName, char Ovladani,
 
   sprintf(cFile, "demo_[%s]_[%s].dem", pom, pom2);
 
-  GetPrivateProfileString("game", "save_dir", "c:\\", cText, 255, ini_file);
-  working_file_translate(cText, 255);
-  chdir((cText));
+  chdir(SAVE_DIR);
 
   //strcat(cText, DIR_SLASH_STRING);
   //strcat(cText, cFile);

@@ -91,21 +91,20 @@ int pr_FindFreeFileName(char *cFile)
 
 int pr_CreateProfile(WCHAR * cPlayerName)
 {
-  char cFile[256];
+  char cFile[MAX_FILENAME];
   FILE *file;
   PLAYER_PROFILE_DISC Profile;
-  char dir[256];
+  char dir[MAX_FILENAME];
 
-  ZeroMemory(cFile, 256);
+  ZeroMemory(cFile, sizeof(cFile));
   ZeroMemory(&Profile, sizeof(PLAYER_PROFILE_DISC));
 
-  GetPrivateProfileString("game", "profile_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
-  chdir((dir));
+  strcpy(dir, PROFILE_DIR);
+  chdir(dir);
 
   pr_FindFreeFileName(cFile);
 
-  getcwd(dir, 256);
+  getcwd(dir, MAX_FILENAME);
   kprintf(1, "pr_CreateProfile adr = %s", dir);
 
   file = fopen(cFile, "wb");
@@ -164,21 +163,18 @@ int pr_CreateProfile(WCHAR * cPlayerName)
 int pr_ReadProfile(char *cFileName, PLAYER_PROFILE * pProfile)
 {
   PLAYER_PROFILE_DISC disc;
-  char dir[256];
+  char dir[MAX_FILENAME];
   FILE *file;
 
   ZeroMemory(&disc, sizeof(PLAYER_PROFILE_DISC));
 
-  GetPrivateProfileString("game", "profile_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
-  chdir((dir));
-
+  chdir(PROFILE_DIR);
   strcpy(dir, cFileName);
 
   {
-    char ddir[256];
+    char ddir[MAX_FILENAME];
 
-    getcwd(ddir, 256);
+    getcwd(ddir, MAX_FILENAME);
     kprintf(1, "pr_ReadProfile adr = %s", ddir);
   }
 
@@ -290,20 +286,19 @@ int pr_FindFileToProfile(WCHAR * wName, char *cFile)
 
 int pr_SaveProfile(PLAYER_PROFILE * pProfile)
 {
-  char cFile[256];
+  char cFile[MAX_FILENAME];
   FILE *file;
-  char dir[256];
+  char dir[MAX_FILENAME];
 
-  ZeroMemory(cFile, 256 * sizeof(char));
+  ZeroMemory(cFile, sizeof(cFile));
 
-  GetPrivateProfileString("game", "profile_dir", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
-  chdir((dir));
+  strcpy(dir, PROFILE_DIR);
+  chdir(dir);
 
   if (!pr_FindFileToProfile(pProfile->cName, cFile))
     return 0;
 
-  getcwd(dir, 256);
+  getcwd(dir, MAX_FILENAME);
   kprintf(1, "pr_SaveProfile adr = %s", dir);
 
   file = fopen(cFile, "wb");

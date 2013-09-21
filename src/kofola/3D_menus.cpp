@@ -389,10 +389,10 @@ void _3d_AnimationEvent(void)
 //------------------------------------------------------------------------------------------------
 void Parse_3DAnimLine(FILE * file, _3D_ANIMATION_FRAME * pFrame)
 {
-  char text[MAX_PATH], expression[MAX_PATH];
+  char text[MAX_FILENAME], expression[MAX_FILENAME];
   int p = 0, r = 0;
 
-  if(!agets(text, MAX_PATH, file))
+  if(!agets(text, MAX_FILENAME, file))
     return;
 
   while (p != -1) {
@@ -464,18 +464,16 @@ void _3d_Load_Animations(void)
   _3D_ANIMATION_FRAME *pFrame;
   _3D_ANIMATION *p3DAnim;
   FILE *pFile = NULL, *pListFile = NULL;
-  char text[MAX_PATH];
+  char text[MAX_FILENAME];
   int i = 0, j;
 
-  GetPrivateProfileString("game", "data_dir", "c:\\", text, MAX_PATH, ini_file);
-  working_file_translate(text, MAX_PATH);
-  achdir(pDataArchive, text);
+  achdir(pDataArchive, DATA_DIR);
 
   pListFile = aopen(pDataArchive, "3DAnimations.dat", "r");
 
   if (pListFile) {
     while (!aeof(pListFile)) {
-      agets(text, MAX_PATH, pListFile);
+      agets(text, MAX_FILENAME, pListFile);
       if (!text[0])
         break;
       else

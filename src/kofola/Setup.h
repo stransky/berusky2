@@ -23,19 +23,6 @@ typedef struct
   char musicvolume;
   char ambientvolume;
   int  key[POCETKLAVES];
-  char bitmap_dir[256];
-  char data_dir[256];
-  char prvky_dir[256];
-  char level_dir[256];
-  char out_dir[256];
-  char texture_dir[256];
-  char material_dir[256];
-  char game_level_dir[256];
-  char scene_dir[256];
-  char game_data_dir[256];
-  char music_dir[256];
-  char sound_dir[256];
-  char save_dir[256];
   char debug_vypisy;
   char debug_light;
   char pohled_berusky;
@@ -45,7 +32,7 @@ typedef struct
   char ovladani;
   char debug_fps;
   char debug_draty;
-  char sada[20][256];
+  char sada[20][MAX_FILENAME];
   char posouvat_kameru;
   char extra_light_vertex;
   float text_ostrost;

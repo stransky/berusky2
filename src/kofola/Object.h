@@ -532,9 +532,8 @@ typedef struct
   FAIRY_EFFECT StarFall[2];
   CANDLE_EFFECT CandleEffect[6];
   CANDLE_EFFECT CandleSmoke[6];
-  char cLevelName[64];
-  //char cLevelDir[MAX_PATH+1];
-  char cLoadedFrom[MAX_PATH+1];
+  char cLevelName[64];  
+  char cLoadedFrom[MAX_FILENAME+1];
   DWORD dwPlayTime;
   DWORD dwStartTime;
   int iNumOfSteps;

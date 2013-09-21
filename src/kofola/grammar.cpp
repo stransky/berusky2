@@ -55,11 +55,7 @@ char gr_Load_Grammar(char *pFile, GRAMMAR * pGr)
   FILE *file;
   char text[256];
 
-  GetPrivateProfileString("game", "data_dir", "", text, 256, ini_file);
-  if(!text[0])
-    kerror(TRUE, "Unable to load data_dir from %s",ini_file);
-  working_file_translate(text, 256);
-  chdir((text));
+  chdir(DATA_DIR);
 
   file = aopen(pDataArchive, pFile, "r");
 

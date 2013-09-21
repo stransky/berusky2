@@ -2,6 +2,7 @@
 // version 0.0.2
 //------------------------------------------------------------------------------------------------
 #include <time.h>
+#include "compat_mini.h"
 #include "game_init.h"
 #include "game_logic.h"
 #include <math.h>
@@ -44,24 +45,24 @@ char cFontFile[5][64];
 //------------------------------------------------------------------------------------------------
 int winmain_Game_Run(char *p_Level_Name)
 {
-  char dir[256];
+  char dir[MAX_FILENAME];
   TIMER_ID Timer_ID;
   int cpu;
   char bGame = strlen(p_Level_Name);
-  char bitmap_pak[256];
+  char bitmap_pak[MAX_FILENAME];
 
   cpu = sizeof(AUDIO_DATA);
 
   kprintf(1, "Kofola - verze zdrojaku: MASTER %d.%d", VERZEHI, VERZELO);
 
   gi_Set_Win_Version();
-  getcwd(CurrentWorkingDirectory, 256);
+  getcwd(CurrentWorkingDirectory, MAX_FILENAME);
 
   srand((unsigned) time(NULL));
 
-  GetPrivateProfileString("game", "bitmap_pak", "c:\\", bitmap_pak, 256,
+  GetPrivateProfileString("game", "bitmap_pak", "c:\\", bitmap_pak, MAX_FILENAME,
     ini_file);
-  working_file_translate(bitmap_pak, 256);
+  working_file_translate(bitmap_pak, MAX_FILENAME);
 
   GetPrivateProfileString("game", "font_pak1", "c:\\", cFontFile[0], 64,
     ini_file);
@@ -104,8 +105,7 @@ int winmain_Game_Run(char *p_Level_Name)
 	}
 #endif*/
 
-  if (!gi_Open_Archive("controls.pak", &pControlsArchive, "game",
-      "bitmap_dir")) {
+  if (!gi_Open_Archive("controls.pak", &pControlsArchive, "game", "bitmap_dir")) {
     apakclose(&pBmpArchive);
     return 0;
   }
@@ -128,8 +128,8 @@ int winmain_Game_Run(char *p_Level_Name)
 	}
 #endif
 
-  GetPrivateProfileString("game", "3dmenu_pak", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
+  GetPrivateProfileString("game", "3dmenu_pak", "c:\\", dir, MAX_FILENAME, ini_file);
+  working_file_translate(dir, MAX_FILENAME);
 
   if (!gi_Open_Archive(dir, &p3DMArchive, "game", "bitmap_dir")) {
     apakclose(&pControlsArchive);
@@ -138,8 +138,8 @@ int winmain_Game_Run(char *p_Level_Name)
     return 0;
   }
 
-  GetPrivateProfileString("game", "data_pak", "c:\\", dir, 256, ini_file);
-  working_file_translate(dir, 256);
+  GetPrivateProfileString("game", "data_pak", "c:\\", dir, MAX_FILENAME, ini_file);
+  working_file_translate(dir, MAX_FILENAME);
 
   if (!gi_Open_Archive(dir, &pDataArchive, "game", "data_dir")) {
     apakclose(&p3DMArchive);
@@ -150,8 +150,7 @@ int winmain_Game_Run(char *p_Level_Name)
   }
 
 #ifndef __DEMO
-  if (!gi_Open_Archive("game_data.pak", &pGDataArchive, "game",
-      "game_data_dir")) {
+  if (!gi_Open_Archive("game_data.pak", &pGDataArchive, "game", "game_data_dir")) {
     apakclose(&pDataArchive);
     apakclose(&p3DMArchive);
     apakclose(&pControlsArchive);
@@ -162,8 +161,7 @@ int winmain_Game_Run(char *p_Level_Name)
 #endif
 
 #ifdef __DEMO
-  if (!gi_Open_Archive("game_data_demo.pak", &pGDataArchive, "game",
-      "game_data_dir")) {
+  if (!gi_Open_Archive("game_data_demo.pak", &pGDataArchive, "game", "game_data_dir")) {
     apakclose(&pDataArchive);
     apakclose(&p3DMArchive);
     apakclose(&pControlsArchive);

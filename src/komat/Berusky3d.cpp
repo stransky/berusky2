@@ -198,56 +198,62 @@ void ber_konfiguruj_berusky(G_KONFIG * p_ber)
   for (i = 0; i < SIN_TABLE_SIZE; i++)
     p_ber->sinus_table[i] = sinf(DEG2RAD(i));
 
-  GetPrivateProfileString("game", "prvky_dir", ".", p_ber->dir.prvky_dir,
-    MAX_PATH, ini_file);
-  working_file_translate(p_ber->dir.prvky_dir, MAX_PATH);
-  GetPrivateProfileString("game", "level_dir", ".", p_ber->dir.level_dir,
-    MAX_PATH, ini_file);
-  working_file_translate(p_ber->dir.level_dir, MAX_PATH);
-  GetPrivateProfileString("game", "out_dir", ".", p_ber->dir.out_dir,
-    MAX_PATH, ini_file);
-  working_file_translate(p_ber->dir.out_dir, MAX_PATH);
-  GetPrivateProfileString("game", "material_dir", ".",
-    p_ber->dir.material_dir, MAX_PATH, ini_file);
-  working_file_translate(p_ber->dir.material_dir, MAX_PATH);
-  GetPrivateProfileString("game", "data_dir", ".", p_ber->dir.data_dir,
-    MAX_PATH, ini_file);
-  working_file_translate(p_ber->dir.data_dir, MAX_PATH);
-  GetPrivateProfileString("game", "game_level_dir", ".",
-    p_ber->dir.game_level_dir, MAX_PATH, ini_file);
-  working_file_translate(p_ber->dir.game_level_dir, MAX_PATH);
-  GetPrivateProfileString("game", "game_data_dir", ".",
-    p_ber->dir.game_data_dir, MAX_PATH, ini_file);
-  working_file_translate(p_ber->dir.game_data_dir, MAX_PATH);
-  GetPrivateProfileString("game", "texture_dir", ".",
-    p_ber->tdir.texture_dir[0], MAX_PATH, ini_file);
-  working_file_translate(p_ber->tdir.texture_dir[0], MAX_PATH);
+  GetPrivateProfileString("game", "prvky_dir", ".", p_ber->dir.prvky_dir, MAX_FILENAME, ini_file);
+  working_file_translate(p_ber->dir.prvky_dir, MAX_FILENAME);
+  
+  GetPrivateProfileString("game", "level_dir", ".", p_ber->dir.level_dir, MAX_FILENAME, ini_file);
+  working_file_translate(p_ber->dir.level_dir, MAX_FILENAME);
+  
+  GetPrivateProfileString("game", "out_dir", ".", p_ber->dir.out_dir, MAX_FILENAME, ini_file);
+  working_file_translate(p_ber->dir.out_dir, MAX_FILENAME);
+  
+  GetPrivateProfileString("game", "material_dir", ".", p_ber->dir.material_dir, MAX_FILENAME, ini_file);
+  working_file_translate(p_ber->dir.material_dir, MAX_FILENAME);
+  
+  GetPrivateProfileString("game", "data_dir", ".", p_ber->dir.data_dir, MAX_FILENAME, ini_file);
+  working_file_translate(p_ber->dir.data_dir, MAX_FILENAME);
+  
+  GetPrivateProfileString("game", "game_level_dir", ".", p_ber->dir.game_level_dir, MAX_FILENAME, ini_file);
+  working_file_translate(p_ber->dir.game_level_dir, MAX_FILENAME);
+  
+  GetPrivateProfileString("game", "game_data_dir", ".", p_ber->dir.game_data_dir, MAX_FILENAME, ini_file);
+  working_file_translate(p_ber->dir.game_data_dir, MAX_FILENAME);
+  
+  GetPrivateProfileString("game", "texture_dir", ".",  p_ber->tdir.texture_dir[0], MAX_FILENAME, ini_file);
+  working_file_translate(p_ber->tdir.texture_dir[0], MAX_FILENAME);
 
   for (i = 0; i < TEXT_DIRS; i++) {
     sprintf(pom, "texture_dir%d", i);
-    GetPrivateProfileString("game", pom, "", p_ber->tdir.texture_dir[i],
-      MAX_PATH, ini_file);
-    working_file_translate(p_ber->tdir.texture_dir[i], MAX_PATH);
-    if (p_ber->tdir.texture_dir[i][0] == '.'
-      && !p_ber->tdir.texture_dir[i][1])
+    GetPrivateProfileString("game", pom, "", p_ber->tdir.texture_dir[i],  MAX_FILENAME, ini_file);
+    working_file_translate(p_ber->tdir.texture_dir[i], MAX_FILENAME);
+
+    if (p_ber->tdir.texture_dir[i][0] == '.' && !p_ber->tdir.texture_dir[i][1])
       p_ber->tdir.texture_dir[i][0] = 0;
+
     sprintf(pom, "texture_dir%d_class", i);
-    p_ber->tdir.texture_dir_class[i] =
-      GetPrivateProfileInt("game", pom, 0, ini_file);
+    p_ber->tdir.texture_dir_class[i] = GetPrivateProfileInt("game", pom, 0, ini_file);
   }
 
   for (i = 0; i < TEXT_DIRS; i++) {
     sprintf(pom, "texture_file%d", i);
-    GetPrivateProfileString("game", pom, "", p_ber->tdir.texture_file[i],
-      MAX_PATH, ini_file);
-    working_file_translate(p_ber->tdir.texture_file[i], MAX_PATH);
-    if (p_ber->tdir.texture_file[i][0] == '.'
-      && !p_ber->tdir.texture_file[i][1])
+    GetPrivateProfileString("game", pom, "", p_ber->tdir.texture_file[i],  MAX_FILENAME, ini_file);
+    working_file_translate(p_ber->tdir.texture_file[i], MAX_FILENAME);
+  
+    if (p_ber->tdir.texture_file[i][0] == '.' && !p_ber->tdir.texture_file[i][1])
       p_ber->tdir.texture_file[i][0] = 0;
+    
     sprintf(pom, "texture_file%d_class", i);
-    p_ber->tdir.texture_file_class[i] =
-      GetPrivateProfileInt("game", pom, 0, ini_file);
+    p_ber->tdir.texture_file_class[i] = GetPrivateProfileInt("game", pom, 0, ini_file);
   }
+
+	GetPrivateProfileString("game","save_dir","c:\\", p_ber->dir.save_dir, MAX_FILENAME, ini_file);
+  working_file_translate(p_ber->dir.save_dir, MAX_FILENAME);
+
+	GetPrivateProfileString("game","bitmap_dir","c:\\", p_ber->dir.bitmap_dir, MAX_FILENAME, ini_file);
+  working_file_translate(p_ber->dir.bitmap_dir, MAX_FILENAME);
+
+	GetPrivateProfileString("game","profile_dir","c:\\", p_ber->dir.profile_dir, MAX_FILENAME, ini_file);
+  working_file_translate(p_ber->dir.profile_dir, MAX_FILENAME);
 
   p_ber->conf_barva_pozadi_pouzit_default = 
   p_ber->conf_barva_pozadi_pouzit = 
@@ -279,36 +285,6 @@ void ber_konfiguruj_berusky(G_KONFIG * p_ber)
 
   kprintf(TRUE, "Configuration done");
 }
-
-/*
-BOOL CALLBACK doe_callback_konzole(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-  switch(msg)  {
-    case WM_COMMAND:
-      switch(LOWORD(wParam)) {
-        case IDCANCEL:
-  				EndDialog( hDlg, IDCANCEL );
-          break;
-        case IDOK: {          
-          EndDialog( hDlg, IDCANCEL );
-          break;
-        }
-        default:
-          return TRUE;
-      }
-      break;    
-    case WM_INITDIALOG: {
-       break;
-    }
-    case WM_DESTROY:
-      EndDialog( hDlg, IDCANCEL );
-      break;
-    default:
-      return FALSE;
-  }
-  return TRUE;
-}
-*/
 
 void kprintf(char log, const char *p_text, ...)
 {

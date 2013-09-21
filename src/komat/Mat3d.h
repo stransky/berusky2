@@ -1360,24 +1360,27 @@ typedef struct _PRVEK_LEVELU_GAME
 #define TEXT_DIRS 20
 typedef struct _KONFIG_DIR
 {
-  char prvky_dir[PATH_MAX];
-  char level_dir[PATH_MAX];
-  char out_dir[PATH_MAX];
-  char material_dir[PATH_MAX];
-  char data_dir[PATH_MAX];
-  char scene_dir[PATH_MAX];
-  char game_level_dir[PATH_MAX];
-  char game_data_dir[PATH_MAX];
-  char edit_level_dir[PATH_MAX];
-} KONFIG_DIR;
+  char prvky_dir[MAX_FILENAME];
+  char level_dir[MAX_FILENAME];
+  char out_dir[MAX_FILENAME];
+  char material_dir[MAX_FILENAME];
+  char data_dir[MAX_FILENAME];
+  char scene_dir[MAX_FILENAME];
+  char game_level_dir[MAX_FILENAME];
+  char game_data_dir[MAX_FILENAME];
+  char edit_level_dir[MAX_FILENAME];
+  char save_dir[MAX_FILENAME];
+  char bitmap_dir[MAX_FILENAME];
+  char profile_dir[MAX_FILENAME];
+} KONFIG_DIR; 
 
 typedef struct _TEXT_DIR
 {
-  char texture_dir[TEXT_DIRS][PATH_MAX];        // adresare textur
+  char texture_dir[TEXT_DIRS][MAX_FILENAME];        // adresare textur
   int texture_dir_class[TEXT_DIRS];
-  char texture_file[TEXT_DIRS][PATH_MAX];       // soubory textur
+  char texture_file[TEXT_DIRS][MAX_FILENAME];       // soubory textur
   int texture_file_class[TEXT_DIRS];    // tridy textur v paku
-  char scene_texture_dir[PATH_MAX];
+  char scene_texture_dir[MAX_FILENAME];
 } TEXT_DIR;
 
 

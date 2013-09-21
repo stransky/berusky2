@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include "Apak.h"
+#include "compat_mini.h"
 
 extern void apakError(APAK_HANDLE * pHandle, char *cError);
 extern int apakReadError(int iError, APAK_HANDLE * pHandle);
@@ -85,7 +86,7 @@ int achdir(APAK_HANDLE * pHandle, char *dirname)
 
   pNode = pHandle->pActualNode;  
   
-  char tmp_dir[PATH_MAX];
+  char tmp_dir[MAX_FILENAME];
   apak_dir_correction(dirname, tmp_dir);
   
   while (i != -1) {
