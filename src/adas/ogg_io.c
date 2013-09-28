@@ -232,7 +232,7 @@ char ogg_check()
 
 void * ogg_proc( void *lpParameter )
 {
-	alSourcePlay(source);
+	  alSourcePlay(source);
 
     while(ogg_update())
     {

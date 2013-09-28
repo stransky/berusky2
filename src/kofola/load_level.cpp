@@ -1353,12 +1353,8 @@ void lsi_Release_Level(LEVELINFO * p_Level)
 
 void lsi_Get_Dir_Name(char *cText, char *cLevel)
 {
-  char *c;
-
-  ZeroMemory(cText, MAX_FILENAME);
-
-  c = strstr(cLevel, ".");
-
+  cText[0] = 0;
+  char *c = strstr(cLevel, ".");
   if (c)
     strncpy(cText, cLevel, c - cLevel);
 }
@@ -1592,14 +1588,14 @@ void lsi_Save_Level(WCHAR * pwc_Level_Name, LEVELINFO * p_Level)
 {
 	FILE *file;
 	int i;
-	char p_Level_Name[256];
+	char p_Level_Name[MAX_FILENAME];
 	BUNKA_LEVELU_DISK b_l_d;
 	DWORD	time;
 	char	pom[128];
 	char	pom2[128];
 	int		ver = SAVE_VER;
 
-	ZeroMemory(p_Level_Name, 256);
+	ZeroMemory(p_Level_Name, MAX_FILENAME);
 
 	chdir(SAVE_DIR);
 
@@ -1747,8 +1743,8 @@ void lsi_Destroy_Beetle(LEVELINFO * p_Level, int GUID, int mesh)
 int lsi_Load_Saved_Level(char *p_Level_Name, LEVELINFO * p_Level)
 {
   int real;
-  char text[256];
-  char ctext[256];
+  char text[MAX_FILENAME];
+  char ctext[MAX_FILENAME];
   FILE *file;
   int i, j;
   LEVEL_HEADER l_h;

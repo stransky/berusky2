@@ -686,15 +686,13 @@ void am_Stop_Beetle_Animations(LEVELINFO * p_Level)
 {
   int i;
 
-  for (i = 0; i < 6; i++)
+  for (i = 0; i < 6; i++) {
     if (p_Level->BeetleAnim[i].Mesh != -1) {
-      //kprintf(1, "lani_set[%d], mesh = %d", i, p_Level->BeetleAnim[i].Mesh);
-
       lani_set(p_Level->BeetleAnim[i].Mesh, 0, K_CHYBA,
-        &p_Level->BeetleAnim[i].Flag, 0, 0, 0);
-
+              &p_Level->BeetleAnim[i].Flag, 0, 0, 0);
       p_Level->BeetleAnim[i].Mesh = -1;
     }
+  }
 }
 
 void am_Init_Zhave_Castice(LEVELINFO * p_Level)
@@ -710,9 +708,6 @@ void am_Init_Zhave_Castice(LEVELINFO * p_Level)
   for (i = 0; i < 10; i++) {
     p_Level->KourUst[i].pCastice = NULL;
     p_Level->KourUst[i].System = (size_ptr)NULL;
-
-    for (j = 0; j < 64; j++)
-      p_Level->BublVybuch[i].hHnizdo[j] = 0;
   }
 
   for (i = 0; i < 20; i++) {
@@ -725,8 +720,11 @@ void am_Init_Zhave_Castice(LEVELINFO * p_Level)
     p_Level->Kour[i].System = (size_ptr)NULL;
     p_Level->KourKameni[i].pCastice = NULL;
     p_Level->KourKameni[i].System = (size_ptr)NULL;
+  
     p_Level->BublVybuch[i].pCastice = NULL;
     p_Level->BublVybuch[i].System = (size_ptr)NULL;
+    for (j = 0; j < 64; j++)
+      p_Level->BublVybuch[i].hHnizdo[j] = 0;
 
     for (j = 0; j < 64; j++) {
       p_Level->ZhaveCastice[i].hSvetlo[j] = -1;
@@ -794,9 +792,7 @@ void am_Init_Zhave_Castice(LEVELINFO * p_Level)
 
   for (i = 0; i < 6; i++) {
     p_Level->BublSystem[i].System.System = (size_ptr)NULL;
-    p_Level->BublSystem[i].iStart =
-      (int) ceil((randf() / (float) RAND_MAX) * 3000);
-
+    p_Level->BublSystem[i].iStart = (int) ceil((randf() / (float) RAND_MAX) * 3000);
     for (j = 0; j < 64; j++) {
       p_Level->BublSystem[i].System.hHnizdo[j] = 0;
     }

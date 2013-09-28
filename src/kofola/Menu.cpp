@@ -3354,9 +3354,9 @@ int LoadClock(int *iClock)
     return -1;
 
   while (!aeof(file)) {
-    ZeroMemory(text, 256);
+    ZeroMemory(text, MAX_FILENAME);
 
-    agets(text, 256, file);
+    agets(text, MAX_FILENAME, file);
     if (!text[0])
       break;
 

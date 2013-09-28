@@ -540,8 +540,6 @@ void * adas_OGG_Proc( void *lpParameter )
 		p_ogg->bEof = 2;
 		ExitThread(0);
 	}
-	
-//	d_file = fopen("c:\\ogg_debug.txt","w");
 
 	if(!p_ogg->bSetup)
 		for(i=0;i<3;i++)
@@ -550,13 +548,11 @@ void * adas_OGG_Proc( void *lpParameter )
 			cycles = atoi(text);
 			time = (int)floor(750.0f / (float)cycles);
 			adas_OGG_Read_StreamA(p_ogg, time);
-//			fprintf(d_file,"start decopression\n");
 			alBufferData(p_ogg->Buffer[i], p_ogg->Format, &p_ogg->Data, p_ogg->Size, p_ogg->Frequece);
 			if(p_ogg->Shot_down)
 			{
 				p_ogg->bEof = 2;
 				fclose(file);
-//				fclose(d_file);
 				ExitThread(0);
 			}
 		}

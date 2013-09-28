@@ -107,17 +107,20 @@ void kerror(char log, const char *p_text, ...);
 void kwarning(char log, const char *p_text, ...);
 void ddw(const char *p_text, ...);
 
-#define  MAX_FILENAME_LENGTH  256
 
 #ifndef  PATH_MAX
 #define  PATH_MAX 1024
 #endif
 
+/*
+#define  MAX_FILENAME_LENGTH  256
 #if PATH_MAX > MAX_FILENAME_LENGTH
 #define  MAX_FILENAME         MAX_FILENAME_LENGTH
 #else
 #define  MAX_FILENAME         PATH_MAX
 #endif
+*/
+#define  MAX_FILENAME  PATH_MAX
 
 extern char ini_file[MAX_FILENAME];
 

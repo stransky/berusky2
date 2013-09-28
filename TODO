@@ -1,7 +1,6 @@
-GetPrivateProfileString - remove from berusky files
-256 -> filename
-
 TODO:
+am_Init_Zhave_Castice -> what are the array sizes?
+Tread crash
 
 - better camera (remove the camera obstructions)
 - better lighting (no-lighting mode?)

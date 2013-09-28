@@ -26,7 +26,7 @@ APAK_HANDLE *pSndArchive = NULL;
 APAK_HANDLE *pDataArchive = NULL;
 APAK_HANDLE *pGDataArchive = NULL;
 
-char CurrentWorkingDirectory[256];
+char CurrentWorkingDirectory[MAX_FILENAME];
 int bWindowMenu;
 int iLanguageVersion;
 
@@ -60,28 +60,22 @@ int winmain_Game_Run(char *p_Level_Name)
 
   srand((unsigned) time(NULL));
 
-  GetPrivateProfileString("game", "bitmap_pak", "c:\\", bitmap_pak, MAX_FILENAME,
-    ini_file);
+  GetPrivateProfileString("game", "bitmap_pak", "c:\\", bitmap_pak, MAX_FILENAME, ini_file);
   working_file_translate(bitmap_pak, MAX_FILENAME);
 
-  GetPrivateProfileString("game", "font_pak1", "c:\\", cFontFile[0], 64,
-    ini_file);
+  GetPrivateProfileString("game", "font_pak1", "c:\\", cFontFile[0], 64, ini_file);
   kprintf(1, "font_pak1 = %s", cFontFile[0]);
 
-  GetPrivateProfileString("game", "font_pak2", "c:\\", cFontFile[1], 64,
-    ini_file);
+  GetPrivateProfileString("game", "font_pak2", "c:\\", cFontFile[1], 64, ini_file);
   kprintf(1, "font_pak2 = %s", cFontFile[1]);
 
-  GetPrivateProfileString("game", "font_pak3", "c:\\", cFontFile[2], 64,
-    ini_file);
+  GetPrivateProfileString("game", "font_pak3", "c:\\", cFontFile[2], 64, ini_file);
   kprintf(1, "font_pak3 = %s", cFontFile[2]);
 
-  GetPrivateProfileString("game", "font_pak4", "c:\\", cFontFile[3], 64,
-    ini_file);
+  GetPrivateProfileString("game", "font_pak4", "c:\\", cFontFile[3], 64, ini_file);
   kprintf(1, "font_pak4 = %s", cFontFile[3]);
 
-  GetPrivateProfileString("game", "font_pak5", "c:\\", cFontFile[4], 64,
-    ini_file);
+  GetPrivateProfileString("game", "font_pak5", "c:\\", cFontFile[4], 64, ini_file);
   kprintf(1, "font_pak5 = %s", cFontFile[4]);
 
   iLanguageVersion = GetPrivateProfileInt("game", "languageid", 0, ini_file);

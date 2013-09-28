@@ -89,7 +89,7 @@ ANIMATION_QUEUE_SET *p_set = NULL;
 ANIMATION_QUEUE_SET *p_set_anim = NULL;
 
 int cam_flag;
-extern char CurrentWorkingDirectory[256];
+extern char CurrentWorkingDirectory[MAX_FILENAME];
 int CamRotationFlag;
 int cameraflag;
 int PRCameraFlag;               //indikator, ze je pozno pohybovat kamerou pomoci P&R
