@@ -10445,7 +10445,7 @@ PLAY_LEVEL_START:
     if (!lsi_Create_Level_Raw(cLevelName, &b_l_d, &isize))
       return -1;
 
-    strcpy(Level.cLoadedFrom, cLevelName);
+    strncpy(Level.cLoadedFrom, cLevelName, 256);
     kprintf(1, "kom_load_level...");
     kom_load_level(cLevelName, 1, bRestart, b_l_d, isize);
     

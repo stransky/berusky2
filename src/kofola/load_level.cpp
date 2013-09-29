@@ -1354,9 +1354,12 @@ void lsi_Release_Level(LEVELINFO * p_Level)
 void lsi_Get_Dir_Name(char *cText, char *cLevel)
 {
   cText[0] = 0;
-  char *c = strstr(cLevel, ".");
-  if (c)
-    strncpy(cText, cLevel, c - cLevel);
+  char *c = strstr(cLevel, ".");  
+  if (c) {
+    int length = c - cLevel;
+    strncpy(cText, cLevel, length);
+    cText[length] = 0;
+  }
 }
 
 void lsi_copy_save(char *cMask, LEVELINFO * p_Level)
@@ -1396,7 +1399,7 @@ int lsi_Get_Save_Info(char *p_Level_Name, int *pActLevel, int *pActScene)
   char text[256];
   PLAYER_PROFILE pPlayer;
   LEVEL_HEADER l_h;
-  WCHAR wTmp[MAX_FILENAME + 1];
+  WCHAR wTmp[512];
   int ver;
 
   chdir(SAVE_DIR);
@@ -1412,7 +1415,7 @@ int lsi_Get_Save_Info(char *p_Level_Name, int *pActLevel, int *pActScene)
   fread(&pPlayer, sizeof(PLAYER_PROFILE), 1, file);
   fread(wTmp, 32 * sizeof(WCHAR), 1, file);
   fread(&ver, sizeof(int), 1, file);
-  fread(wTmp, (MAX_FILENAME + 1) * sizeof(WCHAR), 1, file);
+  fread(wTmp, (256+1) * sizeof(WCHAR), 1, file);
   fread(&l_h, sizeof(LEVEL_HEADER), 1, file);
 
   *pActLevel = l_h.rezerved[0];
@@ -1638,7 +1641,7 @@ void lsi_Save_Level(WCHAR * pwc_Level_Name, LEVELINFO * p_Level)
 	//zapis jmeno level
 	fwrite(pwc_Level_Name, 32 * sizeof(WCHAR), 1, file);
 	fwrite(&ver, sizeof(int), 1, file);
-	fwrite(p_Level->cLoadedFrom, (MAX_FILENAME+1)*sizeof(char), 1, file);
+	fwrite(p_Level->cLoadedFrom, (256+1)*sizeof(char), 1, file);
 
 	p_Level->LevelHeader.rezerved[0] = iActualLevel;
 	p_Level->LevelHeader.rezerved[1] = iActualScene;
@@ -1778,7 +1781,7 @@ int lsi_Load_Saved_Level(char *p_Level_Name, LEVELINFO * p_Level)
     return -2;
   }
 
-  fread(p_Level->cLoadedFrom, (MAX_FILENAME+1)*sizeof(char), 1, file);
+  fread(p_Level->cLoadedFrom, (256+1)*sizeof(char), 1, file);
   fread(&l_h, sizeof(LEVEL_HEADER), 1, file);
 
   memset(p_Level->Level, 0, sizeof(p_Level->Level[0])*p_Level->Size_of_Level);
