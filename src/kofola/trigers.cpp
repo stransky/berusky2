@@ -84,7 +84,8 @@ void Uni2Char(WCHAR * cUni, char *cText, int ctsize)
 }
 
 void trig_Parse_LineU(WCHAR * pLine, COMMAND * pCommand,
-  GAME_TRIGER * pTriger, GRAMMAR * pGr, TRIGER_STRUCTURE * pTStruct)
+                      GAME_TRIGER * pTriger, GRAMMAR * pGr, 
+                      TRIGER_STRUCTURE * pTStruct)
 {
   WCHAR Expression[64];
   char tmp[64];
@@ -193,11 +194,10 @@ char trig_Load_Trigers(char *pLevel, char *pFile, TRIGER_STRUCTURE * pTStruct,
   if (!file) {
     pTStruct->pTriger = NULL;
     pTStruct->sizeofT = 0;
-    return 0;
+    return(0);
   }
 
   chdir(DATA_DIR);
-
   fgets(text, MAX_FILENAME, file);
   pTStruct->sizeofT = atoi(text);
 

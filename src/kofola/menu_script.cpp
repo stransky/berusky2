@@ -32,6 +32,8 @@ int Find_First_Valid_CharU(int start, WCHAR * text)
   int l = wcslen(text);
   int i;
 
+  assert(l);
+
   for (i = start; i < l; i++)
     if (text[i] != MAKEWORD(32, 0) &&
       text[i] != MAKEWORD('(', 0) &&

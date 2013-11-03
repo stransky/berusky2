@@ -220,27 +220,27 @@ inline void kd_je_bod_v_kostce_orez(BOD * p_bod, BOD * p_min, BOD * p_max)
 inline int kd_je_bod_v_kostce(BOD * p_bod, BOD * p_min, BOD * p_max)
 {
   return (p_min->x <= p_bod->x && p_bod->x <= p_max->x &&
-    p_min->y <= p_bod->y && p_bod->y <= p_max->y &&
-    p_min->z <= p_bod->z && p_bod->z <= p_max->z);
+          p_min->y <= p_bod->y && p_bod->y <= p_max->y &&
+          p_min->z <= p_bod->z && p_bod->z <= p_max->z);
 }
 
 inline int kd_je_bod_v_bunce(KD_BUNKA * p_bunka, BOD * p_bod)
 {
   return (p_bunka->min.x <= p_bod->x && p_bod->x <= p_bunka->max.x &&
-    p_bunka->min.y <= p_bod->y && p_bod->y <= p_bunka->max.y &&
-    p_bunka->min.z <= p_bod->z && p_bod->z <= p_bunka->max.z);
+          p_bunka->min.y <= p_bod->y && p_bod->y <= p_bunka->max.y &&
+          p_bunka->min.z <= p_bod->z && p_bod->z <= p_bunka->max.z);
 }
 
 inline int kd_je_bod_v_kostce_stred(BOD * p_bod, BOD * p_str, float vzdal)
 {
   return (p_str->x - vzdal <= p_bod->x && p_bod->x <= p_str->x + vzdal &&
-    p_str->y - vzdal <= p_bod->y && p_bod->y <= p_str->y + vzdal &&
-    p_str->z - vzdal <= p_bod->z && p_bod->z <= p_str->z + vzdal);
+          p_str->y - vzdal <= p_bod->y && p_bod->y <= p_str->y + vzdal &&
+          p_str->z - vzdal <= p_bod->z && p_bod->z <= p_str->z + vzdal);
 }
 
 // rozdily mezi bodem a kostkou
 inline float kd_intersect_kostku_xyz(BOD * p_a, BOD * p_min, BOD * p_max,
-  int rovina)
+                                     int rovina)
 {
   float v1, v2;
 

@@ -201,9 +201,7 @@ int obb_intersect_line_dist(OBB_OLD * p_obb, BOD * p_orig, BOD * p_dir)
   dir.z = vektor_dot_product(p_A + 2, p_dir);
 
   vektor_add(&o, &dir, &t);
-  ret =
-    kd_intersect_kostku_bod(&o, &t, vektor_mult_skalar(p_a, -1.0f, &min), p_a,
-    &p, &tn);
+  ret = kd_intersect_kostku_bod(&o, &t, vektor_mult_skalar(p_a, -1.0f, &min), p_a, &p, &tn);
   return ((tn < 1.0f) ? ret : FALSE);
 }
 

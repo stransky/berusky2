@@ -907,52 +907,21 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
 
   p_Level->Count_Of_Items = l_h.prvku;
 
-  p_Level->Level = (ITEMDESC **) malloc((p_Level->Size_of_Level) * sizeof(ITEMDESC *));
-  if (!p_Level->Level) {    
-    kprintf(1, "Unable to allocate memory for level");
-    return -1;
-  }
+  p_Level->Level = (ITEMDESC **) mmalloc((p_Level->Size_of_Level) * sizeof(ITEMDESC *));
 
-  p_Level->Square = (SQUAREINFO *) malloc((p_Level->Size_of_Level) * sizeof(SQUAREINFO));
-  if (!p_Level->Square) {
-    kprintf(1, "Unable to allocate memory for aditional level info");
-    return -1;
-  }
-  else {
-    for (i = 0; i < p_Level->Size_of_Level; i++)
-      p_Level->Square[i].bUnderWater = -1;
-  }
+  p_Level->Square = (SQUAREINFO *) mmalloc((p_Level->Size_of_Level) * sizeof(SQUAREINFO));
+  for (i = 0; i < p_Level->Size_of_Level; i++)
+    p_Level->Square[i].bUnderWater = -1;
 
-  p_Level->Item = (ITEMDESC *) malloc((p_Level->Count_Of_Items) * sizeof(ITEMDESC));
-  if (!p_Level->Item) {
-    kprintf(1, "Unable to allocate memory for items");
-    return -1;
-  }
-
-  memset(p_Level->Item, 0, (p_Level->Count_Of_Items) * sizeof(ITEMDESC));
-
+  p_Level->Item = (ITEMDESC *) mmalloc((p_Level->Count_Of_Items) * sizeof(ITEMDESC));  
   for (i = 0; i < p_Level->Count_Of_Items; i++)
     p_Level->Item[i].hSvetlo = -1;
 
-  p_Level->Action_Item = (long *) malloc((p_Level->Count_Of_Items) * sizeof(long) * 2);
-  if (!p_Level->Action_Item) {
-    kprintf(1, "Unable to allocate memory for action items");
-    return -1;
-  }
-
+  p_Level->Action_Item = (long *) mmalloc((p_Level->Count_Of_Items) * sizeof(long) * 2);
   p_Level->Count_Of_Action_Items = p_Level->Count_Of_Items * 2;
 
-  p_Level->Anim_Item = (long *) malloc((p_Level->Count_Of_Items) * sizeof(long));
-  if (!p_Level->Anim_Item) {
-    kprintf(1, "Unable to allocate memory for animation items");
-    return -1;
-  }
-
-  p_Level->pSquare = (SQUAREDESC *) malloc(p_Level->Size[0] * p_Level->Size[1] * sizeof(SQUAREDESC));
-  if (!p_Level->pSquare) {
-    kprintf(1, "Nelze alokovat pamet pro spodni patro");
-    return -1;
-  }
+  p_Level->Anim_Item = (long *) mmalloc((p_Level->Count_Of_Items) * sizeof(long));
+  p_Level->pSquare = (SQUAREDESC *) mmalloc(p_Level->Size[0] * p_Level->Size[1] * sizeof(SQUAREDESC));
 
   for (i = 0; i < (p_Level->Size[0] * p_Level->Size[1]); i++) {
     p_Level->pSquare[i].iUroven = 0;
@@ -1117,8 +1086,7 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
           (p_Level->Item[pointer].p_Object->Class == 10)) {
           int m;
 
-          p_Level->Item[pointer].p_Back_Pack =
-            (BACK_PACK *) malloc(sizeof(BACK_PACK));
+          p_Level->Item[pointer].p_Back_Pack = (BACK_PACK *) malloc(sizeof(BACK_PACK));
 
           for (m = 0; m < 16; m++)
             p_Level->Item[pointer].p_Back_Pack->item[m] = 0;
@@ -1180,10 +1148,7 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
 
   if (!lsi_Create_Prach(p_Level, 1))
     kprintf(1, "Nepodarilo ze vytvorit vsechen prach :) !");
-/*
-	if(!Next_Beetle)
-		MessageBox(NULL,"Protože seš lama a spustil si level bez berušky, tak ti to teï spadne!","!!!",MB_OK);
-*/
+  
   return errors;
 }
 

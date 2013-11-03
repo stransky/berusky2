@@ -602,7 +602,7 @@ int kd_intersect_kostku(BOD * p_a, BOD * p_b, BOD * p_min, BOD * p_max)
 }
 
 int kd_intersect_kostku_bod(BOD * p_a, BOD * p_b, BOD * p_min, BOD * p_max,
-  BOD * p_p, float *p_t)
+                            BOD * p_p, float *p_t)
 {
   // primka a->b  
   float tn = 0.0f, tf = FLT_MAX;

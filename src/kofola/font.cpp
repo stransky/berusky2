@@ -460,7 +460,7 @@ char fn_Load_Triger(char *pFile, GAME_TRIGER * pTriger, GRAMMAR * pGr,
     if(agets((char *) wotext, 256, file)) {
       wchar_windows_to_linux(wotext, 128, wtext);
       trig_Parse_LineU(wtext, &pTriger->command[pTriger->lastcommand], pTriger,
-        pGr, pTStruct);
+                       pGr, pTStruct);
     }
   }
 
