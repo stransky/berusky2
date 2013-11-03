@@ -1,3 +1,7 @@
+* 0.10
+    - Incompatible save game format!
+    - Builds/run with fortified sources
+
 * 0.9
     - game window can be resized on the fly
     - fullscreen/windowed mode switch in menu
