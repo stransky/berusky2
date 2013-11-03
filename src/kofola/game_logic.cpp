@@ -423,8 +423,7 @@ void gl_Connect_Animations(LEVELINFO * p_Level)
 //------------------------------------------------------------------------------------------------
 void gl_Logical2Real(int x, int y, int z, int *Real_Pos, LEVELINFO * p_Level)
 {
-  *Real_Pos =
-    x + y * p_Level->Size[0] + z * p_Level->Size[0] * p_Level->Size[1];
+  *Real_Pos = x + y * p_Level->Size[0] + z * p_Level->Size[0] * p_Level->Size[1];
 }
 
 //------------------------------------------------------------------------------------------------

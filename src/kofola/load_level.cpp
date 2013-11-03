@@ -1741,7 +1741,7 @@ int lsi_Load_Saved_Level(char *p_Level_Name, LEVELINFO * p_Level)
 
   fread(&ver, sizeof(int), 1, file);
   if (ver != SAVE_VER) {
-    kprintf(1, "Save version mismatch");
+    kprintf(1, "Save version mismatch! Level %s", p_Level_Name);
     fclose(file);
     return -2;
   }
@@ -1764,6 +1764,20 @@ int lsi_Load_Saved_Level(char *p_Level_Name, LEVELINFO * p_Level)
     fread(&b_l_d, sizeof(b_l_d), 1, file);
 #endif
 
+    /* p_Level->Size[0] = x
+       p_Level->Size[1] = y
+       p_Level->Size[2] = z
+    */          
+    if((b_l_d.rez[1] < 0 || b_l_d.rez[1] > p_Level->Size[0]) ||
+       (b_l_d.rez[2] < 0 || b_l_d.rez[2] > p_Level->Size[1]) ||
+       (b_l_d.rez[3] < 0 || b_l_d.rez[3] > p_Level->Size[2]))
+    {
+      // The saved game is broken - item is ot of the bound. Cancel level loading      
+      kprintf(1, "Save version mismatch! Level %s", p_Level_Name);
+      fclose(file);
+      return -2;
+    }
+  
     if (b_l_d.rez[0]) {
       lsi_Destroy_Beetle(p_Level, b_l_d.guid, b_l_d.mesh);
       kom_zrus_prvek(b_l_d.mesh);
@@ -1790,7 +1804,7 @@ int lsi_Load_Saved_Level(char *p_Level_Name, LEVELINFO * p_Level)
         for (j = 0; j < 6; j++)
           if (p_Level->BeetleAnim[j].Mesh == b_l_d.mesh)
             p_Level->BeetleAnim[j].iRot = b_l_d.Rotace;
-
+      
       gl_Logical2Real(b_l_d.rez[1], b_l_d.rez[2], b_l_d.rez[3], &real, p_Level);
 
       p_Level->Level[real] = &p_Level->Item[i];

@@ -16,17 +16,10 @@
 #define VERZELO 5
 #define VERZEHI 1
 
-#ifndef __DEMO
-#define SAVE_VER	1
+
+#define SAVE_VER	2
 #define DEMO_VER	1
 #define PROFILE_VER	1
-#endif
-
-#ifdef __DEMO
-#define SAVE_VER	2
-#define DEMO_VER	2
-#define PROFILE_VER	2
-#endif
 
 typedef struct
 {
