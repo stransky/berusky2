@@ -620,6 +620,9 @@ void wchar_windows_to_linux(word * p_in, int str_len, wchar_t * p_out)
 {
   int i;
 
+  assert(str_len);
+  p_out[0] = '\0';
+
   for (i = 0; i < str_len; i++)
     *p_out++ = *p_in++;
 }
@@ -627,6 +630,9 @@ void wchar_windows_to_linux(word * p_in, int str_len, wchar_t * p_out)
 void wchar_linux_to_windows(wchar_t * p_in, int str_len, word * p_out)
 {
   int i;
+
+  assert(str_len);
+  p_out[0] = '\0';
 
   for (i = 0; i < str_len; i++)
     *p_out++ = *p_in++;
