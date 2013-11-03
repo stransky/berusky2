@@ -598,26 +598,14 @@ void json_export_lightmap(int num, bitmapa *p_bmp)
   bmp_uloz(file, p_bmp);
 }
 
-char* name_cleaner(char* name){
-  
-  /*FILE *pFile;
-  pFile = fopen("log", "w");
-  if(pFile != NULL){
-    fputs("LOG FILE", pFile);
-  }
-  else{
-    return NULL;
-  }*/
-  
+char* name_cleaner(char* name)
+{   
   if(name == NULL) 
     return(NULL);
   
   int i;
-  char *tempString = (char *)malloc(30*sizeof(char));
-  //std::string temp_string;
+  char *tempString = (char *)malloc(31*sizeof(char));
   for(i = 0; i < 30; i++){
-    //fputc((int) name[i], pFile);
-    //fputc('_', pFile);
     // pokud je nalezen ukoncovaci znak, koncim a vracim string
     if(name[i] == '\0'){
       tempString[i] = '\0';
