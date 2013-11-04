@@ -1557,6 +1557,7 @@ void lsi_Save_Level(WCHAR * pwc_Level_Name, LEVELINFO * p_Level)
 	FILE *file;
 	int i;
 	char p_Level_Name[MAX_FILENAME];
+	char buffer[MAX_FILENAME];
 	BUNKA_LEVELU_DISK b_l_d;
 	DWORD	time;
 	char	pom[128];
@@ -1595,9 +1596,9 @@ void lsi_Save_Level(WCHAR * pwc_Level_Name, LEVELINFO * p_Level)
 
 	lsi_copy_save(p_Level_Name, p_Level);
 
-	sprintf(p_Level_Name, "%s.lvc", p_Level_Name);
+	sprintf(buffer, "%s.lvc", p_Level_Name);
 
-	file = fopen(p_Level_Name, "wb");
+	file = fopen(buffer, "wb");
 	if(!file)
 		return;
 
