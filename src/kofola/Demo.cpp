@@ -105,7 +105,6 @@ DEMOKEYFRAME *demo_Init(DEMOSTRUCTURE * p_Demo)
 
   p_Demo->p_First = (DEMOKEYFRAME *) mmalloc(sizeof(DEMOKEYFRAME));
   p_Demo->p_Last = p_Demo->p_First;
-  p_Demo->p_First->p_Next = NULL;
   return p_Demo->p_First;
 }
 
@@ -117,19 +116,13 @@ void demo_Release(DEMOSTRUCTURE * p_Demo)
   DEMOKEYFRAME *p_Frame, *p_Next;
 
   p_Frame = p_Demo->p_First;
-  if (!p_Frame)
-    return;
-
-  p_Next = p_Demo->p_First->p_Next;
-  while (p_Frame) {
+  while(p_Frame) {
+    p_Next = p_Frame->p_Next;
     kprintf(1, "Release Demo Frame Vkey = %d", p_Frame->Key);
-
     free((void *) p_Frame);
     p_Frame = p_Next;
-
-    if (p_Frame)
-      p_Next = p_Frame->p_Next;
   }
+  p_Demo->p_First = NULL;
 }
 
 //------------------------------------------------------------------------------------------------

@@ -609,9 +609,10 @@ int kd_intersect_kostku_bod(BOD * p_a, BOD * p_b, BOD * p_min, BOD * p_max,
   float t1, t2, t;
   BOD Q;
 
+  *p_t = 0.0f;
+
   if (kd_je_bod_v_kostce(p_a, p_min, p_max)) {
     *p_p = *p_a;
-    *p_t = 0.0f;
     return (kd_je_bod_v_kostce(p_b, p_min, p_max) ? 2 : 1);
   }
 

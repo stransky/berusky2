@@ -2225,8 +2225,7 @@ void am_Do_Vybuch_Bublin(int *iPos, float *fPos, LEVELINFO * p_Level)
 
   pSystem->hHnizdo[0] = par_vloz_hnizdo(pSystem->System);
 
-  par_vloz_hnizdo_komplet(pSystem->hHnizdo[0], 1, (BOD *) pSystem->pivot[0],
-    pKourovaS);
+  par_vloz_hnizdo_komplet(pSystem->hHnizdo[0], 1, (BOD *) pSystem->pivot[0], pKourovaS);
   par_vloz_hnizdo_timer(pSystem->hHnizdo[0], 1, -1);
 
   memcpy((void *) pSystem->pivot[0], (void *) fPos, 3 * sizeof(float));
@@ -2303,16 +2302,19 @@ void am_Do_Exit_Efects(LEVELINFO * p_Level)
       if (!p_Level->bGameResume)
         pEEfect->System.dwTime += ber.TimeLastFrame;
 
-      if (pEEfect->System.dwTime > pEEfect->System.dwStop) {
-        if (pEEfect->System.hHnizdo[0])
+      if (pEEfect->System.dwTime > pEEfect->System.dwStop)
+      {
+        if (pEEfect->System.hHnizdo[0]) {
           par_vloz_hnizdo_pivot(pEEfect->System.hHnizdo[0], NULL);
-
-        if (pEEfect->System.hHnizdo[1])
+          pEEfect->System.hHnizdo[0] = 0;
+        }
+        if (pEEfect->System.hHnizdo[1]) {
           par_vloz_hnizdo_pivot(pEEfect->System.hHnizdo[1], NULL);
+          pEEfect->System.hHnizdo[1] = 0;
+        }
       }
 
-      if (par_get_hnizda(pEEfect->System.System) < 2) {        
-      
+      if (par_get_hnizda(pEEfect->System.System) < 2) {
         par_zrus(pEEfect->System.System);
         pEEfect->System.System = (size_ptr)NULL;
 
@@ -2348,15 +2350,16 @@ int am_Get_Free_ExitSystem(LEVELINFO * p_Level)
   return -1;
 }
 
+#define EXIT_PARTICES_NUM 100
 void am_Do_Exit(int Bmesh, int Emesh, LEVELINFO * p_Level)
 {
-  int m, k;
+  int m, k, i;
   PAR_KOUR_STOPA *pKourovaS;
   PARMETAC_HNIZDO *pHnizdo = NULL;
   SYSTEMKOUROVYCHCASTIC *pSystem;
 
   EXITEFECT *pEEfect;
-  int i, hSvetlo;
+  int hSvetlo;
   float pos[3];
   int rot;
 
@@ -2365,7 +2368,7 @@ void am_Do_Exit(int Bmesh, int Emesh, LEVELINFO * p_Level)
     return;
 
   pEEfect = &p_Level->ExitEfect[i];
-  pEEfect->mesh = Bmesh;
+  pEEfect->mesh = Bmesh;  
 
   hSvetlo = sdl_svetlo_vyrob(SDL_UTLUM_LINEAR);
 
@@ -2418,35 +2421,32 @@ void am_Do_Exit(int Bmesh, int Emesh, LEVELINFO * p_Level)
     edl_anim_start(hSvetlo, &p_Level->TrashFlag, 0, 0, 0);
   }
 
-  kom_mesh_get_float(Bmesh, &pos[0], &pos[1], &pos[2], &rot);
+  int ret = kom_mesh_get_float(Bmesh, &pos[0], &pos[1], &pos[2], &rot);
+  assert(ret != K_CHYBA);
 
   pSystem = &pEEfect->System;
+  pSystem->Sizeof = EXIT_PARTICES_NUM;
 
-  pKourovaS = (PAR_KOUR_STOPA *) mmalloc(100 * sizeof(PAR_KOUR_STOPA));
+  pKourovaS = (PAR_KOUR_STOPA *) mmalloc(pSystem->Sizeof * sizeof(PAR_KOUR_STOPA));
 
   pSystem->pCastice = pKourovaS;
-  pSystem->Sizeof = 100;
   pSystem->dwStart = timeGetTime();
 
   m = kom_najdi_material("flare11");
-
   if (m == -1)
     kprintf(1, "Nelze najit material flare11");
 
-  pKourovaS[0].rychlost_x = pKourovaS[0].rychlost_y = 1.0f;
-  pKourovaS[0].utlum_x = 0;
-  pKourovaS[0].utlum_y = 0;
-
-  pKourovaS[0].r = pKourovaS[0].g = pKourovaS[0].b = 1.0f;
-
-  pKourovaS[0].a = 1.0f;
-  pKourovaS[0].dr = pKourovaS[0].dg = pKourovaS[0].db = pKourovaS[0].da = 0;
-  pKourovaS[0].ka = 0;
+  for(i = 0; i < pSystem->Sizeof; i++) {
+    pKourovaS[i].rychlost_x = pKourovaS[0].rychlost_y = 1.0f;  
+    pKourovaS[0].r = pKourovaS[0].g = pKourovaS[0].b = 1.0f;
+    pKourovaS[0].a = 1.0f;
+  }
 
   pSystem->System = par_vyrob();
 
   par_set_param(pSystem->System, m, TPAR_NO_FOG | TPAR_YPLANE_LOW | TPAR_DIR |
                 TPAR_3D | TPAR_VETSI | TPAR_AUTOREMOVE, (BOD *) pos, NULL);
+
   par_vloz_kour_stopu(pSystem->System, pKourovaS, pSystem->Sizeof);
 
   for (k = 0; k < 2; k++) {
@@ -2455,7 +2455,9 @@ void am_Do_Exit(int Bmesh, int Emesh, LEVELINFO * p_Level)
     par_vloz_hnizdo_komplet(pSystem->hHnizdo[k], 1000, (BOD *)pSystem->pivot[k], pKourovaS);
     par_vloz_hnizdo_timer(pSystem->hHnizdo[k], 1000, -1000);
 
-    memcpy((void *) pSystem->pivot[k], (void *) pos, 3 * sizeof(float));
+    pSystem->pivot[k][0] = pos[0];
+    pSystem->pivot[k][1] = pos[1];
+    pSystem->pivot[k][2] = pos[2];
 
     pSystem->dir[k][0] = 0;
 
@@ -2490,7 +2492,8 @@ void am_Do_Exit(int Bmesh, int Emesh, LEVELINFO * p_Level)
     pSystem->dwStop = 250;
   }
 
-  par_pripoj_funkci(pSystem->System, anmend_ZrusCastice3, 0, 0, reinterpret_cast<size_ptr>(pKourovaS));
+  par_pripoj_funkci(pSystem->System, anmend_ZrusCastice3, 0, 0, 
+                    reinterpret_cast<size_ptr>(pKourovaS));
   par_go(pSystem->System, &pSystem->flag, 0, 0);
 
   kom_mesh_get_float(Emesh, &pos[0], &pos[1], &pos[2], &rot);
@@ -2550,12 +2553,9 @@ void am_Do_Exit_Sparks(LEVELINFO * p_Level)
 
       kom_mesh_get_float(pItem->Index_Of_Game_Mesh, &pos[0], &pos[1], &pos[2], &r);
 
-      p_Level->ExitSparks[i].pivot[0][0] =
-        (rand() & 0x1 ? randf() : -randf()) / (float) (RAND_MAX);
-      p_Level->ExitSparks[i].pivot[0][2] =
-        (rand() & 0x1 ? randf() : -randf()) / (float) (RAND_MAX);
-      norm_vect_2D(&p_Level->ExitSparks[i].pivot[0][0],
-        &p_Level->ExitSparks[i].pivot[0][2]);
+      p_Level->ExitSparks[i].pivot[0][0] = (rand() & 0x1 ? randf() : -randf()) / (float) (RAND_MAX);
+      p_Level->ExitSparks[i].pivot[0][2] = (rand() & 0x1 ? randf() : -randf()) / (float) (RAND_MAX);
+      norm_vect_2D(&p_Level->ExitSparks[i].pivot[0][0], &p_Level->ExitSparks[i].pivot[0][2]);
 
       f = (randf() / (float) (RAND_MAX)) / 1.35f;
 
@@ -2566,8 +2566,7 @@ void am_Do_Exit_Sparks(LEVELINFO * p_Level)
       p_Level->ExitSparks[i].pivot[0][2] += pos[2];
 
       f = (randf() / (float) (RAND_MAX)) / 10.0f;
-      par_vloz_hnizdo_scale(p_Level->ExitSparks[i].hHnizdo[0], f, f, -0.5f,
-        -0.5f);
+      par_vloz_hnizdo_scale(p_Level->ExitSparks[i].hHnizdo[0], f, f, -0.5f, -0.5f);
     }
 }
 
@@ -2814,7 +2813,7 @@ void am_Create_Exit_Sparks(ITEMDESC * pExit, char Down, LEVELINFO * p_Level)
   pSystem->hHnizdo[1] = reinterpret_cast<size_ptr>(pExit);
 
   par_pripoj_funkci(pSystem->System, anmend_ZrusCastice3, 0, 0,
-    reinterpret_cast<size_ptr>(pKourovaS));
+                    reinterpret_cast<size_ptr>(pKourovaS));
 
   par_go(pSystem->System, &pSystem->flag, 0, 0);
 }
@@ -3664,7 +3663,7 @@ int am_Create_Snow(LEVELINFO * p_Level, SNOWSYSTEM * pSnow, float fRadius,
   memcpy((void *) &pSnow->SnowCenter, (void *) fvPos, 3 * sizeof(float));
 
   // pamet na hnizda
-  pSnow->hHnizdo = (size_ptr *) malloc(uiDensity * sizeof(size_ptr));
+  pSnow->hHnizdo = (size_ptr *) mmalloc(uiDensity * sizeof(size_ptr));
 
   if (!pSnow->hHnizdo) {
     pSnow->bSnow = 0;
@@ -3674,8 +3673,7 @@ int am_Create_Snow(LEVELINFO * p_Level, SNOWSYSTEM * pSnow, float fRadius,
     pSnow->SizeofHnizda = uiDensity;
 
   // pamet na pivoty
-  pSnow->pivot = (BOD *) malloc(uiDensity * sizeof(BOD));
-
+  pSnow->pivot = (BOD *) mmalloc(uiDensity * sizeof(BOD));
   if (!pSnow->pivot) {
     free((void *) pSnow->hHnizdo);
     pSnow->bSnow = 0;
@@ -3686,9 +3684,7 @@ int am_Create_Snow(LEVELINFO * p_Level, SNOWSYSTEM * pSnow, float fRadius,
   pSnow->SizeofCastice = (int) ceil((uiDensity * 20) + (fRadius * fRadius));
 
   // pamet na castice
-  pSnow->pCastice =
-    (PAR_KOUR_STOPA *) malloc(pSnow->SizeofCastice * sizeof(PAR_KOUR_STOPA));
-
+  pSnow->pCastice = (PAR_KOUR_STOPA *) mmalloc(pSnow->SizeofCastice * sizeof(PAR_KOUR_STOPA));
   if (!pSnow->pCastice) {
     free((void *) pSnow->hHnizdo);
     free((void *) pSnow->pivot);
@@ -4964,8 +4960,7 @@ void am_Do_Mouth_Smoke(int iItem, float *pos, LEVELINFO * p_Level)
   if (k == -1)
     return;
 
-  pKourovaS = (PAR_KOUR_STOPA *) malloc(20 * sizeof(PAR_KOUR_STOPA));
-
+  pKourovaS = (PAR_KOUR_STOPA *) mmalloc(20 * sizeof(PAR_KOUR_STOPA));
   if (!pKourovaS)
     return;
 
@@ -4985,23 +4980,20 @@ void am_Do_Mouth_Smoke(int iItem, float *pos, LEVELINFO * p_Level)
 
   pKourovaS[0].r = pKourovaS[0].g = pKourovaS[0].b = 0.95f;
   pKourovaS[0].a = 0.3f;
-  pKourovaS[0].dr = pKourovaS[0].dg = pKourovaS[0].db = pKourovaS[0].da =
-    -0.2f;
+  pKourovaS[0].dr = pKourovaS[0].dg = pKourovaS[0].db = pKourovaS[0].da = -0.2f;
   pKourovaS[0].ka = 0.0f;
 
   p_Level->KourUst[k].System = par_vyrob();
 
   par_set_param(p_Level->KourUst[k].System, m,
-    TPAR_NO_FOG | TPAR_SCALE | TPAR_VETSI | TPAR_AUTOREMOVE | TPAR_DIR |
-    TPAR_VITR, (BOD *) pos, NULL);
+                TPAR_NO_FOG | TPAR_SCALE | TPAR_VETSI | TPAR_AUTOREMOVE | TPAR_DIR |
+                TPAR_VITR, (BOD *) pos, NULL);
   par_vloz_kour_stopu(p_Level->KourUst[k].System, pKourovaS, 20);
 
   for (i = 0; i < p_Level->KourUst[k].Sizeof; i++) {
-    p_Level->KourUst[k].hHnizdo[i] =
-      par_vloz_hnizdo(p_Level->KourUst[k].System);
-
+    p_Level->KourUst[k].hHnizdo[i] = par_vloz_hnizdo(p_Level->KourUst[k].System);
     par_vloz_hnizdo_komplet(p_Level->KourUst[k].hHnizdo[i], 100,
-      (BOD *) p_Level->KourUst[k].pivot[i], pKourovaS);
+                            (BOD *) p_Level->KourUst[k].pivot[i], pKourovaS);
     par_vloz_hnizdo_timer(p_Level->KourUst[k].hHnizdo[i], 100, -100);
 
     //vygeneruj dir
@@ -5017,20 +5009,18 @@ void am_Do_Mouth_Smoke(int iItem, float *pos, LEVELINFO * p_Level)
     p_Level->KourUst[k].dir[i][2] *= f / 100.0f;
 
     memcpy((void *) p_Level->KourUst[k].pivot[i], (void *) pos,
-      3 * sizeof(float));
-
+           3 * sizeof(float));
     par_vloz_hnizdo_dir(p_Level->KourUst[k].hHnizdo[i],
-      (BOD *) p_Level->KourUst[k].dir[i]);
-
+                        (BOD *) p_Level->KourUst[k].dir[i]);
     par_vloz_hnizdo_vitr(p_Level->KourUst[k].hHnizdo[i],
-      (BOD *) p_Level->fVitr);
+                        (BOD *) p_Level->fVitr);
   }
 
   p_Level->KourUst[k].dwStart = timeGetTime();
   p_Level->KourUst[k].hHnizdo[1] = iItem;
 
   par_pripoj_funkci(p_Level->KourUst[k].System, anmend_ZrusCastice3, 0, 0,
-    reinterpret_cast<size_ptr>(pKourovaS));
+                    reinterpret_cast<size_ptr>(pKourovaS));
 
   par_go(p_Level->KourUst[k].System, &p_Level->KourUst[k].flag, 0, 0);
 }
@@ -5045,8 +5035,14 @@ void am_Do_BeatleSmokes(LEVELINFO * p_Level)
   if (!p_Level->Snow.bSnow)
     return;
 
-  for (i = 0; i < 10; i++)
+  for (i = 0; i < 10; i++) {
     if (p_Level->KourUst[i].System) {
+      int ret = kom_mesh_get_float(p_Level->Item[p_Level->KourUst[i].hHnizdo[1]].Index_Of_Game_Mesh, 
+                                   &pos[0], &pos[1], &pos[2], &rot);
+      if(ret == K_CHYBA) {
+        continue;      
+      }
+
       //vygeneruj dir
       p_Level->KourUst[i].dir[0][0] = (rand() & 0x1 ? randf() : -randf());
       p_Level->KourUst[i].dir[0][1] = (randf());
@@ -5058,10 +5054,7 @@ void am_Do_BeatleSmokes(LEVELINFO * p_Level)
       p_Level->KourUst[i].dir[0][0] *= f / 100.0f;
       p_Level->KourUst[i].dir[0][1] *= f / 100.0f;
       p_Level->KourUst[i].dir[0][2] *= f / 100.0f;
-
-      kom_mesh_get_float(p_Level->Item[p_Level->KourUst[i].hHnizdo[1]].
-        Index_Of_Game_Mesh, &pos[0], &pos[1], &pos[2], &rot);
-
+    
       pos[1] += 0.70f;
 
       switch (p_Level->Item[p_Level->KourUst[i].hHnizdo[1]].Rotation) {
@@ -5079,9 +5072,11 @@ void am_Do_BeatleSmokes(LEVELINFO * p_Level)
           break;
       }
 
-      memcpy((void *) p_Level->KourUst[i].pivot[0], (void *) pos,
-        3 * sizeof(float));
+      p_Level->KourUst[i].pivot[0][0] = pos[0];
+      p_Level->KourUst[i].pivot[0][1] = pos[1];
+      p_Level->KourUst[i].pivot[0][2] = pos[2];
     }
+  }
 
   for (i = 0; i < 6; i++) {
     pBeatle = &p_Level->BeatleSmoke[i];
@@ -5091,16 +5086,19 @@ void am_Do_BeatleSmokes(LEVELINFO * p_Level)
         pBeatle->dwRealTime += ber.TimeLastFrame;
 
       if (pBeatle->dwRealTime > pBeatle->dwExpTime) {
-        kom_mesh_get_float(p_Level->Item[pBeatle->iItem].Index_Of_Game_Mesh,
-          &pos[0], &pos[1], &pos[2], &rot);
-
+        int ret = kom_mesh_get_float(p_Level->Item[pBeatle->iItem].Index_Of_Game_Mesh,
+                                     &pos[0], &pos[1], &pos[2], &rot);
+        if(ret == K_CHYBA) {
+          continue;
+        }
+      
         pos[1] += 0.70f;
 
         pBeatle->dwRealTime = 0;
 
         gl_Logical2Real(p_Level->Item[pBeatle->iItem].Pos[0],
-          p_Level->Item[pBeatle->iItem].Pos[1],
-          p_Level->Item[pBeatle->iItem].Pos[2], &real, p_Level);
+                        p_Level->Item[pBeatle->iItem].Pos[1],
+                        p_Level->Item[pBeatle->iItem].Pos[2], &real, p_Level);
 
         if (!p_Level->Square[real].bUnderWater)
           am_Do_Mouth_Smoke(pBeatle->iItem, pos, p_Level);
@@ -5145,16 +5143,14 @@ void am_Create_Steps_System(LEVELINFO * p_Level)
   int size = 100, rot;
   float pos[3];
 
-
   for (i = 0; i < 6; i++)
     if (p_Level->BeatleSmoke[i].iItem != -1) {
       pSystem = &p_Level->BeatleSmoke[i].sStopy;
 
       kom_mesh_get_float(p_Level->Item[p_Level->BeatleSmoke[i].iItem].
-        Index_Of_Game_Mesh, &pos[0], &pos[1], &pos[2], &rot);
+                         Index_Of_Game_Mesh, &pos[0], &pos[1], &pos[2], &rot);
 
       pKourovaS = (PAR_KOUR_STOPA *) malloc(size * sizeof(PAR_KOUR_STOPA));
-
       if (!pKourovaS)
         return;
 
@@ -5163,7 +5159,6 @@ void am_Create_Steps_System(LEVELINFO * p_Level)
       pSystem->dwStart = timeGetTime();
 
       m = kom_najdi_material("csteps0");
-
       if (m == -1) {
         kprintf(1, "Nelze najit material csteps0");
         free((void *) pKourovaS);
@@ -5187,14 +5182,13 @@ void am_Create_Steps_System(LEVELINFO * p_Level)
       pSystem->System = par_vyrob();
 
       par_set_param(pSystem->System, m, TPAR_NO_FOG | TPAR_3D |
-        TPAR_VETSI | TPAR_AUTOREMOVE, (BOD *) pos, NULL);
+                    TPAR_VETSI | TPAR_AUTOREMOVE, (BOD *) pos, NULL);
 
       par_vloz_kour_stopu(pSystem->System, pKourovaS, pSystem->Sizeof);
 
       pSystem->hHnizdo[0] = par_vloz_hnizdo(pSystem->System);
-
       par_vloz_hnizdo_komplet(pSystem->hHnizdo[0], 1000000,
-        (BOD *) pSystem->pivot[0], pKourovaS);
+                              (BOD *) pSystem->pivot[0], pKourovaS);
       par_vloz_hnizdo_timer(pSystem->hHnizdo[0], 1000000, 0);
 
       memcpy((void *) pSystem->pivot[0], (void *) pos, 3 * sizeof(float));

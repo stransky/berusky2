@@ -22,7 +22,6 @@ extern G_KONFIG ber, *p_ber;
 ParHandle par_vyrob(void)
 {
   PARMETAC *p_par = (PARMETAC *) mmalloc(sizeof(p_par[0]));
-
   if (p_ber->p_par) {
     p_ber->p_par->p_prev = p_par;
     p_par->p_next = p_ber->p_par;
@@ -33,7 +32,7 @@ ParHandle par_vyrob(void)
 }
 
 ParHandle par_set_param(ParHandle ph, int material, int flag, BOD * p_pos,
-  BOD * p_pivot)
+                        BOD * p_pivot)
 {
   PARMETAC *p_par = (PARMETAC *) ph;
 
@@ -63,8 +62,8 @@ void par_zrus(ParHandle ph)
   if (p_par->p_flag)
     *(p_par->p_flag) = K_CHYBA;
   if (p_par->p_endfce)
-    p_par->p_endfce(p_par->param, 
-                    p_par->param2, 
+    p_par->p_endfce(p_par->param,
+                    p_par->param2,
                     reinterpret_cast<size_ptr>(p_par->p_param));
 
   if (p_ber->p_par == p_par) {  // smaz prvni
@@ -107,7 +106,6 @@ void par_zrus_end(PARMETAC * p_par)
 int par_get(ParHandle ph)
 {
   PARMETAC *p_par = (PARMETAC *) ph;
-
   return (p_par->pnum);
 }
 
@@ -586,8 +584,7 @@ int par_vloz_kour_stopu(ParHandle ph, PAR_KOUR_STOPA * p_part, int pocet)
 HnizdoHandle par_vloz_hnizdo(ParHandle ph)
 {
   PARMETAC *p_par = (PARMETAC *) ph;
-  PARMETAC_HNIZDO *p_hnizdo =
-    (PARMETAC_HNIZDO *) mmalloc(sizeof(p_hnizdo[0]));
+  PARMETAC_HNIZDO *p_hnizdo = (PARMETAC_HNIZDO *) mmalloc(sizeof(p_hnizdo[0]));
   p_par->hnum++;
   p_hnizdo->p_next = p_par->p_hnizdo;
   if (p_hnizdo->p_next)
@@ -598,13 +595,31 @@ HnizdoHandle par_vloz_hnizdo(ParHandle ph)
 }
 
 HnizdoHandle par_vloz_hnizdo_komplet(HnizdoHandle hh, int time_interval,
-  BOD * p_pivot, PAR_KOUR_STOPA * p_part)
+                                     BOD * p_pivot, PAR_KOUR_STOPA * p_part)
 {
   PARMETAC_HNIZDO *p_hnizdo = (PARMETAC_HNIZDO *) hh;
 
   p_hnizdo->p_pivot = p_pivot;
   p_hnizdo->time_interval = time_interval;
-  memcpy(&p_hnizdo->rychlost_x, &p_part->rychlost_x, sizeof(float) * 15);
+
+  p_hnizdo->rychlost_x = p_part->rychlost_x;
+  p_hnizdo->rychlost_y = p_part->rychlost_y;
+
+  p_hnizdo->utlum_x = p_part->utlum_x;
+  p_hnizdo->utlum_y = p_part->utlum_y;
+
+  p_hnizdo->r = p_part->r;
+  p_hnizdo->g = p_part->g;
+  p_hnizdo->b = p_part->b;
+  p_hnizdo->a = p_part->a;
+
+  p_hnizdo->dr = p_part->dr;
+  p_hnizdo->dg = p_part->dg;
+  p_hnizdo->db = p_part->db;
+  p_hnizdo->da = p_part->da;
+
+  p_hnizdo->ka = p_part->ka;
+
   return (hh);
 }
 
@@ -699,7 +714,6 @@ PAR_KOUR_STOPA *par_vloz_hnizdo_pust_castice(ParHandle ph, HnizdoHandle hh,
 HnizdoHandle par_vloz_hnizdo_pivot(HnizdoHandle hh, BOD * p_pivot)
 {
   PARMETAC_HNIZDO *p_hnizdo = (PARMETAC_HNIZDO *) hh;
-
   p_hnizdo->p_pivot = p_pivot;
   return (hh);
 }
@@ -812,7 +826,6 @@ PAR_KOUR_STOPA *par_cti_hnizdo_castice(HnizdoHandle hh)
 int par_get_hnizda(ParHandle ph)
 {
   PARMETAC *p_par = (PARMETAC *) ph;
-
   return (p_par->hnum);
 }
 
@@ -821,7 +834,6 @@ void par_zrus_hnizdo(ParHandle ph, HnizdoHandle hh)
   PARMETAC_HNIZDO *p_hnizdo = (PARMETAC_HNIZDO *) hh;
   PARMETAC *p_par = (PARMETAC *) ph;
   PAR_KOUR_STOPA *p_next = (PAR_KOUR_STOPA *) p_hnizdo->p_first, *p_tmp;
-
 
   // Prevedu zbyvajici castice do spolecneho fondu  
   while (p_next) {
@@ -844,7 +856,6 @@ void par_zrus_hnizdo(ParHandle ph, HnizdoHandle hh)
       p_hnizdo->p_next->p_prev = p_hnizdo->p_prev;
   }
 
-
   free(p_hnizdo);
 }
 
@@ -853,15 +864,12 @@ void par_zrus_hnizdo(ParHandle ph, HnizdoHandle hh)
 int pe_updatuj_kour_stopa(G_KONFIG * p_ber, PARMETAC * p_mt)
 {
   GAME_MESH_OLD *p_mesh;
-  //GLMATRIX *p_cam = p_ber->p_camera;
-  //GLMATRIX *p_inv = p_ber->p_invcam;
   PARMETAC_HNIZDO *p_hnizdo, *p_tmp;
   PAR_KOUR_STOPA *p_par, *p_next;
   BOD *p_max;
   BOD *p_min;
   BOD tmp;
   BOD *p_pivot = NULL;
-  BOD *p_pos;
   float koef;
   int tx, ty, tz;
   int vid, atime;
@@ -919,17 +927,17 @@ int pe_updatuj_kour_stopa(G_KONFIG * p_ber, PARMETAC * p_mt)
 
   p_hnizdo = p_mt->p_hnizdo;
   while (p_hnizdo) {
-
+  
     p_hnizdo->pnum = 0;
 
     /* Pridani nove castice (pokud je na ne cas)
        - vezmu ji v seznamu volnych castic
      */
     if (p_hnizdo->p_pivot &&
-      (int) atime - (int) p_hnizdo->time_last >=
-      (int) p_hnizdo->time_interval) {
+        (int)atime - (int)p_hnizdo->time_last >= (int) p_hnizdo->time_interval)
+    {
       p_hnizdo->time_last = atime;
-
+    
       if (!p_mt->p_first)
         continue;
 
@@ -937,6 +945,11 @@ int pe_updatuj_kour_stopa(G_KONFIG * p_ber, PARMETAC * p_mt)
       p_mt->p_first = p_par->p_next;
 
       p_par->p = *p_hnizdo->p_pivot;
+      {
+        VECT min(FLT_MAX), max(-FLT_MAX);
+        kd_bunka_min_max(&p_par->p, &min, &max);
+      }
+      
       if (dir && p_hnizdo->p_dir)
         p_par->dir = *p_hnizdo->p_dir;
       if (par3d) {
@@ -974,7 +987,7 @@ int pe_updatuj_kour_stopa(G_KONFIG * p_ber, PARMETAC * p_mt)
         p_par->p_next->p_prev = p_par;
       }
       p_hnizdo->p_first = p_par;
-      p_par->p_prev = NULL;
+      p_par->p_prev = NULL;          
     }
 
     p_min = &p_hnizdo->min;
@@ -995,7 +1008,7 @@ int pe_updatuj_kour_stopa(G_KONFIG * p_ber, PARMETAC * p_mt)
       p_next = p_par->p_next;
 
       p_par->a += p_par->da * koef;
-      vid = operace ? (p_par->a > p_par->ka) : (p_par->a < p_par->ka);
+      vid = (operace) ? (p_par->a > p_par->ka) : (p_par->a < p_par->ka);
 
       //.. vyhod neaktivni castici ze seznamu
       if (!vid) {
@@ -1016,7 +1029,6 @@ int pe_updatuj_kour_stopa(G_KONFIG * p_ber, PARMETAC * p_mt)
          */
         p_par->p_next = (PAR_KOUR_STOPA *) p_mt->p_first;
         p_mt->p_first = p_par;
-
       }
       else {
         if (scale) {
@@ -1033,34 +1045,30 @@ int pe_updatuj_kour_stopa(G_KONFIG * p_ber, PARMETAC * p_mt)
           p_par->b += p_par->db * koef;
         }
         if (dir) {
-          vektor_add(&p_par->p, vektor_mult_skalar(&p_par->dir, koef, &tmp),
-            &p_par->p);
+          vektor_add(&p_par->p, vektor_mult_skalar(&p_par->dir, koef, &tmp), &p_par->p);
         }
         if (vitr) {
-          vektor_add(&p_par->p, vektor_mult_skalar(p_hnizdo->p_vitr, koef,
-              &tmp), &p_par->p);
+          vektor_add(&p_par->p, vektor_mult_skalar(p_hnizdo->p_vitr, koef, &tmp), &p_par->p);
         }
         if (frame) {
           p_par->frame += p_par->framedelta * koef;
         }
 
-        /* Aktivni castici pouzij k vypoctu kostky
-         */
-        p_pos = &p_par->rp;
+        // Aktivni castici pouzij k vypoctu kostky
+        BOD *p_pos = &p_par->rp;
         if (pivot) {
           vektor_add(&p_par->p, p_pivot, p_pos);
         }
         else {
           *p_pos = p_par->p;
         }
-
-        /* Testy na umisteni castice v prostoru
-         */
-
+      
+        // Testy na umisteni castice v prostoru
         if ((yplane_low && p_pos->y < p_par->y_plane) ||
-          (yplane_top && p_pos->y > p_par->y_plane)) {
-          // Vyrad castici z hnizda a strc ji do seznamu volnych castic
-
+            (yplane_top && p_pos->y > p_par->y_plane)) 
+        {
+          
+        // Vyrad castici z hnizda a strc ji do seznamu volnych castic
         vyrad_castici:
           if (p_par->p_prev) {
             p_par->p_prev->p_next = p_par->p_next;
@@ -1081,31 +1089,28 @@ int pe_updatuj_kour_stopa(G_KONFIG * p_ber, PARMETAC * p_mt)
           continue;
         }
 
-
         if (htest) {
           if (p_pos->y <= p_ber->y_start) {
             goto vyrad_castici;
           }
           else {
-
             tx = (int) floor(p_pos->x - p_ber->x_start) >> 1;
             ty = (int) floor(p_pos->y - p_ber->y_start) >> 1;
             tz = (int) floor(p_pos->z - p_ber->z_start) >> 1;
 
             if (tx >= 0 && tx < p_ber->x_num &&
-              ty >= 0 && ty < p_ber->y_num && tz >= 0 && tz < p_ber->z_num) {
-
+                ty >= 0 && ty < p_ber->y_num && 
+                tz >= 0 && tz < p_ber->z_num) 
+            {
               assert(ber_pozice_v_levelu(tx, ty, tz, p_ber->x_num,
-                  p_ber->z_num) < p_ber->hitnum);
-              if (p_ber->p_hit_list[ber_pozice_v_levelu(tx, ty, tz,
-                    p_ber->x_num, p_ber->z_num)])
+                                         p_ber->z_num) < p_ber->hitnum);
+              if (p_ber->p_hit_list[ber_pozice_v_levelu(tx, ty, tz, 
+                                                        p_ber->x_num, p_ber->z_num)])
                 goto vyrad_castici;
               else {
                 ber_mesh_render_list_reset(p_ber);
-
-                while ((p_mesh =
-                    (GAME_MESH_OLD *) ber_mesh_render_list_next_flag(p_ber,
-                      KONT_PRVEK, KONT_DRAW_NOBALKA))) {
+                while ((p_mesh = (GAME_MESH_OLD *) ber_mesh_render_list_next_flag(p_ber,
+                                                   KONT_PRVEK, KONT_DRAW_NOBALKA))) {
                   if (obb_je_bod_v_kostce_aabb(&p_mesh->obb_world, p_pos)) {
                     goto vyrad_castici;
                   }
@@ -1119,8 +1124,7 @@ int pe_updatuj_kour_stopa(G_KONFIG * p_ber, PARMETAC * p_mt)
           kd_bunka_min_max(p_pos, p_min, p_max);
         }
         else if (par3d || parhl) {
-          kd_bunka_min_max_koule(p_pos, MAX(p_par->rychlost_x,
-              p_par->rychlost_y), p_min, p_max);
+          kd_bunka_min_max_koule(p_pos, MAX(p_par->rychlost_x, p_par->rychlost_y), p_min, p_max);
         }
 
         p_hnizdo->pnum++;

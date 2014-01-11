@@ -102,12 +102,13 @@ void ber_kamera_zpruhledni_poly(EDIT_MESH_POLY * p_poly, BOD * p_cam,
 {
   TEXT_KOORD *p_koord;
   BOD dir;
-  int v, in;
+  int v, in, pl;
 
   vektor_sub(p_stred, p_cam, &dir);
   in = obb_intersect_line_dist(&p_poly->obb, p_cam, &dir);
-  if (in && intersect_poly(p_poly, p_cam, &dir)) {
+  pl = intersect_poly(p_poly, p_cam, &dir);
 
+  if (in && pl) {
     p_poly->kflag |= (KONT_UPLOAD | KONT_DRAW_CAMERA);
 
     p_koord = p_poly->p_koord;

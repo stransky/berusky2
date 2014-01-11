@@ -237,8 +237,8 @@ int kom_mesh_get_save_num(MeshHandle prvek_handle)
 
 /* Nacte mesh - fyzickou pozici
 */
-int kom_mesh_get_float(MeshHandle prvek_handle, float *p_x, float *p_y,
-  float *p_z, int *p_rotace)
+int kom_mesh_get_float(MeshHandle prvek_handle, float *p_x, float *p_y, 
+                       float *p_z, int *p_rotace)
 {
   if (p_ber->p_prv_lev[prvek_handle]) {
     PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[prvek_handle];
@@ -249,15 +249,15 @@ int kom_mesh_get_float(MeshHandle prvek_handle, float *p_x, float *p_y,
     *p_rotace = p_prv->rotace;
     return (prvek_handle);
   }
-  else {
+  else {    
     return (K_CHYBA);
   }
 }
 
 /* Nacte mesh - logickou pozici
 */
-int kom_mesh_get_int(MeshHandle prvek_handle, int *p_x, int *p_y, int *p_z,
-  int *p_rotace)
+int kom_mesh_get_int(MeshHandle prvek_handle, int *p_x, int *p_y, int *p_z, 
+                     int *p_rotace)
 {
   if (p_ber->p_prv_lev[prvek_handle]) {
     PRVEK_LEVELU_GAME *p_prv = p_ber->p_prv_lev[prvek_handle];

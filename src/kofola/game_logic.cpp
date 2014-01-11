@@ -801,8 +801,7 @@ int gl_Do_Lift_Particles(float *pos, int mesh, LEVELINFO * p_Level)
   if (k == -1)
     return (0);
 
-  pKourovaS = (PAR_KOUR_STOPA *) malloc(size * sizeof(PAR_KOUR_STOPA));
-
+  pKourovaS = (PAR_KOUR_STOPA *)mmalloc(size * sizeof(PAR_KOUR_STOPA));
   if (!pKourovaS)
     return (0);
 
@@ -903,8 +902,7 @@ void gl_Do_Teleport_Sparks(float *pos, LEVELINFO * p_Level)
   if (k == -1)
     return;
 
-  pKourovaS = (PAR_KOUR_STOPA *) malloc(size * sizeof(PAR_KOUR_STOPA));
-
+  pKourovaS = (PAR_KOUR_STOPA *) mmalloc(size * sizeof(PAR_KOUR_STOPA));
   if (!pKourovaS)
     return;
 
@@ -927,7 +925,6 @@ void gl_Do_Teleport_Sparks(float *pos, LEVELINFO * p_Level)
 	}*/
 
   m = kom_najdi_material("flare105");
-
   if (m == -1)
     kprintf(1, "Nelze najit material flare105");
 
@@ -941,8 +938,7 @@ void gl_Do_Teleport_Sparks(float *pos, LEVELINFO * p_Level)
   pKourovaS[0].b = 0.97f;
 
   pKourovaS[0].a = 1.0f;
-  pKourovaS[0].dr = pKourovaS[0].dg = pKourovaS[0].db = pKourovaS[0].da =
-    0.0f;
+  pKourovaS[0].dr = pKourovaS[0].dg = pKourovaS[0].db = pKourovaS[0].da = 0.0f;
   pKourovaS[0].ka = 0.0f;
 
   p_Level->TeleportSparks[k].System = par_vyrob();

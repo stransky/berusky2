@@ -315,7 +315,7 @@ typedef struct
   int hSvetlo;
   int hEXSvetlo[2];
   SYSTEMKOUROVYCHCASTIC System;
-  int mesh;
+  int mesh;  
 } EXITEFECT;
 
 typedef struct

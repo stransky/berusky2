@@ -1,8 +1,42 @@
+valgrind --db-attach=yes ./berusky2
+valgrind --track-origins=yes --free-fill=0x50 --db-attach=yes ./berusky2
+--leak-check=full
+
+-> Switch from pos[3] to VECT
+
+- Open data/texture/string format?
+  - for easy modifications
+
+- install script (not rpm)
+
+- Stand-alone linux binaries
+- Easy installation, easy run
+
+- Default key settings, icons
+- 90degree rotation?
+- transparency on by default?
+
+- no menu by default, one icon to turn it on/off
+- icons for rotation and so?
+  - CC icons?
+
+- game tip -> show again
+- more game tips
+
+- more hints?
+  - keys and so
+  - game console
+  - level center
+
+- better camera (remove the camera obstructions)
+  - automatic camera on/off -> icon for it?
+
 TODO:
+- Scroll help on mouse wheel
+
 am_Init_Zhave_Castice -> what are the array sizes?
 Tread crash
 
-- better camera (remove the camera obstructions)
 - better lighting (no-lighting mode?)
 - screen icons? (for quick set-up) - better side menu?
 
@@ -19,13 +53,11 @@ Web:
 
 - nefunguje pruhledne veci - stopy, flares a podobne
 - Wait for game tip to load (wait for a key?)
-- Scroll help on mouse wheel
 - better camera
 - lighting
 
 - better effects
-
-- windows version?
+- window version?
 
 - ini file - see all saves options (regardless the profile)
 - Grey beetle can't be selected by mouse when screen is resized
