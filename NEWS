@@ -1,6 +1,7 @@
 * 0.10
     - Incompatible save game format!
     - Builds/run with fortified sources
+    - Fixed crashes at level end (am_Do_Exit_Efects)
 
 * 0.9
     - game window can be resized on the fly

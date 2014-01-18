@@ -1,3 +1,6 @@
+- Easy root configuration (in INI file)
+  - root config?
+
 valgrind --db-attach=yes ./berusky2
 valgrind --track-origins=yes --free-fill=0x50 --db-attach=yes ./berusky2
 --leak-check=full
