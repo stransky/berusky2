@@ -1,0 +1,73 @@
+#!/bin/bash
+
+# Default instalation directory
+INSTALL_DIR="/usr/share/berusky2"
+
+function help() {
+  echo "Berusky2 install script. It copies Berusky2 data at '$INSTALL_DIR'"
+  echo "unless you specify a different directory. You may run it as root"
+  echo "when you install it under /usr. Usage:"
+  echo ""
+  echo "install [OPTIONS]"
+  echo ""
+  echo "Options:"
+  echo ""
+  echo "  -d --dir <install_dir>        Target directory. The default is $INSTALL_DIR"
+  echo "  -h --help                     This help."
+  echo ""
+}
+
+# Prepare command line arguments
+pass_arg_count=0
+while [ $# -gt $pass_arg_count ]
+do
+  case "$1" in
+    -h | --help)
+      help
+      exit
+      ;;
+    -d | --dir)
+      if [ $# -gt 1 ]; then
+        INSTALL_DIR="$2"
+        shift 2
+      else
+        shift
+      fi
+      ;;
+    *)
+      echo "Unknown argument: '$1'"
+      help
+      exit
+      ;;
+  esac
+done
+
+if ! [ -x $INSTALL_DIR ]; then
+  mkdir -p $INSTALL_DIR
+  if ! [ $? ]; then
+    echo "Unable to create a target directory! - '$INSTALL_DIR'"
+    exit
+  fi
+fi
+
+cp -r AUTHORS \
+      COPYING \
+      README \
+      bitmap \
+      data \
+      game \
+      game_data \
+      items \
+      materials \
+      out \
+      textures \
+      music \
+      sound \
+      $INSTALL_DIR
+
+if ! [ $? ]; then
+  echo "Unable to copy files at '$INSTALL_DIR'!"
+  exit
+else
+  echo "Installed at '$INSTALL_DIR'."
+fi

@@ -1,3 +1,6 @@
+* 0.11
+    - Added berusky2-data install script
+
 * 0.10
     - Incompatible save game format!
     - Builds/run with fortified sources

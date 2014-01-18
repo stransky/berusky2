@@ -1,5 +1,6 @@
 - Easy root configuration (in INI file)
   - root config?
+- ship only one ini file (data&game)
 
 valgrind --db-attach=yes ./berusky2
 valgrind --track-origins=yes --free-fill=0x50 --db-attach=yes ./berusky2
