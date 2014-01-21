@@ -81,7 +81,7 @@ extern TXT_KONFIG txconf;
 #define  TXT_HI_RES_LOW_X  128
 #define  TXT_HI_RES_LOW_Y  128
 
-#define  TXT_SEKCE        "textury"
+#define  TXT_SEKCE        "textures"
 
 int grf_start(char *p_file);
 int grf_stop();

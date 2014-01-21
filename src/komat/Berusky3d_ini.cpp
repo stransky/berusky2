@@ -75,8 +75,8 @@ int nahraj_konfig(void)
 {
   /* TODO - sync with Setup
    */
-  nahraj_device_config(ini_file, "hra");
-  nahraj_universal_device_config(ini_file, "hra");
+  nahraj_device_config(ini_file, "game");
+  nahraj_universal_device_config(ini_file, "game");
   nahraj_texture_config(ini_file, &txconf);
 
   return (TRUE);

@@ -117,19 +117,19 @@ void ber_rekonfiguruj_hra(G_KONFIG * p_ber)
   char pom[200];
 
   p_ber->conf_start_zpruhlednovac =
-    GetPrivateProfileInt("hra", "start_zpruhlednovani", 0, ini_file);
+    GetPrivateProfileInt("game", "start_zpruhlednovani", 0, ini_file);
   p_ber->conf_start_zvyraznovac =
-    GetPrivateProfileInt("hra", "start_zvyraznovani", 0, ini_file);
+    GetPrivateProfileInt("game", "start_zvyraznovani", 0, ini_file);
   p_ber->conf_ovladani_rohy =
-    GetPrivateProfileInt("hra", "ovladani_rohy", 1, ini_file);
+    GetPrivateProfileInt("game", "ovladani_rohy", 1, ini_file);
   p_ber->conf_ovladani_rohy_default =
-    GetPrivateProfileInt("hra", "ovladani_rohy_default", 0, ini_file);
+    GetPrivateProfileInt("game", "ovladani_rohy_default", 0, ini_file);
   p_ber->conf_ovladani_rohy_smer =
-    GetPrivateProfileInt("hra", "ovladani_rohy_smer", 0, ini_file);
-  GetPrivateProfileString("hra", "ovladani_rohy_rychlost", "0.5", pom, 200,
+    GetPrivateProfileInt("game", "ovladani_rohy_smer", 0, ini_file);
+  GetPrivateProfileString("game", "ovladani_rohy_rychlost", "0.5", pom, 200,
     ini_file);
   p_ber->conf_ovladani_rohy_rychlost = (float) atof(pom);
-  GetPrivateProfileString("hra", "p_kamera_radius", "4.0", pom, 200,
+  GetPrivateProfileString("game", "p_kamera_radius", "4.0", pom, 200,
     ini_file);
   p_ber->conf_pruhledna_kamera_radius = (float) atof(pom);
 }
@@ -138,20 +138,20 @@ void ber_rekonfiguruj_3D(G_KONFIG * p_ber)
 {
   char pom[200];
 
-  hwconf.ditering = GetPrivateProfileInt("hra", "ditering", 0, ini_file);
+  hwconf.ditering = GetPrivateProfileInt("game", "ditering", 0, ini_file);
 
-  p_ber->conf_zrcadlo = GetPrivateProfileInt("hra", "zrcado_aktivni", 1, ini_file);
-  p_ber->conf_animace_okoli = GetPrivateProfileInt("hra", "animace_okoli", 1, ini_file);
-  p_ber->conf_caustic = GetPrivateProfileInt("hra", "scene_materialy", 1, ini_file);
+  p_ber->conf_zrcadlo = GetPrivateProfileInt("game", "zrcado_aktivni", 1, ini_file);
+  p_ber->conf_animace_okoli = GetPrivateProfileInt("game", "animace_okoli", 1, ini_file);
+  p_ber->conf_caustic = GetPrivateProfileInt("game", "scene_materialy", 1, ini_file);
 
-  GetPrivateProfileString("textury", "text_ostrost", "0.0", pom, 200, ini_file);
+  GetPrivateProfileString("textures", "text_ostrost", "0.0", pom, 200, ini_file);
   txconf.text_ostrost = (float) atof(pom);
 
   // 0/1 - on/off
   // 1,2,3 - hi/mid/low
-  p_ber->conf_dyn_light = GetPrivateProfileInt("hra", "light_dyn", 1, ini_file);
+  p_ber->conf_dyn_light = GetPrivateProfileInt("game", "light_dyn", 1, ini_file);
   if (p_ber->conf_dyn_light)
-    p_ber->conf_dyn_rychlost = GetPrivateProfileInt("hra", "light_dyn_speed", 1, ini_file);
+    p_ber->conf_dyn_rychlost = GetPrivateProfileInt("game", "light_dyn_speed", 1, ini_file);
   else
     p_ber->conf_dyn_rychlost = LIGHT_NIC;
 }
@@ -198,69 +198,69 @@ void ber_konfiguruj_berusky(G_KONFIG * p_ber)
   for (i = 0; i < SIN_TABLE_SIZE; i++)
     p_ber->sinus_table[i] = sinf(DEG2RAD(i));
 
-  GetPrivateProfileString("game", "prvky_dir", ".", p_ber->dir.prvky_dir, MAX_FILENAME, ini_file);
+  GetPrivateProfileString("files", "prvky_dir", ".", p_ber->dir.prvky_dir, MAX_FILENAME, ini_file);
   working_file_translate(p_ber->dir.prvky_dir, MAX_FILENAME);
   
-  GetPrivateProfileString("game", "level_dir", ".", p_ber->dir.level_dir, MAX_FILENAME, ini_file);
+  GetPrivateProfileString("files", "level_dir", ".", p_ber->dir.level_dir, MAX_FILENAME, ini_file);
   working_file_translate(p_ber->dir.level_dir, MAX_FILENAME);
   
-  GetPrivateProfileString("game", "out_dir", ".", p_ber->dir.out_dir, MAX_FILENAME, ini_file);
+  GetPrivateProfileString("files", "out_dir", ".", p_ber->dir.out_dir, MAX_FILENAME, ini_file);
   working_file_translate(p_ber->dir.out_dir, MAX_FILENAME);
   
-  GetPrivateProfileString("game", "material_dir", ".", p_ber->dir.material_dir, MAX_FILENAME, ini_file);
+  GetPrivateProfileString("files", "material_dir", ".", p_ber->dir.material_dir, MAX_FILENAME, ini_file);
   working_file_translate(p_ber->dir.material_dir, MAX_FILENAME);
   
-  GetPrivateProfileString("game", "data_dir", ".", p_ber->dir.data_dir, MAX_FILENAME, ini_file);
+  GetPrivateProfileString("files", "data_dir", ".", p_ber->dir.data_dir, MAX_FILENAME, ini_file);
   working_file_translate(p_ber->dir.data_dir, MAX_FILENAME);
   
-  GetPrivateProfileString("game", "game_level_dir", ".", p_ber->dir.game_level_dir, MAX_FILENAME, ini_file);
+  GetPrivateProfileString("files", "game_level_dir", ".", p_ber->dir.game_level_dir, MAX_FILENAME, ini_file);
   working_file_translate(p_ber->dir.game_level_dir, MAX_FILENAME);
   
-  GetPrivateProfileString("game", "game_data_dir", ".", p_ber->dir.game_data_dir, MAX_FILENAME, ini_file);
+  GetPrivateProfileString("files", "game_data_dir", ".", p_ber->dir.game_data_dir, MAX_FILENAME, ini_file);
   working_file_translate(p_ber->dir.game_data_dir, MAX_FILENAME);
   
-  GetPrivateProfileString("game", "texture_dir", ".",  p_ber->tdir.texture_dir[0], MAX_FILENAME, ini_file);
+  GetPrivateProfileString("files", "texture_dir", ".",  p_ber->tdir.texture_dir[0], MAX_FILENAME, ini_file);
   working_file_translate(p_ber->tdir.texture_dir[0], MAX_FILENAME);
 
   for (i = 0; i < TEXT_DIRS; i++) {
     sprintf(pom, "texture_dir%d", i);
-    GetPrivateProfileString("game", pom, "", p_ber->tdir.texture_dir[i],  MAX_FILENAME, ini_file);
+    GetPrivateProfileString("files", pom, "", p_ber->tdir.texture_dir[i],  MAX_FILENAME, ini_file);
     working_file_translate(p_ber->tdir.texture_dir[i], MAX_FILENAME);
 
     if (p_ber->tdir.texture_dir[i][0] == '.' && !p_ber->tdir.texture_dir[i][1])
       p_ber->tdir.texture_dir[i][0] = 0;
 
     sprintf(pom, "texture_dir%d_class", i);
-    p_ber->tdir.texture_dir_class[i] = GetPrivateProfileInt("game", pom, 0, ini_file);
+    p_ber->tdir.texture_dir_class[i] = GetPrivateProfileInt("files", pom, 0, ini_file);
   }
 
   for (i = 0; i < TEXT_DIRS; i++) {
     sprintf(pom, "texture_file%d", i);
-    GetPrivateProfileString("game", pom, "", p_ber->tdir.texture_file[i],  MAX_FILENAME, ini_file);
+    GetPrivateProfileString("files", pom, "", p_ber->tdir.texture_file[i],  MAX_FILENAME, ini_file);
     working_file_translate(p_ber->tdir.texture_file[i], MAX_FILENAME);
   
     if (p_ber->tdir.texture_file[i][0] == '.' && !p_ber->tdir.texture_file[i][1])
       p_ber->tdir.texture_file[i][0] = 0;
     
     sprintf(pom, "texture_file%d_class", i);
-    p_ber->tdir.texture_file_class[i] = GetPrivateProfileInt("game", pom, 0, ini_file);
+    p_ber->tdir.texture_file_class[i] = GetPrivateProfileInt("files", pom, 0, ini_file);
   }
 
-	GetPrivateProfileString("game","save_dir","c:\\", p_ber->dir.save_dir, MAX_FILENAME, ini_file);
+	GetPrivateProfileString("files","save_dir","c:\\", p_ber->dir.save_dir, MAX_FILENAME, ini_file);
   working_file_translate(p_ber->dir.save_dir, MAX_FILENAME);
 
-	GetPrivateProfileString("game","bitmap_dir","c:\\", p_ber->dir.bitmap_dir, MAX_FILENAME, ini_file);
+	GetPrivateProfileString("files","bitmap_dir","c:\\", p_ber->dir.bitmap_dir, MAX_FILENAME, ini_file);
   working_file_translate(p_ber->dir.bitmap_dir, MAX_FILENAME);
 
-	GetPrivateProfileString("game","profile_dir","c:\\", p_ber->dir.profile_dir, MAX_FILENAME, ini_file);
+	GetPrivateProfileString("files","profile_dir","c:\\", p_ber->dir.profile_dir, MAX_FILENAME, ini_file);
   working_file_translate(p_ber->dir.profile_dir, MAX_FILENAME);
 
   p_ber->conf_barva_pozadi_pouzit_default = 
   p_ber->conf_barva_pozadi_pouzit = 
-  GetPrivateProfileInt("hra", "barva_pozadi", 0, ini_file);
+  GetPrivateProfileInt("game", "barva_pozadi", 0, ini_file);
 
   p_ber->conf_extra_light_vertex = 
-  GetPrivateProfileInt("hra", "extra_light_vertex", 1, ini_file);
+  GetPrivateProfileInt("game", "extra_light_vertex", 1, ini_file);
 
   ber_rekonfiguruj_hra(p_ber);
   ber_rekonfiguruj_3D(p_ber);

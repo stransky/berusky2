@@ -735,7 +735,7 @@ int fn2_Set_Font(char *cPAK)
 
   memset(&b2_3d_font, 0, sizeof(B2_FONT));
 
-  if (!fn2_Open_Archive(cPAK, &b2_3d_font.pArchive, "game", "bitmap_dir"))
+  if (!fn2_Open_Archive(cPAK, &b2_3d_font.pArchive, "files", "bitmap_dir"))
     return 0;
 
   b2_3d_font.file = aopen(b2_3d_font.pArchive, "texts.txt", "rb");

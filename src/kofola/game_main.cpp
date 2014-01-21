@@ -60,46 +60,46 @@ int winmain_Game_Run(char *p_Level_Name)
 
   srand((unsigned) time(NULL));
 
-  GetPrivateProfileString("game", "bitmap_pak", "c:\\", bitmap_pak, MAX_FILENAME, ini_file);
+  GetPrivateProfileString("files", "bitmap_pak", "c:\\", bitmap_pak, MAX_FILENAME, ini_file);
   working_file_translate(bitmap_pak, MAX_FILENAME);
 
-  GetPrivateProfileString("game", "font_pak1", "c:\\", cFontFile[0], 64, ini_file);
+  GetPrivateProfileString("files", "font_pak1", "c:\\", cFontFile[0], 64, ini_file);
   kprintf(1, "font_pak1 = %s", cFontFile[0]);
 
-  GetPrivateProfileString("game", "font_pak2", "c:\\", cFontFile[1], 64, ini_file);
+  GetPrivateProfileString("files", "font_pak2", "c:\\", cFontFile[1], 64, ini_file);
   kprintf(1, "font_pak2 = %s", cFontFile[1]);
 
-  GetPrivateProfileString("game", "font_pak3", "c:\\", cFontFile[2], 64, ini_file);
+  GetPrivateProfileString("files", "font_pak3", "c:\\", cFontFile[2], 64, ini_file);
   kprintf(1, "font_pak3 = %s", cFontFile[2]);
 
-  GetPrivateProfileString("game", "font_pak4", "c:\\", cFontFile[3], 64, ini_file);
+  GetPrivateProfileString("files", "font_pak4", "c:\\", cFontFile[3], 64, ini_file);
   kprintf(1, "font_pak4 = %s", cFontFile[3]);
 
-  GetPrivateProfileString("game", "font_pak5", "c:\\", cFontFile[4], 64, ini_file);
+  GetPrivateProfileString("files", "font_pak5", "c:\\", cFontFile[4], 64, ini_file);
   kprintf(1, "font_pak5 = %s", cFontFile[4]);
 
-  iLanguageVersion = GetPrivateProfileInt("game", "languageid", 0, ini_file);
+  iLanguageVersion = GetPrivateProfileInt("files", "languageid", 0, ini_file);
   kprintf(1, "Language ID = %d", iLanguageVersion);
 
-  if (!gi_Open_Archive(bitmap_pak, &pBmpArchive, "game", "bitmap_dir")) {
+  if (!gi_Open_Archive(bitmap_pak, &pBmpArchive, "files", "bitmap_dir")) {
     return 0;
   }
 
 /*#ifndef __DEMO
-	if(!gi_Open_Archive("bitmap.pak", &pBmpArchive,"game","bitmap_dir"))
+	if(!gi_Open_Archive("bitmap.pak", &pBmpArchive,"files","bitmap_dir"))
 	{
 		return 0;
 	}
 #endif
 
 #ifdef __DEMO
-	if(!gi_Open_Archive("bitmap_demo.pak", &pBmpArchive,"game","bitmap_dir"))
+	if(!gi_Open_Archive("bitmap_demo.pak", &pBmpArchive,"files","bitmap_dir"))
 	{
 		return 0;
 	}
 #endif*/
 
-  if (!gi_Open_Archive("controls.pak", &pControlsArchive, "game", "bitmap_dir")) {
+  if (!gi_Open_Archive("controls.pak", &pControlsArchive, "files", "bitmap_dir")) {
     apakclose(&pBmpArchive);
     return 0;
   }
@@ -122,20 +122,20 @@ int winmain_Game_Run(char *p_Level_Name)
 	}
 #endif
 
-  GetPrivateProfileString("game", "3dmenu_pak", "c:\\", dir, MAX_FILENAME, ini_file);
+  GetPrivateProfileString("files", "3dmenu_pak", "c:\\", dir, MAX_FILENAME, ini_file);
   working_file_translate(dir, MAX_FILENAME);
 
-  if (!gi_Open_Archive(dir, &p3DMArchive, "game", "bitmap_dir")) {
+  if (!gi_Open_Archive(dir, &p3DMArchive, "files", "bitmap_dir")) {
     apakclose(&pControlsArchive);
     apakclose(&pBmpArchive);
     apakclose(&pSndArchive);
     return 0;
   }
 
-  GetPrivateProfileString("game", "data_pak", "c:\\", dir, MAX_FILENAME, ini_file);
+  GetPrivateProfileString("files", "data_pak", "c:\\", dir, MAX_FILENAME, ini_file);
   working_file_translate(dir, MAX_FILENAME);
 
-  if (!gi_Open_Archive(dir, &pDataArchive, "game", "data_dir")) {
+  if (!gi_Open_Archive(dir, &pDataArchive, "files", "data_dir")) {
     apakclose(&p3DMArchive);
     apakclose(&pControlsArchive);
     apakclose(&pBmpArchive);
@@ -144,7 +144,7 @@ int winmain_Game_Run(char *p_Level_Name)
   }
 
 #ifndef __DEMO
-  if (!gi_Open_Archive("game_data.pak", &pGDataArchive, "game", "game_data_dir")) {
+  if (!gi_Open_Archive("game_data.pak", &pGDataArchive, "files", "game_data_dir")) {
     apakclose(&pDataArchive);
     apakclose(&p3DMArchive);
     apakclose(&pControlsArchive);
@@ -155,7 +155,7 @@ int winmain_Game_Run(char *p_Level_Name)
 #endif
 
 #ifdef __DEMO
-  if (!gi_Open_Archive("game_data_demo.pak", &pGDataArchive, "game", "game_data_dir")) {
+  if (!gi_Open_Archive("game_data_demo.pak", &pGDataArchive, "files", "game_data_dir")) {
     apakclose(&pDataArchive);
     apakclose(&p3DMArchive);
     apakclose(&pControlsArchive);
@@ -175,7 +175,7 @@ int winmain_Game_Run(char *p_Level_Name)
   if (!bGame) {
 #ifndef __DEMO
 
-    if (GetPrivateProfileInt("hra", "logo", 1, ini_file) && !bWindowMenu
+    if (GetPrivateProfileInt("game", "logo", 1, ini_file) && !bWindowMenu
       && iLanguageVersion != 4) {
       cmcs_Game_Down();
       cmcs_Play_Video("AnakreoN.mpg", 16000, &ad);
@@ -253,7 +253,7 @@ int winmain_Game_Run(char *p_Level_Name)
 
 #ifdef __DEMO
     {
-      int i = GetPrivateProfileInt("game", "languageid", 0, ini_file);
+      int i = GetPrivateProfileInt("files", "languageid", 0, ini_file);
 
       if (i != 2 && i != 4)
         RunMenuDrawDemoEndScreen();

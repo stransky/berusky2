@@ -40,7 +40,7 @@ int _3d_Init(void)
     _3dd.p_sysramtexture[i].bVLoaded = 0;
   }
   
-  _3dd.bMenuVRAMLoad = GetPrivateProfileInt("hra", "menu_vram_load", 1, ini_file);
+  _3dd.bMenuVRAMLoad = GetPrivateProfileInt("game", "menu_vram_load", 1, ini_file);
   strcpy(_3dd.bm_dir, BITMAP_DIR);
 
   return 1;
@@ -152,7 +152,7 @@ void _3d_Get_Cursor_Name(char *cName)
   FILE *file;
   char text[MAX_FILENAME];
 
-  GetPrivateProfileString("hra", "cursor", "cursor", text, 32, ini_file);
+  GetPrivateProfileString("game", "cursor", "cursor", text, 32, ini_file);
 
   strcpy(cName, text);
   strcat(cName, ".bmp");

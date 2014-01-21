@@ -223,7 +223,7 @@ void cmcs_Play_Video(char *pFile, long dwVideoTime, AUDIO_DATA * p_ad)
 	long counter = 0;
 	char lpstrFile[256];
 
-	GetPrivateProfileString("game","bitmap_dir","c:\\",lpstrFile,256,ini_file);
+	GetPrivateProfileString("files","bitmap_dir","c:\\",lpstrFile,256,ini_file);
   working_file_translate(lpstrFile,256);
 	chdir(lpstrFile);
 

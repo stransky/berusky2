@@ -2299,7 +2299,7 @@ int DrawHelp(int iBmp, int iSurface, int *iHelpIndex)
 {
   int y, ty;
   RECT rect = { 10, 0, 776, 1000 };
-  int lid = GetPrivateProfileInt("game", "languageid", 0, ini_file);
+  int lid = GetPrivateProfileInt("files", "languageid", 0, ini_file);
 
   if (iSurface == -1)
     return 0;

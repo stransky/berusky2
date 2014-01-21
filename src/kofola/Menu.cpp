@@ -856,7 +856,7 @@ void Credits(HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   SetCursor(NULL);
   _2d_Release();
 
-  GetPrivateProfileString("game", "data_dir", "c:\\", dir, 256, ini_file);
+  GetPrivateProfileString("files", "data_dir", "c:\\", dir, 256, ini_file);
   working_file_translate(dir, 256);
   chdir((dir));
 
@@ -869,7 +869,7 @@ void Credits(HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   ap_Play_Song(0,0,p_ad);
   //adas_OGG_Set_Priority(cpu);
 
-  GetPrivateProfileString("game", "data_dir", "c:\\", dir, 256, ini_file);
+  GetPrivateProfileString("files", "data_dir", "c:\\", dir, 256, ini_file);
   working_file_translate(dir, 256);
   chdir((dir));
 
@@ -4295,7 +4295,7 @@ BEGIN_MENU_NEWGAME:
               if (citem[1].p_combo->pItem) {
                 if (citem[1].p_combo->pItem[iComboActSel].text) {
                   if (pr_ReadProfile(citem[1].p_combo->pItem[iComboActSel].text, &pPlayerProfile)) {
-                    WritePrivateProfileString("hra", "last_profile",citem[1].p_combo->pItem[iComboActSel].text, ini_file);
+                    WritePrivateProfileString("game", "last_profile",citem[1].p_combo->pItem[iComboActSel].text, ini_file);
                     c++;
                   }
                 }
@@ -4452,7 +4452,7 @@ int FillComboProfiles(COMBO_CONTROL * p_co, int *iSel)
   strcpy(dir, PROFILE_DIR);
   chdir(dir);
 
-  GetPrivateProfileString("hra", "last_profile", "c:\\", cprofile, MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "last_profile", "c:\\", cprofile, MAX_FILENAME, ini_file);
 
   FillStringList("*.prf", &list, &isize);
 
@@ -6041,7 +6041,7 @@ BEGIN_MENU:
         }
 
         if (!strcmp(res[resid].cParam[1], "CREDITS")) {
-          int lid = GetPrivateProfileInt("game", "languageid", 0, ini_file);
+          int lid = GetPrivateProfileInt("files", "languageid", 0, ini_file);
 
           StopAll();
           bStop = 1;

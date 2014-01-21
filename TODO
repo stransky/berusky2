@@ -1,17 +1,19 @@
 - Easy root configuration (in INI file)
   - root config?
+  - Reduce number of ini entries
+    - split ini files
+    - read ini files only once
+    
 - ship only one ini file (data&game)
+
+- Open data/texture/string format?
+  - for easy modifications
 
 valgrind --db-attach=yes ./berusky2
 valgrind --track-origins=yes --free-fill=0x50 --db-attach=yes ./berusky2
 --leak-check=full
 
 -> Switch from pos[3] to VECT
-
-- Open data/texture/string format?
-  - for easy modifications
-
-- install script (not rpm)
 
 - Stand-alone linux binaries
 - Easy installation, easy run

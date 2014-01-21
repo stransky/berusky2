@@ -161,7 +161,7 @@ void gi_Init_Sound_Engine(AUDIO_DATA *p_ad)
 
 	init_data.Scale_Factor = 0.005f;
 
-	iValue = GetPrivateProfileInt("hra","no_sound",0,ini_file);
+	iValue = GetPrivateProfileInt("game","no_sound",0,ini_file);
 	
 	adas_OGG_Init();
 

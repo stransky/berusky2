@@ -638,7 +638,7 @@ void kom_load_sys_material(int i)
   char pom[200];
 
   sprintf(pom, "system_material_%d", i);
-  GetPrivateProfileString("game", pom, "", file, 200, ini_file);
+  GetPrivateProfileString("files", pom, "", file, 200, ini_file);
   if (file[0]) {
     kprintf(1, "Load system materials '%s' from %s....", pom, file);
     if (!ber_nahraj_materialy(p_ber, file, p_ber->dir.material_dir))

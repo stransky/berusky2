@@ -2622,7 +2622,7 @@ void co_delete(char *cfile)
 
 	_getcwd(olddir, MAX_FILENAME);
 
-	GetPrivateProfileString("game","save_dir","c:\\",dir,MAX_FILENAME,ini_file);
+	GetPrivateProfileString("files","save_dir","c:\\",dir,MAX_FILENAME,ini_file);
   working_file_translate(dir,256);
 
 	chdir((dir));

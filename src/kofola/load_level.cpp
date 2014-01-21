@@ -877,10 +877,10 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
 
   kprintf(1, "Loading level from %s ...", text);
   
-  kvalita_castic = GetPrivateProfileInt("hra", "kvalita_castic", 0, ini_file);
+  kvalita_castic = GetPrivateProfileInt("game", "kvalita_castic", 0, ini_file);
   kvalita_castic++;
 
-  kvalita_casticv = GetPrivateProfileInt("hra", "kvalita_casticv", 0, ini_file);
+  kvalita_casticv = GetPrivateProfileInt("game", "kvalita_casticv", 0, ini_file);
   kvalita_casticv++;
 
   p_Level->KvalitaCastic = kvalita_castic;

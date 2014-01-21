@@ -10064,7 +10064,7 @@ void gl_Start_Level_Environment(LEVELINFO * p_Level, AUDIO_DATA * p_ad)
   int i, kvalita_castic;
   LEVEL_ENVIRONMENT *pEnv = kom_get_level_environment();
 
-  kvalita_castic = GetPrivateProfileInt("hra", "kvalita_casticp", 0, ini_file);
+  kvalita_castic = GetPrivateProfileInt("game", "kvalita_casticp", 0, ini_file);
   kvalita_castic++;
 
   p_Level->Rain.bRain = 0;
@@ -10192,9 +10192,9 @@ int gl_CheckCamera(LEVELINFO * p_Level)
 
 void gl_Resetini(LEVELINFO * p_Level, char *bOvladaniBerusek1)
 {
-  p_Level->bPosouvatKameru = GetPrivateProfileInt("hra", "posouvat_kameru", 0, ini_file);
- *bOvladaniBerusek1 = GetPrivateProfileInt("hra", "ovladani", 0, ini_file);
-  p_Level->bPohled_Berusky = GetPrivateProfileInt("hra", "pohled_berusky", 0, ini_file);
+  p_Level->bPosouvatKameru = GetPrivateProfileInt("game", "posouvat_kameru", 0, ini_file);
+ *bOvladaniBerusek1 = GetPrivateProfileInt("game", "ovladani", 0, ini_file);
+  p_Level->bPohled_Berusky = GetPrivateProfileInt("game", "pohled_berusky", 0, ini_file);
   Bind_Keys(&control);
 
   kom_reload_ini();
@@ -10269,8 +10269,8 @@ int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, AUDIO_DATA * p_ad, int iC
   Level.iNSrart = 0;
 
   //      camera.last_move = -1;
-  Level.bInventory = GetPrivateProfileInt("hra", "bInventory", 1, ini_file);
-  Level.bTopLedge = GetPrivateProfileInt("hra", "bTopLedge", 1, ini_file);;
+  Level.bInventory = GetPrivateProfileInt("game", "bInventory", 1, ini_file);
+  Level.bTopLedge = GetPrivateProfileInt("game", "bTopLedge", 1, ini_file);;
 
   Level.Level_Exit = 0;
   Level.lCamera.Position[0] = 0;
@@ -10365,10 +10365,10 @@ PLAY_LEVEL_START:
 
   am_Change_Wind(&Level);
 
-  Level.bPosouvatKameru = GetPrivateProfileInt("hra", "posouvat_kameru", 0, ini_file);
-  bOvladaniBerusek1 = GetPrivateProfileInt("hra", "ovladani", 0, ini_file);
-  bVisibility = GetPrivateProfileInt("hra", "init_visibility", 0, ini_file);  
-  Level.bPohled_Berusky = GetPrivateProfileInt("hra", "pohled_berusky", 0, ini_file);
+  Level.bPosouvatKameru = GetPrivateProfileInt("game", "posouvat_kameru", 0, ini_file);
+  bOvladaniBerusek1 = GetPrivateProfileInt("game", "ovladani", 0, ini_file);
+  bVisibility = GetPrivateProfileInt("game", "init_visibility", 0, ini_file);  
+  Level.bPohled_Berusky = GetPrivateProfileInt("game", "pohled_berusky", 0, ini_file);
 
   kprintf(1, "demo_Load...");
   if (demo) {
@@ -10664,7 +10664,7 @@ PLAY_LEVEL_START:
 
   kprintf(1, "kom_get_level_environment, kam_3ds_nahraj_animaci...");
   if (!demo) {
-    int icamanimrestart = GetPrivateProfileInt("hra", "camera_intro", 0, ini_file);
+    int icamanimrestart = GetPrivateProfileInt("game", "camera_intro", 0, ini_file);
 
     if (bRestart)
       icamanimrestart = 0;
@@ -10702,9 +10702,9 @@ PLAY_LEVEL_START:
         kam_set_normal_screen(p_ber);
         kom_zpruhlednovac_on();
         Level.bInventory =
-          GetPrivateProfileInt("hra", "bInventory", 1, ini_file);
+          GetPrivateProfileInt("game", "bInventory", 1, ini_file);
         Level.bTopLedge =
-          GetPrivateProfileInt("hra", "bTopLedge", 1, ini_file);
+          GetPrivateProfileInt("game", "bTopLedge", 1, ini_file);
         cameraflag = -1;
       }
     }
@@ -10842,12 +10842,12 @@ PLAY_LEVEL_START:
 
         if (Level.bInventory) {
           Level.bInventory = 0;
-          WritePrivateProfileString("hra", "bInventory", "0", ini_file);
+          WritePrivateProfileString("game", "bInventory", "0", ini_file);
           _3d_Cancel_Animations(&Level);
         }
         else {
           Level.bInventory = 1;
-          WritePrivateProfileString("hra", "bInventory", "1", ini_file);
+          WritePrivateProfileString("game", "bInventory", "1", ini_file);
         }
       }
 
@@ -10855,13 +10855,13 @@ PLAY_LEVEL_START:
         key[control.disable_top_ledge] = 0;
 
         if (Level.bTopLedge) {
-          WritePrivateProfileString("hra", "bTopLedge", "0", ini_file);
+          WritePrivateProfileString("game", "bTopLedge", "0", ini_file);
           Level.bTopLedge = 0;
           _3d_Stop_Menu_Select();
         }
         else {
           Level.bTopLedge = 1;
-          WritePrivateProfileString("hra", "bTopLedge", "1", ini_file);
+          WritePrivateProfileString("game", "bTopLedge", "1", ini_file);
         }
       }
     }
@@ -11025,8 +11025,8 @@ PLAY_LEVEL_START:
       kam_set_normal_screen(p_ber);
 
       Level.bInventory =
-        GetPrivateProfileInt("hra", "bInventory", 1, ini_file);
-      Level.bTopLedge = GetPrivateProfileInt("hra", "bTopLedge", 1, ini_file);
+        GetPrivateProfileInt("game", "bInventory", 1, ini_file);
+      Level.bTopLedge = GetPrivateProfileInt("game", "bTopLedge", 1, ini_file);
       kom_zpruhlednovac_on();
 
       if (iRestart)
@@ -11063,9 +11063,9 @@ PLAY_LEVEL_START:
       kam_set_normal_screen(p_ber);
       kom_zpruhlednovac_on();
       Level.bInventory =
-        GetPrivateProfileInt("hra", "bInventory", 1, ini_file);;
+        GetPrivateProfileInt("game", "bInventory", 1, ini_file);;
       Level.bTopLedge =
-        GetPrivateProfileInt("hra", "bTopLedge", 1, ini_file);;
+        GetPrivateProfileInt("game", "bTopLedge", 1, ini_file);;
 
       if (iRestart)
         camera_Center(&cameraflag, &Level, 8, 1, 1);

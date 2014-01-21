@@ -155,7 +155,7 @@ int pr_CreateProfile(WCHAR * cPlayerName)
 
   memcpy(&pPlayerProfile, &Profile, sizeof(PLAYER_PROFILE_DISC));
 
-  WritePrivateProfileString("hra", "last_profile", cFile, ini_file);
+  WritePrivateProfileString("game", "last_profile", cFile, ini_file);
 
   return 1;
 }
@@ -197,7 +197,7 @@ int pr_ReadProfile(char *cFileName, PLAYER_PROFILE * pProfile)
 
   fclose(file);
 
-  WritePrivateProfileString("hra", "last_profile", cFileName, ini_file);
+  WritePrivateProfileString("game", "last_profile", cFileName, ini_file);
 
   return 1;
 }

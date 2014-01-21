@@ -3060,7 +3060,7 @@ FFILE lo_poly_file_vyrob(char *p_file, int filenum, int velikost)
 
   if (!(f = ffopen(p_file, "wb"))) {
     assert(0);
-    chyba("file");
+    kerror(1,"Unable to open polyfile for writting (%s)",p_file);
   }
 
   ffwrite(&filenum, sizeof(int), 1, f);
