@@ -8,9 +8,7 @@
 typedef struct
 {
   char no_sound;
-  char no_menu;
   char camera_type;
-  char log_file[256];
   char fullscreen;
   char ditering;  
   char text_detail;             //Texture-level - Uroven detailu textur (0 = max)

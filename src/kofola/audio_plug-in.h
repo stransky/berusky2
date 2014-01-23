@@ -42,8 +42,6 @@ extern "C"
     float Music_Gain;
     float Sound_Gain;
     float Ambient_Gain;
-    char Music_Dir[MAX_FILENAME];
-    char Sound_Dir[MAX_FILENAME];
     PLAY_LIST_ITEM *p_Play_List;
     MATERIAL_LIST_ITEM *p_Material;
     int Size_of_Play_List;
