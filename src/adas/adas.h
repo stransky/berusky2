@@ -320,6 +320,8 @@
     // Replacement for alutLoadWAVMemory
     void * adasLoadWAVMemory(ALbyte *buffer, ALsizei buffer_length, ALenum *format, void **data, ALsizei *size,
                           ALuint *frequency, ALboolean *loop);
+                          
+    void adas_set_sound_dir(char *p_dir);
 
 #ifdef __cplusplus
 	}

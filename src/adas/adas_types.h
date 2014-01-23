@@ -22,9 +22,8 @@
 typedef struct
 {
 	char			Channels;			// number of channels. One sound can be played in one
-										// channel. 32 channels = max 32 sounds in one time
+                          // channel. 32 channels = max 32 sounds in one time
 	char			*Implementation;	// string defined in OpenAL
-	char			Sound_Dir[256];	// directory with waves and index.dat file
 	float			Scale_Factor;		// factor of distance scaling
 } ADAS_INIT_DATA;
 

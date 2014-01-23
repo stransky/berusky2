@@ -9,6 +9,7 @@
 #include "3d_math.h"
 #include "adas.h"
 
+
 //------------------------------------------------------------------------------------------------
 // libraries
 //------------------------------------------------------------------------------------------------
@@ -95,6 +96,8 @@ int bLast_Error;                // last error set
 char Last_Warning[256];         // text of last warning
 int bLast_Warning;              // last warning set
 char bDevice = 0;               // was device found?
+
+static char sound_dir[MAX_FILENAME];
 
 //------------------------------------------------------------------------------------------------
 // function declarations
@@ -523,7 +526,7 @@ unsigned long adas_Load_Next(char *p_File_Name)
   if ((Size_of_Sound_Data > SIZEOFSOUNDDATA) || (!p_File_Name))
     return 0;
 
-  chdir(ADAS_data.Sound_Dir);
+  chdir(sound_dir);
   file = fopen(p_File_Name, "r");
   if (file) {
     GetFileSize(file, &Return);
@@ -911,7 +914,7 @@ int adas_Load_Wave(ADAS_SOUND_SOURCE * p_ss)
     return 0;
 
   strcpy(text, name);
-  chdir(ADAS_data.Sound_Dir);
+  chdir(sound_dir);
   alutLoadWAVFile(text, &Format, &Data, &Size, &Frequece, &loop);
   alBufferData(p_ss->Buffer[p_ss->Buffer_Pointer], Format, Data, Size,
                Frequece);
@@ -2580,4 +2583,9 @@ adasLoadWAVMemory(ALbyte * buffer, ALsizei buffer_length, ALenum * format,
   *frequency = (ALuint)freq;
   *loop = AL_FALSE;
   return (*data);
+}
+
+void adas_set_sound_dir(char *p_dir)
+{
+  strcpy(sound_dir, p_dir);
 }
