@@ -11953,7 +11953,6 @@ PLAY_LEVEL_START:
         mi.t2 = 0;
       }
 
-
       if (Level.bMenuButton && Level.bTopLedge && mi.t1) {
         float fpos[3] = { 0, 0, 0 };
 

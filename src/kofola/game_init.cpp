@@ -37,16 +37,12 @@ void gi_Set_Win_Version(void)
 */
 }
 
-int gi_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *cAppName, char *cKeyName)
+int gi_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *p_dir)
 {
   int e;
-  char text[MAX_FILENAME];
 
-  GetPrivateProfileString(cAppName, cKeyName, "c:\\", text, MAX_FILENAME, ini_file);
-  working_file_translate(text, MAX_FILENAME);
-  chdir((text));
-
-  (*pAHandle) = apakopen(cFile, text, &e);
+  chdir(p_dir);
+  (*pAHandle) = apakopen(cFile, p_dir, &e);
 
   if (!(*pAHandle)) {
     kprintf(1, "Unable to open archive %s", cFile);
@@ -71,10 +67,8 @@ int gi_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *cAppName, char *
   }
 
   kprintf(1, "APAK: %s", cFile);
-  kprintf(1, "Velikost AFAT: %.1fKB",
-    (*pAHandle)->FileHeader.apuISizeofFAT / 1000.0f);
-  kprintf(1, "Velikost Archivu: %.1fMB",
-    (*pAHandle)->FileHeader.apuLSizeofPAK / 1000000.0f);
+  kprintf(1, "Velikost AFAT: %.1fKB", (*pAHandle)->FileHeader.apuISizeofFAT / 1000.0f);
+  kprintf(1, "Velikost Archivu: %.1fMB", (*pAHandle)->FileHeader.apuLSizeofPAK / 1000000.0f);
   kprintf(1, "Souboru: %d", (*pAHandle)->FileHeader.apuICountofFiles);
   kprintf(1, "Adresaru: %d", (*pAHandle)->FileHeader.apuICountofDirectiories);
   kprintf(1, "Uzlu: %d", (*pAHandle)->FileHeader.apuICountofNodes);
@@ -142,14 +136,7 @@ void gi_Init_Sound_Engine(AUDIO_DATA *p_ad)
 	ap_Init(p_ad);
 
 	//max_mem = GetPrivateProfileInt("soundengine","pre_load",0,ini_file);
-	
-	GetPrivateProfileString("soundengine","sound_dir","c:\\",init_data.Sound_Dir,MAX_FILENAME,ini_file);
-  working_file_translate(init_data.Sound_Dir,MAX_FILENAME);
-	GetPrivateProfileString("soundengine","sound_dir","c:\\",p_ad->Sound_Dir,MAX_FILENAME,ini_file);
-  working_file_translate(p_ad->Sound_Dir,MAX_FILENAME);
-	GetPrivateProfileString("soundengine","music_dir","c:\\",p_ad->Music_Dir,MAX_FILENAME,ini_file);
-  working_file_translate(p_ad->Music_Dir,MAX_FILENAME);
-	
+		
 	iValue = GetPrivateProfileInt("soundengine","soundvolume",0,ini_file);
 		p_ad->Sound_Gain = (float)(iValue/100.0f);
 
@@ -198,8 +185,8 @@ void gi_Init_Sound_Engine(AUDIO_DATA *p_ad)
 			kprintf(1, "Extensions: %s", cString);			
 
 			p_ad->bAudio = 1;
-			chdir(init_data.Sound_Dir);
-			achdir(pSndArchive, init_data.Sound_Dir);
+			chdir(p_ber->dir.sound_dir);
+			achdir(pSndArchive, p_ber->dir.sound_dir);
 
 			ap_Load_Sound_List(p_ad, "basicset.dat", 0);
 

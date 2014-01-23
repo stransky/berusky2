@@ -367,17 +367,12 @@ void fn_Gen_Texture(char ** lpTexture, int iXSize, int iYSize, int iXpos,
 }
 
 
-int fn_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *cAppName,
-  char *cKeyName)
+int fn_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *p_dir)
 {
   int e;
-  char text[MAX_FILENAME];
+  chdir(p_dir);
 
-  GetPrivateProfileString(cAppName, cKeyName, "c:\\", text, MAX_FILENAME, ini_file);
-  working_file_translate(text, MAX_FILENAME);
-  chdir((text));
-
-  (*pAHandle) = apakopen(cFile, text, &e);
+  (*pAHandle) = apakopen(cFile, p_dir, &e);
 
   if (!(*pAHandle)) {
     kprintf(1, "Unable to open archive %s", cFile);
@@ -401,13 +396,11 @@ int fn_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *cAppName,
     abort();
   }
 
-  achdir((*pAHandle), text);
+  achdir((*pAHandle), p_dir);
 
   kprintf(1, "APAK: %s", cFile);
-  kprintf(1, "Velikost AFAT: %.1fKB",
-    (*pAHandle)->FileHeader.apuISizeofFAT / 1000.0f);
-  kprintf(1, "Velikost Archivu: %.1fMB",
-    (*pAHandle)->FileHeader.apuLSizeofPAK / 1000000.0f);
+  kprintf(1, "Velikost AFAT: %.1fKB", (*pAHandle)->FileHeader.apuISizeofFAT / 1000.0f);
+  kprintf(1, "Velikost Archivu: %.1fMB", (*pAHandle)->FileHeader.apuLSizeofPAK / 1000000.0f);
   kprintf(1, "Souboru: %d", (*pAHandle)->FileHeader.apuICountofFiles);
   kprintf(1, "Adresaru: %d", (*pAHandle)->FileHeader.apuICountofDirectiories);
   kprintf(1, "Uzlu: %d", (*pAHandle)->FileHeader.apuICountofNodes);
@@ -474,7 +467,7 @@ int fn_Set_Font(char *cPAK)
 
   memset(&b2_2d_font, 0, sizeof(B2_FONT));
 
-  if (!fn_Open_Archive(cPAK, &b2_2d_font.pArchive, "files", "bitmap_dir"))
+  if (!fn_Open_Archive(cPAK, &b2_2d_font.pArchive, p_ber->dir.bitmap_dir))
     return 0;
 
   b2_2d_font.file = aopen(b2_2d_font.pArchive, "texts.txt", "rb");

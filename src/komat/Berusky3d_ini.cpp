@@ -247,10 +247,10 @@ void ini_file_init(void)
 
 void debug_file_init(void)
 {
-  if (GetPrivateProfileInt("debug", "debug_file", 0, ini_file)) {
-    char pom[200];
-    GetPrivateProfileString("debug", "log_file", "~/.berusky2/default_game_log.txt", pom, 200, ini_file);
-    p_ber->debug_file = fopen(pom, "a");
+  char tmp[200];
+  GetPrivateProfileString("install", "log_file", "", tmp, 200, ini_file);
+  if(tmp[0]) {
+    p_ber->debug_file = fopen(tmp, "a");
   }
 }
 

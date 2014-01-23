@@ -81,51 +81,26 @@ int winmain_Game_Run(char *p_Level_Name)
   iLanguageVersion = GetPrivateProfileInt("files", "languageid", 0, ini_file);
   kprintf(1, "Language ID = %d", iLanguageVersion);
 
-  if (!gi_Open_Archive(bitmap_pak, &pBmpArchive, "files", "bitmap_dir")) {
-    return 0;
+  if (!gi_Open_Archive(bitmap_pak, &pBmpArchive, p_ber->dir.bitmap_dir)) {
+    return false;
   }
 
-/*#ifndef __DEMO
-	if(!gi_Open_Archive("bitmap.pak", &pBmpArchive,"files","bitmap_dir"))
-	{
-		return 0;
-	}
-#endif
-
-#ifdef __DEMO
-	if(!gi_Open_Archive("bitmap_demo.pak", &pBmpArchive,"files","bitmap_dir"))
-	{
-		return 0;
-	}
-#endif*/
-
-  if (!gi_Open_Archive("controls.pak", &pControlsArchive, "files", "bitmap_dir")) {
+  if (!gi_Open_Archive("controls.pak", &pControlsArchive, p_ber->dir.bitmap_dir)) {
     apakclose(&pBmpArchive);
     return 0;
   }
 
-#ifndef __DEMO
-	if(!gi_Open_Archive("sound.pak", &pSndArchive,"soundengine","sound_dir"))
-	{
-		apakclose(&pBmpArchive);
-		apakclose(&pControlsArchive);
-		return 0;
-	}
-#endif
-
-#ifdef __DEMO
-	if(!gi_Open_Archive("sound_demo.pak", &pSndArchive,"soundengine","sound_dir"))
-	{
-		apakclose(&pBmpArchive);
-		apakclose(&pControlsArchive);
-		return 0;
-	}
-#endif
+  if(!gi_Open_Archive("sound.pak", &pSndArchive, p_ber->dir.sound_dir))
+  {
+    apakclose(&pBmpArchive);
+    apakclose(&pControlsArchive);
+    return 0;
+  }
 
   GetPrivateProfileString("files", "3dmenu_pak", "c:\\", dir, MAX_FILENAME, ini_file);
   working_file_translate(dir, MAX_FILENAME);
 
-  if (!gi_Open_Archive(dir, &p3DMArchive, "files", "bitmap_dir")) {
+  if (!gi_Open_Archive(dir, &p3DMArchive, p_ber->dir.bitmap_dir)) {
     apakclose(&pControlsArchive);
     apakclose(&pBmpArchive);
     apakclose(&pSndArchive);
@@ -135,7 +110,7 @@ int winmain_Game_Run(char *p_Level_Name)
   GetPrivateProfileString("files", "data_pak", "c:\\", dir, MAX_FILENAME, ini_file);
   working_file_translate(dir, MAX_FILENAME);
 
-  if (!gi_Open_Archive(dir, &pDataArchive, "files", "data_dir")) {
+  if (!gi_Open_Archive(dir, &pDataArchive, p_ber->dir.data_dir)) {
     apakclose(&p3DMArchive);
     apakclose(&pControlsArchive);
     apakclose(&pBmpArchive);
@@ -143,8 +118,7 @@ int winmain_Game_Run(char *p_Level_Name)
     return 0;
   }
 
-#ifndef __DEMO
-  if (!gi_Open_Archive("game_data.pak", &pGDataArchive, "files", "game_data_dir")) {
+  if (!gi_Open_Archive("game_data.pak", &pGDataArchive, p_ber->dir.game_data_dir)) {
     apakclose(&pDataArchive);
     apakclose(&p3DMArchive);
     apakclose(&pControlsArchive);
@@ -152,37 +126,15 @@ int winmain_Game_Run(char *p_Level_Name)
     apakclose(&pSndArchive);
     return 0;
   }
-#endif
-
-#ifdef __DEMO
-  if (!gi_Open_Archive("game_data_demo.pak", &pGDataArchive, "files", "game_data_dir")) {
-    apakclose(&pDataArchive);
-    apakclose(&p3DMArchive);
-    apakclose(&pControlsArchive);
-    apakclose(&pBmpArchive);
-    apakclose(&pSndArchive);
-    return 0;
-  }
-#endif
 
 	gi_Init_Sound_Engine(&ad);
-	chdir(ad.Music_Dir);
+	chdir(p_ber->dir.music_dir);
 	ap_Load_Play_List("play_list.dat",&ad);
-	chdir(ad.Sound_Dir);
+  chdir(p_ber->dir.sound_dir);
 
   ap_Load_Material_List("material.dat", &ad);
 
   if (!bGame) {
-#ifndef __DEMO
-
-    if (GetPrivateProfileInt("game", "logo", 1, ini_file) && !bWindowMenu
-      && iLanguageVersion != 4) {
-      cmcs_Game_Down();
-      cmcs_Play_Video("AnakreoN.mpg", 16000, &ad);
-      cmcs_Game_Up();
-    }
-#endif
-
     InitDirectDraw();
     spracuj_spravy(0);
   }

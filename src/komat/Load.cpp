@@ -3359,7 +3359,7 @@ FFILE lo_uloz_kontejner(EDIT_MATERIAL ** p_mat, int max_mat,
 
   if (f == FALSE || !file) {
     if ((f = ffopen(p_jmeno, "wb")) == NULL) {
-      return (FALSE);
+      return (NULL);
     }
   }
 

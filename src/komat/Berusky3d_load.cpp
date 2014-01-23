@@ -774,7 +774,7 @@ void ber_nahraj_lightmap(G_KONFIG * p_ber, char *p_jmeno, char *p_dir)
   KFILE *f;
   int i, r, loaded;
 
-  chdir((p_dir));
+  chdir(p_dir);
   strcpy(pom, p_jmeno);
   zamen_koncovku(pom, KONCOVKA_LIGHTMAPY);
 

@@ -13,8 +13,7 @@ void Save_ini(void)
 
   WritePrivateProfileString("game", "camera_type", itoa(setup.camera_type, text, 10), ini_file);
   WritePrivateProfileString("game", "fullscreen", itoa(setup.fullscreen, text, 10), ini_file);
-  WritePrivateProfileString("game", "ditering", itoa(setup.ditering, text, 10), ini_file);
-  WritePrivateProfileString("game", "pohled_berusky", itoa(setup.pohled_berusky, text, 10), ini_file);
+  WritePrivateProfileString("game", "ditering", itoa(setup.ditering, text, 10), ini_file);  
   WritePrivateProfileString("game", "ovladani", itoa(setup.ovladani, text, 10), ini_file);
   WritePrivateProfileString("game", "posouvat_kameru", itoa(setup.posouvat_kameru, text, 10), ini_file);
   WritePrivateProfileString("game", "init_visibility", itoa(setup.init_visibility, text, 10), ini_file);
@@ -34,7 +33,6 @@ void Save_ini(void)
   WritePrivateProfileString("game", "ovladani_rohy_default", itoa(setup.ovladani_rohy_default, text, 10), ini_file);
   WritePrivateProfileString("game", "ovladani_rohy_smer", itoa(setup.ovladani_rohy_smer, text, 10), ini_file);
   WritePrivateProfileString("game", "ovladani_pr_posun", itoa(setup.ovladani_pr_posun, text, 10), ini_file);
-  WritePrivateProfileString("game", "animace_okoli", itoa(setup.animace_okoli, text, 10), ini_file);
 
   WritePrivateProfileString("textures", "text_detail_light", itoa(setup.text_detail_light, text, 10), ini_file);
   WritePrivateProfileString("textures", "text_mip_mapping", itoa(setup.text_mip_mapping, text, 10), ini_file);
@@ -92,8 +90,6 @@ void Load_ini(void)
 
   setup.no_sound = GetPrivateProfileInt("game", "no_sound", 0, ini_file);
   setup.camera_type = GetPrivateProfileInt("game", "camera_type", 0, ini_file);
-  GetPrivateProfileString("debug", "log_file", "ber2log.txt", setup.log_file, 256, ini_file);
-
   setup.fullscreen = GetPrivateProfileInt("game", "fullscreen", 0, ini_file);
   setup.ditering = GetPrivateProfileInt("game", "ditering", 0, ini_file);
   setup.pohled_berusky = GetPrivateProfileInt("game", "pohled_berusky", 0, ini_file);
@@ -121,7 +117,7 @@ void Load_ini(void)
   setup.ovladani_rohy_default = GetPrivateProfileInt("game", "ovladani_rohy_default", 0, ini_file);
   setup.ovladani_rohy_smer = GetPrivateProfileInt("game", "ovladani_rohy_smer", 0, ini_file);
   setup.ovladani_pr_posun = GetPrivateProfileInt("game", "ovladani_pr_posun", 0, ini_file);
-  setup.animace_okoli = GetPrivateProfileInt("game", "animace_okoli", 0, ini_file);
+  setup.animace_okoli = GetPrivateProfileInt("game", "animace_okoli", 1, ini_file);
   setup.camera_intro = GetPrivateProfileInt("game", "camera_intro", 0, ini_file);
 
   setup.text_detail = GetPrivateProfileInt("textures", "text_detail", 0, ini_file);

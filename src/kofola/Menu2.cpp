@@ -1220,11 +1220,8 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
     co2_Check_Set_State(citem[4].p_check, hdcTab[0], setup.ovladani, 1);
     citem[4].bActive = 1;
 
-    citem[35].p_check =
-      co2_Create_CheckBox(hdcTab[0], 25, 110,
-      "##settings_beathe_vis_at_start", 0, 10);
-    co2_Check_Set_State(citem[35].p_check, hdcTab[0],
-      setup.start_zpruhlednovani, 1);
+    citem[35].p_check = co2_Create_CheckBox(hdcTab[0], 25, 110, "##settings_beathe_vis_at_start", 0, 10);
+    co2_Check_Set_State(citem[35].p_check, hdcTab[0], setup.start_zpruhlednovani, 1);
     citem[35].bActive = 1;
 
     citem[36].p_check =

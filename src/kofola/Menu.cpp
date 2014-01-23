@@ -1619,8 +1619,7 @@ void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
     citem[45].p_check =
       co_Create_CheckBox(hdcTab[0], 25, 110, "##settings_beathe_vis_at_start",
       0, 10);
-    co_Check_Set_State(citem[45].p_check, hdcTab[0],
-      setup.start_zpruhlednovani, 1);
+    co_Check_Set_State(citem[45].p_check, hdcTab[0],  setup.start_zpruhlednovani, 1);
     citem[45].bActive = 1;
 
     citem[46].p_check =

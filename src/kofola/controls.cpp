@@ -2622,7 +2622,7 @@ void co_delete(char *cfile)
 
 	_getcwd(olddir, MAX_FILENAME);
 
-	GetPrivateProfileString("files","save_dir","c:\\",dir,MAX_FILENAME,ini_file);
+	GetPrivateProfileString("install","save_dir","c:\\",dir,MAX_FILENAME,ini_file);
   working_file_translate(dir,256);
 
 	chdir((dir));

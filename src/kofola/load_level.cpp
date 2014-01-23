@@ -864,8 +864,7 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
     p_Level->BeetleAnim[i].Flag = -1;
     p_Level->BeatleSmoke[i].iItem = -1;
     p_Level->BeatleSmoke[i].iStepc = 0;
-    ZeroMemory(&p_Level->BeatleSmoke[i].sStopy,
-      sizeof(SYSTEMKOUROVYCHCASTIC));
+    ZeroMemory(&p_Level->BeatleSmoke[i].sStopy, sizeof(SYSTEMKOUROVYCHCASTIC));
     p_Level->BeatleSmoke[i].sStopy.System = (size_ptr)NULL;
     p_Level->BeetleAnim[i].iAnimCount = 0;
     p_Level->BeetleAnim[i].iEffect = 0;

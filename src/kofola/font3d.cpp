@@ -627,17 +627,12 @@ void fn2_Gen_Texture(byte ** lpTexture, int iXSize, int iYSize, int iXpos,
   }
 }
 
-int fn2_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *cAppName,
-  char *cKeyName)
+int fn2_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *p_dir)
 {
   int e;
-  char text[MAX_FILENAME];
 
-  GetPrivateProfileString(cAppName, cKeyName, "c:\\", text, MAX_FILENAME, ini_file);
-  working_file_translate(text, MAX_FILENAME);
-  chdir((text));
-
-  (*pAHandle) = apakopen(cFile, text, &e);
+  chdir(p_dir);
+  (*pAHandle) = apakopen(cFile, p_dir, &e);
 
   if (!(*pAHandle)) {
     kprintf(1, "Unable to open archive %s", cFile);
@@ -661,7 +656,7 @@ int fn2_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *cAppName,
     abort();
   }
 
-  achdir((*pAHandle), text);
+  achdir((*pAHandle), p_dir);
 
   kprintf(1, "APAK: %s", cFile);
   kprintf(1, "Velikost AFAT: %.1fKB",
@@ -735,7 +730,7 @@ int fn2_Set_Font(char *cPAK)
 
   memset(&b2_3d_font, 0, sizeof(B2_FONT));
 
-  if (!fn2_Open_Archive(cPAK, &b2_3d_font.pArchive, "files", "bitmap_dir"))
+  if (!fn2_Open_Archive(cPAK, &b2_3d_font.pArchive, p_ber->dir.bitmap_dir))
     return 0;
 
   b2_3d_font.file = aopen(b2_3d_font.pArchive, "texts.txt", "rb");

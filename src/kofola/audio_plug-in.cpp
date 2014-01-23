@@ -5,6 +5,8 @@
 #include <math.h>
 
 #include "3d_all.h"
+#include "Berusky3d_kofola_interface.h"
+
 #include "adas.h"
 #include "audio_plug-in.h"
 #include "Object.h"
@@ -22,8 +24,6 @@ void ap_Init(AUDIO_DATA * p_ad)
   int i;
 
   p_ad->bAudio = 0;
-  p_ad->Music_Dir[0] = '\0';
-  p_ad->Sound_Dir[0] = '\0';
   p_ad->Music_Gain = 1.0f;
   p_ad->p_Play_List = 0;
   p_ad->p_Material = 0;
@@ -88,12 +88,12 @@ int ap_Load_Sound_List(AUDIO_DATA * p_ad, char *cFile, int iStart)
   int c = iStart;
   int iMaterial = 0;
 
-  chdir(p_ad->Sound_Dir);
+  chdir(p_ber->dir.sound_dir);
 
   if (!strlen(cFile))
     return 0;
   
-  achdir(pSndArchive, p_ad->Sound_Dir);
+  achdir(pSndArchive, p_ber->dir.sound_dir);
   file = aopen(pSndArchive, cFile, "r");
   if (!file) {
     kprintf(1, "Play list file not found");
@@ -134,7 +134,7 @@ int ap_Load_Play_List(char *p_File_Name, AUDIO_DATA * p_ad)
   if (p_ad->p_Play_List)
     return 0;
 
-  chdir(p_ad->Music_Dir);
+  chdir(p_ber->dir.music_dir);
 
   file = fopen(p_File_Name, "r");
   if (!file) {
@@ -197,7 +197,7 @@ CHOOSE_SONG:
   else
     song = Index;
 
-  strcpy(song_name, p_ad->Music_Dir); 
+  strcpy(song_name, p_ber->dir.music_dir); 
   strcat(song_name, DIR_SLASH_STRING);
   strcat(song_name, p_ad->p_Play_List[song].Song_Name);
 
@@ -568,7 +568,7 @@ int ap_Load_Material_List(char *p_File_Name, AUDIO_DATA * p_ad)
   if (p_ad->p_Material)
     return 0;
 
-  achdir(pSndArchive, p_ad->Sound_Dir);
+  achdir(pSndArchive, p_ber->dir.sound_dir);
 
   file = aopen(pSndArchive, p_File_Name, "r");
   if (!file) {
@@ -631,7 +631,7 @@ int ap_Load_Environment(char *p_Env_Name, void *p_Level, AUDIO_DATA * p_ad)
   FILE *file;
   LEVELINFO *p_L = (LEVELINFO *) p_Level;
 
-  achdir(pSndArchive, p_ad->Sound_Dir);
+  achdir(pSndArchive, p_ber->dir.sound_dir);
   file = aopen(pSndArchive, p_Env_Name, "rb");
   if (file) {
     aread(&p_L->Environment, sizeof(ENVIRONMENT), 1, file);
