@@ -275,6 +275,8 @@ void working_file_translate(char *p_file, int size);
 char *working_file_get(const char *p_file);
 char *working_file_get(const char *p_file, char *p_target, int size);
 
+void root_dir_attach(char *p_dir, char *p_root_dir);
+
 void window_set_title(char *p_title);
 
 extern char cCheckMusicExeption;

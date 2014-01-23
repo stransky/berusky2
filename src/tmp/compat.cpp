@@ -697,6 +697,15 @@ void working_file_translate(char *p_file, int size)
   strcpy(p_file, current_working_dir_file);
 }
 
+void root_dir_attach(char *p_dir, char *p_root_dir)
+{
+  char tmp[MAX_FILENAME];
+  strcpy(tmp, p_root_dir);
+  strcat(tmp, "/");
+  strcat(tmp, p_dir);
+  strcpy(p_dir, tmp);
+}
+
 void GetFileSize(FILE *f, dword *size)
 {
   *size = file_size_get(f);
