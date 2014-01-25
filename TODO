@@ -1,10 +1,19 @@
+- Test local game root
+
 - Easy root configuration (in INI file)
   - root config?
   - Reduce number of ini entries
     - split ini files
+      - game, controls, files
     - read ini files only once
-    
-- ship only one ini file (data&game)
+
+join Menu and Menu2
+co_delete - TODO
+
+- faster comix
+- vertex arrays - are they on?
+comics does not work!
+- Bump mapping?
 
 - Open data/texture/string format?
   - for easy modifications
