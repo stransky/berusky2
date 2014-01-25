@@ -596,8 +596,7 @@ void GetPrivateProfileString(const char *lpAppName,     // section name
   const char *lpDefault,        // default key value
   char *lpReturnedString, 
   int nSize, 
-  const char *lpFileName     // ini file name
-  )
+  const char *lpFileName)       // ini file name
 { 
   ini_read_string_section(lpFileName, lpAppName, lpKeyName, 
                           lpReturnedString, nSize, lpDefault);

@@ -37,7 +37,6 @@
 #include <limits.h>
 #include "log.h"
 
-#define MMALLOC_DEBUG 1
 
 // -------------------------------------------------------
 // memory allocation
