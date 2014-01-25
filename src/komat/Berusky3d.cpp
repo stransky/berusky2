@@ -136,8 +136,7 @@ void ber_rekonfiguruj_3D(G_KONFIG * p_ber)
   char pom[200];
 
   hwconf.ditering = GetPrivateProfileInt("game", "ditering", 0, ini_file);
-
-  p_ber->conf_zrcadlo = GetPrivateProfileInt("game", "zrcado_aktivni", 1, ini_file);
+  
   p_ber->conf_animace_okoli = GetPrivateProfileInt("game", "animace_okoli", 1, ini_file);
   p_ber->conf_caustic = GetPrivateProfileInt("game", "scene_materialy", 1, ini_file);
 

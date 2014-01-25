@@ -36,8 +36,7 @@ typedef struct
   float p_kamera_alfa;
   float p_kamera_radius;
   char cursor[32];
-  char hires_textury;
-  char zrcado_aktivni;
+  char mirror_effects;
   char debug_kamery;
   char text_ans;  
   int  text_ans_stupen;

@@ -472,7 +472,6 @@ typedef struct g_config
   float conf_pruhledna_kamera_radius;
   int conf_zpruhlednovac;
   int conf_menu_render;
-  int conf_zrcadlo;
   int conf_p_key;
   int conf_r_key;
   int conf_full_light;

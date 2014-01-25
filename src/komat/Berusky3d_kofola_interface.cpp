@@ -9,6 +9,7 @@
 #include "3d_all.h"
 
 #include "Object.h"
+#include "Setup.h"
 
 #include "Berusky_universal.h"
 #include "Berusky3d_castice.h"
@@ -609,7 +610,7 @@ int ber_test_zrcadla(void)
   int mat;
 
   // Ma se vypnout zrcadlo
-  if (p_ber->zrc_akt && !p_ber->conf_zrcadlo) {
+  if (p_ber->zrc_akt && !setup.mirror_effects) {
     p_ber->zrc_akt = FALSE;
     while (p_poly) {
       if (p_poly->poly != K_CHYBA && p_ber->polynum > p_poly->poly) {
