@@ -796,7 +796,7 @@ void lsi_Load_Level_Script(LEVELINFO * p_Level, char *cFile)
 }
 
 int lsi_Create_Level_Raw(char *p_Level_Name, BUNKA_LEVELU_DISK ** b_l_d,
-  int *size)
+                         int *size)
 {
   LEVEL_HEADER l_h;
   char text[MAX_FILENAME + 1];
@@ -808,25 +808,23 @@ int lsi_Create_Level_Raw(char *p_Level_Name, BUNKA_LEVELU_DISK ** b_l_d,
 
   file = fopen(p_Level_Name, "rb");
   if (!file) {
-    chdir((text));
-    sprintf(text, "Unable to load level '%s'", p_Level_Name);
-    kprintf(1, text);
-    return 0;
+    kprintf(1, "Unable to load level '%s', guessing level name...", p_Level_Name);
+    
+    char tmp[MAX_FILENAME];
+    strcpy(tmp, p_Level_Name);
+    strcat(tmp, KONCOVKA_LEVELU);
+  
+    file = fopen(tmp, "rb");
+    if (!file) {
+      kprintf(1, "Unable to load level '%s'.", tmp);
+      return 0;
+    }
+    kprintf(1, "Going with '%s' level name", tmp);
   }
 
   fread(&l_h, sizeof(LEVEL_HEADER), 1, file);
-
   (*size) = l_h.x * l_h.y * l_h.z * 2;
-
-  (*b_l_d) =
-    (BUNKA_LEVELU_DISK *) malloc((*size) * sizeof(BUNKA_LEVELU_DISK));
-
-  if (!(*b_l_d)) {
-    kprintf(1, "Nepodarilo se naalokovat pamet na raw strukturu pro komata");
-    chdir((text));
-    return 0;
-  }
-
+  (*b_l_d) = (BUNKA_LEVELU_DISK *) mmalloc((*size) * sizeof(BUNKA_LEVELU_DISK));
   fread((*b_l_d), sizeof(BUNKA_LEVELU_DISK), (*size), file);
 
   fclose(file);
@@ -887,9 +885,18 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
 
   file = fopen(p_Level_Name, "rb");
   if (!file) {
-    sprintf(text, "Unable to load level '%s'", p_Level_Name);
-    kprintf(1, text);
-    return(-1);
+    kprintf(1, "Unable to load level '%s', guessing level name...", p_Level_Name);
+  
+    char tmp[MAX_FILENAME];
+    strcpy(tmp, p_Level_Name);
+    strcat(tmp, KONCOVKA_LEVELU);
+  
+    file = fopen(tmp, "rb");
+    if (!file) {
+      kprintf(1, "Unable to load level '%s'.", tmp);
+      return(-1);
+    }
+    kprintf(1, "Going with '%s' level name", tmp);
   }
 
   fread(&l_h, sizeof(LEVEL_HEADER), 1, file);
@@ -1323,6 +1330,9 @@ void lsi_Get_Dir_Name(char *cText, char *cLevel)
     int length = c - cLevel;
     strncpy(cText, cLevel, length);
     cText[length] = 0;
+  }
+  else {
+    strcpy(cText, cLevel);
   }
 }
 

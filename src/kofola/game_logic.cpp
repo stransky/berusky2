@@ -10462,8 +10462,7 @@ PLAY_LEVEL_START:
 
   if (Return == -1) {
     lsi_Release_Items(&Level);
-    kerror(1, "Unable to load level %s!", Level.cLevelName);
-    return -1;
+    kerror(1, "Unable to load level %s!", Level.cLevelName);    
   }
 
   if (Return > 0) {
