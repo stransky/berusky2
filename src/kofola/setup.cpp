@@ -16,7 +16,6 @@ void Save_ini(void)
   WritePrivateProfileString("game", "ditering", itoa(setup.ditering, text, 10), ini_file);  
   WritePrivateProfileString("game", "ovladani", itoa(setup.ovladani, text, 10), ini_file);
   WritePrivateProfileString("game", "posouvat_kameru", itoa(setup.posouvat_kameru, text, 10), ini_file);
-  WritePrivateProfileString("game", "init_visibility", itoa(setup.init_visibility, text, 10), ini_file);
   WritePrivateProfileString("game", "zrcado_aktivni", itoa(setup.zrcado_aktivni, text, 10), ini_file);
   sprintf(text, "%f", setup.p_kamera_alfa);
   WritePrivateProfileString("game", "p_kamera_alfa", text, ini_file);
@@ -27,8 +26,8 @@ void Save_ini(void)
 
   sprintf(text, "%f", setup.ovladani_rohy_rychlost);
   WritePrivateProfileString("game", "ovladani_rohy_rychlost", text, ini_file);
-  WritePrivateProfileString("game", "start_zpruhlednovani", itoa(setup.start_zpruhlednovani, text, 10), ini_file);
-  WritePrivateProfileString("game", "start_zvyraznovani", itoa(setup.start_zvyraznovani, text, 10), ini_file);
+  WritePrivateProfileString("game", "bugs_highlight", itoa(setup.bugs_highlight, text, 10), ini_file);
+  WritePrivateProfileString("game", "items_highlight", itoa(setup.items_highlight, text, 10), ini_file);
   WritePrivateProfileString("game", "ovladani_rohy", itoa(setup.ovladani_rohy, text, 10), ini_file);
   WritePrivateProfileString("game", "ovladani_rohy_default", itoa(setup.ovladani_rohy_default, text, 10), ini_file);
   WritePrivateProfileString("game", "ovladani_rohy_smer", itoa(setup.ovladani_rohy_smer, text, 10), ini_file);
@@ -92,14 +91,12 @@ void Load_ini(void)
   setup.camera_type = GetPrivateProfileInt("game", "camera_type", 0, ini_file);
   setup.fullscreen = GetPrivateProfileInt("game", "fullscreen", 0, ini_file);
   setup.ditering = GetPrivateProfileInt("game", "ditering", 0, ini_file);
-  setup.pohled_berusky = GetPrivateProfileInt("game", "pohled_berusky", 0, ini_file);
   setup.kvalita_castic = GetPrivateProfileInt("game", "kvalita_castic", 0, ini_file);
   setup.kvalita_casticv = GetPrivateProfileInt("game", "kvalita_casticv", 0, ini_file);
   setup.kvalita_casticp = GetPrivateProfileInt("game", "kvalita_casticp", 0, ini_file);
   setup.ovladani = GetPrivateProfileInt("game", "ovladani", 0, ini_file);
   setup.posouvat_kameru = GetPrivateProfileInt("game", "posouvat_kameru", 0, ini_file);
   setup.extra_light_vertex = GetPrivateProfileInt("game", "extra_light_vertex", 0, ini_file);
-  setup.init_visibility = GetPrivateProfileInt("game", "init_visibility", 0, ini_file);
   setup.zrcado_aktivni = GetPrivateProfileInt("game", "zrcado_aktivni", 0, ini_file);
   
   GetPrivateProfileString("game", "p_kamera_alfa", "0.35", text, 256, ini_file);
@@ -111,8 +108,8 @@ void Load_ini(void)
   GetPrivateProfileString("game", "ovladani_rohy_rychlost", "0.5", text, 256, ini_file);
   setup.ovladani_rohy_rychlost = (float) atof(text);
   
-  setup.start_zpruhlednovani = GetPrivateProfileInt("game", "start_zpruhlednovani", 0, ini_file);
-  setup.start_zvyraznovani = GetPrivateProfileInt("game", "start_zvyraznovani", 0, ini_file);
+  setup.bugs_highlight = GetPrivateProfileInt("game", "bugs_highlight", 0, ini_file);
+  setup.items_highlight = GetPrivateProfileInt("game", "items_highlight", 0, ini_file);
   setup.ovladani_rohy = GetPrivateProfileInt("game", "ovladani_rohy", 0, ini_file);
   setup.ovladani_rohy_default = GetPrivateProfileInt("game", "ovladani_rohy_default", 0, ini_file);
   setup.ovladani_rohy_smer = GetPrivateProfileInt("game", "ovladani_rohy_smer", 0, ini_file);

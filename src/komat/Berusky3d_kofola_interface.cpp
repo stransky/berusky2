@@ -667,7 +667,7 @@ int ber_vyber_berusky(BUNKA_LEVELU_DISK * p_disk, int num,
   }
 
   if (berusek > 5) {
-    kprintfe(TRUE, "Mas tam moc berusek!!! %d", berusek);
+    kprintfe(TRUE, "Too many bugs in the level!!! Bugs number %d", berusek);
   }
 
   return (berusek);

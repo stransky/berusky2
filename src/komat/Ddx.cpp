@@ -276,26 +276,17 @@ int nahraj_texture_config(char *p_file, TXT_KONFIG * p_txt)
   char pom[200];
   int i;
 
-  p_txt->text_kvalita =
-    GetPrivateProfileInt(TXT_SEKCE, "text_kvalita", 0, p_file);
-  p_txt->text_komprese =
-    GetPrivateProfileInt(TXT_SEKCE, "text_komprese", 0, p_file);
+  p_txt->text_kvalita = GetPrivateProfileInt(TXT_SEKCE, "text_kvalita", 0, p_file);
+  p_txt->text_komprese = GetPrivateProfileInt(TXT_SEKCE, "text_komprese", 0, p_file);
   p_txt->text_bpp = GetPrivateProfileInt(TXT_SEKCE, "text_bpp", 16, p_file);
-  p_txt->text_mip_mapping =
-    GetPrivateProfileInt(TXT_SEKCE, "text_mip_mapping", 1, p_file);
-  p_txt->text_mip_filtr =
-    GetPrivateProfileInt(TXT_SEKCE, "text_mip_filtr", 1, p_file);
-  p_txt->text_perspective =
-    GetPrivateProfileInt(TXT_SEKCE, "text_perspective", 1, p_file);
-  p_txt->text_max_x =
-    GetPrivateProfileInt(TXT_SEKCE, "text_max_x", 256, p_file);
-  p_txt->text_max_y =
-    GetPrivateProfileInt(TXT_SEKCE, "text_max_y", 256, p_file);
-  p_txt->text_bpp_plocha =
-    GetPrivateProfileInt(TXT_SEKCE, "text_bpp_plocha", 0, p_file);
+  p_txt->text_mip_mapping = GetPrivateProfileInt(TXT_SEKCE, "text_mip_mapping", 1, p_file);
+  p_txt->text_mip_filtr = GetPrivateProfileInt(TXT_SEKCE, "text_mip_filtr", 1, p_file);
+  p_txt->text_perspective = GetPrivateProfileInt(TXT_SEKCE, "text_perspective", 1, p_file);
+  p_txt->text_max_x = GetPrivateProfileInt(TXT_SEKCE, "text_max_x", 256, p_file);
+  p_txt->text_max_y = GetPrivateProfileInt(TXT_SEKCE, "text_max_y", 256, p_file);
+  p_txt->text_bpp_plocha = GetPrivateProfileInt(TXT_SEKCE, "text_bpp_plocha", 0, p_file);
   p_txt->text_anis = GetPrivateProfileInt(TXT_SEKCE, "text_ans", 0, p_file);
-  p_txt->text_anis_level =
-    (float) GetPrivateProfileInt(TXT_SEKCE, "text_ans_stupen", 1, p_file);
+  p_txt->text_anis_level = (float) GetPrivateProfileInt(TXT_SEKCE, "text_ans_stupen", 1, p_file);
   p_txt->text_wrap_x = 1;
   p_txt->text_wrap_y = 1;
   GetPrivateProfileString(TXT_SEKCE, "text_ostrost", "0.0", pom, 200, p_file);
@@ -355,36 +346,6 @@ int grf_stop(void)
 {
   KillFont();
   return (1);
-}
-
-int rozeber_switch(long shit)
-{
-/*
-  switch(shit) {
-    case DISP_CHANGE_SUCCESSFUL:
-      assert(0);
-      break;
-    case DISP_CHANGE_RESTART:
-      assert(0);
-      break;
-    case DISP_CHANGE_BADFLAGS:
-      assert(0);
-      break;
-    case DISP_CHANGE_BADPARAM:
-      assert(0);
-      break;
-    case DISP_CHANGE_FAILED:
-      assert(0);
-      break;
-    case DISP_CHANGE_BADMODE:
-      assert(0);
-      break;
-    case DISP_CHANGE_NOTUPDATED: 
-      assert(0);
-      break;
-  }
-*/
-  return (TRUE);
 }
 
 #define KONZOLE_POZADI  0xffffffff

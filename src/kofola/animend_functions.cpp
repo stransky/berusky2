@@ -584,10 +584,6 @@ void anmend_Steps(size_ptr param, size_ptr param2, size_ptr p_param)
     bOnWater = 1;
   }
 
-/*   if(p_set_anim->last && Level.bPosouvatKameru && 
-	  !(p_Level->bB1ExtraCameraRot && p_Level->bPohled_Berusky))
-		rani_privaz_kameru(p_set_anim->animation[p_set_anim->last-1].p_run);*/
-
   kam_pol_get((BOD *) pos, &fr, &fi, &vzdal);
 
   if (p_Level->bB1ExtraCameraRot && p_Level->bPohled_Berusky) {

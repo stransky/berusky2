@@ -12,6 +12,7 @@
 #include "3d_all.h"
 
 #include "Object.h"
+#include "Setup.h"
 
 #include "Berusky_universal.h"
 #include "Berusky3d_castice.h"
@@ -116,10 +117,6 @@ void ber_rekonfiguruj_hra(G_KONFIG * p_ber)
 {
   char pom[200];
 
-  p_ber->conf_start_zpruhlednovac =
-    GetPrivateProfileInt("game", "start_zpruhlednovani", 0, ini_file);
-  p_ber->conf_start_zvyraznovac =
-    GetPrivateProfileInt("game", "start_zvyraznovani", 0, ini_file);
   p_ber->conf_ovladani_rohy =
     GetPrivateProfileInt("game", "ovladani_rohy", 1, ini_file);
   p_ber->conf_ovladani_rohy_default =
@@ -469,12 +466,12 @@ void ber_init_level(G_KONFIG * p_ber)
 
   /* Zpruhlednovani prvku pred kamerou
    */
-  if (p_ber->conf_start_zpruhlednovac)
+  if (setup.bugs_highlight)
     kom_zpruhlednovat_prvky(TRUE);
 
   /* Nahodi zvyraznovani prvku
    */
-  p_ber->conf_full_light = !p_ber->conf_start_zvyraznovac;
+  p_ber->conf_full_light = !setup.items_highlight;
   ber_prikaz_zvyraznovac(p_ber);
 
   /* Vypne kurzor

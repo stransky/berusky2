@@ -173,17 +173,13 @@ int winmain_Game_Run(char *p_Level_Name)
 
     ddxLoadList("2d_load.dat", 1);
 
-    if (!fn_Set_Font(cFontFile[0])) {
-      //MessageBox("Unable to set font!", "Error", MB_OK);
+    if (!fn_Set_Font(cFontFile[0])) {      
       return 0;
     }
 
     if (!fn_Load_Bitmaps())
       kprintf(1, "Unable to load font bitmaps");
-
-  }
-
-  //adas_OGG_Set_Priority(cpu);
+  }  
 
   if (bGame) {
     pr_ReadProfile("Default", &pPlayerProfile);
@@ -197,27 +193,17 @@ int winmain_Game_Run(char *p_Level_Name)
     _3d_Release_Hints(pHintTexture, 26);
     KillTimer(NULL, Timer_ID);
   }
-  else {
-    //fn_Convert_Rect("", 768, 576);
+  else {    
     SetCursor(NULL);
     ShowCursor(FALSE);
     RunMenu("mainmenu.txt", NULL, &ad, cpu);
-
-#ifdef __DEMO
-    {
-      int i = GetPrivateProfileInt("files", "languageid", 0, ini_file);
-
-      if (i != 2 && i != 4)
-        RunMenuDrawDemoEndScreen();
-    }
-#endif
   }
 
   if (ogg_playing())
     ap_Stop_Song(&ad);
 
   if (!bGame) {
-                /*_2d_Blackness();
+  /*_2d_Blackness();
 		_2d_Release();*/
     ddxRelease();
     FreeDirectDraw();

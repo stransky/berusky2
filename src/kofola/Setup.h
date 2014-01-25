@@ -23,7 +23,6 @@ typedef struct
   int  key[POCETKLAVES];
   char debug_vypisy;
   char debug_light;
-  char pohled_berusky;
   char kvalita_castic;
   char kvalita_casticv;
   char kvalita_casticp;
@@ -36,15 +35,14 @@ typedef struct
   float text_ostrost;
   float p_kamera_alfa;
   float p_kamera_radius;
-  char init_visibility;
   char cursor[32];
   char hires_textury;
   char zrcado_aktivni;
   char debug_kamery;
   char text_ans;  
   int  text_ans_stupen;
-  int  start_zpruhlednovani;
-  int  start_zvyraznovani;
+  int  bugs_highlight;
+  int  items_highlight;
   int  ovladani_rohy;
   int  ovladani_rohy_default;
   int  ovladani_rohy_smer;
@@ -56,5 +54,7 @@ typedef struct
 
 void Load_ini(void);
 void Save_ini(void);
+
+extern SETUP setup;
 
 #endif

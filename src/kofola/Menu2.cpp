@@ -756,11 +756,10 @@ void SetMenuSettings2(CONTROL_LIST_ITEM2 * citem, int *hdcTabUse)
   int i;
 
   if (hdcTabUse[0]) {
-    //setup.pohled_berusky = co2_Check_Get_State(citem, CLIST_ITEMC, 0);
     setup.posouvat_kameru = co2_Check_Get_State(citem, CLIST_ITEMC, 1);
     setup.ovladani = co2_Check_Get_State(citem, CLIST_ITEMC, 2);
-    setup.start_zpruhlednovani = co2_Check_Get_State(citem, CLIST_ITEMC, 10);
-    setup.start_zvyraznovani = co2_Check_Get_State(citem, CLIST_ITEMC, 11);
+    setup.bugs_highlight = co2_Check_Get_State(citem, CLIST_ITEMC, 10);
+    setup.items_highlight = co2_Check_Get_State(citem, CLIST_ITEMC, 11);
     setup.ovladani_rohy = co2_Check_Get_State(citem, CLIST_ITEMC, 12);
     setup.camera_intro = co2_Check_Get_State(citem, CLIST_ITEMC, 16);
 
@@ -1200,14 +1199,8 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
     kerror(1, "co2_Load_Graphic ... can't load controls!");
   }
   else {
-//    int count = 0;
-
     citem[0].bActive = 0;
     citem[1].bActive = 0;
-
-    /*citem[2].p_check = co2_Create_CheckBox(hdcTab[0], 25, 50, "##settings_camera_rot", 0, 0);
-       co2_Check_Set_State(citem[2].p_check, hdcTab[0], setup.pohled_berusky, 1);
-       citem[2].bActive = 1; */
 
     citem[3].p_check =
       co2_Create_CheckBox(hdcTab[0], 25, 50, "##settings_camera_mov", 0, 1);
@@ -1221,14 +1214,11 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
     citem[4].bActive = 1;
 
     citem[35].p_check = co2_Create_CheckBox(hdcTab[0], 25, 110, "##settings_beathe_vis_at_start", 0, 10);
-    co2_Check_Set_State(citem[35].p_check, hdcTab[0], setup.start_zpruhlednovani, 1);
+    co2_Check_Set_State(citem[35].p_check, hdcTab[0], setup.bugs_highlight, 1);
     citem[35].bActive = 1;
 
-    citem[36].p_check =
-      co2_Create_CheckBox(hdcTab[0], 25, 140, "##settings_items_vis_at_start",
-      0, 11);
-    co2_Check_Set_State(citem[36].p_check, hdcTab[0],
-      setup.start_zvyraznovani, 1);
+    citem[36].p_check = co2_Create_CheckBox(hdcTab[0], 25, 140, "##settings_items_vis_at_start",  0, 11);
+    co2_Check_Set_State(citem[36].p_check, hdcTab[0], setup.items_highlight, 1);
     citem[36].bActive = 1;
 
     citem[41].p_check =

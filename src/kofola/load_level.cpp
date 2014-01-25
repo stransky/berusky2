@@ -809,7 +809,7 @@ int lsi_Create_Level_Raw(char *p_Level_Name, BUNKA_LEVELU_DISK ** b_l_d,
   file = fopen(p_Level_Name, "rb");
   if (!file) {
     chdir((text));
-    sprintf(text, "Unable to find level %s", p_Level_Name);
+    sprintf(text, "Unable to load level '%s'", p_Level_Name);
     kprintf(1, text);
     return 0;
   }
@@ -887,9 +887,9 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
 
   file = fopen(p_Level_Name, "rb");
   if (!file) {
-    sprintf(text, "Unable to find level %s", p_Level_Name);    
+    sprintf(text, "Unable to load level '%s'", p_Level_Name);
     kprintf(1, text);
-    return -1;
+    return(-1);
   }
 
   fread(&l_h, sizeof(LEVEL_HEADER), 1, file);

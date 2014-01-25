@@ -478,9 +478,6 @@ typedef struct g_config
   int conf_full_light;
   int conf_full_light_last;
 
-  int conf_start_zpruhlednovac;
-  int conf_start_zvyraznovac;
-
   int conf_ovladani_rohy;
   int conf_ovladani_rohy_default;
   int conf_ovladani_rohy_smer;

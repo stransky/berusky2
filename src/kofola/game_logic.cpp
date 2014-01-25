@@ -10224,28 +10224,16 @@ int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, AUDIO_DATA * p_ad, int iC
   int pos_n[3];
   int Frame_Rate_Counter;
   long _new;
-  //float position[3];
   float orientation[6];
-  //float p_pos[3];
   char bCursor;
   int Cursor_Time_Out;
   int act_item;
-  //int top_item;
   int iReturn[2];
-  //char Active_Beetle;
-
-//      CAMERA_ANIMATION        camera;
   char bLastSunuti;
   unsigned long NoKeyCounter;
   char bBeetleAdded;
-
-//      GRAMMAR                         gr;
-//      TRIGER_STRUCTURE        tri;
   CAMERA_STRUCT GetCamera;
   char bOvladaniBerusek1;
-
-//      char                            bInitCameraSet;
-  //char LastRotation;
   char bVisibility;
   char bHint;
   int iMenuAnimation = 0;
@@ -10255,15 +10243,10 @@ int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, AUDIO_DATA * p_ad, int iC
   int iRestart = 0;
   char bRestart = 0;
   char bPause = 0;
-  char no_Menu = 0;
-
-  //...................... *** oprava
+  char no_Menu = 0;  
   char bCamera;
-  int cameraanim= -1;
-  //static int flag;
-  int bmpc = 0;
-
-  //...................... *** oprava
+  int cameraanim= -1;  
+  int bmpc = 0;  
 
 
   Level.iNSrart = 0;
@@ -10367,7 +10350,7 @@ PLAY_LEVEL_START:
 
   Level.bPosouvatKameru = GetPrivateProfileInt("game", "posouvat_kameru", 0, ini_file);
   bOvladaniBerusek1 = GetPrivateProfileInt("game", "ovladani", 0, ini_file);
-  bVisibility = GetPrivateProfileInt("game", "init_visibility", 0, ini_file);  
+  bVisibility = GetPrivateProfileInt("game", "bugs_highlight", 0, ini_file);  
   Level.bPohled_Berusky = GetPrivateProfileInt("game", "pohled_berusky", 0, ini_file);
 
   kprintf(1, "demo_Load...");

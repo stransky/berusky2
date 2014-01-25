@@ -14,7 +14,6 @@
 #include "Tools.h"
 
 extern APAK_HANDLE *pSndArchive;
-//extern HWND hwnd_hry;
 
 //------------------------------------------------------------------------------------------------
 // Init
@@ -33,7 +32,6 @@ void ap_Init(AUDIO_DATA * p_ad)
 
   p_ad->p_Source = (_SOURCE *) malloc((p_ad->Max_Sources) * sizeof(_SOURCE));
   if (!p_ad->p_Source) {
-    //MessageBox(p_ad->hWnd,"Unable to allocate memory for active source database","Error",MB_OK);
     kprintf(1, "Unable to allocate memory for active source database");
     return;
   }
@@ -137,8 +135,7 @@ int ap_Load_Play_List(char *p_File_Name, AUDIO_DATA * p_ad)
   chdir(p_ber->dir.music_dir);
 
   file = fopen(p_File_Name, "r");
-  if (!file) {
-    //MessageBox(p_ad->hWnd,"Play list file not found","Error", MB_OK);
+  if (!file) {    
     MyMessageBox(NULL, "##error_title", "##play_list_error", "");
     kprintf(1, "Play list file not found");
     return 0;
@@ -149,7 +146,6 @@ int ap_Load_Play_List(char *p_File_Name, AUDIO_DATA * p_ad)
 
   p_ad->p_Play_List = (PLAY_LIST_ITEM *) malloc((p_ad->Size_of_Play_List) * sizeof(PLAY_LIST_ITEM));
   if (!p_ad->p_Play_List) {
-    //MessageBox(p_ad->hWnd,"Unable to allocate memory for play list","Error",MB_OK);
     kprintf(1, "Unable to allocate memory for play list");
     MyMessageBox(NULL, "##error_title", "##play_list_error", "");
     return 0;
