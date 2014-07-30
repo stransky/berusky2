@@ -36,6 +36,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include "log.h"
+#include "mmalloc.h"
 
 
 // -------------------------------------------------------
