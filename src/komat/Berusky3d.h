@@ -181,8 +181,8 @@ typedef struct _GLOBALNI_KONT_ANIMACE
 
   int *p_flag;                  // kofoluv flag
   void *p_param;                // kofolova end funkce
-  int param;
-  int param2;
+  size_ptr param;
+  size_ptr param2;
   END_FUNKCE p_endfce;
   int konec;
 
