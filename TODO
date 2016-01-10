@@ -1,3 +1,6 @@
+valgrind --db-attach=yes --free-fill=0x50 ./berusky2 level47
+- f1 - key binding help
+
 - Test local game root
 
 - Easy root configuration (in INI file)

@@ -901,13 +901,14 @@ void am_Do_Zhave_castice(LEVELINFO * p_Level)
               dwEplased =
                 dwTime - p_Level->KourovaStopa[pSystem->iKourStopa].dwStart;
 
-              if (dwEplased < 100)
+              if (dwEplased < 100) {
                 par_zrus_hnizdo(p_Level->KourovaStopa[pSystem->iKourStopa].
                   System,
                   p_Level->KourovaStopa[pSystem->iKourStopa].hHnizdo[j]);
-              else
-                par_vloz_hnizdo_pivot(p_Level->KourovaStopa[pSystem->
-                    iKourStopa].hHnizdo[j], NULL);
+              }
+              else {
+                par_vloz_hnizdo_pivot(p_Level->KourovaStopa[pSystem->iKourStopa].hHnizdo[j], NULL);
+              }
 
               p_Level->KourovaStopa[pSystem->iKourStopa].hHnizdo[j] = 0;
             }
@@ -1198,8 +1199,10 @@ void am_Do_Lifts(LEVELINFO * p_Level)
           par_zrus(p_Level->LiftParticles[i].System);
           p_Level->LiftParticles[i].System = (size_ptr)NULL;
         }
-        else
+        else if (p_Level->LiftParticles[i].hHnizdo[0]) {
           par_vloz_hnizdo_pivot(p_Level->LiftParticles[i].hHnizdo[0], NULL);
+          p_Level->LiftParticles[i].hHnizdo[0] = 0;
+        }
       }
       else {
         if (!p_Level->bGameResume)
@@ -1284,10 +1287,11 @@ void am_Do_Water_KolaB(LEVELINFO * p_Level)
             p_Level->VodniKolaB[i].pivot[0][1] - 0.67f,
             WATER_BOUNDARY_METHOD_SIZE_HEURISTICS);
 
-
-        par_vloz_hnizdo_clip(p_Level->VodniKolaB[i].hHnizdo[0],
-                             Boundary.Left, Boundary.Bottom, 
-                             Boundary.Right, Boundary.Top);
+		if (p_Level->VodniKolaB[i].hHnizdo[0]) {
+          par_vloz_hnizdo_clip(p_Level->VodniKolaB[i].hHnizdo[0],
+                               Boundary.Left, Boundary.Bottom, 
+                               Boundary.Right, Boundary.Top);
+        }
         pos[1] -= 0.33f;
 
         p_Level->VodniKolaB[i].pivot[0][0] = pos[0];
@@ -1326,6 +1330,7 @@ void am_Do_Water_KolaB(LEVELINFO * p_Level)
               }
               else if (p_Level->VodniKolaB[i].hHnizdo[0]) {
                 par_vloz_hnizdo_pivot(p_Level->VodniKolaB[i].hHnizdo[0], NULL);
+                p_Level->VodniKolaB[i].hHnizdo[0] = 0;
               }
             }
           }
@@ -1368,17 +1373,15 @@ void am_Do_Water(LEVELINFO * p_Level)
                 if (a <= 0)
                   a = 0;
 
-/*								if(p_Level->VodniKola[i].dwStop > 0)
-									par_vloz_hnizdo_scale(p_Level->VodniKola[i].hHnizdo[0], 0.01f, 0.01f, 
-														  pHnizdo->utlum_x, pHnizdo->utlum_y);*/
-
                 par_vloz_hnizdo_diff(p_Level->VodniKola[i].hHnizdo[0],
                   pHnizdo->r, pHnizdo->g, pHnizdo->b, a,
                   pHnizdo->dr, pHnizdo->dg, pHnizdo->db,
                   pHnizdo->da, pHnizdo->ka);
               }
-              else if (p_Level->VodniKola[i].hHnizdo[0])
+              else if (p_Level->VodniKola[i].hHnizdo[0]) {
                 par_vloz_hnizdo_pivot(p_Level->VodniKola[i].hHnizdo[0], NULL);
+                p_Level->VodniKola[i].hHnizdo[0] = 0;
+              }
             }
           }
         }
@@ -2154,6 +2157,7 @@ void am_Do_BublVybuchy(LEVELINFO * p_Level)
     if (p_Level->BublVybuch[i].System) {
       if (p_Level->BublVybuch[i].hHnizdo[0]) {
         par_vloz_hnizdo_pivot(p_Level->BublVybuch[i].hHnizdo[0], NULL);
+        p_Level->BublVybuch[i].hHnizdo[0] = 0;
 
         if (!par_get_hnizda(p_Level->BublVybuch[i].System)) {
           par_zrus(p_Level->BublVybuch[i].System);
@@ -2983,8 +2987,10 @@ void am_TurnOff_The_Teleport(ITEMDESC * pTel, LEVELINFO * p_Level)
     sdl_anim_start(hSvetlo, &p_Level->TrashFlag, 0, 0, 0);
   }
 
-  if (p_Level->TelCSparks[i].hHnizdo[0])
+  if (p_Level->TelCSparks[i].hHnizdo[0]) {
     par_vloz_hnizdo_pivot(p_Level->TelCSparks[i].hHnizdo[0], NULL);
+    p_Level->TelCSparks[i].hHnizdo[0] = 0;
+  }
 
   p_Level->TelCSparks[i].hHnizdo[1] = 0;
 
@@ -5120,12 +5126,14 @@ void am_Obsluha_Koure_Brouku(LEVELINFO * p_Level)
       dwTime = timeGetTime();
       dwEplased = dwTime - p_Level->KourUst[i].dwStart;
 
-      if (dwEplased > 1500)
-        for (j = 0; j < p_Level->KourUst[i].Sizeof; j++)
+      if (dwEplased > 1500) {
+        for (j = 0; j < p_Level->KourUst[i].Sizeof; j++) {
           if (p_Level->KourUst[i].hHnizdo[j]) {
             par_vloz_hnizdo_pivot(p_Level->KourUst[i].hHnizdo[j], NULL);
             p_Level->KourUst[i].hHnizdo[j] = 0;
           }
+        }
+      }
 
       if (!par_get_hnizda(p_Level->KourUst[i].System)) {
         par_zrus(p_Level->KourUst[i].System);
