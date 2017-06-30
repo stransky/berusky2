@@ -359,7 +359,7 @@ void anmend_Lift(size_ptr param, size_ptr param2, size_ptr p_param)
   s = ap_Play_Sound(0,0,0, pos, p_itm->p_Object->Specific[0].Index, NULL, &ad);
 
   if (s >= 0) {
-		for(i=0;i<(abs(param)-1);i++)
+		for(i=0;i<(abs((int)param)-1);i++)
 			adas_Queue_Sound(s, p_itm->p_Object->Specific[1].Index);
 
 		adas_Queue_Sound(s, p_itm->p_Object->Specific[2].Index);
@@ -371,7 +371,7 @@ void anmend_Lift(size_ptr param, size_ptr param2, size_ptr p_param)
     if (s < 0)
       return;
 
-    p_Level->LiftParticles[s].dwStop = abs(param) * 250;
+    p_Level->LiftParticles[s].dwStop = abs((int)param) * 250;
   }
 }
 

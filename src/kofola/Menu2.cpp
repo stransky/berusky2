@@ -232,7 +232,7 @@ void AnimationEvent2(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime)
   //priprava 
   //BitBltU(CompositDC,0,0,1024,768,NULL,0,0,WHITENESS);
 
-  e = abs(dwLTime - dwTime);
+  e = abs((int)(dwLTime - dwTime));
   for (i = 0; i < 32; i++)
     if (anm[i].cmd) {
       if (anm[i].bStop) {

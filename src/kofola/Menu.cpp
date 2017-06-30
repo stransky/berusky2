@@ -282,7 +282,7 @@ void AnimationEvent(DWORD dwTime, AUDIO_DATA * p_ad)
   char bAnim = 0;
   DWORD e;
 
-  e = abs(dwLTime - dwTime);
+  e = abs((int)(dwLTime - dwTime));
 
   for (i = 0; i < 32; i++)
     if (anm[i].cmd) {
