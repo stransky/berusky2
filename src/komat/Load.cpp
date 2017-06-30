@@ -3357,7 +3357,7 @@ FFILE lo_uloz_kontejner(EDIT_MATERIAL ** p_mat, int max_mat,
 {
   EDIT_KONTEJNER *p_kont;
 
-  if (f == FALSE || !file) {
+  if (!f || !file) {
     if ((f = ffopen(p_jmeno, "wb")) == NULL) {
       return (NULL);
     }

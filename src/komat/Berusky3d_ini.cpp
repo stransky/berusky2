@@ -10,6 +10,7 @@
 
 #include <fenv.h>
 
+#include "config.h"
 #include "3d_all.h"
 
 #include "Object.h"
@@ -26,7 +27,6 @@
 #include "Berusky3d_kamery.h"
 #include "Berusky3d_kofola2d.h"
 
-#include "config.h"
 #include "json_export.h"
 
 #ifdef DEBUG_OKNO
