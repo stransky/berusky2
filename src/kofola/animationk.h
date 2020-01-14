@@ -6,7 +6,7 @@
 typedef struct
 {
   void *pParam;
-  int iParam[2];
+  size_ptr iParam[2];
   END_FUNKCE pProc;
   int flag;
 } ANIM_TRIGER;

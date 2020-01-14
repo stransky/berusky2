@@ -195,8 +195,8 @@ typedef struct _PARMETAC
   GLMATRIX world;               // transfromacni matice
 
   void *p_param;
-  int param;
-  int param2;
+  size_ptr param;
+  size_ptr param2;
   END_FUNKCE p_endfce;          // kofolova end funkce
 
   struct _PARMETAC *p_next;
