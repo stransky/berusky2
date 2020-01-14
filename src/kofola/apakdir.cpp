@@ -109,8 +109,10 @@ int achdir(APAK_HANDLE * pHandle, char *dirname)
 
 char *agetcwd(APAK_HANDLE * pHandle, char *buffer, int maxlen)
 {
-  if (!pHandle)
-    getcwd(buffer, maxlen);
+  if (!pHandle) {
+    if (getcwd(buffer, maxlen) == NULL)
+      return NULL;
+  }
 
   if (maxlen > 256)
     maxlen = 256;

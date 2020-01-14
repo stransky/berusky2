@@ -857,7 +857,7 @@ public:
 
 inline GLMATRIX * matrix_zero(GLMATRIX * m)
 {
-  memset(m,0,sizeof(*m));
+  memset((void *)m,0,sizeof(*m));
   return(m);
 } 
 

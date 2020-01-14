@@ -2,6 +2,7 @@
 // version 0.0.1
 //------------------------------------------------------------------------------------------------
 #include <stdio.h>
+#include <errno.h>
 #include "Apak.h"
 #include "adas.h"
 
@@ -41,7 +42,11 @@ int gi_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *p_dir)
 {
   int e;
 
-  chdir(p_dir);
+  if (chdir(p_dir)) {
+    kprintf(1, "Unable to change directory to %s: %s",
+	    p_dir, strerror(errno));
+    return 0;
+  }
   (*pAHandle) = apakopen(cFile, p_dir, &e);
 
   if (!(*pAHandle)) {
@@ -185,7 +190,11 @@ void gi_Init_Sound_Engine(AUDIO_DATA *p_ad)
 			kprintf(1, "Extensions: %s", cString);			
 
 			p_ad->bAudio = 1;
-			chdir(p_ber->dir.sound_dir);
+			if (chdir(p_ber->dir.sound_dir)) {
+				kprintf(1, "Cannot change directory to %s: %s",
+					p_ber->dir.sound_dir, strerror, errno);
+				return;
+			}
 			achdir(pSndArchive, p_ber->dir.sound_dir);
 
 			ap_Load_Sound_List(p_ad, "basicset.dat", 0);

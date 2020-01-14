@@ -184,21 +184,27 @@ char trig_Load_Trigers(char *pLevel, char *pFile, TRIGER_STRUCTURE * pTStruct,
   char text[MAX_FILENAME];
   int i;
 
-  chdir(GAME_LEVEL_DIR);
+  pTStruct->pTriger = NULL;
+  pTStruct->sizeofT = 0;
 
-  strncpy(text, pLevel, strlen(pLevel) - 4);
+  if (chdir(GAME_LEVEL_DIR))
+    return 0;
+
+  strcpy(text, pLevel);
   text[strlen(pLevel) - 4] = '\0'; //TODO - newline?
-  chdir(text);
+  if (chdir(text))
+    return 0;
 
   file = fopen(pFile, "r");
-  if (!file) {
-    pTStruct->pTriger = NULL;
-    pTStruct->sizeofT = 0;
-    return(0);
+  if (!file)
+    return 0;
+
+  if (chdir(DATA_DIR) ||
+      fgets(text, MAX_FILENAME, file) == NULL) {
+    fclose(file);
+    return 0;
   }
 
-  chdir(DATA_DIR);
-  fgets(text, MAX_FILENAME, file);
   pTStruct->sizeofT = atoi(text);
 
   pTStruct->pTriger =
@@ -213,7 +219,12 @@ char trig_Load_Trigers(char *pLevel, char *pFile, TRIGER_STRUCTURE * pTStruct,
   pTStruct->LastStr = 0;
 
   for (i = 0; i < pTStruct->sizeofT; i++) {
-    fgets(text, MAX_FILENAME, file);
+    if (fgets(text, MAX_FILENAME, file) == NULL) {
+      pTStruct->pTriger = NULL;
+      pTStruct->sizeofT = 0;
+      fclose(file);
+      return 0;
+    }
     newline_cut(text);
     if (!trig_Load_Triger(text, &pTStruct->pTriger[i], pGr, pTStruct))
       kprintf(1, "Unable to load triger %s", text);

@@ -29,6 +29,7 @@
 #include <stdlib.h>
 #include <AL/alut.h>
 #include "compat_mini.h"
+#include "adas.h"
 
 #define NUM_BUFFERS 3
 #define NUM_SOURCES 3
@@ -71,17 +72,17 @@ void init(int ini)
       kerror(TRUE, "- Error creating buffers !!\n");
   }
     
-  alutLoadWAVFile(reinterpret_cast<ALbyte*>(const_cast<char *>(HOME_DIR"1.wav")),&format,&data,&size,&freq,0);
+  adasLoadWAVFile(HOME_DIR"1.wav", &format,&data,&size,reinterpret_cast<ALuint*>(&freq),0);
   alBufferData(buffer[0],format,data,size,freq);
-  alutUnloadWAV(format,data,size,freq);
+  adasUnloadWAV(format,data,size,freq);
   
-  alutLoadWAVFile(reinterpret_cast<ALbyte*>(const_cast<char *>(HOME_DIR"2.wav")),&format,&data,&size,&freq,0);
+  adasLoadWAVFile(HOME_DIR"2.wav", &format,&data,&size,reinterpret_cast<ALuint*>(&freq),0);
   alBufferData(buffer[1],format,data,size,freq);
-  alutUnloadWAV(format,data,size,freq);
+  adasUnloadWAV(format,data,size,freq);
 
-  alutLoadWAVFile(reinterpret_cast<ALbyte*>(const_cast<char *>(HOME_DIR"3.wav")),&format,&data,&size,&freq,0);
+  adasLoadWAVFile(HOME_DIR"3.wav", &format,&data,&size,reinterpret_cast<ALuint*>(&freq),0);
   alBufferData(buffer[2],format,data,size,freq);
-  alutUnloadWAV(format,data,size,freq);
+  adasUnloadWAV(format,data,size,freq);
 
   alGetError(); /* clear error */
   alGenSources(NUM_SOURCES, source);

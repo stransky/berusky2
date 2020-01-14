@@ -225,7 +225,8 @@ void ini_file_init(void)
 
       // current working directory init
       if (i == 1) {
-        getcwd(ini_file_dirs[i], MAX_FILENAME);
+        if (getcwd(ini_file_dirs[i], MAX_FILENAME) == NULL)
+	  pperror(1, "Cannot get current directory");
       }
 
       strcat(ini_file_dirs[i], "/" INI_FILE_NAME);

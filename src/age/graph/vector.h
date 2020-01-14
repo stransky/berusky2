@@ -169,6 +169,7 @@ typedef struct vect3di
     
   vect3di(void)
   {
+    x = y = z = 0;
   }
   
   vect3di(tpos val)
@@ -214,6 +215,7 @@ typedef struct vect3df
     
   vect3df(void)
   {
+    x = y = z = 0;
   }
   
   vect3df(float val)

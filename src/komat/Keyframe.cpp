@@ -1487,7 +1487,7 @@ HIERARCHY_TRACK_INFO *key_tri_vyrob_indir(HIERARCHY_TRACK_INFO * p_hir,
   int poskey, int rotkey, int scalekey)
 {
 
-  memset(p_hir, 0, sizeof(p_hir[0]));
+  memset((void *) p_hir, 0, sizeof(p_hir[0]));
 
   // pozicni klice
   if ((p_hir->pos_keys = poskey)) {
@@ -2094,7 +2094,7 @@ SIMPLE_TRACK_INFO *key_tri_to_sim_indir(HIERARCHY_TRACK_INFO * p_track,
   int i, endtime;
 
   // prevedu hlavni track
-  memset(p_sim, 0, sizeof(SIMPLE_TRACK_INFO));
+  memset((void *) p_sim, 0, sizeof(SIMPLE_TRACK_INFO));
 
   p_sim->keynum = calc_keynum(p_track->endtime);
 
@@ -2153,7 +2153,7 @@ SIMPLE_TRACK_INFO *key_tri_to_sim_indir_lin(HIERARCHY_TRACK_INFO * p_track,
   int i, keynum, endtime;
 
   // prevedu hlavni track
-  memset(p_sim, 0, sizeof(SIMPLE_TRACK_INFO));
+  memset((void *) p_sim, 0, sizeof(SIMPLE_TRACK_INFO));
 
   keynum = p_sim->keynum = calc_keynum(p_track->endtime);
   keynum--;
@@ -2251,7 +2251,10 @@ void key_sim_uloz(SIMPLE_TRACK_INFO * p_sim, char *p_file, char *p_dir)
   int i;
   int loop = p_sim->flag & GK_LOOP;
 
-  chdir((p_dir));
+  if (chdir(p_dir)) {
+    ddw("Unable to change directory to %s");
+    return;
+  }
 
   if (!(f = fopen(p_file, "w"))) {
     ddw("File %s Line %d Chyba otevreni souboru '%s' v %s", __FILE__,
@@ -2294,7 +2297,11 @@ int key_sim_nahraj(APAK_HANDLE * pHandle, SIMPLE_TRACK_INFO * p_sim,
   char **p_line;
   int l, lmax;
 
-  chdir((p_dir));
+  if (chdir(p_dir)) {
+    ddw("Unable to change directory to %s");
+    return (FALSE);
+  }
+
   if (!(f = kopen(pHandle, p_file, "r"))) {
     kprintf(TRUE, "File %s Line %d Chyba otevreni souboru '%s' v %s",
       __FILE__, __LINE__, p_file, (p_dir));
@@ -2461,7 +2468,11 @@ int key_sim_nahraj_extended(EDIT_KONTEJNER * p_kont, int cislo_anim,
   int i, objektu = 0, stop, ob, float_scale = FALSE;
   size_ptr end;
 
-  chdir((p_dir));
+  if (chdir(p_dir)) {
+    ddw("Unable to change directory to %s");
+    return (FALSE);
+  }
+
   if (!(f = fopen(p_file, "r"))) {
     ddw("File %s Line %d Chyba otevreni souboru '%s' v %s", __FILE__,
       __LINE__, p_file, (p_dir));
@@ -2504,7 +2515,7 @@ int key_sim_nahraj_extended(EDIT_KONTEJNER * p_kont, int cislo_anim,
 
     p_track = p_track_list[akt_track++] =
       (HIERARCHY_TRACK_INFO *) alloca(sizeof(p_track[0]));
-    memset(p_track, 0, sizeof(p_track[0]));
+    memset((void *) p_track, 0, sizeof(p_track[0]));
 
     /* reset pivot-pointu
      */
@@ -2874,7 +2885,7 @@ typedef struct _HIERARCHY_SIM {
 void key_sim_root_to_sim_indir(HIERARCHY_SIM * p_root,
   SIMPLE_TRACK_INFO * p_sim)
 {
-  memset(p_sim, 0, sizeof(SIMPLE_TRACK_INFO));
+  memset((void *) p_sim, 0, sizeof(SIMPLE_TRACK_INFO));
 
   p_sim->flag = p_root->flag;
   p_sim->keynum = p_root->keynum;
@@ -3058,7 +3069,10 @@ int key_kamera_uloz(KAMERA_TRACK_INFO * p_track, char *p_jmeno_kamery,
   int i, keynum;
   int p, t, r, fv;
 
-  chdir((p_dir));
+  if (chdir(p_dir)) {
+    ddw("Unable to change directory to %s");
+    return (FALSE);
+  }
 
   if (!(f = fopen(p_file, "w"))) {
     ddw("File %s Line %d Chyba otevreni souboru '%s' v %s", __FILE__,
@@ -3132,8 +3146,11 @@ int key_kamera_nahraj(KAMERA_TRACK_INFO * p_track, char *p_jmeno_kamery,
   char **p_line;
   int l, lmax;
 
+  if (chdir(p_dir)) {
+    ddw("Unable to change directory to %s");
+    return (FALSE);
+  }
 
-  chdir((p_dir));
   if (!(f = kopen(pHandle, p_file, "r"))) {
     kprintf(TRUE, "File %s Line %d Chyba otevreni souboru '%s' v %s",
       __FILE__, __LINE__, p_file, (p_dir));
@@ -3449,7 +3466,11 @@ ANIM_TEXT *key_text_nahraj(char *p_file, char *p_dir)
   int p, r, s, v, fr;
   float uhel;
 
-  chdir((p_dir));
+  if (chdir(p_dir)) {
+    ddw("Unable to change directory to %s");
+    return (NULL);
+  }
+
   if (!(f = fopen(p_file, "r"))) {
     ddw("File %s Line %d Chyba otevreni souboru '%s' v %s", 
         __FILE__, __LINE__, p_file, (p_dir));
@@ -3560,7 +3581,10 @@ int key_text_uloz(ANIM_TEXT * p_track, char *p_file, char *p_dir)
   int keynum;
   dword time;
 
-  chdir((p_dir));
+  if (chdir(p_dir)) {
+    ddw("Unable to change directory to %s");
+    return (FALSE);
+  }
 
   if (!(f = fopen(p_file, "w"))) {
     ddw("File %s Line %d Chyba otevreni souboru '%s' v %s", __FILE__,

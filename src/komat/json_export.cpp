@@ -594,7 +594,9 @@ void json_export_light(STATIC_LIGHT * p_light, int lightnum)
 void json_export_lightmap(int num, bitmapa *p_bmp)
 {
   char file[MAX_FILENAME];
-  sprintf(file,"%s/%s_%d.bmp",export_level_dir,"lightmap",num);
+  int ret = snprintf(file,sizeof(file),"%s/%s_%d.bmp",
+		     export_level_dir,"lightmap",num);
+  assert(ret < (int) sizeof(file));
   bmp_uloz(file, p_bmp);
 }
 
@@ -674,9 +676,12 @@ void json_export_level(LEVELINFO * p_Level)
 
 void json_export_start(char *p_file)
 {
-  if(!export_file) {    
+  if(!export_file) {
+    char *ret;
     export_file = fopen(p_file,"w");
-    getcwd(export_level_dir,MAX_FILENAME);
+    assert(export_file);
+    ret = getcwd(export_level_dir,MAX_FILENAME);
+    assert(ret);
   }
 }
 

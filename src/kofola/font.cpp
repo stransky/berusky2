@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <errno.h>
 #include "font.h"
 #include "2D_graphic.h"
 #include "menu_def.h"
@@ -370,7 +371,11 @@ void fn_Gen_Texture(char ** lpTexture, int iXSize, int iYSize, int iXpos,
 int fn_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *p_dir)
 {
   int e;
-  chdir(p_dir);
+  if (chdir(p_dir)) {
+    kprintf(1, "Unable to change directory to %s: %s",
+	    p_dir, strerror(errno));
+    return 0;
+  }
 
   (*pAHandle) = apakopen(cFile, p_dir, &e);
 
@@ -877,7 +882,8 @@ void fn_Convert_Rect(char *cFile, int xmax, int ymax)
   char t[32];
   float *fl1, *fl2, *fl3, *fl4, *fl5;
 
-  getcwd(text, 255);
+  if (getcwd(text, 255) == NULL)
+    return;
 
   f = fopen("fontout.txt", "w");
   fi = fopen("font_def.txt", "r");
@@ -888,7 +894,11 @@ void fn_Convert_Rect(char *cFile, int xmax, int ymax)
         {
           if (gt->command[i].LastParam > 5 &&
             gt->command[i].Parametr[0].Type == 3) {
-            fgets(textt, 256, fi);
+            if (fgets(textt, 256, fi) == NULL) {
+	      fclose(fi);
+	      fclose(f);
+	      return;
+	    }
             strncpy(t, textt, 10);
             t[10] = '\0';
             strcpy(text, "");

@@ -492,7 +492,7 @@ void kd_strom_vyrob(EDIT_MESH_POLY * p_upoly, int polynum,
   if (num || kontnum)
     kd_strom_vyrob_rec(p_poly, num, p_kont, kontnum, p_prvni, 1);
   else
-    memset(p_prvni, 0, sizeof(p_prvni[0]));
+    memset((void *) p_prvni, 0, sizeof(p_prvni[0]));
 
   p_prvni->cislo = kd_hloubka_stromu++;
 }

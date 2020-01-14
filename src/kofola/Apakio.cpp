@@ -61,7 +61,10 @@ int fillbuffer(APAK_FILE_HANDLE * pFHandle)
   pTmp = (char *) mmalloc(size);
 
   fseek(pFHandle->pArchive->pFILE, pFHandle->apuLfStartofFile, SEEK_SET);
-  fread(pTmp, size, 1, pFHandle->pArchive->pFILE);
+  if (fread(pTmp, size, 1, pFHandle->pArchive->pFILE) != 1) {
+    free((void *) pTmp);
+    return 0;
+  }
 
   if (pFHandle->pFileInfo->bNotCompressed)
     memcpy(pFHandle->pBuffer, pTmp, size);

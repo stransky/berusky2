@@ -48,7 +48,8 @@ bool material_text_bitmap_params::load(const char *p_file)
     f.close();
     return(pixmap[0] != '\0');
   } 
-  else {  
+  else {
+    assert(strlen(p_file) < MAX_FILENAME);
     strncpy(pixmap,p_file,MAX_FILENAME);
     pixmap_alpha[0] = '\0'; // No alpha file    
     return(TRUE);  
@@ -593,7 +594,8 @@ void material_text_gl::gl_text_params_destroy(void)
 bool material_text_gl::gl_text_params_load(char *p_file)
 {  
   char tmp[MAX_FILENAME];
-  
+
+  assert(strlen(p_file) < MAX_FILENAME);
   strncpy(tmp,p_file,MAX_FILENAME);
   tail_change(tmp,TEXTURE_GL_PARAM_FILE);
   

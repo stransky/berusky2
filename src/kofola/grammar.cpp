@@ -55,7 +55,8 @@ char gr_Load_Grammar(char *pFile, GRAMMAR * pGr)
   FILE *file;
   char text[256];
 
-  chdir(DATA_DIR);
+  if (chdir(DATA_DIR))
+    return 0;
 
   file = aopen(pDataArchive, pFile, "r");
 

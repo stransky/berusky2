@@ -317,9 +317,12 @@
 		// get current device
 		ALCdevice *adas_Get_Device(void);
 
-    // Replacement for alutLoadWAVMemory
+    // Replacements for alutLoadWAV{File,Memory} and alutUnloadWAV
+    void * adasLoadWAVFile(const char *filename, ALenum *format, void **data, ALsizei *size,
+			   ALuint *frequency, ALboolean *loop);
     void * adasLoadWAVMemory(ALbyte *buffer, ALsizei buffer_length, ALenum *format, void **data, ALsizei *size,
                           ALuint *frequency, ALboolean *loop);
+    void adasUnloadWAV(ALenum format, ALvoid *data, ALsizei size, ALsizei frequency);
                           
     void adas_set_sound_dir(char *p_dir);
 

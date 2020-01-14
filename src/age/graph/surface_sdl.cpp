@@ -337,7 +337,12 @@ void surface_sdl::fill(tcolor color)
 void surface_sdl::fill(tpos x, tpos y, tpos dx, tpos dy, tcolor color)
 { 
   if(p_surf) {
-    SDL_Rect rec = { x, y, dx, dy };
+    SDL_Rect rec;
+    /* Make sure no info will be lost in the conversion to a narrower
+       type. */
+    assert(x < INT16_MAX); assert(y < INT16_MAX);
+    assert(dx < UINT16_MAX); assert(dy < UINT16_MAX);
+    rec = { (Sint16) x, (Sint16) y, (Uint16) dx, (Uint16) dy };
     SDL_FillRect(p_surf, &rec, color);
   }
 }
@@ -346,7 +351,12 @@ void surface_sdl::fill(tpos x, tpos y, tpos dx, tpos dy, tcolor color)
 void surface_sdl::blit(class surface_sdl *p_dst, tpos tx, tpos ty)
 {
   if(p_surf) {
-    SDL_Rect dst_rec = {tx,ty,p_surf->w,p_surf->h};
+    SDL_Rect dst_rec;
+    /* Make sure no info will be lost in the conversion to a narrower
+       type. */
+    assert(tx < INT16_MAX); assert(ty < INT16_MAX);
+    assert(p_surf->w < UINT16_MAX); assert(p_surf->h < UINT16_MAX);
+    dst_rec = { (Sint16) tx, (Sint16) ty, (Uint16) p_surf->w, (Uint16) p_surf->h};
     SDL_BlitSurface(p_surf, NULL, p_dst->p_surf, &dst_rec);
   }
 }
@@ -355,8 +365,15 @@ void surface_sdl::blit(class surface_sdl *p_dst, tpos tx, tpos ty)
 void surface_sdl::blit(tpos sx, tpos sy, tpos dx, tpos dy, class surface_sdl *p_dst, tpos tx, tpos ty)
 {
   if(p_surf) {
-    SDL_Rect src_rec = {sx,sy,dx,dy};
-    SDL_Rect dst_rec = {tx,ty,dx,dy};
+    SDL_Rect src_rec;
+    SDL_Rect dst_rec;
+    /* Make sure no info will be lost in the conversion to a narrower
+       type. */
+    assert(sx < INT16_MAX); assert(sy < INT16_MAX);
+    assert(tx < INT16_MAX); assert(ty < INT16_MAX);
+    assert(dx < UINT16_MAX); assert(dy < UINT16_MAX);
+    src_rec = { (Sint16) sx, (Sint16) sy, (Uint16) dx, (Uint16) dy };
+    dst_rec = { (Sint16) tx, (Sint16) ty, (Uint16) dx, (Uint16) dy };
     SDL_BlitSurface(p_surf, &src_rec, p_dst->p_surf, &dst_rec);  
   }
 }

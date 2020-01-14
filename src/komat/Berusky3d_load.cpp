@@ -299,7 +299,11 @@ int ber_nahraj_materialy(G_KONFIG * p_ber, char *p_jmeno, char *p_dir)
   strcpy(pom, p_jmeno);
   zamen_koncovku(pom, KONCOVKA_MATERIAL);
 
-  chdir((p_dir));
+  if (chdir(p_dir)) {
+    kprintf(1, "Unable to change directory to %s", p_dir);
+    return (FALSE);
+  }
+
   if (!lo_nahraj_materialy(p_ber->p_mat, MAX_CELKEM_MATERIALU, p_ber->p_text,
       MAX_CELKEM_TEXTUR, pom)) {
     kprintf(1, "Unable to load materials %s", p_jmeno);
@@ -326,8 +330,11 @@ void ber_materialy_rozkopiruj(G_KONFIG * p_ber, GAME_MESH_OLD * p_mesh,
       mat = p_mesh->p_mat[i];
       p_mat = p_imat[mat];
       if (p_mat->flag & MAT_ANIM_FRAME) {
+	int ret;
+
         if (restart) {
-          sprintf(pom, "%s_%d", p_mat->jmeno, i);
+          ret = snprintf(pom, sizeof(pom), "%s_%d", p_mat->jmeno, i);
+	  assert(ret < (int) sizeof(pom));
           mnew = lo_najdi_material(p_ber->p_mat, MAX_CELKEM_MATERIALU, pom);
           assert(mnew != K_CHYBA);
           p_mesh->p_mat[i] = mnew;
@@ -339,7 +346,10 @@ void ber_materialy_rozkopiruj(G_KONFIG * p_ber, GAME_MESH_OLD * p_mesh,
 
           p_imat[mnew] = kopiruj_material(p_mat);
           p_mesh->p_mat[i] = mnew;
-          sprintf(p_imat[mnew]->jmeno, "%s_%d", p_mat->jmeno, i);
+          ret = snprintf(p_imat[mnew]->jmeno,
+			 sizeof(p_imat[mnew]->jmeno),
+			 "%s_%d", p_mat->jmeno, i);
+	  assert(ret < (int) sizeof(p_imat[mnew]->jmeno));
         }
       }
     }
@@ -350,7 +360,8 @@ void ber_materialy_rozkopiruj(G_KONFIG * p_ber, GAME_MESH_OLD * p_mesh,
 */
 bool ber_nahraj_mesh(G_KONFIG * p_ber, char *p_jmeno, GAME_MESH_OLD ** p_mesh, int json_export)
 {
-  chdir((p_ber->dir.out_dir));
+  if (chdir(p_ber->dir.out_dir))
+    return (FALSE);
   p_mesh[0] = lo_nahraj_mesh(p_ber->p_mat, MAX_CELKEM_MATERIALU, p_ber->p_text,
                              MAX_CELKEM_TEXTUR, p_jmeno, TRUE, 
                              p_ber->conf_extra_light_vertex, json_export);
@@ -588,7 +599,8 @@ int ber_nahraj_scenu(G_KONFIG * p_ber, char *p_jmeno, char *p_dir, int reload,
   strcpy(file, p_jmeno);
   zamen_koncovku(file, KONCOVKA_SCENY);
 
-  chdir((p_dir));
+  if (chdir(p_dir))
+    return (FALSE);
 
   kprintf(1, "           - Load project....");
   if (lo_nahraj_projekt(p_ber->p_mat, MAX_CELKEM_MATERIALU,
@@ -722,7 +734,8 @@ void ber_nahraj_poly(G_KONFIG * p_ber, char *p_jmeno, char *p_dir)
   char file[200];
   int i;
 
-  chdir((p_dir));
+  if (chdir(p_dir))
+    return;
   strcpy(file, p_jmeno);
   zamen_koncovku(file, ".ply");
 
@@ -773,8 +786,10 @@ void ber_nahraj_lightmap(G_KONFIG * p_ber, char *p_jmeno, char *p_dir)
   char pom[200];
   KFILE *f;
   int i, r, loaded;
+  int ret;
 
-  chdir(p_dir);
+  if (chdir(p_dir))
+    return;
   strcpy(pom, p_jmeno);
   zamen_koncovku(pom, KONCOVKA_LIGHTMAPY);
 
@@ -789,7 +804,10 @@ void ber_nahraj_lightmap(G_KONFIG * p_ber, char *p_jmeno, char *p_dir)
     while (!keof(f)) {
       if (kread(&i, sizeof(i), 1, f)) {
         assert(i >= 0 && i < MAX_RAY_TEXTUR);
-        sprintf(p_ber->p_lightmap[i].jmeno, "%s_lp%.3d.bmp", pom, i);
+        ret = snprintf(p_ber->p_lightmap[i].jmeno,
+		       sizeof(p_ber->p_lightmap[i].jmeno),
+		       "%s_lp%.3d.bmp", pom, i);
+	assert(ret < (int) sizeof(p_ber->p_lightmap[i].jmeno));
         kprintf(TRUE, "Lightmap %s...", p_ber->p_lightmap[i].jmeno);
         r = txt_nahraj_lightmapu_z_bmp(NULL, f, p_ber->p_lightmap + i, TRUE);
         assert(r);
@@ -800,7 +818,10 @@ void ber_nahraj_lightmap(G_KONFIG * p_ber, char *p_jmeno, char *p_dir)
   }
   else {                        // stara verze lightmap
     for (i = 0; i < MAX_RAY_TEXTUR; i++) {
-      sprintf(p_ber->p_lightmap[i].jmeno, "%s\\%s_lp%.3d.bmp", p_dir, pom, i);
+      ret = snprintf(p_ber->p_lightmap[i].jmeno,
+		     sizeof(p_ber->p_lightmap[i].jmeno),
+		     "%s\\%s_lp%.3d.bmp", p_dir, pom, i);
+      assert(ret < (int) sizeof(p_ber->p_lightmap[i].jmeno));
       if (efile(p_ber->p_lightmap[i].jmeno)) {
         kprintf(TRUE, "Lightmap %s...", p_ber->p_lightmap[i].jmeno);
         txt_nahraj_lightmapu_z_bmp(p_ber->p_lightmap[i].jmeno, NULL,

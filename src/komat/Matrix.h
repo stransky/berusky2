@@ -7,7 +7,7 @@
 // vynuluje matici
 inline GLMATRIX *zero_matrix(GLMATRIX * m)
 {
-  memset(m, 0, sizeof(*m));
+  memset((void *) m, 0, sizeof(*m));
   return (m);
 }
 
@@ -350,11 +350,7 @@ inline GLMATRIX *invert_matrix(GLMATRIX * src, GLMATRIX * inv)
   inv->_13 = src->_12 * src->_23 - src->_13 * src->_22;
 
   det = inv->_11 * src->_11 + inv->_12 * src->_21 + inv->_13 * src->_31;
-  if (det == 0.0f) {
-    // we're not very happy with the source matrix ;-)
-    memset(inv, 0, sizeof(*inv));
-    return (NULL);
-  }
+  assert(det);
 
   inv->_21 = -src->_21 * src->_33 + src->_23 * src->_31;
   inv->_22 = src->_11 * src->_33 - src->_13 * src->_31;
@@ -400,10 +396,7 @@ inline GLMATRIX *invert_matrix_copy(GLMATRIX * src, GLMATRIX * inv)
   m._12 = -src->_12 * src->_33 + src->_13 * src->_32;
   m._13 = src->_12 * src->_23 - src->_13 * src->_22;
   det = m._11 * src->_11 + m._12 * src->_21 + m._13 * src->_31;
-  if (det == 0) {
-    memset(inv, 0, sizeof(*inv));
-    return (NULL);
-  }
+  assert(det);
   m._21 = -src->_21 * src->_33 + src->_23 * src->_31;
   m._22 = src->_11 * src->_33 - src->_13 * src->_31;
   m._23 = -src->_11 * src->_23 + src->_13 * src->_21;

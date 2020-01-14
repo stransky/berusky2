@@ -3004,7 +3004,7 @@ int co2_Handle_Edit(CONTROL_EDIT2 * p_ed, int x, int y, int hdc, int xcor, int y
       int size;
 
       if (co_Handle_Edit_Key_Filter() || (co2_Handle_wsclen(p_ed) && !key[K_BKSP])) {
-        memset(key, 0, POCET_KLAVES * sizeof(char));
+        memset(key, 0, POCET_KLAVES * sizeof(int));
         return 1;
       }
 
@@ -3012,18 +3012,18 @@ int co2_Handle_Edit(CONTROL_EDIT2 * p_ed, int x, int y, int hdc, int xcor, int y
       size = MultiByteToWideChar(CP_ACP, 0, (char *) &key_pressed, 1, wt, sizeof(wt) / sizeof(wt[0]));
       if(size > 1) {
         // we have got some unsupported character - ignore it
-        memset(key, 0, POCET_KLAVES * sizeof(char));
+        memset(key, 0, POCET_KLAVES * sizeof(int));
         return 1;
       }      
       wt[0] = co_ToUnicode(key_pressed);
 
       if (!wt[0]) {
-        memset(key, 0, POCET_KLAVES * sizeof(char));
+        memset(key, 0, POCET_KLAVES * sizeof(int));
         return 1;
       }
 
       if (wt[0] == '_') {
-        memset(key, 0, POCET_KLAVES * sizeof(char));
+        memset(key, 0, POCET_KLAVES * sizeof(int));
         return 1;
       }
 
@@ -3079,7 +3079,7 @@ int co2_Handle_Edit(CONTROL_EDIT2 * p_ed, int x, int y, int hdc, int xcor, int y
         TRANSCOLOR);
 
       p_ed->tx = xt;
-      memset(key, 0, POCET_KLAVES * sizeof(char));
+      memset(key, 0, POCET_KLAVES * sizeof(int));
     }
   }
 

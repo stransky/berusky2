@@ -62,18 +62,12 @@ int pr_GetPlayerName(char *cFile, WCHAR * cName)
 int pr_FindFreeFileName(char *cFile)
 {
   int i = 0;
-  char text[256], t[32];
-  char z[] = "0000";
+  char text[256];
   FILE *f = NULL;
 
   do {
-    strcpy(text, "");
-
-    itoa(i, t, 10);
-
-    strncat(text, z, 4 - strlen(t));
-    strcat(text, t);
-    strcat(text, ".prf");
+    if (snprintf(text, sizeof(text), "%04d.prf", i) >= (int) sizeof(text))
+      break;
 
     f = fopen(text, "r");
     if (!f)
@@ -100,11 +94,17 @@ int pr_CreateProfile(WCHAR * cPlayerName)
   ZeroMemory(&Profile, sizeof(PLAYER_PROFILE_DISC));
 
   strcpy(dir, PROFILE_DIR);
-  chdir(dir);
+  if (chdir(dir)) {
+    kprintf(1, "Cannot change directory to %s", dir);
+    return 0;
+  }
 
   pr_FindFreeFileName(cFile);
 
-  getcwd(dir, MAX_FILENAME);
+  if (getcwd(dir, MAX_FILENAME) == NULL) {
+    kprintf(1, "Cannot get current directory");
+    return 0;
+  }
   kprintf(1, "pr_CreateProfile adr = %s", dir);
 
   file = fopen(cFile, "wb");
@@ -168,13 +168,15 @@ int pr_ReadProfile(char *cFileName, PLAYER_PROFILE * pProfile)
 
   ZeroMemory(&disc, sizeof(PLAYER_PROFILE_DISC));
 
-  chdir(PROFILE_DIR);
+  if (chdir(PROFILE_DIR))
+    return 0;
   strcpy(dir, cFileName);
 
   {
     char ddir[MAX_FILENAME];
 
-    getcwd(ddir, MAX_FILENAME);
+    if (getcwd(ddir, MAX_FILENAME) == NULL)
+      return 0;
     kprintf(1, "pr_ReadProfile adr = %s", ddir);
   }
 
@@ -221,7 +223,10 @@ int pr_FindFileToProfile(WCHAR * wName, char *cFile)
     if(file)
     {
       PLAYER_PROFILE_DISC	tmp;
-      fread(&tmp, sizeof(tmp), 1, file);
+      if (fread(&tmp, sizeof(tmp), 1, file) != 1) {
+	fclose(file);
+	return 0;
+      }
       fclose(file);
 
       PLAYER_PROFILE Profile;
@@ -293,12 +298,14 @@ int pr_SaveProfile(PLAYER_PROFILE * pProfile)
   ZeroMemory(cFile, sizeof(cFile));
 
   strcpy(dir, PROFILE_DIR);
-  chdir(dir);
+  if (chdir(dir))
+    return 0;
 
   if (!pr_FindFileToProfile(pProfile->cName, cFile))
     return 0;
 
-  getcwd(dir, MAX_FILENAME);
+  if (getcwd(dir, MAX_FILENAME) == NULL)
+    return 0;
   kprintf(1, "pr_SaveProfile adr = %s", dir);
 
   file = fopen(cFile, "wb");

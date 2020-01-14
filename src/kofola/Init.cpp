@@ -24,9 +24,11 @@ int lsi_Load_Items(LEVELINFO * p_Level)
   SECONDDATADESC sec;
   APAK_HANDLE *aHandle;
   
-  getcwd(odir, MAX_FILENAME);
+  if (getcwd(odir, MAX_FILENAME) == NULL)
+    return 0;
   strcpy(dir, PRVKY_DIR);
-  chdir(dir);
+  if (chdir(dir))
+    return 0;
 
   strcpy(text, "*.itm");
   Count = 0;
@@ -82,9 +84,10 @@ int lsi_Load_Items(LEVELINFO * p_Level)
 
   afindclose(Done);
 
-  chdir((odir));
-
   apakclose(&aHandle);
+
+  if (chdir(odir))
+    return 0;
 
   return 1;
 }

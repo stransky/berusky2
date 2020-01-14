@@ -415,7 +415,7 @@ float obb_calc_obalka_obj(EDIT_OBJEKT * p_obj, BOD * p_vx, BOD * p_vy,
 
 void obb_prvek(OBB_OLD * p_obb)
 {
-  memset(p_obb, 0, sizeof(p_obb[0]));
+  memset((void *) p_obb, 0, sizeof(p_obb[0]));
   vektor_set_all(p_obb->obb, 1, 0, 0);
   vektor_set_all(p_obb->obb + 1, 0, 1, 0);
   vektor_set_all(p_obb->obb + 2, 0, 0, 1);
@@ -894,7 +894,7 @@ void obbtree_vyrob(OBB_TREE_OLD * p_prvni, EDIT_MESH_POLY * p_poly,
 
   p_mat = p_matlist;
 
-  memset(p_prvni, 0, sizeof(p_prvni[0]));
+  memset((void *) p_prvni, 0, sizeof(p_prvni[0]));
   p_prvni->p_item =
     (OBB_TREE_ITEM_OLD *) mmalloc(sizeof(p_prvni->p_item[0]) * itnum);
   p_prvni->itnum = itnum;
@@ -991,7 +991,7 @@ void obbtree_vyrob_rec(OBB_TREE_OLD * p_prvni, float max_vzdal)
     return;
 
   memset(p_tmp_item, 0, sizeof(p_tmp_item[0]) * itemnum);
-  memset(p_obalky, 0, sizeof(p_obalky[0]) * itemnum);
+  memset((void *) p_obalky, 0, sizeof(p_obalky[0]) * itemnum);
   memset(p_hits, 0, sizeof(p_hits[0]) * itemnum);
   memset(p_lhits, 0, sizeof(p_lhits[0]) * itemnum);
 

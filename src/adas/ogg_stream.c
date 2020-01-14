@@ -6,6 +6,7 @@
 #include <vorbis/vorbisfile.h>
 #include "compat_mini.h"
 
+#include <stdlib.h>
 #include <time.h>
 #include <math.h>
 
@@ -294,7 +295,7 @@ long adas_OGG_Read_StreamB(ADAS_OGG_STRUCTURE *p_ogg, FILE	*p_size_file, FILE	*p
 		iCounter++;
 
 		if(p_size_file) {
-			fprintf(p_size_file,"%d\n",lReturn);
+			fprintf(p_size_file,"%ld\n",lReturn);
     }
 
 		switch(lReturn)
@@ -529,7 +530,7 @@ void * adas_OGG_Proc( void *lpParameter )
 	int   dwStart, dwFinish, dwEplased;
 	long  losttime = 0;
 	
-	strncpy(text, ogg.Name, (strlen(ogg.Name)-3));
+	strcpy(text, ogg.Name);
 	text[(strlen(ogg.Name)-3)] = '\0'; //TODO - newline?
 	strcat(text,"cyc");
 
@@ -541,10 +542,15 @@ void * adas_OGG_Proc( void *lpParameter )
 		ExitThread(0);
 	}
 
-	if(!p_ogg->bSetup)
+	if(!p_ogg->bSetup) {
 		for(i=0;i<3;i++)
 		{
-			fgets(text,256, file);
+			if (fgets(text,256, file) == NULL) {
+				adas_Set_Last_Error("Cannot read file");
+				p_ogg->bEof = 2;
+				fclose(file);
+				ExitThread(0);
+			}
 			cycles = atoi(text);
 			time = (int)floor(750.0f / (float)cycles);
 			adas_OGG_Read_StreamA(p_ogg, time);
@@ -556,9 +562,17 @@ void * adas_OGG_Proc( void *lpParameter )
 				ExitThread(0);
 			}
 		}
-	else
-		for(i=0;i<3;i++)
-			fgets(text,256, file);
+	}
+	else {
+		for(i=0;i<3;i++) {
+			if (fgets(text,256, file) == NULL) {
+				adas_Set_Last_Error("Cannot read file");
+				p_ogg->bEof = 2;
+				fclose(file);
+				ExitThread(0);
+			}
+		}
+	}
 
 	alSourceQueueBuffers(p_ogg->Source,3,p_ogg->Buffer);
 	alSourcePlay(p_ogg->Source);
@@ -571,9 +585,14 @@ void * adas_OGG_Proc( void *lpParameter )
 		{
 			if (!p_ogg->bEof)
 			{
-				alSourceUnqueueBuffers(p_ogg->Source,1,&p_ogg->Buffer[buffer]);
+				alSourceUnqueueBuffers(p_ogg->Source,1,&p_ogg->Buffer[(int)buffer]);
 				
-				fgets(text,256, file);
+				if (fgets(text,256, file) == NULL) {
+					adas_Set_Last_Error("Cannot read file");
+					p_ogg->bEof = 2;
+					fclose(file);
+					ExitThread(0);
+				}
 				cycles = atoi(text);
 
 				dwStart = timeGetTime();
@@ -589,9 +608,9 @@ void * adas_OGG_Proc( void *lpParameter )
 					adas_OGG_Read_StreamA(p_ogg, time);
 				}
 
-				alBufferData(p_ogg->Buffer[buffer], p_ogg->Format, &p_ogg->Data, p_ogg->Size, 
-							       p_ogg->Frequece);
-				alSourceQueueBuffers(p_ogg->Source,1,&p_ogg->Buffer[buffer]);
+				alBufferData(p_ogg->Buffer[(int)buffer],
+					     p_ogg->Format, &p_ogg->Data, p_ogg->Size, p_ogg->Frequece);
+				alSourceQueueBuffers(p_ogg->Source,1,&p_ogg->Buffer[(int)buffer]);
 				
 				dwFinish = timeGetTime();
 				dwEplased = dwFinish - dwStart;

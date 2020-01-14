@@ -214,7 +214,7 @@ void adas_Init(ADAS_INIT_DATA * p_adas_data)
 
   memcpy(&ADAS_data, p_adas_data, sizeof(ADAS_INIT_DATA));
 
-  p_Device = alcOpenDevice((ALCubyte *) p_adas_data->Implementation);
+  p_Device = alcOpenDevice(p_adas_data->Implementation);
   if (p_Device) {
     bDevice = 1;
     p_Context = alcCreateContext(p_Device, NULL);
@@ -222,14 +222,14 @@ void adas_Init(ADAS_INIT_DATA * p_adas_data)
     if (p_Context) {
       //Set active context
       if (alcMakeContextCurrent(p_Context)) {
-        int bEAXExtPresent = alIsExtensionPresent((ALubyte *) "EAX2.0");
+        int bEAXExtPresent = alIsExtensionPresent("EAX2.0");
 
         if (!bEAXExtPresent) {
           adas_Set_Last_Warning("No EAX2.0 Extension found");
         }
         else {
-          p_EAXSet = (EAXSet) alGetProcAddress((ALubyte *) "EAXSet");
-          p_EAXGet = (EAXGet) alGetProcAddress((ALubyte *) "EAXGet");
+          p_EAXSet = (EAXSet) alGetProcAddress("EAXSet");
+          p_EAXGet = (EAXGet) alGetProcAddress("EAXGet");
 
           if (!p_EAXSet || !p_EAXGet) {
             adas_Set_Last_Error("Cannot find EAXSet and/or EAXGet function");
@@ -370,7 +370,12 @@ unsigned long adas_Load_First(char *p_Index_File, char *p_File_Name)
     return 0;
   }
 
-  fgets(data, 100, file);
+  if (fgets(data, 100, file) == NULL) {
+    adas_Set_Last_Error("Unable to read index file");
+    fclose(file);
+    file = NULL;
+    return 0;
+  }
   Size_of_Indexes = atoi(data);
   WaveFile = (ADAS_WAVEFILEDESC *) malloc(Size_of_Indexes * sizeof(ADAS_WAVEFILEDESC));
   if (!WaveFile) {
@@ -381,10 +386,24 @@ unsigned long adas_Load_First(char *p_Index_File, char *p_File_Name)
   }
 
   for (i = 0; i < Size_of_Indexes; i++) {
-    fgets(data, 100, file);
+    if (fgets(data, 100, file) == NULL) {
+      adas_Set_Last_Error("Unable to read index file");
+      fclose(file);
+      file = NULL;
+      free(WaveFile);
+      WaveFile = NULL;
+      return 0;
+    }
     newline_cut(data);
     strcpy(WaveFile[i].Name, data);
-    fgets(data, 100, file);
+    if (fgets(data, 100, file) == NULL) {
+      adas_Set_Last_Error("Unable to read index file");
+      fclose(file);
+      file = NULL;
+      free(WaveFile);
+      WaveFile = NULL;
+      return 0;
+    }
     WaveFile[i].Index = atoi(data);
   }
   fclose(file);
@@ -409,13 +428,13 @@ unsigned long adas_Load_First(char *p_Index_File, char *p_File_Name)
       return 0;
     }
 
-    alutLoadWAVFile(p_File_Name, &pSound->Format, &pSound->Data,
+    adasLoadWAVFile(p_File_Name, &pSound->Format, &pSound->Data,
                     &pSound->Size, &pSound->Frequece, &loop);
 
     alBufferData(pSound->Buffer, pSound->Format, pSound->Data, pSound->Size,
                  pSound->Frequece);
 
-    alutUnloadWAV(pSound->Format, pSound->Data, pSound->Size,
+    adasUnloadWAV(pSound->Format, pSound->Data, pSound->Size,
                   pSound->Frequece);
 
     pSound->Wave_Index = adas_Translate_Wave(p_File_Name);
@@ -458,7 +477,12 @@ unsigned long adas_Load_FirstMemory(char *p_Index_File, void *p_File,
   }
 
 
-  fgets(data, 100, file);
+  if (fgets(data, 100, file) == NULL) {
+    adas_Set_Last_Error("Unable to read index file");
+    fclose(file);
+    file = NULL;
+    return 0;
+  }
   Size_of_Indexes = atoi(data);
   WaveFile = (ADAS_WAVEFILEDESC *) malloc(Size_of_Indexes *
                                   sizeof(ADAS_WAVEFILEDESC));
@@ -471,10 +495,24 @@ unsigned long adas_Load_FirstMemory(char *p_Index_File, void *p_File,
   ZeroMemory(WaveFile, Size_of_Indexes*sizeof(ADAS_WAVEFILEDESC));
 
   for (i = 0; i < Size_of_Indexes; i++) {
-    fgets(data, 100, file);
+    if (fgets(data, 100, file) == NULL) {
+      adas_Set_Last_Error("Unable to read index file");
+      fclose(file);
+      file = NULL;
+      free(WaveFile);
+      WaveFile = NULL;
+      return 0;
+    }
     newline_cut(data);
     strcpy(WaveFile[i].Name, data);
-    fgets(data, 100, file);
+    if (fgets(data, 100, file) == NULL) {
+      adas_Set_Last_Error("Unable to read index file");
+      fclose(file);
+      file = NULL;
+      free(WaveFile);
+      WaveFile = NULL;
+      return 0;
+    }
     WaveFile[i].Index = atoi(data);
   }
   fclose(file);
@@ -498,7 +536,7 @@ unsigned long adas_Load_FirstMemory(char *p_Index_File, void *p_File,
   if (adasLoadWAVMemory(p_File, File_Size, &pSound->Format, &pSound->Data, &pSound->Size, &pSound->Frequece, &loop)) {
     alBufferData(pSound->Buffer, pSound->Format, pSound->Data, pSound->Size,
                  pSound->Frequece);
-    alutUnloadWAV(pSound->Format, pSound->Data, pSound->Size,
+    adasUnloadWAV(pSound->Format, pSound->Data, pSound->Size,
                   pSound->Frequece);
     pSound->Wave_Index = adas_Translate_Wave(p_File_Name);
     Size_of_Sound_Data++;
@@ -526,7 +564,8 @@ unsigned long adas_Load_Next(char *p_File_Name)
   if ((Size_of_Sound_Data > SIZEOFSOUNDDATA) || (!p_File_Name))
     return 0;
 
-  chdir(sound_dir);
+  if (chdir(sound_dir))
+    return 0;
   file = fopen(p_File_Name, "r");
   if (file) {
     GetFileSize(file, &Return);
@@ -545,13 +584,13 @@ unsigned long adas_Load_Next(char *p_File_Name)
       return 0;
     }
 
-    alutLoadWAVFile(p_File_Name, &pSound->Format, &pSound->Data,
+    adasLoadWAVFile(p_File_Name, &pSound->Format, &pSound->Data,
                     &pSound->Size, &pSound->Frequece, &loop);
 
     alBufferData(pSound->Buffer, pSound->Format, pSound->Data, pSound->Size,
                  pSound->Frequece);
 
-    alutUnloadWAV(pSound->Format, pSound->Data, pSound->Size,
+    adasUnloadWAV(pSound->Format, pSound->Data, pSound->Size,
                   pSound->Frequece);
 
     pSound->Wave_Index = adas_Translate_Wave(p_File_Name);
@@ -593,7 +632,7 @@ unsigned long adas_Load_NextMemory(void *p_File, long File_Size,
   if (adasLoadWAVMemory(p_File, File_Size, &pSound->Format, &pSound->Data, &pSound->Size, &pSound->Frequece, &loop)) {
     alBufferData(pSound->Buffer, pSound->Format, pSound->Data, pSound->Size,
                  pSound->Frequece);
-    alutUnloadWAV(pSound->Format, pSound->Data, pSound->Size,
+    adasUnloadWAV(pSound->Format, pSound->Data, pSound->Size,
                   pSound->Frequece);
     pSound->Wave_Index = adas_Translate_Wave(p_File_Name);
     Size_of_Sound_Data++;
@@ -914,11 +953,12 @@ int adas_Load_Wave(ADAS_SOUND_SOURCE * p_ss)
     return 0;
 
   strcpy(text, name);
-  chdir(sound_dir);
-  alutLoadWAVFile(text, &Format, &Data, &Size, &Frequece, &loop);
-  alBufferData(p_ss->Buffer[p_ss->Buffer_Pointer], Format, Data, Size,
+  if (chdir(sound_dir))
+    return 0;
+  adasLoadWAVFile(text, &Format, &Data, &Size, &Frequece, &loop);
+  alBufferData(p_ss->Buffer[(int)p_ss->Buffer_Pointer], Format, Data, Size,
                Frequece);
-  alutUnloadWAV(Format, Data, Size, Frequece);
+  adasUnloadWAV(Format, Data, Size, Frequece);
   return 1;
 }
 
@@ -2569,6 +2609,23 @@ ALCdevice *adas_Get_Device(void)
 }
 
 void *
+adasLoadWAVFile(const char * filename, ALenum * format,
+		void **data, ALsizei * size, ALuint * frequency,
+		ALboolean * loop)
+{
+  ALfloat freq;
+  *data = alutLoadMemoryFromFile(filename, format, size, &freq);
+  if (!(*data)) {
+    fprintf(stderr, "ADAS: adasLoadWAVFile(): %s\n",
+	    alutGetErrorString(alutGetError()));
+    return (FALSE);
+  }
+  *frequency = (ALuint)freq;
+  *loop = AL_FALSE;
+  return (*data);
+}
+
+void *
 adasLoadWAVMemory(ALbyte * buffer, ALsizei buffer_length, ALenum * format,
                   void **data, ALsizei * size, ALuint * frequency,
                   ALboolean * loop)
@@ -2583,6 +2640,12 @@ adasLoadWAVMemory(ALbyte * buffer, ALsizei buffer_length, ALenum * format,
   *frequency = (ALuint)freq;
   *loop = AL_FALSE;
   return (*data);
+}
+
+void
+adasUnloadWAV(ALenum format, ALvoid * data, ALsizei size, ALsizei frequency)
+{
+  free(data);
 }
 
 void adas_set_sound_dir(char *p_dir)

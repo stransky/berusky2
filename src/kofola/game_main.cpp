@@ -56,7 +56,8 @@ int winmain_Game_Run(char *p_Level_Name)
   kprintf(1, "Kofola - verze zdrojaku: MASTER %d.%d", VERZEHI, VERZELO);
 
   gi_Set_Win_Version();
-  getcwd(CurrentWorkingDirectory, MAX_FILENAME);
+  if (getcwd(CurrentWorkingDirectory, MAX_FILENAME) == NULL)
+    return 0;
 
   srand((unsigned) time(NULL));
 
@@ -128,9 +129,23 @@ int winmain_Game_Run(char *p_Level_Name)
   }
 
 	gi_Init_Sound_Engine(&ad);
-	chdir(p_ber->dir.music_dir);
+	if (chdir(p_ber->dir.music_dir)) {
+	  apakclose(&pDataArchive);
+	  apakclose(&p3DMArchive);
+	  apakclose(&pControlsArchive);
+	  apakclose(&pBmpArchive);
+	  apakclose(&pSndArchive);
+	  return 0;
+	}
 	ap_Load_Play_List("play_list.dat",&ad);
-  chdir(p_ber->dir.sound_dir);
+  if (chdir(p_ber->dir.sound_dir)) {
+    apakclose(&pDataArchive);
+    apakclose(&p3DMArchive);
+    apakclose(&pControlsArchive);
+    apakclose(&pBmpArchive);
+    apakclose(&pSndArchive);
+    return 0;
+  }
 
   ap_Load_Material_List("material.dat", &ad);
 

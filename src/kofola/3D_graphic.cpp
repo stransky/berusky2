@@ -150,31 +150,43 @@ int _3d_Load_Texture(char *p_File_Name, int Index, char bVideoRAM, char bSeek)
 void _3d_Get_Cursor_Name(char *cName)
 {
   FILE *file;
-  char text[MAX_FILENAME];
+  char filename[MAX_FILENAME], text[32];
 
-  GetPrivateProfileString("game", "cursor", "cursor", text, 32, ini_file);
+  GetPrivateProfileString("game", "cursor", "cursor", filename, 32, ini_file);
 
-  strcpy(cName, text);
+  strcpy(cName, filename);
   strcat(cName, ".bmp");
 
-  strcat(text, ".inf");
+  strcat(filename, ".inf");
 
-  file = fopen(text, "r");
+  file = fopen(filename, "r");
   if (!file) {
-    kprintf(1, "Soubor %s, nebyl nalezen!", text);
+    kprintf(1, "Soubor %s, nebyl nalezen!", filename);
     return;
   }
 
-  fgets(text, 32, file);
+  if (fgets(text, 32, file) == NULL) {
+    kprintf(1, "Cannot read from %s!", filename);
+    return;
+  }
   _3dCur.idx = atoi(text);
 
-  fgets(text, 32, file);
+  if (fgets(text, 32, file) == NULL) {
+    kprintf(1, "Cannot read from %s!", filename);
+    return;
+  }
   _3dCur.idy = atoi(text);
 
-  fgets(text, 32, file);
+  if (fgets(text, 32, file) == NULL) {
+    kprintf(1, "Cannot read from %s!", filename);
+    return;
+  }
   _3dCur.iaddx = atoi(text);
 
-  fgets(text, 32, file);
+  if (fgets(text, 32, file) == NULL) {
+    kprintf(1, "Cannot read from %s!", filename);
+    return;
+  }
   _3dCur.iaddy = atoi(text);
 
   fclose(file);
@@ -189,7 +201,10 @@ int _3d_Load_List(char *p_File_Name)
   FILE *file = 0;
   int c = 0;
 
-  chdir((_3dd.bm_dir));
+  if (chdir((_3dd.bm_dir))) {
+    kprintf(1, "Cannot change directory to %s", _3dd.bm_dir);
+    return 0;
+  }
   achdir(p3DMArchive, _3dd.bm_dir);
 
   file = aopen(p3DMArchive, p_File_Name, "rb");

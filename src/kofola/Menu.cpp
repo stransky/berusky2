@@ -1477,7 +1477,10 @@ void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   lastcmd = 0;
   timercnt = 0;
 
-  chdir(DATA_DIR);
+  if (chdir(DATA_DIR)) {
+    free((void *) res);
+    return;
+  }
   strcpy(dir, DATA_DIR);
 
   //natadhe skript menu
@@ -2024,7 +2027,13 @@ void RunStretchAnimation(char *cScene, int x, int y, AUDIO_DATA * p_ad)
   if (iLanguageVersion == 4) {
     strcpy(cDir, BITMAP_DIR);
   
-    sprintf(cFile, "%s%cscene%d.pak", cDir, DIR_SLASH, iActualScene);    
+    if (snprintf(cFile, sizeof(cFile), "%s%cscene%d.pak",
+		 cDir, DIR_SLASH, iActualScene) >=
+	(int) sizeof(cFile)) {
+      kprintf(1, "Filename too long: %s%cscene%d.pak",
+	      cDir, DIR_SLASH, iActualScene);
+      return;
+    }
     hArchive = apakopen(cFile, cDir, &idx);
 
     if (!hArchive) {
@@ -2320,7 +2329,10 @@ void RunMenuNewGameScene(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   lastcmd = 0;
   timercnt = 0;
 
-  chdir(DATA_DIR);
+  if (chdir(DATA_DIR)) {
+    free((void *) res);
+    return;
+  }
   
   char dir[MAX_FILENAME];
   strcpy(dir, DATA_DIR);
@@ -2785,7 +2797,13 @@ void LoadSceneMap(int *pBmp, char *cSceneBmp, char *cSceneAnim, int iScene,
 
   if (iLanguageVersion == 4) {
     strcpy(cDir, BITMAP_DIR);
-    sprintf(cFile, "%s%cscene%d.pak", cDir, DIR_SLASH, iScene);
+    if (snprintf(cFile, sizeof(cFile), "%s%cscene%d.pak",
+		 cDir, DIR_SLASH, iActualScene) >=
+	(int) sizeof(cFile)) {
+      kprintf(1, "Filename too long: %s%cscene%d.pak",
+	      cDir, DIR_SLASH, iActualScene);
+      return;
+    }
     hArchive = apakopen(cFile, cDir, &i);
 
     if (!hArchive) {
@@ -3466,7 +3484,10 @@ BRUTAL_RESTART_SCENE_MAP_MENU:
   lastcmd = 0;
   timercnt = 0;
 
-  chdir(DATA_DIR);
+  if (chdir(DATA_DIR)) {
+    free((void *) res);
+    return;
+  }
 
   //natadhe skript menu
   LoadMenuScript(csrriptname, res, &lastcmd);
@@ -3877,7 +3898,10 @@ int RunMenuNewGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   lastcmd = 0;
   timercnt = 0;
 
-  chdir(DATA_DIR);
+  if (chdir(DATA_DIR)) {
+    free((void *) res);
+    return 1;
+  }
 
   char dir[MAX_FILENAME];
   strcpy(dir, DATA_DIR);
@@ -4325,7 +4349,8 @@ int FillComboProfiles(COMBO_CONTROL * p_co, int *iSel)
   int isize;
 
   strcpy(dir, PROFILE_DIR);
-  chdir(dir);
+  if (chdir(dir))
+    return 0;
 
   GetPrivateProfileString("game", "last_profile", "c:\\", cprofile, MAX_FILENAME, ini_file);
 
@@ -4379,9 +4404,11 @@ int check_Save_Owner(char *cDir, WCHAR * wFileName)
 
   int ver;
 
-  getcwd(dir, MAX_FILENAME);
+  if (getcwd(dir, MAX_FILENAME) == NULL)
+    return 0;
 
-  chdir((cDir));
+  if (chdir(cDir))
+    return 0;
 
   ZeroMemory(&pProfile, sizeof(PLAYER_PROFILE));
 
@@ -4390,27 +4417,35 @@ int check_Save_Owner(char *cDir, WCHAR * wFileName)
 
   file = fopen(text, "rb");
   if (!file) {
-    chdir((dir));
+    /* GCC warns when we don't check the return value of chdir(). For
+       some reason, casting to (void) doesn't work. */
+    if (chdir(dir))
+      return 0;
     return 0;
   }
 
-  fread(&pProfile, sizeof(PLAYER_PROFILE), 1, file);
-  fread(wFileName, 32 * sizeof(WCHAR), 1, file);
-
-  fread(&ver, sizeof(int), 1, file);
+  if (fread(&pProfile, sizeof(PLAYER_PROFILE), 1, file) != 1 ||
+      fread(wFileName, 32 * sizeof(WCHAR), 1, file) != 1 ||
+      fread(&ver, sizeof(int), 1, file) != 1) {
+    fclose(file);
+    return 0;
+  }
 
   if (ver != SAVE_VER) {
     fclose(file);
     return 0;
   }
 
-  fread(wdir, (MAX_FILENAME + 1) * sizeof(WCHAR), 1, file);
-
-  fread(&l_h, sizeof(LEVEL_HEADER), 1, file);
+  if (fread(wdir, (MAX_FILENAME + 1) * sizeof(WCHAR), 1, file) != 1 ||
+      fread(&l_h, sizeof(LEVEL_HEADER), 1, file) != 1) {
+    fclose(file);
+    return 0;
+  }
 
   fclose(file);
 
-  chdir((dir));
+  if (chdir(dir))
+    return 0;
 
   if (wcscmp(pPlayerProfile.cName, pProfile.cName))
     return 0;
@@ -4435,7 +4470,8 @@ int FillListLoad(LIST_VIEW_CONTROL * p_li, char *mask, char bAdd, int LoadGame)
   LIST_ITEM_ *list;
   int isize;
 
-  chdir(SAVE_DIR);
+  if (chdir(SAVE_DIR))
+    return 0;
 
   FillStringList(mask, &list, &isize);
 
@@ -4515,7 +4551,10 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   lastcmd = 0;
   timercnt = 0;
 
-  chdir(DATA_DIR);
+  if (chdir(DATA_DIR)) {
+    free((void *) res);
+    return;
+  }
 
   char dir[MAX_FILENAME];
   strcpy(dir, DATA_DIR);
@@ -5012,7 +5051,10 @@ void RunMenuLoadGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   lastcmd = 0;
   timercnt = 0;
 
-  chdir(DATA_DIR);
+  if (chdir(DATA_DIR)) {
+    free((void *) res);
+    return;
+  }
 
   char dir[MAX_FILENAME];
   strcpy(dir, DATA_DIR);
@@ -5441,7 +5483,7 @@ void RunMenuCibron(char *cBmp)
   dim.t1 = 0;
   dim.t2 = 0;
 
-  memset(key, 0, POCET_KLAVES * sizeof(char));
+  memset(key, 0, POCET_KLAVES * sizeof(int));
 
   ddxBitBlt(HDC2DD, 0, 0, 1024, 768, idx, 0, 0);
 
@@ -5482,7 +5524,7 @@ void RunMenuCinemax(void)
   dim.t1 = 0;
   dim.t2 = 0;
 
-  memset(key, 0, POCET_KLAVES * sizeof(char));
+  memset(key, 0, POCET_KLAVES * sizeof(int));
 
   ddxReleaseBitmap(cib);
   ddxSetCursor(1);
@@ -5572,7 +5614,10 @@ RUN_MENU_BRUTAL_RESTART:
 
   ZeroMemory(res, RES_NUM * sizeof(CMD_LINE));
 
-  chdir(DATA_DIR);
+  if (chdir(DATA_DIR)) {
+    free((void *) res);
+    return;
+  }
 
   char dir[MAX_FILENAME];
   strcpy(dir, DATA_DIR);
@@ -6054,7 +6099,10 @@ void RunMenuChildGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   lastcmd = 0;
   timercnt = 0;
 
-  chdir(DATA_DIR);
+  if (chdir(DATA_DIR)) {
+    free((void *) res);
+    return;
+  }
 
   char dir[MAX_FILENAME];
   strcpy(dir, DATA_DIR);
@@ -6500,7 +6548,10 @@ void RunMenuStartGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   lastcmd = 0;
   timercnt = 0;
 
-  chdir(DATA_DIR);
+  if (chdir(DATA_DIR)) {
+    free((void *) res);
+    return;
+  }
 
   char dir[MAX_FILENAME];
   strcpy(dir, DATA_DIR);
@@ -7019,7 +7070,10 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
   lastcmd = 0;
   timercnt = 0;
 
-  chdir(DATA_DIR);
+  if (chdir(DATA_DIR)) {
+    free((void *) res);
+    return 0;
+  }
 
   char dir[MAX_FILENAME];
   strcpy(dir, DATA_DIR);
@@ -7399,7 +7453,13 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
 
   if (iLanguageVersion == 4) {
     strcpy(cDir, BITMAP_DIR);
-    sprintf(cFile, "%s%cscene%d.pak", cDir, DIR_SLASH, iScene);
+    if (snprintf(cFile, sizeof(cFile), "%s%cscene%d.pak",
+		 cDir, DIR_SLASH, iActualScene) >=
+	(int) sizeof(cFile)) {
+      kprintf(1, "Filename too long: %s%cscene%d.pak",
+	      cDir, DIR_SLASH, iActualScene);
+      return 0;
+    }
     hArchive = apakopen(cFile, cDir, &idx);
 
     if (!hArchive) {

@@ -1811,28 +1811,27 @@ inline int sdl_poly_pripocitej_svetla_face(G_KONFIG * p_ber,
   EDIT_MESH_POLY * p_poly, LIGHTMAP_FACE * p_lf, int full_light)
 {
   int lnum = p_poly->lightakt;
-  dword *p_data;
-  int ddx;
+  // dword *p_data;
   float suf1, suf2, svf1, svf2;
-  float vzdal, dosah2d, look_max, max_vzdal;
+  float vzdal, dosah2d /*, look_max, max_vzdal*/;
   BOD s;
   DYN_LIGHT *p_dlight;
   int l, sv, su, u = 0;
-  dword r, g, b;
-  dword sr, sg, sb;
-  int nup, nul;                 // pocet pravych/levych pixelu
-  int sup, sul;                 // pocet pravych/levych pixelu
-  int nvp, nvl;                 // pocet pravych/levych pixelu
-  int svp, svl;                 // pocet pravych/levych pixelu
-  int kup, skup;                // fixed pricitaci krok prave/leve strany
-  int kul, skul;                // fixed start prave/leve strany
-  int kvp, skvp;                // fixed pricitaci krok prave/leve strany
-  int kvl, skvl;                // fixed start prave/leve strany
-  int fvzdal;                   // fixed-point 8:24 korekcni hodnota v look-up tabulce
-  int min_u, max_u;
-  int min_v, max_v;
-  int zal, nusu, nvsv;
-  int *p_looksqrt;
+  // dword r, g, b;
+  // dword sr, sg, sb;
+  // int nup, nul;              // pocet pravych/levych pixelu
+  // int sup, sul;              // pocet pravych/levych pixelu
+  // int nvp, nvl;              // pocet pravych/levych pixelu
+  // int svp, svl;              // pocet pravych/levych pixelu
+  // int kup, skup;             // fixed pricitaci krok prave/leve strany
+  // int kul, skul;             // fixed start prave/leve strany
+  // int kvp, skvp;             // fixed pricitaci krok prave/leve strany
+  // int kvl, skvl;             // fixed start prave/leve strany
+  // int fvzdal;                // fixed-point 8:24 korekcni hodnota v look-up tabulce
+  // int min_u, max_u;
+  // int min_v, max_v;
+  // int zal, nusu, nvsv;
+  // int *p_looksqrt;
   int nu, nv;
 
 
@@ -1866,8 +1865,7 @@ inline int sdl_poly_pripocitej_svetla_face(G_KONFIG * p_ber,
     return (TRUE);
   }
 
-  ddx = p_lf->p_bmp->x;
-  p_data = p_lf->p_bmp->data;
+  // p_data = p_lf->p_bmp->data;
 
   // udelam to pro kazde svetlo extra zvlaste
   for (l = 0; l < lnum; l++) {
@@ -1875,8 +1873,8 @@ inline int sdl_poly_pripocitej_svetla_face(G_KONFIG * p_ber,
     if (!p_dlight->aup)
       continue;
 
-    p_looksqrt = p_dlight->flag & SDL_UTLUM_KVADRATIC ?
-      p_ber->p_looksqrt_quadratic : p_ber->p_looksqrt_linear;
+    // p_looksqrt = p_dlight->flag & SDL_UTLUM_KVADRATIC ?
+    //   p_ber->p_looksqrt_quadratic : p_ber->p_looksqrt_linear;
 
     // 3D bod na rovine
     s.x = p_dlight->tp.x - p_lf->n.x * p_dlight->avzdal;
@@ -1900,110 +1898,110 @@ inline int sdl_poly_pripocitej_svetla_face(G_KONFIG * p_ber,
     suf2 = vzdal_bodu_a_primky(&s, &p_lf->s2, &p_lf->s3);
     svf2 = vzdal_bodu_a_primky(&s, &p_lf->s1, &p_lf->s3);
 
-    r = (byte) ftoi(255.0f * p_dlight->dr);
-    g = (byte) ftoi(255.0f * p_dlight->dg);
-    b = (byte) ftoi(255.0f * p_dlight->db);
-    if (p_dlight->flag & SDL_ADD_SUB) {
-      sr = (byte) ftoi(255.0f * p_dlight->sr);
-      sg = (byte) ftoi(255.0f * p_dlight->sg);
-      sb = (byte) ftoi(255.0f * p_dlight->sb);
-    }
+    // r = (byte) ftoi(255.0f * p_dlight->dr);
+    // g = (byte) ftoi(255.0f * p_dlight->dg);
+    // b = (byte) ftoi(255.0f * p_dlight->db);
+    // if (p_dlight->flag & SDL_ADD_SUB) {
+    //   sr = (byte) ftoi(255.0f * p_dlight->sr);
+    //   sg = (byte) ftoi(255.0f * p_dlight->sg);
+    //   sb = (byte) ftoi(255.0f * p_dlight->sb);
+    // }
 
-    look_max = p_dlight->look_max;
-    if (p_dlight->avzdal >= p_dlight->min) {
-      fvzdal =
-        0x01000000 - ftoi((float) 0x01000000 * ((p_dlight->avzdal -
-            p_dlight->min) / p_dlight->max));
-    }
-    else {
-      fvzdal = 0x01000000;
-    }
+    // look_max = p_dlight->look_max;
+    // if (p_dlight->avzdal >= p_dlight->min) {
+    //   fvzdal =
+    //     0x01000000 - ftoi((float) 0x01000000 * ((p_dlight->avzdal -
+    //         p_dlight->min) / p_dlight->max));
+    // }
+    // else {
+    //   fvzdal = 0x01000000;
+    // }
 
     dosah2d =
       sqrtf(p_dlight->dosah * p_dlight->dosah -
       p_dlight->avzdal * p_dlight->avzdal);
-    nusu = nu - su;
-    nvsv = nv - sv;
+    // nusu = nu - su;
+    // nvsv = nv - sv;
 
     // Strana U lightmapy
     if (su <= 0) {
       if (suf1 > dosah2d)
         continue;
 
-      min_u = ftoi(look_max * suf1 / dosah2d);
+      // min_u = ftoi(look_max * suf1 / dosah2d);
 
-      if (suf2 > dosah2d) {
-        max_u = ftoi(look_max);
-        nup = ftoi(((dosah2d - suf1) / (suf2 - suf1)) * nu);
-      }
-      else {
-        nup = nu;
-        max_u = ftoi(look_max * suf2 / dosah2d);
-      }
+      // if (suf2 > dosah2d) {
+      //   max_u = ftoi(look_max);
+      //   nup = ftoi(((dosah2d - suf1) / (suf2 - suf1)) * nu);
+      // }
+      // else {
+      //   nup = nu;
+      //   max_u = ftoi(look_max * suf2 / dosah2d);
+      // }
 
-      nul = sul = sup = 0;
+      // nul = sul = sup = 0;
 
-      if (nup > 0) {
-        kup = ((max_u - min_u) << 16) / nup;
-        skup = (min_u << 16) - kup;
-      }
+      // if (nup > 0) {
+      //   kup = ((max_u - min_u) << 16) / nup;
+      //   skup = (min_u << 16) - kup;
+      // }
     }
     else if (su >= nu - 1) {
 
       if (suf2 > dosah2d)
         continue;
 
-      min_u = ftoi(look_max * suf2 / dosah2d);
+      // min_u = ftoi(look_max * suf2 / dosah2d);
 
-      if (suf1 > dosah2d) {
-        max_u = ftoi(look_max);
-        nul = ftoi(((dosah2d - suf2) / (suf1 - suf2)) * nu);
-      }
-      else {
-        nul = nu;
-        max_u = ftoi(look_max * suf1 / dosah2d);
-      }
+      // if (suf1 > dosah2d) {
+      //   max_u = ftoi(look_max);
+      //   nul = ftoi(((dosah2d - suf2) / (suf1 - suf2)) * nu);
+      // }
+      // else {
+      //   nul = nu;
+      //   max_u = ftoi(look_max * suf1 / dosah2d);
+      // }
 
-      nup = sup = 0;
-      sul = nu - 1;
+      // nup = sup = 0;
+      // sul = nu - 1;
 
-      if (nul > 0) {
-        kul = ((max_u - min_u) << 16) / nul;
-        skul = (min_u << 16) - kul;
-      }
+      // if (nul > 0) {
+      //   kul = ((max_u - min_u) << 16) / nul;
+      //   skul = (min_u << 16) - kul;
+      // }
 
     }
-    else {
+//     else {
 
-      min_u = MIN_LOOK;
+//       min_u = MIN_LOOK;
 
-      max_vzdal = (suf2 > suf1) ? suf2 : suf1;
-      max_u =
-        (max_vzdal >
-        dosah2d) ? ftoi(look_max) : ftoi(look_max * max_vzdal / dosah2d);
+//       max_vzdal = (suf2 > suf1) ? suf2 : suf1;
+//       max_u =
+//         (max_vzdal >
+//         dosah2d) ? ftoi(look_max) : ftoi(look_max * max_vzdal / dosah2d);
 
-      // Spocitam pravou stranu -> sf2
-      nup = (suf2 > dosah2d) ? ftoi((dosah2d / suf2) * nusu) : nusu;
+//       // Spocitam pravou stranu -> sf2
+//       nup = (suf2 > dosah2d) ? ftoi((dosah2d / suf2) * nusu) : nusu;
 
-      // Leva strana -> su
-      nul = (suf1 > dosah2d) ? ftoi((dosah2d / suf1) * su) : su;
-/*      
-      if(--nul < 0)
-        nul = 0;
-*/
+//       // Leva strana -> su
+//       nul = (suf1 > dosah2d) ? ftoi((dosah2d / suf1) * su) : su;
+// /*      
+//       if(--nul < 0)
+//         nul = 0;
+// */
 
-      sup = su;                 // Start prave strany
-      sul = su - 1;             // Start leve strany
+//       sup = su;                 // Start prave strany
+//       sul = su - 1;             // Start leve strany
 
-      if (nup > 0 && nul > 0)
-        kup = kul = (nul > nup) ? (max_u << 16) / nul : (max_u << 16) / nup;
-      else if (nul > nup && nul > 0)
-        kup = kul = (max_u << 16) / nul;
-      else if (nup > 0)
-        kup = kul = (max_u << 16) / nup;
+//       if (nup > 0 && nul > 0)
+//         kup = kul = (nul > nup) ? (max_u << 16) / nul : (max_u << 16) / nup;
+//       else if (nul > nup && nul > 0)
+//         kup = kul = (max_u << 16) / nul;
+//       else if (nup > 0)
+//         kup = kul = (max_u << 16) / nup;
 
-      skul = skup = -kup;
-    }
+//       skul = skup = -kup;
+//     }
 
     /*
        Strana V lightmapy
@@ -2013,80 +2011,80 @@ inline int sdl_poly_pripocitej_svetla_face(G_KONFIG * p_ber,
       if (svf1 > dosah2d)
         continue;
 
-      min_v = ftoi(look_max * svf1 / dosah2d);
+      // min_v = ftoi(look_max * svf1 / dosah2d);
 
-      if (svf2 > dosah2d) {
-        max_v = ftoi(look_max);
-        nvp = ftoi(((dosah2d - svf1) / (svf2 - svf1)) * nv);
-      }
-      else {
-        nvp = nv;
-        max_v = ftoi(look_max * svf2 / dosah2d);
-      }
+      // if (svf2 > dosah2d) {
+      //   max_v = ftoi(look_max);
+      //   nvp = ftoi(((dosah2d - svf1) / (svf2 - svf1)) * nv);
+      // }
+      // else {
+      //   nvp = nv;
+      //   max_v = ftoi(look_max * svf2 / dosah2d);
+      // }
 
-      nvl = svl = svp = 0;
+      // nvl = svl = svp = 0;
 
-      if (nvp > 0) {
-        kvp = ((max_v - min_v) << 16) / nvp;
-        skvp = (min_v << 16) - kvp;
-      }
+      // if (nvp > 0) {
+      //   kvp = ((max_v - min_v) << 16) / nvp;
+      //   skvp = (min_v << 16) - kvp;
+      // }
     }
     else if (sv >= nv - 1) {
 
       if (svf2 > dosah2d)
         continue;
 
-      min_v = ftoi(look_max * svf2 / dosah2d);
+      // min_v = ftoi(look_max * svf2 / dosah2d);
 
-      if (svf1 > dosah2d) {
-        max_v = ftoi(look_max);
-        nvl = ftoi(((dosah2d - svf2) / (svf1 - svf2)) * nv);
-      }
-      else {
-        nvl = nv;
-        max_v = ftoi(look_max * svf1 / dosah2d);
-      }
+      // if (svf1 > dosah2d) {
+      //   max_v = ftoi(look_max);
+      //   nvl = ftoi(((dosah2d - svf2) / (svf1 - svf2)) * nv);
+      // }
+      // else {
+      //   nvl = nv;
+      //   max_v = ftoi(look_max * svf1 / dosah2d);
+      // }
 
-      nvp = svp = 0;
-      svl = nv - 1;
+      // nvp = svp = 0;
+      // svl = nv - 1;
 
-      if (nvl > 0) {
-        kvl = ((max_v - min_v) << 16) / nvl;
-        skvl = (min_v << 16) - kvl;
-      }
+      // if (nvl > 0) {
+      //   kvl = ((max_v - min_v) << 16) / nvl;
+      //   skvl = (min_v << 16) - kvl;
+      // }
 
     }
-    else {
+//     else {
 
-      min_v = MIN_LOOK;
+//       min_v = MIN_LOOK;
 
-      max_vzdal = (svf2 > svf1) ? svf2 : svf1;
-      max_v =
-        (max_vzdal >
-        dosah2d) ? ftoi(look_max) : ftoi(look_max * max_vzdal / dosah2d);
+//       max_vzdal = (svf2 > svf1) ? svf2 : svf1;
+//       max_v =
+//         (max_vzdal >
+//         dosah2d) ? ftoi(look_max) : ftoi(look_max * max_vzdal / dosah2d);
 
-      // Spocitam pravou stranu -> sf2
-      nvp = (svf2 > dosah2d) ? ftoi((dosah2d / svf2) * nvsv) : nvsv;
+//       // Spocitam pravou stranu -> sf2
+//       nvp = (svf2 > dosah2d) ? ftoi((dosah2d / svf2) * nvsv) : nvsv;
 
-      // Leva strana -> su
-      nvl = (svf1 > dosah2d) ? ftoi((dosah2d / svf1) * sv) : sv;
-/*      
-      if(--nvl < 0)
-        nvl = 0;
-*/
+//       // Leva strana -> su
+//       nvl = (svf1 > dosah2d) ? ftoi((dosah2d / svf1) * sv) : sv;
+// /*      
+//       if(--nvl < 0)
+//         nvl = 0;
+// */
 
-      svp = sv;                 // Start prave strany
-      svl = sv - 1;             // Start leve strany
+//       svp = sv;                 // Start prave strany
+//       svl = sv - 1;             // Start leve strany
 
-      if (nvp > 0 && nvl > 0)
-        kvp = kvl = (nvl > nvp) ? (max_v << 16) / nvl : (max_v << 16) / nvp;
-      else if (nvl > nvp && nvl > 0)
-        kvp = kvl = (max_v << 16) / nvl;
-      else if (nvp > 0)
-        kvp = kvl = (max_v << 16) / nvp;
+//       if (nvp > 0 && nvl > 0)
+//         kvp = kvl = (nvl > nvp) ? (max_v << 16) / nvl : (max_v << 16) / nvp;
+//       else if (nvl > nvp && nvl > 0)
+//         kvp = kvl = (max_v << 16) / nvl;
+//       else if (nvp > 0)
+//         kvp = kvl = (max_v << 16) / nvp;
 
-      skvl = skvp = -kvp;
-    }
+//       skvl = skvp = -kvp;
+//     }
 
     // pokud je index po priteni mensi nez 0 -> vezmu maximum !!!
     // pokud je vetsi nez 255 -> kaslu na to    
@@ -2962,22 +2960,26 @@ int sdl_poly_updatuj_lightmap(G_KONFIG * p_ber, EDIT_MESH_POLY * p_poly)
   return (uploaded);
 }
 
-void sdl_save_lightmap(EDIT_MESH_POLY * p_poly, int p)
-{
-  char pom[200];
-  int l;
+/*
+ * This function is not used, and it chdir's to /home/komat, so I've
+ * removed it.
+ */
+// void sdl_save_lightmap(EDIT_MESH_POLY * p_poly, int p)
+// {
+//   char pom[200];
+//   int l;
 
-  chdir("/home/komat");
-  for (l = 0; l < p_poly->lightnum; l++) {
-    sprintf(pom, "poly%dlight%d.bmp", p, l);
-    bmp_uloz(pom, p_poly->p_light[l]->p_bmp);
-  }
-  for (l = 0; l < p_poly->facenum / 3; l++) {
-    sprintf(pom, "poly%dfacelight%d.bmp", p, l);
-    bmp_uloz(pom, p_poly->p_ind[l].p_bmp);
-  }
+//   chdir("/home/komat");
+//   for (l = 0; l < p_poly->lightnum; l++) {
+//     sprintf(pom, "poly%dlight%d.bmp", p, l);
+//     bmp_uloz(pom, p_poly->p_light[l]->p_bmp);
+//   }
+//   for (l = 0; l < p_poly->facenum / 3; l++) {
+//     sprintf(pom, "poly%dfacelight%d.bmp", p, l);
+//     bmp_uloz(pom, p_poly->p_ind[l].p_bmp);
+//   }
 
-}
+// }
 
 inline void sdl_updatuj_poly(G_KONFIG * p_ber, EDIT_MESH_POLY * p_poly,
   int full_light)

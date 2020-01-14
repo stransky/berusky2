@@ -48,10 +48,13 @@ public:
   
   void name_set(const char *p_name)
   {
-    if(p_name)
+    if(p_name) {
+      assert(strlen(p_name) < MAX_NAME);
       strncpy(name,p_name,MAX_NAME);
-    else
+    }
+    else {
       name[0] = '\0';
+    }
   }
   
   int name_ID_get(void)

@@ -219,7 +219,8 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 	}
 
   strcpy(text, BITMAP_DIR);
-	chdir(text);
+	if (chdir(text))
+		return 0;
 	hArchive = apakopen(cFontFile[2], text, &error);
 
 	if(!hArchive)
@@ -471,7 +472,8 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 	}
 
   strcpy(text,BITMAP_DIR);
-	chdir(text);
+	if (chdir(text))
+		return 0;
 
 	hArchive = apakopen(cFontFile[2], text, &error);
 	

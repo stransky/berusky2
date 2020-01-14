@@ -99,29 +99,29 @@ void ogg_release()
 
 char ogg_playback()
 {
- 	if(!bDevice) return 0;
+  if(!bDevice) return 0;
 
-	if(ogg_playing())
-        return 1;
+  if(ogg_playing())
+    return 1;
         
-    if(!ogg_stream(buffers[0]))
-        return 0;
+  if(!ogg_stream(buffers[0]))
+    return 0;
         
-    if(!ogg_stream(buffers[1]))
-        return 0;
+  if(!ogg_stream(buffers[1]))
+    return 0;
     
-    if(!ogg_stream(buffers[2]))
-        return 0;
+  if(!ogg_stream(buffers[2]))
+    return 0;
 
-	alSourceQueueBuffers(source, 3, buffers);
-	ogg_stop = 0;
+  alSourceQueueBuffers(source, 3, buffers);
+  ogg_stop = 0;
 
-	thread = CreateThread( NULL, 0, ogg_proc, NULL, 0, &(threadid));
-	if(!thread)
-		return 0;
+  thread = CreateThread( NULL, 0, ogg_proc, NULL, 0, &(threadid));
+  if(!thread)
+    return 0;
 
-	SetThreadPriority(thread,THREAD_PRIORITY_HIGHEST);
-	//SetThreadPriority(thread,THREAD_PRIORITY_ABOVE_NORMAL);
+  SetThreadPriority(thread,THREAD_PRIORITY_HIGHEST);
+  //SetThreadPriority(thread,THREAD_PRIORITY_ABOVE_NORMAL);
 
   return 1;
 }

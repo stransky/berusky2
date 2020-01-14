@@ -482,6 +482,7 @@ int CreateFontAnimations2(CMD_LINE * res, int *lastcmd, int ycor, char bcor)
   int i;
   int sidx1, sidx2;
   int y;
+  int ret;
 
   for (i = 0; i < lcmd; i++)
     if (res[i].iParam[0] == COM_SETRECT) {
@@ -584,8 +585,10 @@ int CreateFontAnimations2(CMD_LINE * res, int *lastcmd, int ycor, char bcor)
           (*lastcmd)++;
 
           //OnClick(16,661,100,748, quit_gamec.txt, EXIT)
-          sprintf(text, "OnClick(%d,%d,%d,%d, NO_EXEPTION, %s)", x, oy,
-                  x + ddx2GetWidth(sidx1), y, res[i].cParam[1]);
+          ret = snprintf(text, sizeof(text),
+			 "OnClick(%d,%d,%d,%d, NO_EXEPTION, %s)", x, oy,
+			 x + ddx2GetWidth(sidx1), y, res[i].cParam[1]);
+	  assert(ret < (int)sizeof(text));
 
           Parse_LineT(text, res[*lastcmd].iParam, 6, res[*lastcmd].cParam[0],
                       res[*lastcmd].cParam[1]);
@@ -1138,7 +1141,10 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
   lastcmd = 0;
   timercnt = 0;
 
-  chdir(DATA_DIR);
+  if (chdir(DATA_DIR)) {
+    free((void *) res);
+    return;
+  }
 
   char dir[MAX_FILENAME];
   strcpy(dir, DATA_DIR);
@@ -1696,7 +1702,8 @@ int FillListLoad2(LIST_VIEW_CONTROL2 * p_li, char *mask, char bAdd, char bLoad)
   LIST_ITEM_ *list;
   int isize;
 
-  chdir(SAVE_DIR);
+  if (chdir(SAVE_DIR))
+    return 0;
 
   FillStringList(mask, &list, &isize);
 
@@ -1806,7 +1813,10 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
   lastcmd = 0;
   timercnt = 0;
 
-  chdir(DATA_DIR);
+  if (chdir(DATA_DIR)) {
+    free((void *) res);
+    return 0;
+  }
 
   char dir[MAX_FILENAME];
   strcpy(dir, DATA_DIR);
@@ -2657,7 +2667,10 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
   lastcmd = 0;
   timercnt = 0;
 
-  chdir(DATA_DIR);
+  if (chdir(DATA_DIR)) {
+    free((void *) res);
+    return;
+  }
 
   char dir[MAX_FILENAME];
   strcpy(dir, DATA_DIR);
@@ -3197,7 +3210,10 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
   lastcmd = 0;
   timercnt = 0;
 
-  chdir(DATA_DIR);
+  if (chdir(DATA_DIR)) {
+    free((void *) res);
+    return;
+  }
 
   char dir[MAX_FILENAME];
   strcpy(dir, DATA_DIR);
@@ -3562,7 +3578,10 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA * p_ad,
   lastcmd = 0;
   timercnt = 0;
 
-  chdir(DATA_DIR);
+  if (chdir(DATA_DIR)) {
+    free((void *) res);
+    return;
+  }
 
   char dir[MAX_FILENAME];
   strcpy(dir, DATA_DIR);
@@ -3907,7 +3926,13 @@ void RunMenuLoadScreen2(void)
 
     if (iLanguageVersion == 4) {
       strcpy(cDir, BITMAP_DIR);
-      sprintf(cFile, "%s%cscene%d.pak", cDir, DIR_SLASH, iActualScene);
+      if (snprintf(cFile, sizeof(cFile), "%s%cscene%d.pak",
+		   cDir, DIR_SLASH, iActualScene) >=
+	  (int) sizeof(cFile)) {
+	kprintf(1, "Filename too long: %s%cscene%d.pak",
+		cDir, DIR_SLASH, iActualScene);
+	return;
+      }
       hArchive = apakopen(cFile, cDir, &sh);
 
       if (!hArchive) {

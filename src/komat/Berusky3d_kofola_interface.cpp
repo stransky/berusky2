@@ -535,7 +535,7 @@ void kom_zrus_level(int restart)
       p_poly = p_tmp;
     }
     p_ber->zrc_akt = FALSE;
-    memset(&p_ber->zrc, 0, sizeof(p_ber->zrc));
+    memset((void *) &p_ber->zrc, 0, sizeof(p_ber->zrc));
   }
 
   kprintf(TRUE, "Kom_zrus_level - obb a renderlist...");
@@ -543,7 +543,7 @@ void kom_zrus_level(int restart)
   /* Smaze obalky + poly render list
    */
   obbtree_zrus(&p_ber->obbtree);
-  memset(&p_ber->obbtree, 0, sizeof(p_ber->obbtree));
+  memset((void *) &p_ber->obbtree, 0, sizeof(p_ber->obbtree));
   ber_poly_render_list_zrus(p_ber);
 
   memset(p_ber->p_dyn_meshlist, 0,
@@ -695,19 +695,21 @@ void kom_load_level(char *p_file, int zmen_dir, int restart,
   kom_posun_slider();
 
   // Load systemovych materialu
-  getcwd(dir, 200);
+  if (getcwd(dir, 200) == NULL)
+    konec(TRUE);
 
   for (i = 0; i < 10; i++)
     kom_load_sys_material(i);
 
   if (zmen_dir) {
-    chdir((p_ber->dir.game_level_dir));
+    if (chdir(p_ber->dir.game_level_dir))
+      konec(TRUE);
     strcpy(dir, p_file);
     zamen_koncovku(dir, "");
   }
 
-  chdir((dir));
-  getcwd(dir, 200);
+  if (chdir(dir) || getcwd(dir, 200) == NULL)
+    konec(TRUE);
   strcpy(file, p_file);
 
   kom_posun_slider();

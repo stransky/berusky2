@@ -249,6 +249,7 @@ APAK_HANDLE *apakopen(char *cArchive, char *cDir, int *pError)
   int iRet;
   APAK_HANDLE *pHandle;
   FILE *pFile;
+  char tmp_dir[MAX_FILENAME];
 
   apakCheck();
 
@@ -280,7 +281,8 @@ APAK_HANDLE *apakopen(char *cArchive, char *cDir, int *pError)
     return NULL;
   }
 
-  if (!apakLoadFAT(pHandle, apak_dir_correction(cDir)))
+  apak_dir_correction(cDir, tmp_dir);
+  if (!apakLoadFAT(pHandle, tmp_dir))
     apakError(pHandle, "AFAT corrupted");
 
   return pHandle;
@@ -331,15 +333,4 @@ void apak_dir_correction(char *dir, char *out)
     out[1] = ':';
     strcpy(out+2, dir);
   }
-}
-
-char * apak_dir_correction(char *dir)
-{
-  static char tmp[MAX_FILENAME] = "c:";
-  if(dir || (tolower(dir[0]) == 'c' && dir[1] == ':'))
-    return(dir);
-  
-  assert(strlen(dir) < 254);
-  strcat(tmp+2, dir);
-  return(tmp);
 }

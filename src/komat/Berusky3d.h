@@ -533,7 +533,7 @@ typedef struct g_config
 
   g_config(void)
   {
-    memset(this, 0, sizeof(*this));
+    memset((void *) this, 0, sizeof(*this));
   }
 
 } G_KONFIG;

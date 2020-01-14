@@ -9431,19 +9431,17 @@ int gl_Moveto_Beatle(int btl, LEVELINFO * p_Level)
 
 int gl_Screen_Shot(int i)
 {
-  char text[256], t[32];
-  char z[] = "0000";
+  char text[MAX_FILENAME];
   FILE *f = NULL;
 
   do {
-    strcpy(text, CurrentWorkingDirectory);    
-    strcat(text, DIR_SLASH_STRING"screenshot");
+    if (snprintf(text, sizeof(text), "%s%s%04d.bmp",
+		 CurrentWorkingDirectory,
+		 DIR_SLASH_STRING"screenshot", i) >=
+	(int) sizeof(text)) {
+      break;
+    }
 
-    itoa(i, t, 10);
-
-    strncat(text, z, 4 - strlen(t));
-    strcat(text, t);
-    strcat(text, ".bmp");
     f = fopen(text, "r");
     if (!f)
       break;
@@ -10415,9 +10413,11 @@ PLAY_LEVEL_START:
     int isize;
     char ctext[MAX_FILENAME];
 
-    chdir(GAME_LEVEL_DIR);
+    if (chdir(GAME_LEVEL_DIR))
+      return -1;
     lsi_Get_Dir_Name(ctext, cLevelName);
-    chdir(ctext);
+    if (chdir(ctext))
+      return -1;
 
     kprintf(1, "lsi_Create_Level_Raw...");
     if (!lsi_Create_Level_Raw(cLevelName, &b_l_d, &isize))
@@ -10427,9 +10427,11 @@ PLAY_LEVEL_START:
     kprintf(1, "kom_load_level...");
     kom_load_level(cLevelName, 1, bRestart, b_l_d, isize);
     
-    chdir(GAME_LEVEL_DIR);
+    if (chdir(GAME_LEVEL_DIR))
+      return -1;
     lsi_Get_Dir_Name(ctext, cLevelName);
-    chdir(ctext);
+    if (chdir(ctext))
+      return -1;
 
     kprintf(1, "free((void *) b_l_d);");
     free((void *) b_l_d);

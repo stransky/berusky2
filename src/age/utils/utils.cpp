@@ -44,9 +44,11 @@ void dir_list::update_path(char *p_dir)
 {
   char buffer[MAX_FILENAME];
   return_path(p_dir, "", buffer, MAX_FILENAME);
-  chdir(cwd);
-  chdir(buffer);
-  getcwd(p_dir,MAX_FILENAME);
+  /* Separate assertions so the line number in the assertion message
+     will be more helpful. */
+  if (chdir(cwd)) assert(0);
+  if (chdir(buffer)) assert(0);
+  if (getcwd(p_dir,MAX_FILENAME) == NULL) assert(0);
 }
 
 void dir_list::load(char *p_ini)
@@ -63,14 +65,16 @@ void dir_list::load(char *p_ini)
   ini_read_string(p_ini, INI_LEVEL_USER, levels_user, sizeof(levels_user), "./Lihen/User");
   ini_read_string(p_ini, INI_TMP, tmp, sizeof(tmp), "/var/tmp");
 
-  getcwd(cwd,MAX_FILENAME);
+  if (getcwd(cwd,MAX_FILENAME) == NULL)
+    assert(0);
   
   update_path(levels);
   update_path(gamedata);
   update_path(graphics);  
   update_path(levels_user);
   update_path(tmp);
-  chdir(cwd);
+  if (chdir(cwd))
+    assert(0);
 
   #define INI_BINARY      "game_binary"
   ini_read_string(p_ini, INI_BINARY, game_binary, sizeof(game_binary), "berusky");

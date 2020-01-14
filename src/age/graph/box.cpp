@@ -62,9 +62,10 @@ BOX * box_create(BOX_TYPE type, BOX * p_list, int num)
   bool translate = FALSE;      
   int i;
   for(i = 0; i < num; i++) {
-    if(p_list[i].box_type_get() != type)
+    if(p_list[i].box_type_get() != type) {
       translate = TRUE;
       break;
+    }
   }  
   
   switch(type) {

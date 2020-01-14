@@ -86,7 +86,10 @@ int ap_Load_Sound_List(AUDIO_DATA * p_ad, char *cFile, int iStart)
   int c = iStart;
   int iMaterial = 0;
 
-  chdir(p_ber->dir.sound_dir);
+  if (chdir(p_ber->dir.sound_dir)) {
+    kprintf(1, "Cannot change directory to %s", p_ber->dir.sound_dir);
+    return 0;
+  }
 
   if (!strlen(cFile))
     return 0;
@@ -132,7 +135,10 @@ int ap_Load_Play_List(char *p_File_Name, AUDIO_DATA * p_ad)
   if (p_ad->p_Play_List)
     return 0;
 
-  chdir(p_ber->dir.music_dir);
+  if (chdir(p_ber->dir.music_dir)) {
+    kprintf(1, "Cannot change directory to %s", p_ber->dir.music_dir);
+    return 0;
+  }
 
   file = fopen(p_File_Name, "r");
   if (!file) {    
@@ -141,7 +147,11 @@ int ap_Load_Play_List(char *p_File_Name, AUDIO_DATA * p_ad)
     return 0;
   }
 
-  fgets(text, 30, file);
+  if (fgets(text, 30, file) == NULL) {
+    kprintf(1, "Cannot read play list file");
+    MyMessageBox(NULL, "##error_title", "##play_list_error", "");
+    return 0;
+  }
   p_ad->Size_of_Play_List = atoi(text);
 
   p_ad->p_Play_List = (PLAY_LIST_ITEM *) malloc((p_ad->Size_of_Play_List) * sizeof(PLAY_LIST_ITEM));
@@ -153,7 +163,11 @@ int ap_Load_Play_List(char *p_File_Name, AUDIO_DATA * p_ad)
 
   for (i = 0; i < p_ad->Size_of_Play_List; i++) {
     char *p_name = p_ad->p_Play_List[i].Song_Name;
-    fgets(p_name, 30, file);
+    if (fgets(p_name, 30, file) == NULL) {
+      kprintf(1, "Cannot read play list file");
+      MyMessageBox(NULL, "##error_title", "##play_list_error", "");
+      return 0;
+    }
     newline_cut(p_name);
   }
   fclose(file);

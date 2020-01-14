@@ -598,11 +598,13 @@ void lsi_Load_Level_Script(LEVELINFO * p_Level, char *cFile)
   GAME_TRIGER gt;
   GRAMMAR gr;
 
-  chdir(DATA_DIR);
+  if (chdir(DATA_DIR))
+    return;
 
   gr_Load_Grammar("lsc_grammar.txt", &gr);
 
-  chdir(GAME_DATA_DIR);
+  if (chdir(GAME_DATA_DIR))
+    return;
 
   ts.LastStr = 0;
   ts.sizeofT = 0;
@@ -800,35 +802,48 @@ int lsi_Create_Level_Raw(char *p_Level_Name, BUNKA_LEVELU_DISK ** b_l_d,
 {
   LEVEL_HEADER l_h;
   char text[MAX_FILENAME + 1];
+  char filename[MAX_FILENAME];
   FILE *file;
 
   kprintf(1, "Tvorba raw struktury pro komata...");
-  getcwd(text, MAX_FILENAME);
+  if (getcwd(text, MAX_FILENAME) == NULL) {
+    kprintf(1, "Cannot get current directory");
+    return 0;
+  }
   kprintf(1, "_getcwd = %s", text);
 
-  file = fopen(p_Level_Name, "rb");
+  strcpy(filename, p_Level_Name);
+  file = fopen(filename, "rb");
   if (!file) {
-    kprintf(1, "Unable to load level '%s', guessing level name...", p_Level_Name);
+    kprintf(1, "Unable to load level '%s', guessing level name...", filename);
     
-    char tmp[MAX_FILENAME];
-    strcpy(tmp, p_Level_Name);
-    strcat(tmp, KONCOVKA_LEVELU);
+    strcat(filename, KONCOVKA_LEVELU);
   
-    file = fopen(tmp, "rb");
+    file = fopen(filename, "rb");
     if (!file) {
-      kprintf(1, "Unable to load level '%s'.", tmp);
+      kprintf(1, "Unable to load level '%s'.", filename);
       return 0;
     }
-    kprintf(1, "Going with '%s' level name", tmp);
+    kprintf(1, "Going with '%s' level name", filename);
   }
 
-  fread(&l_h, sizeof(LEVEL_HEADER), 1, file);
+  if (fread(&l_h, sizeof(LEVEL_HEADER), 1, file) != 1) {
+    fclose(file);
+    kprintf(1, "Unable to load level '%s'.", filename);
+    return 0;
+  }
   (*size) = l_h.x * l_h.y * l_h.z * 2;
   (*b_l_d) = (BUNKA_LEVELU_DISK *) mmalloc((*size) * sizeof(BUNKA_LEVELU_DISK));
-  fread((*b_l_d), sizeof(BUNKA_LEVELU_DISK), (*size), file);
+  if (fread((*b_l_d), sizeof(BUNKA_LEVELU_DISK), (*size), file) != (size_t) (*size)) {
+    free(*b_l_d);
+    fclose(file);
+    kprintf(1, "Unable to load level '%s'.", filename);
+    return 0;
+  }
 
   fclose(file);
-  chdir((text));
+  if (chdir(text))
+    return 0;
   return 1;
 }
 
@@ -838,6 +853,7 @@ int lsi_Create_Level_Raw(char *p_Level_Name, BUNKA_LEVELU_DISK ** b_l_d,
 int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
 {
   char text[256];
+  char filename[MAX_FILENAME];
   FILE *file;
   int Vazba1, Vazba2, Rotation;
   int i, Guid, errors = 0, error;
@@ -870,7 +886,10 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
     p_Level->BeetleAnim[i].dwTime = timeGetTime();
   }
 
-  getcwd(text, 255);
+  if (getcwd(text, 255) == NULL) {
+    kprintf(1, "Unable to get current directory");
+    return -1;
+  }
 
   kprintf(1, "Loading level from %s ...", text);
   
@@ -883,23 +902,26 @@ int lsi_Load_Level(char *p_Level_Name, LEVELINFO * p_Level)
   p_Level->KvalitaCastic = kvalita_castic;
   p_Level->KvalitaCasticV = kvalita_casticv;
 
-  file = fopen(p_Level_Name, "rb");
+  strcpy(filename, p_Level_Name);
+  file = fopen(filename, "rb");
   if (!file) {
-    kprintf(1, "Unable to load level '%s', guessing level name...", p_Level_Name);
+    kprintf(1, "Unable to load level '%s', guessing level name...", filename);
   
-    char tmp[MAX_FILENAME];
-    strcpy(tmp, p_Level_Name);
-    strcat(tmp, KONCOVKA_LEVELU);
+    strcat(filename, KONCOVKA_LEVELU);
   
-    file = fopen(tmp, "rb");
+    file = fopen(filename, "rb");
     if (!file) {
-      kprintf(1, "Unable to load level '%s'.", tmp);
+      kprintf(1, "Unable to load level '%s'.", filename);
       return(-1);
     }
-    kprintf(1, "Going with '%s' level name", tmp);
+    kprintf(1, "Going with '%s' level name", filename);
   }
 
-  fread(&l_h, sizeof(LEVEL_HEADER), 1, file);
+  if (fread(&l_h, sizeof(LEVEL_HEADER), 1, file) != 1) {
+    fclose(file);
+    kprintf(1, "Unable to load level '%s'.", filename);
+    return 0;
+  }
 
   p_Level->Size[0] = l_h.x;
   p_Level->Size[1] = l_h.z;
@@ -1285,7 +1307,7 @@ void lsi_Release_Level(LEVELINFO * p_Level)
     p_Level->Rain.bWaterCircles = 0;
   }
 
-  memset(&p_Level->Rain, 0, sizeof(p_Level->Rain));
+  memset((void *) &p_Level->Rain, 0, sizeof(p_Level->Rain));
 
   if (p_Level->StreetRain.bWaterCircles) {
     kprintf(1, "p_Level->StreetRain.pWSystem");
@@ -1299,7 +1321,7 @@ void lsi_Release_Level(LEVELINFO * p_Level)
     p_Level->StreetRain.bWaterCircles = 0;
   }
 
-  memset(&p_Level->StreetRain, 0, sizeof(p_Level->StreetRain));
+  memset((void *) &p_Level->StreetRain, 0, sizeof(p_Level->StreetRain));
 
   if (p_Level->Snow.bSnow) {
     kprintf(1, "p_Level->Snow.pSystem");
@@ -1312,7 +1334,7 @@ void lsi_Release_Level(LEVELINFO * p_Level)
     p_Level->Snow.bSnow = 0;
   }
 
-  memset(&p_Level->Snow, 0, sizeof(p_Level->Snow));
+  memset((void *) &p_Level->Snow, 0, sizeof(p_Level->Snow));
 
   if (p_Level->Mist.bMist) {
     kprintf(1, "edl_svetlo_zrus ,p_Level->Mist.hSvetlo = %d",
@@ -1342,28 +1364,39 @@ void lsi_copy_save(char *cMask, LEVELINFO * p_Level)
   char cLevelMask[MAX_FILENAME];
   char csrc[MAX_FILENAME + 1];
   char cout[MAX_FILENAME + 1];
+  int ret;
 
   strcpy(dir, GAME_LEVEL_DIR);
   lsi_Get_Dir_Name(cLevelMask, p_Level->cLoadedFrom);
 
   sprintf(cout, "%s%s", cMask, ".b2l");
-  sprintf(csrc, "%s%c%s%c%s%s", dir, DIR_SLASH, cLevelMask, DIR_SLASH, cLevelMask, ".b2l");
+  ret = snprintf(csrc, sizeof(csrc), "%s%c%s%c%s%s",
+		 dir, DIR_SLASH, cLevelMask, DIR_SLASH, cLevelMask, ".b2l");
+  assert(ret < (int) sizeof(csrc));
   lsi_file_copy(csrc, cout);
 
   sprintf(cout, "%s%s", cMask, ".b2t");
-  sprintf(csrc, "%s%c%s%c%s%s", dir, DIR_SLASH, cLevelMask, DIR_SLASH, cLevelMask, ".b2t");
+  ret = snprintf(csrc, sizeof(csrc), "%s%c%s%c%s%s",
+		dir, DIR_SLASH, cLevelMask, DIR_SLASH, cLevelMask, ".b2t");
+  assert(ret < (int) sizeof(csrc));
   lsi_file_copy(csrc, cout);
 
   sprintf(cout, "%s%s", cMask, ".bpr");
-  sprintf(csrc, "%s%c%s%c%s%s", dir, DIR_SLASH, cLevelMask, DIR_SLASH, cLevelMask, ".bpr");
+  ret = snprintf(csrc, sizeof(csrc), "%s%c%s%c%s%s",
+		 dir, DIR_SLASH, cLevelMask, DIR_SLASH, cLevelMask, ".bpr");
+  assert(ret < (int) sizeof(csrc));
   lsi_file_copy(csrc, cout);
 
   sprintf(cout, "%s%s", cMask, ".lv6");
-  sprintf(csrc, "%s%c%s%c%s%s", dir, DIR_SLASH, cLevelMask, DIR_SLASH, cLevelMask, ".lv6");
+  ret = snprintf(csrc, sizeof(csrc), "%s%c%s%c%s%s",
+		 dir, DIR_SLASH, cLevelMask, DIR_SLASH, cLevelMask, ".lv6");
+  assert(ret < (int) sizeof(csrc));
   lsi_file_copy(csrc, cout);
 
   sprintf(cout, "%s%s", cMask, ".ply");
-  sprintf(csrc, "%s%c%s%c%s%s", dir, DIR_SLASH, cLevelMask, DIR_SLASH, cLevelMask, ".ply");
+  ret = snprintf(csrc, sizeof(csrc), "%s%c%s%c%s%s",
+		 dir, DIR_SLASH, cLevelMask, DIR_SLASH, cLevelMask, ".ply");
+  assert(ret < (int) sizeof(csrc));
   lsi_file_copy(csrc, cout);
 }
 
@@ -1376,8 +1409,8 @@ int lsi_Get_Save_Info(char *p_Level_Name, int *pActLevel, int *pActScene)
   WCHAR wTmp[512];
   int ver;
 
-  chdir(SAVE_DIR);
-  chdir(p_Level_Name);
+  if (chdir(SAVE_DIR) || chdir(p_Level_Name))
+    return 0;
 
   sprintf(text, "%s.lvc", p_Level_Name);
 
@@ -1386,11 +1419,14 @@ int lsi_Get_Save_Info(char *p_Level_Name, int *pActLevel, int *pActScene)
   if (!file)
     return 0;
 
-  fread(&pPlayer, sizeof(PLAYER_PROFILE), 1, file);
-  fread(wTmp, 32 * sizeof(WCHAR), 1, file);
-  fread(&ver, sizeof(int), 1, file);
-  fread(wTmp, (256+1) * sizeof(WCHAR), 1, file);
-  fread(&l_h, sizeof(LEVEL_HEADER), 1, file);
+  if (fread(&pPlayer, sizeof(PLAYER_PROFILE), 1, file) != 1 ||
+      fread(wTmp, 32 * sizeof(WCHAR), 1, file) != 1 ||
+      fread(&ver, sizeof(int), 1, file) != 1 ||
+      fread(wTmp, (256+1) * sizeof(WCHAR), 1, file) != 1 ||
+      fread(&l_h, sizeof(LEVEL_HEADER), 1, file) != 1) {
+    fclose(file);
+    return 0;
+  }
 
   *pActLevel = l_h.rezerved[0];
   *pActScene = l_h.rezerved[1];
@@ -1493,7 +1529,8 @@ int lsi_Save_Exist(WCHAR * wName, char *cFile)
     return 0;
   }
 
-  getcwd(cwd,MAX_FILENAME);
+  if (getcwd(cwd,MAX_FILENAME) == NULL)
+    return 0;
 
   int ret = false;
   for(i = 0; i < c; i++) {
@@ -1512,8 +1549,11 @@ int lsi_Save_Exist(WCHAR * wName, char *cFile)
       PLAYER_PROFILE	pPlayer;
       WCHAR	wTmp[32];
     
-      fread(&pPlayer, sizeof(PLAYER_PROFILE), 1, file);
-      fread(wTmp, 32 * sizeof(WCHAR), 1, file);
+      if (fread(&pPlayer, sizeof(PLAYER_PROFILE), 1, file) != 1 ||
+	  fread(wTmp, 32 * sizeof(WCHAR), 1, file) != 1) {
+	fclose(file);
+	return 0;
+      }
       fclose(file);
 
       if(!wcscmp(pPlayer.cName, pPlayerProfile.cName) && !wcscmp(wTmp, wName))
@@ -1524,10 +1564,16 @@ int lsi_Save_Exist(WCHAR * wName, char *cFile)
       }
     }
 
-    chdir(cwd);
+    if(chdir(cwd)) {
+      kwarning(1, "Unable to chdir(%s)", cwd);
+      break;
+    }
   }
 
-  chdir(cwd);
+  if(chdir(cwd)) {
+    kwarning(1, "Unable to chdir(%s)", cwd);
+    ret = false;
+  }
 
   for(i = 0; i < c; i++)
     free(namelist[i]);
@@ -1556,7 +1602,8 @@ void delete_dir(char *p_Level_Name)
   }
   free(namelist);
 
-	chdir("..");
+	if (chdir(".."))
+		return;
 	rmdir(p_Level_Name);
 }
 #endif
@@ -1575,7 +1622,8 @@ void lsi_Save_Level(WCHAR * pwc_Level_Name, LEVELINFO * p_Level)
 
 	ZeroMemory(p_Level_Name, MAX_FILENAME);
 
-	chdir(SAVE_DIR);
+	if (chdir(SAVE_DIR))
+		return;
 
 	_strdate(pom);
 
@@ -1601,11 +1649,14 @@ void lsi_Save_Level(WCHAR * pwc_Level_Name, LEVELINFO * p_Level)
 	mkdir(p_Level_Name, DEFAULT_DIR_MASK);
 #endif
   
-	chdir(p_Level_Name);
+	if (chdir(p_Level_Name))
+		return;
 
 	lsi_copy_save(p_Level_Name, p_Level);
 
-	sprintf(buffer, "%s.lvc", p_Level_Name);
+	if (snprintf(buffer, sizeof(buffer), "%s.lvc", p_Level_Name) >=
+	    (int) sizeof(buffer))
+		return;
 
 	file = fopen(buffer, "wb");
 	if(!file)
@@ -1721,7 +1772,6 @@ void lsi_Destroy_Beetle(LEVELINFO * p_Level, int GUID, int mesh)
 int lsi_Load_Saved_Level(char *p_Level_Name, LEVELINFO * p_Level)
 {
   int real;
-  char text[MAX_FILENAME];
   char ctext[MAX_FILENAME];
   FILE *file;
   int i, j;
@@ -1739,40 +1789,46 @@ int lsi_Load_Saved_Level(char *p_Level_Name, LEVELINFO * p_Level)
 
   file = fopen(ctext, "rb");
   if (!file) {
-    sprintf(text, "Level change file %s not present", ctext);
-    kprintf(1, text);
-    return -1;
+    kprintf(1, "Level change file %s not present", ctext);
+    return -2;
   }
 
-  fread(&pProfile, sizeof(PLAYER_PROFILE), 1, file);
+  if (fread(&pProfile, sizeof(PLAYER_PROFILE), 1, file) != 1 ||
+      fread(pwc_Level_Name, 32 * sizeof(WCHAR), 1, file) != 1 ||
+      fread(&ver, sizeof(int), 1, file) != 1) {
+    kprintf(1, "Cannot read level change file %s", ctext);
+    fclose(file);
+    return -2;
+  }
+
   lsi_Add_Prifile(&pProfile);
 
-  fread(pwc_Level_Name, 32 * sizeof(WCHAR), 1, file);
-
-  fread(&ver, sizeof(int), 1, file);
   if (ver != SAVE_VER) {
     kprintf(1, "Save version mismatch! Level %s", p_Level_Name);
     fclose(file);
     return -2;
   }
 
-  fread(p_Level->cLoadedFrom, (256+1)*sizeof(char), 1, file);
-  fread(&l_h, sizeof(LEVEL_HEADER), 1, file);
+  if (fread(p_Level->cLoadedFrom, (256+1)*sizeof(char), 1, file) != 1 ||
+      fread(&l_h, sizeof(LEVEL_HEADER), 1, file) != 1 ||
+      fread(&p_Level->dwPlayTime, sizeof(DWORD), 1, file) != 1 ||
+      fread(&p_Level->iNumOfSteps, sizeof(int), 1, file) != 1) {
+    kprintf(1, "Cannot read level change file %s", ctext);
+    fclose(file);
+    return -2;
+  }
 
   memset(p_Level->Level, 0, sizeof(p_Level->Level[0])*p_Level->Size_of_Level);
 
   iActualLevel = l_h.rezerved[0];
   iActualScene = l_h.rezerved[1];
 
-  fread(&p_Level->dwPlayTime, sizeof(DWORD), 1, file);
-  fread(&p_Level->iNumOfSteps, sizeof(int), 1, file);
-
   for (i = 0; i < p_Level->Count_Of_Items; i++) {
-#ifdef _DEBUG
-    assert(fread(&b_l_d, sizeof(b_l_d), 1, file) == 1);
-#else
-    fread(&b_l_d, sizeof(b_l_d), 1, file);
-#endif
+    if (fread(&b_l_d, sizeof(b_l_d), 1, file) != 1) {
+      kprintf(1, "Cannot read level change file %s", ctext);
+      fclose(file);
+      return -2;
+    }
 
     /* p_Level->Size[0] = x
        p_Level->Size[1] = y
@@ -1821,13 +1877,24 @@ int lsi_Load_Saved_Level(char *p_Level_Name, LEVELINFO * p_Level)
     }
   }
 
-  for (i = 0; i < p_Level->Count_Of_Items; i++)
-    if (p_Level->Item[i].p_Back_Pack)
-      fread(p_Level->Item[i].p_Back_Pack, sizeof(BACK_PACK), 1, file);
+  for (i = 0; i < p_Level->Count_Of_Items; i++) {
+    if (p_Level->Item[i].p_Back_Pack) {
+      if (fread(p_Level->Item[i].p_Back_Pack, sizeof(BACK_PACK), 1, file) != 1) {
+	kprintf(1, "Cannot read level change file %s", ctext);
+	fclose(file);
+	return -2;
+      }
+    }
+  }
 
   //ulozi spodni patro fleku
-  fread(p_Level->pSquare, sizeof(SQUAREDESC),
-    p_Level->Size[0] * p_Level->Size[1], file);
+  if (fread(p_Level->pSquare, sizeof(SQUAREDESC),
+	    p_Level->Size[0] * p_Level->Size[1], file) !=
+      (size_t) (p_Level->Size[0] * p_Level->Size[1])) {
+    kprintf(1, "Cannot read level change file %s", ctext);
+    fclose(file);
+    return -2;
+  }
 
   for (i = 0; i < p_Level->Size[0] * p_Level->Size[1]; i++) {
     p_Level->pSquare[i].pExtFlek = NULL;
@@ -1844,7 +1911,11 @@ int lsi_Load_Saved_Level(char *p_Level_Name, LEVELINFO * p_Level)
 
   //ulozi flaky privazane k prvkum
   for (i = 0; i < p_Level->Count_Of_Items; i++) {
-    fread(&p_Level->Item[i].Square, sizeof(SQUAREDESC), 1, file);
+    if (fread(&p_Level->Item[i].Square, sizeof(SQUAREDESC), 1, file) != 1) {
+      kprintf(1, "Cannot read level change file %s", ctext);
+      fclose(file);
+      return -2;
+    }
     p_Level->Item[i].Square.pExtFlek = NULL;
   }
 

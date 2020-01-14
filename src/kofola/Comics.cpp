@@ -97,7 +97,8 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA * p_ad, char bMusic)
     cmcs_Picture[i].iPicture = -1;
 
   while (strcmp(text, "LOAD_END")) {
-    fgets(text, MAX_FILENAME, file);
+    if (fgets(text, MAX_FILENAME, file) == NULL)
+      return;
     newline_cut(text);
 
     if (!strcmp(text, "LOAD_END"))
@@ -109,7 +110,8 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA * p_ad, char bMusic)
   i = 0;
 
   while (strcmp(text, "COMICS_END")) {
-    fgets(text, MAX_FILENAME, file);
+    if (fgets(text, MAX_FILENAME, file) == NULL)
+      return;
     newline_cut(text);
     cmcs_Read_Line(text, &cmcs_Picture[i]);
     cmcs_Picture[i].iPicture = i + 1;
@@ -154,7 +156,8 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA * p_ad, char bMusic)
 
 void cmcs_Play_Intro(char *cFile, HWND hWnd, AUDIO_DATA * p_ad)
 {
-  chdir(DATA_DIR);
+  if (chdir(DATA_DIR))
+    return;
   cmcs_Start_Comics("gamelogo.txt", hWnd, p_ad, 0);
 }
 

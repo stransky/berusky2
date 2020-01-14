@@ -420,7 +420,10 @@ void Parse_ScenarioLine(FILE * file, int *result, int res_size,
   char text[256], expression[256];
   int p = 0, r = 1;
 
-  fgets(text, 256, file);
+  if (fgets(text, 256, file) == NULL) {
+    result[0] = COM_NOCOMMAND;
+    return;
+  }
 
   p = Find_Next_Expresion(text, p, expression);
 

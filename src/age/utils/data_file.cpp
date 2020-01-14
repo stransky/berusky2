@@ -163,6 +163,7 @@ bool data_file_section::section_new(int line, char *p_line)
       source_line_set(line);
     }
     else if(!strcasecmp(token,SECTION_NAME_TYPE)) {
+      assert(strlen(value) < MAX_NAME);
       strncpy(section_type,value,MAX_NAME);
       source_line_set(line);
     }
@@ -434,6 +435,7 @@ void data_file::import(class data_file *p_data)
 
 void data_file::source_file_set(const char *p_file)
 {
+  assert(strlen(p_file) < MAX_FILENAME);
   strncpy(current_file_name, p_file, MAX_FILENAME);
 }
 

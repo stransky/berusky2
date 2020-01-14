@@ -33,16 +33,16 @@ void tools_Parse_Command_Line(char *pCommnad, char *pLevel, char *pDemo,
     strcpy(pDemo, (const char *) &pCommnad[i + 4]);
   }
   else {
+    /* This allows 18 chars for abbreviated month name. Should be more
+       than enough in any locale. */
+    char timestamp[40];
+    time_t date = time(NULL);
+    struct tm *unpacked_date = localtime(&date);
+    size_t ret = strftime(timestamp, sizeof(timestamp),
+			  "[%b_%d_%Y]_[%H_%M_%S]", unpacked_date);
+    assert(ret);
     *demo = 0;
-    sprintf(pDemo, "[%s]_[%s]_[%s].dem", pLevel, __DATE__, __TIME__);
-
-    for (i = 0; i < (int) strlen(pDemo); i++) {
-      if (pDemo[i] == 32)
-        pDemo[i] = '_';
-
-      if (pDemo[i] == ':')
-        pDemo[i] = '_';
-    }
+    sprintf(pDemo, "[%s]_%s.dem", pLevel, timestamp);
 
     //strcpy(pDemo, "Demo.dem");
   }
@@ -85,14 +85,19 @@ void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
   if (!ctagtitle || !ctagtext)
     return;
 
-  getcwd(odir, MAX_FILENAME);
+  if (getcwd(odir, MAX_FILENAME) == NULL)
+    return;
 
   strcpy(dir, BITMAP_DIR);
-  chdir(dir);
+  if (chdir(dir))
+    return;
   hArchive = apakopen(cFontFile[2], dir, &error);
 
   if (!hArchive) {
-    chdir((odir));
+    /* GCC warns when we don't check the return value of chdir(). For
+       some reason, casting to (void) doesn't work. */
+    if (chdir(odir))
+      return;
     return;
   }
   else
@@ -102,7 +107,8 @@ void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
 
   if (!file) {
     apakclose(&hArchive);
-    chdir((odir));
+    if (chdir(odir))
+      return;
   }
 
   agetbuffer(file, (char **) &buffer, &ulsize);
@@ -120,7 +126,10 @@ void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
 
   aclose(file);
   apakclose(&hArchive);
-  chdir((odir));
+  /* GCC warns when we don't check the return value of chdir(). For
+     some reason, casting to (void) doesn't work. */
+  if (chdir(odir))
+    return;
 }
 
 static int translation_table[KEYNUM];

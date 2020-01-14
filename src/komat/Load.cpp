@@ -16,14 +16,14 @@ template < class T > void vyrob_pole(T ** p_dst, int num)
 {
   if (!(*p_dst = (T *) mmalloc(sizeof(*p_dst[0]) * num)))
     chyba("Pamet");
-  memset(*p_dst, 0, sizeof(*p_dst[0]) * num);
+  memset((void *) *p_dst, 0, sizeof(*p_dst[0]) * num);
 }
 
 template < class T > void vyrob_pole_abs(T ** p_dst, int num)
 {
   if (!(*p_dst = (T *) mmalloc(sizeof(byte) * num)))
     chyba("Pamet");
-  memset(*p_dst, 0, sizeof(byte) * num);
+  memset((void *) *p_dst, 0, sizeof(byte) * num);
 }
 
 /*
@@ -426,7 +426,12 @@ EDIT_OBJEKT *slep_objekty(EDIT_OBJEKT * p_obj1, EDIT_OBJEKT * p_obj2)
     strcpy(p_obj->jmeno, p_obj1->jmeno);
   }
   else {
-    sprintf(p_obj->jmeno, "%s_%s", p_obj1->jmeno, p_obj2->jmeno);
+    if (snprintf(p_obj->jmeno, sizeof(p_obj->jmeno),
+		 "%s_%s", p_obj1->jmeno, p_obj2->jmeno) >=
+	(int) sizeof(p_obj->jmeno)) {
+      zrus_objekt(&p_obj);
+      return (NULL);
+    }
   }
 
   assert(strlen(p_obj->jmeno) < MAX_JMENO);
@@ -474,7 +479,7 @@ EDIT_KONTEJNER *vyrob_kontejner(void)
   if ((p_kont = (EDIT_KONTEJNER *) mmalloc(sizeof(EDIT_KONTEJNER))) == NULL)
     chyba("pamet!");
 
-  memset(p_kont, 0, sizeof(p_kont[0]));
+  memset((void *) p_kont, 0, sizeof(p_kont[0]));
   p_kont->max_objektu = MAX_KONT_OBJEKTU;
   p_kont->kreslit = 1;
   p_kont->prvek = K_CHYBA;
@@ -993,7 +998,7 @@ EDIT_MATERIAL *vyrob_material(void)
   if ((p_mat = (EDIT_MATERIAL *) mmalloc(sizeof(EDIT_MATERIAL))) == NULL) {
     chyba("pamet");
   }
-  memset(p_mat, 0, sizeof(EDIT_MATERIAL));
+  memset((void *) p_mat, 0, sizeof(EDIT_MATERIAL));
 
   p_mat->dxmat.diffuse_r = 1.0f;
   p_mat->dxmat.diffuse_g = 1.0f;
@@ -1259,7 +1264,7 @@ GAME_MESH_DATA *kopiruj_mesh_data(GAME_MESH_DATA * p_src,
     p_ldd = p_desc->p_ldlight;
     while (p_lds) {
       p_ldd->p_next = (DYN_LIGHT *) mmalloc(sizeof(p_ldd->p_next[0]));
-      memcpy(p_ldd->p_next, p_lss, sizeof(p_lds[0]));
+      memcpy((void *) p_ldd->p_next, p_lss, sizeof(p_lds[0]));
       p_lds = p_lds->p_next;
       p_ldd = p_ldd->p_next;
     }
@@ -1933,7 +1938,7 @@ GAME_MESH_OLD *vyrob_mesh(int objektu, GAME_MESH_DATA * p_data)
   if ((p_mesh = (GAME_MESH_OLD *) mmalloc(sizeof(p_mesh[0]))) == NULL) {
     chyba("pamet");
   }
-  memset(p_mesh, 0, sizeof(p_mesh[0]));
+  memset((void *) p_mesh, 0, sizeof(p_mesh[0]));
 
   p_mesh->p_data = (p_data) ? p_data : vyrob_mesh_data();
   p_mesh->objektu = objektu;
@@ -2644,7 +2649,11 @@ void lo_vyrob_animaci_list(EDIT_MATERIAL * p_mat, char *p_list,
   int linenum;
   int first_text = 1, i, t, akt, pos, alfa, a;
 
-  chdir((p_dir));
+  if (chdir(p_dir)) {
+    ddw("Cannot change directory to %s", p_dir);
+    assert(0);
+    return;
+  }
 
   if ((f = fopen(p_list, "r")) == NULL) {
     ddw("Nemuzu otevrit soubor %s", p_list);
@@ -2657,9 +2666,14 @@ void lo_vyrob_animaci_list(EDIT_MATERIAL * p_mat, char *p_list,
   // Prekopiruj list
   strcpy(p_amat->jmeno, p_list);
 
+  if (fgets(line, 200, f) == NULL) {
+    ddw("Cannot read %s", p_list);
+    assert(0);
+    return;
+  }
+
   // nahraj informace o frame animaci
   if (komplet == ANIM_LOAD_ALL || komplet == ANIM_LOAD_FRAME) {
-    fgets(line, 200, f);
     sscanf(line, "FRAME %d %d %d", &akt, &p_amat->frameakt, &alfa);
     if (akt) {
       p_mat->flag =
@@ -2667,16 +2681,16 @@ void lo_vyrob_animaci_list(EDIT_MATERIAL * p_mat, char *p_list,
       //p_mat->flag = alfa ? p_mat->flag|MAT_ALFA_FAKTOR : p_mat->flag&~MAT_ALFA_FAKTOR;
     }
   }
-  else
-    fgets(line, 200, f);
+
+  if (fgets(line, 200, f) == NULL) {
+    ddw("Cannot read %s", p_list);
+    assert(0);
+    return;
+  }
 
   // nahraj informace o posunu
-  if (komplet == ANIM_LOAD_ALL || komplet == ANIM_LOAD_POSUN) {
-    fgets(line, 200, f);
+  if (komplet == ANIM_LOAD_ALL || komplet == ANIM_LOAD_POSUN)
     sscanf(line, "POSUN %d\n", &pos);
-  }
-  else
-    fgets(line, 200, f);
 
   // pokud je pozadavek na load frame animace
   if (komplet == ANIM_LOAD_ALL || komplet == ANIM_LOAD_FRAME) {
@@ -2692,11 +2706,19 @@ void lo_vyrob_animaci_list(EDIT_MATERIAL * p_mat, char *p_list,
       (ANIM_FRAME *) mmalloc(sizeof(ANIM_FRAME) * p_amat->framenum);
 
     fseek(f, 0, SEEK_SET);
-    fgets(line, 200, f);
-    fgets(line, 200, f);
+    if (fgets(line, 200, f) == NULL || fgets(line, 200, f) == NULL) {
+      ddw("Cannot read %s", p_list);
+      assert(0);
+      return;
+    }
 
     for (i = 0; i < p_amat->framenum; i++) {
-      fgets(line, 200, f);      // nacti jmeno souboru
+      // nacti jmeno souboru
+      if (fgets(line, 200, f) == NULL) {
+	ddw("Cannot read %s", p_list);
+	assert(0);
+	return;
+      }
 
       if ((p_pom = strchr(line, '\n')))
         *p_pom = 0;
@@ -2916,7 +2938,7 @@ EDIT_MESH_POLY *edit_to_poly_indir(EDIT_KONTEJNER * p_kont,
   p_obj = p_kont->p_obj[0];
   assert(p_obj);
 
-  memset(p_poly, 0, sizeof(*p_poly));
+  memset((void *) p_poly, 0, sizeof(*p_poly));
 
   strcpy(p_poly->jmeno, p_kont->jmeno);
 
@@ -3178,6 +3200,8 @@ EDIT_MESH_POLY *lo_nahraj_poly_list(char *p_file, int *p_polynum,
     lo_poly_nahraj_indir(f, p_poly + i, p_light);
 
     if (p_poly[i].m1flag & MAT_ANIM_FRAME) {
+      int ret;
+
       // animovany material u poly-listu skopiruju
       mat = lo_najdi_material(p_mat, matnum, material);
       assert(mat != K_CHYBA);
@@ -3186,7 +3210,9 @@ EDIT_MESH_POLY *lo_nahraj_poly_list(char *p_file, int *p_polynum,
       assert(mn != K_CHYBA);
 
       p_mat[mn] = kopiruj_material(p_mat[mat]);
-      sprintf(p_mat[mn]->jmeno, "%s_ak%d", p_mat[mat]->jmeno, mn);
+      ret = snprintf(p_mat[mn]->jmeno, sizeof(p_mat[mn]->jmeno),
+		     "%s_ak%d", p_mat[mat]->jmeno, mn);
+      assert(ret < (int) sizeof(p_mat[mn]->jmeno));
     }
     else {
       p_poly[i].material = lo_najdi_material(p_mat, matnum, material);
@@ -3424,10 +3450,8 @@ int lo_uloz_materialy(EDIT_MATERIAL ** p_mat, int max_mat, char *p_file,
   strcpy(file, p_file);
   zamen_koncovku(file, KONCOVKA_MATERIAL);
 
-  chdir((p_dir));
-  if ((f = ffopen(file, "wb")) == NULL) {
+  if (chdir(p_dir) || (f = ffopen(file, "wb")) == NULL)
     return (FALSE);
-  }
 
   for (i = 0; i < max_mat; i++) {
     if (p_mat[i])
@@ -3446,10 +3470,8 @@ int lo_uloz_material(EDIT_MATERIAL * p_mat, char *p_file, char *p_dir)
   strcpy(file, p_file);
   zamen_koncovku(file, KONCOVKA_MATERIAL);
 
-  chdir((p_dir));
-  if ((f = ffopen(file, "wb")) == NULL) {
+  if (chdir (p_dir) || (f = ffopen(file, "wb")) == NULL)
     return (FALSE);
-  }
 
   lo_uloz_material_chunk(f, p_mat);
 
@@ -3470,10 +3492,8 @@ int lo_uloz_materialy_pouzite(EDIT_MATERIAL ** p_mat, int max_mat,
   strcpy(file, p_file);
   zamen_koncovku(file, KONCOVKA_MATERIAL);
 
-  chdir((p_dir));
-  if ((f = ffopen(file, "wb")) == NULL) {
+  if (chdir(p_dir) || (f = ffopen(file, "wb")) == NULL)
     return (FALSE);
-  }
 
   for (i = 0; i < max_mat; i++) {
     if (p_mat[i] && p_mat[i]->flag & (MAT_POUZITY | MAT_SYSTEM)) {
@@ -4274,17 +4294,17 @@ void lo_vymaz_svetla_ze_sceny(EDIT_KONTEJNER * p_kont)
 
   while (p_slight) {
     p_snext = p_slight->p_next;
-    memset(p_slight, 0, sizeof(p_slight[0]));
+    memset((void *) p_slight, 0, sizeof(p_slight[0]));
     p_slight = p_snext;
   }
   while (p_dlight) {
     p_dnext = p_dlight->p_next;
-    memset(p_dlight, 0, sizeof(p_dlight[0]));
+    memset((void *) p_dlight, 0, sizeof(p_dlight[0]));
     p_dlight = p_dnext;
   }
   while (p_elight) {
     p_enext = p_elight->p_next;
-    memset(p_elight, 0, sizeof(p_elight[0]));
+    memset((void *) p_elight, 0, sizeof(p_elight[0]));
     p_elight = p_enext;
   }
 }
@@ -4319,12 +4339,12 @@ void lo_vymaz_svetla_ze_sceny_mesh(GAME_MESH_DATA * p_data)
 
   while (p_dlight) {
     p_dnext = p_dlight->p_next;
-    memset(p_dlight, 0, sizeof(p_dlight[0]));
+    memset((void *) p_dlight, 0, sizeof(p_dlight[0]));
     p_dlight = p_dnext;
   }
   while (p_elight) {
     p_enext = p_elight->p_next;
-    memset(p_elight, 0, sizeof(p_elight[0]));
+    memset((void *) p_elight, 0, sizeof(p_elight[0]));
     p_elight = p_enext;
   }
 }

@@ -77,7 +77,10 @@ int am_Init(ANIMATION_MODULE * p_am, LEVELINFO * p_Level)
     p_am->p_animation[i].p_matrix = -1;
   }
 
-  chdir(DATA_DIR);
+  if (chdir(DATA_DIR)) {
+    kprintf(1, "Unable to change directory to %s", DATA_DIR);
+    return 0;
+  }
 
   pDataArchive->pActualNode = pDataArchive->pRootNode->pNextNode;
 
@@ -785,7 +788,9 @@ void am_Init_Zhave_Castice(LEVELINFO * p_Level)
   for (i = 0; i < 100; i++) {
     p_Level->VodniKolaB[i].pCastice = NULL;
     p_Level->VodniKolaB[i].System = (size_ptr)NULL;
+  }
 
+  for (i = 0; i < 10; i++) {
     for (j = 0; j < 64; j++)
       p_Level->VodniKola[i].hHnizdo[j] = 0;
   }
@@ -808,18 +813,18 @@ void am_Init_Zhave_Castice(LEVELINFO * p_Level)
     memset(&p_Level->StarL[i], 0, sizeof(STREET_LIGHT_EFFECT));
 
   for (i = 0; i < 2; i++) {
-    memset(&p_Level->StarFall[i], 0, sizeof(FAIRY_EFFECT));
+    memset((void *) &p_Level->StarFall[i], 0, sizeof(FAIRY_EFFECT));
   }
 
   for (i = 0; i < 6; i++) {
-    memset(&p_Level->CandleEffect[i], 0, sizeof(CANDLE_EFFECT));    
+    memset((void *) &p_Level->CandleEffect[i], 0, sizeof(CANDLE_EFFECT));    
     p_Level->CandleEffect[i].hSvetlo = -1;
-    memset(&p_Level->CandleSmoke[i], 0, sizeof(CANDLE_EFFECT));
+    memset((void *) &p_Level->CandleSmoke[i], 0, sizeof(CANDLE_EFFECT));
     p_Level->CandleSmoke[i].hSvetlo = -1;
   }
 
   for (i = 0; i < 4; i++) {
-    memset(&p_Level->FairyEffect[i], 0, sizeof(FAIRY_EFFECT));
+    memset((void *) &p_Level->FairyEffect[i], 0, sizeof(FAIRY_EFFECT));
   }
 }
 
@@ -1271,11 +1276,11 @@ void am_Do_Water_KolaB(LEVELINFO * p_Level)
           p_Level->VodniKolaB[i].dwExpireTime += ber.TimeLastFrame;
 
         if (p_Level->VodniKolaB[i].dwExpireTime >= p_Level->VodniKolaB[i].dwExpire && 
-            p_Level->VodniKolaB[i].hHnizdo[2] != -1)
+            p_Level->VodniKolaB[i].hHnizdo[2] != (size_ptr) -1)
           p_Level->VodniKolaB[i].hHnizdo[2] = -1;
       }
 
-      if (p_Level->VodniKolaB[i].hHnizdo[2] != -1) {
+      if (p_Level->VodniKolaB[i].hHnizdo[2] != (size_ptr) -1) {
         kom_mesh_get_float(p_Level->VodniKolaB[i].hHnizdo[2],
                            &pos[0], &pos[1], &pos[2], &rot);
 
@@ -1782,7 +1787,7 @@ int am_Find_Corresponding_VodniKolaB(int mesh, LEVELINFO * p_Level)
 
   for (i = 0; i < 100; i++) {
     if (p_Level->VodniKolaB[i].System &&
-        p_Level->VodniKolaB[i].hHnizdo[2] == mesh)
+        p_Level->VodniKolaB[i].hHnizdo[2] == (size_ptr) mesh)
       return i;
   }
 

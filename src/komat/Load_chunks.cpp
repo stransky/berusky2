@@ -2995,7 +2995,7 @@ int lo_chunk_load_flare(FFILE f, OUT_CHUNK * p_ch)
       return (FALSE);
     }
     p_flare = p_flarelist + i;
-    memset(p_flare, 0, sizeof(p_flare[0]));
+    memset((void *) p_flare, 0, sizeof(p_flare[0]));
     ffread(&p_flare->p, sizeof(BOD), 1, f);
     ffread(&p_flare->r, sizeof(float), 4, f);
     ffread(&p_flare->dx, sizeof(float), 2, f);
@@ -3041,7 +3041,7 @@ int lo_chunk_load_flare_ext(FFILE f, OUT_CHUNK * p_ch)
       return (FALSE);
     }
     p_flare = p_flarelist + i;
-    memset(p_flare, 0, sizeof(p_flare[0]));
+    memset((void *) p_flare, 0, sizeof(p_flare[0]));
     ffread(&p_flare->p, sizeof(BOD), 1, f);
     ffread(&p_flare->r, sizeof(float), 4, f);
     ffread(&p_flare->dx, sizeof(float), 2, f);
@@ -3410,7 +3410,7 @@ int lo_chunk_load_static_light(FFILE f, OUT_CHUNK * p_ch)
 
   if (p_lightlist && p_ch->typ == CHUNK_STATIC_LIGHT) {
 
-    memset(&light, 0, sizeof(light));
+    memset((void *) &light, 0, sizeof(light));
 
     ffread(&light.akt, sizeof(light.akt), 1, f);
     str_read(light.jmeno, f);
@@ -4792,7 +4792,7 @@ int lo_chunk_load_sim_node(FFILE f, SIMPLE_TRACK_INFO * p_sim)
   if (p_sim && (ch.typ == CHUNK_SIM_NODE || ch.typ == CHUNK_SIM_NODE_EXT
       || ch.typ == CHUNK_SIM_NODE_EXT2)) {
 
-    memset(p_sim, 0, sizeof(p_sim[0]));
+    memset((void *) p_sim, 0, sizeof(p_sim[0]));
 
     ffread(&p_sim->Objekt_ID, sizeof(p_sim->Objekt_ID), 1, f);
     ffread(&p_sim->flag, sizeof(p_sim->flag), 1, f);

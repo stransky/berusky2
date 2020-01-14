@@ -22,24 +22,35 @@ void demo_Set_Scene_Level(char *cDemo, int *pScene, int *pLevel)
   FILE *file;
   DEMOFILEHEADER FileHeader;
 
-  getcwd(odir, MAX_FILENAME);
+  if (getcwd(odir, MAX_FILENAME) == NULL)
+    return;
 
-  chdir(SAVE_DIR);
+  if (chdir(SAVE_DIR))
+    return;
 
   file = fopen(cDemo, "rb");
 
   if (!file) {
-    chdir((odir));
+    /* GCC warns when we don't check the return value of chdir(). For
+       some reason, casting to (void) doesn't work. */
+    if (chdir(odir))
+      return;
     return;
   }
 
-  fread(&FileHeader, sizeof(DEMOFILEHEADER), 1, file);
+  if (fread(&FileHeader, sizeof(DEMOFILEHEADER), 1, file) != 1) {
+    fclose(file);
+    return;
+  }
   fclose(file);
 
   (*pScene) = FileHeader.iScene;
   (*pLevel) = FileHeader.iLevel;
 
-  chdir((odir));
+  /* GCC warns when we don't check the return value of chdir(). For
+     some reason, casting to (void) doesn't work. */
+  if (chdir(odir))
+    return;
 }
 
 int demo_Check_Owner(WCHAR * wPlayer, char *cDemo, WCHAR * wDemoName)
@@ -258,7 +269,8 @@ int demo_SaveWC(DEMOSTRUCTURE * p_Demo, WCHAR * wcName, char Ovladani,
 
   sprintf(cFile, "demo_[%s]_[%s].dem", pom, pom2);
 
-  chdir(SAVE_DIR);
+  if (chdir(SAVE_DIR))
+    return 0;
 
   //strcat(cText, DIR_SLASH_STRING);
   //strcat(cText, cFile);
@@ -323,7 +335,11 @@ int demo_Load(DEMOSTRUCTURE * p_Demo, char *p_File_Name, char *bOvladani,
     return 0;
   }
 
-  fread(&FileHeader, sizeof(DEMOFILEHEADER), 1, file);
+  if (fread(&FileHeader, sizeof(DEMOFILEHEADER), 1, file) != 1) {
+    kprintf(1, "Cannot read %s", p_File_Name);
+    fclose(file);
+    return 0;
+  }
 
   if (FileHeader.iDemoID != 123456789 ||
     FileHeader.iHiVer != DEMO_HIVERSION ||
@@ -342,7 +358,11 @@ int demo_Load(DEMOSTRUCTURE * p_Demo, char *p_File_Name, char *bOvladani,
   if (FileHeader.iLoadedLevel)
     strcpy(cLoadedSignature, "LOAD_GAME");
 
-  fread(p_Demo, sizeof(DEMOSTRUCTURE), 1, file);
+  if (fread(p_Demo, sizeof(DEMOSTRUCTURE), 1, file) != 1) {
+    kprintf(1, "Cannot read %s", p_File_Name);
+    fclose(file);
+    return 0;
+  }
 
   p_Frame = (DEMOKEYFRAME *) mmalloc(sizeof(DEMOKEYFRAME));
 
@@ -354,7 +374,14 @@ int demo_Load(DEMOSTRUCTURE * p_Demo, char *p_File_Name, char *bOvladani,
   for (i = 0; i < p_Demo->Frame_Counter - 1; i++) {
     p_Frame = (DEMOKEYFRAME *) mmalloc(sizeof(DEMOKEYFRAME));
 
-    fread(p_Frame, sizeof(DEMOKEYFRAME), 1, file);
+    if (fread(p_Frame, sizeof(DEMOKEYFRAME), 1, file) != 0) {
+      kprintf(1, "Cannot read %s", p_File_Name);
+      fclose(file);
+      demo_Release(p_Demo);
+      free(p_Frame);
+      return 0;
+    }
+
     p_Last->p_Next = p_Frame;
 
     p_Last = p_Frame;

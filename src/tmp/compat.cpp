@@ -675,7 +675,8 @@ char current_working_dir_file[MAX_FILENAME];
 
 void working_dir_init(void)
 {
-  getcwd(current_working_dir, MAX_FILENAME);
+  char *ret = getcwd(current_working_dir, MAX_FILENAME);
+  assert(ret);
 }
 
 char *working_file_get(const char *p_file)
