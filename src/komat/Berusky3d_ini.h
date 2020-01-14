@@ -40,9 +40,9 @@ void konec(int konec);
 */
 
 #ifdef LINUX
-#define INI_FILE_GLOBAL         INI_FILE_GLOBAL_DIR"/"INI_FILE_NAME
-#define INI_FILE_USER           INI_USER_DIRECTORY"/"INI_FILE_NAME
-#define INI_FILE_LOCAL          "./"INI_FILE_NAME
+#define INI_FILE_GLOBAL         INI_FILE_GLOBAL_DIR "/" INI_FILE_NAME
+#define INI_FILE_USER           INI_USER_DIRECTORY "/" INI_FILE_NAME
+#define INI_FILE_LOCAL          "./" INI_FILE_NAME
 #endif
 
 #endif

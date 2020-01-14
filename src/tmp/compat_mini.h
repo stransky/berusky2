@@ -47,7 +47,7 @@ extern "C" {
 #define  MAX_JMENO       50
 
 #define  TRUE   (1==1)
-#define  FALSE  (1!=1)
+#define  FALSE  0
 
 #ifndef  ERROR
 #define  ERROR (-1)

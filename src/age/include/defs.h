@@ -37,7 +37,7 @@
 #endif
 
 #ifndef  FALSE
-#define  FALSE            (1!=1)
+#define  FALSE            0
 #endif
 
 #ifndef  NULL
