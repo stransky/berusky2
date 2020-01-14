@@ -92,7 +92,7 @@ THREAD_HANDLE CreateThread(void *lpThreadAttributes, size_t dwStackSize, thread_
 
 int CloseHandle(THREAD_HANDLE handle)
 {
-
+  return 1;
 }
 
 void ExitThread(dword dwExitCode)
@@ -103,10 +103,12 @@ void ExitThread(dword dwExitCode)
 
 int SetThreadPriority(THREAD_HANDLE hThread, int nPriority)
 {
+  return 1;
 }
 
 int GetThreadPriority(THREAD_HANDLE hThread)
 {
+  return 0/*THREAD_PRIORITY_NORMAL*/;
 }
 
 int GetExitCodeThread(THREAD_HANDLE hThread, dword *lpExitCode)
