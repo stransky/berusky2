@@ -715,7 +715,7 @@ int rani_je_mesh(RunHandle a_handle, MeshHandle m_handle)
 
   p_mat = p_gk->p_mat;
   for (m = 0; m < p_gk->matic; m++, p_mat++) {
-    if (p_mat->fce_param == m_handle)
+    if (p_mat->fce_param == (size_ptr) m_handle)
       return (TRUE);
   }
   return (FALSE);

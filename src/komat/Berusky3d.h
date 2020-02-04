@@ -156,7 +156,7 @@ typedef struct _GKA_MATICE
   GLMATRIX *p_mat;                         // matice
   int      *p_notify;                      // notify flag
   int       flagy;                         // flagy
-  int       fce_param;                     // promena predavana funkcim
+  size_ptr  fce_param;                     // promena predavana funkcim
   void    (*funkce_start) (size_ptr prom); // funkce volana na konci animace
   void    (*funkce_frame) (size_ptr prom); // funkce volana kazdy frame
   void    (*funkce_end) (size_ptr prom);   // funkce volana na konci animace
