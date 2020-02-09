@@ -826,7 +826,6 @@ void ber_test_animaci(G_KONFIG * p_ber)
          animace)
        */
       j = 0;
-      chani_zarad(p_handle[j]);
 
       /* Zarazenou animaci spustim
        */
