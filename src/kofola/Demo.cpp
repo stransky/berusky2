@@ -381,7 +381,7 @@ int demo_Load(DEMOSTRUCTURE * p_Demo, char *p_File_Name, char *bOvladani,
   p_Last = p_Demo->p_First;
   p_Last->p_Next = NULL;
 
-  for (i = 0; i < p_Demo->Frame_Counter - 1; i++) {
+  for (i = 0; i < p_Demo->Frame_Counter; i++) {
     p_Frame = (DEMOKEYFRAME *) mmalloc(sizeof(DEMOKEYFRAME));
 
     if (fread(p_Frame, sizeof(DEMOKEYFRAME), 1, file) != 1) {
