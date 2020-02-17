@@ -3897,7 +3897,7 @@ void RunMenuLoadScreen2(void)
 
   kprintf(1, "ddx2Init");
 
-  ddx2Init(10, RGB(255, 0, 255));
+  ddx2Init(10000, RGB(255, 0, 255));
   iLoadScreenDevice = ddx2DeviceCreate(TRUE, 32);
 
   if (!iLoadScreenDevice)

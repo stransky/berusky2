@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include <math.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <dirent.h>
+#include <errno.h>
 #include "3d_all.h"
 #include "Demo.h"
 #include "Bind.h"
@@ -55,55 +58,52 @@ void demo_Set_Scene_Level(char *cDemo, int *pScene, int *pLevel)
 
 int demo_Check_Owner(WCHAR * wPlayer, char *cDemo, WCHAR * wDemoName)
 {
-  // TODO
-  assert(0);
-/*
-	WCHAR	wc[128];
-	char	text[256];
+  WCHAR	wc[128];
+  char	text[256];
 
-	DEMOFILEHEADER	FileHeader;
-	FILE	*file;
+  DEMOFILEHEADER	FileHeader;
+  FILE	*file;
 
-	file = fopen(cDemo,"rb");
+  file = fopen(cDemo, "rb");
 
-	if(!file)
-		return 0;
+  if (!file)
+    return 0;
 
-	fread(&FileHeader,sizeof(DEMOFILEHEADER),1,file);
-	fclose(file);
+  if (fread(&FileHeader, sizeof(DEMOFILEHEADER), 1, file) != 1) {
+    fclose(file);
+    return 0;
+  }
+  fclose(file);
 
-	if(FileHeader.iDemoID != 123456789 ||
-	   FileHeader.iHiVer != DEMO_HIVERSION ||
-	   FileHeader.iLoVer != DEMO_LOVERSION)
-		return 0;
+  if(FileHeader.iDemoID != 123456789 ||
+     FileHeader.iHiVer != DEMO_HIVERSION ||
+     FileHeader.iLoVer != DEMO_LOVERSION)
+    return 0;
 
-	strcpy(text,"ANAKREON_DEMO_ANAKREON");
+  strcpy(text, "ANAKREON_DEMO_ANAKREON");
 
-	MultiByteToWideChar( CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]));
+  MultiByteToWideChar(CP_ACP, 0, text, strlen(text)+1, wc, sizeof(wc)/sizeof(wc[0]));
 
 
-	if(!wcscmp(wc, FileHeader.cPlayerName))
-	{
-		wcscpy(wDemoName, FileHeader.cFileName);
-		return 1;
-	}
+  if(!wcscmp(wc, FileHeader.cPlayerName)) {
+    wcscpy(wDemoName, FileHeader.cFileName);
+    return 1;
+  }
 
-	if(wcscmp(wPlayer, FileHeader.cPlayerName))
-		return 0;
-	else
-	{
-		if(iLanguageVersion == 4)
-		{
-			sprintf(text, "scene%d", FileHeader.iScene);
+  if(wcscmp(wPlayer, FileHeader.cPlayerName))
+    return 0;
+  else {
+    if(iLanguageVersion == 4) {
+      sprintf(text, "scene%d", FileHeader.iScene);
 		
-			if(!GetPrivateProfileInt("Internet", text, 0, ini_file))
-				return 0;
-		}
+      if(!GetPrivateProfileInt("Internet", text, 0, ini_file))
+	return 0;
+    }
 
-		wcscpy(wDemoName, FileHeader.cFileName);
-		return 1;
-	}
-  */
+    wcscpy(wDemoName, FileHeader.cFileName);
+    return 1;
+  }
+
   return 0;
 }
 
@@ -205,42 +205,52 @@ int demo_Save(DEMOSTRUCTURE * p_Demo, char *p_File_Name, char Ovladani,
 
 int demo_Exist(WCHAR * wName, char *cFile)
 {
-  // TODO
-  assert(0);
-/*
-	DEMOFILEHEADER	FileHeader;
-	FILE *file;
-	long Done, error;
-	struct _finddata_t	Data;
+  DEMOFILEHEADER	FileHeader;
+  DIR *dir;
+  struct dirent *ent;
+  int errno_save;
 
-	Done = _findfirst("*.dem",&Data);
-	error = Done;
-			
-	while(error != -1)
-	{
-		if(error != -1)
-		{
-			file = fopen(Data.name, "rb");
+  dir = opendir(".");
+  if (!dir)
+    return 1;
 
-			if(file)
-			{
-				fread(&FileHeader, sizeof(DEMOFILEHEADER), 1, file);
-				fclose(file);
+  errno = 0;
+  while ((ent = readdir(dir))) {
+    char *name = ent->d_name;
+    FILE *file;
 
-				if(!wcscmp(FileHeader.cFileName, wName) && !wcscmp(FileHeader.cPlayerName, pPlayerProfile.cName))
-				{
-					strcpy(cFile, Data.name);
-					_findclose(Done); 
-					return 1;
-				}
-			}
+    if (strcmp(name + strlen(name) - 4, ".dem")) {
+      errno = 0;
+      continue;
+    }
 
-			error = _findnext(Done,&Data);
-		}
-	}
-	_findclose(Done); 
-*/
-  return 0;
+    file = fopen(name, "rb");
+    if (!file) {
+      errno = 0;
+      continue;
+    }
+
+    if (fread(&FileHeader, sizeof(DEMOFILEHEADER), 1, file) != 1) {
+      fclose(file);
+      closedir(dir);
+      return 1;
+    }
+    fclose(file);
+
+    if (!wcscmp(FileHeader.cFileName, wName) && !wcscmp(FileHeader.cPlayerName, pPlayerProfile.cName)) {
+      strcpy(cFile, name);
+      closedir(dir);
+      return 1;
+    }
+
+    // Reset `errno' for the next time around.
+    errno = 0;
+  }
+
+  errno_save = errno;
+  closedir(dir);
+
+  return !!errno_save;
 }
 
 int demo_SaveWC(DEMOSTRUCTURE * p_Demo, WCHAR * wcName, char Ovladani,
@@ -374,7 +384,7 @@ int demo_Load(DEMOSTRUCTURE * p_Demo, char *p_File_Name, char *bOvladani,
   for (i = 0; i < p_Demo->Frame_Counter - 1; i++) {
     p_Frame = (DEMOKEYFRAME *) mmalloc(sizeof(DEMOKEYFRAME));
 
-    if (fread(p_Frame, sizeof(DEMOKEYFRAME), 1, file) != 0) {
+    if (fread(p_Frame, sizeof(DEMOKEYFRAME), 1, file) != 1) {
       kprintf(1, "Cannot read %s", p_File_Name);
       fclose(file);
       demo_Release(p_Demo);

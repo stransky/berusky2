@@ -350,7 +350,12 @@ inline GLMATRIX *invert_matrix(GLMATRIX * src, GLMATRIX * inv)
   inv->_13 = src->_12 * src->_23 - src->_13 * src->_22;
 
   det = inv->_11 * src->_11 + inv->_12 * src->_21 + inv->_13 * src->_31;
-  assert(det);
+  // FIXME: Is this valid input? Should we assert(det) instead?
+  if (det == 0.0f) {
+    // we're not very happy with the source matrix ;-)
+    memset((void *) inv, 0, sizeof(*inv));
+    return (NULL);
+  }
 
   inv->_21 = -src->_21 * src->_33 + src->_23 * src->_31;
   inv->_22 = src->_11 * src->_33 - src->_13 * src->_31;
@@ -396,7 +401,11 @@ inline GLMATRIX *invert_matrix_copy(GLMATRIX * src, GLMATRIX * inv)
   m._12 = -src->_12 * src->_33 + src->_13 * src->_32;
   m._13 = src->_12 * src->_23 - src->_13 * src->_22;
   det = m._11 * src->_11 + m._12 * src->_21 + m._13 * src->_31;
-  assert(det);
+  // FIXME: Is this valid input? Should we assert(det) instead?
+  if (det == 0.0f) {
+    memset((void *) inv, 0, sizeof(*inv));
+    return (NULL);
+  }
   m._21 = -src->_21 * src->_33 + src->_23 * src->_31;
   m._22 = src->_11 * src->_33 - src->_13 * src->_31;
   m._23 = -src->_11 * src->_23 + src->_13 * src->_21;
