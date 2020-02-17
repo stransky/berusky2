@@ -718,8 +718,6 @@ int RunLevel(HWND hWnd, AUDIO_DATA * p_ad, int cpu, char *lvl, char *env)
   ddxRelease();
   FreeDirectDraw();
 
-  ShowCursor(FALSE);
-
   {
     RunMenuLoadScreen2();
     RunMenuLoadScreenInitBar(15);
@@ -756,8 +754,7 @@ int RunLevel(HWND hWnd, AUDIO_DATA * p_ad, int cpu, char *lvl, char *env)
     kprintf(1, "_3d_Release");
     _3d_Release();
     spracuj_spravy(0);
-    
-    ShowCursor(TRUE);
+
     spracuj_spravy(0);
   }
   
