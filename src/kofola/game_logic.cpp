@@ -10355,9 +10355,6 @@ PLAY_LEVEL_START:
   if (demo) {
     char Demo_File[255];
 
-    Level.bPosouvatKameru = 0;
-    Level.bPohled_Berusky = 0;
-
     strcpy(Demo_File, SAVE_DIR);
     strcat(Demo_File, DIR_SLASH_STRING);
     strcat(Demo_File, cDemoName);
