@@ -841,7 +841,7 @@ int _3d_Check_Beatle_Select(void)
   if (_3d_Count_Distance(c, m) <= 32 * scale_back_factor_x())
     return 0;
 
-  c[0] = 279 * scale_factor_x();
+  c[0] = 279 * scale_back_factor_x();
   c[1] = 58 * scale_back_factor_y();
   if (_3d_Count_Distance(c, m) <= 32 * scale_back_factor_x())
     return 1;
