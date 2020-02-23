@@ -249,7 +249,7 @@ inline int calc_time_akt(int next_time, int time_start)
 
 inline int calc_endtime(int framenum)
 {
-  return ((framenum - 1) * SIM_KONSTI);
+  return (framenum * SIM_KONSTI);
 }
 
 inline int calc_keynum(int endtime)
