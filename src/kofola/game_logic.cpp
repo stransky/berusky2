@@ -11184,8 +11184,6 @@ PLAY_LEVEL_START:
       }
 
       if (key[control.move_forward]) {
-        gl_Zero_Key_Buffer(&control);
-
         Level.lLastKeyCounter = NoKeyCounter;
         NoKeyCounter = 0;
         bBeetleAdded = 0;
@@ -11477,7 +11475,6 @@ PLAY_LEVEL_START:
         NoKeyCounter = 0;
         bBeetleAdded = 0;
 
-        gl_Zero_Key_Buffer(&control);
 //                      camera.flag = 0;
 
 /*			if (!demo && !bOvladaniBerusek1)
@@ -11626,7 +11623,6 @@ PLAY_LEVEL_START:
 /*			if (!demo && !bOvladaniBerusek1)
 				gl_Next_Demo_Frame(control.turn_left, &control, 0, NULL, NULL);*/
 
-        gl_Zero_Key_Buffer(&control);
 //                      camera.flag = 0;
 
         if (bOvladaniBerusek1) {
@@ -11751,7 +11747,6 @@ PLAY_LEVEL_START:
 /*			if (!demo && !bOvladaniBerusek1)
 				gl_Next_Demo_Frame(control.turn_right, &control, 0, NULL, NULL);*/
 
-        gl_Zero_Key_Buffer(&control);
 //                      camera.flag = 0;
 
         if (bOvladaniBerusek1) {

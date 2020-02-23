@@ -4,6 +4,7 @@
     - Fixed more crashes and a hang
     - Enable demo recording
     - Don't show a duplicate cursor after playing a level
+    - Allow held-down keys to be processed immediately after an animation finishes
 
 * 0.10
     - Incompatible save game format!
