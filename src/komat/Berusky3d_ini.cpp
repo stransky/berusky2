@@ -432,13 +432,12 @@ int spracuj_spravy(int param)
       case SDL_KEYDOWN:
         {
           int keycode = event.key.keysym.sym;
+	  SDLMod mod = event.key.keysym.mod;
 
           //printf("SDL_KEYDOWN(%d)\n",keycode);
         
           key[keycode] = TRUE;
           key[0] = TRUE;
-
-          SDLMod mod = SDL_GetModState();
 
           key[K_SHIFT] = mod & KMOD_SHIFT;
           key[K_CTRL] = mod & KMOD_CTRL;
@@ -452,11 +451,10 @@ int spracuj_spravy(int param)
       case SDL_KEYUP:
         {
           int keycode = event.key.keysym.sym;
+	  SDLMod mod = event.key.keysym.mod;
 
           key[keycode] = FALSE;
           key[0] = FALSE;
-
-          SDLMod mod = SDL_GetModState();
 
           key[K_SHIFT] = mod & KMOD_SHIFT;
           key[K_CTRL] = mod & KMOD_CTRL;
