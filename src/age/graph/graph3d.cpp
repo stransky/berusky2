@@ -91,8 +91,7 @@ void sdl_start(void)
   // Some default SDL config
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY,SDL_DEFAULT_REPEAT_INTERVAL);
 
-  // Disable for now
-  SDL_EnableUNICODE(FALSE);
+  SDL_EnableUNICODE(TRUE);
 }
 
 // -------------------------------------------------------

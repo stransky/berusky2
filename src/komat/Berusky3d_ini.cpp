@@ -443,9 +443,8 @@ int spracuj_spravy(int param)
           key[K_CTRL] = mod & KMOD_CTRL;
           key[K_ALT] = mod & KMOD_ALT;
 
-          // store ascii character for GUI interface
-          // ASCI only, we may change it to unicode someday
-          key_pressed = keycode;
+          // store unicode character for GUI interface
+          key_pressed = event.key.keysym.unicode;
         }
         break;
       case SDL_KEYUP:

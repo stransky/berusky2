@@ -5,6 +5,7 @@
     - Enable demo recording
     - Don't show a duplicate cursor after playing a level
     - Allow held-down keys to be processed immediately after an animation finishes
+    - Enable Unicode support
 
 * 0.10
     - Incompatible save game format!
