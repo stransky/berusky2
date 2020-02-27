@@ -374,12 +374,8 @@ int demo_Load(DEMOSTRUCTURE * p_Demo, char *p_File_Name, char *bOvladani,
     return 0;
   }
 
-  p_Frame = (DEMOKEYFRAME *) mmalloc(sizeof(DEMOKEYFRAME));
-
   p_Demo->bOvladaniBerusek1 = FileHeader.bOvladaniBerusek1;
-  p_Demo->p_First = p_Frame;
-  p_Last = p_Demo->p_First;
-  p_Last->p_Next = NULL;
+  p_Demo->p_First = p_Demo->p_Last = NULL;
 
   for (i = 0; i < p_Demo->Frame_Counter; i++) {
     p_Frame = (DEMOKEYFRAME *) mmalloc(sizeof(DEMOKEYFRAME));
@@ -392,7 +388,10 @@ int demo_Load(DEMOSTRUCTURE * p_Demo, char *p_File_Name, char *bOvladani,
       return 0;
     }
 
-    p_Last->p_Next = p_Frame;
+    if (i == 0)
+      p_Demo->p_First = p_Frame;
+    else
+      p_Last->p_Next = p_Frame;
 
     p_Last = p_Frame;
     p_Last->p_Next = NULL;
