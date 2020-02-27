@@ -249,7 +249,10 @@ inline int calc_time_akt(int next_time, int time_start)
 
 inline int calc_endtime(int framenum)
 {
-  return (framenum * SIM_KONSTI);
+  // Leave the -1 or there will be a slight pause between walking
+  // animations. If `framenum' is 0, we have to return 0 because
+  // otherwise we would return a negative number.
+  return framenum ? ((framenum - 1) * SIM_KONSTI) : 0;
 }
 
 inline int calc_keynum(int endtime)
