@@ -11477,8 +11477,9 @@ PLAY_LEVEL_START:
 
 //                      camera.flag = 0;
 
-/*			if (!demo && !bOvladaniBerusek1)
-				gl_Next_Demo_Frame(control.turn_back, &control, 0, NULL, NULL);*/
+        if (!demo && !bOvladaniBerusek1)
+          gl_Next_Demo_Frame(control.turn_back, &control, 0,
+                             NULL, NULL, Level.Actual_Item);
 
         Level.Sikmina_Flag = 0;
 
@@ -11621,8 +11622,9 @@ PLAY_LEVEL_START:
         NoKeyCounter = 0;
         bBeetleAdded = 0;
 
-/*			if (!demo && !bOvladaniBerusek1)
-				gl_Next_Demo_Frame(control.turn_left, &control, 0, NULL, NULL);*/
+        if (!demo && !bOvladaniBerusek1)
+          gl_Next_Demo_Frame(control.turn_left, &control, 0,
+                             NULL, NULL, Level.Actual_Item);
 
 //                      camera.flag = 0;
 
@@ -11747,8 +11749,9 @@ PLAY_LEVEL_START:
 
         Level.Sikmina_Flag = 0;
 
-/*			if (!demo && !bOvladaniBerusek1)
-				gl_Next_Demo_Frame(control.turn_right, &control, 0, NULL, NULL);*/
+        if (!demo && !bOvladaniBerusek1)
+          gl_Next_Demo_Frame(control.turn_right, &control, 0,
+                             NULL, NULL, Level.Actual_Item);
 
 //                      camera.flag = 0;
 
