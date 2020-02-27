@@ -188,6 +188,7 @@ typedef void * (*thread_routine)(void *);
  
 THREAD_HANDLE CreateThread(void *lpThreadAttributes, size_t dwStackSize, thread_routine lpStartAddress,
                            void * lpParameter, dword dwCreationFlags, THREAD_ID *lpThreadId);
+int TerminateThread(THREAD_HANDLE hThread, dword dwExitCode);
 int  CloseHandle(THREAD_HANDLE handle);
 void ExitThread(dword dwExitCode);
 int  SetThreadPriority(THREAD_HANDLE hThread, int nPriority);

@@ -31,6 +31,7 @@ extern "C" {
 #endif
 
 #include <stdio.h>
+#include <signal.h>
 #include "compat_mini.h"
 
 dword karmin_aktivni = 1;
@@ -88,6 +89,17 @@ THREAD_HANDLE CreateThread(void *lpThreadAttributes, size_t dwStackSize, thread_
   lpThreadId = NULL;
   pthread_create(&handle, NULL, lpStartAddress, lpParameter);
   return(handle);
+}
+
+int TerminateThread(THREAD_HANDLE hThread, dword dwExitCode)
+{
+  int err;
+  dword lpExitCode;
+
+  (err = pthread_kill(hThread, SIGTERM)) ||
+  (err = GetExitCodeThread(hThread, &lpExitCode));
+
+  return err;
 }
 
 int CloseHandle(THREAD_HANDLE handle)

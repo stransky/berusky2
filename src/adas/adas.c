@@ -1628,11 +1628,11 @@ void * adas_ManagerProc(void *lpParameter)
 //------------------------------------------------------------------------------------------------
 void adas_Shot_Down_Manager(void)
 {
+  dword Exit_Code;
+
   if (!bDevice)
     return;
-// TODO
-#ifdef WIDOWS
-  unsigned long Exit_Code;
+
   Manager.Shot_down = 1;
   Sleep(500);
   GetExitCodeThread(Manager.Thread, &Exit_Code);
@@ -1647,7 +1647,6 @@ void adas_Shot_Down_Manager(void)
     Manager.Thread = 0;
     Manager.ThreadID = 0;
   }
-#endif
 }
 
 #ifdef WIDOWS
