@@ -11512,8 +11512,9 @@ PLAY_LEVEL_START:
         else
           if ((Level.bSikminaMoveExeption && !Level.Flip)
           || !Level.bSikminaMoveExeption) {
-          Level.bSikminaMoveExeption = 0;
+          gl_Zero_Key_Buffer(&control);
 
+          Level.bSikminaMoveExeption = 0;
           pS = (POINTERSTRUCTURE *) malloc(sizeof(POINTERSTRUCTURE));
 
           pos_n[0] = Level.Level[Level.Actual_Item]->Pos[0];
@@ -11656,6 +11657,8 @@ PLAY_LEVEL_START:
         else
           if ((Level.bSikminaMoveExeption && !Level.Flip)
           || !Level.bSikminaMoveExeption) {
+          gl_Zero_Key_Buffer(&control);
+
           Level.bSikminaMoveExeption = 0;
           pS = (POINTERSTRUCTURE *) malloc(sizeof(POINTERSTRUCTURE));
 
@@ -11780,6 +11783,8 @@ PLAY_LEVEL_START:
         else
           if ((Level.bSikminaMoveExeption && !Level.Flip)
           || !Level.bSikminaMoveExeption) {
+          gl_Zero_Key_Buffer(&control);
+
           Level.bSikminaMoveExeption = 0;
           pS = (POINTERSTRUCTURE *) malloc(sizeof(POINTERSTRUCTURE));
 
