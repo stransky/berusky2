@@ -2992,10 +2992,8 @@ void am_TurnOff_The_Teleport(ITEMDESC * pTel, LEVELINFO * p_Level)
     sdl_anim_start(hSvetlo, &p_Level->TrashFlag, 0, 0, 0);
   }
 
-  if (p_Level->TelCSparks[i].hHnizdo[0]) {
+  if (p_Level->TelCSparks[i].hHnizdo[0])
     par_vloz_hnizdo_pivot(p_Level->TelCSparks[i].hHnizdo[0], NULL);
-    p_Level->TelCSparks[i].hHnizdo[0] = 0;
-  }
 
   p_Level->TelCSparks[i].hHnizdo[1] = 0;
 
