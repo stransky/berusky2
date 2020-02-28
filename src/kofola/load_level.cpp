@@ -1790,7 +1790,7 @@ int lsi_Load_Saved_Level(char *p_Level_Name, LEVELINFO * p_Level)
   file = fopen(ctext, "rb");
   if (!file) {
     kprintf(1, "Level change file %s not present", ctext);
-    return -2;
+    return -1;
   }
 
   if (fread(&pProfile, sizeof(PLAYER_PROFILE), 1, file) != 1 ||
