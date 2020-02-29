@@ -11198,28 +11198,22 @@ PLAY_LEVEL_START:
 
           rot = gl_Get_Correspond_Rotation(0, 0);
 
-          if (PRCameraFlagChange != 1) {
-            if (!Level.Flip
-              && Level.Level[Level.Actual_Item]->Rotation != rot) {
-              kom_umisti_prvek(Level.Level[Level.Actual_Item]->
-                Index_Of_Game_Mesh, Level.Level[Level.Actual_Item]->Pos[0],
-                Level.Level[Level.Actual_Item]->Pos[2],
-                Level.Level[Level.Actual_Item]->Pos[1], rot);
-              Level.Level[Level.Actual_Item]->Rotation = rot;
+          if (!Level.Flip
+            && Level.Level[Level.Actual_Item]->Rotation != rot) {
+            kom_umisti_prvek(Level.Level[Level.Actual_Item]->
+              Index_Of_Game_Mesh, Level.Level[Level.Actual_Item]->Pos[0],
+              Level.Level[Level.Actual_Item]->Pos[2],
+              Level.Level[Level.Actual_Item]->Pos[1], rot);
+            Level.Level[Level.Actual_Item]->Rotation = rot;
 
-              am_Correct_Beetle_Animation(Level.Level[Level.Actual_Item]->
-                Index_Of_Game_Mesh, &Level,
-                Level.Level[Level.Actual_Item]->Rotation);
+            am_Correct_Beetle_Animation(Level.Level[Level.Actual_Item]->
+              Index_Of_Game_Mesh, &Level,
+              Level.Level[Level.Actual_Item]->Rotation);
 
-              Level.bB1ExtraCameraRot = 1;
-              goto POSUN_DOPREDU;
-            }
-            else if (Level.Level[Level.Actual_Item]->Rotation == rot) {
-              Level.bB1ExtraCameraRot = 0;
-              goto POSUN_DOPREDU;
-            }
+            Level.bB1ExtraCameraRot = 1;
+            goto POSUN_DOPREDU;
           }
-          else {
+          else if (Level.Level[Level.Actual_Item]->Rotation == rot) {
             Level.bB1ExtraCameraRot = 0;
             goto POSUN_DOPREDU;
           }
@@ -11486,29 +11480,23 @@ PLAY_LEVEL_START:
         if (bOvladaniBerusek1) {
           int rot = gl_Get_Correspond_Rotation(2, 0);
 
-          if (PRCameraFlagChange != 1) {
+          if (!Level.Flip
+            && Level.Level[Level.Actual_Item]->Rotation != rot) {
+            kom_umisti_prvek(Level.Level[Level.Actual_Item]->
+              Index_Of_Game_Mesh, Level.Level[Level.Actual_Item]->Pos[0],
+              Level.Level[Level.Actual_Item]->Pos[2],
+              Level.Level[Level.Actual_Item]->Pos[1], rot);
+            Level.Level[Level.Actual_Item]->Rotation = rot;
 
-            if (!Level.Flip
-              && Level.Level[Level.Actual_Item]->Rotation != rot) {
-              kom_umisti_prvek(Level.Level[Level.Actual_Item]->
-                Index_Of_Game_Mesh, Level.Level[Level.Actual_Item]->Pos[0],
-                Level.Level[Level.Actual_Item]->Pos[2],
-                Level.Level[Level.Actual_Item]->Pos[1], rot);
-              Level.Level[Level.Actual_Item]->Rotation = rot;
+            am_Correct_Beetle_Animation(Level.Level[Level.Actual_Item]->
+              Index_Of_Game_Mesh, &Level,
+              Level.Level[Level.Actual_Item]->Rotation);
 
-              am_Correct_Beetle_Animation(Level.Level[Level.Actual_Item]->
-                Index_Of_Game_Mesh, &Level,
-                Level.Level[Level.Actual_Item]->Rotation);
-
-              Level.bB1ExtraCameraRot = 1;
-              goto POSUN_DOPREDU;
-            }
-            else if (Level.Level[Level.Actual_Item]->Rotation == rot)
-              goto POSUN_DOPREDU;
-          }
-          else
+            Level.bB1ExtraCameraRot = 1;
             goto POSUN_DOPREDU;
-
+          }
+          else if (Level.Level[Level.Actual_Item]->Rotation == rot)
+            goto POSUN_DOPREDU;
         }
         else
           if ((Level.bSikminaMoveExeption && !Level.Flip)
@@ -11631,30 +11619,24 @@ PLAY_LEVEL_START:
         if (bOvladaniBerusek1) {
           int rot = gl_Get_Correspond_Rotation(3, 0);
 
-          if (PRCameraFlagChange != 1 || bLastSunuti) {
+          if (!Level.Flip
+            && Level.Level[Level.Actual_Item]->Rotation != rot) {
+            kom_umisti_prvek(Level.Level[Level.Actual_Item]->
+              Index_Of_Game_Mesh, Level.Level[Level.Actual_Item]->Pos[0],
+              Level.Level[Level.Actual_Item]->Pos[2],
+              Level.Level[Level.Actual_Item]->Pos[1], rot);
 
-            if (!Level.Flip
-              && Level.Level[Level.Actual_Item]->Rotation != rot) {
-              kom_umisti_prvek(Level.Level[Level.Actual_Item]->
-                Index_Of_Game_Mesh, Level.Level[Level.Actual_Item]->Pos[0],
-                Level.Level[Level.Actual_Item]->Pos[2],
-                Level.Level[Level.Actual_Item]->Pos[1], rot);
+            Level.Level[Level.Actual_Item]->Rotation = rot;
 
-              Level.Level[Level.Actual_Item]->Rotation = rot;
+            am_Correct_Beetle_Animation(Level.Level[Level.Actual_Item]->Index_Of_Game_Mesh,
+                                        &Level,
+                                        Level.Level[Level.Actual_Item]->Rotation);
 
-              am_Correct_Beetle_Animation(Level.Level[Level.Actual_Item]->Index_Of_Game_Mesh, 
-                                          &Level,
-                                          Level.Level[Level.Actual_Item]->Rotation);
-
-              Level.bB1ExtraCameraRot = 1;
-              goto POSUN_DOPREDU;
-            }
-            else if (Level.Level[Level.Actual_Item]->Rotation == rot)
-              goto POSUN_DOPREDU;
-          }
-          else
+            Level.bB1ExtraCameraRot = 1;
             goto POSUN_DOPREDU;
-
+          }
+          else if (Level.Level[Level.Actual_Item]->Rotation == rot)
+            goto POSUN_DOPREDU;
         }
         else
           if ((Level.bSikminaMoveExeption && !Level.Flip)
@@ -11758,30 +11740,24 @@ PLAY_LEVEL_START:
         if (bOvladaniBerusek1) {
           int rot = gl_Get_Correspond_Rotation(1, 0);
 
-          if (PRCameraFlagChange != 1) {
+          if (!Level.Flip
+            && Level.Level[Level.Actual_Item]->Rotation != rot) {
+            kom_umisti_prvek(Level.Level[Level.Actual_Item]->
+              Index_Of_Game_Mesh, Level.Level[Level.Actual_Item]->Pos[0],
+              Level.Level[Level.Actual_Item]->Pos[2],
+              Level.Level[Level.Actual_Item]->Pos[1], rot);
 
-            if (!Level.Flip
-              && Level.Level[Level.Actual_Item]->Rotation != rot) {
-              kom_umisti_prvek(Level.Level[Level.Actual_Item]->
-                Index_Of_Game_Mesh, Level.Level[Level.Actual_Item]->Pos[0],
-                Level.Level[Level.Actual_Item]->Pos[2],
-                Level.Level[Level.Actual_Item]->Pos[1], rot);
+            Level.Level[Level.Actual_Item]->Rotation = rot;
 
-              Level.Level[Level.Actual_Item]->Rotation = rot;
+            am_Correct_Beetle_Animation(Level.Level[Level.Actual_Item]->
+              Index_Of_Game_Mesh, &Level,
+              Level.Level[Level.Actual_Item]->Rotation);
 
-              am_Correct_Beetle_Animation(Level.Level[Level.Actual_Item]->
-                Index_Of_Game_Mesh, &Level,
-                Level.Level[Level.Actual_Item]->Rotation);
-
-              Level.bB1ExtraCameraRot = 1;
-              goto POSUN_DOPREDU;
-            }
-            else if (Level.Level[Level.Actual_Item]->Rotation == rot)
-              goto POSUN_DOPREDU;
-          }
-          else
+            Level.bB1ExtraCameraRot = 1;
             goto POSUN_DOPREDU;
-
+          }
+          else if (Level.Level[Level.Actual_Item]->Rotation == rot)
+            goto POSUN_DOPREDU;
         }
         else
           if ((Level.bSikminaMoveExeption && !Level.Flip)
