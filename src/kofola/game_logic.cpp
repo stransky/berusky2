@@ -10231,7 +10231,7 @@ int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, AUDIO_DATA * p_ad, int iC
   unsigned long NoKeyCounter;
   char bBeetleAdded;
   CAMERA_STRUCT GetCamera;
-  char bOvladaniBerusek1;
+  char bOvladaniBerusek1, bLastOvladaniBerusek1;
   char bVisibility;
   char bHint;
   int iMenuAnimation = 0;
@@ -10347,7 +10347,7 @@ PLAY_LEVEL_START:
   am_Change_Wind(&Level);
 
   Level.bPosouvatKameru = GetPrivateProfileInt("game", "posouvat_kameru", 0, ini_file);
-  bOvladaniBerusek1 = GetPrivateProfileInt("game", "ovladani", 0, ini_file);
+  bLastOvladaniBerusek1 = bOvladaniBerusek1 = GetPrivateProfileInt("game", "ovladani", 0, ini_file);
   bVisibility = GetPrivateProfileInt("game", "bugs_highlight", 0, ini_file);  
   Level.bPohled_Berusky = GetPrivateProfileInt("game", "pohled_berusky", 0, ini_file);
 
@@ -11110,6 +11110,7 @@ PLAY_LEVEL_START:
               iKeyCursor = 1;
             }
             else {
+              bOvladaniBerusek1 = bLastOvladaniBerusek1;
               //NENI TO OVLADANI BERUSKY
             }
           }
