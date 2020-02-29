@@ -58,7 +58,8 @@ public:
 
   void set(const char *p_file)
   {
-    strncpy(name,p_file,MAX_FILENAME);
+    strncpy(name, p_file, MAX_FILENAME - 1);
+    name[MAX_FILENAME - 1] = '\0'; // Ensure it's null-terminated
   }
 
   const char * get(void)

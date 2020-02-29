@@ -474,7 +474,8 @@ void kom_zrus_level(int restart)
      STATIC_LIGHT         p_slight[MAX_FLARE_SVETEL];
    */
   p_ber->slightnum = 0;
-  memset(p_ber->p_slight, 0, sizeof(p_ber->p_slight[0]) * MAX_FLARE_SVETEL);
+  memset((void *) p_ber->p_slight, 0,
+	 sizeof(p_ber->p_slight[0]) * MAX_FLARE_SVETEL);
 
   kprintf(TRUE, "Kom_zrus_level - dyn svetla...");
 
@@ -485,7 +486,8 @@ void kom_zrus_level(int restart)
       sdla_animaci_zrus_online(&p_ber->p_dlight[i].an);
     }
   }
-  memset(p_ber->p_dlight, 0, sizeof(p_ber->p_dlight[0]) * MAX_FLARE_SVETEL);
+  memset((void *) p_ber->p_dlight, 0,
+	 sizeof(p_ber->p_dlight[0]) * MAX_FLARE_SVETEL);
 
   kprintf(TRUE, "Kom_zrus_level - extra-dyn svetla...");
 
@@ -496,7 +498,8 @@ void kom_zrus_level(int restart)
       sdla_animaci_zrus_online(&p_ber->p_edlight[i].an);
     }
   }
-  memset(p_ber->p_edlight, 0, sizeof(p_ber->p_edlight[0]) * MAX_FLARE_SVETEL);
+  memset((void *) p_ber->p_edlight, 0,
+	 sizeof(p_ber->p_edlight[0]) * MAX_FLARE_SVETEL);
 
   kprintf(TRUE, "Kom_zrus_level - sim-animaci...");
 
@@ -510,8 +513,10 @@ void kom_zrus_level(int restart)
       zrus_tri_vnitrek(p_ber->p_track + i);
     }
   }
-  memset(p_ber->p_sim, 0, sizeof(p_ber->p_sim[0]) * MAX_SIM_ANIMACI);
-  memset(p_ber->p_track, 0, sizeof(p_ber->p_track[0]) * MAX_SIM_ANIMACI);
+  memset((void *) p_ber->p_sim, 0,
+	 sizeof(p_ber->p_sim[0]) * MAX_SIM_ANIMACI);
+  memset((void *) p_ber->p_track, 0,
+	 sizeof(p_ber->p_track[0]) * MAX_SIM_ANIMACI);
 
   kprintf(TRUE, "Kom_zrus_level - hit-list...");
 
@@ -571,7 +576,8 @@ void kom_zrus_level(int restart)
    */
   p_ber->p_gkanim = NULL;
   p_ber->gknum = 0;
-  memset(p_ber->p_gkzas, 0, sizeof(p_ber->p_gkzas[0]) * MAX_RUN_ANIMACI);
+  memset((void *) p_ber->p_gkzas, 0,
+	 sizeof(p_ber->p_gkzas[0]) * MAX_RUN_ANIMACI);
 
   kprintf(TRUE, "Kom_zrus_level - animace chapadel...");
 

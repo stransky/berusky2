@@ -594,7 +594,7 @@ int ber_nahraj_scenu(G_KONFIG * p_ber, char *p_jmeno, char *p_dir, int reload,
   int k, f, kflag, m, ret;
 
   memset(p_kont, 0, sizeof(p_kont[0]) * MAX_BERUSKY_KONTEJNERU);
-  memset(flare, 0, sizeof(flare[0]) * MAX_FLARE_SVETEL);
+  memset((void *) flare, 0, sizeof(flare[0]) * MAX_FLARE_SVETEL);
 
   strcpy(file, p_jmeno);
   zamen_koncovku(file, KONCOVKA_SCENY);
