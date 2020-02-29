@@ -4397,7 +4397,7 @@ int check_Save_Owner(char *cDir, WCHAR * wFileName)
   LEVEL_HEADER l_h;
 
   char dir[MAX_FILENAME + 1];
-  WCHAR wdir[MAX_FILENAME + 1];
+  WCHAR wdir[256 + 1];
 
   int ver;
 
@@ -4433,7 +4433,7 @@ int check_Save_Owner(char *cDir, WCHAR * wFileName)
     return 0;
   }
 
-  if (fread(wdir, (MAX_FILENAME + 1) * sizeof(WCHAR), 1, file) != 1 ||
+  if (fread(wdir, (256 + 1) * sizeof(WCHAR), 1, file) != 1 ||
       fread(&l_h, sizeof(LEVEL_HEADER), 1, file) != 1) {
     fclose(file);
     return 0;
