@@ -897,17 +897,23 @@ RunHandle kam_start(AnimHandle a_handle, int *p_flag, int flag, int start, int s
       (dword *) & p_ber->kamera.time_stop,
       (dword *) & p_ber->kamera.time_delka);
   }
+  else {
+    // No animation is needed; reset the camera.
+    kam_zrus_animaci(p_ber->kamera.a_handle);
+    p_ber->kamnum = 0;
+  }
+
   return (TRUE);
 }
 
 void kam_stop(void)
 {
-  if (p_ber->kamera.flag & GK_REMOVE) {
-    kam_zrus_animaci(p_ber->kamera.a_handle);
-    p_ber->kamnum = 0;
-  }
-
   if (p_ber->kamera.aktivni & GAME_KAMERA_ANIMACE) {
+    if (p_ber->kamera.flag & GK_REMOVE) {
+      kam_zrus_animaci(p_ber->kamera.a_handle);
+      p_ber->kamnum = 0;
+    }
+
     p_ber->kamera.aktivni &= ~GAME_KAMERA_ANIMACE;
     p_ber->kamera.p_anim = NULL;
     p_ber->kamera.a_handle = K_CHYBA;
