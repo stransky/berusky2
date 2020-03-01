@@ -51,6 +51,8 @@ int winmain_Game_Run(char *p_Level_Name)
   char bGame = strlen(p_Level_Name);
   char bitmap_pak[MAX_FILENAME];
 
+  ShowCursor(FALSE);
+
   cpu = sizeof(AUDIO_DATA);
 
   kprintf(1, "Kofola - verze zdrojaku: MASTER %d.%d", VERZEHI, VERZELO);
