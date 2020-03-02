@@ -1466,6 +1466,7 @@ void kam_set_kino_screen(G_KONFIG * p_ber)
 {
   int kxres = SCREEN_XRES;
   int kyres = ftoi(SCREEN_XRES * KINO_POMER);
+  if (kyres > SCREEN_YRES) kyres = SCREEN_YRES;
   int kx = SCREEN_XSTART, ky = SCREEN_YSTART + (SCREEN_YRES - kyres) / 2;
 
   set_matrix_view(kx, ky, kxres, kyres);
