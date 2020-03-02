@@ -10233,6 +10233,7 @@ int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, AUDIO_DATA * p_ad, int iC
   CAMERA_STRUCT GetCamera;
   char bOvladaniBerusek1, bLastOvladaniBerusek1;
   char bVisibility;
+  char bCameraIntro;
   char bHint;
   int iMenuAnimation = 0;
   char cLevelName[64];
@@ -10350,6 +10351,10 @@ PLAY_LEVEL_START:
   bLastOvladaniBerusek1 = bOvladaniBerusek1 = GetPrivateProfileInt("game", "ovladani", 0, ini_file);
   bVisibility = GetPrivateProfileInt("game", "bugs_highlight", 0, ini_file);  
   Level.bPohled_Berusky = GetPrivateProfileInt("game", "pohled_berusky", 0, ini_file);
+  if (bRestart)
+    bCameraIntro = 0;
+  else
+    bCameraIntro = GetPrivateProfileInt("game", "camera_intro", 0, ini_file);
 
   kprintf(1, "demo_Load...");
   if (demo) {
@@ -10644,54 +10649,46 @@ PLAY_LEVEL_START:
   RunMenuLoadScreenRelease(3);
 
   kprintf(1, "kom_get_level_environment, kam_3ds_nahraj_animaci...");
-  if (!demo) {
-    int icamanimrestart = GetPrivateProfileInt("game", "camera_intro", 0, ini_file);
 
-    if (bRestart)
-      icamanimrestart = 0;
-    
+  pEnv = kom_get_level_environment();
+  if (pEnv) {
     char file[MAX_FILENAME];
+
     strcpy(file, GAME_DATA_DIR);
-    
-    pEnv = kom_get_level_environment();
-    if (pEnv) {
-      strcat(file, DIR_SLASH_STRING);
-      strcat(file, pEnv->cCam);
+    strcat(file, DIR_SLASH_STRING);
+    strcat(file, pEnv->cCam);
 
-      cameraanim = kam_3ds_nahraj_animaci(pGDataArchive, file);
+    cameraanim = kam_3ds_nahraj_animaci(pGDataArchive, file);
 
-      if (cameraanim != K_CHYBA) {
-        kam_set_kino_screen(p_ber);
-        kom_zpruhlednovac_off();
-        Level.bInventory = 0;
-        Level.bTopLedge = 0;
-        kam_start(cameraanim, &cameraflag, GK_REMOVE, 0, 0);
+    if (cameraanim != K_CHYBA) {
+      kam_set_kino_screen(p_ber);
+      kom_zpruhlednovac_off();
+      Level.bInventory = 0;
+      Level.bTopLedge = 0;
+      kam_start(cameraanim, &cameraflag, GK_REMOVE, 0, 0);
+    }
+    else
+      cameraflag = -1;
+
+
+    if (!bCameraIntro) {
+      BOD p_p(0,10,0), p_t(0,0,0); // default camera values
+      float p_roll = 0;
+
+      if (kam_3ds_cti_klic(cameraanim, 1, &p_p, &p_t, &p_roll) != K_CHYBA) {
+	kam_stop();
+	kam_3ds_set(&p_p, &p_t, p_roll);
       }
-      else
-        cameraflag = -1;
 
-
-      if (!icamanimrestart) {
-        BOD p_p(0,10,0), p_t(0,0,0); // default camera values
-        float p_roll = 0;
-
-        if (kam_3ds_cti_klic(cameraanim, 1, &p_p, &p_t, &p_roll) != K_CHYBA) {
-          kam_stop();
-          kam_3ds_set(&p_p, &p_t, p_roll);
-        }
-
-        kam_set_normal_screen(p_ber);
-        kom_zpruhlednovac_on();
-        Level.bInventory =
-          GetPrivateProfileInt("game", "bInventory", 1, ini_file);
-        Level.bTopLedge =
-          GetPrivateProfileInt("game", "bTopLedge", 1, ini_file);
-        cameraflag = -1;
-      }
+      kam_set_normal_screen(p_ber);
+      kom_zpruhlednovac_on();
+      Level.bInventory =
+	GetPrivateProfileInt("game", "bInventory", 1, ini_file);
+      Level.bTopLedge =
+	GetPrivateProfileInt("game", "bTopLedge", 1, ini_file);
+      cameraflag = -1;
     }
   }
-/*	else
-		cameraflag = -1;*/
 
   bRestart = 0;
 
