@@ -8935,12 +8935,12 @@ void gl_Set_Frame_Rate(void)
 //------------------------------------------------------------------------------------------------
 // Zero movement keys
 //------------------------------------------------------------------------------------------------
-void gl_Zero_Key_Buffer(CONTROL_KEYS * p_keys)
+void gl_Zero_Key_Buffer(int *p_key, CONTROL_KEYS * p_keys)
 {
-  key[p_keys->move_forward] = 0;
-  key[p_keys->turn_back] = 0;
-  key[p_keys->turn_left] = 0;
-  key[p_keys->turn_right] = 0;
+  p_key[p_keys->move_forward] = 0;
+  p_key[p_keys->turn_back] = 0;
+  p_key[p_keys->turn_left] = 0;
+  p_key[p_keys->turn_right] = 0;
 
 }
 
@@ -10218,6 +10218,8 @@ int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, AUDIO_DATA * p_ad, int iC
 {
   int iKeyLine[3];
   int iKeyCursor;
+  int demo_key[POCET_KLAVES];
+  int *p_key;
   int Return;
   int pos_n[3];
   int Frame_Rate_Counter;
@@ -10701,6 +10703,15 @@ PLAY_LEVEL_START:
   Level.dwLastMusicCheck = timeGetTime();
   kprintf(1, "ap_Play_Song DONE...");
 
+  // When playing a demo, we will look at `demo_key' for movement
+  // keys, otherwise `key'.
+  if (demo) {
+    memset(demo_key, 0, sizeof(demo_key));
+    p_key = demo_key;
+  }
+  else
+    p_key = key;
+
   while (!Level.Level_Exit || Level.lLevel_Exitc > 0) {
 
     //brouk na exitu
@@ -10764,8 +10775,8 @@ PLAY_LEVEL_START:
         }
       }
 
-      if (key[control.item_lock]) {
-        key[control.item_lock] = 0;
+      if (p_key[control.item_lock]) {
+        p_key[control.item_lock] = 0;
 
         if (!demo)
           gl_Next_Demo_Frame(control.item_lock, &control, 0, NULL, NULL,
@@ -10963,7 +10974,7 @@ PLAY_LEVEL_START:
 		gl_Do_Game_Trigers(&tri, &Level, p_ad);
 		Level.bTriger = 0;
 		Level.bAllow_Key = 1;
-		gl_Zero_Key_Buffer(&control);
+		gl_Zero_Key_Buffer(p_key, &control);
 	}*/
 
 //-------------------------------------------------------------------------------------------
@@ -11103,27 +11114,28 @@ PLAY_LEVEL_START:
             if (demo_Create_Sequence(iKeyLine, 3, Demo.p_Last,
                 &bOvladaniBerusek1, Level.Level[Level.Actual_Item]->Rotation,
                 &control, &Demo, Level.Level[Level.Actual_Item]->Pos)) {
-              key[iKeyLine[0]] = 1;
+              demo_key[iKeyLine[0]] = 1;
               iKeyCursor = 1;
             }
             else {
               bOvladaniBerusek1 = bLastOvladaniBerusek1;
+              p_key = key;
               //NENI TO OVLADANI BERUSKY
             }
           }
         }
         else if (!PRCameraFlagChange) {
-          key[iKeyLine[iKeyCursor]] = 1;
+          demo_key[iKeyLine[iKeyCursor]] = 1;
           iKeyCursor++;
         }
       }
 
-      if (key[control.blow_detonation_pack]) {
+      if (p_key[control.blow_detonation_pack]) {
         if (!demo)
           gl_Next_Demo_Frame(control.blow_detonation_pack, &control, 0, NULL,
             NULL, Level.Actual_Item);
 
-        key[control.blow_detonation_pack] = 0;
+        p_key[control.blow_detonation_pack] = 0;
         if ((Level.Level[Level.Actual_Item]->p_Back_Pack->item[4]) &&
           (!Level.Item_Lock))
           gl_Throw_Detonation_Pack(Level.Actual_Item, &Level);
@@ -11140,7 +11152,7 @@ PLAY_LEVEL_START:
            Level.lLevel_Exitc = 0; */
       }
 
-      if (key[control.next_beatle] && !Level.Flip && !Level.status) {
+      if (p_key[control.next_beatle] && !Level.Flip && !Level.status) {
         BOD b;
         float dist;
         long frame;
@@ -11152,7 +11164,7 @@ PLAY_LEVEL_START:
           gl_Next_Demo_Frame(control.next_beatle, &control, 0, NULL, NULL,
             Level.Actual_Item);
 
-        key[control.next_beatle] = 0;
+        p_key[control.next_beatle] = 0;
 //                      camera.flag = 0;
 
         last_b = Level.Actual_Item;
@@ -11181,7 +11193,7 @@ PLAY_LEVEL_START:
 
       }
 
-      if (key[control.move_forward]) {
+      if (p_key[control.move_forward]) {
         Level.lLastKeyCounter = NoKeyCounter;
         NoKeyCounter = 0;
         bBeetleAdded = 0;
@@ -11223,7 +11235,7 @@ PLAY_LEVEL_START:
 
           PRCameraFlagChange = 0;
 
-          gl_Zero_Key_Buffer(&control);
+          gl_Zero_Key_Buffer(p_key, &control);
 //                              camera.flag = 0;
 
           pos_o[0] = pos_n[0] = Level.Level[Level.Actual_Item]->Pos[0];
@@ -11460,7 +11472,7 @@ PLAY_LEVEL_START:
           Demo.Start = timeGetTime();
       }
 
-      if (key[control.turn_back]) {
+      if (p_key[control.turn_back]) {
         POINTERSTRUCTURE *pS;
 
         Level.lLastKeyCounter = NoKeyCounter;
@@ -11499,7 +11511,7 @@ PLAY_LEVEL_START:
         else
           if ((Level.bSikminaMoveExeption && !Level.Flip)
           || !Level.bSikminaMoveExeption) {
-          gl_Zero_Key_Buffer(&control);
+          gl_Zero_Key_Buffer(p_key, &control);
 
           Level.bSikminaMoveExeption = 0;
           pS = (POINTERSTRUCTURE *) malloc(sizeof(POINTERSTRUCTURE));
@@ -11599,7 +11611,7 @@ PLAY_LEVEL_START:
           Demo.Start = timeGetTime();
       }
 
-      if (key[control.turn_left]) {
+      if (p_key[control.turn_left]) {
         POINTERSTRUCTURE *pS;
 
         Level.Sikmina_Flag = 0;
@@ -11639,7 +11651,7 @@ PLAY_LEVEL_START:
         else
           if ((Level.bSikminaMoveExeption && !Level.Flip)
           || !Level.bSikminaMoveExeption) {
-          gl_Zero_Key_Buffer(&control);
+          gl_Zero_Key_Buffer(p_key, &control);
 
           Level.bSikminaMoveExeption = 0;
           pS = (POINTERSTRUCTURE *) malloc(sizeof(POINTERSTRUCTURE));
@@ -11720,7 +11732,7 @@ PLAY_LEVEL_START:
           Demo.Start = timeGetTime();
       }
 
-      if (key[control.turn_right]) {
+      if (p_key[control.turn_right]) {
         POINTERSTRUCTURE *pS;
 
         Level.lLastKeyCounter = NoKeyCounter;
@@ -11760,7 +11772,7 @@ PLAY_LEVEL_START:
         else
           if ((Level.bSikminaMoveExeption && !Level.Flip)
           || !Level.bSikminaMoveExeption) {
-          gl_Zero_Key_Buffer(&control);
+          gl_Zero_Key_Buffer(p_key, &control);
 
           Level.bSikminaMoveExeption = 0;
           pS = (POINTERSTRUCTURE *) malloc(sizeof(POINTERSTRUCTURE));
@@ -11843,61 +11855,61 @@ PLAY_LEVEL_START:
       }
 
       //vyber brouka horkou klavesou
-      if (((key[control.beatle1]) ||
-          (key[control.beatle2]) ||
-          (key[control.beatle3]) ||
-          (key[control.beatle4]) ||
-          (key[control.beatle5]) || (key[control.beatle6]))
+      if (((p_key[control.beatle1]) ||
+          (p_key[control.beatle2]) ||
+          (p_key[control.beatle3]) ||
+          (p_key[control.beatle4]) ||
+          (p_key[control.beatle5]) || (p_key[control.beatle6]))
         && !Level.Flip) {
         int btl = -1;
 
-        if (key[control.beatle1]) {
+        if (p_key[control.beatle1]) {
           if (!demo)
             gl_Next_Demo_Frame(control.beatle1, &control, 0, NULL, NULL,
               Level.Actual_Item);
 
           btl = 0;
-          key[control.beatle1] = 0;
+          p_key[control.beatle1] = 0;
         }
-        else if (key[control.beatle2]) {
+        else if (p_key[control.beatle2]) {
           if (!demo)
             gl_Next_Demo_Frame(control.beatle2, &control, 0, NULL, NULL,
               Level.Actual_Item);
 
           btl = 1;
-          key[control.beatle2] = 0;
+          p_key[control.beatle2] = 0;
         }
-        else if (key[control.beatle3]) {
+        else if (p_key[control.beatle3]) {
           if (!demo)
             gl_Next_Demo_Frame(control.beatle3, &control, 0, NULL, NULL,
               Level.Actual_Item);
 
           btl = 2;
-          key[control.beatle3] = 0;
+          p_key[control.beatle3] = 0;
         }
-        else if (key[control.beatle4]) {
+        else if (p_key[control.beatle4]) {
           if (!demo)
             gl_Next_Demo_Frame(control.beatle4, &control, 0, NULL, NULL,
               Level.Actual_Item);
 
           btl = 3;
-          key[control.beatle4] = 0;
+          p_key[control.beatle4] = 0;
         }
-        else if (key[control.beatle5]) {
+        else if (p_key[control.beatle5]) {
           if (!demo)
             gl_Next_Demo_Frame(control.beatle5, &control, 0, NULL, NULL,
               Level.Actual_Item);
 
           btl = 4;
-          key[control.beatle5] = 0;
+          p_key[control.beatle5] = 0;
         }
-        else if (key[control.beatle6]) {
+        else if (p_key[control.beatle6]) {
           if (!demo)
             gl_Next_Demo_Frame(control.beatle6, &control, 0, NULL, NULL,
               Level.Actual_Item);
 
           btl = 5;
-          key[control.beatle6] = 0;
+          p_key[control.beatle6] = 0;
         }
 
         kom_zpruhlednovat_prvky_zmena_berusky();
