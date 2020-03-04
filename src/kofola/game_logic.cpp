@@ -10248,6 +10248,7 @@ int gl_Run_Level(char *p_Level_Name, char *p_Env_Name, AUDIO_DATA * p_ad, int iC
   char bCamera;
   int cameraanim= -1;  
   int bmpc = 0;  
+  DEMOKEYFRAME *p_Last;
 
 
   Level.iNSrart = 0;
@@ -10712,6 +10713,8 @@ PLAY_LEVEL_START:
   else
     p_key = key;
 
+  p_Last = NULL;
+
   while (!Level.Level_Exit || Level.lLevel_Exitc > 0) {
 
     //brouk na exitu
@@ -11111,6 +11114,9 @@ PLAY_LEVEL_START:
       if (demo == 2 && !Level.Flip && !bPause) {
         if (!iKeyLine[iKeyCursor]) {
           if (!PRCameraFlagChange) {
+	    if (Demo.p_Last)
+	      p_Last = Demo.p_Last;
+
             if (demo_Create_Sequence(iKeyLine, 3, Demo.p_Last,
                 &bOvladaniBerusek1, Level.Level[Level.Actual_Item]->Rotation,
                 &control, &Demo, Level.Level[Level.Actual_Item]->Pos)) {
@@ -11118,8 +11124,26 @@ PLAY_LEVEL_START:
               iKeyCursor = 1;
             }
             else {
+              DEMOKEYFRAME *ret;
+
+              // We're done playing the demo.
+              demo = 0;
+
+              // Prepare for recording new moves.
+              if (p_Last) {
+                Demo.p_Last = p_Last;
+                Demo.Frame_Counter--;
+                ret = demo_Create_Frame(&Demo);
+              }
+              else
+                ret = demo_Init(&Demo);
+
+              if (ret == NULL)
+                kerror(1, "Unable to continue demo");
+
               bOvladaniBerusek1 = bLastOvladaniBerusek1;
               p_key = key;
+
               //NENI TO OVLADANI BERUSKY
             }
           }
