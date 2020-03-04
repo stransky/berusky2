@@ -929,8 +929,8 @@ BOOL ddx2BitBlt(SurfaceHandle dst, int dx, int dy, int sirka, int vyska,
     ddx2AddRectItem(&rline, r, 0);
   }
 
-  assert(dx < p_dst->x && dy < p_dst->y);
-  assert(sx < p_src->x && sy < p_src->y);
+  assert(dx <= p_dst->x && dy <= p_dst->y);
+  assert(sx <= p_src->x && sy <= p_src->y);
 
   assert(dx + sirka <= p_dst->x && dy + vyska <= p_dst->y);
   assert(sx + sirka <= p_src->x && sy + vyska <= p_src->y);
