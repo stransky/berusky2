@@ -3065,6 +3065,9 @@ int co_Handle_Edit_Key_Filter(void)
 
   //GetKeyboardState(k);
 
+  if (isprint(key_pressed))
+    return 0;
+
   if (key[K_ESC])
     c++;
 
