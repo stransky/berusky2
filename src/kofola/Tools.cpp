@@ -176,6 +176,7 @@ char * Key2String(int k, char *text)
   
     translation_table[K_ENTER] = 28;
     translation_table[K_CTRL] = 29;
+    translation_table[SDLK_LCTRL] = 29;
     
     translation_table[K_A] = 30;
     translation_table[K_S] = 31;
