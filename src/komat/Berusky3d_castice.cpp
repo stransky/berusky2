@@ -993,13 +993,13 @@ int pe_updatuj_kour_stopa(G_KONFIG * p_ber, PARMETAC * p_mt)
     p_min = &p_hnizdo->min;
     p_max = &p_hnizdo->max;
 
-    p_max->x = -FLT_MAX;
-    p_max->y = -FLT_MAX;
-    p_max->z = -FLT_MAX;
+    p_min->x = -FLT_MAX;
+    p_min->y = -FLT_MAX;
+    p_min->z = -FLT_MAX;
 
-    p_min->x = FLT_MAX;
-    p_min->y = FLT_MAX;
-    p_min->z = FLT_MAX;
+    p_max->x = FLT_MAX;
+    p_max->y = FLT_MAX;
+    p_max->z = FLT_MAX;
 
     /* Update stavajicich
      */

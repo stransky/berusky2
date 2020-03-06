@@ -7,6 +7,7 @@
     - Allow held-down keys to be processed immediately after an animation finishes
     - Enable Unicode support
     - Eliminate y-axis fighting in shadows and burnt spots
+    - Fix drawing footsteps
 
 * 0.10
     - Incompatible save game format!
