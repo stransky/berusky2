@@ -9581,24 +9581,18 @@ void gl_Flip(AUDIO_DATA * pad, LEVELINFO * p_Level, int *Frame_Rate_Counter,
   kom_klavesy_hra();
   kom_kresli_level();
 
-  if (*bCursor) {
-    if (!*no_Menu)
-      _3d_Draw_Menus(bCursor, Cursor_Time_Out, p_Level, *act_item, iReturn, demo);
-    else
-      flip();
+  if (!*no_Menu) {
+    _3d_Draw_Menus(bCursor, Cursor_Time_Out, p_Level, *act_item, iReturn, demo);
+    // The keys may have been updated
+    Bind_Keys(&control);
+    gl_Get_PR_ScanCode(&p_ber->conf_p_key, &p_ber->conf_r_key);
+  }
+  else
+    flip();
 
+  if (*bCursor)
     *act_item = iReturn[0];
-    p_Level->bMenuButton = iReturn[1];
-  }
-  else {
-    if (!*no_Menu)
-      _3d_Draw_Menus(bCursor, Cursor_Time_Out, p_Level, *act_item, iReturn, demo);
-    else
-      flip();
-
-    //*act_item = iReturn[0];
-    p_Level->bMenuButton = iReturn[1];
-  }
+  p_Level->bMenuButton = iReturn[1];
 }
 
 void gl_Beetle_Exit(LEVELINFO * p_Level)
