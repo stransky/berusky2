@@ -11223,7 +11223,6 @@ PLAY_LEVEL_START:
         bBeetleAdded = 0;
 
         p_set->pMesh = 0;
-        Level.bSetStep = 0;
 
         //kprintf(1,"K_NAHORU");
 
@@ -11256,6 +11255,8 @@ PLAY_LEVEL_START:
           int pos_o[3];
 
         POSUN_DOPREDU:
+
+          Level.bSetStep = 0;
 
           PRCameraFlagChange = 0;
 
