@@ -199,6 +199,8 @@ int winmain_Game_Run(char *p_Level_Name)
   }  
 
   if (bGame) {
+    int ret;
+
     pr_ReadProfile("Default", &pPlayerProfile);
 
     SetCursor(NULL);
@@ -206,6 +208,8 @@ int winmain_Game_Run(char *p_Level_Name)
     _3d_Load_Indikace();
     iActualScene = 0;
     char cenv[64] = "default.env";
+    ret = sscanf(p_Level_Name, "level%d.lv6", &iActualLevel);
+    assert(ret == 1);
     gl_Run_Level(p_Level_Name, cenv, &ad, cpu);
     _3d_Release_Hints(pHintTexture, 26);
     KillTimer(NULL, Timer_ID);
