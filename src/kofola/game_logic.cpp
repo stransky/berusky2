@@ -11026,7 +11026,7 @@ PLAY_LEVEL_START:
       else
         camera_Center(&cameraflag, &Level, 15, 1, 0);
 
-      if (iActualLevel >= 200 && iActualLevel < 300)
+      if (iActualLevel >= 200 && iActualLevel < 300 && !demo)
         RunMenuTutorial2("Mmtutor3D.txt", p_ad, &Level, &am);
 
       PRCameraFlag = 1;
@@ -11064,7 +11064,7 @@ PLAY_LEVEL_START:
       else
         camera_Center(&cameraflag, &Level, 8, 1, 0);
 
-      if (iActualLevel >= 200 && iActualLevel < 300) {
+      if (iActualLevel >= 200 && iActualLevel < 300 && !demo) {
         PRCameraFlag = 0;
         RunMenuTutorial2("Mmtutor3D.txt", p_ad, &Level, &am);
         PRCameraFlag = 1;
