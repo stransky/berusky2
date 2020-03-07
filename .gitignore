@@ -1,0 +1,31 @@
+# Hidden files and editor backups
+*~
+
+# Autoconf/Automake/Libtool stuff
+/libtool
+/stamp-h1
+/aclocal.m4
+/compile
+/configure
+/install-sh
+/ltmain.sh
+/missing
+/depcomp
+/autom4te.cache/
+/config.guess
+/config.h.in
+/config.h
+/config.sub
+/config.log
+/config.status
+/config.cache
+/src/.deps/
+Makefile.in
+Makefile
+
+# Gettext
+/po/POTFILES
+
+# Compiled files
+/src/*.o
+/src/berusky2
