@@ -955,7 +955,8 @@ int adas_Load_Wave(ADAS_SOUND_SOURCE * p_ss)
   strcpy(text, name);
   if (chdir(sound_dir))
     return 0;
-  adasLoadWAVFile(text, &Format, &Data, &Size, &Frequece, &loop);
+  if (!adasLoadWAVFile(text, &Format, &Data, &Size, &Frequece, &loop))
+    return 0;
   alBufferData(p_ss->Buffer[(int)p_ss->Buffer_Pointer], Format, Data, Size,
                Frequece);
   adasUnloadWAV(Format, Data, Size, Frequece);

@@ -742,7 +742,7 @@ char * dir_home_get(char *p_dir, int max)
 
   char *p_tmp = getenv("HOME");
   if(p_tmp) {
-    strncpy(p_dir,p_tmp,max);
+    strncpy(p_dir,p_tmp,max-1);
   } else {
     // a homeless user?
     assert(max >= 1);
