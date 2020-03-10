@@ -125,9 +125,9 @@ OBJECTDESC *ko_Nahraj_herni_prvky(void)
   struct _finddata_t Data;
   long Done;
 
-  GetPrivateProfileString("soundengine", "sound_dir", "c:\\", Directory, 256,
+  GetPrivateProfileString("soundengine", "sound_dir", "/", Directory, 256,
     ini_file);
-  GetPrivateProfileString("game", "prvky_dir", "c:\\", Directory3, 256,
+  GetPrivateProfileString("game", "prvky_dir", "/", Directory3, 256,
     ini_file);
 
   WaveFile = (WAVEFILEDESC *) malloc(1000 * sizeof(WAVEFILEDESC));
@@ -135,7 +135,7 @@ OBJECTDESC *ko_Nahraj_herni_prvky(void)
     MessageBox(NULL, "Nelze alokovat pamet pro WAVEFILEDESC", "!!!", MB_OK);
 
   strcpy(FileName, Directory);
-  strcat(FileName, "\\Index.dat");
+  strcat(FileName, "\\index.dat");
 
 
   file = fopen(FileName, "r");
@@ -152,7 +152,7 @@ OBJECTDESC *ko_Nahraj_herni_prvky(void)
     fclose(file);
   }
   else
-    MessageBox(NULL, "Index.dat nenalezen", "Nahraj herni prvky", MB_OK);
+    MessageBox(NULL, "index.dat nenalezen", "Nahraj herni prvky", MB_OK);
 
   Object = (OBJECTDESC *) malloc(NUMOFOBJECTS * sizeof(OBJECTDESC));
   if (Object == NULL)

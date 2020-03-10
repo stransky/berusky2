@@ -2,11 +2,10 @@
 // version 0.0.1
 //------------------------------------------------------------------------------------------------
 #include <stdio.h>
-#include "Apak.h"
 #include "3d_all.h"
 #include "Berusky3d_kofola_interface.h"
 
-extern char cFontFile[5][64];
+extern char cFontDir[5][64];
 
 void tools_Parse_Command_Line(char *pCommnad, char *pLevel, char *pDemo,
   char *demo)
@@ -70,48 +69,33 @@ void GetText(char *Buffer, char *mask, char *text)
 
 void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
 {
-  char odir[MAX_FILENAME + 1];
-  char dir[MAX_FILENAME + 1];
-  int error;
-  apuInt ulsize;
-
+  char filename[MAX_FILENAME];
   char Text[1024];
   char Caption[1024];
   char *buffer;
   FILE *file;
-
-  APAK_HANDLE *hArchive = NULL;
+  long size;
 
   if (!ctagtitle || !ctagtext)
     return;
 
-  if (getcwd(odir, MAX_FILENAME) == NULL)
+  construct_path(filename, MAX_FILENAME, 3,
+                 cFontDir[2], BITMAP_DIR, "messages.txt");
+
+  file = fopen(filename, "rb");
+
+  if (!file)
     return;
 
-  strcpy(dir, BITMAP_DIR);
-  if (chdir(dir))
-    return;
-  hArchive = apakopen(cFontFile[2], dir, &error);
+  fseek(file, 0, SEEK_END);
+  size = ftell(file);
+  fseek(file, 0, SEEK_SET);
 
-  if (!hArchive) {
-    /* GCC warns when we don't check the return value of chdir(). For
-       some reason, casting to (void) doesn't work. */
-    if (chdir(odir))
-      return;
+  buffer = (char *) mmalloc(sizeof(*buffer) * size);
+  if (fread(buffer, sizeof(*buffer), size, file) != (size_t) size) {
+    fclose(file);
     return;
   }
-  else
-    hArchive->pActualNode = hArchive->pRootNode->pNextNode;
-
-  file = aopen(hArchive, "messages.txt", "rb");
-
-  if (!file) {
-    apakclose(&hArchive);
-    if (chdir(odir))
-      return;
-  }
-
-  agetbuffer(file, (char **) &buffer, &ulsize);
 
   memset(Text, 0, 1024 * sizeof(char));
   memset(Caption, 0, 1024 * sizeof(char));
@@ -119,17 +103,14 @@ void MyMessageBox(HWND hWnd, char *ctagtitle, char *ctagtext, char *addtext)
   GetText(buffer, ctagtext, Text);
   GetText(buffer, ctagtitle, Caption);
 
+  free(buffer);
+
   strcat(Caption, addtext);
 
   //MessageBox(hWnd, (LPCTSTR) Text, (LPCTSTR) Caption, MB_OK);
   kprintf(TRUE, Text);
 
-  aclose(file);
-  apakclose(&hArchive);
-  /* GCC warns when we don't check the return value of chdir(). For
-     some reason, casting to (void) doesn't work. */
-  if (chdir(odir))
-    return;
+  fclose(file);
 }
 
 static int translation_table[KEYNUM];

@@ -4,14 +4,13 @@
 #include "Berusky3d_kofola_interface.h"
 #include "Berusky3d_kofola2d.h"
 #include "controls3d.h"
-#include "Apak.h"
 #include "2D_graphic.h"
 #include "font3d.h"
 #include "menu_def.h"
 //#include "2ddx.h"
 
 extern B2_FONT b2_3d_font;
-extern APAK_HANDLE *pControlsArchive;
+extern char pControlsDir[MAX_FILENAME];
 extern HDC BackDC;
 static char bBlockList = 0;
 static char bExclusive = 0;
@@ -46,46 +45,44 @@ int co2_Release_Bitmap(HDC_INFO2 * pdcinfo)
 
 int co2_Load_Graphic(int combo_var)
 {
-  pControlsArchive->pActualNode = pControlsArchive->pRootNode->pNextNode;
-
   if (!combo_var) {
-    hdcCO.hdcCombo = ddx2LoadBitmap("combo.bmp", pControlsArchive);
-    hdcCO.hdcComboEnd = ddx2LoadBitmap("combo_end.bmp", pControlsArchive);
-    hdcCO.hdcComboMid = ddx2LoadBitmap("combo_mid.bmp", pControlsArchive);
+    hdcCO.hdcCombo = ddx2LoadBitmap("combo.bmp", pControlsDir);
+    hdcCO.hdcComboEnd = ddx2LoadBitmap("combo_end.bmp", pControlsDir);
+    hdcCO.hdcComboMid = ddx2LoadBitmap("combo_mid.bmp", pControlsDir);
   }
   else {
-    hdcCO.hdcCombo = ddx2LoadBitmap("combo_l.bmp", pControlsArchive);
-    hdcCO.hdcComboEnd = ddx2LoadBitmap("combo_end_l.bmp", pControlsArchive);
-    hdcCO.hdcComboMid = ddx2LoadBitmap("combo_mid_l.bmp", pControlsArchive);
+    hdcCO.hdcCombo = ddx2LoadBitmap("combo_l.bmp", pControlsDir);
+    hdcCO.hdcComboEnd = ddx2LoadBitmap("combo_end_l.bmp", pControlsDir);
+    hdcCO.hdcComboMid = ddx2LoadBitmap("combo_mid_l.bmp", pControlsDir);
   }
 
-  hdcCO.hdcComboUp = ddx2LoadBitmap("combo_up.bmp", pControlsArchive);
-  hdcCO.hdcComboDown = ddx2LoadBitmap("combo_down.bmp", pControlsArchive);
-  hdcCO.hdcComboDrop = ddx2LoadBitmap("combo_drop.bmp", pControlsArchive);
-  hdcCO.hdcComboMover = ddx2LoadBitmap("combo_mover.bmp", pControlsArchive);
-  hdcCO.hdcComboMoverb = ddx2LoadBitmap("combo_moverb.bmp", pControlsArchive);
+  hdcCO.hdcComboUp = ddx2LoadBitmap("combo_up.bmp", pControlsDir);
+  hdcCO.hdcComboDown = ddx2LoadBitmap("combo_down.bmp", pControlsDir);
+  hdcCO.hdcComboDrop = ddx2LoadBitmap("combo_drop.bmp", pControlsDir);
+  hdcCO.hdcComboMover = ddx2LoadBitmap("combo_mover.bmp", pControlsDir);
+  hdcCO.hdcComboMoverb = ddx2LoadBitmap("combo_moverb.bmp", pControlsDir);
 
-  hdcED.hdcEdit = ddx2LoadBitmap("edit.bmp", pControlsArchive);
+  hdcED.hdcEdit = ddx2LoadBitmap("edit.bmp", pControlsDir);
 
-  hdcLI.hdcListDown = ddx2LoadBitmap("list_down.bmp", pControlsArchive);
-  hdcLI.hdcListMover = ddx2LoadBitmap("list_mover.bmp", pControlsArchive);
-  hdcLI.hdcListUp = ddx2LoadBitmap("list_up.bmp", pControlsArchive);
-  hdcLI.hdcListTop = ddx2LoadBitmap("list_top.bmp", pControlsArchive);
-  hdcLI.hdcListBottom = ddx2LoadBitmap("list_bottom.bmp", pControlsArchive);
-  hdcLI.hdcListLeft = ddx2LoadBitmap("list_left.bmp", pControlsArchive);
-  hdcLI.hdcListRight = ddx2LoadBitmap("list_right.bmp", pControlsArchive);
-  hdcLI.hdcListTL = ddx2LoadBitmap("list_tl.bmp", pControlsArchive);
-  hdcLI.hdcListTR = ddx2LoadBitmap("list_tr.bmp", pControlsArchive);
-  hdcLI.hdcListBL = ddx2LoadBitmap("list_bl.bmp", pControlsArchive);
-  hdcLI.hdcListBR = ddx2LoadBitmap("list_br.bmp", pControlsArchive);
+  hdcLI.hdcListDown = ddx2LoadBitmap("list_down.bmp", pControlsDir);
+  hdcLI.hdcListMover = ddx2LoadBitmap("list_mover.bmp", pControlsDir);
+  hdcLI.hdcListUp = ddx2LoadBitmap("list_up.bmp", pControlsDir);
+  hdcLI.hdcListTop = ddx2LoadBitmap("list_top.bmp", pControlsDir);
+  hdcLI.hdcListBottom = ddx2LoadBitmap("list_bottom.bmp", pControlsDir);
+  hdcLI.hdcListLeft = ddx2LoadBitmap("list_left.bmp", pControlsDir);
+  hdcLI.hdcListRight = ddx2LoadBitmap("list_right.bmp", pControlsDir);
+  hdcLI.hdcListTL = ddx2LoadBitmap("list_tl.bmp", pControlsDir);
+  hdcLI.hdcListTR = ddx2LoadBitmap("list_tr.bmp", pControlsDir);
+  hdcLI.hdcListBL = ddx2LoadBitmap("list_bl.bmp", pControlsDir);
+  hdcLI.hdcListBR = ddx2LoadBitmap("list_br.bmp", pControlsDir);
 
-  hdcBU.hdcButtonL = ddx2LoadBitmap("button_l.bmp", pControlsArchive);
-  hdcBU.hdcButtonS = ddx2LoadBitmap("button_s.bmp", pControlsArchive);
-  hdcCH.hdcCheck = ddx2LoadBitmap("checkbox.bmp", pControlsArchive);
-  hdcCH.hdcGray = ddx2LoadBitmap("gray.bmp", pControlsArchive);
-  hdcPR.hdcLine = ddx2LoadBitmap("progres_line.bmp", pControlsArchive);
-  hdcPR.hdcMover = ddx2LoadBitmap("progres_mover.bmp", pControlsArchive);
-  hdcFR.hdcFrame = ddx2LoadBitmap("frame.bmp", pControlsArchive);
+  hdcBU.hdcButtonL = ddx2LoadBitmap("button_l.bmp", pControlsDir);
+  hdcBU.hdcButtonS = ddx2LoadBitmap("button_s.bmp", pControlsDir);
+  hdcCH.hdcCheck = ddx2LoadBitmap("checkbox.bmp", pControlsDir);
+  hdcCH.hdcGray = ddx2LoadBitmap("gray.bmp", pControlsDir);
+  hdcPR.hdcLine = ddx2LoadBitmap("progres_line.bmp", pControlsDir);
+  hdcPR.hdcMover = ddx2LoadBitmap("progres_mover.bmp", pControlsDir);
+  hdcFR.hdcFrame = ddx2LoadBitmap("frame.bmp", pControlsDir);
 
   return 1;
 }

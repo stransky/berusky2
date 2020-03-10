@@ -2283,7 +2283,7 @@ void key_sim_uloz(SIMPLE_TRACK_INFO * p_sim, char *p_file, char *p_dir)
 }
 
 // load sim z text-file
-int key_sim_nahraj(APAK_HANDLE * pHandle, SIMPLE_TRACK_INFO * p_sim,
+int key_sim_nahraj(char *p_subdir, SIMPLE_TRACK_INFO * p_sim,
   char *p_file, char *p_dir, int linear)
 {
   HIERARCHY_TRACK_INFO track;   // load jako hierarchie -> prevedu do simple tracku
@@ -2298,11 +2298,11 @@ int key_sim_nahraj(APAK_HANDLE * pHandle, SIMPLE_TRACK_INFO * p_sim,
   int l, lmax;
 
   if (chdir(p_dir)) {
-    ddw("Unable to change directory to %s");
+    ddw("Unable to change directory to %s", p_dir);
     return (FALSE);
   }
 
-  if (!(f = kopen(pHandle, p_file, "r"))) {
+  if (!(f = kopen(p_subdir, p_file, "r"))) {
     kprintf(TRUE, "File %s Line %d Chyba otevreni souboru '%s' v %s",
       __FILE__, __LINE__, p_file, (p_dir));
     return (FALSE);
@@ -3135,7 +3135,7 @@ int key_kamera_uloz(KAMERA_TRACK_INFO * p_track, char *p_jmeno_kamery,
 /* Nahraje kameru
 */
 int key_kamera_nahraj(KAMERA_TRACK_INFO * p_track, char *p_jmeno_kamery,
-  char *p_jmeno_anim, APAK_HANDLE * pHandle, char *p_file, char *p_dir)
+  char *p_jmeno_anim, char *p_subdir, char *p_file, char *p_dir)
 {
   KEY_POINT_BRS *p_spline = NULL;
   char line[1000];
@@ -3151,7 +3151,7 @@ int key_kamera_nahraj(KAMERA_TRACK_INFO * p_track, char *p_jmeno_kamery,
     return (FALSE);
   }
 
-  if (!(f = kopen(pHandle, p_file, "r"))) {
+  if (!(f = kopen(p_subdir, p_file, "r"))) {
     kprintf(TRUE, "File %s Line %d Chyba otevreni souboru '%s' v %s",
       __FILE__, __LINE__, p_file, (p_dir));
     return (FALSE);

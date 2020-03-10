@@ -15,11 +15,10 @@
 #include "3D_graphic.h"
 #include "menu_def.h"
 #include "3D_menus.h"
-#include "Apak.h"
 
 #define randf()      ((float)rand())
 
-extern APAK_HANDLE *pDataArchive;
+extern char pDataDir[MAX_FILENAME];
 extern LEVELINFO Level;
 extern _3D_CURSOR _3dCur;
 extern G_KONFIG ber;
@@ -53,10 +52,8 @@ float am_vzdal_bodu_single(float x1, float x2)
 int am_Init(ANIMATION_MODULE * p_am, LEVELINFO * p_Level)
 {
   FILE *file = NULL;
-  char text[256];
+  char text[MAX_FILENAME];
   int i;
-
-  pDataArchive->pActualNode = pDataArchive->pRootNode->pNextNode;
 
   p_am->Size_of_Anim = 100;
 
@@ -82,9 +79,9 @@ int am_Init(ANIMATION_MODULE * p_am, LEVELINFO * p_Level)
     return 0;
   }
 
-  pDataArchive->pActualNode = pDataArchive->pRootNode->pNextNode;
+  construct_path(text, MAX_FILENAME, 2, pDataDir, "animload.dat");
 
-  file = aopen(pDataArchive, "animload.dat", "r");
+  file = fopen(text, "r");
   if (!file) {
     kprintf(1, "animload.dat not found");
     return 0;
@@ -97,17 +94,17 @@ int am_Init(ANIMATION_MODULE * p_am, LEVELINFO * p_Level)
 
   kprintf(1, "Kofola - Nahravam animace...");
 
-  while (!aeof(file)) {
-    if (!agets(text, 256, file))
+  while (!feof(file)) {
+    if (!fgets(text, 256, file))
       break;
 
     newline_cut(text);
     //kprintf(1, "%s", text);
-    p_am->sim_anim[i] = sim_nahraj_animaci(pDataArchive, text, 0);
+    p_am->sim_anim[i] = sim_nahraj_animaci(pDataDir, text, 0);
     i++;
   }
 
-  aclose(file);
+  fclose(file);
 
   return 1;
 }

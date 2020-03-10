@@ -554,9 +554,9 @@ HRESULT OnInitDialog(HWND hDlg)
   iCountOfWeather = 0;
   iCountOfNature = 0;
 
-  GetPrivateProfileString("game", "game_data_dir", "c:\\", game_datadir, 256,
+  GetPrivateProfileString("game", "game_data_dir", "/", game_datadir, 256,
     ini_file);
-  GetPrivateProfileString("soundengine", "sound_dir", "c:\\", sound_dir, 256,
+  GetPrivateProfileString("soundengine", "sound_dir", "/", sound_dir, 256,
     ini_file);
 
   PostMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM) hIcon);

@@ -187,14 +187,14 @@ SurfaceHandle ddx2FindFreeSurface(void);
 SurfaceHandle ddx2ReleaseBitmap(SurfaceHandle iSurface);
 
 //------------------------------------------------------------------------------------------------
-// load bitmap from APAK na pozici
+// load bitmap from a directory na pozici
 //------------------------------------------------------------------------------------------------
-SurfaceHandle ddx2LoadBitmapPos(SurfaceHandle handle, char *pFileName, APAK_HANDLE * pHandle);
+SurfaceHandle ddx2LoadBitmapPos(SurfaceHandle handle, char *pFileName, char *pDirName);
 
 //------------------------------------------------------------------------------------------------
-// load bitmap from APAK
+// load bitmap from a directory
 //------------------------------------------------------------------------------------------------
-SurfaceHandle ddx2LoadBitmap(char *pFileName, APAK_HANDLE * pHandle);
+SurfaceHandle ddx2LoadBitmap(char *pFileName, char *pDirName);
 
 //------------------------------------------------------------------------------------------------
 // load bitmap from DISK
@@ -208,9 +208,9 @@ SurfaceHandle ddx2LoadBitmapPosDisk(SurfaceHandle handle, char *pFileName);
 
 
 //------------------------------------------------------------------------------------------------
-// load list of bitmaps from APAK
+// load list of bitmaps from a directory
 //------------------------------------------------------------------------------------------------
-int ddx2LoadList(char *pFileName, APAK_HANDLE * pBmpArchive, char *p_bmp_dir);
+int ddx2LoadList(char *pFileName, char *pBmpDir, char *p_bmp_dir);
 
 
 //------------------------------------------------------------------------------------------------

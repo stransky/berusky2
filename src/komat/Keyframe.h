@@ -51,7 +51,7 @@ SIMPLE_TRACK_INFO *key_sim_vyrob_indir(SIMPLE_TRACK_INFO * p_sim,
 SIMPLE_TRACK_INFO *key_tri_to_sim_indir(HIERARCHY_TRACK_INFO * p_track,
   SIMPLE_TRACK_INFO * p_sim, int loop, int float_scale);
 void key_sim_uloz(SIMPLE_TRACK_INFO * p_sim, char *p_file, char *p_dir);
-int key_sim_nahraj(APAK_HANDLE * pHandle, SIMPLE_TRACK_INFO * p_sim,
+int key_sim_nahraj(char *p_subdir, SIMPLE_TRACK_INFO * p_sim,
   char *p_file, char *p_dir, int linear);
 GLMATRIX *key_sim_to_matrix(SIMPLE_TRACK_INFO * p_sim, int time,
   GLMATRIX * p_m);
@@ -84,7 +84,7 @@ int key_kamera_vyrob_indir(KAMERA_TRACK_INFO * p_track, int pos_keys,
 int key_kamera_uloz(KAMERA_TRACK_INFO * p_track, char *p_jmeno_kamery,
   char *p_jmeno_anim, char *p_file, char *p_dir);
 int key_kamera_nahraj(KAMERA_TRACK_INFO * p_track, char *p_jmeno_kamery,
-  char *p_jmeno_anim, APAK_HANDLE * pHandle, char *p_file, char *p_dir);
+  char *p_jmeno_anim, char *p_subdir, char *p_file, char *p_dir);
 void key_kamera_zrus_indir(KAMERA_TRACK_INFO * p_track);
 
 int key_kamera_track_cti(KAMERA_TRACK_INFO * p_track, BOD * p_p, BOD * p_t,

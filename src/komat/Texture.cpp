@@ -357,7 +357,7 @@ int txt_reload_lightmap(EDIT_TEXT_OLD * p_text, bitmapa * p_bmp)
 }
 
 // load ok
-int txt_nahraj_format(APAK_HANDLE * pAHandle, char *p_file,
+int txt_nahraj_format(char *p_dir, char *p_file,
   EDIT_TEXT_KONFIG * p_text)
 {
   char jmeno[200];
@@ -368,10 +368,10 @@ int txt_nahraj_format(APAK_HANDLE * pAHandle, char *p_file,
   strcpy(jmeno, p_file);
   zamen_koncovku(jmeno, KONCOVKA_TEXT_INFO);
 
-  p_text->alfa = kefile(pAHandle, p_text->alfamap);
+  p_text->alfa = kefile(p_dir, p_text->alfamap);
   p_text->alfa_stage = K_CHYBA;
 
-  if ((f = kopen(pAHandle, jmeno, (char *) "r"))) {
+  if ((f = kopen(p_dir, jmeno, (char *) "r"))) {
     while (kgets(jmeno, 200, f)) {
       fgets_korekce(jmeno);
       if (jmeno[0] == ';')
@@ -497,24 +497,24 @@ void txt_lightmap_konfig(EDIT_TEXT_KONFIG * p_konf)
 /* Textury
   +scale textur, je-li to potreba
 */
-int txt_nahraj_texturu_z_func(APAK_HANDLE * pHandle, char *p_file,
+int txt_nahraj_texturu_z_func(char *p_dir, char *p_file,
   EDIT_TEXT_OLD * p_text, int save, int load,
   EDIT_TEXT_KONFIG * p_konf,
-  bitmapa * (*p_load) (APAK_HANDLE * pAHandle, char *p_file))
+  bitmapa * (*p_load) (char *p_dir, char *p_file))
 {
   EDIT_TEXT_KONFIG konf;
 
   txt_default_konfig(p_file, &konf, cti_koncovku(p_file));
-  txt_nahraj_format(pHandle, p_file, &konf);
+  txt_nahraj_format(p_dir, p_file, &konf);
 
   if (!konf.alfa) {
-    if (!(p_text->p_bmp = p_load(pHandle, konf.bitmapa)))
+    if (!(p_text->p_bmp = p_load(p_dir, konf.bitmapa)))
       return (FALSE);
     p_text->load = TRUE;
   }
   else {
-    bitmapa *p_tmp = p_load(pHandle, konf.bitmapa);
-    bitmapa *p_alf = p_load(pHandle, konf.alfamap);
+    bitmapa *p_tmp = p_load(p_dir, konf.bitmapa);
+    bitmapa *p_alf = p_load(p_dir, konf.alfamap);
 
     if (!p_tmp || !p_alf) {
       /*
@@ -607,7 +607,7 @@ int txt_nahraj_lightmapu_z_bmp(char *p_file, KFILE * f,
   return (p_text->load);
 }
 
-int txt_nahraj_texturu_z_dds(APAK_HANDLE * pHandle, char *p_file,
+int txt_nahraj_texturu_z_dds(char *p_dir, char *p_file,
   EDIT_TEXT_OLD * p_text, int save)
 {
   /* Not implemented */
@@ -745,12 +745,12 @@ int bmp_uloz_pack(FFILE f, bitmapa * p_bmp)
   return (TRUE);
 }
 
-bitmapa *bmp_nahraj(APAK_HANDLE * pAHandle, char *p_file)
+bitmapa *bmp_nahraj(char *p_dir, char *p_file)
 {
   byte *p_mem;
   int vel;
 
-  p_mem = file_read(pAHandle, p_file, &vel);
+  p_mem = file_read(p_dir, p_file, &vel);
   if (!p_mem)
     return (NULL);
 
@@ -912,37 +912,28 @@ bitmapa *txt_bmp2dot3(bitmapa * p_bmp)
   return (p_dot);
 }
 
-byte *file_read(APAK_HANDLE * pHandle, char *p_file, int *p_read)
+byte *file_read(char *p_dir, char *p_file, int *p_read)
 {
   char *p_buffer;
-  char *pBuffer;
-  apuInt psize;
   FILE *f;
-  int v;
+  long v;
+  char filename[MAX_FILENAME];
 
-  if (pHandle) {
-    f = aopen(pHandle, p_file, "rb");
-    if (!f)
-      return (NULL);
-    agetbuffer(f, &pBuffer, &psize);
-    *p_read = psize;
-    p_buffer = (char *) mmalloc(sizeof(byte) * psize);
-    memmove(p_buffer, pBuffer, sizeof(byte) * psize);
-    aclose(f);
-    return ((byte *) p_buffer);
+  construct_path(filename, MAX_FILENAME, 2, p_dir, p_file);
+  f = fopen(filename, "rb");
+  if (!f)
+    return (NULL);
+  fseek(f, 0, SEEK_END);
+  v = ftell(f);
+  fseek(f, 0, SEEK_SET);
+  p_buffer = (char *) mmalloc(sizeof(byte) * v);
+  *p_read = fread(p_buffer, sizeof(byte), v, f);
+  fclose(f);
+  if (*p_read != v) {
+    free(p_buffer);
+    return NULL;
   }
-  else {
-    f = fopen(p_file, "rb");
-    if (!f)
-      return (NULL);
-    fseek(f, 0, SEEK_END);
-    v = ftell(f);
-    fseek(f, 0, SEEK_SET);
-    p_buffer = (char *) mmalloc(sizeof(byte) * v);
-    *p_read = fread(p_buffer, sizeof(byte), v, f);
-    fclose(f);
-    return ((byte *) p_buffer);
-  }
+  return ((byte *) p_buffer);
 }
 
 bitmapa *surface2bmp(SURFACE_SDL * p_surf)

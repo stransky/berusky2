@@ -31,6 +31,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <zlib.h>
+#include <stdarg.h>
 
 #include "types.h"
 #include "utils.h"
@@ -130,6 +131,44 @@ char * return_path(const char *p_dir, const char *p_file, char *p_buffer, int ma
     }
   }
   return(p_buffer);
+}
+
+/* Like return_path(), but don't expand '~' and handle absolute
+   paths. Also accept any number of arguments (the number of which
+   mussed be passed as `n_components'). */
+char * construct_path(char *p_buffer, size_t max_length,
+                      int n_components, ...)
+{
+  va_list ap;
+  const char *path;
+  int i;
+
+  p_buffer[0] = '\0';
+
+  va_start(ap, n_components);
+  for (i = 0; i < n_components; i++) {
+    path = va_arg(ap, const char *);
+    if (!path || !path[0])
+      continue;
+
+    if (path[0] == '/') {
+      // This is an absolute path, so overwrite `p_buffer'.
+      strncpy(p_buffer, path, max_length - 1);
+    }
+    else {
+      // This is a relative path.
+      size_t buf_len = strlen(p_buffer);
+      if (buf_len)
+        strncat(p_buffer, DIR_SLASH_STRING, max_length - buf_len++ - 1);
+      strncat(p_buffer, path, max_length - buf_len - 1);
+    }
+  }
+  va_end(ap);
+
+  // Returning an empty buffer is probably an error.
+  assert(p_buffer[0]);
+
+  return p_buffer;
 }
 
 char * path_correction(char *p_file, int max_lenght)

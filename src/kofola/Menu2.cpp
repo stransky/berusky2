@@ -18,7 +18,6 @@
 #include "menu_def.h"
 #include "Setup.h"
 #include "profiles.h"
-#include "Apak.h"
 #include "Object.h"
 #include "animationk.h"
 #include "Demo.h"
@@ -32,13 +31,13 @@
 
 extern SETUP setup;
 extern _3D_CURSOR _3dCur;
-extern APAK_HANDLE *pBmpArchive;
+extern char pBmpDir[MAX_FILENAME];
 extern PLAYER_PROFILE pPlayerProfile;
-extern APAK_HANDLE *p3DMArchive;
+extern char p3DMDir[MAX_FILENAME];
 extern int iActualLevel;
 extern int iActualScene;
 extern B2_FONT b2_3d_font;
-extern char cFontFile[5][64];
+extern char cFontDir[5][64];
 extern AUDIO_DATA ad;
 extern int iLanguageVersion;
 
@@ -1085,7 +1084,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
   ddx2DeviceSetScreenRecCallback(ddx2ScreenResDefaultCallback);
 
   ddx2CleareSurface(DDX2_BACK_BUFFER);
-  sh = ddx2LoadBitmap("settings.bmp", pBmpArchive);
+  sh = ddx2LoadBitmap("settings.bmp", pBmpDir);
   LoadHelp("3dsettings_load.txt");
 
   ddx2FillRect(DDX2_BACK_BUFFER, &rTMP, RGB(255, 0, 255));
@@ -1121,7 +1120,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
 
   am_FlipA(p_Level, p_am, 1, &rline, CLIST_ITEMC, 0, 0, 0);
 
-  fn2_Set_Font(cFontFile[2]);
+  fn2_Set_Font(cFontDir[2]);
   fn2_Load_Bitmaps();
 
   am_FlipA(p_Level, p_am, 1, &rline, CLIST_ITEMC, 0, 0, 0);
@@ -1780,7 +1779,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
   ddx2DeviceSetRender(TRUE);
 
   ddx2CleareSurface(DDX2_BACK_BUFFER);
-  sh = ddx2LoadBitmap("smallmenu.bmp", pBmpArchive);
+  sh = ddx2LoadBitmap("smallmenu.bmp", pBmpDir);
 
   ddx2SetRect(&rTMP, 1);
 
@@ -1795,7 +1794,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
 
   ZeroMemory(citem, CLIST_ITEMC * sizeof(CONTROL_LIST_ITEM2));
 
-  fn2_Set_Font(cFontFile[0]);
+  fn2_Set_Font(cFontDir[0]);
   fn2_Load_Bitmaps();
 
   for (bind = 0; bind < RES_NUM; bind++) {
@@ -1874,7 +1873,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
 
     fn2_Release_Font();
 
-    fn2_Set_Font(cFontFile[2]);
+    fn2_Set_Font(cFontDir[2]);
     fn2_Load_Bitmaps();
 
     xx = FillListLoad2(NULL, "*", 0, bLoad);
@@ -2258,26 +2257,25 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
 int LoadHelp(char *c_file)
 {
   int c = 0, i = -1;
-  char text[256];
+  char text[MAX_FILENAME];
   FILE *file;
 
-  file = aopen(pBmpArchive, c_file, "r");
+  construct_path(text, MAX_FILENAME, 2, pBmpDir, c_file);
+  file = fopen(text, "r");
 
   if (!file)
     return -1;
 
-  while (!aeof(file)) {
+  while (!feof(file)) {
     memset(text, 0, 256);
 
-    agets(text, 256, file);
-
-    if (text[0]) {
+    if (fgets(text, 256, file) && text[0]) {
       newline_cut(text);
 
       if (!c)
-        i = ddx2LoadBitmap(text, pBmpArchive);
+        i = ddx2LoadBitmap(text, pBmpDir);
       else
-        ddx2LoadBitmap(text, pBmpArchive);
+        ddx2LoadBitmap(text, pBmpDir);
 
       //kprintf(1, "%s - %d", text, t);
 
@@ -2285,9 +2283,7 @@ int LoadHelp(char *c_file)
     }
   }
 
-  aclose(file);
-
-  pBmpArchive->bError = 0;
+  fclose(file);
 
   return i;
 }
@@ -2624,9 +2620,9 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
   am_FlipA(p_Level, p_am, 1, &rline, CLIST_ITEMC, 0, 0, 0);
 
   ddx2CleareSurface(DDX2_BACK_BUFFER);
-  sh = ddx2LoadBitmap("help_frame.bmp", pBmpArchive);
-  sh1 = ddx2LoadBitmap("set_back2-1.bmp", pBmpArchive);
-  sh2 = ddx2LoadBitmap("set_back1-1.bmp", pBmpArchive);
+  sh = ddx2LoadBitmap("help_frame.bmp", pBmpDir);
+  sh1 = ddx2LoadBitmap("set_back2-1.bmp", pBmpDir);
+  sh2 = ddx2LoadBitmap("set_back1-1.bmp", pBmpDir);
 
   ddx2FillRect(DDX2_BACK_BUFFER, &rTMP, RGB(255, 0, 255));
   ddx2SetRect(&rTMP, 1);
@@ -2647,7 +2643,7 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
 
   ZeroMemory(citem, CLIST_ITEMC * sizeof(CONTROL_LIST_ITEM2));
 
-  fn2_Set_Font(cFontFile[2]);
+  fn2_Set_Font(cFontDir[2]);
   fn2_Load_Bitmaps();
 
   am_FlipA(p_Level, p_am, 1, &rline, CLIST_ITEMC, 0, 0, 0);
@@ -3073,34 +3069,31 @@ void GetLevelTime(char *ctime, LEVELINFO * p_Level)
 int LoadCList2(char *cFile)
 {
   int c = 0, i = -1;
-  char text[256];
+  char text[MAX_FILENAME];
   FILE *file;
 
-  file = aopen(pBmpArchive, cFile, "r");
+  construct_path(text, MAX_FILENAME, 2, pBmpDir, cFile);
+  file = fopen(text, "r");
 
   if (!file)
     return -1;
 
-  while (!aeof(file)) {
+  while (!feof(file)) {
     memset(text, 0, 256);
 
-    agets(text, 256, file);
-
-    if (text[0]) {
+    if (fgets(text, 256, file) && text[0]) {
       newline_cut(text);
 
       if (!c)
-        i = ddx2LoadBitmap(text, pBmpArchive);
+        i = ddx2LoadBitmap(text, pBmpDir);
       else
-        ddx2LoadBitmap(text, pBmpArchive);
+        ddx2LoadBitmap(text, pBmpDir);
 
       c++;
     }
   }
 
-  aclose(file);
-
-  pBmpArchive->bError = 0;
+  fclose(file);
 
   return i;
 }
@@ -3143,12 +3136,12 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
     case 3:
     case 4:
     case 7:
-      sh = ddx2LoadBitmap("end_screen3.bmp", pBmpArchive);
+      sh = ddx2LoadBitmap("end_screen3.bmp", pBmpDir);
       ifdx = 2;
       break;
     case 5:
     case 8:
-      sh = ddx2LoadBitmap("end_screen1.bmp", pBmpArchive);
+      sh = ddx2LoadBitmap("end_screen1.bmp", pBmpDir);
       ifdx = 0;
       break;
     case 0:
@@ -3156,15 +3149,15 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
     case 9:
     case 10:
     case 11:
-      sh = ddx2LoadBitmap("end_screen2.bmp", pBmpArchive);
+      sh = ddx2LoadBitmap("end_screen2.bmp", pBmpDir);
       ifdx = 1;
       break;
     case 12:
-      sh = ddx2LoadBitmap("end_screen4.bmp", pBmpArchive);
+      sh = ddx2LoadBitmap("end_screen4.bmp", pBmpDir);
       ifdx = 3;
       break;
     default:
-      sh = ddx2LoadBitmap("end_screen4.bmp", pBmpArchive);
+      sh = ddx2LoadBitmap("end_screen4.bmp", pBmpDir);
       ifdx = 3;
       break;
   }
@@ -3192,7 +3185,7 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
 
   ZeroMemory(citem, CLIST_ITEMC * sizeof(CONTROL_LIST_ITEM2));
 
-  fn2_Set_Font(cFontFile[3]);
+  fn2_Set_Font(cFontDir[3]);
   fn2_Load_Bitmaps();
 
   for (bind = 0; bind < RES_NUM; bind++) {
@@ -3526,7 +3519,7 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA * p_ad,
 
   txt_trida(TEXT_MENU);
   kom_set_default_text_config(0, 0, 1, 0, 0, 1);
-  txt_nahraj_texturu_z_func(p3DMArchive, "tutor_frame.bmp", &ttext, 0, 1, NULL, bmp_nahraj);
+  txt_nahraj_texturu_z_func(p3DMDir, "tutor_frame.bmp", &ttext, 0, 1, NULL, bmp_nahraj);
   kom_ret_default_text_config();
 
   _2d_Clear_RectLine(&rline);
@@ -3560,7 +3553,7 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA * p_ad,
 
   ZeroMemory(citem, CLIST_ITEMC * sizeof(CONTROL_LIST_ITEM2));
 
-  fn2_Set_Font(cFontFile[2]);
+  fn2_Set_Font(cFontDir[2]);
   fn2_Load_Bitmaps();
 
   for (bind = 0; bind < RES_NUM; bind++) {
@@ -3914,42 +3907,28 @@ void RunMenuLoadScreen2(void)
 
   ddx2CleareSurface(DDX2_BACK_BUFFER);
 
-  pBmpArchive->pActualNode = pBmpArchive->pRootNode->pNextNode;
-
   if (iActualScene < 13) {
     char text[256];
-    APAK_HANDLE *hArchive = NULL;
-    char cFile[MAX_FILENAME];
     char cDir[MAX_FILENAME];
 
     sprintf(text, "scene%d.bmp", iActualScene);
 
     if (iLanguageVersion == 4) {
-      strcpy(cDir, BITMAP_DIR);
-      if (snprintf(cFile, sizeof(cFile), "%s%cscene%d.pak",
-		   cDir, DIR_SLASH, iActualScene) >=
-	  (int) sizeof(cFile)) {
-	kprintf(1, "Filename too long: %s%cscene%d.pak",
-		cDir, DIR_SLASH, iActualScene);
+      if (snprintf(cDir, sizeof(cDir), "%s%cscene%d",
+		   BITMAP_DIR, DIR_SLASH, iActualScene) >=
+	  (int) sizeof(cDir)) {
+	kprintf(1, "Filename too long: %s%cscene%d",
+		BITMAP_DIR, DIR_SLASH, iActualScene);
 	return;
       }
-      hArchive = apakopen(cFile, cDir, &sh);
 
-      if (!hArchive) {
-        kprintf(1, "Nepodarilo se otevrit archiv [%s]\n", cFile);
-        return;
-      }
-      else
-        hArchive->pActualNode = hArchive->pRootNode->pNextNode;
-
-      iLoadScreenBitmap = ddx2LoadBitmap(text, hArchive);
-      apakclose(&hArchive);
+      iLoadScreenBitmap = ddx2LoadBitmap(text, cDir);
     }
     else
-      iLoadScreenBitmap = ddx2LoadBitmap(text, pBmpArchive);
+      iLoadScreenBitmap = ddx2LoadBitmap(text, pBmpDir);
   }
   else
-    iLoadScreenBitmap = ddx2LoadBitmap("LoadScreen.bmp", pBmpArchive);
+    iLoadScreenBitmap = ddx2LoadBitmap("LoadScreen.bmp", pBmpDir);
 
   ddx2SetRect(&iLoadScreenRect, 1);
 
@@ -3958,7 +3937,7 @@ void RunMenuLoadScreen2(void)
   ddx2BitBltDisplay(0, 0, 1024, 768, iLoadScreenBitmap, 0, 0);
 
   if (iActualScene < 13) {
-    fn2_Set_Font(cFontFile[2]);
+    fn2_Set_Font(cFontDir[2]);
     fn2_Load_Bitmaps();
 
     sh = ddx2CreateSurface(891, 149, ddx2FindFreeSurface());

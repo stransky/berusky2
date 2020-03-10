@@ -30,7 +30,6 @@
 #define __COMPAT_H__
 
 #include "compat_mini.h"
-#include "Apak.h"
 
 typedef VECT2DF BODUV;
 typedef VECT3DF BOD;
@@ -118,14 +117,14 @@ int ddxFindFreeSurface(void);
 int ddxReleaseBitmap(int iSurface);
 
 //------------------------------------------------------------------------------------------------
-// load list of bitmaps from APAK
+// load list of bitmaps from the bitmap directory
 //------------------------------------------------------------------------------------------------
 int ddxLoadList(char *pFileName, int bProgress);
 
 //------------------------------------------------------------------------------------------------
-// load bitmap from APAK
+// load bitmap from the bitmap directory
 //------------------------------------------------------------------------------------------------
-int ddxLoadBitmap(char *pFileName, APAK_HANDLE * pHandle);
+int ddxLoadBitmap(char *pFileName, char *pDirName);
 
 //------------------------------------------------------------------------------------------------
 // Create Surface

@@ -3,7 +3,6 @@
 //------------------------------------------------------------------------------------------------
 #include <stdio.h>
 #include <errno.h>
-#include "Apak.h"
 #include "adas.h"
 
 //------------------------------------------------------------------------------------------------
@@ -18,7 +17,7 @@
 #include "Berusky_universal.h"
 
 extern HW_KONFIG hwconf;
-extern APAK_HANDLE *pSndArchive;
+extern char pSndDir[MAX_FILENAME];
 
 int iWinVer = 0;
 
@@ -36,49 +35,6 @@ void gi_Set_Win_Version(void)
    kprintf(1, "Sytem info: Windows v%d.%d build %d - platform ID %d", 
 		   osvi.dwMajorVersion, osvi.dwMinorVersion, osvi.dwBuildNumber, osvi.dwPlatformId);
 */
-}
-
-int gi_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *p_dir)
-{
-  int e;
-
-  if (chdir(p_dir)) {
-    kprintf(1, "Unable to change directory to %s: %s",
-	    p_dir, strerror(errno));
-    return 0;
-  }
-  (*pAHandle) = apakopen(cFile, p_dir, &e);
-
-  if (!(*pAHandle)) {
-    kprintf(1, "Unable to open archive %s", cFile);
-
-    switch (e) {
-      case APAK_FILE_NOT_FOUND:
-        kprintf(1, "Reason: File not found");
-        break;
-      case APAK_UNABLE_TO_READ:
-        kprintf(1, "Reason: Unable to read from file");
-        break;
-      case APAK_VERSION_MISMATCH:
-        kprintf(1, "Reason: Version mismatch");
-        break;
-      case APAK_OUT_OF_MEMORY:
-        kprintf(1, "Reason: Out of memory");
-        break;
-    }
-
-    assert(0);
-    abort();
-  }
-
-  kprintf(1, "APAK: %s", cFile);
-  kprintf(1, "Velikost AFAT: %.1fKB", (*pAHandle)->FileHeader.apuISizeofFAT / 1000.0f);
-  kprintf(1, "Velikost Archivu: %.1fMB", (*pAHandle)->FileHeader.apuLSizeofPAK / 1000000.0f);
-  kprintf(1, "Souboru: %d", (*pAHandle)->FileHeader.apuICountofFiles);
-  kprintf(1, "Adresaru: %d", (*pAHandle)->FileHeader.apuICountofDirectiories);
-  kprintf(1, "Uzlu: %d", (*pAHandle)->FileHeader.apuICountofNodes);
-
-  return 1;
 }
 
 /*
@@ -195,7 +151,6 @@ void gi_Init_Sound_Engine(AUDIO_DATA *p_ad)
 					p_ber->dir.sound_dir, strerror, errno);
 				return;
 			}
-			achdir(pSndArchive, p_ber->dir.sound_dir);
 
 			ap_Load_Sound_List(p_ad, "basicset.dat", 0);
 

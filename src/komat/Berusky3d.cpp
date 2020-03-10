@@ -194,17 +194,17 @@ void ber_konfiguruj_berusky(G_KONFIG * p_ber)
   for (i = 0; i < SIN_TABLE_SIZE; i++)
     p_ber->sinus_table[i] = sinf(DEG2RAD(i));
 
-	GetPrivateProfileString("install","save_dir","c:\\", p_ber->dir.save_dir, MAX_FILENAME, ini_file);
+	GetPrivateProfileString("install","save_dir","/", p_ber->dir.save_dir, MAX_FILENAME, ini_file);
   working_file_translate(p_ber->dir.save_dir, MAX_FILENAME);
   
-	GetPrivateProfileString("install","profile_dir","c:\\", p_ber->dir.profile_dir, MAX_FILENAME, ini_file);
+	GetPrivateProfileString("install","profile_dir","/", p_ber->dir.profile_dir, MAX_FILENAME, ini_file);
   working_file_translate(p_ber->dir.profile_dir, MAX_FILENAME);
 
   // Load root of the data files
-	GetPrivateProfileString("install","game_root","c:\\", p_ber->dir.game_root_dir, MAX_FILENAME, ini_file);
+	GetPrivateProfileString("install","game_root","/", p_ber->dir.game_root_dir, MAX_FILENAME, ini_file);
   working_file_translate(p_ber->dir.game_root_dir, MAX_FILENAME);
 
-	GetPrivateProfileString("files","bitmap_dir","c:\\", p_ber->dir.bitmap_dir, MAX_FILENAME, ini_file);
+	GetPrivateProfileString("files","bitmap_dir","/", p_ber->dir.bitmap_dir, MAX_FILENAME, ini_file);
   working_file_translate(p_ber->dir.bitmap_dir, MAX_FILENAME);
   root_dir_attach(p_ber->dir.bitmap_dir, p_ber->dir.game_root_dir);
 
@@ -253,25 +253,12 @@ void ber_konfiguruj_berusky(G_KONFIG * p_ber)
     p_ber->tdir.texture_dir_class[i] = GetPrivateProfileInt("files", pom, 0, ini_file);
   }
 
-  for (i = 0; i < TEXT_DIRS; i++) {
-    sprintf(pom, "texture_file%d", i);
-    GetPrivateProfileString("files", pom, "", p_ber->tdir.texture_file[i],  MAX_FILENAME, ini_file);
-    working_file_translate(p_ber->tdir.texture_file[i], MAX_FILENAME);
-    root_dir_attach(p_ber->tdir.texture_file[i], p_ber->dir.game_root_dir);
-  
-    if (p_ber->tdir.texture_file[i][0] == '.' && !p_ber->tdir.texture_file[i][1])
-      p_ber->tdir.texture_file[i][0] = 0;
-    
-    sprintf(pom, "texture_file%d_class", i);
-    p_ber->tdir.texture_file_class[i] = GetPrivateProfileInt("files", pom, 0, ini_file);
-  }
-
-	GetPrivateProfileString("soundengine","sound_dir","c:\\",p_ber->dir.sound_dir,MAX_FILENAME,ini_file);
+	GetPrivateProfileString("soundengine","sound_dir","/",p_ber->dir.sound_dir,MAX_FILENAME,ini_file);
   working_file_translate(p_ber->dir.sound_dir,MAX_FILENAME);
   root_dir_attach(p_ber->dir.sound_dir, p_ber->dir.game_root_dir);
   adas_set_sound_dir(p_ber->dir.sound_dir);
 
-	GetPrivateProfileString("soundengine","music_dir","c:\\",p_ber->dir.music_dir,MAX_FILENAME,ini_file);
+	GetPrivateProfileString("soundengine","music_dir","/",p_ber->dir.music_dir,MAX_FILENAME,ini_file);
   working_file_translate(p_ber->dir.music_dir,MAX_FILENAME);
   root_dir_attach(p_ber->dir.music_dir, p_ber->dir.game_root_dir);
 

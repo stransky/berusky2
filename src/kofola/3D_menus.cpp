@@ -17,7 +17,6 @@
 #include "controls.h"
 #include "2D_graphic.h"
 #include "Menu2.h"
-#include "Apak.h"
 #include "animationk.h"
 #include "3D_menus.h"
 #include "load_level.h"
@@ -36,9 +35,9 @@ HINT_STATE sHint;
 KUK_STATE sKuk;
 EDIT_TEXT sIndikace[3];
 
-extern APAK_HANDLE *pBmpArchive;
-extern APAK_HANDLE *p3DMArchive;
-extern APAK_HANDLE *pDataArchive;
+extern char pBmpDir[MAX_FILENAME];
+extern char p3DMDir[MAX_FILENAME];
+extern char pDataDir[MAX_FILENAME];
 
 typedef struct
 {
@@ -392,7 +391,7 @@ void Parse_3DAnimLine(FILE * file, _3D_ANIMATION_FRAME * pFrame)
   char text[MAX_FILENAME], expression[MAX_FILENAME];
   int p = 0, r = 0;
 
-  if(!agets(text, MAX_FILENAME, file))
+  if(!fgets(text, MAX_FILENAME, file))
     return;
 
   while (p != -1) {
@@ -465,27 +464,27 @@ void _3d_Load_Animations(void)
   _3D_ANIMATION *p3DAnim;
   FILE *pFile = NULL, *pListFile = NULL;
   char text[MAX_FILENAME];
+  char filename[MAX_FILENAME];
   int i = 0, j;
 
-  achdir(pDataArchive, DATA_DIR);
-
-  pListFile = aopen(pDataArchive, "3DAnimations.dat", "r");
+  construct_path(filename, MAX_FILENAME, 2, pDataDir, "3DAnimations.dat");
+  pListFile = fopen(filename, "r");
 
   if (pListFile) {
-    while (!aeof(pListFile)) {
-      agets(text, MAX_FILENAME, pListFile);
-      if (!text[0])
+    while (!feof(pListFile)) {
+      if (!fgets(text, MAX_FILENAME, pListFile) || !text[0])
         break;
       else
         newline_cut(text);
 
-      pFile = aopen(pDataArchive, text, "r");
+      construct_path(filename, MAX_FILENAME, 2, pDataDir, text);
+      pFile = fopen(filename, "r");
 
       if (pFile) {
         p3DAnim = &_3DAnimationStruct._3DAnimation[i];
         j = 0;
 
-        while (!aeof(pFile)) {
+        while (!feof(pFile)) {
           pFrame = &p3DAnim->_3dFrame[j];
           Parse_3DAnimLine(pFile, pFrame);
 
@@ -509,7 +508,7 @@ void _3d_Load_Animations(void)
         p3DAnim->iID = i;
 
         i++;
-        aclose(pFile);
+        fclose(pFile);
 
         strcpy(text, "");
       }
@@ -519,7 +518,7 @@ void _3d_Load_Animations(void)
 
     _3d_Add_To_OpenMenuAnim(&_3DAnimationStruct._3DAnimation[14]);
 
-    aclose(pListFile);
+    fclose(pListFile);
   }
   else {
     kprintf(1, "Nenalezen soubor se seznamem 3d animaci!");
@@ -1481,7 +1480,7 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out,
 
 void _3d_Start_Settings(void)
 {  
-  ddxLoadBitmap("settings.bmp", pBmpArchive);
+  ddxLoadBitmap("settings.bmp", pBmpDir);
 }
 
 int _3d_BackPack2Hint(int idx)
@@ -1688,7 +1687,7 @@ void _3d_Nahraj_Kuk(void)
 {
   txt_trida(TEXT_MENU);
   kom_set_default_text_config(0, 0, 1, 0, 0, 1);
-  txt_nahraj_texturu_z_func(p3DMArchive, "brouk1.bmp", &sKuk.text, 0, 1, NULL, bmp_nahraj);
+  txt_nahraj_texturu_z_func(p3DMDir, "brouk1.bmp", &sKuk.text, 0, 1, NULL, bmp_nahraj);
   kom_ret_default_text_config();
 }
 

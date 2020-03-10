@@ -1385,8 +1385,6 @@ typedef struct _TEXT_DIR
 {
   char texture_dir[TEXT_DIRS][MAX_FILENAME];        // adresare textur
   int  texture_dir_class[TEXT_DIRS];
-  char texture_file[TEXT_DIRS][MAX_FILENAME];       // soubory textur
-  int  texture_file_class[TEXT_DIRS];    // tridy textur v paku
   char scene_texture_dir[MAX_FILENAME];
 } TEXT_DIR;
 

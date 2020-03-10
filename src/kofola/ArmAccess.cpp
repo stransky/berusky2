@@ -28,7 +28,7 @@ void GetB2Versnions(char *pInstalled)
   pInstalled[12] = '\0';
 
   getcwd(cwd, MAX_PATH);
-  GetPrivateProfileString("game", "bitmap_dir", "c:\\", dir, MAX_PATH,
+  GetPrivateProfileString("game", "bitmap_dir", "/", dir, MAX_PATH,
     ini_file);
   chdir(dir);
 

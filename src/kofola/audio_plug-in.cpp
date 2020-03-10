@@ -3,6 +3,7 @@
 //------------------------------------------------------------------------------------------------
 #include <stdio.h>
 #include <math.h>
+#include <errno.h>
 
 #include "3d_all.h"
 #include "Berusky3d_kofola_interface.h"
@@ -10,10 +11,9 @@
 #include "adas.h"
 #include "audio_plug-in.h"
 #include "Object.h"
-#include "Apak.h"
 #include "Tools.h"
 
-extern APAK_HANDLE *pSndArchive;
+extern char pSndDir[MAX_FILENAME];
 
 //------------------------------------------------------------------------------------------------
 // Init
@@ -51,29 +51,38 @@ void ap_Release(AUDIO_DATA * p_ad)
 }
 
 //------------------------------------------------------------------------------------------------
-// Load sample from APAK
+// Load sample from the sound directory
 //------------------------------------------------------------------------------------------------
 int ap_Load_Sample(int iCount, char *cFile)
 {
   char *pMem;
-  apuInt size;
+  long size;
+  char filename[MAX_FILENAME];
   FILE *file;
 
   if (!cFile)
     return(FALSE);
 
-  file = aopen(pSndArchive, cFile, "rb");
+  construct_path(filename, MAX_FILENAME, 2, pSndDir, cFile);
+  file = fopen(filename, "rb");
   if (!file) {
-    kprintf(1, "%s: %s", cFile, pSndArchive->cError);
+    kprintf(1, "%s: %s", filename, strerror(errno));
     return(FALSE);
   }
 
-  agetbuffer(file, &pMem, &size);
+  fseek(file, 0, SEEK_END);
+  size = ftell(file);
+  fseek(file, 0, SEEK_SET);
+  pMem = (char *) mmalloc(sizeof(*pMem) * size);
+  if (fread(pMem, sizeof(*pMem), size, file) != (size_t) size) {
+    kprintf(1, "Cannot read %s: %s", filename, strerror(errno));
+    fclose(file);
+    return(FALSE);
+  }
+  fclose(file);
 
-  int ret = (!iCount) ? adas_Load_FirstMemory("index.dat", pMem, size, cFile):
-                        adas_Load_NextMemory(pMem, size, cFile);
-  aclose(file);
-  return(ret);
+  return((!iCount) ? adas_Load_FirstMemory("index.dat", pMem, size, cFile):
+                     adas_Load_NextMemory(pMem, size, cFile));
 }
 
 //------------------------------------------------------------------------------------------------
@@ -82,7 +91,7 @@ int ap_Load_Sample(int iCount, char *cFile)
 int ap_Load_Sound_List(AUDIO_DATA * p_ad, char *cFile, int iStart)
 {
   FILE *file;
-  char text[256] = "";
+  char text[MAX_FILENAME];
   int c = iStart;
   int iMaterial = 0;
 
@@ -93,20 +102,20 @@ int ap_Load_Sound_List(AUDIO_DATA * p_ad, char *cFile, int iStart)
 
   if (!strlen(cFile))
     return 0;
-  
-  achdir(pSndArchive, p_ber->dir.sound_dir);
-  file = aopen(pSndArchive, cFile, "r");
+
+  construct_path(text, MAX_FILENAME, 2, pSndDir, cFile);
+  file = fopen(text, "r");
   if (!file) {
     kprintf(1, "Play list file not found");
     return 0;
   }
 
-  if(agets(text, 255, file)) {
+  if(fgets(text, 255, file)) {
     iMaterial = atoi(text);
   
-    while (!aeof(file)) {
+    while (!feof(file)) {
       memset(text, 0, 256);
-      if(!agets(text, 255, file) || !text[0])
+      if(!fgets(text, 255, file) || !text[0])
         break;
       
       newline_cut(text);
@@ -118,7 +127,7 @@ int ap_Load_Sound_List(AUDIO_DATA * p_ad, char *cFile, int iStart)
     }
   }
 
-  aclose(file);
+  fclose(file);
 
   return iMaterial;
 }
@@ -572,15 +581,14 @@ int ap_Load_Material_List(char *p_File_Name, AUDIO_DATA * p_ad)
 {
   FILE *file = 0;
   FILE *Material_file = 0;
-  char text[30] = "", error[MAX_FILENAME];
+  char text[30] = "", filename[MAX_FILENAME];
   int i;
 
   if (p_ad->p_Material)
     return 0;
 
-  achdir(pSndArchive, p_ber->dir.sound_dir);
-
-  file = aopen(pSndArchive, p_File_Name, "r");
+  construct_path(filename, MAX_FILENAME, 2, pSndDir, p_File_Name);
+  file = fopen(filename, "r");
   if (!file) {
     //MessageBox(p_ad->hWnd,"Material list file not found","Error", MB_OK);
     MyMessageBox(NULL, "##error_title", "##material_list_error", "");
@@ -588,7 +596,12 @@ int ap_Load_Material_List(char *p_File_Name, AUDIO_DATA * p_ad)
     return 0;
   }
 
-  agets(text, 30, file);
+  if (!fgets(text, 30, file)) {
+    MyMessageBox(NULL, "##error_title", "##material_list_error", "");
+    kprintf(1, "Cannot read material list file");
+    fclose(file);
+    return 0;
+  }
   p_ad->Size_of_Material_List = atoi(text);
 
   p_ad->p_Material =
@@ -602,24 +615,27 @@ int ap_Load_Material_List(char *p_File_Name, AUDIO_DATA * p_ad)
   }
 
   for (i = 0; i < p_ad->Size_of_Material_List; i++) {
-    if(!agets(text, 30, file))
+    if(!fgets(text, 30, file))
       break;
     
     newline_cut(text);
-    Material_file = aopen(pSndArchive, text, "rb");
+    construct_path(filename, MAX_FILENAME, 2, pSndDir, text);
+    Material_file = fopen(filename, "rb");
     if (!Material_file) {
-      sprintf(error, "%s not found", text);
       //MessageBox(p_ad->hWnd,error,"Error", MB_OK);
-      kprintf(1, error);
+      kprintf(1, "%s not found", text);
     }
     else {
-      aread(&p_ad->p_Material[i], sizeof(MATERIAL_LIST_ITEM), 1,
-        Material_file);
-      aclose(Material_file);
+      size_t ret =
+        fread(&p_ad->p_Material[i], sizeof(MATERIAL_LIST_ITEM), 1,
+          Material_file);
+      fclose(Material_file);
+      if (ret != 1)
+        kprintf(1, "cannot read %s", text);
     }
   }
 
-  aclose(file);
+  fclose(file);
   return 1;
 }
 
@@ -638,18 +654,24 @@ void ap_Release_Material_List(AUDIO_DATA * p_ad)
 //------------------------------------------------------------------------------------------------
 int ap_Load_Environment(char *p_Env_Name, void *p_Level, AUDIO_DATA * p_ad)
 {
+  char filename[MAX_FILENAME];
   FILE *file;
   LEVELINFO *p_L = (LEVELINFO *) p_Level;
 
-  achdir(pSndArchive, p_ber->dir.sound_dir);
-  file = aopen(pSndArchive, p_Env_Name, "rb");
+  construct_path(filename, MAX_FILENAME, 2, pSndDir, p_Env_Name);
+  file = fopen(filename, "rb");
   if (file) {
-    aread(&p_L->Environment, sizeof(ENVIRONMENT), 1, file);
-    aclose(file);
+    size_t ret =
+      fread(&p_L->Environment, sizeof(ENVIRONMENT), 1, file);
+    fclose(file);
+    if (ret != 1) {
+      kprintf(1, "cannot read %s", filename);
+      return 0;
+    }
     return 1;
   }
   else {    
-    kprintf(1, "%s not found", p_Env_Name);
+    kprintf(1, "%s not found", filename);
     return 0;
   }
 }

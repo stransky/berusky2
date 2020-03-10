@@ -291,7 +291,7 @@ int kom_amat_get_kontejner(MeshHandle mh)
 */
 /* Vraci handle nebo K_CHYBA kdyz nic/chyba loadu
 */
-AnimHandle sim_nahraj_animaci(APAK_HANDLE * pHandle, char *p_jmeno,
+AnimHandle sim_nahraj_animaci(char *p_dir, char *p_jmeno,
   int linearne)
 {
   AnimHandle sim;
@@ -313,7 +313,7 @@ AnimHandle sim_nahraj_animaci(APAK_HANDLE * pHandle, char *p_jmeno,
 
 naslo_se_to1:;
 
-  if (!key_sim_nahraj(pHandle, p_ber->p_sim + sim, p_jmeno, p_ber->dir.data_dir, linearne))
+  if (!key_sim_nahraj(p_dir, p_ber->p_sim + sim, p_jmeno, p_ber->dir.data_dir, linearne))
     return (K_CHYBA);
 
   p_ber->p_sim[sim].flag |= SIMPLE_AKTIVNI;

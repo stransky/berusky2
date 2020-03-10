@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <assert.h>
 #include <math.h>
+#include <dirent.h>
+#include <errno.h>
 #include "3d_all.h"
 
 #include "Berusky3d_kofola_interface.h"
@@ -15,76 +17,61 @@
 //------------------------------------------------------------------------------------------------
 int lsi_Load_Items(LEVELINFO * p_Level)
 {
-  char text[MAX_FILENAME], dir[MAX_FILENAME], odir[MAX_FILENAME];
-  int Count, m, error_open;
-  struct _finddata_t Data;
-  size_ptr Done;
-  int error;
-  FILE *file;
+  char dir[MAX_FILENAME], odir[MAX_FILENAME];
+  struct dirent **files;
+  int Count, m;
   SECONDDATADESC sec;
-  APAK_HANDLE *aHandle;
-  
+
   if (getcwd(odir, MAX_FILENAME) == NULL)
     return 0;
   strcpy(dir, PRVKY_DIR);
   if (chdir(dir))
     return 0;
 
-  strcpy(text, "*.itm");
-  Count = 0;
-  
-  aHandle = apakopen("items.pak", dir, &error_open);
-
-  if (!aHandle) {
-    kerror(1, "nepodarilo se otevrit archiv items.pak!!!");    
+  file_filter_mask("*.itm");
+  Count = scandir(dir, &files, &file_filter, NULL);
+  if (Count < 0) {
+    /* GCC warns when we don't check the return value of chdir(). For
+       some reason, casting to (void) doesn't work. */
+    if (chdir(odir))
+      return 0;
+    return 0;
   }
-  aHandle->pActualNode = aHandle->pRootNode->pNextNode;
-
-
-  Done = afindfirst(aHandle, text, &Data);
-  error = Done;
-
-  while (error != -1) {
-    Count++;
-    error = afindnext(Done, &Data);
-  }
-
-  afindclose(Done);
 
   p_Level->Count_Of_Objects = Count;
   p_Level->Object = (OBJECTDESC *) mmalloc(Count * sizeof(OBJECTDESC));
 
-  Done = afindfirst(aHandle, text, &Data);
-  error = Done;
-
   for (m = 0; m < Count; m++) {
-    if (error == -1) {
-      //MessageBox(p_Level->hWnd,"Count Of Models is not matching","Warning",MB_OK);
-      kprintf(1, "Count Of Models is not matching");
+    char filename[MAX_FILENAME];
+    FILE *file;
+
+    strncpy(filename, files[m]->d_name, MAX_FILENAME - 1);
+    free(files[m]);
+
+    file = fopen(filename, "rb");
+    if (file) {
+      if (fread(p_Level->Object + m, sizeof(OBJECTDESC), 1, file) != 1) {
+        kprintf(1, "Unable to read file %s: %s",
+                filename, strerror(errno));
+        continue;
+      }
+      fseek(file, 1000, SEEK_SET);
+      if (fread(&sec, sizeof(SECONDDATADESC), 1, file) != 1) {
+        kprintf(1, "Unable to read file %s: %s",
+                filename, strerror(errno));
+        continue;
+      }
+      p_Level->Object[m].Out_File = sec;
+      fclose(file);
     }
     else {
-      file = 0;
-      achdir(aHandle, dir);
-      file = aopen(aHandle, Data.name, "rb");
-      if (file) {
-        aread(p_Level->Object + m, sizeof(OBJECTDESC), 1, file);
-        aseek(file, 1000, SEEK_SET);
-        aread(&sec, sizeof(SECONDDATADESC), 1, file);
-        p_Level->Object[m].Out_File = sec;
-        aclose(file);
-      }
-      else {
-        sprintf(text, "Unable to find file %s", Data.name);
-        //MessageBox(p_Level->hWnd,text,"Warning",MB_OK);
-        kprintf(1, text);
-      }
+      //MessageBox(p_Level->hWnd,text,"Warning",MB_OK);
+      kprintf(1, "Unable to open file %s: %s",
+              filename, strerror(errno));
     }
-    error = afindnext(Done, &Data);
   }
 
-  afindclose(Done);
-
-  apakclose(&aHandle);
+  free(files);
 
   if (chdir(odir))
     return 0;

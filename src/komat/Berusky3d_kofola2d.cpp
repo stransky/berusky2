@@ -636,15 +636,15 @@ SurfaceHandle ddx2ReleaseBitmap(SurfaceHandle iSurface)
 }
 
 //------------------------------------------------------------------------------------------------
-// load bitmap from APAK na pozici
+// load bitmap from a directory na pozici
 //------------------------------------------------------------------------------------------------
-SurfaceHandle ddx2LoadBitmapPos(SurfaceHandle handle, char *pFileName,
-  APAK_HANDLE * pHandle)
+SurfaceHandle ddx2LoadBitmapPos(SurfaceHandle handle,
+                                char *pFileName, char *pDirName)
 {
   if (handle != K_CHYBA) {
     assert(handle < slist.surf_max);
     ddx2ReleaseBitmap(handle);
-    if ((slist.p_slist[handle].p_bmp = bmp_nahraj(pHandle, (char *)pFileName))) {
+    if ((slist.p_slist[handle].p_bmp = bmp_nahraj(pDirName, (char *)pFileName))) {
       // for compatibility with old broken bmp loading
       bmp_prehod(slist.p_slist[handle].p_bmp);
       return (handle);
@@ -675,11 +675,11 @@ SurfaceHandle ddx2LoadBitmapPosDisk(SurfaceHandle handle, char *pFileName)
 }
 
 //------------------------------------------------------------------------------------------------
-// load bitmap from APAK
+// load bitmap from a directory
 //------------------------------------------------------------------------------------------------
-SurfaceHandle ddx2LoadBitmap(char *pFileName, APAK_HANDLE * pHandle)
+SurfaceHandle ddx2LoadBitmap(char *pFileName, char *pDirName)
 {
-  return (ddx2LoadBitmapPos(ddx2FindFreeSurface(), pFileName, pHandle));
+  return (ddx2LoadBitmapPos(ddx2FindFreeSurface(), pFileName, pDirName));
 }
 
 //------------------------------------------------------------------------------------------------
@@ -691,37 +691,34 @@ SurfaceHandle ddx2LoadBitmapDisk(char *pFileName)
 }
 
 //------------------------------------------------------------------------------------------------
-// load list of bitmaps from APAK
+// load list of bitmaps from a directory
 //------------------------------------------------------------------------------------------------
-BOOL ddx2LoadList(char *pFileName, APAK_HANDLE * pBmpArchive, char *p_bmp_dir)
+BOOL ddx2LoadList(char *pFileName, char *pBmpDir, char *p_bmp_dir)
 {
   int c;
-  char text[256];
+  char text[MAX_FILENAME];
   FILE *file = 0;
   DWORD Eplased;
   DWORD Start, Stop;
 
-  achdir(pBmpArchive, p_bmp_dir);
+  construct_path(text, MAX_FILENAME, 3, p_bmp_dir, pBmpDir, pFileName);
 
   kprintf(1, "Kofola: - Load bitmap pro herni menu");
-  file = aopen(pBmpArchive, pFileName, "rb");
+  file = fopen(text, "rb");
   if (!file) {
-    kprintf(1, "File not found : %s", pFileName);
+    kprintf(1, "File not found : %s", text);
     konec(TRUE);
   }
 
   c = 0;
   Start = timeGetTime();
-  while (!aeof(file)) {
-    agets(text, 256, file);
-    if (!aeof(file)) {
-      newline_cut(text);
-      ddx2LoadBitmapPos(c, text, pBmpArchive);
-    }
+  while (fgets(text, 256, file)) {
+    newline_cut(text);
+    ddx2LoadBitmapPos(c, text, pBmpDir);
     c++;
   }
 
-  aclose(file);
+  fclose(file);
 
   Stop = timeGetTime();
   Eplased = Stop - Start;

@@ -26,9 +26,6 @@ berusky2_SOURCES = \
 	kofola/3D_menus.h\
 	kofola/3d_math.cpp\
 	kofola/3d_math.h\
-	kofola/Apak.cpp\
-	kofola/Apak.h\
-	kofola/Apakio.cpp\
 	kofola/Bind.cpp\
 	kofola/Bind.h\
 	kofola/Camera.cpp\
@@ -51,10 +48,6 @@ berusky2_SOURCES = \
 	kofola/Tools.h\
 	kofola/animend_functions.cpp\
 	kofola/animend_functions.h\
-	kofola/apak_types.h\
-	kofola/apakdir.cpp\
-	kofola/apakfind.cpp\
-	kofola/apakstream.cpp\
 	kofola/camera.h\
 	kofola/codec.h\
 	kofola/config_types.h\

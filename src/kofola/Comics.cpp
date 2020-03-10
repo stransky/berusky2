@@ -26,7 +26,7 @@ static MCI_DGV_WINDOW_PARMS		mciWindow;
 static DWORD					wDeviceID = 0;
 static DWORD					wError;*/
 
-extern APAK_HANDLE *pBmpArchive;
+extern char pBmpDir[MAX_FILENAME];
 
 void cmcs_Draw(int iIndex, int xPos, int yPos)
 {
@@ -104,7 +104,7 @@ void cmcs_Start_Comics(char *cFile, HWND hWnd, AUDIO_DATA * p_ad, char bMusic)
     if (!strcmp(text, "LOAD_END"))
       break;
 
-    i = ddxLoadBitmap(text, pBmpArchive);
+    i = ddxLoadBitmap(text, pBmpDir);
   }
 
   i = 0;
@@ -226,7 +226,7 @@ void cmcs_Play_Video(char *pFile, long dwVideoTime, AUDIO_DATA * p_ad)
 	long counter = 0;
 	char lpstrFile[256];
 
-	GetPrivateProfileString("files","bitmap_dir","c:\\",lpstrFile,256,ini_file);
+	GetPrivateProfileString("files","bitmap_dir","/",lpstrFile,256,ini_file);
   working_file_translate(lpstrFile,256);
 	chdir(lpstrFile);
 

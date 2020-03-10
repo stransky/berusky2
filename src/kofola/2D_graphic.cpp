@@ -8,7 +8,6 @@
 #include "3d_all.h"
 #include "Berusky_universal.h"
 #include "2D_graphic.h"
-#include "Apak.h"
 #include "Berusky3d_ini.h"
 
 //------------------------------------------------------------------------------------------------

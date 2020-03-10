@@ -2,19 +2,19 @@
 // version 0.0.1
 //------------------------------------------------------------------------------------------------
 #include <stdio.h>
+#include <errno.h>
 
 #include "3d_all.h"
 #include "Berusky3d_kofola_interface.h"
 #include "Berusky_universal.h"
 #include "3D_graphic.h"
-#include "Apak.h"
 #include "font.h"
 
 _3D_DATA _3dd;
 _3D_CURSOR _3dCur;
-extern APAK_HANDLE *p3DMArchive;
+extern char p3DMDir[MAX_FILENAME];
 extern EDIT_TEXT sIndikace[3];
-extern char cFontFile[5][64];
+extern char cFontDir[5][64];
 extern HINT_TEXTURE pMessageTexture[8];
 
 //------------------------------------------------------------------------------------------------
@@ -104,25 +104,18 @@ void _3d_Release_Texture(int Index)
 //------------------------------------------------------------------------------------------------
 int _3d_Load_Texture(char *p_File_Name, int Index, char bVideoRAM, char bSeek)
 {
-  FILE *file;
-
   if (_3dd.p_texture[Index].load)
     return 0;
 
   _3dd.p_texture[Index].flag = 0;
 
-  if (bSeek) {
-    file = aopen(p3DMArchive, p_File_Name, "rb");
-    aclose(file);
-  }
-
   if (bVideoRAM) {
-    txt_nahraj_texturu_z_func(p3DMArchive, p_File_Name, 
+    txt_nahraj_texturu_z_func(p3DMDir, p_File_Name,
                               &_3dd.p_texture[Index], 0, bVideoRAM, 
                               NULL, bmp_nahraj);
   }
   else {
-    txt_nahraj_texturu_z_func(p3DMArchive, p_File_Name,
+    txt_nahraj_texturu_z_func(p3DMDir, p_File_Name,
                               &_3dd.p_texture[Index], 1, bVideoRAM, 
                               &_3dd.p_sysramtexture[Index].konf, bmp_nahraj);
   }
@@ -201,15 +194,16 @@ int _3d_Load_List(char *p_File_Name)
   FILE *file = 0;
   int c = 0;
 
-  if (chdir((_3dd.bm_dir))) {
-    kprintf(1, "Cannot change directory to %s", _3dd.bm_dir);
+  construct_path(text, MAX_FILENAME, 2, p3DMDir, p_File_Name);
+
+  file = fopen(text, "rb");
+  if (!file) {
+    kprintf(1, "%s: %s", text, strerror(errno));
     return 0;
   }
-  achdir(p3DMArchive, _3dd.bm_dir);
 
-  file = aopen(p3DMArchive, p_File_Name, "rb");
-  if (!file) {
-    kprintf(1, "%s: %s", p_File_Name, p3DMArchive->cError);
+  if (chdir((_3dd.bm_dir))) {
+    kprintf(1, "Cannot change directory to %s", _3dd.bm_dir);
     return 0;
   }
 
@@ -218,8 +212,8 @@ int _3d_Load_List(char *p_File_Name)
   txt_trida(TEXT_MENU);
   kom_set_default_text_config(0, 0, 1, 0, 0, 1);
 
-  while (!aeof(file)) {    
-    if (agets(text, MAX_FILENAME, file) && !aeof(file)) {
+  while (!feof(file)) {
+    if (fgets(text, MAX_FILENAME, file) && !feof(file)) {
       newline_cut(text);
 
       if (!c)
@@ -235,7 +229,7 @@ int _3d_Load_List(char *p_File_Name)
       c++;
     }
   }
-  aclose(file);
+  fclose(file);
 
   _3dd.last = c;
 
@@ -370,11 +364,11 @@ void _3d_Load_Indikace(void)
 
   txt_trida(TEXT_MENU);
   kom_set_default_text_config(0, 0, 1, 0, 0, 1);
-  txt_nahraj_texturu_z_func(p3DMArchive, "camera1.bmp", &sIndikace[0], 0, 1,
+  txt_nahraj_texturu_z_func(p3DMDir, "camera1.bmp", &sIndikace[0], 0, 1,
     NULL, bmp_nahraj);
-  txt_nahraj_texturu_z_func(p3DMArchive, "vitamin1.bmp", &sIndikace[1], 0, 1,
+  txt_nahraj_texturu_z_func(p3DMDir, "vitamin1.bmp", &sIndikace[1], 0, 1,
     NULL, bmp_nahraj);
-  txt_nahraj_texturu_z_func(p3DMArchive, "lock1.bmp", &sIndikace[2], 0, 1,
+  txt_nahraj_texturu_z_func(p3DMDir, "lock1.bmp", &sIndikace[2], 0, 1,
     NULL, bmp_nahraj);
   kom_ret_default_text_config();
 }
@@ -386,7 +380,7 @@ void _3d_Gen_Hints(HINT_TEXTURE * bTexture, int tsize)
 
   ZeroMemory(bTexture, sizeof(EDIT_TEXT) * tsize);
 
-  if (!fn_Set_Font(cFontFile[4])) {
+  if (!fn_Set_Font(cFontDir[4])) {
     kprintf(1, "Unable to set font!");
     return;
   }
@@ -397,7 +391,7 @@ void _3d_Gen_Hints(HINT_TEXTURE * bTexture, int tsize)
   }
 
   kom_set_default_text_config(0, 0, 1, 0, 0, 1);
-  txt_nahraj_texturu_z_func(p3DMArchive, "hint_frame.bmp", &bTexture[0].text,
+  txt_nahraj_texturu_z_func(p3DMDir, "hint_frame.bmp", &bTexture[0].text,
     0, 1, NULL, bmp_nahraj);
   kom_ret_default_text_config();
 

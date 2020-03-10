@@ -36,19 +36,14 @@ extern _3D_CURSOR _3dCur;
 
 extern int iActualScene;
 extern int iActualLevel;
-extern char cFontFile[5][64];
+extern char cFontDir[5][64];
 extern HINT_STATE sHint;
 extern HINT_TEXTURE pHintTexture[26];
 
 #define	NEXTDEMOFRAMETIMERID	10001
 #define randf()      ((float)rand())
 
-extern APAK_HANDLE *pGDataArchive;
-extern APAK_HANDLE *pBmpArchive;
-extern APAK_HANDLE *pControlsArchive;
-extern APAK_HANDLE *p3DMArchive;
-extern APAK_HANDLE *pSndArchive;
-extern APAK_HANDLE *pDataArchive;
+extern char pGDataDir[MAX_FILENAME];
 
 typedef struct
 {
@@ -10497,7 +10492,7 @@ PLAY_LEVEL_START:
 
   kprintf(1, "fn_Set_Font...");
 
-  if (!fn_Set_Font(cFontFile[1]))
+  if (!fn_Set_Font(cFontDir[1]))
     kprintf(1, "Unable to set font!");
 
   if (!fn_Load_Bitmaps())
@@ -10655,7 +10650,7 @@ PLAY_LEVEL_START:
     strcat(file, DIR_SLASH_STRING);
     strcat(file, pEnv->cCam);
 
-    cameraanim = kam_3ds_nahraj_animaci(pGDataArchive, file);
+    cameraanim = kam_3ds_nahraj_animaci(pGDataDir, file);
 
     if (cameraanim != K_CHYBA) {
       kam_set_kino_screen(p_ber);
@@ -11098,7 +11093,7 @@ PLAY_LEVEL_START:
           sHint.bHint = 0;
 
           PRCameraFlag = 0;
-          RunMenuHelp2("mmhelp3d.txt", p_ad, &Level, &am);
+          RunMenuHelp2("Mmhelp3D.txt", p_ad, &Level, &am);
           PRCameraFlag = 1;
           sHint.bHint = 0;
         }
@@ -11991,7 +11986,7 @@ PLAY_LEVEL_START:
         {
           sHint.bHint = 0;
           PRCameraFlag = 0;
-          RunMenuHelp2("mmhelp3d.txt", p_ad, &Level, &am);
+          RunMenuHelp2("Mmhelp3D.txt", p_ad, &Level, &am);
           PRCameraFlag = 1;
           sHint.bHint = 0;
         }
@@ -12346,20 +12341,7 @@ void gl_Kofola_End(int InMenu)
     FreeDirectDraw();
   }
 
-  kprintf(1, "apakclose pGDataArchive");
-  apakclose(&pGDataArchive);
-  kprintf(1, "apakclose pDataArchive");
-  apakclose(&pDataArchive);
-  kprintf(1, "apakclose pBmpArchive");
-  apakclose(&pBmpArchive);
-  kprintf(1, "apakclose pSndArchive");
-  apakclose(&pSndArchive);
-  kprintf(1, "apakclose p3DMArchive");
-  apakclose(&p3DMArchive);
-  kprintf(1, "apakclose pControlsArchive");
-  apakclose(&pControlsArchive);
-
-  //kprintf(1, "apakclose FONT");
+  //kprintf(1, "release FONT");
   //fn_Release_Font();
 
   adas_Set_Listener_Environment(EAX_ENVIRONMENT_GENERIC);

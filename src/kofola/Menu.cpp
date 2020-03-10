@@ -19,7 +19,6 @@
 #include "menu_def.h"
 #include "Setup.h"
 #include "profiles.h"
-#include "Apak.h"
 #include "3D_menus.h"
 #include "Demo.h"
 #include "load_level.h"
@@ -41,11 +40,11 @@
 
 extern SETUP setup;
 extern _3D_CURSOR _3dCur;
-extern APAK_HANDLE *pBmpArchive;
-extern APAK_HANDLE *pDataArchive;
+extern char pBmpDir[MAX_FILENAME];
+extern char pDataDir[MAX_FILENAME];
 extern PLAYER_PROFILE pPlayerProfile;
 extern HINT_TEXTURE pHintTexture[26];
-extern char cFontFile[5][64];
+extern char cFontDir[5][64];
 extern int iLanguageVersion;
 
 typedef struct __2D_HINT
@@ -725,7 +724,7 @@ int RunLevel(HWND hWnd, AUDIO_DATA * p_ad, int cpu, char *lvl, char *env)
     RunMenuLoadScreenDrawProgress(-1, -1);
 
     _3d_Init();
-    _3d_Load_List("3D_load.dat");
+    _3d_Load_List("3d_load.dat");
 
     _3d_Gen_Hints(pHintTexture, 26);
 
@@ -1186,7 +1185,7 @@ void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab)
   int i;
   int iClock;
 
-  iClock = ddxLoadBitmap("clock1-1.bmp", pBmpArchive);
+  iClock = ddxLoadBitmap("clock1-1.bmp", pBmpDir);
   ddxResizeCursorBack(iClock);
   DrawClock(&iClock, 0);
 
@@ -1300,7 +1299,7 @@ void InitTabControls(CONTROL_LIST_ITEM * citem, int *hdcTab)
   char ctext[MAX_FILENAME];
   int iClock;
 
-  iClock = ddxLoadBitmap("clock1-1.bmp", pBmpArchive);
+  iClock = ddxLoadBitmap("clock1-1.bmp", pBmpDir);
   ddxResizeCursorBack(iClock);
   DrawClock(&iClock, 0);
 
@@ -1456,7 +1455,7 @@ void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
 
   ZeroMemory(citem, CLIST_ITEMC * sizeof(CONTROL_LIST_ITEM));
 
-  fn_Set_Font(cFontFile[2]);
+  fn_Set_Font(cFontDir[2]);
   fn_Load_Bitmaps();
 
   for (bind = 0; bind < RES_NUM; bind++) {
@@ -2017,39 +2016,24 @@ void RunStretchAnimation(char *cScene, int x, int y, AUDIO_DATA * p_ad)
   int idx;
   RECT r;
   RECT s = {0, 0, 1024, 768};
-  APAK_HANDLE *hArchive = NULL;
-  char cFile[MAX_FILENAME];
   char cDir[MAX_FILENAME];
 
   if (iLanguageVersion == 4) {
-    strcpy(cDir, BITMAP_DIR);
-  
-    if (snprintf(cFile, sizeof(cFile), "%s%cscene%d.pak",
-		 cDir, DIR_SLASH, iActualScene) >=
-	(int) sizeof(cFile)) {
-      kprintf(1, "Filename too long: %s%cscene%d.pak",
-	      cDir, DIR_SLASH, iActualScene);
+    if (snprintf(cDir, sizeof(cDir), "%s%cscene%d",
+		 BITMAP_DIR, DIR_SLASH, iActualScene) >=
+	(int) sizeof(cDir)) {
+      kprintf(1, "Filename too long: %s%cscene%d",
+	      BITMAP_DIR, DIR_SLASH, iActualScene);
       return;
     }
-    hArchive = apakopen(cFile, cDir, &idx);
 
-    if (!hArchive) {
-      kprintf(1, "Nepodarilo se otevrit archiv [%s]\n", cFile);
-      return;
-    }
-    else
-      hArchive->pActualNode = hArchive->pRootNode->pNextNode;
-
-    idx = ddxLoadBitmap(cScene, hArchive);
+    idx = ddxLoadBitmap(cScene, cDir);
   }
   else
-    idx = ddxLoadBitmap(cScene, pBmpArchive);
+    idx = ddxLoadBitmap(cScene, pBmpDir);
 
-  if (idx < 0) {
-    if (iLanguageVersion == 4)
-      apakclose(&hArchive);
+  if (idx < 0)
     return;
-  }
 
   r.left = x;
   r.top = y;
@@ -2058,9 +2042,6 @@ void RunStretchAnimation(char *cScene, int x, int y, AUDIO_DATA * p_ad)
 
   StretchAnimation(&r, &s, idx, 1, p_ad);
   ddxReleaseBitmap(idx);
-
-  if (iLanguageVersion == 4)
-    apakclose(&hArchive);
 }
 
 void RunMenuNewGameSceneActivate(CMD_LINE * res)
@@ -2788,44 +2769,31 @@ void LoadSceneMap(int *pBmp, char *cSceneBmp, char *cSceneAnim, int iScene,
 {
   int i;
   char text[MAX_FILENAME];
-  APAK_HANDLE *hArchive = NULL;
-  char cFile[MAX_FILENAME];
   char cDir[MAX_FILENAME];
 
   if (iLanguageVersion == 4) {
-    strcpy(cDir, BITMAP_DIR);
-    if (snprintf(cFile, sizeof(cFile), "%s%cscene%d.pak",
-		 cDir, DIR_SLASH, iActualScene) >=
-	(int) sizeof(cFile)) {
-      kprintf(1, "Filename too long: %s%cscene%d.pak",
-	      cDir, DIR_SLASH, iActualScene);
+    if (snprintf(cDir, sizeof(cDir), "%s%cscene%d",
+		 BITMAP_DIR, DIR_SLASH, iActualScene) >=
+	(int) sizeof(cDir)) {
+      kprintf(1, "Filename too long: %s%cscene%d",
+	      BITMAP_DIR, DIR_SLASH, iActualScene);
       return;
     }
-    hArchive = apakopen(cFile, cDir, &i);
 
-    if (!hArchive) {
-      kprintf(1, "Nepodarilo se otevrit archiv [%s]\n", cFile);
-      return;
-    }
-    else
-      hArchive->pActualNode = hArchive->pRootNode->pNextNode;
-
-    pBmp[0] = ddxLoadBitmap(cSceneBmp, hArchive);
+    pBmp[0] = ddxLoadBitmap(cSceneBmp, cDir);
 
     for (i = 1; i < 6; i++) {
       sprintf(text, "%s%d.bmp", cSceneAnim, i);
-      pBmp[i] = ddxLoadBitmap(text, hArchive);
+      pBmp[i] = ddxLoadBitmap(text, cDir);
       DrawClock(iClock, i);
     }
-
-    apakclose(&hArchive);
   }
   else {
-    pBmp[0] = ddxLoadBitmap(cSceneBmp, pBmpArchive);
+    pBmp[0] = ddxLoadBitmap(cSceneBmp, pBmpDir);
 
     for (i = 1; i < 6; i++) {
       sprintf(text, "%s%d.bmp", cSceneAnim, i);
-      pBmp[i] = ddxLoadBitmap(text, pBmpArchive);
+      pBmp[i] = ddxLoadBitmap(text, pBmpDir);
       DrawClock(iClock, i);
     }
   }
@@ -2836,48 +2804,48 @@ void LoadSceneMap(int *pBmp, char *cSceneBmp, char *cSceneAnim, int iScene,
     case 3:
     case 4:
     case 7:
-      pBmp[6] = ddxLoadBitmap("level_green.bmp", pBmpArchive);
-      pBmp[7] = ddxLoadBitmap("level_ok_green.bmp", pBmpArchive);
-      pBmp[8] = ddxLoadBitmap("b1_green.bmp", pBmpArchive);
-      pBmp[9] = ddxLoadBitmap("b2_green.bmp", pBmpArchive);
-      pBmp[10] = ddxLoadBitmap("level_green_l.bmp", pBmpArchive);
-      pBmp[11] = ddxLoadBitmap("level_ok_green_l.bmp", pBmpArchive);
+      pBmp[6] = ddxLoadBitmap("level_green.bmp", pBmpDir);
+      pBmp[7] = ddxLoadBitmap("level_ok_green.bmp", pBmpDir);
+      pBmp[8] = ddxLoadBitmap("b1_green.bmp", pBmpDir);
+      pBmp[9] = ddxLoadBitmap("b2_green.bmp", pBmpDir);
+      pBmp[10] = ddxLoadBitmap("level_green_l.bmp", pBmpDir);
+      pBmp[11] = ddxLoadBitmap("level_ok_green_l.bmp", pBmpDir);
       break;
     case 5:
     case 8:
-      pBmp[6] = ddxLoadBitmap("level_brown.bmp", pBmpArchive);
-      pBmp[7] = ddxLoadBitmap("level_ok_brown.bmp", pBmpArchive);
-      pBmp[8] = ddxLoadBitmap("b1_brown.bmp", pBmpArchive);
-      pBmp[9] = ddxLoadBitmap("b2_brown.bmp", pBmpArchive);
-      pBmp[10] = ddxLoadBitmap("level_brown_l.bmp", pBmpArchive);
-      pBmp[11] = ddxLoadBitmap("level_ok_brown_l.bmp", pBmpArchive);
+      pBmp[6] = ddxLoadBitmap("level_brown.bmp", pBmpDir);
+      pBmp[7] = ddxLoadBitmap("level_ok_brown.bmp", pBmpDir);
+      pBmp[8] = ddxLoadBitmap("b1_brown.bmp", pBmpDir);
+      pBmp[9] = ddxLoadBitmap("b2_brown.bmp", pBmpDir);
+      pBmp[10] = ddxLoadBitmap("level_brown_l.bmp", pBmpDir);
+      pBmp[11] = ddxLoadBitmap("level_ok_brown_l.bmp", pBmpDir);
       break;
     case 0:
-      pBmp[6] = ddxLoadBitmap("level_tutorial.bmp", pBmpArchive);
-      pBmp[7] = ddxLoadBitmap("level_ok_tutorial.bmp", pBmpArchive);
-      pBmp[8] = ddxLoadBitmap("b1_blue.bmp", pBmpArchive);
-      pBmp[9] = ddxLoadBitmap("b2_blue.bmp", pBmpArchive);
-      pBmp[10] = ddxLoadBitmap("level_tutorial_l.bmp", pBmpArchive);
-      pBmp[11] = ddxLoadBitmap("level_ok_tutorial_l.bmp", pBmpArchive);
+      pBmp[6] = ddxLoadBitmap("level_tutorial.bmp", pBmpDir);
+      pBmp[7] = ddxLoadBitmap("level_ok_tutorial.bmp", pBmpDir);
+      pBmp[8] = ddxLoadBitmap("b1_blue.bmp", pBmpDir);
+      pBmp[9] = ddxLoadBitmap("b2_blue.bmp", pBmpDir);
+      pBmp[10] = ddxLoadBitmap("level_tutorial_l.bmp", pBmpDir);
+      pBmp[11] = ddxLoadBitmap("level_ok_tutorial_l.bmp", pBmpDir);
       break;
     case 6:
     case 9:
     case 10:
     case 11:
-      pBmp[6] = ddxLoadBitmap("level_blue.bmp", pBmpArchive);
-      pBmp[7] = ddxLoadBitmap("level_ok_blue.bmp", pBmpArchive);
-      pBmp[8] = ddxLoadBitmap("b1_blue.bmp", pBmpArchive);
-      pBmp[9] = ddxLoadBitmap("b2_blue.bmp", pBmpArchive);
-      pBmp[10] = ddxLoadBitmap("level_blue_l.bmp", pBmpArchive);
-      pBmp[11] = ddxLoadBitmap("level_ok_blue_l.bmp", pBmpArchive);
+      pBmp[6] = ddxLoadBitmap("level_blue.bmp", pBmpDir);
+      pBmp[7] = ddxLoadBitmap("level_ok_blue.bmp", pBmpDir);
+      pBmp[8] = ddxLoadBitmap("b1_blue.bmp", pBmpDir);
+      pBmp[9] = ddxLoadBitmap("b2_blue.bmp", pBmpDir);
+      pBmp[10] = ddxLoadBitmap("level_blue_l.bmp", pBmpDir);
+      pBmp[11] = ddxLoadBitmap("level_ok_blue_l.bmp", pBmpDir);
       break;
     case 12:
-      pBmp[6] = ddxLoadBitmap("level_yellow.bmp", pBmpArchive);
-      pBmp[7] = ddxLoadBitmap("level_ok_yellow.bmp", pBmpArchive);
-      pBmp[8] = ddxLoadBitmap("b1_yellow.bmp", pBmpArchive);
-      pBmp[9] = ddxLoadBitmap("b2_yellow.bmp", pBmpArchive);
-      pBmp[10] = ddxLoadBitmap("level_yellow_l.bmp", pBmpArchive);
-      pBmp[11] = ddxLoadBitmap("level_ok_yellow_l.bmp", pBmpArchive);
+      pBmp[6] = ddxLoadBitmap("level_yellow.bmp", pBmpDir);
+      pBmp[7] = ddxLoadBitmap("level_ok_yellow.bmp", pBmpDir);
+      pBmp[8] = ddxLoadBitmap("b1_yellow.bmp", pBmpDir);
+      pBmp[9] = ddxLoadBitmap("b2_yellow.bmp", pBmpDir);
+      pBmp[10] = ddxLoadBitmap("level_yellow_l.bmp", pBmpDir);
+      pBmp[11] = ddxLoadBitmap("level_ok_yellow_l.bmp", pBmpDir);
       break;
   }
 
@@ -2891,7 +2859,7 @@ void DrawLevelHint(int x, int y, int iLevel)
 
   sprintf(text, "t_%d.bmp", iLevel - 200);
 
-  idx = ddxLoadBitmap(text, pBmpArchive);
+  idx = ddxLoadBitmap(text, pBmpDir);
 
   if (idx == -1)
     return;
@@ -3073,7 +3041,8 @@ void CreateLevelButtons(CMD_LINE * res, int *lastcmd, int *pBmp, int iScene,
   int i;
   FILE *file;
 
-  file = aopen(pDataArchive, cLevelList, "r");
+  construct_path(text, MAX_FILENAME, 2, pDataDir, cLevelList);
+  file = fopen(text, "r");
 
   if (!file)
     return;
@@ -3089,7 +3058,7 @@ void CreateLevelButtons(CMD_LINE * res, int *lastcmd, int *pBmp, int iScene,
       pPlayerProfile.cLevel[i], r[3], bTutorial, i);
   }
 
-  aclose(file);
+  fclose(file);
 }
 
 int LoadTV(void)
@@ -3098,30 +3067,28 @@ int LoadTV(void)
   char text[MAX_FILENAME];
   FILE *file;
 
-  file = aopen(pBmpArchive, "tvload.txt", "r");
+  construct_path(text, MAX_FILENAME, 2, pBmpDir, "tvload.txt");
+  file = fopen(text, "r");
 
   if (!file)
     return -1;
 
-  while (!aeof(file)) {
+  while (!feof(file)) {
     memset(text, 0, MAX_FILENAME);
 
-    agets(text, MAX_FILENAME, file);
-    if (text[0]) {
+    if (fgets(text, MAX_FILENAME, file) && text[0]) {
       newline_cut(text);
 
       if (!c)
-        i = ddxLoadBitmap(text, pBmpArchive);
+        i = ddxLoadBitmap(text, pBmpDir);
       else
-        ddxLoadBitmap(text, pBmpArchive);
+        ddxLoadBitmap(text, pBmpDir);
 
       c++;
     }
   }
 
-  aclose(file);
-
-  pBmpArchive->bError = 0;
+  fclose(file);
 
   return i;
 }
@@ -3135,17 +3102,17 @@ void CorrectTV(CMD_LINE * res, int iAnim, int iLast, int x, int y, int idx,
   switch (iScene) {
     case 5:
     case 8:
-      tvcoridx = ddxLoadBitmap("tvcor_brown.bmp", pBmpArchive);
+      tvcoridx = ddxLoadBitmap("tvcor_brown.bmp", pBmpDir);
       break;
     case 0:
     case 6:
     case 9:
     case 10:
     case 11:
-      tvcoridx = ddxLoadBitmap("tvcor_blue.bmp", pBmpArchive);
+      tvcoridx = ddxLoadBitmap("tvcor_blue.bmp", pBmpDir);
       break;
     case 12:
-      tvcoridx = ddxLoadBitmap("tvcor_yellow.bmp", pBmpArchive);
+      tvcoridx = ddxLoadBitmap("tvcor_yellow.bmp", pBmpDir);
       break;
   }
 
@@ -3238,35 +3205,33 @@ int LoadClock(int *iClock)
   char text[MAX_FILENAME];
   FILE *file;
 
-  file = aopen(pBmpArchive, "loadclock.txt", "r");
+  construct_path(text, MAX_FILENAME, 2, pBmpDir, "loadclock.txt");
+  file = fopen(text, "r");
 
   if (!file)
     return -1;
 
-  while (!aeof(file)) {
+  while (!feof(file)) {
     ZeroMemory(text, MAX_FILENAME);
 
-    agets(text, MAX_FILENAME, file);
-    if (!text[0])
+    if (!fgets(text, MAX_FILENAME, file) || !text[0])
       break;
 
     newline_cut(text);
 
     if (!c) {
-      i = ddxLoadBitmap(text, pBmpArchive);
+      i = ddxLoadBitmap(text, pBmpDir);
       iClock[c] = i;
     }
     else {
-      t = ddxLoadBitmap(text, pBmpArchive);
+      t = ddxLoadBitmap(text, pBmpDir);
       iClock[c] = t;
     }
 
     c++;
   }
 
-  aclose(file);
-
-  pBmpArchive->bError = 0;
+  fclose(file);
 
   return i;
 }
@@ -3274,7 +3239,7 @@ int LoadClock(int *iClock)
 /*void MenuInitHint(char bTutorial)
 {
 	if(bTutorial)
-		_2d_hint.iSurface = ddxLoadBitmap("hint_frame.bmp", pBmpArchive);
+		_2d_hint.iSurface = ddxLoadBitmap("hint_frame.bmp", pBmpDir);
 	else
 		_2d_hint.iSurface = -1;
 
@@ -3399,6 +3364,7 @@ void RunMenuSceneMap(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu,
   char cscenelevels[64];
   char bReload = 0;
   char dir[MAX_FILENAME];
+  char filename[MAX_FILENAME];
 
   ZeroMemory(&_2d_hint, sizeof(_2D_HINT));
 
@@ -3528,9 +3494,11 @@ BRUTAL_RESTART_SCENE_MAP_MENU:
       case COM_BINDEXITANIMATION:
       case COM_BINDANIMATION:
         //nahrati animace k udalosti OnAbove
-        file = aopen(pDataArchive, res[i].cParam[0], "r");
+        construct_path(filename, MAX_FILENAME, 2,
+                       pDataDir, res[i].cParam[0]);
+        file = fopen(filename, "r");
         if (file) {
-          while (!aeof(file)) {
+          while (!feof(file)) {
             Parse_AnimLine(file, res[i].iAnim[lastanm], 18);
 
             if (!cc)
@@ -3544,7 +3512,7 @@ BRUTAL_RESTART_SCENE_MAP_MENU:
           else if (!bTutorial)
             CorrectTV(res, i, lastanm, xTV, yTV, iTV, iActualScene);
 
-          aclose(file);
+          fclose(file);
         }
 
         cc++;
@@ -3908,7 +3876,7 @@ int RunMenuNewGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
 
   in = 0;
 
-  fn_Set_Font(cFontFile[0]);
+  fn_Set_Font(cFontDir[0]);
   fn_Load_Bitmaps();
 
   CreateFontAnimations(res, &lastcmd);
@@ -3970,7 +3938,7 @@ int RunMenuNewGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
     co_Set_Text_Center(BackDC, "##mainmenu_new_player_name", 0, r);
 
     fn_Release_Font(1);
-    fn_Set_Font(cFontFile[2]);
+    fn_Set_Font(cFontDir[2]);
     fn_Load_Bitmaps();
 
     citem[0].p_edit = co_Create_Edit(BackDC, 360, 470, 0);
@@ -4349,7 +4317,7 @@ int FillComboProfiles(COMBO_CONTROL * p_co, int *iSel)
   if (chdir(dir))
     return 0;
 
-  GetPrivateProfileString("game", "last_profile", "c:\\", cprofile, MAX_FILENAME, ini_file);
+  GetPrivateProfileString("game", "last_profile", "/", cprofile, MAX_FILENAME, ini_file);
 
   FillStringList("*.prf", &list, &isize);
 
@@ -4562,7 +4530,7 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   //kprintf(1, "load");
   in = 0;
 
-  fn_Set_Font(cFontFile[0]);
+  fn_Set_Font(cFontDir[0]);
   fn_Load_Bitmaps();
 
   //kprintf(1, "fn_Set_Font");
@@ -4636,7 +4604,7 @@ void RunMenuLoadGameLoad(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
 
     fn_Release_Font(1);
 
-    fn_Set_Font(cFontFile[2]);
+    fn_Set_Font(cFontDir[2]);
     fn_Load_Bitmaps();
 
 /*		citem[0].p_combo = co_Create_Combo(BackDC, 360, 320, 100, 0);
@@ -5062,7 +5030,7 @@ void RunMenuLoadGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
   //kprintf(1, "load");
   in = 0;
 
-  fn_Set_Font(cFontFile[0]);
+  fn_Set_Font(cFontDir[0]);
   fn_Load_Bitmaps();
 
   //kprintf(1, "fn_Set_Font");
@@ -5458,7 +5426,7 @@ void RunMenuCibron(char *cBmp)
 
   ddxBitBlt(idx, 0, 0, 1024, 768, HDC2DD, 0, 0);
 
-  cib = ddxLoadBitmap(cBmp, pBmpArchive);
+  cib = ddxLoadBitmap(cBmp, pBmpDir);
 
   if (cib == -1) {
     ddxReleaseBitmap(idx);
@@ -5493,14 +5461,10 @@ void RunMenuCinemax(void)
   int c = 0;
   int cib;
 
-  pBmpArchive->pActualNode = pBmpArchive->pRootNode->pNextNode;
+  cib = ddxLoadBitmap("cinemax.bmp", pBmpDir);
 
-  cib = ddxLoadBitmap("cinemax.bmp", pBmpArchive);
-
-  if (cib == -1) {
-    pBmpArchive->bError = 0;
+  if (cib == -1)
     return;
-  }
 
   ddxSetCursor(0);
   ddxSetFlip(0);
@@ -5549,7 +5513,7 @@ void RunMenuDrawDemoEndScreen(void)
   ddxSetFlip(1);
 
   key[0] = 0;
-  idx = ddxLoadBitmap("final_screen.bmp", pBmpArchive);
+  idx = ddxLoadBitmap("final_screen.bmp", pBmpDir);
 
   if (idx == -1)
     return;
@@ -5600,7 +5564,7 @@ RUN_MENU_BRUTAL_RESTART:
   cRestartMainMenu = 0;
 
   if (cBrutalRestart) {
-    fn_Set_Font(cFontFile[0]);
+    fn_Set_Font(cFontDir[0]);
     fn_Load_Bitmaps();
 
     for (i = 0; i < 32; i++)
@@ -5656,7 +5620,7 @@ RUN_MENU_BRUTAL_RESTART:
   // privede prikazy, ketere se maji provest na zacatku a, kresleni, flip,
   // animace na OnAbove
 
-  fn_Set_Font(cFontFile[2]);
+  fn_Set_Font(cFontDir[2]);
   fn_Load_Bitmaps();
 
   ddxSetFlip(0);
@@ -6109,7 +6073,7 @@ void RunMenuChildGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   //lastcmd--;
   in = 0;
 
-  fn_Set_Font(cFontFile[0]);
+  fn_Set_Font(cFontDir[0]);
   fn_Load_Bitmaps();
 
   CreateFontAnimations(res, &lastcmd);
@@ -6559,7 +6523,7 @@ void RunMenuStartGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   //kprintf(1, "load");
   in = 0;
 
-  fn_Set_Font(cFontFile[0]);
+  fn_Set_Font(cFontDir[0]);
   fn_Load_Bitmaps();
 
   //kprintf(1, "fn_Set_Font");
@@ -6914,31 +6878,30 @@ __QUIT:
 }
 
 int LoadCList(char *cFile, int *p_count, int *p_bmp, int *iClock,
-  APAK_HANDLE * hArchive)
+              char *cDir)
 {
   int c = 0, i = -1, t;
   char text[MAX_FILENAME];
   FILE *file;
 
-  file = aopen(pBmpArchive, cFile, "r");
+  construct_path(text, MAX_FILENAME, 2, pBmpDir, cFile);
+  file = fopen(text, "r");
 
   if (!file)
     return -1;
 
-  while (!aeof(file)) {
+  while (!feof(file)) {
     memset(text, 0, 256);
 
-    agets(text, 256, file);
-  
-    if (text[0]) {
+    if (fgets(text, 256, file) && text[0]) {
       newline_cut(text);
 
       if (!c) {
-        i = ddxLoadBitmap(text, hArchive);
+        i = ddxLoadBitmap(text, cDir);
         p_bmp[c] = i;
       }
       else {
-        t = ddxLoadBitmap(text, hArchive);
+        t = ddxLoadBitmap(text, cDir);
         p_bmp[c] = t;
       }
 
@@ -6948,9 +6911,7 @@ int LoadCList(char *cFile, int *p_count, int *p_bmp, int *iClock,
     }
   }
 
-  aclose(file);
-
-  pBmpArchive->bError = 0;
+  fclose(file);
 
   (*p_count) = c;
 
@@ -6959,19 +6920,23 @@ int LoadCList(char *cFile, int *p_count, int *p_bmp, int *iClock,
 
 int GetComixTime(int iScene)
 {
-  char text[MAX_FILENAME] = "";
+  char text[MAX_FILENAME];
   int i;
   FILE *file;
 
-  file = aopen(pDataArchive, "comix_times.txt", "r");
+  construct_path(text, MAX_FILENAME, 2, pDataDir, "comix_times.txt");
+  file = fopen(text, "r");
 
   if (!file)
     return 1000;
 
-  for (i = 0; i < iScene + 1; i++)
-    agets(text, MAX_FILENAME, file);
+  text[0] = '\0';
+  for (i = 0; i < iScene + 1; i++) {
+    char *ret = fgets(text, MAX_FILENAME, file);
+    assert(ret);
+  }
 
-  aclose(file);
+  fclose(file);
 
   return atoi(text);
 }
@@ -6998,8 +6963,10 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
   int iSongTime = 1000;
   int ccc;
   int iClock;
+  char dir[MAX_FILENAME];
+  char filename[MAX_FILENAME];
 
-  iClock = ddxLoadBitmap("clock1-1.bmp", pBmpArchive);
+  iClock = ddxLoadBitmap("clock1-1.bmp", pBmpDir);
   ddxResizeCursorBack(iClock);
   DrawClock(&iClock, 0);
 
@@ -7038,14 +7005,14 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
   ddxCleareSurface(FontDC);
 
   DrawClock(&iClock, 0);
-  iTVBmp = ddxLoadBitmap("televize.bmp", pBmpArchive);
-  iTVTBmp = ddxLoadBitmap("televizet.bmp", pBmpArchive);
+  iTVBmp = ddxLoadBitmap("televize.bmp", pBmpDir);
+  iTVTBmp = ddxLoadBitmap("televizet.bmp", pBmpDir);
 
   DrawClock(&iClock, 0);
-  iTVBut = LoadCList("telload.txt", &ccc, &ccc, &ccc, pBmpArchive);
+  iTVBut = LoadCList("telload.txt", &ccc, &ccc, &ccc, pBmpDir);
 
   sprintf(ccomix, "comix%d.bmp", iScene);  
-  iComix = ddxLoadBitmap(ccomix, pBmpArchive);
+  iComix = ddxLoadBitmap(ccomix, pBmpDir);
 
   if (iTVBmp == -1 || iTVBut == -1 || iComix == -1 || iTVTBmp == -1) {
     kerror(1, "Unable to load comix graphics! (iTVBmp == %d, iTVBut == %d, iComix == %d, iTVTBmp == %d)",
@@ -7072,7 +7039,6 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
     return 0;
   }
 
-  char dir[MAX_FILENAME];
   strcpy(dir, DATA_DIR);
 
   //natadhe skript menu
@@ -7107,14 +7073,16 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
       case COM_RUNANIMATION:
       case COM_BINDEXITANIMATION:
       case COM_BINDANIMATION:
-        file = aopen(pDataArchive, res[i].cParam[0], "r");
+        construct_path(filename, MAX_FILENAME, 2,
+                       pDataDir, res[i].cParam[0]);
+        file = fopen(filename, "r");
         if (file) {
-          while (!aeof(file)) {
+          while (!feof(file)) {
             Parse_AnimLine(file, res[i].iAnim[lastanm], 18);
             lastanm++;
           }
 
-          aclose(file);
+          fclose(file);
 
           for (j = 0; j < lastanm; j++)
             res[i].iAnim[j][1] += iTVBut;
@@ -7444,27 +7412,16 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
   int lidx = -1;
   int bmp[64];
   int i;
-  APAK_HANDLE *hArchive = NULL;
-  char cFile[MAX_FILENAME];
   char cDir[MAX_FILENAME];
 
   if (iLanguageVersion == 4) {
-    strcpy(cDir, BITMAP_DIR);
-    if (snprintf(cFile, sizeof(cFile), "%s%cscene%d.pak",
-		 cDir, DIR_SLASH, iActualScene) >=
-	(int) sizeof(cFile)) {
-      kprintf(1, "Filename too long: %s%cscene%d.pak",
-	      cDir, DIR_SLASH, iActualScene);
+    if (snprintf(cDir, sizeof(cDir), "%s%cscene%d",
+		 BITMAP_DIR, DIR_SLASH, iActualScene) >=
+	(int) sizeof(cDir)) {
+      kprintf(1, "Filename too long: %s%cscene%d",
+	      BITMAP_DIR, DIR_SLASH, iActualScene);
       return 0;
     }
-    hArchive = apakopen(cFile, cDir, &idx);
-
-    if (!hArchive) {
-      kprintf(1, "Nepodarilo se otevrit archiv [%s]\n", cFile);
-      return 0;
-    }
-    else
-      hArchive->pActualNode = hArchive->pRootNode->pNextNode;
   }
 
   cCheckMusicExeption = 1;
@@ -7474,7 +7431,7 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
 
   ddxSetFlip(0);
 
-  iClock = ddxLoadBitmap("clock1-1.bmp", pBmpArchive);
+  iClock = ddxLoadBitmap("clock1-1.bmp", pBmpDir);
   ddxResizeCursorBack(iClock);
   DrawClock(&iClock, 0);
 
@@ -7500,13 +7457,10 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
 
   sprintf(ccomix, "comix%d.txt", iScene);
 
-  if (iLanguageVersion == 4) {
-    LoadCList(ccomix, &bmpc, bmp, &iClock, hArchive);
-    apakclose(&hArchive);
-  }
-  else {
-    LoadCList(ccomix, &bmpc, bmp, &iClock, pBmpArchive);
-  }
+  if (iLanguageVersion == 4)
+    LoadCList(ccomix, &bmpc, bmp, &iClock, cDir);
+  else
+    LoadCList(ccomix, &bmpc, bmp, &iClock, pBmpDir);
 
   DrawClock(&iClock, 0);
   ddxSetCursor(0);

@@ -5,7 +5,7 @@
 #include "grammar.h"
 #include "menu_script.h"
 
-extern APAK_HANDLE *pDataArchive;
+extern char pDataDir[MAX_FILENAME];
 
 int StrtoType(char *pStr)
 {
@@ -53,25 +53,26 @@ void gr_Add_Mask(char *pMask, GRAMMAR * pGr)
 char gr_Load_Grammar(char *pFile, GRAMMAR * pGr)
 {
   FILE *file;
-  char text[256];
+  char text[MAX_FILENAME];
 
   if (chdir(DATA_DIR))
     return 0;
 
-  file = aopen(pDataArchive, pFile, "r");
+  construct_path(text, MAX_FILENAME, 2, pDataDir, pFile);
+  file = fopen(text, "r");
 
   if (!file)
     return 0;
 
   pGr->LastMask = 0;
 
-  while (!aeof(file)) {
-    if(agets(text, 256, file)) {
+  while (!feof(file)) {
+    if(fgets(text, 256, file)) {
       gr_Add_Mask(text, pGr);
       strcpy(text, "");
     }
   }
 
-  aclose(file);
+  fclose(file);
   return 1;
 }

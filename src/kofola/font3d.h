@@ -8,7 +8,6 @@
 #include <stdio.h>
 
 #include "trigers.h"
-#include "Apak.h"
 #include "3D_graphic.h"
 
 #include "3d_all.h"
@@ -19,7 +18,7 @@
 typedef struct _B2_FONT
 {
   int iBitmap[FONT_MAX_BMP];
-  APAK_HANDLE *pArchive;
+  char dir[FILENAME_MAX];
   GRAMMAR gr;
   TRIGER_STRUCTURE ts;
   GAME_TRIGER gt;
@@ -34,7 +33,7 @@ typedef struct _B2_FONT
   int iMaxCharValue;
 } B2_FONT;
 
-int fn2_Set_Font(char *cPAK);
+int fn2_Set_Font(char *cDir);
 void fn2_Release_Font(void);
 void fn2_Release_3d_Textures_Full(void);
 void fn2_Release_3d_Textures(void);

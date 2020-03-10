@@ -7,6 +7,7 @@
 #include <math.h>
 #include <time.h>
 #include <assert.h>
+#include <locale.h>
 
 #include <fenv.h>
 
@@ -299,6 +300,9 @@ int main(int argc, char **argv)
   //feenableexcept(FE_DIVBYZERO|FE_INVALID);  
   //quat_test();
   //alut_test(TRUE);
+
+  if (!setlocale(LC_ALL, ""))
+    fputs("Warning: unable to set locale\n", stderr);
 
   atexit(game_exit);
 

@@ -114,17 +114,17 @@ int txt_zrus_texturu_z_vram(EDIT_TEXT_OLD * p_text);
 int txt_nahraj_lightmapu_z_bmp(char *p_file, KFILE * f,
   EDIT_TEXT_OLD * p_text, int save);
 
-int txt_nahraj_texturu_z_func(APAK_HANDLE * pHandle, char *p_file,
+int txt_nahraj_texturu_z_func(char *p_dir, char *p_file,
   EDIT_TEXT_OLD * p_text, int save, int load, EDIT_TEXT_KONFIG * p_konf,
-  bitmapa * (*p_load) (APAK_HANDLE * pAHandle, char *p_file));
-int txt_nahraj_texturu_z_dds(APAK_HANDLE * pHandle, char *p_file,
+  bitmapa * (*p_load) (char *p_dir, char *p_file));
+int txt_nahraj_texturu_z_dds(char *p_dir, char *p_file,
   EDIT_TEXT_OLD * p_text, int save);
-int txt_nahraj_texturu_z_lib(APAK_HANDLE * pHandle, char *p_file,
-  EDIT_TEXT_OLD * p_text, int save);
-int txt_nahraj_texturu_z_tga(APAK_HANDLE * pHandle, char *p_file,
-  EDIT_TEXT_OLD * p_text);
-int txt_nahraj_texturu_dot3(APAK_HANDLE * pHandle, char *p_file,
-  EDIT_TEXT_OLD * p_text, int save);
+//int txt_nahraj_texturu_z_lib(APAK_HANDLE * pHandle, char *p_file,
+//  EDIT_TEXT_OLD * p_text, int save);
+//int txt_nahraj_texturu_z_tga(APAK_HANDLE * pHandle, char *p_file,
+//  EDIT_TEXT_OLD * p_text);
+//int txt_nahraj_texturu_dot3(APAK_HANDLE * pHandle, char *p_file,
+//  EDIT_TEXT_OLD * p_text, int save);
 int txt_to_dot3(EDIT_TEXT_OLD * p_text, int save);
 
 int txt_uvolni_texturu(EDIT_TEXT_OLD * p_text);
@@ -141,11 +141,11 @@ int txt_zrus_2D_texturu(int *p_text);
 
 int txt_zrus_lightmapu(EDIT_TEXT_OLD * p_text);
 
-byte *file_read(APAK_HANDLE * pHandle, char *p_file, int *p_read);
+byte *file_read(char *p_dir, char *p_file, int *p_read);
 
 bitmapa *bmp_vyrob(int x, int y);
 bitmapa *bmp_nahraj(char *p_file);
-bitmapa *bmp_nahraj(APAK_HANDLE * pAHandle, char *p_file);
+bitmapa *bmp_nahraj(char *p_dir, char *p_file);
 bitmapa *bmp_nahraj(KFILE * f);
 int bmp_uloz(char *p_file, bitmapa * p_bmp);
 int bmp_uloz_pack(FFILE f, bitmapa * p_bmp);

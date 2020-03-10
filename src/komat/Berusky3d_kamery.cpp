@@ -683,7 +683,7 @@ naslo_se_to2:;
 
 /* Load animace
 */
-AnimHandle kam_3ds_nahraj_animaci(APAK_HANDLE * pHandle, char *p_jmeno)
+AnimHandle kam_3ds_nahraj_animaci(char *p_dir, char *p_jmeno)
 {
   char jmeno_kam[200];
   int kam;
@@ -704,7 +704,7 @@ AnimHandle kam_3ds_nahraj_animaci(APAK_HANDLE * pHandle, char *p_jmeno)
 
 naslo_se_to2:;
   if (!key_kamera_nahraj(p_ber->kamery + kam, jmeno_kam,
-                         p_ber->kamery[kam].jmeno, pHandle, 
+                         p_ber->kamery[kam].jmeno, p_dir,
                          p_jmeno, GAME_DATA_DIR))  
     return (K_CHYBA);
 

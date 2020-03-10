@@ -8,6 +8,7 @@
     - Enable Unicode support
     - Eliminate y-axis fighting in shadows and burnt spots
     - Fix drawing footsteps
+    - Replace APAK files with directories
 
 * 0.10
     - Incompatible save game format!

@@ -5,9 +5,8 @@
 #include "trigers.h"
 #include "menu_script.h"
 #include "game_logic.h"
-#include "Apak.h"
 
-extern APAK_HANDLE *pGDataArchive;
+extern char pGDataDir[MAX_FILENAME];
 
 int Find_Next_ExpresionU(WCHAR * p_Command, int start, WCHAR * p_Expresion);
 int trig_Commandtoi(char *pCommand, GRAMMAR * pGr, int *iMask)
@@ -154,26 +153,25 @@ char trig_Load_Triger(char *pFile, GAME_TRIGER * pTriger, GRAMMAR * pGr,
   TRIGER_STRUCTURE * pTStruct)
 {
   FILE *file;
-  char text[256];
+  char text[MAX_FILENAME];
 
   pTriger->lastcommand = 0;
 
-  pGDataArchive->pActualNode = pGDataArchive->pRootNode->pNextNode;
-
-  file = aopen(pGDataArchive, pFile, "r");
+  construct_path(text, MAX_FILENAME, 2, pGDataDir, pFile);
+  file = fopen(text, "r");
 
   if (!file)
     return 0;
 
-  while (!aeof(file)) {
-    if(agets(text, 256, file)) {
+  while (!feof(file)) {
+    if(fgets(text, 256, file)) {
       trig_Parse_Line(text, &pTriger->command[pTriger->lastcommand], pTriger, 
                       pGr, pTStruct);
       text[0] = '\0';
     }
   }
 
-  aclose(file);
+  fclose(file);
   return 1;
 }
 

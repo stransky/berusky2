@@ -150,7 +150,7 @@ void lo_zrus_material_kont(EDIT_KONTEJNER * p_kont, EDIT_MATERIAL ** p_list,
   Soubor
 */
 int efile(char *p_file);
-int efileAPAK(APAK_HANDLE * pAHandle, char *p_file);
+int efiledir(char *p_dir, char *p_file);
 
 
 /*

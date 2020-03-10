@@ -78,7 +78,7 @@ unsigned int timeGetTime(void)
 //-----------------------------------------------------------------------------
 // ddx2 interface
 //-----------------------------------------------------------------------------
-extern APAK_HANDLE *pBmpArchive;
+extern char pBmpDir[MAX_FILENAME];
 DeviceHandle ddxDevice;
 DeviceHandle ddxCursorDevice;
 int i_CursorDDX = 0;
@@ -216,7 +216,7 @@ int ddxLoadList(char *pFileName, int bProgress)
   }
 
   kprintf(1, "Kofola: - Load bitmap pro herni menu");
-  ddx2LoadList(pFileName, pBmpArchive, BITMAP_DIR);
+  ddx2LoadList(pFileName, pBmpDir, BITMAP_DIR);
 
   if (bProgress) {
     ddxSetCursor(1);
@@ -226,9 +226,9 @@ int ddxLoadList(char *pFileName, int bProgress)
   return (1);
 }
 
-int ddxLoadBitmap(char *pFileName, APAK_HANDLE * pHandle)
+int ddxLoadBitmap(char *pFileName, char* pDirName)
 {
-  return (ddx2LoadBitmap(pFileName, pHandle));
+  return (ddx2LoadBitmap(pFileName, pDirName));
 }
 
 int ddxCreateSurface(int x, int y, int idx)
@@ -555,7 +555,8 @@ int MultiByteToWideChar(int CodePage, int dwFlags, char *lpMultiByteStr,
 {
   int ret = mbstowcs(lpWideCharStr, lpMultiByteStr, cchWideChar);
   if(ret != -1) {
-    assert(ret && ret < cchWideChar);
+    if (lpWideCharStr)
+      assert(ret && ret < cchWideChar);
   }
   else {
     // invalid multi-byte sequence has been detected - try to convert

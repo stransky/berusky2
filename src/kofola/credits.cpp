@@ -16,8 +16,7 @@ typedef struct
 } CREDIT_SURFACE;
 
 extern B2_FONT b2_2d_font;
-extern APAK_HANDLE *pBmpArchive;
-extern APAK_HANDLE *pDataArchive;
+extern char pBmpDir[MAX_FILENAME];
 
 extern char cBrutalRestart;
 extern int CompositDC;
@@ -26,7 +25,7 @@ extern int BackDC;
 
 extern int iCompositDC, iFontDC, iBackDC;
 
-extern char cFontFile[5][64];
+extern char cFontDir[5][64];
 
 int LoadClock(int *iClock);
 void DrawClock(int *iClock, int i);
@@ -184,8 +183,6 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 	CREDIT_SURFACE	cs[CREDIT_SURFACES];
 	int		iActual = 0;
 	int		iClock[12];
-	APAK_HANDLE	*hArchive = NULL;
-	int		error;
 
 	for(i=0;i<12;i++)
 		iClock[i] = -1;
@@ -218,51 +215,41 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 		cs[i].y = 0;
 	}
 
-  strcpy(text, BITMAP_DIR);
-	if (chdir(text))
-		return 0;
-	hArchive = apakopen(cFontFile[2], text, &error);
+        construct_path(text, MAX_FILENAME, 3,
+                       BITMAP_DIR, cFontDir[2], "credits.txt");
 
-	if(!hArchive)
-		return 0;
-	else
-		hArchive->pActualNode = hArchive->pRootNode->pNextNode;
-
-	file = aopen(hArchive, "credits.txt", "r");
+	file = fopen(text, "r");
 
 	if(!file)
 		return 0;
 
-	while(!aeof(file))
-	{
-		agets(text, 256, file);
+	while(fgets(text, 256, file))
 		c++;
-	}
 
 	DrawClock(iClock, 1);
-	aseek(file, 0, SEEK_SET);
+	fseek(file, 0, SEEK_SET);
 
 	dy += c * 75;
 	
 	if(c > CREDIT_SURFACES-1)
 	{
 		kprintf(1, "Kredity: radku je vic jak surfacu!");
-		apakclose(&hArchive);
+		fclose(file);
 		return 0;
 	}
 
 	ddxSetFlip(0);
-	fn_Set_Font(cFontFile[0]);
+	fn_Set_Font(cFontDir[0]);
 	DrawClock(iClock, 2);
 	fn_Load_Bitmaps();
 	DrawClock(iClock, 3);
 	
-	cs[iActual].iSurface = ddxLoadBitmap("anakreon_small.bmp", pBmpArchive);
+	cs[iActual].iSurface = ddxLoadBitmap("anakreon_small.bmp", pBmpDir);
 	
 	if(cs[iActual].iSurface == -1)
 	{
 		cr_Release_Bitmaps(cs, iClock);
-		apakclose(&hArchive);
+		fclose(file);
 		return 0;
 	}
 	else
@@ -272,12 +259,12 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 	y+= 250;
 	iActual++;
 	
-	cs[iActual].iSurface = ddxLoadBitmap("cinemax_small.bmp", pBmpArchive);
+	cs[iActual].iSurface = ddxLoadBitmap("cinemax_small.bmp", pBmpDir);
 
 	if(cs[iActual].iSurface == -1)
 	{
 		cr_Release_Bitmaps(cs, iClock);
-		apakclose(&hArchive);
+		fclose(file);
 		return 0;
 	}
 	else
@@ -293,11 +280,8 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 	r.top = 0;
 	r.bottom = 90;
 
-	while(!aeof(file))
+	while(fgets(text, 256, file))
 	{
-		ZeroMemory(text, 256);
-		agets(text, 256, file);
-
 		if(text[0] == '$')
 		{
 			if(bmp < 5)
@@ -305,12 +289,12 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 				if(bmp)
 				{
 					sprintf(cbmp, "brouk%d.bmp", bmp);
-					cs[iActual].iSurface = ddxLoadBitmap(cbmp, pBmpArchive);
+					cs[iActual].iSurface = ddxLoadBitmap(cbmp, pBmpDir);
 
 					if(cs[iActual].iSurface == -1)
 					{
 						cr_Release_Bitmaps(cs, iClock);
-						apakclose(&hArchive);
+						fclose(file);
 						return 0;
 					}
 					else
@@ -329,7 +313,7 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 			if(cs[iActual].iSurface == -1)
 			{
 				cr_Release_Bitmaps(cs, iClock);
-				apakclose(&hArchive);
+				fclose(file);
 				return 0;
 			}
 			else
@@ -348,7 +332,7 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 				if(cs[iActual].iSurface == -1)
 				{
 					cr_Release_Bitmaps(cs, iClock);
-					apakclose(&hArchive);
+					fclose(file);
 					return 0;
 				}
 				else
@@ -371,7 +355,7 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 		DrawClock(iClock, 6);
 	}
 
-	aclose(file);
+	fclose(file);
 
 	y = 0;
 
@@ -416,7 +400,6 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 	ddxSetCursor(1);
 	ddxSetFlip(1);
 	key[K_ESC] = 0;
-	apakclose(&hArchive);
 
   return 0;
 }
@@ -426,7 +409,7 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 	DWORD	dwStart, dwStop, dwEplased = 0;
 	int		y = 868;
 	int		dy = 868*2 + 2000;
-	char	text[256];
+	char	text[MAX_FILENAME];
 	char	cbmp[256];
 	FILE	*file;
 	int		c = 0;
@@ -437,8 +420,6 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 	CREDIT_SURFACE	cs[CREDIT_SURFACES];
 	int		iActual = 0;
 	int		iClock[12];
-	APAK_HANDLE	*hArchive = NULL;
-	int		error;
 
 	for(i=0;i<12;i++)
 		iClock[i] = -1;
@@ -471,54 +452,41 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 		cs[i].y = 0;
 	}
 
-  strcpy(text,BITMAP_DIR);
-	if (chdir(text))
-		return 0;
+        construct_path(text, MAX_FILENAME, 3,
+                       BITMAP_DIR, cFontDir[2], "credits.txt");
 
-	hArchive = apakopen(cFontFile[2], text, &error);
-	
-	if(!hArchive)
-		return 0;
-	else
-		hArchive->pActualNode = hArchive->pRootNode->pNextNode;
-
-	file = aopen(hArchive, "credits.txt", "r");
+	file = fopen(text, "r");
 
 	if(!file)
 		return 0;
 
-	aunicode(file);
-
-	while(!aeof(file))
-	{
-		agets(text, 256, file);
+	while(fgets(text, 256, file))
 		c++;
-	}
 
 	DrawClock(iClock, 1);
-	aseek(file, 2, SEEK_SET);
+	fseek(file, 0, SEEK_SET);
 
 	dy += c * 75;
 	
 	if(c > CREDIT_SURFACES-1)
 	{
 		kprintf(1, "Kredity: radku je vic jak surfacu!");
-		apakclose(&hArchive);
+		fclose(file);
 		return 0;
 	}
 
 	ddxSetFlip(0);
-	fn_Set_Font(cFontFile[0]);
+	fn_Set_Font(cFontDir[0]);
 	DrawClock(iClock, 2);
 	fn_Load_Bitmaps();
 	DrawClock(iClock, 3);
 	
-	cs[iActual].iSurface = ddxLoadBitmap("anakreon_small.bmp", pBmpArchive);
+	cs[iActual].iSurface = ddxLoadBitmap("anakreon_small.bmp", pBmpDir);
 	
 	if(cs[iActual].iSurface == -1)
 	{
 		cr_Release_Bitmaps(cs, iClock);
-		apakclose(&hArchive);
+		fclose(file);
 		return 0;
 	}
 	else
@@ -528,12 +496,12 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 	y+= 250;
 	iActual++;
 	
-	cs[iActual].iSurface = ddxLoadBitmap("cinemax_small.bmp", pBmpArchive);
+	cs[iActual].iSurface = ddxLoadBitmap("cinemax_small.bmp", pBmpDir);
 
 	if(cs[iActual].iSurface == -1)
 	{
 		cr_Release_Bitmaps(cs, iClock);
-		apakclose(&hArchive);
+		fclose(file);
 		return 0;
 	}
 	else
@@ -549,11 +517,8 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 	r.top = 0;
 	r.bottom = 90;
 
-	while(!aeof(file))
+	while(fgets(text, 256, file))
 	{
-		ZeroMemory(text, 256);
-		agets(text, 256, file);
-
 		if(text[0] == '$')
 		{
 			if(bmp < 5)
@@ -561,12 +526,12 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 				if(bmp)
 				{
 					sprintf(cbmp, "brouk%d.bmp", bmp);
-					cs[iActual].iSurface = ddxLoadBitmap(cbmp, pBmpArchive);
+					cs[iActual].iSurface = ddxLoadBitmap(cbmp, pBmpDir);
 
 					if(cs[iActual].iSurface == -1)
 					{
 						cr_Release_Bitmaps(cs, iClock);
-						apakclose(&hArchive);
+						fclose(file);
 						return 0;
 					}
 					else
@@ -585,7 +550,7 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 			if(cs[iActual].iSurface == -1)
 			{
 				cr_Release_Bitmaps(cs, iClock);
-				apakclose(&hArchive);
+				fclose(file);
 				return 0;
 			}
 			else
@@ -604,7 +569,7 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 				if(cs[iActual].iSurface == -1)
 				{
 					cr_Release_Bitmaps(cs, iClock);
-					apakclose(&hArchive);
+					fclose(file);
 					return 0;
 				}
 				else
@@ -627,7 +592,7 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 		DrawClock(iClock, 6);
 	}
 
-	aclose(file);
+	fclose(file);
 
 	y = 0;
 
@@ -673,7 +638,6 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 	ddxSetCursor(1);
 	ddxSetFlip(1);
 	key[K_ESC] = 0;
-	apakclose(&hArchive);
 
   return 0;
 }

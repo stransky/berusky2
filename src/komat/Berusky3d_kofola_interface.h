@@ -242,7 +242,7 @@ char *kom_get_mat_jmeno(MatHandle mh, char *p_buffer, int max_znaku);
   Vyroba animaci hernich prvku
  ***********************************************************************
 */
-AnimHandle sim_nahraj_animaci(APAK_HANDLE * pHandle, char *p_jmeno,
+AnimHandle sim_nahraj_animaci(char *p_dir, char *p_jmeno,
   int linearne);
 AnimHandle sim_vyrob_animaci(int pos_key, int rot_key, int scale_key);
 
@@ -603,7 +603,7 @@ AnimHandle kam_zrus_animaci(AnimHandle handle);
 
 AnimHandle kam_3ds_vyrob_animaci(int framenum, int pos_keys, int target_keys,
   int roll_keys, int fov_keys);
-AnimHandle kam_3ds_nahraj_animaci(APAK_HANDLE * pHandle, char *p_jmeno);
+AnimHandle kam_3ds_nahraj_animaci(char *p_dir, char *p_jmeno);
 AnimHandle kam_3ds_vloz_klic_posun(AnimHandle handle, int klic, float x,
   float y, float z, int frame);
 AnimHandle kam_3ds_vloz_klic_posun_bod(AnimHandle handle, int klic, BOD * p_p,

@@ -137,7 +137,7 @@ int fn_Set_Font_Bmps(GAME_TRIGER * gt, TRIGER_STRUCTURE * ts)
                   Value]), text, 256, NULL, NULL);
 
             b2_2d_font.iBitmap[gt->command[i].Parametr[0].Value] =
-              ddxLoadBitmap(text, b2_2d_font.pArchive);
+              ddxLoadBitmap(text, b2_2d_font.dir);
           }
         }
         break;
@@ -152,7 +152,7 @@ int fn_Set_Font_Bmps(GAME_TRIGER * gt, TRIGER_STRUCTURE * ts)
               (wchar_t *) ts->StrTable[gt->command[i].Parametr[1].Value],
               wcslen((wchar_t *) ts->StrTable[gt->command[i].Parametr[1].
                   Value]), text, 256, NULL, NULL);
-            txt_nahraj_texturu_z_func(b2_2d_font.pArchive, text,
+            txt_nahraj_texturu_z_func(b2_2d_font.dir, text,
               &b2_2d_font.tex[gt->command[i].Parametr[0].Value], 1, 0,
               &b2_2d_font.konf[gt->command[i].Parametr[0].Value], bmp_nahraj);
           }
@@ -337,7 +337,7 @@ void fn_Gen_Texture(char ** lpTexture, int iXSize, int iYSize, int iXpos,
       x += b2_2d_font.iXPlus;
       continue;
     }
-    else if (wtext[i] == 13) {
+    else if (wtext[i] == 10) {
       //y+= 17;
       y += b2_2d_font.iYPlus;
       // *iYres = y;
@@ -367,71 +367,26 @@ void fn_Gen_Texture(char ** lpTexture, int iXSize, int iYSize, int iXpos,
   }
 }
 
-
-int fn_Open_Archive(char *cFile, APAK_HANDLE ** pAHandle, char *p_dir)
-{
-  int e;
-  if (chdir(p_dir)) {
-    kprintf(1, "Unable to change directory to %s: %s",
-	    p_dir, strerror(errno));
-    return 0;
-  }
-
-  (*pAHandle) = apakopen(cFile, p_dir, &e);
-
-  if (!(*pAHandle)) {
-    kprintf(1, "Unable to open archive %s", cFile);
-
-    switch (e) {
-      case APAK_FILE_NOT_FOUND:
-        kprintf(1, "Reason: File not found");
-        break;
-      case APAK_UNABLE_TO_READ:
-        kprintf(1, "Reason: Unable to read from file");
-        break;
-      case APAK_VERSION_MISMATCH:
-        kprintf(1, "Reason: Version mismatch");
-        break;
-      case APAK_OUT_OF_MEMORY:
-        kprintf(1, "Reason: Out of memory");
-        break;
-    }
-
-    assert(0);
-    abort();
-  }
-
-  achdir((*pAHandle), p_dir);
-
-  kprintf(1, "APAK: %s", cFile);
-  kprintf(1, "Velikost AFAT: %.1fKB", (*pAHandle)->FileHeader.apuISizeofFAT / 1000.0f);
-  kprintf(1, "Velikost Archivu: %.1fMB", (*pAHandle)->FileHeader.apuLSizeofPAK / 1000000.0f);
-  kprintf(1, "Souboru: %d", (*pAHandle)->FileHeader.apuICountofFiles);
-  kprintf(1, "Adresaru: %d", (*pAHandle)->FileHeader.apuICountofDirectiories);
-  kprintf(1, "Uzlu: %d", (*pAHandle)->FileHeader.apuICountofNodes);
-
-  return 1;
-}
-
 int fn_Load_Grammar(char *pFile, GRAMMAR * pGr)
 {
   FILE *file;
-  char text[256];
+  char text[MAX_FILENAME];
 
-  file = aopen(b2_2d_font.pArchive, pFile, "rb");
+  construct_path(text, MAX_FILENAME, 2, b2_2d_font.dir, pFile);
+
+  file = fopen(text, "rb");
 
   if (!file)
     return 0;
 
   pGr->LastMask = 0;
 
-  while (!aeof(file)) {
-    agets(text, 256, file);
+  while (fgets(text, 256, file)) {
     gr_Add_Mask(text, pGr);
     strcpy(text, "");
   }
 
-  aclose(file);
+  fclose(file);
   return 1;
 }
 
@@ -439,57 +394,72 @@ char fn_Load_Triger(char *pFile, GAME_TRIGER * pTriger, GRAMMAR * pGr,
   TRIGER_STRUCTURE * pTStruct)
 {
   FILE *file;
-  WCHAR wtext[128];
-  word wotext[128];
+  char text[64];
+  WCHAR wtext[sizeof(text)*4];
+  char filename[MAX_FILENAME];
 
   pTriger->lastcommand = 0;
 
-  file = aopen(b2_2d_font.pArchive, pFile, "rb");
-
-  aunicode(file);
+  construct_path(filename, MAX_FILENAME, 2, b2_2d_font.dir, pFile);
+  file = fopen(filename, "rb");
 
   if (!file)
     return 0;
 
-  aseek(file, 2, SEEK_SET);
-
-  while (!aeof(file)) {
-    memset(wtext, 0, 128 * sizeof(WCHAR));
-    if(agets((char *) wotext, 256, file)) {
-      wchar_windows_to_linux(wotext, 128, wtext);
+  while (!feof(file)) {
+    memset(wtext, 0, sizeof(wtext));
+    if (fgets(text, sizeof(text), file)) {
+      if (MultiByteToWideChar(CP_ACP, 0,
+                              text, sizeof(text)/sizeof(*text),
+                              wtext, sizeof(wtext)/sizeof(*wtext)) < 0) {
+        fclose(file);
+        return 0;
+      }
       trig_Parse_LineU(wtext, &pTriger->command[pTriger->lastcommand], pTriger,
                        pGr, pTStruct);
     }
   }
 
-  aclose(file);
+  fclose(file);
   return 1;
 }
 
-int fn_Set_Font(char *cPAK)
+int fn_Set_Font(char *cDir)
 {
   int i;
+  char filename[MAX_FILENAME];
+  long size;
+  char *buffer;
 
   memset(&b2_2d_font, 0, sizeof(B2_FONT));
 
-  if (!fn_Open_Archive(cPAK, &b2_2d_font.pArchive, p_ber->dir.bitmap_dir))
+  construct_path(b2_2d_font.dir, MAX_FILENAME, 2, p_ber->dir.bitmap_dir, cDir);
+
+  construct_path(filename, MAX_FILENAME, 2, b2_2d_font.dir, "texts.txt");
+  b2_2d_font.file = fopen(filename, "rb");
+
+  if (!b2_2d_font.file)
     return 0;
 
-  b2_2d_font.file = aopen(b2_2d_font.pArchive, "texts.txt", "rb");
-
-  if (!b2_2d_font.file) {
-    apakclose(&b2_2d_font.pArchive);
+  if (fseek(b2_2d_font.file, 0, SEEK_END) < 0 ||
+      (size = ftell(b2_2d_font.file)) < 0 ||
+      fseek(b2_2d_font.file, 0, SEEK_SET) < 0)
     return 0;
-  }
-  else {
-    agetbuffer(b2_2d_font.file, (char **) &b2_2d_font.pTBuffer, &b2_2d_font.iTSize);
-    b2_2d_font.pTBuffer = wchar_windows_to_linux((word *) b2_2d_font.pTBuffer, b2_2d_font.iTSize);
 
-    if (!b2_2d_font.pTBuffer) {
-      apakclose(&b2_2d_font.pArchive);
-      return 0;
-    }
-  }
+  buffer = (char *) mmalloc(sizeof(*buffer) * (size + 1));
+  if (fread(buffer, sizeof(*buffer),
+            size, b2_2d_font.file) != (size_t) size)
+    return 0;
+  buffer[size] = 0;
+  b2_2d_font.iTSize =
+    MultiByteToWideChar(CP_ACP, 0, buffer, size, NULL, 0);
+  b2_2d_font.pTBuffer =
+    (WCHAR *) mmalloc(sizeof(*b2_2d_font.pTBuffer) * (b2_2d_font.iTSize + 1));
+  size =
+    MultiByteToWideChar(CP_ACP, 0, buffer, size,
+                        b2_2d_font.pTBuffer, b2_2d_font.iTSize + 1);
+  assert((size_t) size == b2_2d_font.iTSize);
+  free(buffer);
 
   if (!fn_Load_Grammar("font_grammar.txt", &b2_2d_font.gr))
     return 0;
@@ -510,14 +480,14 @@ int fn_Set_Font(char *cPAK)
   if (!fn_Set_Font_Params(&b2_2d_font.gt, &b2_2d_font.ts))
     return 0;
 
-  kprintf(1, "set font = %s", cPAK);
+  kprintf(1, "set font = %s", cDir);
 
   return 1;
 }
 
 int fn_Load_Bitmaps(void)
 {
-  if (!b2_2d_font.pArchive)
+  if (b2_2d_font.dir[0] == '\0')
     return 0;
 
   kom_set_default_text_config(0, 0, 1, 0, 0, 1);
@@ -531,8 +501,8 @@ void fn_Release_Font(int bTextures)
 {
   int i;
 
-  aclose(b2_2d_font.file);
-  apakclose(&b2_2d_font.pArchive);
+  fclose(b2_2d_font.file);
+  free(b2_2d_font.pTBuffer);
 
   //if(_2dd.bitmap)
   if (bTextures)

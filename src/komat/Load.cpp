@@ -3,7 +3,6 @@
 */
 #include <string.h>
 #include <limits.h>
-#include "Apak.h"
 #include "compat_mini.h"
 #include "Berusky_universal.h"
 #include "3d_all.h"
@@ -2336,7 +2335,7 @@ int lo_posledni_svetlo(STATIC_LIGHT * p_light, int max)
   return (mmx);
 }
 
-int lo_reload_textur_formaty(APAK_HANDLE * pHandle, EDIT_TEXT * p_text,
+int lo_reload_textur_formaty(char *cDir, EDIT_TEXT * p_text,
   int max, int save)
 {
   char file[MAX_JMENO];
@@ -2346,24 +2345,24 @@ int lo_reload_textur_formaty(APAK_HANDLE * pHandle, EDIT_TEXT * p_text,
     if (p_text[i].jmeno[0] && !p_text[i].load) {
       kprintf(TRUE, "Texture %s...", p_text[i].jmeno);
       if (strcasestr(p_text[i].jmeno, ".bmp") || strcasestr(p_text[i].jmeno, ".btx")) {
-        if (!txt_nahraj_texturu_z_func(pHandle, p_text[i].jmeno, p_text + i, save, TRUE, NULL, bmp_nahraj)) {
+        if (!txt_nahraj_texturu_z_func(cDir, p_text[i].jmeno, p_text + i, save, TRUE, NULL, bmp_nahraj)) {
           zamen_koncovku(strcpy(file, p_text[i].jmeno), ".jpg");
-          if (txt_nahraj_texturu_z_func(pHandle, file, p_text + i, save, TRUE, NULL, bmp_nahraj)) {
+          if (txt_nahraj_texturu_z_func(cDir, file, p_text + i, save, TRUE, NULL, bmp_nahraj)) {
             strcpy(p_text[i].jmeno, file);
           }
         }
       }
       else if (strstr(p_text[i].jmeno, ".dds")) {
-        txt_nahraj_texturu_z_dds(pHandle, p_text[i].jmeno, p_text + i, save);
+        txt_nahraj_texturu_z_dds(cDir, p_text[i].jmeno, p_text + i, save);
       }
       else if (strstr(p_text[i].jmeno, ".tga")) {
-        txt_nahraj_texturu_z_func(pHandle, p_text[i].jmeno, p_text + i,
+        txt_nahraj_texturu_z_func(cDir, p_text[i].jmeno, p_text + i,
                                   save, TRUE, NULL, bmp_nahraj);
       }
       else {
         char file[MAX_JMENO];
         zamen_koncovku(strcpy(file, p_text[i].jmeno), ".bmp");
-        if (txt_nahraj_texturu_z_func(pHandle, file, p_text + i, save, TRUE, NULL, bmp_nahraj)) {
+        if (txt_nahraj_texturu_z_func(cDir, file, p_text + i, save, TRUE, NULL, bmp_nahraj)) {
           strcpy(p_text[i].jmeno, file);
         }
       }
@@ -2376,35 +2375,7 @@ int lo_reload_textur_formaty(APAK_HANDLE * pHandle, EDIT_TEXT * p_text,
 
 int lo_reload_textur_dir(EDIT_TEXT * p_text, int max, char *p_dir, int save)
 {
-  if (chdir((p_dir))) {
-    kprintf(TRUE, "Chyba dir %s...", (p_dir));
-    return (FALSE);
-  }
-  lo_reload_textur_formaty(NULL, p_text, max, save);
-  return (0);
-}
-
-int lo_reload_textur_file(EDIT_TEXT * p_text, int max, char *p_file, int save)
-{
-  APAK_HANDLE *pHandle;
-  int err;
-
-  pHandle = apakopen((p_file), ".", &err);
-  if (!pHandle) {
-    kprintf(TRUE, "Chyba otevreni pak file %s...", p_file);
-    return (FALSE);
-  }
-  else {
-    pHandle->pActualNode = pHandle->pRootNode->pNextNode;
-  }
-
-  kprintf(TRUE, "Texture pak file %s...", p_file);
-
-  lo_reload_textur_formaty(pHandle, p_text, max, save);
-
-  apakclose(&pHandle);
-
-  return (0);
+  return (lo_reload_textur_formaty(p_dir, p_text, max, save));
 }
 
 int lo_reload_textur(TEXT_DIR * p_dir, EDIT_TEXT * p_text, int num, int save)
@@ -2415,13 +2386,6 @@ int lo_reload_textur(TEXT_DIR * p_dir, EDIT_TEXT * p_text, int num, int save)
     if (p_dir->texture_dir[i][0]) {
       txt_trida(p_dir->texture_dir_class[i]);
       lo_reload_textur_dir(p_text, num, p_dir->texture_dir[i], save);
-    }
-  }
-
-  for (i = 0; i < TEXT_DIRS; i++) {
-    if (p_dir->texture_file[i][0]) {
-      txt_trida(p_dir->texture_file_class[i]);
-      lo_reload_textur_file(p_text, num, p_dir->texture_file[i], save);
     }
   }
 

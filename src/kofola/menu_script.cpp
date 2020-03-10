@@ -3,10 +3,9 @@
 #include <stdlib.h>
 #include "menu_script.h"
 #include "menu_def.h"
-#include "Apak.h"
 #include "3d_all.h"
 
-extern APAK_HANDLE *pDataArchive;
+extern char pDataDir[MAX_FILENAME];
 
 //------------------------------------------------------------------------------------------------
 // najde prvni platny znak
@@ -212,10 +211,10 @@ void Parse_Line(FILE * file, int *result, int res_size, char *comfile1,
   int p = 0, r = 1;
   int i;
 
-  agets(text, 256, file);
-
-/*	if(feof(file))
-		return;*/
+  if (!fgets(text, 256, file)) {
+    result[0] = COM_NOCOMMAND;
+    return;
+  }
 
   for (i = 0; i < res_size; i++)
     result[i] = -1;
@@ -388,10 +387,13 @@ void Parse_AnimLine(FILE * file, int *result, int res_size)
   char text[256], expression[256];
   int p = 0, r = 0, i;
 
+  if (!fgets(text, 256, file)) {
+    result[0] = COM_NOCOMMAND;
+    return;
+  }
+
   for (i = 0; i < res_size; i++)
     result[i] = -1;
-
-  agets(text, 256, file);
 
   while ((p != -1) && (r < res_size)) {
     p = Find_Next_Expresion(text, p, expression);
@@ -450,13 +452,13 @@ void Parse_ScenarioLine(FILE * file, int *result, int res_size,
 
 void LoadMenuScript(char *p_File_Name, CMD_LINE * res, int *lastcmd)
 {
+  char filename[MAX_FILENAME];
   FILE *file;
 
-  pDataArchive->pActualNode = pDataArchive->pRootNode->pNextNode;
-
-  file = aopen(pDataArchive, p_File_Name, "r");
+  construct_path(filename, MAX_FILENAME, 2, pDataDir, p_File_Name);
+  file = fopen(filename, "r");
   if (file) {
-    while (!aeof(file)) {
+    while (!feof(file)) {
       Parse_Line(file, res[*lastcmd].iParam, 6, res[*lastcmd].cParam[0],
         res[*lastcmd].cParam[1]);
       res[*lastcmd].uiTimerID = 0;
@@ -465,7 +467,7 @@ void LoadMenuScript(char *p_File_Name, CMD_LINE * res, int *lastcmd)
       (*lastcmd)++;
     }
 
-    aclose(file);
+    fclose(file);
   }
 
   (*lastcmd)--;
@@ -473,16 +475,19 @@ void LoadMenuScript(char *p_File_Name, CMD_LINE * res, int *lastcmd)
 
 void LoadAnimationMenuScript(CMD_LINE * res, int i, int *lastanm)
 {
+  char filename[MAX_FILENAME];
   FILE *file;
 
-  file = aopen(pDataArchive, res[i].cParam[0], "r");
+  construct_path(filename, MAX_FILENAME, 2,
+                 pDataDir, res[i].cParam[0]);
+  file = fopen(filename, "r");
 
   if (file) {
-    while (!aeof(file)) {
+    while (!feof(file)) {
       Parse_AnimLine(file, res[i].iAnim[*lastanm], 18);
       (*lastanm)++;
     }
 
-    aclose(file);
+    fclose(file);
   }
 }

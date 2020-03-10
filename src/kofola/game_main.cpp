@@ -14,17 +14,16 @@
 #include "Menu.h"
 #include "Comics.h"
 #include "font.h"
-#include "Apak.h"
 #include "profiles.h"
 #include "Menu.h"
 #include "Menu2.h"
 
-APAK_HANDLE *pBmpArchive = NULL;
-APAK_HANDLE *pControlsArchive = NULL;
-APAK_HANDLE *p3DMArchive = NULL;
-APAK_HANDLE *pSndArchive = NULL;
-APAK_HANDLE *pDataArchive = NULL;
-APAK_HANDLE *pGDataArchive = NULL;
+char pBmpDir[MAX_FILENAME] = { 0 };
+char pControlsDir[MAX_FILENAME] = { 0 };
+char p3DMDir[MAX_FILENAME] = { 0 };
+char pSndDir[MAX_FILENAME] = { 0 };
+char pDataDir[MAX_FILENAME] = { 0 };
+char pGDataDir[MAX_FILENAME] = { 0 };
 
 char CurrentWorkingDirectory[MAX_FILENAME];
 int bWindowMenu;
@@ -38,7 +37,7 @@ extern int iActualScene;
 extern int iActualLevel;
 char bInMenu = 0;
 
-char cFontFile[5][64];
+char cFontDir[5][64];
 
 //------------------------------------------------------------------------------------------------
 // kostra behu hry
@@ -50,6 +49,7 @@ int winmain_Game_Run(char *p_Level_Name)
   int cpu;
   char bGame = strlen(p_Level_Name);
   char bitmap_pak[MAX_FILENAME];
+  char filename[MAX_FILENAME];
 
   ShowCursor(FALSE);
 
@@ -63,91 +63,54 @@ int winmain_Game_Run(char *p_Level_Name)
 
   srand((unsigned) time(NULL));
 
-  GetPrivateProfileString("files", "bitmap_pak", "c:\\", bitmap_pak, MAX_FILENAME, ini_file);
+  GetPrivateProfileString("files", "bitmap_pak", "/", bitmap_pak, MAX_FILENAME, ini_file);
   working_file_translate(bitmap_pak, MAX_FILENAME);
 
-  GetPrivateProfileString("files", "font_pak1", "c:\\", cFontFile[0], 64, ini_file);
-  kprintf(1, "font_pak1 = %s", cFontFile[0]);
+  GetPrivateProfileString("files", "bitmap_subdir", "/", filename, MAX_FILENAME, ini_file);
+  construct_path(pBmpDir, MAX_FILENAME, 2, p_ber->dir.bitmap_dir, filename);
 
-  GetPrivateProfileString("files", "font_pak2", "c:\\", cFontFile[1], 64, ini_file);
-  kprintf(1, "font_pak2 = %s", cFontFile[1]);
+  GetPrivateProfileString("files", "font_dir1", "/", cFontDir[0], 64, ini_file);
+  kprintf(1, "font_dir1 = %s", cFontDir[0]);
 
-  GetPrivateProfileString("files", "font_pak3", "c:\\", cFontFile[2], 64, ini_file);
-  kprintf(1, "font_pak3 = %s", cFontFile[2]);
+  GetPrivateProfileString("files", "font_dir2", "/", cFontDir[1], 64, ini_file);
+  kprintf(1, "font_dir2 = %s", cFontDir[1]);
 
-  GetPrivateProfileString("files", "font_pak4", "c:\\", cFontFile[3], 64, ini_file);
-  kprintf(1, "font_pak4 = %s", cFontFile[3]);
+  GetPrivateProfileString("files", "font_dir3", "/", cFontDir[2], 64, ini_file);
+  kprintf(1, "font_dir3 = %s", cFontDir[2]);
 
-  GetPrivateProfileString("files", "font_pak5", "c:\\", cFontFile[4], 64, ini_file);
-  kprintf(1, "font_pak5 = %s", cFontFile[4]);
+  GetPrivateProfileString("files", "font_dir4", "/", cFontDir[3], 64, ini_file);
+  kprintf(1, "font_dir4 = %s", cFontDir[3]);
+
+  GetPrivateProfileString("files", "font_dir5", "/", cFontDir[4], 64, ini_file);
+  kprintf(1, "font_dir5 = %s", cFontDir[4]);
 
   iLanguageVersion = GetPrivateProfileInt("files", "languageid", 0, ini_file);
   kprintf(1, "Language ID = %d", iLanguageVersion);
 
-  if (!gi_Open_Archive(bitmap_pak, &pBmpArchive, p_ber->dir.bitmap_dir)) {
-    return false;
-  }
+  construct_path(pControlsDir, MAX_FILENAME, 2, p_ber->dir.bitmap_dir, "controls");
 
-  if (!gi_Open_Archive("controls.pak", &pControlsArchive, p_ber->dir.bitmap_dir)) {
-    apakclose(&pBmpArchive);
-    return 0;
-  }
+  construct_path(pSndDir, MAX_FILENAME, 2, p_ber->dir.sound_dir, "sound");
 
-  if(!gi_Open_Archive("sound.pak", &pSndArchive, p_ber->dir.sound_dir))
-  {
-    apakclose(&pBmpArchive);
-    apakclose(&pControlsArchive);
-    return 0;
-  }
-
-  GetPrivateProfileString("files", "3dmenu_pak", "c:\\", dir, MAX_FILENAME, ini_file);
+  GetPrivateProfileString("files", "3dmenu_pak", "/", dir, MAX_FILENAME, ini_file);
   working_file_translate(dir, MAX_FILENAME);
 
-  if (!gi_Open_Archive(dir, &p3DMArchive, p_ber->dir.bitmap_dir)) {
-    apakclose(&pControlsArchive);
-    apakclose(&pBmpArchive);
-    apakclose(&pSndArchive);
-    return 0;
-  }
+  GetPrivateProfileString("files", "3dmenu_dir", "/", filename, MAX_FILENAME, ini_file);
+  construct_path(p3DMDir, MAX_FILENAME, 2, p_ber->dir.bitmap_dir, filename);
 
-  GetPrivateProfileString("files", "data_pak", "c:\\", dir, MAX_FILENAME, ini_file);
+  GetPrivateProfileString("files", "data_pak", "/", dir, MAX_FILENAME, ini_file);
   working_file_translate(dir, MAX_FILENAME);
 
-  if (!gi_Open_Archive(dir, &pDataArchive, p_ber->dir.data_dir)) {
-    apakclose(&p3DMArchive);
-    apakclose(&pControlsArchive);
-    apakclose(&pBmpArchive);
-    apakclose(&pSndArchive);
-    return 0;
-  }
+  GetPrivateProfileString("files", "data_subdir", "/", filename, MAX_FILENAME, ini_file);
+  construct_path(pDataDir, MAX_FILENAME, 2, p_ber->dir.data_dir, filename);
 
-  if (!gi_Open_Archive("game_data.pak", &pGDataArchive, p_ber->dir.game_data_dir)) {
-    apakclose(&pDataArchive);
-    apakclose(&p3DMArchive);
-    apakclose(&pControlsArchive);
-    apakclose(&pBmpArchive);
-    apakclose(&pSndArchive);
-    return 0;
-  }
+  construct_path(pGDataDir, MAX_FILENAME, 2, p_ber->dir.game_data_dir, "game_data");
 
 	gi_Init_Sound_Engine(&ad);
-	if (chdir(p_ber->dir.music_dir)) {
-	  apakclose(&pDataArchive);
-	  apakclose(&p3DMArchive);
-	  apakclose(&pControlsArchive);
-	  apakclose(&pBmpArchive);
-	  apakclose(&pSndArchive);
+	if (chdir(p_ber->dir.music_dir))
 	  return 0;
-	}
 	ap_Load_Play_List("play_list.dat",&ad);
-  if (chdir(p_ber->dir.sound_dir)) {
-    apakclose(&pDataArchive);
-    apakclose(&p3DMArchive);
-    apakclose(&pControlsArchive);
-    apakclose(&pBmpArchive);
-    apakclose(&pSndArchive);
+  if (chdir(p_ber->dir.sound_dir))
     return 0;
-  }
 
   ap_Load_Material_List("material.dat", &ad);
 
@@ -163,11 +126,11 @@ int winmain_Game_Run(char *p_Level_Name)
     RunMenuLoadScreenAddProgress(-1);
     RunMenuLoadScreenDrawProgress(-1, -1);
     _3d_Init();
-    _3d_Load_List("3D_load.dat");
+    _3d_Load_List("3d_load.dat");
 
     _3d_Gen_Hints(pHintTexture, 26);
 
-    if (!fn_Set_Font(cFontFile[1])) {
+    if (!fn_Set_Font(cFontDir[1])) {
       kprintf(1, "Unable to set font!");
       return 0;
     }
@@ -190,7 +153,7 @@ int winmain_Game_Run(char *p_Level_Name)
 
     ddxLoadList("2d_load.dat", 1);
 
-    if (!fn_Set_Font(cFontFile[0])) {      
+    if (!fn_Set_Font(cFontDir[0])) {
       return 0;
     }
 
@@ -237,20 +200,7 @@ int winmain_Game_Run(char *p_Level_Name)
   //kprintf(1, "cmcs_Play_Intro");
   //cmcs_Play_Intro("gamelogo.txt", hWnd, &ad);
 
-  kprintf(1, "apakclose pGDataArchive");
-  apakclose(&pGDataArchive);
-  kprintf(1, "apakclose pDataArchive");
-  apakclose(&pDataArchive);
-  kprintf(1, "apakclose pBmpArchive");
-  apakclose(&pBmpArchive);
-  kprintf(1, "apakclose pSndArchive");
-  apakclose(&pSndArchive);
-  kprintf(1, "apakclose p3DMArchive");
-  apakclose(&p3DMArchive);
-  kprintf(1, "apakclose pControlsArchive");
-  apakclose(&pControlsArchive);
-
-  //kprintf(1, "apakclose FONT");
+  //kprintf(1, "release FONT");
   //fn_Release_Font();
 
   kprintf(1, "gi_Release_Sound_Engine");
