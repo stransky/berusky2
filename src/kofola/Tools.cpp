@@ -220,6 +220,7 @@ char * Key2String(int k, char *text)
     translation_table[SDLK_PAGEDOWN] = 81;
     translation_table[SDLK_INSERT] = 82;
     translation_table[SDLK_DELETE] = 83;
+    translation_table[SDLK_RCTRL] = 84;
   }
   k = translation_table[k];
 #endif
