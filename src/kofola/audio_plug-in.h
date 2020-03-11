@@ -1,6 +1,8 @@
 #ifndef _AUDIOPLUGIN_
 #define _AUDIOPLUGIN_
 
+#include <stdint.h>
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -13,7 +15,7 @@ extern "C"
 
   typedef struct
   {
-    long Obstruction;
+    int32_t Obstruction;
     float ObstructionLF;
   } MATERIAL_LIST_ITEM;
 
