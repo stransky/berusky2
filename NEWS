@@ -7,7 +7,7 @@
     - Allow held-down keys to be processed immediately after an animation finishes
     - Enable Unicode support
     - Eliminate y-axis fighting in shadows and burnt spots
-    - Fix drawing footsteps
+    - Fix drawing footsteps, water ripples, exit effect, and explosion smoke
     - Replace APAK files with directories
 
 * 0.10
