@@ -120,7 +120,23 @@ int winmain_Game_Run(char *p_Level_Name)
   }
 
   if (bGame) {
-    iActualScene = 0;
+    int ret = sscanf(p_Level_Name, "level%d.lv6", &iActualLevel);
+    assert(ret == 1);
+    // Search for the scene this level is in.
+    for (iActualScene = 0; iActualScene < 13; iActualScene++) {
+      char cTmp[64];
+      int iTmp;
+      int iLevelStart, iNumOfLevels;
+
+      GetRunMenuNewGameSceneLoadGame(cTmp, cTmp, cTmp, cTmp,
+                                     &iLevelStart, &iNumOfLevels,
+                                     &iTmp, &iTmp, cTmp, &iTmp, &iTmp);
+      if (iActualLevel >= iLevelStart &&
+          iActualLevel < iLevelStart + iNumOfLevels)
+        break;
+    }
+    assert(iActualScene < 13);
+
     RunMenuLoadScreen2();
     RunMenuLoadScreenInitBar(15);
     RunMenuLoadScreenAddProgress(-1);
@@ -162,17 +178,12 @@ int winmain_Game_Run(char *p_Level_Name)
   }  
 
   if (bGame) {
-    int ret;
-
     pr_ReadProfile("Default", &pPlayerProfile);
 
     SetCursor(NULL);
     Timer_ID = SetTimer(NULL, 0, 250, (TIMERPROC) gl_Set_Frame_Rate);
     _3d_Load_Indikace();
-    iActualScene = 0;
     char cenv[64] = "default.env";
-    ret = sscanf(p_Level_Name, "level%d.lv6", &iActualLevel);
-    assert(ret == 1);
     gl_Run_Level(p_Level_Name, cenv, &ad, cpu);
     _3d_Release_Hints(pHintTexture, 26);
     KillTimer(NULL, Timer_ID);
