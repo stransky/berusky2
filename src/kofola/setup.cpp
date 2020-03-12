@@ -32,6 +32,7 @@ void Save_ini(void)
   WritePrivateProfileString("game", "ovladani_rohy_default", itoa(setup.ovladani_rohy_default, text, 10), ini_file);
   WritePrivateProfileString("game", "ovladani_rohy_smer", itoa(setup.ovladani_rohy_smer, text, 10), ini_file);
   WritePrivateProfileString("game", "ovladani_pr_posun", itoa(setup.ovladani_pr_posun, text, 10), ini_file);
+  WritePrivateProfileString("game", "animace_okoli", itoa(setup.animace_okoli, text, 10), ini_file);
 
   WritePrivateProfileString("textures", "text_detail_light", itoa(setup.text_detail_light, text, 10), ini_file);
   WritePrivateProfileString("textures", "text_mip_mapping", itoa(setup.text_mip_mapping, text, 10), ini_file);
