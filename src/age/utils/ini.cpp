@@ -240,8 +240,8 @@ bool ini_write_string_section(const char *p_file, const char *p_section,
   
   ret = file_copy(f_orig, f_new);
   if(!ret) {
-    fclose(f_orig);
-    fclose(f_new);
+    f_orig.close();
+    f_new.close();
     return(FALSE);  
   }
     
@@ -249,10 +249,10 @@ bool ini_write_string_section(const char *p_file, const char *p_section,
   
   if(f_orig.open(NULL, p_file, "w", FALSE)) {
     ret = ini_write_string_section(f_new, f_orig, p_section, p_template, p_value);
-    fclose(f_orig);
+    f_orig.close();
   }
   
-  fclose(f_new);
+  f_new.close();
   
   return (ret);
 }
@@ -295,7 +295,7 @@ char *ini_read_string(const char *p_file, const char *p_template, char *p_out,
 
   char *ret = ini_read_string(f, p_template, p_out, max_len, p_default);
 
-  fclose(f);
+  f.close();
   return (ret);
 }
 
@@ -310,7 +310,7 @@ char *ini_read_string_section(const char *p_file, const char *p_section,
 
   char *ret = ini_read_string_section(f, p_section, p_template,
                                       p_out, max_len, p_default);
-  fclose(f);
+  f.close();
   return (ret);
 }
 
@@ -322,7 +322,7 @@ int ini_read_int(const char *p_file, const char *p_template, int dflt)
 
   int ret = ini_read_int(f, p_template, dflt);
   
-  fclose(f);
+  f.close();
   return (ret);
 }
 
@@ -335,7 +335,7 @@ int ini_read_int_section(const char *p_file, const char *p_section,
 
   int ret = ini_read_int_section(f, p_section, p_template, dflt);
   
-  fclose(f);
+  f.close();
   return (ret);
 }
 
@@ -347,7 +347,7 @@ float ini_read_float(const char *p_file, const char *p_template, float dflt)
 
   int ret = ini_read_float(f, p_template, dflt);
   
-  fclose(f);
+  f.close();
   return (ret);
 }
 
@@ -360,7 +360,7 @@ float ini_read_float_section(const char *p_file, const char *p_section,
 
   int ret = ini_read_float_section(f, p_section, p_template, dflt);
   
-  fclose(f);
+  f.close();
   return (ret);
 }
 
@@ -405,7 +405,7 @@ int ini_read_bool(const char *p_file, const char *p_template, int dflt)
 
   int ret = ini_read_bool(f, p_template, dflt);
 
-  fclose(f);
+  f.close();
   return(ret);
 }
 
@@ -418,7 +418,7 @@ int ini_read_bool_section(const char *p_file, const char *p_section, const char 
 
   int ret = ini_read_bool_section(f, p_section, p_template, dflt);
 
-  fclose(f);
+  f.close();
   return(ret);
 }
 
