@@ -1406,7 +1406,8 @@ int lsi_Get_Save_Info(char *p_Level_Name, int *pActLevel, int *pActScene)
   char text[256];
   PLAYER_PROFILE pPlayer;
   LEVEL_HEADER l_h;
-  WCHAR wTmp[512];
+  WCHAR wTmp[32];
+  char cTmp[256+1];
   int ver;
 
   if (chdir(SAVE_DIR) || chdir(p_Level_Name))
@@ -1422,7 +1423,7 @@ int lsi_Get_Save_Info(char *p_Level_Name, int *pActLevel, int *pActScene)
   if (fread(&pPlayer, sizeof(PLAYER_PROFILE), 1, file) != 1 ||
       fread(wTmp, 32 * sizeof(WCHAR), 1, file) != 1 ||
       fread(&ver, sizeof(int), 1, file) != 1 ||
-      fread(wTmp, (256+1) * sizeof(WCHAR), 1, file) != 1 ||
+      fread(cTmp, (256+1) * sizeof(char), 1, file) != 1 ||
       fread(&l_h, sizeof(LEVEL_HEADER), 1, file) != 1) {
     fclose(file);
     return 0;
