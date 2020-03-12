@@ -154,8 +154,7 @@ bool ini_find_string_section(FFILE f, const char *p_section,
   char section[MAX_TOKEN_LEN];
   bool section_found = FALSE;
   long file_pos;
-  long file_last_line_start = 0;
-  long file_last_line_end = 0;
+  long file_last_line = 0;
 
   file_pos = 0;
   fseek(f, 0, SEEK_SET);
@@ -172,16 +171,13 @@ bool ini_find_string_section(FFILE f, const char *p_section,
     }
     
     // Cache last non-section line from recent section
-    if(section_found && !is_section(line) && !is_empty(line)) {
-      file_last_line_start = file_pos;
-      file_last_line_end = ftell(f);
-    }
+    if(section_found && !is_section(line) && !is_empty(line))
+      file_last_line = ftell(f);
   
     if(section_found && is_section(line)) {
       // we hit next section - so it's not found,
       // create a new entry
-      *p_file_start = file_last_line_start;
-      *p_file_end = file_last_line_end;
+      *p_file_start = *p_file_end = file_last_line;
       return(TRUE);
     }
   
