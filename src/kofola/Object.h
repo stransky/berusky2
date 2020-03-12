@@ -6,6 +6,7 @@
 #define _OBJECT__
 
 #include <stdio.h>
+#include <stdint.h>
 //#include <d3d.h>
 #include "3d_all.h"
 #include "Berusky_universal.h"
@@ -121,24 +122,24 @@ typedef struct
 
 typedef struct
 {
-  unsigned long room;
+  uint32_t room;
   float size;
   char bsize;
-  long wall_occlusion;
+  int32_t wall_occlusion;
   char bwall_occlusion;
   float wall_occlusionLF;
   char bwall_occlusionLF;
   float wall_occlusion_room;
   char bwall_occlusion_room;
-  long out_room;
+  int32_t out_room;
   char bout_room;
-  long out_roomHF;
+  int32_t out_roomHF;
   char bout_roomHF;
   float out_room_rolloff;
   char bout_room_rolloff;
   float out_air_absorbtion;
   char bout_air_absorbtion;
-  long id;
+  int32_t id;
   char extsoundf[64];
   char bunderwater;
 } ENVIRONMENT;
