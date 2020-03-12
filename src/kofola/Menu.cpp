@@ -3391,11 +3391,13 @@ void RunMenuSceneMap(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu,
 
   ////////////////////////////LOAD GAME/////////////////////////////////////////
 
-  LoadClock(iClock);
+  if (!bLoadGame) {
+    LoadClock(iClock);
 
-  if (iClock[0] != -1) {
-    ddxResizeCursorBack(iClock[0]);
-    DrawClock(iClock, 0);
+    if (iClock[0] != -1) {
+      ddxResizeCursorBack(iClock[0]);
+      DrawClock(iClock, 0);
+    }
   }
 
   for (i = 0; i < 12; i++)
