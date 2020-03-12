@@ -3498,13 +3498,16 @@ BRUTAL_RESTART_SCENE_MAP_MENU:
                        pDataDir, res[i].cParam[0]);
         file = fopen(filename, "r");
         if (file) {
-          while (!feof(file)) {
+          while (1) {
             Parse_AnimLine(file, res[i].iAnim[lastanm], 18);
 
             if (!cc)
               res[i].iAnim[lastanm][1] = iBmp[res[i].iAnim[lastanm][1]];
 
-            lastanm++;
+            if (feof(file))
+              break;
+            else
+              lastanm++;
           }
 
           if (!cc)
