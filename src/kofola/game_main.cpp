@@ -44,11 +44,9 @@ char cFontDir[5][64];
 //------------------------------------------------------------------------------------------------
 int winmain_Game_Run(char *p_Level_Name)
 {
-  char dir[MAX_FILENAME];
   TIMER_ID Timer_ID;
   int cpu;
   char bGame = strlen(p_Level_Name);
-  char bitmap_pak[MAX_FILENAME];
   char filename[MAX_FILENAME];
 
   ShowCursor(FALSE);
@@ -62,9 +60,6 @@ int winmain_Game_Run(char *p_Level_Name)
     return 0;
 
   srand((unsigned) time(NULL));
-
-  GetPrivateProfileString("files", "bitmap_pak", "/", bitmap_pak, MAX_FILENAME, ini_file);
-  working_file_translate(bitmap_pak, MAX_FILENAME);
 
   GetPrivateProfileString("files", "bitmap_subdir", "/", filename, MAX_FILENAME, ini_file);
   construct_path(pBmpDir, MAX_FILENAME, 2, p_ber->dir.bitmap_dir, filename);
@@ -91,19 +86,13 @@ int winmain_Game_Run(char *p_Level_Name)
 
   construct_path(pSndDir, MAX_FILENAME, 2, p_ber->dir.sound_dir, "sound");
 
-  GetPrivateProfileString("files", "3dmenu_pak", "/", dir, MAX_FILENAME, ini_file);
-  working_file_translate(dir, MAX_FILENAME);
-
   GetPrivateProfileString("files", "3dmenu_dir", "/", filename, MAX_FILENAME, ini_file);
   construct_path(p3DMDir, MAX_FILENAME, 2, p_ber->dir.bitmap_dir, filename);
-
-  GetPrivateProfileString("files", "data_pak", "/", dir, MAX_FILENAME, ini_file);
-  working_file_translate(dir, MAX_FILENAME);
 
   GetPrivateProfileString("files", "data_subdir", "/", filename, MAX_FILENAME, ini_file);
   construct_path(pDataDir, MAX_FILENAME, 2, p_ber->dir.data_dir, filename);
 
-  construct_path(pGDataDir, MAX_FILENAME, 2, p_ber->dir.game_data_dir, "game_data");
+  strncpy(pGDataDir, p_ber->dir.game_data_dir, MAX_FILENAME);
 
 	gi_Init_Sound_Engine(&ad);
 	if (chdir(p_ber->dir.music_dir))
