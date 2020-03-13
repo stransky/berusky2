@@ -18,9 +18,6 @@ co_delete - TODO
 comics does not work!
 - Bump mapping?
 
-- Open data/texture/string format?
-  - for easy modifications
-
 valgrind --db-attach=yes ./berusky2
 valgrind --track-origins=yes --free-fill=0x50 --db-attach=yes ./berusky2
 --leak-check=full
