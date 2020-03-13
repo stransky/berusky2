@@ -11994,8 +11994,6 @@ PLAY_LEVEL_START:
 
       mi.t1 = 0;
     }
-    else                        // nemuze se pouzivat pr ovladani kamery
-      PRCameraFlag = 0;
 
     if (mi.t1 && (Level.bRestart || Level.bReturnToMenu)) {
       if (Level.bRestart && Level.iMessageBoxReturn != -1) {
@@ -12040,9 +12038,6 @@ PLAY_LEVEL_START:
 
       mi.t1 = 0;
     }
-
-    if (demo)
-      PRCameraFlag = 1;
 
     if (iMenuAnimation) {
       iMenuAnimation = 0;
