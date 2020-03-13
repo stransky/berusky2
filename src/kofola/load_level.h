@@ -12,7 +12,7 @@ void lsi_Release_Level(LEVELINFO * p_Level);
         // pripoji k predmetum materialy
 void lsi_Bind_Materials2Items(LEVELINFO * p_Level);
 
-        //void lsi_Make_Screenshot(HDC hdc, char *pFile);
+void lsi_Make_Screenshot(char *pFile);
 
 void lsi_Save_Level(WCHAR * pwc_Level_Name, LEVELINFO * p_Level);
 int lsi_Load_Saved_Level(char *p_Level_Name, LEVELINFO * p_Level);

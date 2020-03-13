@@ -1987,74 +1987,57 @@ void lsi_Bind_Materials2Items(LEVELINFO * p_Level)
   }
 }
 
-void lsi_Make_Screenshot(HDC hdc, char *pFile)
+void lsi_Make_Screenshot(char *pFile)
 {
-/*
-	HDC					hdcMem;
-	BITMAPINFO			*pbmiRGB = (BITMAPINFO *) NULL; 
-	HBITMAP				hbmRGB  = (HBITMAP) NULL;
-	PBYTE				pjBitsRGB;
-	BITMAPFILEHEADER	bmpHeader;
-	FILE				*bmpFile = NULL;
+  int width, height, depth, pitch;
+  size_t size;
+  GLenum format;
+  unsigned char *pixels, *flipped;
+  SDL_Surface *p_surf;
 
-	hdcMem  = CreateCompatibleDC(hdc);
+  p_ber->p_age->graph_get()->get(&width, &height, &depth);
+  if (depth == 32)
+    format = GL_RGBA;
+  else if (depth == 24)
+    format = GL_RGB;
+  else
+    assert(0);
+  pitch = width * (depth/8);
+  size = pitch * height;
 
-	pbmiRGB = (BITMAPINFO *)LocalAlloc(LMEM_FIXED|LMEM_ZEROINIT, sizeof(BITMAPINFO) );
-	
-	if (!pbmiRGB)
-		MessageBox(NULL,"!pbmiRGB","!!!", MB_OK);
-	
-	pbmiRGB->bmiHeader.biSize	       = sizeof(BITMAPINFOHEADER);     
-	pbmiRGB->bmiHeader.biWidth		   = Xresolution;     
-	pbmiRGB->bmiHeader.biHeight        = Yresolution;     
-	pbmiRGB->bmiHeader.biPlanes        = 1;     
-	pbmiRGB->bmiHeader.biBitCount      = 24;     
-	pbmiRGB->bmiHeader.biCompression   = BI_RGB;     
-	pbmiRGB->bmiHeader.biSizeImage     = pbmiRGB->bmiHeader.biWidth
-										 * abs(pbmiRGB->bmiHeader.biHeight) * 3; 
+  // Read the pixels
+  pixels = (unsigned char *) mmalloc(size);
+  glReadPixels(0, 0, width, height, format, GL_UNSIGNED_BYTE, pixels);
 
-	hbmRGB = CreateDIBSection(hdcMem, pbmiRGB, DIB_RGB_COLORS,
-							  (PVOID *) &pjBitsRGB, NULL, 0);
-	
-	if (!hbmRGB) 
-		MessageBox(NULL,"!hbmRGB","!!!", MB_OK);
+  // We need to invert the pixels vertically because that is how BMP
+  // files are stored.
+  flipped = (unsigned char *) mmalloc(size);
+  for (int i = 0; i < height; i++) {
+    memcpy(flipped + size - ((i + 1) * pitch),
+           pixels + (i * pitch), pitch);
+  }
+  free(pixels);
 
-	if (!SelectObject(hdcMem, hbmRGB))
-		MessageBox(NULL,"!SelectObject(hdcMem, hbmRGB)","!!!", MB_OK);
+  // Create an SDL surface from the pixels
+  p_surf =
+    SDL_CreateRGBSurfaceFrom(flipped, width, height, depth, pitch,
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+                             0xff000000,
+                             0x00ff0000,
+                             0x0000ff00,
+                             0x000000ff
+#else
+                             0x000000ff,
+                             0x0000ff00,
+                             0x00ff0000,
+                             0xff000000
+#endif
+                             );
 
-  
-	if (!BitBlt(hdcMem, 0,0, Xresolution, Yresolution, hdc, 0,0,SRCCOPY)) 
-		MessageBox(NULL,"!BitBlt","!!!", MB_OK);
+  // Save the BMP file
+  if (SDL_SaveBMP(p_surf, pFile))
+    kprintf(1, "Cannot save screenshot to %s", pFile);
 
-	pjBitsRGB = (LPBYTE) GlobalAlloc(GMEM_FIXED, pbmiRGB->bmiHeader.biSizeImage);
-
-	if (!pjBitsRGB) 
-		MessageBox(NULL,"!pjBitsRGB","!!!", MB_OK);
-
-	if (!GetDIBits(hdcMem, hbmRGB, 0, (UINT)pbmiRGB->bmiHeader.biHeight, pjBitsRGB, 
-				   (LPBITMAPINFO)pbmiRGB, DIB_RGB_COLORS))
-		MessageBox(NULL,"!GetDIBits","!!!", MB_OK);
-		
-	bmpHeader.bfType = 'MB';
-	bmpHeader.bfSize = sizeof(BITMAPINFOHEADER) + sizeof(BITMAPFILEHEADER) + pbmiRGB->bmiHeader.biSizeImage;
-	bmpHeader.bfOffBits = sizeof(BITMAPINFOHEADER) + sizeof(BITMAPFILEHEADER);
-	bmpHeader.bfReserved1 = 0;
-	bmpHeader.bfReserved2 = 0;
-
-	bmpFile = fopen(pFile,"wb");
-
-	if (!bmpFile)
-		MessageBox(NULL,"!bmpFile","!!!", MB_OK);
-
-	fwrite(&bmpHeader,sizeof(BITMAPFILEHEADER),1,bmpFile);
-	fwrite(&pbmiRGB->bmiHeader,sizeof(BITMAPINFOHEADER),1,bmpFile);
-	fwrite(pjBitsRGB,sizeof(BYTE),pbmiRGB->bmiHeader.biSizeImage,bmpFile);
-
-	fclose(bmpFile);
-
-	DeleteDC(hdcMem);          
-	DeleteObject(hbmRGB);
-	LocalFree(pbmiRGB);
-	GlobalFree((HGLOBAL)pjBitsRGB);
-*/
+  SDL_FreeSurface(p_surf);
+  free(flipped);
 }

@@ -9446,7 +9446,7 @@ int gl_Screen_Shot(int i)
   }
   while (f);
 
-//      lsi_Make_Screenshot(hwconf.hDC, text);
+  lsi_Make_Screenshot(text);
 
   return i;
 }
