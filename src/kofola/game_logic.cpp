@@ -11018,8 +11018,6 @@ PLAY_LEVEL_START:
       if (iActualLevel >= 200 && iActualLevel < 300 && !demo)
         RunMenuTutorial2("Mmtutor3D.txt", p_ad, &Level, &am);
 
-      PRCameraFlag = 1;
-
       bCamera = 0;
     }
 
