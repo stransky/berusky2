@@ -783,6 +783,7 @@ void SetMenuSettings2(CONTROL_LIST_ITEM2 * citem, int *hdcTabUse)
   if (hdcTabUse[1]) {    
     co2_Combo_Drop_Get_Sel(citem, CLIST_ITEMC, 10, &setup.text_ostrost);
     setup.ditering = co2_Check_Get_State(citem, CLIST_ITEMC, 7);
+    setup.mirror_effects = co2_Check_Get_State(citem, CLIST_ITEMC, 4);
     setup.animace_okoli = co2_Check_Get_State(citem, CLIST_ITEMC, 8);
   }
 
@@ -893,12 +894,16 @@ void InitTab3d2(CONTROL_LIST_ITEM2 * citem, int *hdcTab)
 
   //kprintf(1, "##settings_animations");
 
+  citem[11].p_check = co2_Create_CheckBox(hdcTab[1], 300, 180, "##settings_draw_mirror", 0, 4);
+  citem[11].iTab = 1;
+  co2_Check_Set_State(citem[11].p_check, hdcTab[1], setup.mirror_effects, 1);
+
   citem[30].p_check =
-    co2_Create_CheckBox(hdcTab[1], 300, 180, "##settings_animations", 0, 8);
+    co2_Create_CheckBox(hdcTab[1], 300, 210, "##settings_animations", 0, 8);
   citem[30].iTab = 1;
   co2_Check_Set_State(citem[30].p_check, hdcTab[1], setup.animace_okoli, 1);
   
-  citem[31].p_check = co2_Create_CheckBox(hdcTab[1], 300, 210, 
+  citem[31].p_check = co2_Create_CheckBox(hdcTab[1], 300, 240,
                       "##settings_fullscreen", 0, 5, ControlFullScreenCallback2);
   citem[31].iTab = 1;
   co2_Check_Set_State(citem[31].p_check, hdcTab[1], setup.fullscreen, 1);
