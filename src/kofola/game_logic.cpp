@@ -29,6 +29,7 @@
 #include "Menu2.h"
 #include "adas.h"
 #include "json_export.h"
+#include "Setup.h"
 
 extern HINT_STATE sHint;
 extern KUK_STATE sKuk;
@@ -9576,12 +9577,8 @@ void gl_Flip(AUDIO_DATA * pad, LEVELINFO * p_Level, int *Frame_Rate_Counter,
   kom_klavesy_hra();
   kom_kresli_level();
 
-  if (!*no_Menu) {
+  if (!*no_Menu)
     _3d_Draw_Menus(bCursor, Cursor_Time_Out, p_Level, *act_item, iReturn, demo);
-    // The keys may have been updated
-    Bind_Keys(&control);
-    gl_Get_PR_ScanCode(&p_ber->conf_p_key, &p_ber->conf_r_key);
-  }
   else
     flip();
 
@@ -10183,6 +10180,8 @@ void gl_Resetini(LEVELINFO * p_Level, char *bOvladaniBerusek1)
  *bOvladaniBerusek1 = GetPrivateProfileInt("game", "ovladani", 0, ini_file);
   p_Level->bPohled_Berusky = GetPrivateProfileInt("game", "pohled_berusky", 0, ini_file);
   Bind_Keys(&control);
+  gl_Get_PR_ScanCode(&p_ber->conf_p_key, &p_ber->conf_r_key);
+  Load_ini();
 
   kom_reload_ini();
 }
@@ -10368,6 +10367,7 @@ PLAY_LEVEL_START:
   RunMenuLoadScreenDrawProgress(-1, -1);
 
   Bind_Keys(&control);
+  Load_ini();
 
   Level.p_ad = &ad;
   Level.Base_Priority = iCPU;
