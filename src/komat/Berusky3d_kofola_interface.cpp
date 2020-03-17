@@ -27,6 +27,15 @@ extern G_KONFIG ber, *p_ber;
 
 float kom_load_progres;         // aktualni tick
 
+// For restoring mirror effects.
+int zrc_akt;
+int *p_poly_indices;
+struct poly_save_data {
+  dword kflag, m1flag;
+  int alfa_state;
+} *p_poly_data;
+unsigned int n_poly_indices, n_poly_data;
+
 /*
   Load levelu
 */
@@ -373,6 +382,12 @@ void kom_zrus_level(int restart)
     p_ber->p_poly = NULL;
   }
 
+  if (zrc_akt) {
+    zrc_akt = FALSE;
+    free(p_poly_indices);
+    free(p_poly_data);
+  }
+
   kprintf(TRUE, "Kom_zrus_level - mesh...");
 
   /* Zrus meshe
@@ -614,29 +629,99 @@ int ber_test_zrcadla(void)
 {
   ZDRCADLO_DESC_POLY *p_poly = p_ber->zrc.p_poly;
   int mat;
+  unsigned int i, j;
+
+  // If `zrc_akt' is TRUE, we've already disabled mirror effects.
+  if (zrc_akt && !setup.mirror_effects)
+    return (TRUE);
 
   // Ma se vypnout zrcadlo
   if (p_ber->zrc_akt && !setup.mirror_effects) {
+    zrc_akt = TRUE;
     p_ber->zrc_akt = FALSE;
+
+    // Prepare for saving the old data to restore mirror effects
+    // later.
+    n_poly_indices = n_poly_data = 0;
     while (p_poly) {
+      n_poly_indices++;
+      if (p_poly->poly != K_CHYBA && p_ber->polynum > p_poly->poly)
+        n_poly_data++;
+      p_poly = p_poly->p_next;
+    }
+    p_poly = p_ber->zrc.p_poly;
+
+    p_poly_indices = (int *)
+      mmalloc(sizeof(*p_poly_indices) * n_poly_indices);
+    p_poly_data = (struct poly_save_data *)
+      mmalloc(sizeof(*p_poly_data) * n_poly_data);
+
+    for (i = j = 0; p_poly; i++) {
+      // Save the index for later restoring of mirror effects.
+      assert(i < n_poly_indices);
+      p_poly_indices[i] = p_poly->poly;
+
       if (p_poly->poly != K_CHYBA && p_ber->polynum > p_poly->poly) {
+        // Save the flags.
+        assert(j < n_poly_data);
+        p_poly_data[j].kflag =
+          p_ber->p_poly[p_poly->poly].kflag & KONT_ZRCADLO;
+        p_poly_data[j].m1flag =
+          p_ber->p_poly[p_poly->poly].m1flag & MAT_PRUHLEDNY;
+
         p_ber->p_poly[p_poly->poly].kflag &= ~KONT_ZRCADLO;
         p_ber->p_poly[p_poly->poly].m1flag &= ~MAT_PRUHLEDNY;
 
         mat = p_ber->p_poly[p_poly->poly].material;
+
+        // Save `alfa_state'.
+        p_poly_data[j].alfa_state = p_ber->p_mat[mat]->alfa_state;
+
         p_ber->p_mat[mat]->alfa_state = FALSE;
 
-        p_poly->poly = K_CHYBA;
+        j++;
       }
-      else if (p_ber->polynum <= p_poly->poly) {
-        p_poly->poly = K_CHYBA;
-      }
+
+      p_poly->poly = K_CHYBA;
       p_poly = p_poly->p_next;
     }
+
+    assert(i == n_poly_indices);
+    assert(j == n_poly_data);
+
     return (TRUE);
   }
-  else
-    return (FALSE);
+  else if (zrc_akt) {
+    // Restore mirror effects.
+    p_ber->zrc_akt = TRUE;
+    for (i = j = 0; i < n_poly_indices; i++) {
+      assert(p_poly);
+      p_poly->poly = p_poly_indices[i];
+
+      if (p_poly->poly != K_CHYBA && p_ber->polynum > p_poly->poly) {
+        assert(j < n_poly_data);
+        p_ber->p_poly[p_poly->poly].kflag |= p_poly_data[j].kflag;
+        p_ber->p_poly[p_poly->poly].m1flag |= p_poly_data[j].m1flag;
+
+        mat = p_ber->p_poly[p_poly->poly].material;
+        p_ber->p_mat[mat]->alfa_state = p_poly_data[j].alfa_state;
+
+        j++;
+      }
+
+      p_poly = p_poly->p_next;
+    }
+
+    assert(i == n_poly_indices);
+    assert(j == n_poly_data);
+
+    // Clean up.
+    zrc_akt = FALSE;
+    free(p_poly_indices);
+    free(p_poly_data);
+  }
+
+  return (FALSE);
 }
 
 void kom_load_sys_material(int i)
@@ -756,6 +841,8 @@ void kom_load_level(char *p_file, int zmen_dir, int restart,
   ber_nahraj_poly(p_ber, file, dir);    // poly (staticke veci)
 
   kom_posun_slider();
+
+  zrc_akt = FALSE;
 
   if (ber_test_zrcadla())
     kprintf(TRUE, "Mirror off");

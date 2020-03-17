@@ -45,6 +45,8 @@ void kom_load_level(char *p_file, int zmen_dir, int restart,
 void kom_post_init_level(void); // konfiguruje level, volat po "void kom_load_level(char *p_file)"
 void kom_zrus_level(int restart);       // rusi level, pokud je to restart tak zrus spec zpusobem
 
+int ber_test_zrcadla(void);
+
 // Nacte fyzickou souradnici policka levelu
 BOD *kom_get_fyz_souradnice(int x, int y, int z, BOD * p_bod);
 

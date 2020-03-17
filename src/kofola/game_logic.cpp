@@ -10184,6 +10184,8 @@ void gl_Resetini(LEVELINFO * p_Level, char *bOvladaniBerusek1)
   Load_ini();
 
   kom_reload_ini();
+
+  ber_test_zrcadla();
 }
 
 int gl_Change_Dir_To_Level(char *p_Level_Name)
