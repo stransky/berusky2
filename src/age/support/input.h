@@ -101,7 +101,8 @@
 #define  K_Z          SDLK_z
 
 #define  K_MINUS      SDLK_MINUS
-#define  K_PLUS       SDLK_EQUALS //SDLK_PLUS
+#define  K_PLUS       SDLK_PLUS
+#define  K_EQUALS     SDLK_EQUALS
 #define  K_BKSP       SDLK_BACKSPACE
 #define  K_TAB        SDLK_TAB
 

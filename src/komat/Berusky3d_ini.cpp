@@ -432,12 +432,17 @@ int spracuj_spravy(int param)
   SDL_Event event;              /* Event structure */
 
   while (SDL_PollEvent(&event)) {
+    int keycode = event.key.keysym.sym;
+    SDLMod mod = event.key.keysym.mod;
+
+    // Compensate for keyboard layouts where '+' is shifted '='
+    // (e.g. QWERTY).
+    if (keycode == K_EQUALS)
+      keycode = K_PLUS;
+
     switch (event.type) {
       case SDL_KEYDOWN:
         {
-          int keycode = event.key.keysym.sym;
-	  SDLMod mod = event.key.keysym.mod;
-
           //printf("SDL_KEYDOWN(%d)\n",keycode);
         
           key[keycode] = TRUE;
@@ -453,9 +458,6 @@ int spracuj_spravy(int param)
         break;
       case SDL_KEYUP:
         {
-          int keycode = event.key.keysym.sym;
-	  SDLMod mod = event.key.keysym.mod;
-
           key[keycode] = FALSE;
           key[0] = FALSE;
 
