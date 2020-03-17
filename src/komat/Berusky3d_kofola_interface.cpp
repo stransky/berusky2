@@ -408,17 +408,17 @@ void kom_zrus_level(int restart)
     }
   }
 
+  kprintf(TRUE, "Kom_zrus_level - materialy...");
+
+  /* Zrus materiay + smaterial
+   */
+  for (i = 0; i < MAX_CELKEM_MATERIALU; i++) {
+    if (p_ber->p_mat[i])
+      zrus_material(p_ber->p_mat + i);
+  }
+  p_ber->p_smat = NULL;
+
   if (!restart) {
-
-    kprintf(TRUE, "Kom_zrus_level - materialy...");
-
-    /* Zrus materiay + smaterial
-     */
-    for (i = 0; i < MAX_CELKEM_MATERIALU; i++) {
-      if (p_ber->p_mat[i])
-        zrus_material(p_ber->p_mat + i);
-    }
-    p_ber->p_smat = NULL;
 
     kprintf(TRUE, "Kom_zrus_level - textury...");
 
