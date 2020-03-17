@@ -719,6 +719,9 @@ int ber_test_zrcadla(void)
     zrc_akt = FALSE;
     free(p_poly_indices);
     free(p_poly_data);
+
+    // Make sure all reflections are updated.
+    p_ber->kamera.zmena = TRUE;
   }
 
   return (FALSE);
