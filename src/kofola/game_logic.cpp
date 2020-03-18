@@ -11994,6 +11994,8 @@ PLAY_LEVEL_START:
 
       mi.t1 = 0;
     }
+    else if (Level.bMenuRunning)
+      PRCameraFlag = 0;
 
     if (mi.t1 && (Level.bRestart || Level.bReturnToMenu)) {
       if (Level.bRestart && Level.iMessageBoxReturn != -1) {
