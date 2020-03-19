@@ -2813,7 +2813,10 @@ void ber_render_list_vyrob_rec(G_KONFIG * p_ber, OBB_TREE_OLD * p_prvni,
   p_item = p_prvni->p_item;
   for (i = 0; i < p_prvni->itnum; i++, p_item++) {
     if (kamera_zmena) {
-      p_item->viditelny = obb_visibility(p_item->p_obb, p_m);
+      p_item->zrc_viditelny =
+        p_zrc && obb_visibility(p_item->p_obb, p_zrc);
+      p_item->viditelny =
+        p_item->zrc_viditelny || obb_visibility(p_item->p_obb, p_m);
     }
     if (p_item->viditelny) {
       p_poly = p_item->p_poly;
@@ -2829,9 +2832,6 @@ void ber_render_list_vyrob_rec(G_KONFIG * p_ber, OBB_TREE_OLD * p_prvni,
     }
 
     if (p_zrc) {
-      if (kamera_zmena) {
-        p_item->zrc_viditelny = obb_visibility(p_item->p_obb, p_zrc);
-      }
       if (p_item->zrc_viditelny) {
         p_poly = p_item->p_poly;
         if (p_poly) {
@@ -2900,7 +2900,8 @@ void ber_render_list_vyrob(G_KONFIG * p_ber, int zrcadlo, int kamera_zmena)
         p_camera_project, KONT_VIDITELNY, KONT_VIDITELNY_ZMENA, mail, zmena);
       if (p_zrc)
         ber_render_list_vyrob_mesh(p_ber, FALSE, *p_src, !viditelny, p_zrc,
-          KONT_VIDITELNY_ZRC, KONT_VIDITELNY_ZMENA, mail, zmena);
+          KONT_VIDITELNY | KONT_VIDITELNY_ZRC,
+          KONT_VIDITELNY_ZMENA, mail, zmena);
     }
   }
 
