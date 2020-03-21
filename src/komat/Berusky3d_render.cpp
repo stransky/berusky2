@@ -2706,7 +2706,8 @@ inline int obb_visibility_flag(OBB_OLD * p_obb, GLMATRIX * p_mat, int viz,
 
 // viz = TRUE - automaticky viditelny
 inline int ber_render_list_vyrob_mesh(G_KONFIG * p_ber, int viz,
-  GAME_MESH_OLD ** p_src, int add, GLMATRIX * p_mat, int viditelny_flag,
+  GAME_MESH_OLD ** p_src, int add, GLMATRIX * p_mat,
+  int viditelny_flag_add, int viditelny_flag_remove,
   int zmena_flag, int mail, int kamera_zmena)
 {
   GAME_MESH_OLD *p_mesh = *p_src;
@@ -2729,31 +2730,31 @@ inline int ber_render_list_vyrob_mesh(G_KONFIG * p_ber, int viz,
       for (j = 0, p_obb = p_mesh->p_obb_world; j < p_mesh->objektu;
         j++, p_obb++, p_flag++) {
         if (obb_visibility_flag(p_obb, p_mat, stat,
-            (*p_flag) & viditelny_flag)) {
-          if (!((*p_flag) & viditelny_flag)) {  // objekt nebyl driv viditelnej
+            (*p_flag) & viditelny_flag_add)) {
+          if (!((*p_flag) & viditelny_flag_add)) {  // objekt nebyl driv viditelnej
             viditelny_zmena = TRUE;
           }
-          *p_flag |= viditelny_flag;
+          *p_flag |= viditelny_flag_add;
         }
         else {
-          *p_flag &= ~viditelny_flag;
+          *p_flag &= ~viditelny_flag_remove;
         }
       }
     }
     else {
-      if (!((*p_flag) & viditelny_flag)) {      // objekt nebyl driv viditelnej
+      if (!((*p_flag) & viditelny_flag_add)) {      // objekt nebyl driv viditelnej
         viditelny_zmena = TRUE;
       }
-      *p_flag |= viditelny_flag;
+      *p_flag |= viditelny_flag_add;
     }
 
-    if (viditelny_zmena || !(kflag & viditelny_flag)
+    if (viditelny_zmena || !(kflag & viditelny_flag_add)
       || p_mesh->mail + 1 != mail)
       kflag |= zmena_flag;
     else
       kflag &= ~zmena_flag;
 
-    p_mesh->p_data->kflag = kflag | viditelny_flag;
+    p_mesh->p_data->kflag = kflag | viditelny_flag_add;
 
     if (add) {
       assert(p_mesh->mail != mail);
@@ -2764,15 +2765,25 @@ inline int ber_render_list_vyrob_mesh(G_KONFIG * p_ber, int viz,
     return (TRUE);
   }
   else {
-    p_mesh->p_data->kflag &= ~viditelny_flag;
+    p_mesh->p_data->kflag &= ~viditelny_flag_remove;
 
     p_flag = (int *) p_mesh->p_kflag;
     for (j = 0; j < p_mesh->objektu; j++, p_flag++) {
-      *p_flag &= ~viditelny_flag;
+      *p_flag &= ~viditelny_flag_remove;
     }
 
     return (FALSE);
   }
+}
+
+// Overloaded convenience function for when `viditelny_flag_add' and
+// `viditelny_flag_remove' are the same.
+inline int ber_render_list_vyrob_mesh(G_KONFIG * p_ber, int viz,
+  GAME_MESH_OLD ** p_src, int add, GLMATRIX * p_mat, int viditelny_flag,
+  int zmena_flag, int mail, int kamera_zmena)
+{
+  return ber_render_list_vyrob_mesh(p_ber, viz, p_src, add, p_mat,
+    viditelny_flag, viditelny_flag, zmena_flag, mail, kamera_zmena);
 }
 
 inline void ber_render_list_vyrob_poly(G_KONFIG * p_ber,
@@ -2900,7 +2911,11 @@ void ber_render_list_vyrob(G_KONFIG * p_ber, int zrcadlo, int kamera_zmena)
         p_camera_project, KONT_VIDITELNY, KONT_VIDITELNY_ZMENA, mail, zmena);
       if (p_zrc)
         ber_render_list_vyrob_mesh(p_ber, FALSE, *p_src, !viditelny, p_zrc,
-          KONT_VIDITELNY | KONT_VIDITELNY_ZRC,
+          // Only remove KONT_VIDITELNY_ZRC if the reflection is not
+          // visible, because we don't want to hide the whole object
+          // just because we can't see the reflection (which would
+          // happen if we removed KONT_VIDITELNY as well).
+          KONT_VIDITELNY | KONT_VIDITELNY_ZRC, KONT_VIDITELNY_ZRC,
           KONT_VIDITELNY_ZMENA, mail, zmena);
     }
   }
