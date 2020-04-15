@@ -27,6 +27,7 @@
  */
 
 #include <sys/time.h>
+#include <errno.h>
 
 #include "3d_all.h"
 #include "ini.h"
@@ -533,47 +534,79 @@ void dbgprintf(char *p_tmp, ...)
 {
 }
 
-int CP1250ToWideChar(char *lpMultiByteStr, size_t multiByteStrLen,
-                     char *lpWideCharStr, size_t wideCharLen)
+// Convert any encoding to another encoding, returning the number of
+// bytes in the encoded string.
+size_t ConvertEncoding(const char *fromEncoding,
+                       const char *toEncoding,
+                       char *lpFromStr, size_t cbFrom,
+                       char *lpToStr, size_t cbTo)
 {
-  iconv_t cd = iconv_open("UTF32", "WINDOWS-1250");
-  if (cd == (iconv_t)-1)
-    return(-1);
-  
-  int ret = iconv(cd, 
-                  &lpMultiByteStr, &multiByteStrLen,
-                  &lpWideCharStr, &wideCharLen);
+  iconv_t cd;
+  size_t oldCbTo;
+  size_t ret;
 
-  iconv_close(cd);
-  assert(wideCharLen);
-  return(ret != -1 && wideCharLen);
+  if (!lpToStr) {
+    // Use a temporary buffer in place of lpToStr.
+    size_t buf_size = 4096;     // An arbitrary size
+    char *buf = (char *)malloc(buf_size);
+
+    if (!buf)
+      return (-1);
+    while ((ret =
+            ConvertEncoding(fromEncoding, toEncoding,
+                            lpFromStr, cbFrom,
+                            buf, buf_size)) == (size_t)-1) {
+      if (errno != E2BIG)
+        break;
+
+      // There is not enough room, so try a bigger buffer. Double the
+      // size because hopefully that will reach the required size
+      // fairly quickly, while still using a sane amount of memory.
+      buf_size *= 2;
+      buf = (char *)realloc(buf, buf_size);
+      if (!buf)
+        break;
+    }
+
+    free(buf);
+    return (ret);
+  }
+
+  oldCbTo = cbTo;
+
+  cd = iconv_open(toEncoding, fromEncoding);
+  if (cd == (iconv_t)-1)
+    return ((size_t)-1);
+  ret = iconv(cd, &lpFromStr, &cbFrom, &lpToStr, &cbTo);
+  if (iconv_close(cd))
+    return ((size_t)-1);
+
+  if (ret != (size_t)-1)
+    ret = oldCbTo - cbTo;
+
+  return (ret);
 }
 
 // Converts UTF-8 to wide-char string
 int MultiByteToWideChar(int CodePage, int dwFlags, char *lpMultiByteStr,
                         int cbMultiByte, WCHAR * lpWideCharStr, int cchWideChar)
 {
-  int ret = mbstowcs(lpWideCharStr, lpMultiByteStr, cchWideChar);
-  if(ret != -1) {
-    if (lpWideCharStr)
-      assert(ret && ret < cchWideChar);
-  }
-  else {
-    // invalid multi-byte sequence has been detected - try to convert
-    // from Windows-1250 codepage      
-    ret = CP1250ToWideChar(lpMultiByteStr, 
-                           cbMultiByte, 
-                           (char *)lpWideCharStr,
-                           cchWideChar*sizeof(WCHAR));    
-  }
-  return (ret);
+  size_t ret =
+    ConvertEncoding("UTF8", "WCHAR_T",
+                    lpMultiByteStr, cbMultiByte,
+                    (char *)lpWideCharStr, cchWideChar*sizeof(WCHAR));
+  return ((ret == (size_t)-1) ? -1 : (ret / sizeof(WCHAR)));
 }
 
 int WideCharToMultiByte(int CodePage, int dwFlags, wchar_t * lpWideCharStr,
                         int cchWideChar, char *lpMultiByteStr, int cbMultiByte, 
                         char *lpDefaultChar, int *lpUsedDefaultChar)
 {
-  return (wcstombs(lpMultiByteStr, lpWideCharStr, cbMultiByte));
+  size_t ret =
+    ConvertEncoding("WCHAR_T", "UTF8",
+                    (char *)lpWideCharStr, cchWideChar*sizeof(WCHAR),
+                    lpMultiByteStr, cbMultiByte);
+  return ((ret == (size_t)-1) ? -1 : ret);
 }
 
 void ShowCursor(bool state)

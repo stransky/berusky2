@@ -301,9 +301,6 @@ int main(int argc, char **argv)
   //quat_test();
   //alut_test(TRUE);
 
-  if (!setlocale(LC_ALL, ""))
-    fputs("Warning: unable to set locale\n", stderr);
-
   atexit(game_exit);
 
   print_banner();
