@@ -542,47 +542,40 @@ size_t ConvertEncoding(const char *fromEncoding,
                        char *lpToStr, size_t cbTo)
 {
   iconv_t cd;
-  size_t oldCbTo;
   size_t ret;
-
-  if (!lpToStr) {
-    // Use a temporary buffer in place of lpToStr.
-    size_t buf_size = 4096;     // An arbitrary size
-    char *buf = (char *)malloc(buf_size);
-
-    if (!buf)
-      return (-1);
-    while ((ret =
-            ConvertEncoding(fromEncoding, toEncoding,
-                            lpFromStr, cbFrom,
-                            buf, buf_size)) == (size_t)-1) {
-      if (errno != E2BIG)
-        break;
-
-      // There is not enough room, so try a bigger buffer. Double the
-      // size because hopefully that will reach the required size
-      // fairly quickly, while still using a sane amount of memory.
-      buf_size *= 2;
-      buf = (char *)realloc(buf, buf_size);
-      if (!buf)
-        break;
-    }
-
-    free(buf);
-    return (ret);
-  }
-
-  oldCbTo = cbTo;
 
   cd = iconv_open(toEncoding, fromEncoding);
   if (cd == (iconv_t)-1)
     return ((size_t)-1);
-  ret = iconv(cd, &lpFromStr, &cbFrom, &lpToStr, &cbTo);
+
+  if (!lpToStr) {
+    size_t count = 0;
+
+    do {
+      // Use a temporary buffer in place of lpToStr.
+      char buf[4096];           // An arbitrary size
+      char *p_buf = buf;
+      size_t buf_size = sizeof(buf);
+
+      ret = iconv(cd, &lpFromStr, &cbFrom, &p_buf, &buf_size);
+      if (ret == (size_t)-1 && errno != E2BIG)
+        break;
+
+      count += sizeof(buf) - buf_size;
+    } while (ret == (size_t)-1);
+
+    if (ret != (size_t)-1)
+      ret = count;
+  }
+  else {
+    size_t oldCbTo = cbTo;
+    ret = iconv(cd, &lpFromStr, &cbFrom, &lpToStr, &cbTo);
+    if (ret != (size_t)-1)
+      ret = oldCbTo - cbTo;
+  }
+
   if (iconv_close(cd))
     return ((size_t)-1);
-
-  if (ret != (size_t)-1)
-    ret = oldCbTo - cbTo;
 
   return (ret);
 }
