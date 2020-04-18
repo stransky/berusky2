@@ -99,8 +99,6 @@ extern EDIT_STATE_TEXT_BLOK text_stage_edit_blok[STAGE_TEXT_FUNKCI];
 
 void nahod_state_bloky(void);
 
-extern GLenum arb_prevodni_tabulka[6];
-
 #define MAX_WORD_MATRIX_STACK 32
 
 extern GLMATRIX __mat_kamera;
@@ -687,7 +685,7 @@ inline int text_set_num(int num)
   if (num < glstav_multitext_units) {
     if (glstav_text_akt != num) {
       glstav_text_akt = num;
-      glActiveTextureARB(arb_prevodni_tabulka[num]);
+      glActiveTextureARB(GL_TEXTURE0_ARB + num);
     }
     return (TRUE);
   }
@@ -702,7 +700,7 @@ inline int text_set_num_off(int num)
     if (glstav_textury_1d[num] || glstav_textury_2d[num]) {
       if (glstav_text_akt != num) {
         glstav_text_akt = num;
-        glActiveTextureARB(arb_prevodni_tabulka[num]);
+        glActiveTextureARB(GL_TEXTURE0_ARB + num);
       }
       if (glstav_textury_1d[num]) {
         glstav_textury_1d[num] = FALSE;
@@ -853,7 +851,7 @@ inline int array_text_set_num(int num)
   if (num < glstav_multitext_units) {
     if (num != glstav_text_array_akt) {
       glstav_text_array_akt = num;
-      glClientActiveTextureARB(arb_prevodni_tabulka[num]);
+      glClientActiveTextureARB(GL_TEXTURE0_ARB + num);
     }
     return (TRUE);
   }

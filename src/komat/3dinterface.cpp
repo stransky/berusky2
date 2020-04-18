@@ -59,14 +59,6 @@ int glstav_view_dy;
 
 int glstav_matrix_2d_mod;
 
-GLenum arb_prevodni_tabulka[6] = { GL_TEXTURE0_ARB,
-  GL_TEXTURE1_ARB,
-  GL_TEXTURE2_ARB,
-  GL_TEXTURE3_ARB,
-  GL_TEXTURE4_ARB,
-  GL_TEXTURE5_ARB
-};
-
 STAGE_FUNC_ALFA p_alfa_stage_func[STAGE_ALFA_FUNKCI];
 STAGE_FUNC p_text_stage_func[STAGE_TEXT_FUNKCI];
 STAGE_FUNC_ELEM p_text_stage_func_elem[STAGE_TEXT_FUNKCI];
@@ -99,7 +91,8 @@ void glstav_reset(void)
 {
   int i;
 
-  glGetIntegerv(GL_MAX_TEXTURE_UNITS_ARB, &glstav_multitext_units);
+  glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS_ARB,
+                &glstav_multitext_units);
 
   glstav_bump_mapping = TRUE;
 
