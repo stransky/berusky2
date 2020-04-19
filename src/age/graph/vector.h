@@ -39,14 +39,14 @@
 struct vect2di;
 typedef struct vect2di VECT2DI;
   
-class vect2df;
-typedef class vect2df VECT2DF;
+struct vect2df;
+typedef struct vect2df VECT2DF;
 
-class vect3df;
-typedef class vect3df VECT3DF;
+struct vect3df;
+typedef struct vect3df VECT3DF;
 
-class vect3di;
-typedef class vect3di VECT3DI;
+struct vect3di;
+typedef struct vect3di VECT3DI;
 
 struct polar2di;
 typedef struct polar2di POLAR2DI;
