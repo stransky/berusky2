@@ -6112,7 +6112,7 @@ void am_Flip(LEVELINFO * p_Level, ANIMATION_MODULE * p_am, char bAll,
 {
   RECT r;
 
-  char c;
+  char c = 0;
   int i, x = 0;
   float pos[4];
 
@@ -6214,7 +6214,7 @@ void am_Flip(LEVELINFO * p_Level, ANIMATION_MODULE * p_am, char bAll,
 void am_FlipA(LEVELINFO * p_Level, ANIMATION_MODULE * p_am, char bAll,
   RECT_LINE * rline, int rsize, int bTutor, int bTText, int ty)
 {
-  char c;
+  char c = 0;
   float pos[4];
 
   am_Animate_Items(p_am, p_Level);

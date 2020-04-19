@@ -432,10 +432,14 @@ int spracuj_spravy(int param)
     int keycode = event.key.keysym.sym;
     SDLMod mod = event.key.keysym.mod;
 
-    // Compensate for keyboard layouts where '+' is shifted '='
-    // (e.g. QWERTY).
-    if (keycode == K_EQUALS)
-      keycode = K_PLUS;
+    // `keycode' might be uninitialized if the event isn't a keypress
+    // event.
+    if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
+      // Compensate for keyboard layouts where '+' is shifted '='
+      // (e.g. QWERTY).
+      if (keycode == K_EQUALS)
+        keycode = K_PLUS;
+    }
 
     switch (event.type) {
       case SDL_KEYDOWN:

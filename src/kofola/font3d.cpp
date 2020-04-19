@@ -371,7 +371,7 @@ void fn2_Draw_MessageRECT(int iSurface, int iXpos, int iYpos,
 
       *iYmax = y;
 
-      if (!end_char(wtext[i - 1])) {
+      if (i && !end_char(wtext[i - 1])) {
         tWord[iWordl].xEnd = x - b2_3d_font.iXPlus;
         tWord[iWordl].wLen = &wtext[i] - tWord[iWordl].wcWord;
         iWordl++;

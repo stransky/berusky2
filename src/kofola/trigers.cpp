@@ -92,6 +92,8 @@ void trig_Parse_LineU(WCHAR * pLine, COMMAND * pCommand,
   float fValue;
 
   cursor = Find_Next_ExpresionU(pLine, cursor, Expression);
+  if (cursor == -1)
+    return;
   Uni2Char(Expression, pCommand->cCommand, 64);
 
   pCommand->iCommand = trig_Commandtoi(pCommand->cCommand, pGr, &iMask);
