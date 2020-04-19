@@ -1611,8 +1611,8 @@ void co2_Release_List(LIST_VIEW_CONTROL2 * p_li)
   ddx2ReleaseBitmap(p_li->bDCn);
   ddx2ReleaseBitmap(p_li->bDCs);
 
-  if (p_li->piValue);
-  free((void *) p_li->piValue);
+  if (p_li->piValue)
+    free((void *) p_li->piValue);
 
   if (p_li->pwText)
     for (i = 0; i < p_li->listnum; i++)

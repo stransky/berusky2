@@ -86,7 +86,6 @@ THREAD_HANDLE CreateThread(void *lpThreadAttributes, size_t dwStackSize, thread_
                            void * lpParameter, dword dwCreationFlags, THREAD_ID *lpThreadId)
 {  
   THREAD_HANDLE handle;
-  lpThreadId = NULL;
   pthread_create(&handle, NULL, lpStartAddress, lpParameter);
   return(handle);
 }

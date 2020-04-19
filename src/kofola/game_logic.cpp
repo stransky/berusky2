@@ -8087,12 +8087,10 @@ int gl_Check_Anim_Pontonky(ITEMDESC * pItem, LEVELINFO * p_Level)
   //nesmi pod ni byt bedna
   iPos[2]--;
 
-  if (iPos >= 0) {
-    gl_Logical2Real(iPos[0], iPos[1], iPos[2], &real, p_Level);
+  gl_Logical2Real(iPos[0], iPos[1], iPos[2], &real, p_Level);
 
-    if (p_Level->Level[real])
-      return 0;
-  }
+  if (p_Level->Level[real])
+    return 0;
 
   iPos[2] += 3;
 
