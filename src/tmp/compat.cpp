@@ -584,22 +584,46 @@ size_t ConvertEncoding(const char *fromEncoding,
 int MultiByteToWideChar(int CodePage, int dwFlags, char *lpMultiByteStr,
                         int cbMultiByte, WCHAR * lpWideCharStr, int cchWideChar)
 {
-  size_t ret =
+  size_t ret;
+  size_t n_converted;
+
+  cbMultiByte = strnlen(lpMultiByteStr, cbMultiByte);
+  ret =
     ConvertEncoding("UTF8", "WCHAR_T",
                     lpMultiByteStr, cbMultiByte,
                     (char *)lpWideCharStr, cchWideChar*sizeof(WCHAR));
-  return ((ret == (size_t)-1) ? -1 : (ret / sizeof(WCHAR)));
+  if (ret == (size_t)-1)
+    return -1;
+
+  n_converted = ret / sizeof(WCHAR);
+  if (lpWideCharStr) {
+    assert(n_converted < (size_t)cchWideChar);
+    lpWideCharStr[n_converted] = L'\0';
+  }
+
+  return n_converted;
 }
 
 int WideCharToMultiByte(int CodePage, int dwFlags, wchar_t * lpWideCharStr,
                         int cchWideChar, char *lpMultiByteStr, int cbMultiByte, 
                         char *lpDefaultChar, int *lpUsedDefaultChar)
 {
-  size_t ret =
+  size_t ret;
+
+  cchWideChar = wcsnlen(lpWideCharStr, cchWideChar);
+  ret =
     ConvertEncoding("WCHAR_T", "UTF8",
                     (char *)lpWideCharStr, cchWideChar*sizeof(WCHAR),
                     lpMultiByteStr, cbMultiByte);
-  return ((ret == (size_t)-1) ? -1 : ret);
+  if (ret == (size_t)-1)
+    return -1;
+
+  if (lpMultiByteStr) {
+    assert(ret < (size_t)cbMultiByte);
+    lpMultiByteStr[ret] = '\0';
+  }
+
+  return ret;
 }
 
 void ShowCursor(bool state)
