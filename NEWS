@@ -10,6 +10,7 @@
     - Fix drawing footsteps, water ripples, exit effect, and explosion smoke
     - Replace APAK files with directories
     - Enable screenshots
+    - Allow spaces and '=' in INI file entries
 
 * 0.10
     - Incompatible save game format!

@@ -84,7 +84,7 @@ char *ini_read_param(char *p_line, char *p_param, int max_len)
 
   p_line = ini_skip_spaces(p_line);
   
-  while (*p_line && i < max_len - 1 && !ini_is_space(*p_line) && !ini_is_separator(*p_line)) {
+  while (*p_line && i < max_len - 1 && *p_line != '\n') {
     *p_param++ = *p_line++;
     i++;
   }
