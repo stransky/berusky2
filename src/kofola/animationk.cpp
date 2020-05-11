@@ -6717,7 +6717,7 @@ int find_free_fairy_system(LEVELINFO * p_Level)
 {
   int i;
 
-  for (i = 0; i < 5; i++)
+  for (i = 0; i < 4; i++)
     if (!p_Level->FairyEffect[i].pSystem)
       return i;
 
@@ -6731,7 +6731,7 @@ int am_Create_Fairies(LEVELINFO * p_Level, RECT * r)
 
   float pos[3], low_plane, radius, start;
 
-  for (i = 0; i < 5; i++) {
+  for (i = 0; i < 4; i++) {
     idx = find_free_fairy_system(p_Level);
 
     if (idx == -1)
