@@ -2087,8 +2087,6 @@ void gl_Create_SelectionFlek(ITEMDESC * p_Item, LEVELINFO * p_Level)
   kom_get_fyz_souradnice(p_Item->Pos[0], p_Item->Pos[2], p_Item->Pos[1],
     (BOD *) pos);
 
-  pos[1] += 0.1f;
-
   memcpy(pFlek->pos, pos, 3 * sizeof(float));
 
   pFlek->Material = kom_najdi_material("select");
@@ -2127,8 +2125,6 @@ void gl_Select_BeatleFlek(ITEMDESC * p_Item, LEVELINFO * p_Level)
 
   kom_get_fyz_souradnice(p_Item->Pos[0], p_Item->Pos[2], p_Item->Pos[1],
     (BOD *) pos);
-
-  pos[1] += 0.1f;
 
   memcpy(pFlek->pos, pos, 3 * sizeof(float));
 
