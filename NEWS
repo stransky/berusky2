@@ -11,6 +11,7 @@
     - Replace APAK files with directories
     - Enable screenshots
     - Allow spaces and '=' in INI file entries
+    - Enable save and demo file deletion
 
 * 0.10
     - Incompatible save game format!
