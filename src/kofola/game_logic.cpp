@@ -2288,7 +2288,8 @@ void gl_Pripoj_Flek_k_Berusce(ITEMDESC * pItem)
 
   pFlek->Flag = pItem->Index_Of_Game_Mesh;
   pFlek->pos[0] = 0;
-  pFlek->pos[1] = 0;
+  // Raise shadows a bit. This fixes an issue in level 323.
+  pFlek->pos[1] = 0.01;
   pFlek->pos[2] = 0;
   pFlek->Material = kom_najdi_material("flek10");
   pFlek->nx[0] = 1;
