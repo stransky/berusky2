@@ -245,13 +245,13 @@ int pe_updatuj_strepiny(G_KONFIG * p_ber, PARMETAC * p_par)
   p_min = &p_par->min;
   p_max = &p_par->max;
 
-  p_max->x = -FLT_MAX;
-  p_max->y = -FLT_MAX;
-  p_max->z = -FLT_MAX;
+  p_min->x = -FLT_MAX;
+  p_min->y = -FLT_MAX;
+  p_min->z = -FLT_MAX;
 
-  p_min->x = FLT_MAX;
-  p_min->y = FLT_MAX;
-  p_min->z = FLT_MAX;
+  p_max->x = FLT_MAX;
+  p_max->y = FLT_MAX;
+  p_max->z = FLT_MAX;
 
   p_par->pnum = 0;
 
@@ -403,13 +403,13 @@ int pe_updatuj_fleky(G_KONFIG * p_ber, PARMETAC * p_par)
   p_min = &p_par->min;
   p_max = &p_par->max;
 
-  p_max->x = -FLT_MAX;
-  p_max->y = -FLT_MAX;
-  p_max->z = -FLT_MAX;
+  p_min->x = -FLT_MAX;
+  p_min->y = -FLT_MAX;
+  p_min->z = -FLT_MAX;
 
-  p_min->x = FLT_MAX;
-  p_min->y = FLT_MAX;
-  p_min->z = FLT_MAX;
+  p_max->x = FLT_MAX;
+  p_max->y = FLT_MAX;
+  p_max->z = FLT_MAX;
 
   p_par->pnum = 0;
 
@@ -946,7 +946,7 @@ int pe_updatuj_kour_stopa(G_KONFIG * p_ber, PARMETAC * p_mt)
 
       p_par->p = *p_hnizdo->p_pivot;
       {
-        VECT min(FLT_MAX), max(-FLT_MAX);
+        VECT min(-FLT_MAX), max(FLT_MAX);
         kd_bunka_min_max(&p_par->p, &min, &max);
       }
       
