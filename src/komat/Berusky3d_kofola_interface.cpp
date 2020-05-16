@@ -1033,7 +1033,7 @@ void kom_flek_zmen(FlekHandle fh, BOD * p_p, BOD * p_nx, BOD * p_nz, float dx,
   p_flek->p = *p_p;
 
   // Eliminate y-axis fighting
-  p_flek->p.y += 0.001;
+  p_flek->p.y += 0.02;
 
   p_flek->nx.x = p_nx->x * dx;
   p_flek->nx.y = p_nx->y * dx;
