@@ -39,4 +39,6 @@ void gl_Do_Krompac(float *pos, LEVELINFO * p_Level, int material);
 char gl_Check_Mesh_Sim(int iMesh);
 void gl_Logical2Real(int x, int y, int z, int *Real_Pos, LEVELINFO * p_Level);
 
+int gl_Screen_Shot(int i);
+
 #endif

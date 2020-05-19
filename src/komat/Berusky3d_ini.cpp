@@ -16,6 +16,7 @@
 
 #include "Object.h"
 #include "game_main.h"
+#include "game_logic.h"
 
 #include "Berusky_universal.h"
 #include "Berusky3d_castice.h"
@@ -36,6 +37,8 @@ dword start_debug;
 
 #define WINDOW_TITLE "Berusky 2"
 
+extern int bScreenshot;
+
 char ini_file[MAX_FILENAME] = "";
 bool create_user_data = TRUE;
 bool export_level = FALSE;
@@ -45,6 +48,14 @@ void flip(void)
 {
   AGE_MAIN *p_age = p_ber->p_age;
   GRAPH3D *p_grf = p_age->graph_get();
+
+  // Save a screenshot if requested. Do it here, because we need to
+  // save a screenshot if and only if we are about to update the
+  // screen.
+  if (bScreenshot) {
+    gl_Screen_Shot(0);
+    bScreenshot = 0;
+  }
 
   p_grf->flip();
 

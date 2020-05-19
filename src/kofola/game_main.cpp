@@ -2,6 +2,7 @@
 // version 0.0.2
 //------------------------------------------------------------------------------------------------
 #include <time.h>
+#include <signal.h>
 #include "compat_mini.h"
 #include "game_init.h"
 #include "game_logic.h"
@@ -35,9 +36,20 @@ extern PLAYER_PROFILE pPlayerProfile;
 extern AUDIO_DATA ad;
 extern int iActualScene;
 extern int iActualLevel;
+extern int bScreenshot;
 char bInMenu = 0;
+int bScreenshot = 0;
 
 char cFontDir[5][64];
+
+// Save a screenshot.
+void do_screenshot(int signal)
+{
+  // We can't call gl_Make_Screenshot directly, because it isn't
+  // async-signal-safe. So set a flag instead, and let flip() do the
+  // work.
+  bScreenshot = 1;
+}
 
 //------------------------------------------------------------------------------------------------
 // kostra behu hry
@@ -48,6 +60,15 @@ int winmain_Game_Run(char *p_Level_Name)
   int cpu;
   char bGame = strlen(p_Level_Name);
   char filename[MAX_FILENAME];
+  struct sigaction act;
+
+  // Save a screenshot on SIGUSR1.
+  act.sa_handler = do_screenshot;
+  sigemptyset(&(act.sa_mask));
+  act.sa_flags = 0;
+  // Errors should never occur.
+  if (sigaction(SIGUSR1, &act, NULL))
+    assert(0);
 
   ShowCursor(FALSE);
 
