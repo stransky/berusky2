@@ -11,9 +11,6 @@ src/kofola/3D_menus.cpp
 src/kofola/3D_menus.h
 src/kofola/3d_math.cpp
 src/kofola/3d_math.h
-src/kofola/Apak.cpp
-src/kofola/Apak.h
-src/kofola/Apakio.cpp
 src/kofola/Bind.cpp
 src/kofola/Bind.h
 src/kofola/Camera.cpp
@@ -36,10 +33,6 @@ src/kofola/Tools.cpp
 src/kofola/Tools.h
 src/kofola/animend_functions.cpp
 src/kofola/animend_functions.h
-src/kofola/apak_types.h
-src/kofola/apakdir.cpp
-src/kofola/apakfind.cpp
-src/kofola/apakstream.cpp
 src/kofola/camera.h
 src/kofola/codec.h
 src/kofola/config_types.h
