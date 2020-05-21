@@ -39,7 +39,6 @@ extern int iActualScene;
 extern B2_FONT b2_3d_font;
 extern char cFontDir[5][64];
 extern AUDIO_DATA ad;
-extern int iLanguageVersion;
 
 typedef struct
 {
@@ -2297,7 +2296,6 @@ int DrawHelp(int iBmp, int iSurface, int *iHelpIndex)
 {
   int y, ty;
   RECT rect = { 10, 0, 776, 1000 };
-  int lid = GetPrivateProfileInt("files", "languageid", 0, ini_file);
 
   if (iSurface == -1)
     return 0;
@@ -2478,10 +2476,7 @@ int DrawHelp(int iBmp, int iSurface, int *iHelpIndex)
     co2_Set_Text_Formated_Rect(iSurface, rect.left, y, "##help_lift_weight_h",
     0, &rect);
 
-  if (lid == 2 || lid == 4)
-    y = ty;
-  else
-    y += 50;
+  y += 50;
 
   //VYTAH NA TLACITKO /////////////////////////////////////////////////////////////////////////////////////////////////
   iHelpIndex[14] = y;
@@ -3914,23 +3909,9 @@ void RunMenuLoadScreen2(void)
 
   if (iActualScene < 13) {
     char text[256];
-    char cDir[MAX_FILENAME];
 
     sprintf(text, "scene%d.bmp", iActualScene);
-
-    if (iLanguageVersion == 4) {
-      if (snprintf(cDir, sizeof(cDir), "%s%cscene%d",
-		   BITMAP_DIR, DIR_SLASH, iActualScene) >=
-	  (int) sizeof(cDir)) {
-	kprintf(1, "Filename too long: %s%cscene%d",
-		BITMAP_DIR, DIR_SLASH, iActualScene);
-	return;
-      }
-
-      iLoadScreenBitmap = ddx2LoadBitmap(text, cDir);
-    }
-    else
-      iLoadScreenBitmap = ddx2LoadBitmap(text, pBmpDir);
+    iLoadScreenBitmap = ddx2LoadBitmap(text, pBmpDir);
   }
   else
     iLoadScreenBitmap = ddx2LoadBitmap("LoadScreen.bmp", pBmpDir);

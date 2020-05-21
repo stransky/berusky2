@@ -28,7 +28,6 @@ char pGDataDir[MAX_FILENAME] = { 0 };
 
 char CurrentWorkingDirectory[MAX_FILENAME];
 int bWindowMenu;
-int iLanguageVersion;
 
 extern int iWinVer;
 extern HINT_TEXTURE pHintTexture[26];
@@ -99,9 +98,6 @@ int winmain_Game_Run(char *p_Level_Name)
 
   GetPrivateProfileString("files", "font_dir5", "/", cFontDir[4], 64, ini_file);
   kprintf(1, "font_dir5 = %s", cFontDir[4]);
-
-  iLanguageVersion = GetPrivateProfileInt("files", "languageid", 0, ini_file);
-  kprintf(1, "Language ID = %d", iLanguageVersion);
 
   construct_path(pControlsDir, MAX_FILENAME, 2, p_ber->dir.bitmap_dir, "controls");
 

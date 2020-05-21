@@ -17,7 +17,6 @@
 extern PLAYER_PROFILE pPlayerProfile;
 extern int iActualLevel;
 extern int iActualScene;
-extern int iLanguageVersion;
 
 void demo_Set_Scene_Level(char *cDemo, int *pScene, int *pLevel)
 {
@@ -93,13 +92,6 @@ int demo_Check_Owner(WCHAR * wPlayer, char *cDemo, WCHAR * wDemoName)
   if(wcscmp(wPlayer, FileHeader.cPlayerName))
     return 0;
   else {
-    if(iLanguageVersion == 4) {
-      sprintf(text, "scene%d", FileHeader.iScene);
-		
-      if(!GetPrivateProfileInt("Internet", text, 0, ini_file))
-	return 0;
-    }
-
     wcscpy(wDemoName, FileHeader.cFileName);
     return 1;
   }

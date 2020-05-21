@@ -46,7 +46,6 @@ extern char pDataDir[MAX_FILENAME];
 extern PLAYER_PROFILE pPlayerProfile;
 extern HINT_TEXTURE pHintTexture[26];
 extern char cFontDir[5][64];
-extern int iLanguageVersion;
 
 typedef struct __2D_HINT
 {
@@ -2023,21 +2022,8 @@ void RunStretchAnimation(char *cScene, int x, int y, AUDIO_DATA * p_ad)
   int idx;
   RECT r;
   RECT s = {0, 0, 1024, 768};
-  char cDir[MAX_FILENAME];
 
-  if (iLanguageVersion == 4) {
-    if (snprintf(cDir, sizeof(cDir), "%s%cscene%d",
-		 BITMAP_DIR, DIR_SLASH, iActualScene) >=
-	(int) sizeof(cDir)) {
-      kprintf(1, "Filename too long: %s%cscene%d",
-	      BITMAP_DIR, DIR_SLASH, iActualScene);
-      return;
-    }
-
-    idx = ddxLoadBitmap(cScene, cDir);
-  }
-  else
-    idx = ddxLoadBitmap(cScene, pBmpDir);
+  idx = ddxLoadBitmap(cScene, pBmpDir);
 
   if (idx < 0)
     return;
@@ -2452,8 +2438,6 @@ BEGIN_MENU_NEWGAMESCENE:
               }
             }
             else if (lastabv == i) {
-            LEAVE_ANIMATION:
-
               // odesel z oblasti, ktera byla aktivni -> stop animace                                 
               // a odznaceni oblasti
               Stop(&res[i]);
@@ -2550,147 +2534,75 @@ BEGIN_MENU_NEWGAMESCENE:
         }
 
         if (!strcmp(res[resid].cParam[1], "SCENE1")) {
-          if (iLanguageVersion == 4 && !CheckScenePresence(1)) {
-            RunMenuCibron("buy.bmp");
-            click = 0;
-            i = lastabv;
-            goto LEAVE_ANIMATION;
-          }
-          else {
-            iActualScene = 1;
-            RunStretchAnimation("scene1_map.bmp", 0, 129, p_ad);
-            RunMenuSceneMap("Mmnew_game_scene1_map.txt", NULL, p_ad, cpu,
-              "scene1_map.bmp", "scene1_anim", 1, 0, 11, "scene1_levels.txt",
-              919, 677, 0, NULL, 0, 713, 679);
-          }
+          iActualScene = 1;
+          RunStretchAnimation("scene1_map.bmp", 0, 129, p_ad);
+          RunMenuSceneMap("Mmnew_game_scene1_map.txt", NULL, p_ad, cpu,
+            "scene1_map.bmp", "scene1_anim", 1, 0, 11, "scene1_levels.txt",
+            919, 677, 0, NULL, 0, 713, 679);
         }
 
         if (!strcmp(res[resid].cParam[1], "SCENE2")) {
-          if (iLanguageVersion == 4 && !CheckScenePresence(2)) {
-            RunMenuCibron("buy.bmp");
-            click = 0;
-            i = lastabv;
-            goto LEAVE_ANIMATION;
-          }
-          else {
-            iActualScene = 2;
-            RunStretchAnimation("scene2_map.bmp", 215, 0, p_ad);
-            RunMenuSceneMap("Mmnew_game_scene2_map.txt", NULL, p_ad, cpu,
-              "scene2_map.bmp", "scene2_anim", 2, 11, 10, "scene2_levels.txt",
-              916, 8, 0, NULL, 0, 971, 703);
-          }
+          iActualScene = 2;
+          RunStretchAnimation("scene2_map.bmp", 215, 0, p_ad);
+          RunMenuSceneMap("Mmnew_game_scene2_map.txt", NULL, p_ad, cpu,
+            "scene2_map.bmp", "scene2_anim", 2, 11, 10, "scene2_levels.txt",
+            916, 8, 0, NULL, 0, 971, 703);
         }
 
         if (!strcmp(res[resid].cParam[1], "SCENE3")) {
-          if (iLanguageVersion == 4 && !CheckScenePresence(3)) {
-            RunMenuCibron("buy.bmp");
-            click = 0;
-            i = lastabv;
-            goto LEAVE_ANIMATION;
-          }
-          else {
-            iActualScene = 3;
-            RunStretchAnimation("scene3_map.bmp", 177, 248, p_ad);
-            RunMenuSceneMap("Mmnew_game_scene3_map.txt", NULL, p_ad, cpu,
-              "scene3_map.bmp", "scene3_anim", 3, 21, 12, "scene3_levels.txt",
-              918, 7, 0, NULL, 0, 973, 413);
-          }
+          iActualScene = 3;
+          RunStretchAnimation("scene3_map.bmp", 177, 248, p_ad);
+          RunMenuSceneMap("Mmnew_game_scene3_map.txt", NULL, p_ad, cpu,
+            "scene3_map.bmp", "scene3_anim", 3, 21, 12, "scene3_levels.txt",
+            918, 7, 0, NULL, 0, 973, 413);
         }
 
         if (!strcmp(res[resid].cParam[1], "SCENE4")) {
-          if (iLanguageVersion == 4 && !CheckScenePresence(4)) {
-            RunMenuCibron("buy.bmp");
-            click = 0;
-            i = lastabv;
-            goto LEAVE_ANIMATION;
-          }
-          else {
-            iActualScene = 4;
-            RunStretchAnimation("scene4_map.bmp", 444, 64, p_ad);
-            RunMenuSceneMap("Mmnew_game_scene4_map.txt", NULL, p_ad, cpu,
-              "scene4_map.bmp", "scene4_anim", 4, 33, 10, "scene4_levels.txt",
-              197, 9, 0, NULL, 0, 8, 16);
-          }
+          iActualScene = 4;
+          RunStretchAnimation("scene4_map.bmp", 444, 64, p_ad);
+          RunMenuSceneMap("Mmnew_game_scene4_map.txt", NULL, p_ad, cpu,
+            "scene4_map.bmp", "scene4_anim", 4, 33, 10, "scene4_levels.txt",
+            197, 9, 0, NULL, 0, 8, 16);
         }
 
         if (!strcmp(res[resid].cParam[1], "SCENE5")) {
-          if (iLanguageVersion == 4 && !CheckScenePresence(5)) {
-            RunMenuCibron("buy.bmp");
-            click = 0;
-            i = lastabv;
-            goto LEAVE_ANIMATION;
-          }
-          else {
-            iActualScene = 5;
-            RunStretchAnimation("scene5_map.bmp", 465, 386, p_ad);
-            RunMenuSceneMap("Mmnew_game_scene5_map.txt", NULL, p_ad, cpu,
-              "scene5_map.bmp", "scene5_anim", 5, 43, 10, "scene5_levels.txt",
-              918, 9, 0, NULL, 0, 976, 309);
-          }
+          iActualScene = 5;
+          RunStretchAnimation("scene5_map.bmp", 465, 386, p_ad);
+          RunMenuSceneMap("Mmnew_game_scene5_map.txt", NULL, p_ad, cpu,
+            "scene5_map.bmp", "scene5_anim", 5, 43, 10, "scene5_levels.txt",
+            918, 9, 0, NULL, 0, 976, 309);
         }
 
         if (!strcmp(res[resid].cParam[1], "SCENE6")) {
-          if (iLanguageVersion == 4 && !CheckScenePresence(6)) {
-            RunMenuCibron("buy.bmp");
-            click = 0;
-            i = lastabv;
-            goto LEAVE_ANIMATION;
-          }
-          else {
-            iActualScene = 6;
-            RunStretchAnimation("scene6_map.bmp", 37, 495, p_ad);
-            RunMenuSceneMap("Mmnew_game_scene6_map.txt", NULL, p_ad, cpu,
-              "scene6_map.bmp", "scene6_anim", 6, 53, 10, "scene6_levels.txt",
-              920, 8, 0, NULL, 0, 967, 211);
-          }
+          iActualScene = 6;
+          RunStretchAnimation("scene6_map.bmp", 37, 495, p_ad);
+          RunMenuSceneMap("Mmnew_game_scene6_map.txt", NULL, p_ad, cpu,
+            "scene6_map.bmp", "scene6_anim", 6, 53, 10, "scene6_levels.txt",
+            920, 8, 0, NULL, 0, 967, 211);
         }
 
         if (!strcmp(res[resid].cParam[1], "SCENE7")) {
-          if (iLanguageVersion == 4 && !CheckScenePresence(7)) {
-            RunMenuCibron("buy.bmp");
-            click = 0;
-            i = lastabv;
-            goto LEAVE_ANIMATION;
-          }
-          else {
-            iActualScene = 7;
-            RunStretchAnimation("scene7_map.bmp", 616, 638, p_ad);
-            RunMenuSceneMap("Mmnew_game_scene7_map.txt", NULL, p_ad, cpu,
-              "scene7_map.bmp", "scene7_anim", 7, 63, 10, "scene7_levels.txt",
-              11, 6, 0, NULL, 0, 8, 279);
-          }
+          iActualScene = 7;
+          RunStretchAnimation("scene7_map.bmp", 616, 638, p_ad);
+          RunMenuSceneMap("Mmnew_game_scene7_map.txt", NULL, p_ad, cpu,
+            "scene7_map.bmp", "scene7_anim", 7, 63, 10, "scene7_levels.txt",
+            11, 6, 0, NULL, 0, 8, 279);
         }
 
         if (!strcmp(res[resid].cParam[1], "SCENE8")) {
-          if (iLanguageVersion == 4 && !CheckScenePresence(8)) {
-            RunMenuCibron("buy.bmp");
-            click = 0;
-            i = lastabv;
-            goto LEAVE_ANIMATION;
-          }
-          else {
-            iActualScene = 8;
-            RunStretchAnimation("scene8_map.bmp", 836, 469, p_ad);
-            RunMenuSceneMap("Mmnew_game_scene8_map.txt", NULL, p_ad, cpu,
-              "scene8_map.bmp", "scene8_anim", 8, 73, 12, "scene8_levels.txt",
-              15, 677, 0, NULL, 0, 12, 490);
-          }
+          iActualScene = 8;
+          RunStretchAnimation("scene8_map.bmp", 836, 469, p_ad);
+          RunMenuSceneMap("Mmnew_game_scene8_map.txt", NULL, p_ad, cpu,
+            "scene8_map.bmp", "scene8_anim", 8, 73, 12, "scene8_levels.txt",
+            15, 677, 0, NULL, 0, 12, 490);
         }
 
         if (!strcmp(res[resid].cParam[1], "SCENE9")) {
-          if (iLanguageVersion == 4 && !CheckScenePresence(9)) {
-            RunMenuCibron("buy.bmp");
-            click = 0;
-            i = lastabv;
-            goto LEAVE_ANIMATION;
-          }
-          else {
-            iActualScene = 9;
-            RunStretchAnimation("scene9_map.bmp", 836, 49, p_ad);
-            RunMenuSceneMap("Mmnew_game_scene9_map.txt", NULL, p_ad, cpu,
-              "scene9_map.bmp", "scene9_anim", 9, 85, 10, "scene9_levels.txt",
-              918, 7, 0, NULL, 0, 971, 338);
-          }
+          iActualScene = 9;
+          RunStretchAnimation("scene9_map.bmp", 836, 49, p_ad);
+          RunMenuSceneMap("Mmnew_game_scene9_map.txt", NULL, p_ad, cpu,
+            "scene9_map.bmp", "scene9_anim", 9, 85, 10, "scene9_levels.txt",
+            918, 7, 0, NULL, 0, 971, 338);
         }
 
         resid = -1;
@@ -2776,33 +2688,13 @@ void LoadSceneMap(int *pBmp, char *cSceneBmp, char *cSceneAnim, int iScene,
 {
   int i;
   char text[MAX_FILENAME];
-  char cDir[MAX_FILENAME];
 
-  if (iLanguageVersion == 4) {
-    if (snprintf(cDir, sizeof(cDir), "%s%cscene%d",
-		 BITMAP_DIR, DIR_SLASH, iActualScene) >=
-	(int) sizeof(cDir)) {
-      kprintf(1, "Filename too long: %s%cscene%d",
-	      BITMAP_DIR, DIR_SLASH, iActualScene);
-      return;
-    }
+  pBmp[0] = ddxLoadBitmap(cSceneBmp, pBmpDir);
 
-    pBmp[0] = ddxLoadBitmap(cSceneBmp, cDir);
-
-    for (i = 1; i < 6; i++) {
-      sprintf(text, "%s%d.bmp", cSceneAnim, i);
-      pBmp[i] = ddxLoadBitmap(text, cDir);
-      DrawClock(iClock, i);
-    }
-  }
-  else {
-    pBmp[0] = ddxLoadBitmap(cSceneBmp, pBmpDir);
-
-    for (i = 1; i < 6; i++) {
-      sprintf(text, "%s%d.bmp", cSceneAnim, i);
-      pBmp[i] = ddxLoadBitmap(text, pBmpDir);
-      DrawClock(iClock, i);
-    }
+  for (i = 1; i < 6; i++) {
+    sprintf(text, "%s%d.bmp", cSceneAnim, i);
+    pBmp[i] = ddxLoadBitmap(text, pBmpDir);
+    DrawClock(iClock, i);
   }
 
   switch (iScene) {
@@ -4426,13 +4318,6 @@ int check_Save_Owner(char *cDir, WCHAR * wFileName)
 
   if (wcscmp(pPlayerProfile.cName, pProfile.cName))
     return 0;
-
-  if (iLanguageVersion == 4) {
-    sprintf(dir, "scene%d", l_h.rezerved[1]);
-
-    if (!GetPrivateProfileInt("Internet", dir, 0, ini_file))
-      return 0;
-  }
 
   return 1;
 }
@@ -6358,19 +6243,11 @@ BEGIN_MENU:
         }
 
         if (!strcmp(res[resid].cParam[1], "CREDITS")) {
-          int lid = GetPrivateProfileInt("files", "languageid", 0, ini_file);
-
           StopAll();
           bStop = 1;
 
-          if (lid < 2 || lid == 4) {
-            if (cr_Credits(NULL, p_ad))
-              goto RUN_MENU_BRUTAL_RESTART;
-          }
-          else {
-            if (cr_CreditsUNI(NULL, p_ad))
-              goto RUN_MENU_BRUTAL_RESTART;
-          }
+          if (cr_Credits(NULL, p_ad))
+            goto RUN_MENU_BRUTAL_RESTART;
         }
 
         if (!strcmp(res[resid].cParam[1], "NEW_GAME")) {
@@ -6789,52 +6666,34 @@ BEGIN_MENU_CHILDNEWGAME:
         }
 
         if (!strcmp(res[resid].cParam[1], "EASY")) {
-          if (iLanguageVersion == 4 && !CheckScenePresence(10)) {
-            RunMenuCibron("buy.bmp");
-            click = 0;
-          }
-          else {
-            StopAll();
-            bBackDC = 0;
-            iActualScene = 10;
+          StopAll();
+          bBackDC = 0;
+          iActualScene = 10;
 
-            RunMenuNewGameScene("Mmnew_game_scene.txt", NULL, p_ad, cpu, 0, NULL, 0);
-            key[K_ESC] = 1;
-          }
+          RunMenuNewGameScene("Mmnew_game_scene.txt", NULL, p_ad, cpu, 0, NULL, 0);
+          key[K_ESC] = 1;
         }
 
         if (!strcmp(res[resid].cParam[1], "NORMAL")) {
-          if (iLanguageVersion == 4 && !CheckScenePresence(11)) {
-            RunMenuCibron("buy.bmp");
-            click = 0;
-          }
-          else {
-            StopAll();
-            bBackDC = 0;
-            iActualScene = 11;
+          StopAll();
+          bBackDC = 0;
+          iActualScene = 11;
 
-            RunMenuNewGameScene("Mmnew_game_scene.txt", NULL, p_ad, cpu, 0,
-              NULL, 0);
+          RunMenuNewGameScene("Mmnew_game_scene.txt", NULL, p_ad, cpu, 0,
+                              NULL, 0);
 
-            key[K_ESC] = 1;
-          }
+          key[K_ESC] = 1;
         }
 
         if (!strcmp(res[resid].cParam[1], "HARD")) {
-          if (iLanguageVersion == 4 && !CheckScenePresence(12)) {
-            RunMenuCibron("buy.bmp");
-            click = 0;
-          }
-          else {
-            StopAll();
-            bBackDC = 0;
-            iActualScene = 12;
+          StopAll();
+          bBackDC = 0;
+          iActualScene = 12;
 
-            RunMenuNewGameScene("Mmnew_game_scene.txt", NULL, p_ad, cpu, 0,
-              NULL, 0);
+          RunMenuNewGameScene("Mmnew_game_scene.txt", NULL, p_ad, cpu, 0,
+                              NULL, 0);
 
-            key[K_ESC] = 1;
-          }
+          key[K_ESC] = 1;
         }
 
         if (!cRestartMainMenu)
@@ -7884,17 +7743,6 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
   int lidx = -1;
   int bmp[64];
   int i;
-  char cDir[MAX_FILENAME];
-
-  if (iLanguageVersion == 4) {
-    if (snprintf(cDir, sizeof(cDir), "%s%cscene%d",
-		 BITMAP_DIR, DIR_SLASH, iActualScene) >=
-	(int) sizeof(cDir)) {
-      kprintf(1, "Filename too long: %s%cscene%d",
-	      BITMAP_DIR, DIR_SLASH, iActualScene);
-      return 0;
-    }
-  }
 
   cCheckMusicExeption = 1;
 
@@ -7929,10 +7777,7 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
 
   sprintf(ccomix, "comix%d.txt", iScene);
 
-  if (iLanguageVersion == 4)
-    LoadCList(ccomix, &bmpc, bmp, &iClock, cDir);
-  else
-    LoadCList(ccomix, &bmpc, bmp, &iClock, pBmpDir);
+  LoadCList(ccomix, &bmpc, bmp, &iClock, pBmpDir);
 
   DrawClock(&iClock, 0);
   ddxSetCursor(0);
