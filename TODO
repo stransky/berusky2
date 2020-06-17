@@ -85,8 +85,6 @@ Web:
 - transform settings from setup to text config
 - split ini file
 
-- crash at level20.lv6 (Adam)
-
 - per-pixel lighting
 - textures are not sharp
 - better camera (automatic?)
@@ -95,6 +93,9 @@ Web:
 - in-game menu - to menu je nejake hnusne?
 - defaultne je vypla/zakazana hudba/zvuky?
 - defaultni klavesy sou tragedie!! (delam novy profil) 
+
+- fix water ripples
+- fix fog effects on dynamic elements
 
 -D_DEBUG -Wall -Wno-write-strings -Wsign-conversion
 
