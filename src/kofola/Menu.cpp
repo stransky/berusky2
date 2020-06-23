@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
+#include "config.h"
 #include "3d_all.h"
 #include "Berusky3d_kofola_interface.h"
 #include "game_logic.h"
@@ -5851,16 +5852,8 @@ void RunMenuCinemax(void)
 
 void RunMenuDrawVersion(int iSurface)
 {
-  char text[MAX_FILENAME];
-
-  sprintf(text, "v%d.%d", VERZEHI, VERZELO);
-
-  //co_Set_Text_RightWC(HDC2DD, text, 1, 990, 318);
-  co_Set_Text_RightWC(HDC2DD, text, 0, 1024, 0);
-  //co_Set_Text(HDC2DD, 280, 0, "##sale", 0);
-
-  co_Set_Text_RightWC(iSurface, text, 0, 1024, 0);
-  //co_Set_Text(iSurface, 280, 0, "##sale", 0);
+  co_Set_Text_RightWC(HDC2DD, VERSION, 0, 1024, 0);
+  co_Set_Text_RightWC(iSurface, VERSION, 0, 1024, 0);
 }
 
 void RunMenuDrawDemoEndScreen(void)

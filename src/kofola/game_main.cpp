@@ -7,6 +7,7 @@
 #include "game_init.h"
 #include "game_logic.h"
 #include <math.h>
+#include "config.h"
 #include "3d_all.h"
 #include "Berusky3d_kofola_interface.h"
 #include "2D_graphic.h"
@@ -73,7 +74,7 @@ int winmain_Game_Run(char *p_Level_Name)
 
   cpu = sizeof(AUDIO_DATA);
 
-  kprintf(1, "Kofola - verze zdrojaku: MASTER %d.%d", VERZEHI, VERZELO);
+  kprintf(1, "Kofola - verze zdrojaku: MASTER %s", VERSION);
 
   gi_Set_Win_Version();
   if (getcwd(CurrentWorkingDirectory, MAX_FILENAME) == NULL)

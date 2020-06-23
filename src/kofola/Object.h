@@ -14,8 +14,6 @@
 #include "camera.h"
 
 #define _3DKOREKCE 40
-#define VERZELO 5
-#define VERZEHI 1
 
 
 #define SAVE_VER	2
