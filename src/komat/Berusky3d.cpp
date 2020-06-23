@@ -169,7 +169,7 @@ void ber_rekonfiguruj_3D_aplikuj(G_KONFIG * p_ber)
 // taky float lok-up tabulka !!!
 void ber_konfiguruj_berusky(G_KONFIG * p_ber)
 {
-  char pom[200];
+  char pom[MAX_FILENAME];
   int i;
 
   p_ber->conf_barva_pozadi = 0xff000000;
@@ -241,17 +241,57 @@ void ber_konfiguruj_berusky(G_KONFIG * p_ber)
   root_dir_attach(p_ber->tdir.texture_dir[0], p_ber->dir.game_root_dir);
 
   for (i = 0; i < TEXT_DIRS; i++) {
-    sprintf(pom, "texture_dir%d", i);
-    GetPrivateProfileString("files", pom, "", p_ber->tdir.texture_dir[i],  MAX_FILENAME, ini_file);
+    char old[200];
+    int old_class;
+
+    snprintf(pom, sizeof(pom), "texture_dir%d", i);
+    snprintf(old, sizeof(old), "texture_file%d", i);
+    get_dir_from_pak("files", pom, old, "",
+                     p_ber->tdir.texture_dir[i],
+                     MAX_FILENAME, ini_file);
+
     working_file_translate(p_ber->tdir.texture_dir[i], MAX_FILENAME);
     root_dir_attach(p_ber->tdir.texture_dir[i], p_ber->dir.game_root_dir);
 
     if (p_ber->tdir.texture_dir[i][0] == '.' && !p_ber->tdir.texture_dir[i][1])
       p_ber->tdir.texture_dir[i][0] = 0;
 
-    sprintf(pom, "texture_dir%d_class", i);
-    p_ber->tdir.texture_dir_class[i] = GetPrivateProfileInt("files", pom, 0, ini_file);
+    snprintf(pom, sizeof(pom), "texture_dir%d_class", i);
+    p_ber->tdir.texture_dir_class[i] =
+      GetPrivateProfileInt("files", pom, 0, ini_file);
+
+    // Compatibility with old INI files.
+    snprintf(old, sizeof(old), "texture_file%d_class", i);
+    old_class = GetPrivateProfileInt("files", old, 0, ini_file);
+    if (!p_ber->tdir.texture_dir_class[i]) {
+      p_ber->tdir.texture_dir_class[i] = old_class;
+      if (p_ber->tdir.texture_dir_class[i]) {
+        char value[200];
+        snprintf(value, sizeof(value), "%d",
+                 p_ber->tdir.texture_dir_class[i]);
+        WritePrivateProfileString("files", pom, value, ini_file);
+        WritePrivateProfileString("files", old, NULL, ini_file);
+        kprintf(TRUE, "Replaced %s=%s with %s=%s",
+                old, value, pom, value);
+      }
+    }
+    else {
+      // We were able to get the new setting; now delete the old one
+      // if it's the same.
+      if (p_ber->tdir.texture_dir_class[i] == old_class)
+        WritePrivateProfileString("files", old, NULL, ini_file);
+    }
   }
+
+  // 'data_pak' is no longer used, and there is no corresponding
+  // 'data_dir'. (Well, there is a 'data_dir', but that's for
+  // something else). So just remove 'data_pak' from the INI file if
+  // it exists. However, only remove it if it's equal to "data.pak",
+  // because otherwise the user has changed it and might want to
+  // remember that setting.
+  GetPrivateProfileString("files", "data_pak", "", pom, sizeof(pom), ini_file);
+  if (!strcmp(pom, "data.pak"))
+    WritePrivateProfileString("files", "data_pak", NULL, ini_file);
 
 	GetPrivateProfileString("soundengine","sound_dir","/",p_ber->dir.sound_dir,MAX_FILENAME,ini_file);
   working_file_translate(p_ber->dir.sound_dir,MAX_FILENAME);

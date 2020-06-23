@@ -208,14 +208,18 @@ int ini_write_string_section(FFILE f_in, FFILE f_out, const char *p_section,
 
   if(found) {
     file_copy(f_in, f_out, file_start);
-    fprintf(f_out,"%s=%s\n",p_template, p_value);
+    // If 'p_value' is NULL, delete it.
+    if (p_value)
+      fprintf(f_out,"%s=%s\n",p_template, p_value);
     fseek(f_in, file_end, SEEK_SET);
     file_copy(f_in, f_out);
   }
   else {
     file_copy(f_in, f_out);
-    fprintf(f_out,"\n[%s]\n",p_section);
-    fprintf(f_out,"%s=%s\n",p_template, p_value);
+    if (p_value) {
+      fprintf(f_out,"\n[%s]\n",p_section);
+      fprintf(f_out,"%s=%s\n",p_template, p_value);
+    }
   }
 
   return(TRUE);

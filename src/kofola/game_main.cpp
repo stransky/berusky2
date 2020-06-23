@@ -19,6 +19,7 @@
 #include "profiles.h"
 #include "Menu.h"
 #include "Menu2.h"
+#include "utils.h"
 
 char pBmpDir[MAX_FILENAME] = { 0 };
 char pControlsDir[MAX_FILENAME] = { 0 };
@@ -82,34 +83,28 @@ int winmain_Game_Run(char *p_Level_Name)
 
   srand((unsigned) time(NULL));
 
+  get_dir_from_pak("files", "bitmap_subdir", "bitmap_pak",
+                   "/", filename, MAX_FILENAME, ini_file);
   GetPrivateProfileString("files", "bitmap_subdir", "/", filename, MAX_FILENAME, ini_file);
   construct_path(pBmpDir, MAX_FILENAME, 2, p_ber->dir.bitmap_dir, filename);
 
-  GetPrivateProfileString("files", "font_dir1", "/", cFontDir[0], 64, ini_file);
-  kprintf(1, "font_dir1 = %s", cFontDir[0]);
-
-  GetPrivateProfileString("files", "font_dir2", "/", cFontDir[1], 64, ini_file);
-  kprintf(1, "font_dir2 = %s", cFontDir[1]);
-
-  GetPrivateProfileString("files", "font_dir3", "/", cFontDir[2], 64, ini_file);
-  kprintf(1, "font_dir3 = %s", cFontDir[2]);
-
-  GetPrivateProfileString("files", "font_dir4", "/", cFontDir[3], 64, ini_file);
-  kprintf(1, "font_dir4 = %s", cFontDir[3]);
-
-  GetPrivateProfileString("files", "font_dir5", "/", cFontDir[4], 64, ini_file);
-  kprintf(1, "font_dir5 = %s", cFontDir[4]);
+  for (int i = 0; i < 5; i++) {
+    char dir[64], pak[64];
+    snprintf(dir, sizeof(dir), "font_dir%d", i + 1);
+    snprintf(pak, sizeof(pak), "font_pak%d", i + 1);
+    get_dir_from_pak("files", dir, pak, "/", cFontDir[i], 64, ini_file);
+    kprintf(1, "font_dir%d = %s", i + 1, cFontDir[i]);
+  }
 
   construct_path(pControlsDir, MAX_FILENAME, 2, p_ber->dir.bitmap_dir, "controls");
 
   construct_path(pSndDir, MAX_FILENAME, 2, p_ber->dir.sound_dir, "sound");
 
-  GetPrivateProfileString("files", "3dmenu_dir", "/", filename, MAX_FILENAME, ini_file);
+  get_dir_from_pak("files", "3dmenu_dir", "3dmenu_pak",
+                   "/", filename, MAX_FILENAME, ini_file);
   construct_path(p3DMDir, MAX_FILENAME, 2, p_ber->dir.bitmap_dir, filename);
 
-  GetPrivateProfileString("files", "data_subdir", "/", filename, MAX_FILENAME, ini_file);
-  construct_path(pDataDir, MAX_FILENAME, 2, p_ber->dir.data_dir, filename);
-
+  strncpy(pDataDir, p_ber->dir.data_dir, MAX_FILENAME);
   strncpy(pGDataDir, p_ber->dir.game_data_dir, MAX_FILENAME);
 
 	gi_Init_Sound_Engine(&ad);

@@ -37,6 +37,10 @@
 #include "utils.h"
 #include "ini.h"
 #include "mem_alloc.h"
+#include "3d_all.h"
+
+// We want to use the FFILE defined in utils.h, not zlib_io.h.
+#undef FFILE
 
 /*
  * Utility
@@ -216,6 +220,64 @@ char * return_file(const char *p_path, char *p_buffer, int max_lenght)
   }
   strncpy(p_buffer, p_tmp, max_lenght-1);
   return(p_buffer);
+}
+
+// Get a new setting (e.g. "texture_dir0") or, failing that, guess the
+// value from the old setting (e.g. "texture_file0").
+void get_dir_from_pak(const char *section,
+  const char *new_key, const char *old_key, const char *default_value,
+  char *out, size_t out_len, const char *ini_file)
+{
+  char old[MAX_FILENAME];
+  size_t old_len;
+
+  // Get the old and new settings.
+  GetPrivateProfileString(section, new_key, "",
+                          out, out_len, ini_file);
+  GetPrivateProfileString(section, old_key, "",
+                          old, MAX_FILENAME, ini_file);
+  old_len = strlen(old);
+  if (old_len > 4 && !strcmp(old + old_len - 4, ".pak"))
+    old_len -= 4;
+  else
+    old_len = 0;
+  old[old_len] = '\0';
+
+  if (*out) {
+    // We were able to get the new setting. Remove the old one if it's
+    // the same as the new one except with a .pak extension.
+    if (old_len && !strcmp(out, old))
+      WritePrivateProfileString(section, old_key, NULL, ini_file);
+    return;
+  }
+
+  // The new setting does not exist, so use the old one.
+  if (!*old) {
+    // The old setting does not exist either; use the default.
+    strncpy(out, default_value, out_len);
+    return;
+  }
+
+  if (!old_len) {
+    // The old setting didn't have a .pak extension. There's not much
+    // we can do in this case, so just print a warning and use the
+    // default.
+    kwarning(TRUE, "Cannot guess %s from %s=%s",
+             new_key, old_key, old);
+    strncpy(out, default_value, out_len);
+    return;
+  }
+
+
+  // Now use the old setting without the .pak extension as the new
+  // setting.
+  strncpy(out, old, out_len);
+
+  // Write the new setting to the INI file and delete the old one.
+  WritePrivateProfileString(section, new_key, out, ini_file);
+  WritePrivateProfileString(section, old_key, NULL, ini_file);
+  kprintf(TRUE, "Replaced %s=%s.pak with %s=%s",
+          old_key, out, new_key, out);
 }
 
 /*----------------------------------------------------------------------------
