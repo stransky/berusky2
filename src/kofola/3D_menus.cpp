@@ -1480,7 +1480,7 @@ void _3d_Obsluha_Game_Menu(char *bCursor, int *Cursor_Time_Out,
 
 void _3d_Start_Settings(void)
 {  
-  ddxLoadBitmap("settings.bmp", pBmpDir);
+  ddxLoadBitmap("settings.png", pBmpDir);
 }
 
 int _3d_BackPack2Hint(int idx)
@@ -1687,7 +1687,7 @@ void _3d_Nahraj_Kuk(void)
 {
   txt_trida(TEXT_MENU);
   kom_set_default_text_config(0, 0, 1, 0, 0, 1);
-  txt_nahraj_texturu_z_func(p3DMDir, "brouk1.bmp", &sKuk.text, 0, 1, NULL, bmp_nahraj);
+  txt_nahraj_texturu_z_func(p3DMDir, "brouk1.png", &sKuk.text, 0, 1, NULL, bmp_nahraj);
   kom_ret_default_text_config();
 }
 

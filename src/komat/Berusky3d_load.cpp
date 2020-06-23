@@ -427,7 +427,7 @@ int ber_mat_vloz_dot3(EDIT_TEXT * p_text, int textnum, EDIT_MATERIAL * p_mat)
   return (TRUE);
 }
 
-#define BUMP_ENV_TEXT "bumpflare.bmp"
+#define BUMP_ENV_TEXT "bumpflare.png"
 
 int ber_mat_vloz_dot3_env(EDIT_TEXT * p_text, int textnum,
   EDIT_MATERIAL * p_mat)
@@ -806,7 +806,7 @@ void ber_nahraj_lightmap(G_KONFIG * p_ber, char *p_jmeno, char *p_dir)
         assert(i >= 0 && i < MAX_RAY_TEXTUR);
         ret = snprintf(p_ber->p_lightmap[i].jmeno,
 		       sizeof(p_ber->p_lightmap[i].jmeno),
-		       "%s_lp%.3d.bmp", pom, i);
+		       "%s_lp%.3d.png", pom, i);
 	assert(ret < (int) sizeof(p_ber->p_lightmap[i].jmeno));
         kprintf(TRUE, "Lightmap %s...", p_ber->p_lightmap[i].jmeno);
         r = txt_nahraj_lightmapu_z_bmp(NULL, f, p_ber->p_lightmap + i, TRUE);
@@ -820,7 +820,7 @@ void ber_nahraj_lightmap(G_KONFIG * p_ber, char *p_jmeno, char *p_dir)
     for (i = 0; i < MAX_RAY_TEXTUR; i++) {
       ret = snprintf(p_ber->p_lightmap[i].jmeno,
 		     sizeof(p_ber->p_lightmap[i].jmeno),
-		     "%s\\%s_lp%.3d.bmp", p_dir, pom, i);
+		     "%s\\%s_lp%.3d.png", p_dir, pom, i);
       assert(ret < (int) sizeof(p_ber->p_lightmap[i].jmeno));
       if (efile(p_ber->p_lightmap[i].jmeno)) {
         kprintf(TRUE, "Lightmap %s...", p_ber->p_lightmap[i].jmeno);

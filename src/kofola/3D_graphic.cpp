@@ -148,7 +148,7 @@ void _3d_Get_Cursor_Name(char *cName)
   GetPrivateProfileString("game", "cursor", "cursor", filename, 32, ini_file);
 
   strcpy(cName, filename);
-  strcat(cName, ".bmp");
+  strcat(cName, ".png");
 
   strcat(filename, ".inf");
 
@@ -364,11 +364,11 @@ void _3d_Load_Indikace(void)
 
   txt_trida(TEXT_MENU);
   kom_set_default_text_config(0, 0, 1, 0, 0, 1);
-  txt_nahraj_texturu_z_func(p3DMDir, "camera1.bmp", &sIndikace[0], 0, 1,
+  txt_nahraj_texturu_z_func(p3DMDir, "camera1.png", &sIndikace[0], 0, 1,
     NULL, bmp_nahraj);
-  txt_nahraj_texturu_z_func(p3DMDir, "vitamin1.bmp", &sIndikace[1], 0, 1,
+  txt_nahraj_texturu_z_func(p3DMDir, "vitamin1.png", &sIndikace[1], 0, 1,
     NULL, bmp_nahraj);
-  txt_nahraj_texturu_z_func(p3DMDir, "lock1.bmp", &sIndikace[2], 0, 1,
+  txt_nahraj_texturu_z_func(p3DMDir, "lock1.png", &sIndikace[2], 0, 1,
     NULL, bmp_nahraj);
   kom_ret_default_text_config();
 }
@@ -391,7 +391,7 @@ void _3d_Gen_Hints(HINT_TEXTURE * bTexture, int tsize)
   }
 
   kom_set_default_text_config(0, 0, 1, 0, 0, 1);
-  txt_nahraj_texturu_z_func(p3DMDir, "hint_frame.bmp", &bTexture[0].text,
+  txt_nahraj_texturu_z_func(p3DMDir, "hint_frame.png", &bTexture[0].text,
     0, 1, NULL, bmp_nahraj);
   kom_ret_default_text_config();
 

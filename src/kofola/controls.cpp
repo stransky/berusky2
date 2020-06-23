@@ -34,46 +34,46 @@ void co_Del_Combo_List(COMBO_CONTROL * p_co, int hdc, int xcor, int ycor);
 int co_Load_Graphic(int combo_var)
 {
   if (!combo_var) {
-    hdcCO.hdcCombo = ddxLoadBitmap("combo.bmp", pControlsDir);
-    hdcCO.hdcComboEnd = ddxLoadBitmap("combo_end.bmp", pControlsDir);
-    hdcCO.hdcComboMid = ddxLoadBitmap("combo_mid.bmp", pControlsDir);
+    hdcCO.hdcCombo = ddxLoadBitmap("combo.png", pControlsDir);
+    hdcCO.hdcComboEnd = ddxLoadBitmap("combo_end.png", pControlsDir);
+    hdcCO.hdcComboMid = ddxLoadBitmap("combo_mid.png", pControlsDir);
   }
   else {
-    hdcCO.hdcCombo = ddxLoadBitmap("combo_l.bmp", pControlsDir);
-    hdcCO.hdcComboEnd = ddxLoadBitmap("combo_end_l.bmp", pControlsDir);
-    hdcCO.hdcComboMid = ddxLoadBitmap("combo_mid_l.bmp", pControlsDir);
+    hdcCO.hdcCombo = ddxLoadBitmap("combo_l.png", pControlsDir);
+    hdcCO.hdcComboEnd = ddxLoadBitmap("combo_end_l.png", pControlsDir);
+    hdcCO.hdcComboMid = ddxLoadBitmap("combo_mid_l.png", pControlsDir);
   }
 
-  hdcCO.hdcComboUp = ddxLoadBitmap("combo_up.bmp", pControlsDir);
-  hdcCO.hdcComboDown = ddxLoadBitmap("combo_down.bmp", pControlsDir);
-  hdcCO.hdcComboDrop = ddxLoadBitmap("combo_drop.bmp", pControlsDir);
-  hdcCO.hdcComboMover = ddxLoadBitmap("combo_mover.bmp", pControlsDir);
-  hdcCO.hdcComboMoverb = ddxLoadBitmap("combo_moverb.bmp", pControlsDir);
+  hdcCO.hdcComboUp = ddxLoadBitmap("combo_up.png", pControlsDir);
+  hdcCO.hdcComboDown = ddxLoadBitmap("combo_down.png", pControlsDir);
+  hdcCO.hdcComboDrop = ddxLoadBitmap("combo_drop.png", pControlsDir);
+  hdcCO.hdcComboMover = ddxLoadBitmap("combo_mover.png", pControlsDir);
+  hdcCO.hdcComboMoverb = ddxLoadBitmap("combo_moverb.png", pControlsDir);
 
   if (!combo_var)
-    hdcED.hdcEdit = ddxLoadBitmap("edit.bmp", pControlsDir);
+    hdcED.hdcEdit = ddxLoadBitmap("edit.png", pControlsDir);
   else
-    hdcED.hdcEdit = ddxLoadBitmap("edit_l.bmp", pControlsDir);
+    hdcED.hdcEdit = ddxLoadBitmap("edit_l.png", pControlsDir);
 
-  hdcLI.hdcListDown = ddxLoadBitmap("list_down.bmp", pControlsDir);
-  hdcLI.hdcListMover = ddxLoadBitmap("list_mover.bmp", pControlsDir);
-  hdcLI.hdcListUp = ddxLoadBitmap("list_up.bmp", pControlsDir);
-  hdcLI.hdcListTop = ddxLoadBitmap("list_top.bmp", pControlsDir);
-  hdcLI.hdcListBottom = ddxLoadBitmap("list_bottom.bmp", pControlsDir);
-  hdcLI.hdcListLeft = ddxLoadBitmap("list_left.bmp", pControlsDir);
-  hdcLI.hdcListRight = ddxLoadBitmap("list_right.bmp", pControlsDir);
-  hdcLI.hdcListTL = ddxLoadBitmap("list_tl.bmp", pControlsDir);
-  hdcLI.hdcListTR = ddxLoadBitmap("list_tr.bmp", pControlsDir);
-  hdcLI.hdcListBL = ddxLoadBitmap("list_bl.bmp", pControlsDir);
-  hdcLI.hdcListBR = ddxLoadBitmap("list_br.bmp", pControlsDir);
+  hdcLI.hdcListDown = ddxLoadBitmap("list_down.png", pControlsDir);
+  hdcLI.hdcListMover = ddxLoadBitmap("list_mover.png", pControlsDir);
+  hdcLI.hdcListUp = ddxLoadBitmap("list_up.png", pControlsDir);
+  hdcLI.hdcListTop = ddxLoadBitmap("list_top.png", pControlsDir);
+  hdcLI.hdcListBottom = ddxLoadBitmap("list_bottom.png", pControlsDir);
+  hdcLI.hdcListLeft = ddxLoadBitmap("list_left.png", pControlsDir);
+  hdcLI.hdcListRight = ddxLoadBitmap("list_right.png", pControlsDir);
+  hdcLI.hdcListTL = ddxLoadBitmap("list_tl.png", pControlsDir);
+  hdcLI.hdcListTR = ddxLoadBitmap("list_tr.png", pControlsDir);
+  hdcLI.hdcListBL = ddxLoadBitmap("list_bl.png", pControlsDir);
+  hdcLI.hdcListBR = ddxLoadBitmap("list_br.png", pControlsDir);
 
-  hdcBU.hdcButtonL = ddxLoadBitmap("button_l.bmp", pControlsDir);
-  hdcBU.hdcButtonS = ddxLoadBitmap("button_s.bmp", pControlsDir);
-  hdcCH.hdcCheck = ddxLoadBitmap("checkbox.bmp", pControlsDir);
-  hdcCH.hdcGray = ddxLoadBitmap("gray.bmp", pControlsDir);
-  hdcPR.hdcLine = ddxLoadBitmap("progres_line.bmp", pControlsDir);
-  hdcPR.hdcMover = ddxLoadBitmap("progres_mover.bmp", pControlsDir);
-  hdcFR.hdcFrame = ddxLoadBitmap("frame.bmp", pControlsDir);
+  hdcBU.hdcButtonL = ddxLoadBitmap("button_l.png", pControlsDir);
+  hdcBU.hdcButtonS = ddxLoadBitmap("button_s.png", pControlsDir);
+  hdcCH.hdcCheck = ddxLoadBitmap("checkbox.png", pControlsDir);
+  hdcCH.hdcGray = ddxLoadBitmap("gray.png", pControlsDir);
+  hdcPR.hdcLine = ddxLoadBitmap("progres_line.png", pControlsDir);
+  hdcPR.hdcMover = ddxLoadBitmap("progres_mover.png", pControlsDir);
+  hdcFR.hdcFrame = ddxLoadBitmap("frame.png", pControlsDir);
 
   bBlockList = 0;
   bExclusive = 0;

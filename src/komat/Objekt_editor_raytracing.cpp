@@ -1896,7 +1896,7 @@ void ray_prepocitej_staticke_osvetleni(K_EDITOR * p_cnf, int ticho)
 
     if (p_cnf->ray.disk_mezi) {
       for (i = 0; i < indnum; i++) {
-        sprintf(p_src[i].jmeno, "e:\\lihen\\lightmap\\face-i%.3d_s.bmp", i);
+        sprintf(p_src[i].jmeno, "e:\\lihen\\lightmap\\face-i%.3d_s.png", i);
         bmp_uloz(p_src[i].jmeno, p_src[i].p_bmp);
       }
     }
@@ -2497,7 +2497,7 @@ void ray_uloz_lightmapy(K_EDITOR *p_cnf, byte *p_file, byte *p_dir)
 
   for(i = 0; i < MAX_RAY_TEXTUR; i++) {
     if(p_cnf->p_lightmap[i].p_bmp) {
-      sprintf(pom,"l%d.bmp",i);
+      sprintf(pom,"l%d.png",i);
       bmp_uloz(pom,p_cnf->p_lightmap[i].p_bmp);
     }
   }  

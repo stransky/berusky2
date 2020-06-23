@@ -109,8 +109,8 @@ void ber_uloz_lookup(G_KONFIG * p_ber)
       bmp_putpixel(p_bmp2, x, y, barva);
     }
   }
-  bmp_uloz("e:\\linear.bmp", p_bmp1);
-  bmp_uloz("e:\\kvad.bmp", p_bmp2);
+  bmp_uloz("e:\\linear.png", p_bmp1);
+  bmp_uloz("e:\\kvad.png", p_bmp2);
 }
 
 void ber_rekonfiguruj_hra(G_KONFIG * p_ber)

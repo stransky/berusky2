@@ -1187,7 +1187,7 @@ void InitTab3d(CONTROL_LIST_ITEM * citem, int *hdcTab)
   int i;
   int iClock;
 
-  iClock = ddxLoadBitmap("clock1-1.bmp", pBmpDir);
+  iClock = ddxLoadBitmap("clock1-1.png", pBmpDir);
   ddxResizeCursorBack(iClock);
   DrawClock(&iClock, 0);
 
@@ -1306,7 +1306,7 @@ void InitTabControls(CONTROL_LIST_ITEM * citem, int *hdcTab)
   char ctext[MAX_FILENAME];
   int iClock;
 
-  iClock = ddxLoadBitmap("clock1-1.bmp", pBmpDir);
+  iClock = ddxLoadBitmap("clock1-1.png", pBmpDir);
   ddxResizeCursorBack(iClock);
   DrawClock(&iClock, 0);
 
@@ -2168,7 +2168,7 @@ void GetRunMenuNewGameSceneLoadGame(char *cscene, char *cscenemap,
       break;
   }
 
-  sprintf(cscenemap, "scene%d_map.bmp", iActualScene);
+  sprintf(cscenemap, "scene%d_map.png", iActualScene);
   sprintf(csceneanim, "scene%d_anim", iActualScene);
   sprintf(cscenelevel, "scene%d_levels.txt", iActualScene);
   sprintf(cscene, "Mmnew_game_scene%d_map.txt", iActualScene);
@@ -2235,7 +2235,7 @@ void RunMenuNewGameScene(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   }
   else if (!iActualScene) {
     RunMenuSceneMap("Mmnew_game_scene0_map.txt", NULL, p_ad, cpu,
-      "scene0_map.bmp", "scene0_anim", 0, 200, 20, "scene0_levels.txt", 0, 0,
+      "scene0_map.png", "scene0_anim", 0, 200, 20, "scene0_levels.txt", 0, 0,
       0, NULL, 1, 975, 7);
 
     bLoadGame = 0;
@@ -2247,7 +2247,7 @@ void RunMenuNewGameScene(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   }
   else if (iActualScene == 10) {
     RunMenuSceneMap("Mmnew_game_scene10_map.txt", NULL, p_ad, cpu,
-      "scene10_map.bmp", "scene10_anim", 10, 300, 15, "scene10_levels.txt",
+      "scene10_map.png", "scene10_anim", 10, 300, 15, "scene10_levels.txt",
       920, 2, 0, NULL, 0, 706, 6);
 
     bLoadGame = 0;
@@ -2259,7 +2259,7 @@ void RunMenuNewGameScene(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   }
   else if (iActualScene == 11) {
     RunMenuSceneMap("Mmnew_game_scene11_map.txt", NULL, p_ad, cpu,
-      "scene11_map.bmp", "scene11_anim", 11, 315, 15, "scene11_levels.txt",
+      "scene11_map.png", "scene11_anim", 11, 315, 15, "scene11_levels.txt",
       920, 2, 0, NULL, 0, 750, 5);
 
     bLoadGame = 0;
@@ -2271,7 +2271,7 @@ void RunMenuNewGameScene(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad,
   }
   else if (iActualScene == 12) {
     RunMenuSceneMap("Mmnew_game_scene12_map.txt", NULL, p_ad, cpu,
-      "scene12_map.bmp", "scene12_anim", 12, 330, 15, "scene12_levels.txt",
+      "scene12_map.png", "scene12_anim", 12, 330, 15, "scene12_levels.txt",
       920, 7, 0, NULL, 0, 973, 229);
 
     bLoadGame = 0;
@@ -2536,73 +2536,73 @@ BEGIN_MENU_NEWGAMESCENE:
 
         if (!strcmp(res[resid].cParam[1], "SCENE1")) {
           iActualScene = 1;
-          RunStretchAnimation("scene1_map.bmp", 0, 129, p_ad);
+          RunStretchAnimation("scene1_map.png", 0, 129, p_ad);
           RunMenuSceneMap("Mmnew_game_scene1_map.txt", NULL, p_ad, cpu,
-            "scene1_map.bmp", "scene1_anim", 1, 0, 11, "scene1_levels.txt",
+            "scene1_map.png", "scene1_anim", 1, 0, 11, "scene1_levels.txt",
             919, 677, 0, NULL, 0, 713, 679);
         }
 
         if (!strcmp(res[resid].cParam[1], "SCENE2")) {
           iActualScene = 2;
-          RunStretchAnimation("scene2_map.bmp", 215, 0, p_ad);
+          RunStretchAnimation("scene2_map.png", 215, 0, p_ad);
           RunMenuSceneMap("Mmnew_game_scene2_map.txt", NULL, p_ad, cpu,
-            "scene2_map.bmp", "scene2_anim", 2, 11, 10, "scene2_levels.txt",
+            "scene2_map.png", "scene2_anim", 2, 11, 10, "scene2_levels.txt",
             916, 8, 0, NULL, 0, 971, 703);
         }
 
         if (!strcmp(res[resid].cParam[1], "SCENE3")) {
           iActualScene = 3;
-          RunStretchAnimation("scene3_map.bmp", 177, 248, p_ad);
+          RunStretchAnimation("scene3_map.png", 177, 248, p_ad);
           RunMenuSceneMap("Mmnew_game_scene3_map.txt", NULL, p_ad, cpu,
-            "scene3_map.bmp", "scene3_anim", 3, 21, 12, "scene3_levels.txt",
+            "scene3_map.png", "scene3_anim", 3, 21, 12, "scene3_levels.txt",
             918, 7, 0, NULL, 0, 973, 413);
         }
 
         if (!strcmp(res[resid].cParam[1], "SCENE4")) {
           iActualScene = 4;
-          RunStretchAnimation("scene4_map.bmp", 444, 64, p_ad);
+          RunStretchAnimation("scene4_map.png", 444, 64, p_ad);
           RunMenuSceneMap("Mmnew_game_scene4_map.txt", NULL, p_ad, cpu,
-            "scene4_map.bmp", "scene4_anim", 4, 33, 10, "scene4_levels.txt",
+            "scene4_map.png", "scene4_anim", 4, 33, 10, "scene4_levels.txt",
             197, 9, 0, NULL, 0, 8, 16);
         }
 
         if (!strcmp(res[resid].cParam[1], "SCENE5")) {
           iActualScene = 5;
-          RunStretchAnimation("scene5_map.bmp", 465, 386, p_ad);
+          RunStretchAnimation("scene5_map.png", 465, 386, p_ad);
           RunMenuSceneMap("Mmnew_game_scene5_map.txt", NULL, p_ad, cpu,
-            "scene5_map.bmp", "scene5_anim", 5, 43, 10, "scene5_levels.txt",
+            "scene5_map.png", "scene5_anim", 5, 43, 10, "scene5_levels.txt",
             918, 9, 0, NULL, 0, 976, 309);
         }
 
         if (!strcmp(res[resid].cParam[1], "SCENE6")) {
           iActualScene = 6;
-          RunStretchAnimation("scene6_map.bmp", 37, 495, p_ad);
+          RunStretchAnimation("scene6_map.png", 37, 495, p_ad);
           RunMenuSceneMap("Mmnew_game_scene6_map.txt", NULL, p_ad, cpu,
-            "scene6_map.bmp", "scene6_anim", 6, 53, 10, "scene6_levels.txt",
+            "scene6_map.png", "scene6_anim", 6, 53, 10, "scene6_levels.txt",
             920, 8, 0, NULL, 0, 967, 211);
         }
 
         if (!strcmp(res[resid].cParam[1], "SCENE7")) {
           iActualScene = 7;
-          RunStretchAnimation("scene7_map.bmp", 616, 638, p_ad);
+          RunStretchAnimation("scene7_map.png", 616, 638, p_ad);
           RunMenuSceneMap("Mmnew_game_scene7_map.txt", NULL, p_ad, cpu,
-            "scene7_map.bmp", "scene7_anim", 7, 63, 10, "scene7_levels.txt",
+            "scene7_map.png", "scene7_anim", 7, 63, 10, "scene7_levels.txt",
             11, 6, 0, NULL, 0, 8, 279);
         }
 
         if (!strcmp(res[resid].cParam[1], "SCENE8")) {
           iActualScene = 8;
-          RunStretchAnimation("scene8_map.bmp", 836, 469, p_ad);
+          RunStretchAnimation("scene8_map.png", 836, 469, p_ad);
           RunMenuSceneMap("Mmnew_game_scene8_map.txt", NULL, p_ad, cpu,
-            "scene8_map.bmp", "scene8_anim", 8, 73, 12, "scene8_levels.txt",
+            "scene8_map.png", "scene8_anim", 8, 73, 12, "scene8_levels.txt",
             15, 677, 0, NULL, 0, 12, 490);
         }
 
         if (!strcmp(res[resid].cParam[1], "SCENE9")) {
           iActualScene = 9;
-          RunStretchAnimation("scene9_map.bmp", 836, 49, p_ad);
+          RunStretchAnimation("scene9_map.png", 836, 49, p_ad);
           RunMenuSceneMap("Mmnew_game_scene9_map.txt", NULL, p_ad, cpu,
-            "scene9_map.bmp", "scene9_anim", 9, 85, 10, "scene9_levels.txt",
+            "scene9_map.png", "scene9_anim", 9, 85, 10, "scene9_levels.txt",
             918, 7, 0, NULL, 0, 971, 338);
         }
 
@@ -2693,7 +2693,7 @@ void LoadSceneMap(int *pBmp, char *cSceneBmp, char *cSceneAnim, int iScene,
   pBmp[0] = ddxLoadBitmap(cSceneBmp, pBmpDir);
 
   for (i = 1; i < 6; i++) {
-    sprintf(text, "%s%d.bmp", cSceneAnim, i);
+    sprintf(text, "%s%d.png", cSceneAnim, i);
     pBmp[i] = ddxLoadBitmap(text, pBmpDir);
     DrawClock(iClock, i);
   }
@@ -2704,48 +2704,48 @@ void LoadSceneMap(int *pBmp, char *cSceneBmp, char *cSceneAnim, int iScene,
     case 3:
     case 4:
     case 7:
-      pBmp[6] = ddxLoadBitmap("level_green.bmp", pBmpDir);
-      pBmp[7] = ddxLoadBitmap("level_ok_green.bmp", pBmpDir);
-      pBmp[8] = ddxLoadBitmap("b1_green.bmp", pBmpDir);
-      pBmp[9] = ddxLoadBitmap("b2_green.bmp", pBmpDir);
-      pBmp[10] = ddxLoadBitmap("level_green_l.bmp", pBmpDir);
-      pBmp[11] = ddxLoadBitmap("level_ok_green_l.bmp", pBmpDir);
+      pBmp[6] = ddxLoadBitmap("level_green.png", pBmpDir);
+      pBmp[7] = ddxLoadBitmap("level_ok_green.png", pBmpDir);
+      pBmp[8] = ddxLoadBitmap("b1_green.png", pBmpDir);
+      pBmp[9] = ddxLoadBitmap("b2_green.png", pBmpDir);
+      pBmp[10] = ddxLoadBitmap("level_green_l.png", pBmpDir);
+      pBmp[11] = ddxLoadBitmap("level_ok_green_l.png", pBmpDir);
       break;
     case 5:
     case 8:
-      pBmp[6] = ddxLoadBitmap("level_brown.bmp", pBmpDir);
-      pBmp[7] = ddxLoadBitmap("level_ok_brown.bmp", pBmpDir);
-      pBmp[8] = ddxLoadBitmap("b1_brown.bmp", pBmpDir);
-      pBmp[9] = ddxLoadBitmap("b2_brown.bmp", pBmpDir);
-      pBmp[10] = ddxLoadBitmap("level_brown_l.bmp", pBmpDir);
-      pBmp[11] = ddxLoadBitmap("level_ok_brown_l.bmp", pBmpDir);
+      pBmp[6] = ddxLoadBitmap("level_brown.png", pBmpDir);
+      pBmp[7] = ddxLoadBitmap("level_ok_brown.png", pBmpDir);
+      pBmp[8] = ddxLoadBitmap("b1_brown.png", pBmpDir);
+      pBmp[9] = ddxLoadBitmap("b2_brown.png", pBmpDir);
+      pBmp[10] = ddxLoadBitmap("level_brown_l.png", pBmpDir);
+      pBmp[11] = ddxLoadBitmap("level_ok_brown_l.png", pBmpDir);
       break;
     case 0:
-      pBmp[6] = ddxLoadBitmap("level_tutorial.bmp", pBmpDir);
-      pBmp[7] = ddxLoadBitmap("level_ok_tutorial.bmp", pBmpDir);
-      pBmp[8] = ddxLoadBitmap("b1_blue.bmp", pBmpDir);
-      pBmp[9] = ddxLoadBitmap("b2_blue.bmp", pBmpDir);
-      pBmp[10] = ddxLoadBitmap("level_tutorial_l.bmp", pBmpDir);
-      pBmp[11] = ddxLoadBitmap("level_ok_tutorial_l.bmp", pBmpDir);
+      pBmp[6] = ddxLoadBitmap("level_tutorial.png", pBmpDir);
+      pBmp[7] = ddxLoadBitmap("level_ok_tutorial.png", pBmpDir);
+      pBmp[8] = ddxLoadBitmap("b1_blue.png", pBmpDir);
+      pBmp[9] = ddxLoadBitmap("b2_blue.png", pBmpDir);
+      pBmp[10] = ddxLoadBitmap("level_tutorial_l.png", pBmpDir);
+      pBmp[11] = ddxLoadBitmap("level_ok_tutorial_l.png", pBmpDir);
       break;
     case 6:
     case 9:
     case 10:
     case 11:
-      pBmp[6] = ddxLoadBitmap("level_blue.bmp", pBmpDir);
-      pBmp[7] = ddxLoadBitmap("level_ok_blue.bmp", pBmpDir);
-      pBmp[8] = ddxLoadBitmap("b1_blue.bmp", pBmpDir);
-      pBmp[9] = ddxLoadBitmap("b2_blue.bmp", pBmpDir);
-      pBmp[10] = ddxLoadBitmap("level_blue_l.bmp", pBmpDir);
-      pBmp[11] = ddxLoadBitmap("level_ok_blue_l.bmp", pBmpDir);
+      pBmp[6] = ddxLoadBitmap("level_blue.png", pBmpDir);
+      pBmp[7] = ddxLoadBitmap("level_ok_blue.png", pBmpDir);
+      pBmp[8] = ddxLoadBitmap("b1_blue.png", pBmpDir);
+      pBmp[9] = ddxLoadBitmap("b2_blue.png", pBmpDir);
+      pBmp[10] = ddxLoadBitmap("level_blue_l.png", pBmpDir);
+      pBmp[11] = ddxLoadBitmap("level_ok_blue_l.png", pBmpDir);
       break;
     case 12:
-      pBmp[6] = ddxLoadBitmap("level_yellow.bmp", pBmpDir);
-      pBmp[7] = ddxLoadBitmap("level_ok_yellow.bmp", pBmpDir);
-      pBmp[8] = ddxLoadBitmap("b1_yellow.bmp", pBmpDir);
-      pBmp[9] = ddxLoadBitmap("b2_yellow.bmp", pBmpDir);
-      pBmp[10] = ddxLoadBitmap("level_yellow_l.bmp", pBmpDir);
-      pBmp[11] = ddxLoadBitmap("level_ok_yellow_l.bmp", pBmpDir);
+      pBmp[6] = ddxLoadBitmap("level_yellow.png", pBmpDir);
+      pBmp[7] = ddxLoadBitmap("level_ok_yellow.png", pBmpDir);
+      pBmp[8] = ddxLoadBitmap("b1_yellow.png", pBmpDir);
+      pBmp[9] = ddxLoadBitmap("b2_yellow.png", pBmpDir);
+      pBmp[10] = ddxLoadBitmap("level_yellow_l.png", pBmpDir);
+      pBmp[11] = ddxLoadBitmap("level_ok_yellow_l.png", pBmpDir);
       break;
   }
 
@@ -2757,7 +2757,7 @@ void DrawLevelHint(int x, int y, int iLevel)
   int idx;
   char text[MAX_FILENAME];
 
-  sprintf(text, "t_%d.bmp", iLevel - 200);
+  sprintf(text, "t_%d.png", iLevel - 200);
 
   idx = ddxLoadBitmap(text, pBmpDir);
 
@@ -3002,17 +3002,17 @@ void CorrectTV(CMD_LINE * res, int iAnim, int iLast, int x, int y, int idx,
   switch (iScene) {
     case 5:
     case 8:
-      tvcoridx = ddxLoadBitmap("tvcor_brown.bmp", pBmpDir);
+      tvcoridx = ddxLoadBitmap("tvcor_brown.png", pBmpDir);
       break;
     case 0:
     case 6:
     case 9:
     case 10:
     case 11:
-      tvcoridx = ddxLoadBitmap("tvcor_blue.bmp", pBmpDir);
+      tvcoridx = ddxLoadBitmap("tvcor_blue.png", pBmpDir);
       break;
     case 12:
-      tvcoridx = ddxLoadBitmap("tvcor_yellow.bmp", pBmpDir);
+      tvcoridx = ddxLoadBitmap("tvcor_yellow.png", pBmpDir);
       break;
   }
 
@@ -3139,7 +3139,7 @@ int LoadClock(int *iClock)
 /*void MenuInitHint(char bTutorial)
 {
 	if(bTutorial)
-		_2d_hint.iSurface = ddxLoadBitmap("hint_frame.bmp", pBmpDir);
+		_2d_hint.iSurface = ddxLoadBitmap("hint_frame.png", pBmpDir);
 	else
 		_2d_hint.iSurface = -1;
 
@@ -5819,7 +5819,7 @@ void RunMenuCinemax(void)
   int c = 0;
   int cib;
 
-  cib = ddxLoadBitmap("cinemax.bmp", pBmpDir);
+  cib = ddxLoadBitmap("cinemax.png", pBmpDir);
 
   if (cib == -1)
     return;
@@ -5863,7 +5863,7 @@ void RunMenuDrawDemoEndScreen(void)
   ddxSetFlip(1);
 
   key[0] = 0;
-  idx = ddxLoadBitmap("final_screen.bmp", pBmpDir);
+  idx = ddxLoadBitmap("final_screen.png", pBmpDir);
 
   if (idx == -1)
     return;
@@ -6220,7 +6220,7 @@ BEGIN_MENU:
 
         if (!strcmp(res[resid].cParam[1], "CIBRA")) {
           StopAll();
-          RunMenuCibron("cibra.bmp");
+          RunMenuCibron("cibra.png");
           click = 0;
         }
 
@@ -7290,7 +7290,7 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
   char dir[MAX_FILENAME];
   char filename[MAX_FILENAME];
 
-  iClock = ddxLoadBitmap("clock1-1.bmp", pBmpDir);
+  iClock = ddxLoadBitmap("clock1-1.png", pBmpDir);
   ddxResizeCursorBack(iClock);
   DrawClock(&iClock, 0);
 
@@ -7329,13 +7329,13 @@ int RunMenuComixB(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
   ddxCleareSurface(FontDC);
 
   DrawClock(&iClock, 0);
-  iTVBmp = ddxLoadBitmap("televize.bmp", pBmpDir);
-  iTVTBmp = ddxLoadBitmap("televizet.bmp", pBmpDir);
+  iTVBmp = ddxLoadBitmap("televize.png", pBmpDir);
+  iTVTBmp = ddxLoadBitmap("televizet.png", pBmpDir);
 
   DrawClock(&iClock, 0);
   iTVBut = LoadCList("telload.txt", &ccc, &ccc, &ccc, pBmpDir);
 
-  sprintf(ccomix, "comix%d.bmp", iScene);  
+  sprintf(ccomix, "comix%d.png", iScene);
   iComix = ddxLoadBitmap(ccomix, pBmpDir);
 
   if (iTVBmp == -1 || iTVBut == -1 || iComix == -1 || iTVTBmp == -1) {
@@ -7744,7 +7744,7 @@ int RunMenuComix(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int iScene)
 
   ddxSetFlip(0);
 
-  iClock = ddxLoadBitmap("clock1-1.bmp", pBmpDir);
+  iClock = ddxLoadBitmap("clock1-1.png", pBmpDir);
   ddxResizeCursorBack(iClock);
   DrawClock(&iClock, 0);
 

@@ -1088,7 +1088,7 @@ void RunMenuSettings2(char *p_File_Name, AUDIO_DATA * p_ad,
   ddx2DeviceSetScreenRecCallback(ddx2ScreenResDefaultCallback);
 
   ddx2CleareSurface(DDX2_BACK_BUFFER);
-  sh = ddx2LoadBitmap("settings.bmp", pBmpDir);
+  sh = ddx2LoadBitmap("settings.png", pBmpDir);
   LoadHelp("3dsettings_load.txt");
 
   ddx2FillRect(DDX2_BACK_BUFFER, &rTMP, RGB(255, 0, 255));
@@ -1783,7 +1783,7 @@ int RunMenuLoadGameLoad2(char *p_File_Name, AUDIO_DATA * p_ad,
   ddx2DeviceSetRender(TRUE);
 
   ddx2CleareSurface(DDX2_BACK_BUFFER);
-  sh = ddx2LoadBitmap("smallmenu.bmp", pBmpDir);
+  sh = ddx2LoadBitmap("smallmenu.png", pBmpDir);
 
   ddx2SetRect(&rTMP, 1);
 
@@ -2620,9 +2620,9 @@ void RunMenuHelp2(char *p_File_Name, AUDIO_DATA * p_ad, LEVELINFO * p_Level,
   am_FlipA(p_Level, p_am, 1, &rline, CLIST_ITEMC, 0, 0, 0);
 
   ddx2CleareSurface(DDX2_BACK_BUFFER);
-  sh = ddx2LoadBitmap("help_frame.bmp", pBmpDir);
-  sh1 = ddx2LoadBitmap("set_back2-1.bmp", pBmpDir);
-  sh2 = ddx2LoadBitmap("set_back1-1.bmp", pBmpDir);
+  sh = ddx2LoadBitmap("help_frame.png", pBmpDir);
+  sh1 = ddx2LoadBitmap("set_back2-1.png", pBmpDir);
+  sh2 = ddx2LoadBitmap("set_back1-1.png", pBmpDir);
 
   ddx2FillRect(DDX2_BACK_BUFFER, &rTMP, RGB(255, 0, 255));
   ddx2SetRect(&rTMP, 1);
@@ -3136,12 +3136,12 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
     case 3:
     case 4:
     case 7:
-      sh = ddx2LoadBitmap("end_screen3.bmp", pBmpDir);
+      sh = ddx2LoadBitmap("end_screen3.png", pBmpDir);
       ifdx = 2;
       break;
     case 5:
     case 8:
-      sh = ddx2LoadBitmap("end_screen1.bmp", pBmpDir);
+      sh = ddx2LoadBitmap("end_screen1.png", pBmpDir);
       ifdx = 0;
       break;
     case 0:
@@ -3149,15 +3149,15 @@ void RunMenuLevelStats2(char *p_File_Name, AUDIO_DATA * p_ad,
     case 9:
     case 10:
     case 11:
-      sh = ddx2LoadBitmap("end_screen2.bmp", pBmpDir);
+      sh = ddx2LoadBitmap("end_screen2.png", pBmpDir);
       ifdx = 1;
       break;
     case 12:
-      sh = ddx2LoadBitmap("end_screen4.bmp", pBmpDir);
+      sh = ddx2LoadBitmap("end_screen4.png", pBmpDir);
       ifdx = 3;
       break;
     default:
-      sh = ddx2LoadBitmap("end_screen4.bmp", pBmpDir);
+      sh = ddx2LoadBitmap("end_screen4.png", pBmpDir);
       ifdx = 3;
       break;
   }
@@ -3519,7 +3519,7 @@ void RunMenuTutorial2(char *p_File_Name, AUDIO_DATA * p_ad,
 
   txt_trida(TEXT_MENU);
   kom_set_default_text_config(0, 0, 1, 0, 0, 1);
-  txt_nahraj_texturu_z_func(p3DMDir, "tutor_frame.bmp", &ttext, 0, 1, NULL, bmp_nahraj);
+  txt_nahraj_texturu_z_func(p3DMDir, "tutor_frame.png", &ttext, 0, 1, NULL, bmp_nahraj);
   kom_ret_default_text_config();
 
   _2d_Clear_RectLine(&rline);
@@ -3910,11 +3910,11 @@ void RunMenuLoadScreen2(void)
   if (iActualScene < 13) {
     char text[256];
 
-    sprintf(text, "scene%d.bmp", iActualScene);
+    sprintf(text, "scene%d.png", iActualScene);
     iLoadScreenBitmap = ddx2LoadBitmap(text, pBmpDir);
   }
   else
-    iLoadScreenBitmap = ddx2LoadBitmap("LoadScreen.bmp", pBmpDir);
+    iLoadScreenBitmap = ddx2LoadBitmap("LoadScreen.png", pBmpDir);
 
   ddx2SetRect(&iLoadScreenRect, 1);
 

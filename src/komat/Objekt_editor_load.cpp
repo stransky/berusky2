@@ -1231,7 +1231,7 @@ void oe_prikaz_flare_export_textur(K_EDITOR * p_cnf)
           if (p_text->flag2 & TEXT2_POUZITA) {
             p_text->flag2 &= ~TEXT2_POUZITA;
             strcat(pom, p_text->jmeno);
-            zamen_koncovku(pom, ".bmp");
+            zamen_koncovku(pom, ".png");
             strcpy(p_text->jmeno, pom);
             bmp_uloz(p_text->jmeno, p_text->p_bmp);
             zamen_koncovku(pom, ".btx");

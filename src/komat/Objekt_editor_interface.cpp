@@ -1247,7 +1247,7 @@ int doe_vyber_texturu_dialog(HWND hwnd, K_EDITOR * p_cnf, byte * p_text)
   chdir(p_cnf->tdir.texture_dir[0]);
 
   if (doe_dialog_load(hwnd, p_text, 50, "Vyber texturu",
-      "DDs\1*.dds\1Tga\1*.tga", "BMP\1*.bmp"))
+      "DDs\1*.dds\1Tga\1*.tga", "BMP\1*.png"))
     return (TRUE);
   else
     return (FALSE);

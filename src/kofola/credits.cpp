@@ -244,7 +244,7 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 	fn_Load_Bitmaps();
 	DrawClock(iClock, 3);
 	
-	cs[iActual].iSurface = ddxLoadBitmap("anakreon_small.bmp", pBmpDir);
+	cs[iActual].iSurface = ddxLoadBitmap("anakreon_small.png", pBmpDir);
 	
 	if(cs[iActual].iSurface == -1)
 	{
@@ -259,7 +259,7 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 	y+= 250;
 	iActual++;
 	
-	cs[iActual].iSurface = ddxLoadBitmap("cinemax_small.bmp", pBmpDir);
+	cs[iActual].iSurface = ddxLoadBitmap("cinemax_small.png", pBmpDir);
 
 	if(cs[iActual].iSurface == -1)
 	{
@@ -288,7 +288,7 @@ int cr_Credits(HWND hWnd, AUDIO_DATA * p_ad)
 			{
 				if(bmp)
 				{
-					sprintf(cbmp, "brouk%d.bmp", bmp);
+					sprintf(cbmp, "brouk%d.png", bmp);
 					cs[iActual].iSurface = ddxLoadBitmap(cbmp, pBmpDir);
 
 					if(cs[iActual].iSurface == -1)
@@ -481,7 +481,7 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 	fn_Load_Bitmaps();
 	DrawClock(iClock, 3);
 	
-	cs[iActual].iSurface = ddxLoadBitmap("anakreon_small.bmp", pBmpDir);
+	cs[iActual].iSurface = ddxLoadBitmap("anakreon_small.png", pBmpDir);
 	
 	if(cs[iActual].iSurface == -1)
 	{
@@ -496,7 +496,7 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 	y+= 250;
 	iActual++;
 	
-	cs[iActual].iSurface = ddxLoadBitmap("cinemax_small.bmp", pBmpDir);
+	cs[iActual].iSurface = ddxLoadBitmap("cinemax_small.png", pBmpDir);
 
 	if(cs[iActual].iSurface == -1)
 	{
@@ -525,7 +525,7 @@ int cr_CreditsUNI(HWND hWnd, AUDIO_DATA * p_ad)
 			{
 				if(bmp)
 				{
-					sprintf(cbmp, "brouk%d.bmp", bmp);
+					sprintf(cbmp, "brouk%d.png", bmp);
 					cs[iActual].iSurface = ddxLoadBitmap(cbmp, pBmpDir);
 
 					if(cs[iActual].iSurface == -1)

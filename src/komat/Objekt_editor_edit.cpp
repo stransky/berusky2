@@ -7528,7 +7528,7 @@ int oe_vyrob_material_flare(K_EDITOR * p_cnf, FLARE_GEN * p_gen)
   sprintf(p_text->jmeno, "flare_text_%d", text);
   p_text->flag2 |= TEXT2_FLARE;
 
-  txt_default_konfig("", &konf, ".bmp");
+  txt_default_konfig("", &konf, ".png");
   konf.typ = GL_TEXTURE_1D;
   konf.format = txconf.format1d[FORMAT_RGB];
   konf.wrap_x = 0;
@@ -8482,8 +8482,8 @@ void oe_prikaz_prevadec_bmp(K_EDITOR * p_cnf)
   long handle;
 
   if (doe_dialog_load(hwnd_aplikace, pom, 199, "Vyber prvni prevadenou bmp",
-      "*.bmp", "Bitmapy")) {
-    if ((handle = _findfirst("*.bmp", &data)) == -1)
+      "*.png", "Bitmapy")) {
+    if ((handle = _findfirst("*.png", &data)) == -1)
       return;
     do {
       bitmapa *p_bmp = bmp_nahraj(data.name, FALSE);

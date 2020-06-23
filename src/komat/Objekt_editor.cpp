@@ -2905,7 +2905,7 @@ void oe_test_bmp(K_EDITOR * p_cnf)
 {
   bitmapa *p_bmp = bmp_vyrob(400, 400);
 
-  bmp_uloz("e:\\test.bmp", p_bmp);
+  bmp_uloz("e:\\test.png", p_bmp);
   bmp_zrus(&p_bmp);
 }
 
@@ -2953,13 +2953,13 @@ char ** parse_line(char *line_str, int stringu)
 
 void oe_test(K_EDITOR * p_cnf)
 {
-  bitmapa *p_bmp = bmp_nahraj_pack("e:\\kill-gimp.bmp", NULL);
+  bitmapa *p_bmp = bmp_nahraj_pack("e:\\kill-gimp.png", NULL);
 
 
   /*
      int show = 1;
-     bitmapa *p_bmp = bmp_nahraj("e:\\test2.bmp",FALSE);
-     bmp_uloz("e:\\vystup.bmp",p_bmp);
+     bitmapa *p_bmp = bmp_nahraj("e:\\test2.png",FALSE);
+     bmp_uloz("e:\\vystup.png",p_bmp);
    */
 
   /*
