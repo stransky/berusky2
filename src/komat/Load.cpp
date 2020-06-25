@@ -2338,35 +2338,24 @@ int lo_posledni_svetlo(STATIC_LIGHT * p_light, int max)
 int lo_reload_textur_formaty(char *cDir, EDIT_TEXT * p_text,
   int max, int save)
 {
-  char file[MAX_JMENO];
   int i;
 
   for (i = 0; i < max; i++) {
-    if (p_text[i].jmeno[0] && !p_text[i].load) {
-      kprintf(TRUE, "Texture %s...", p_text[i].jmeno);
-      if (strcasestr(p_text[i].jmeno, ".png") || strcasestr(p_text[i].jmeno, ".btx")) {
-        if (!txt_nahraj_texturu_z_func(cDir, p_text[i].jmeno, p_text + i, save, TRUE, NULL, bmp_nahraj)) {
-          zamen_koncovku(strcpy(file, p_text[i].jmeno), ".jpg");
-          if (txt_nahraj_texturu_z_func(cDir, file, p_text + i, save, TRUE, NULL, bmp_nahraj)) {
-            strcpy(p_text[i].jmeno, file);
-          }
-        }
-      }
-      else if (strstr(p_text[i].jmeno, ".dds")) {
-        txt_nahraj_texturu_z_dds(cDir, p_text[i].jmeno, p_text + i, save);
-      }
-      else if (strstr(p_text[i].jmeno, ".tga")) {
-        txt_nahraj_texturu_z_func(cDir, p_text[i].jmeno, p_text + i,
-                                  save, TRUE, NULL, bmp_nahraj);
-      }
-      else {
-        char file[MAX_JMENO];
-        zamen_koncovku(strcpy(file, p_text[i].jmeno), ".png");
-        if (txt_nahraj_texturu_z_func(cDir, file, p_text + i, save, TRUE, NULL, bmp_nahraj)) {
-          strcpy(p_text[i].jmeno, file);
-        }
-      }
-    }
+    if (!p_text[i].jmeno[0] || p_text[i].load)
+      continue;
+
+    kprintf(TRUE, "Texture %s...", p_text[i].jmeno);
+    if (strcasestr(p_text[i].jmeno, ".png") ||
+        strcasestr(p_text[i].jmeno, ".btx"))
+      txt_nahraj_texturu_z_func(cDir, p_text[i].jmeno, p_text + i,
+                                save, TRUE, NULL, bmp_nahraj);
+    else if (strstr(p_text[i].jmeno, ".dds"))
+      txt_nahraj_texturu_z_dds(cDir, p_text[i].jmeno, p_text + i, save);
+    else if (strstr(p_text[i].jmeno, ".tga"))
+      txt_nahraj_texturu_z_func(cDir, p_text[i].jmeno, p_text + i,
+                                save, TRUE, NULL, bmp_nahraj);
+    else
+      assert(0);
   }
 
   return (0);
