@@ -1420,6 +1420,54 @@ void InitTabControls(CONTROL_LIST_ITEM * citem, int *hdcTab)
   ddxReleaseBitmap(iClock);
 }
 
+void DrawMenu(int *p_idx, int *p_hdcBT, CMD_LINE *res, int lastcmd)
+{
+  int i, c = 0, lastanm;
+
+  // privede prikazy, ketere se maji provest na zacatku a, kresleni, flip,
+  // animace na OnAbove
+  for (i = 0; i < lastcmd; i++) {
+    lastanm = 0;
+
+    switch (res[i].iParam[0]) {
+      case COM_DRAW:
+        {
+          if (!c) {
+            *p_hdcBT = ddxCreateSurface(ddxGetWidth(res[i].iParam[1]),
+              ddxGetHight(res[i].iParam[1]), ddxFindFreeSurface());
+
+            ddxBitBlt(*p_hdcBT, 0, 0, ddxGetWidth(res[i].iParam[1]),
+              ddxGetHight(res[i].iParam[1]),
+              HDC2DD, res[i].iParam[2], res[i].iParam[3]);
+
+            ddxTransparentBlt(BackDC, res[i].iParam[2], res[i].iParam[3],
+              ddxGetWidth(res[i].iParam[1]), ddxGetHight(res[i].iParam[1]),
+              res[i].iParam[1], 0, 0, ddxGetWidth(res[i].iParam[1]),
+              ddxGetHight(res[i].iParam[1]), TRANSCOLOR);
+
+            *p_idx = i;
+          }
+          else {
+            ddxDrawSurfaceColorKey(BackDC, res[i].iParam, 2, TRANSCOLOR);
+          }
+
+
+          c++;
+        }
+        break;
+      case COM_RANDOMANIMATION:
+      case COM_ONCLICK:
+      case COM_ONABOVE:
+      case COM_RUNANIMATION:
+      case COM_BINDEXITANIMATION:
+      case COM_BINDANIMATION:
+        //nahrati animace k udalosti OnAbove
+        LoadAnimationMenuScript(res, i, &lastanm);
+        break;
+    }
+  }
+}
+
 void RunMenuSettings(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
 {
   DWORD dwEplased = 0, dwStart, dwStop;
@@ -3725,10 +3773,400 @@ __QUIT:
   free((void *) res);
 }
 
+void RunMenuDuplicate(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
+{
+  DWORD dwEplased = 0, dwStart, dwStop;
+  RECT r;
+
+  int idx = 0;
+  int hdcBT = 0;
+
+  CONTROL_LIST_ITEM citem[CLIST_ITEMC];
+
+  int lastcmd, i;
+  CMD_LINE *res = NULL;
+  int lastabv = -1;
+  char in, click = 0;
+  int anmid = -1, resid = -1, anbind = -1;
+  int bind;
+  int iNadpisDC = -1;
+
+  res = (CMD_LINE *) mmalloc(RES_NUM * sizeof(CMD_LINE));
+
+  ddxCleareSurface(BackDC);
+  ddxBitBlt(BackDC, 0, 0, ddxGetWidth(BackDC), ddxGetHight(BackDC), FontDC, 0,  0);
+  ddxCleareSurface(FontDC);
+
+  //kprintf(1, "bitblt");
+  ZeroMemory(citem, CLIST_ITEMC * sizeof(CONTROL_LIST_ITEM));
+
+  for (bind = 0; bind < RES_NUM; bind++) {
+    for (lastcmd = 0; lastcmd < 200; lastcmd++) {
+      res[bind].iAnim[lastcmd][0] = -1;
+      res[bind].iAnim[lastcmd][11] = -1;
+    }
+
+    for (in = 0; in < 6; in++)
+      res[bind].iParam[(int)in] = -1;
+
+    res[bind].iLayer = 0;
+  }
+
+  lastcmd = 0;
+  timercnt = 0;
+
+  if (chdir(DATA_DIR)) {
+    free((void *) res);
+    return;
+  }
+
+  char dir[MAX_FILENAME];
+  strcpy(dir, DATA_DIR);
+
+  //natadhe skript menu
+  LoadMenuScript(p_File_Name, res, &lastcmd);
+
+  //kprintf(1, "load");
+  in = 0;
+
+  fn_Set_Font(cFontDir[0]);
+  fn_Load_Bitmaps();
+
+  //kprintf(1, "fn_Set_Font");
+  CreateFontAnimations(res, &lastcmd);
+
+  DrawMenu(&idx, &hdcBT, res, lastcmd);
+
+  r.left = 299;
+  r.top = 209;
+  r.right = 743;
+  r.bottom = 359;
+
+  co_Set_Text_Center(BackDC, "##menu_duplicate", 0, r);
+
+  iNadpisDC =
+    ddxCreateSurface(r.right - r.left, r.bottom - r.top,
+    ddxFindFreeSurface());
+
+  ddxBitBlt(iNadpisDC, 0, 0, ddxGetWidth(iNadpisDC), ddxGetHight(iNadpisDC),
+    BackDC, r.left, r.top);
+
+  fn_Release_Font(1);
+
+
+BEGIN_MENU_DUPLICATE:
+
+  bBackDC = 1;
+  ddxTransparentBltDisplay(0, 0, 1024, 768, BackDC, 0, 0, 1024, 768,
+    TRANSCOLOR);
+  DisplayFrame();
+
+  for (i = 0; i < lastcmd; i++)
+    if (res[i].iParam[0] == COM_RUNANIMATION) {
+      int iWave = AddAnimation(&res[i], p_ad, 0, 0);
+
+      if (iWave != -1) {
+        if (res[i + 1].iParam[0] == COM_BINDSOUND)
+          anm[iWave].iWave = res[i + 1].iParam[5] =
+            mPlaySound(&res[i + 1], p_ad, 2);
+      }
+    }
+
+  dim.t1 = 0;
+  dim.t2 = 0;
+  dim.dx = 0;
+  dim.dy = 0;
+  anmid = -1;
+  resid = -1;
+  anbind = -1;
+  bind = -1;
+  lastabv = -1;
+  in = 0;
+
+  spracuj_spravy(0);
+
+  while (!key[K_ESC]) {
+    dwStart = timeGetTime();
+
+    //pohnul mysi
+    if (dim.dx || dim.dy) {
+      //dostala se mys do akcni oblasti (OnAbove)?
+      if (!click)
+        for (i = 0; i < lastcmd; i++)
+          if (res[i].iParam[0] == COM_ONABOVE) {
+            if ((dim.x >= res[i].iParam[1]) &&
+              (dim.x <= res[i].iParam[3]) &&
+              (dim.y >= res[i].iParam[2]) && (dim.y <= res[i].iParam[4])) {
+              //spusteni animace v OnAbove
+              if (i != lastabv) {
+                if (in) {
+                  Stop(&res[lastabv]);
+
+                  if (!res[lastabv].iLayer) {
+                    //menucommand_Draw(_2dd.hDC, res[lastabv].iAnim[0], 0);
+                    ddxDrawSurface(CompositDC, res[lastabv].iAnim[0], 3);
+                    ddxDrawDisplay(res[lastabv].iAnim[0], 0);
+                  }
+                  else {
+                    //menucommand_DrawT(_2dd.hDC, res[lastabv].iAnim[0]);
+                    ddxDrawDisplayColorKey(res[lastabv].iAnim[0], 0,
+                      TRANSCOLOR);
+                    //menucommand_Draw(FontDC, res[lastabv].iAnim[0], 3);
+                    ddxDrawSurface(FontDC, res[lastabv].iAnim[0], 3);
+                  }
+                }
+
+                CheckAnimation(&res[i], p_ad);
+
+                lastabv = i;
+                AddAnimation(&res[i], p_ad, 0, 1);
+                in = 1;
+
+                bind = ChooseBidedAnimation(res, i + 1, p_ad);
+
+                if (bind != -1) {
+                  CheckAnimation(&res[bind], p_ad);
+                  AddAnimation(&res[bind], p_ad, 1, 1);
+                  anbind = bind;
+
+                  mPlaySound(&res[bind], p_ad, 0);
+                }
+
+                strcpy(dir, res[i].cParam[1]);
+              }
+            }
+            else if (lastabv == i) {
+              // odesel z oblasti, ktera byla aktivni -> stop animace                                 
+              // a odznaceni oblasti
+              Stop(&res[i]);
+
+              if (!res[i].iLayer) {
+                //menucommand_Draw(_2dd.hDC, res[i].iAnim[0], 0);
+                ddxDrawDisplay(res[i].iAnim[0], 0);
+                ddxDrawSurface(CompositDC, res[i].iAnim[0], 3);
+              }
+              else {
+                //menucommand_DrawT(_2dd.hDC, res[i].iAnim[0]);
+                ddxDrawDisplayColorKey(res[i].iAnim[0], 0, TRANSCOLOR);
+                //menucommand_DrawT(FontDC, res[i].iAnim[0]);
+                ddxDrawSurface(FontDC, res[i].iAnim[0], 3);
+              }
+
+              bind = ChooseBidedExitAnimation(res, i + 1, p_ad);
+
+              if (bind != -1) {
+                int iAnim;
+
+                if (anbind != -1) {
+                  Stop(&res[anbind]);
+
+                  if (!res[i].iLayer) {
+                    //menucommand_Draw(_2dd.hDC, res[anbind].iAnim[0], 0);
+                    ddxDrawDisplay(res[anbind].iAnim[0], 0);
+                    ddxDrawSurface(CompositDC, res[anbind].iAnim[0], 3);
+                  }
+                  else {
+                    //menucommand_DrawT(_2dd.hDC, res[anbind].iAnim[0]);
+                    ddxDrawDisplayColorKey(res[anbind].iAnim[0], 0,
+                      TRANSCOLOR);
+                    //menucommand_DrawT(FontDC, res[anbind].iAnim[0]);
+                    ddxDrawSurface(FontDC, res[anbind].iAnim[0], 3);
+                  }
+                }
+
+                iAnim = AddAnimation(&res[bind], p_ad, 1, 1);
+
+                if (iAnim != -1)
+                  anm[iAnim].iWave = mPlaySound(&res[bind], p_ad, 2);
+              }
+
+              lastabv = -1;
+              anbind = -1;
+              in = 0;
+
+              strcpy(dir, "");
+            }
+          }
+
+      dim.dx = 0;
+      dim.dy = 0;
+    }
+
+    //co_Handle_Controls(citem, CLIST_ITEMC, mi.x, mi.y);
+
+    //stlacil leve tlacitko
+    if (dim.t1 && !click) {
+      //dostala se mys do akcni oblasti (OnClick)?
+      for (i = 0; i < lastcmd; i++)
+        if (res[i].iParam[0] == COM_ONCLICK)
+          if ((dim.x >= res[i].iParam[1]) &&
+            (dim.x <= res[i].iParam[3]) &&
+            (dim.y >= res[i].iParam[2]) && (dim.y <= res[i].iParam[4])) {
+            if (res[i].iAnim[0][0] >= 0) {
+              //pokud je animace, tak ji spust
+              anmid = AddAnimation(&res[i], p_ad, 0, 1);
+
+              if (res[i + 1].iParam[0] == COM_BINDSOUND)
+                mPlaySound(&res[i + 1], p_ad, 1);
+
+              resid = i;
+              click = 1;
+            }
+            else {
+              if (res[i + 1].iParam[0] == COM_BINDSOUND)
+                mPlaySound(&res[i + 1], p_ad, 1);
+
+              resid = i;
+              click = 1;
+              anmid = 31;
+            }
+          }
+
+      dim.t1 = 0;
+    }
+
+    //provedeni akce po animaci menu
+    if (click)
+      if (!anm[anmid].cmd) {
+        click = 0;
+
+        //StopAll();
+
+        if (cBrutalRestart ||
+            !strcmp(res[resid].cParam[1], "EXIT") ||
+            !strcmp(res[resid].cParam[1], "OK"))
+          key[K_ESC] = 1;
+
+        if (!cBrutalRestart) {
+          for (i = 0; i < lastcmd; i++) {
+            switch (res[i].iParam[0]) {
+              case COM_DRAW:
+                if (!res[i].iLayer) {
+                  //menucommand_Draw(_2dd.hDC, res[i].iParam);
+                }
+                else {
+                  ddxDrawDisplayColorKey(res[i].iParam, 0, TRANSCOLOR);
+                  ddxDrawSurfaceColorKey(BackDC, res[i].iParam, 2,
+                    TRANSCOLOR);
+                  ddxDrawSurface(FontDC, res[i].iParam, 3);
+                }
+                break;
+            }
+          }
+
+          ddxTransparentBltDisplay(r.left, r.top, ddxGetWidth(iNadpisDC),
+            ddxGetHight(iNadpisDC), iNadpisDC, 0, 0, ddxGetWidth(iNadpisDC),
+            ddxGetHight(iNadpisDC), TRANSCOLOR);
+
+          ddxTransparentBlt(BackDC, r.left, r.top, ddxGetWidth(iNadpisDC),
+            ddxGetHight(iNadpisDC), iNadpisDC, 0, 0, ddxGetWidth(iNadpisDC),
+            ddxGetHight(iNadpisDC), TRANSCOLOR);
+        }
+
+        resid = -1;
+
+        if (key[K_ESC]) {
+          for(i=0;i<lastcmd;i++)
+            if(res[i].iParam[0] == COM_BINDSOUND && res[i].iParam[5] != -1)
+            {
+              adas_Release_Source(PARTICULAR_SOUND_SOURCE, UNDEFINED_VALUE, res[i].iParam[5]);
+              res[i].iParam[5] = -1;
+            }
+          goto __QUIT;
+        }
+        else
+          goto BEGIN_MENU_DUPLICATE;
+      }
+
+    //pokud prisel cas, tak provedu nahodne animace (podle jejich pravdepodobnosti)
+    if (timercnt > 500) {
+      timercnt = 0;
+
+      for (i = 0; i < lastcmd; i++)
+        if (res[i].iParam[0] == COM_RANDOMANIMATION)
+          if (rand() % 200 <= res[i].iParam[1] &&
+            strcmp(dir, res[i].cParam[0])) {
+            CheckAnimation(&res[i], p_ad);
+            AddAnimation(&res[i], p_ad, 0, 0);
+          }
+    }
+
+    /*spracuj_spravy(0);  
+       ddxUpdateMouse();
+
+       if(dim.dx || dim.dy)
+       DisplayFrame(); */
+
+    dwStop = timeGetTime();
+
+    dwEplased += dwStop - dwStart;
+
+    spracuj_spravy(0);
+    ddxUpdateMouse();
+    AnimationEvent(dwStop, p_ad);
+
+    if (dim.tf1) {
+      dim.t1 = 1;
+      dim.tf1 = 0;
+    }
+
+    if (dim.tf2) {
+      dim.t2 = 1;
+      dim.tf2 = 0;
+    }
+
+    ddxRestore(p_ad);
+  }
+
+__QUIT:
+
+  //BitBltU(FontDC, 0, 0, 1024, 768, NULL, 0, 0, WHITENESS);
+  ddxCleareSurface(FontDC);
+
+  //TransparentBltU(_2dd.hDC, 0, 0, 1024, 768, BackDC, 0, 0, 1024, 768, RGB(255, 0, 255));
+  if (!cBrutalRestart)
+    ddxTransparentBltDisplay(0, 0, 1024, 768, BackDC, 0, 0, 1024, 768,
+      TRANSCOLOR);
+
+  //BitBltU(BackDC, 0, 0, 1024, 768, NULL, 0, 0, WHITENESS);
+  ddxCleareSurface(BackDC);
+
+  bBackDC = 0;
+
+  /*BitBlt(_2dd.hDC, res[idx].iParam[2], res[idx].iParam[3], 
+     _2dd.bitmap[res[idx].iParam[1]].bitmap.bmWidth, 
+     _2dd.bitmap[res[idx].iParam[1]].bitmap.bmHeight,
+     hdcBT, 0, 0, SRCCOPY); */
+
+  if (!cBrutalRestart) {
+    ddxBitBltDisplay(res[idx].iParam[2], res[idx].iParam[3],
+      ddxGetWidth(res[idx].iParam[1]),
+      ddxGetHight(res[idx].iParam[1]), hdcBT, 0, 0);
+
+    ddxTransparentBlt(BackDC, res[idx].iParam[2], res[idx].iParam[3],
+      ddxGetWidth(res[idx].iParam[1]),
+      ddxGetHight(res[idx].iParam[1]),
+      res[idx].iParam[1], 0, 0, ddxGetWidth(res[idx].iParam[1]),
+      ddxGetHight(res[idx].iParam[1]), TRANSCOLOR);
+
+    ddxReleaseBitmap(hdcBT);
+    ddxReleaseBitmap(iNadpisDC);
+  }
+
+  ddxCleareSurface(CompositDC);
+  //fn_Release_Font();
+  //co_Handle_Release(citem, CLIST_ITEMC);
+  //co_Release_Graphic();
+  key[K_ESC] = 0;
+
+  FreeAnimations(res, RES_NUM);
+
+  free((void *) res);
+}
+
 int RunMenuNewGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
 {
   DWORD dwEplased = 0, dwStart, dwStop;
-  int ret = 0;
   int c = 0;
 
   CONTROL_LIST_ITEM citem[CLIST_ITEMC];
@@ -3781,6 +4219,7 @@ int RunMenuNewGame(char *p_File_Name, HWND hWnd, AUDIO_DATA * p_ad, int cpu)
 
   in = 0;
 
+ START:
   fn_Set_Font(cFontDir[0]);
   fn_Load_Bitmaps();
 
@@ -4071,8 +4510,27 @@ BEGIN_MENU_NEWGAME:
               }
             }
           }
-          else if (pr_CreateProfile(pName))
-            c++;
+          else {
+            int ret = pr_CreateProfile(pName);
+
+            if (ret > 0) {
+              ddxCleareSurface(FontDC);
+              FreeAnimations(res, RES_NUM);
+
+              RunMenuDuplicate("Mmduplicate.txt", hWnd, p_ad, cpu);
+
+              ddxCleareSurface(BackDC);
+              ddxBitBlt(BackDC, 0, 0, ddxGetWidth(BackDC), ddxGetHight(BackDC), FontDC, 0,  0);
+              ddxCleareSurface(FontDC);
+
+              co_Handle_Release(citem, CLIST_ITEMC);
+              co_Release_Graphic();
+
+              goto START;
+            }
+            else if (ret == 0)
+              c++;
+          }
 
           if (c) {
             iActualScene = 1;
@@ -4147,7 +4605,7 @@ __QUIT:
   FreeAnimations(res, RES_NUM);
   free((void *) res);
 
-  return ret;
+  return 0;
 }
 
 char check_profile(char *p_name)
@@ -4365,54 +4823,6 @@ int FillListLoad(LIST_VIEW_CONTROL * p_li, char *mask, char bAdd, int LoadGame)
 void CreateLevelCommandLine(char *cLevel, char *cLine)
 {
   sprintf(cLine, "%s.lv6 fp:%s", cLevel, cLevel);
-}
-
-void DrawMenu(int *p_idx, int *p_hdcBT, CMD_LINE *res, int lastcmd)
-{
-  int i, c = 0, lastanm;
-
-  // privede prikazy, ketere se maji provest na zacatku a, kresleni, flip,
-  // animace na OnAbove
-  for (i = 0; i < lastcmd; i++) {
-    lastanm = 0;
-
-    switch (res[i].iParam[0]) {
-      case COM_DRAW:
-        {
-          if (!c) {
-            *p_hdcBT = ddxCreateSurface(ddxGetWidth(res[i].iParam[1]),
-              ddxGetHight(res[i].iParam[1]), ddxFindFreeSurface());
-
-            ddxBitBlt(*p_hdcBT, 0, 0, ddxGetWidth(res[i].iParam[1]),
-              ddxGetHight(res[i].iParam[1]),
-              HDC2DD, res[i].iParam[2], res[i].iParam[3]);
-
-            ddxTransparentBlt(BackDC, res[i].iParam[2], res[i].iParam[3],
-              ddxGetWidth(res[i].iParam[1]), ddxGetHight(res[i].iParam[1]),
-              res[i].iParam[1], 0, 0, ddxGetWidth(res[i].iParam[1]),
-              ddxGetHight(res[i].iParam[1]), TRANSCOLOR);
-
-            *p_idx = i;
-          }
-          else {
-            ddxDrawSurfaceColorKey(BackDC, res[i].iParam, 2, TRANSCOLOR);
-          }
-
-
-          c++;
-        }
-        break;
-      case COM_RANDOMANIMATION:
-      case COM_ONCLICK:
-      case COM_ONABOVE:
-      case COM_RUNANIMATION:
-      case COM_BINDEXITANIMATION:
-      case COM_BINDANIMATION:
-        //nahrati animace k udalosti OnAbove
-        LoadAnimationMenuScript(res, i, &lastanm);
-        break;
-    }
-  }
 }
 
 // Remove a file or directory recursively.

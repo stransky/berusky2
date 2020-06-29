@@ -83,12 +83,16 @@ int pr_FindFreeFileName(char *cFile)
   return i;
 }
 
+// Returns 0 on success, a positive value if the name is a duplicate,
+// or a negative value if some other error occured.
 int pr_CreateProfile(WCHAR * cPlayerName)
 {
   char cFile[MAX_FILENAME];
   FILE *file;
   PLAYER_PROFILE_DISC Profile;
   char dir[MAX_FILENAME];
+  struct dirent **profiles;
+  int n_profiles;
 
   ZeroMemory(cFile, sizeof(cFile));
   ZeroMemory(&Profile, sizeof(PLAYER_PROFILE_DISC));
@@ -96,14 +100,34 @@ int pr_CreateProfile(WCHAR * cPlayerName)
   strcpy(dir, PROFILE_DIR);
   if (chdir(dir)) {
     kprintf(1, "Cannot change directory to %s", dir);
-    return 0;
+    return -1;
+  }
+
+  // Check if this name already exists.
+  file_filter_mask("*.prf");
+  n_profiles = scandir(".", &profiles, &file_filter, alphasort);
+  if (n_profiles >= 0) {
+    int duplicate = 0;
+    for (int i = 0; i < n_profiles; i++) {
+      WCHAR check_name[PLAYER_NAME_LENGTH] = { 0 };
+
+      if (!duplicate &&
+          pr_GetPlayerName(profiles[i]->d_name, check_name) &&
+          !wcscmp(cPlayerName, check_name))
+        duplicate = 1;
+
+      free(profiles[i]);
+    }
+    free(profiles);
+    if (duplicate)
+      return 1;
   }
 
   pr_FindFreeFileName(cFile);
 
   if (getcwd(dir, MAX_FILENAME) == NULL) {
     kprintf(1, "Cannot get current directory");
-    return 0;
+    return -1;
   }
   kprintf(1, "pr_CreateProfile adr = %s", dir);
 
@@ -111,7 +135,7 @@ int pr_CreateProfile(WCHAR * cPlayerName)
 
   if (!file) {
     kprintf(1, "Nejde vytvorit profil %s", cFile);
-    return 0;
+    return -1;
   }
 
   Profile.iVer = PROFILE_VER;
@@ -148,7 +172,7 @@ int pr_CreateProfile(WCHAR * cPlayerName)
   if (!fwrite(&Profile, sizeof(PLAYER_PROFILE_DISC), 1, file)) {
     kprintf(1, "!fwrite");
     fclose(file);
-    return 0;
+    return -1;
   }
 
   fclose(file);
@@ -157,7 +181,7 @@ int pr_CreateProfile(WCHAR * cPlayerName)
 
   WritePrivateProfileString("game", "last_profile", cFile, ini_file);
 
-  return 1;
+  return 0;
 }
 
 int pr_ReadProfile(char *cFileName, PLAYER_PROFILE * pProfile)
