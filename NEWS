@@ -1,9 +1,4 @@
-* 0.11
-    - Added berusky2-data install script
-    - New icon
-    - Fixed more crashes and a hang
-    - Enable demo recording
-    - Don't show a duplicate cursor after playing a level
+* 0.12
     - Allow held-down keys to be processed immediately after an animation finishes
     - Enable Unicode support
     - Eliminate y-axis fighting in shadows and burnt spots
@@ -12,6 +7,13 @@
     - Enable screenshots
     - Allow spaces and '=' in INI file entries
     - Enable save and demo file deletion
+
+* 0.11
+    - Added berusky2-data install script
+    - New icon
+    - Fixed more crashes and a hang
+    - Enable demo recording
+    - Don't show a duplicate cursor after playing a level
 
 * 0.10
     - Incompatible save game format!
