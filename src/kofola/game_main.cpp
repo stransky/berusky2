@@ -83,16 +83,24 @@ int winmain_Game_Run(char *p_Level_Name)
 
   srand((unsigned) time(NULL));
 
-  get_dir_from_pak("files", "bitmap_subdir", "bitmap_pak",
-                   "/", filename, MAX_FILENAME, ini_file);
-  GetPrivateProfileString("files", "bitmap_subdir", "/", filename, MAX_FILENAME, ini_file);
+  get_dir_setting("files", "bitmap_subdir", "bitmap_pak",
+                  "bitmap", filename, MAX_FILENAME, ini_file);
   construct_path(pBmpDir, MAX_FILENAME, 2, p_ber->dir.bitmap_dir, filename);
 
   for (int i = 0; i < 5; i++) {
     char dir[64], pak[64];
+    const char *const default_dirs[5] = {
+      "font_en",
+      "font3d_en",
+      "font_system_en",
+      "font_system2_en",
+      "font_system3d_en"
+    };
+
     snprintf(dir, sizeof(dir), "font_dir%d", i + 1);
     snprintf(pak, sizeof(pak), "font_pak%d", i + 1);
-    get_dir_from_pak("files", dir, pak, "/", cFontDir[i], 64, ini_file);
+    get_dir_setting("files", dir, pak, default_dirs[i],
+                    cFontDir[i], 64, ini_file);
     kprintf(1, "font_dir%d = %s", i + 1, cFontDir[i]);
   }
 
@@ -100,8 +108,8 @@ int winmain_Game_Run(char *p_Level_Name)
 
   construct_path(pSndDir, MAX_FILENAME, 2, p_ber->dir.sound_dir, "sound");
 
-  get_dir_from_pak("files", "3dmenu_dir", "3dmenu_pak",
-                   "/", filename, MAX_FILENAME, ini_file);
+  get_dir_setting("files", "3dmenu_dir", "3dmenu_pak",
+                  "3dmenu", filename, MAX_FILENAME, ini_file);
   construct_path(p3DMDir, MAX_FILENAME, 2, p_ber->dir.bitmap_dir, filename);
 
   strncpy(pDataDir, p_ber->dir.data_dir, MAX_FILENAME);

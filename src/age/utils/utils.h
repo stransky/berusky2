@@ -90,7 +90,7 @@ char * construct_path(char *p_buffer, size_t max_length, int n_components, ...);
 char * return_path_ext(const char *p_file, const char *p_cwd, char *p_buffer, int max_lenght);
 char * return_dir(const char *p_file, char *p_buffer, int max_lenght);
 char * return_file(const char *p_path, char *p_buffer, int max_lenght);
-void get_dir_from_pak(const char *section,
+void get_dir_setting(const char *section,
   const char *new_key, const char *old_key, const char *default_value,
   char *out, size_t out_len, const char *ini_file);
 

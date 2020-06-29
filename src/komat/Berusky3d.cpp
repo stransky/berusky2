@@ -243,12 +243,35 @@ void ber_konfiguruj_berusky(G_KONFIG * p_ber)
   for (i = 0; i < TEXT_DIRS; i++) {
     char old[200];
     int old_class;
+    const struct {
+      const char *const dir;
+      const int dir_class;
+    } defaults[TEXT_DIRS] = {
+        { "textures/general",  1 },
+        { "textures/stul",     3 },
+        { "textures/balkon",   3 },
+        { "textures/kanal",    3 },
+        { "textures/voda",     3 },
+        { "textures/silnice",  3 },
+        { "textures/zahrada",  3 },
+        { "textures/bazina",   3 },
+        { "textures/les",      3 },
+        { "textures/tutorial", 3 },
+        { "textures/strom",    3 },
+        { "textures/detska",   3 },
+        { "textures/items",    2 }
+    };
+    const char *default_dir = defaults[i].dir;
+    const int default_class = defaults[i].dir_class;
+
+    if (!default_dir)
+      default_dir = "";
 
     snprintf(pom, sizeof(pom), "texture_dir%d", i);
     snprintf(old, sizeof(old), "texture_file%d", i);
-    get_dir_from_pak("files", pom, old, "",
-                     p_ber->tdir.texture_dir[i],
-                     MAX_FILENAME, ini_file);
+    get_dir_setting("files", pom, old, default_dir,
+                    p_ber->tdir.texture_dir[i],
+                    MAX_FILENAME, ini_file);
 
     working_file_translate(p_ber->tdir.texture_dir[i], MAX_FILENAME);
     root_dir_attach(p_ber->tdir.texture_dir[i], p_ber->dir.game_root_dir);
@@ -258,28 +281,15 @@ void ber_konfiguruj_berusky(G_KONFIG * p_ber)
 
     snprintf(pom, sizeof(pom), "texture_dir%d_class", i);
     p_ber->tdir.texture_dir_class[i] =
-      GetPrivateProfileInt("files", pom, 0, ini_file);
+      GetPrivateProfileInt("files", pom, default_class, ini_file);
 
-    // Compatibility with old INI files.
+    // Remove the old setting if it's the default.
     snprintf(old, sizeof(old), "texture_file%d_class", i);
     old_class = GetPrivateProfileInt("files", old, 0, ini_file);
-    if (!p_ber->tdir.texture_dir_class[i]) {
-      p_ber->tdir.texture_dir_class[i] = old_class;
-      if (p_ber->tdir.texture_dir_class[i]) {
-        char value[200];
-        snprintf(value, sizeof(value), "%d",
-                 p_ber->tdir.texture_dir_class[i]);
-        WritePrivateProfileString("files", pom, value, ini_file);
-        WritePrivateProfileString("files", old, NULL, ini_file);
-        kprintf(TRUE, "Replaced %s=%s with %s=%s",
-                old, value, pom, value);
-      }
-    }
-    else {
-      // We were able to get the new setting; now delete the old one
-      // if it's the same.
-      if (p_ber->tdir.texture_dir_class[i] == old_class)
-        WritePrivateProfileString("files", old, NULL, ini_file);
+    if (old_class == default_class) {
+      kprintf(TRUE, "Removing obsolete setting with default value: %s=%d",
+              old, old_class);
+      WritePrivateProfileString("files", old, NULL, ini_file);
     }
   }
 

@@ -222,62 +222,42 @@ char * return_file(const char *p_path, char *p_buffer, int max_lenght)
   return(p_buffer);
 }
 
-// Get a new setting (e.g. "texture_dir0") or, failing that, guess the
-// value from the old setting (e.g. "texture_file0").
-void get_dir_from_pak(const char *section,
+// Get a new setting from 'new_key' (e.g. "texture_dir0"). If that
+// fails, write the default setting to the INI file. If the old
+// setting, specified by 'old_key', is equal to 'default_value' with
+// ".pak" appended, delete that setting.
+void get_dir_setting(const char *section,
   const char *new_key, const char *old_key, const char *default_value,
   char *out, size_t out_len, const char *ini_file)
 {
   char old[MAX_FILENAME];
-  size_t old_len;
+  size_t old_len, default_len;
 
   // Get the old and new settings.
   GetPrivateProfileString(section, new_key, "",
                           out, out_len, ini_file);
   GetPrivateProfileString(section, old_key, "",
                           old, MAX_FILENAME, ini_file);
+
   old_len = strlen(old);
-  if (old_len > 4 && !strcmp(old + old_len - 4, ".pak"))
-    old_len -= 4;
-  else
-    old_len = 0;
-  old[old_len] = '\0';
+  default_len = strlen(default_value);
 
-  if (*out) {
-    // We were able to get the new setting. Remove the old one if it's
-    // the same as the new one except with a .pak extension.
-    if (old_len && !strcmp(out, old))
-      WritePrivateProfileString(section, old_key, NULL, ini_file);
-    return;
+  // Remove the old setting if it's the default.
+  if (old_len == default_len + 4 &&
+      !strncmp(old, default_value, default_len) &&
+      !strcmp(old + old_len - 4, ".pak")) {
+    kprintf(TRUE, "Removing obsolete setting with default value: %s=%s",
+            old_key, old);
+    WritePrivateProfileString(section, old_key, NULL, ini_file);
   }
 
-  // The new setting does not exist, so use the old one.
-  if (!*old) {
-    // The old setting does not exist either; use the default.
+  if (!*out) {
+    // The new setting does not exist, so use the default, and write
+    // the default to the INI file if it's not empty.
     strncpy(out, default_value, out_len);
-    return;
+    if (*default_value)
+      WritePrivateProfileString(section, new_key, default_value, ini_file);
   }
-
-  if (!old_len) {
-    // The old setting didn't have a .pak extension. There's not much
-    // we can do in this case, so just print a warning and use the
-    // default.
-    kwarning(TRUE, "Cannot guess %s from %s=%s",
-             new_key, old_key, old);
-    strncpy(out, default_value, out_len);
-    return;
-  }
-
-
-  // Now use the old setting without the .pak extension as the new
-  // setting.
-  strncpy(out, old, out_len);
-
-  // Write the new setting to the INI file and delete the old one.
-  WritePrivateProfileString(section, new_key, out, ini_file);
-  WritePrivateProfileString(section, old_key, NULL, ini_file);
-  kprintf(TRUE, "Replaced %s=%s.pak with %s=%s",
-          old_key, out, new_key, out);
 }
 
 /*----------------------------------------------------------------------------
