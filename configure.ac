@@ -4,7 +4,7 @@ dnl If you don't want it to overwrite it,
 dnl 	Please disable it in the Anjuta project configuration
 
 AC_INIT(configure.ac)
-AM_INIT_AUTOMAKE(berusky2, 0.11)
+AM_INIT_AUTOMAKE(berusky2, 0.12)
 AM_CONFIG_HEADER(config.h)
 AM_MAINTAINER_MODE
 
